@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace RuthlessMerchant
 {
@@ -9,6 +10,10 @@ namespace RuthlessMerchant
         private QuestManager questManager;
         private int maxInteractDistance;
         private float moveSpeed;
+        private float jumpSpeed;
+        private Camera camera;
+        private Quaternion playerLookAngle;
+        private Quaternion cameraPitchAngle;
         private Vector3 MoveVector = Vector3.zero;
         private Vector2 InputVector = Vector2.zero;
 
@@ -43,9 +48,40 @@ namespace RuthlessMerchant
             }
         }
 
+        private void Start()
+        {
+            // try to get the first person camera
+            try
+            {
+                camera = GetComponentInChildren<Camera>();
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e, this);
+            }
+        }
+
         private void Update()
         {
+            LookRotation();
             HandleInput();
+        }
+
+        private void LookRotation()
+        {
+            // TODO: Multiply with sensitivity value
+            float yRot = Input.GetAxis("Mouse X");
+            float xRot = Input.GetAxis("Mouse Y");
+
+            playerLookAngle *= Quaternion.Euler(0f, yRot, 0f);
+            cameraPitchAngle *= Quaternion.Euler(-xRot, 0f, 0f);
+
+            transform.localRotation = playerLookAngle;
+
+            if (camera != null)
+            {
+                camera.transform.localRotation = cameraPitchAngle;
+            }
         }
 
         public void ShowInventory()
@@ -64,6 +100,11 @@ namespace RuthlessMerchant
             if (!Input.GetKey(KeyCode.LeftShift))
             {
                 isWalking = true;
+            }
+
+            if (Input.GetKey(KeyCode.Space))
+            {
+                base.Jump();
             }
 
             moveSpeed = isWalking ? walkSpeed : runSpeed;
