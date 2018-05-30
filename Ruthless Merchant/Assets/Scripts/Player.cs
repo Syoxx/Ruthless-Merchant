@@ -9,12 +9,13 @@ namespace RuthlessMerchant
         private QuestManager questManager;
         private int maxInteractDistance;
         private float moveSpeed;
+        private Vector3 MoveVector = Vector3.zero;
 
         [SerializeField]
-        private float walkSpeed;
+        private float walkSpeed = 2;
 
         [SerializeField]
-        private float runSpeed;
+        private float runSpeed = 4;
         #endregion
 
         public UISystem UISystem
@@ -41,6 +42,11 @@ namespace RuthlessMerchant
             }
         }
 
+        private void Update()
+        {
+            HandleInput();
+        }
+
         public void ShowInventory()
         {
             throw new System.NotImplementedException();
@@ -60,6 +66,37 @@ namespace RuthlessMerchant
             }
 
             moveSpeed = isWalking ? walkSpeed : runSpeed;
+
+            if (Input.GetKey("w"))
+            {
+                Debug.Log("w pressed");
+                MoveVector = Vector3.forward;
+                
+            }
+            else if (Input.GetKey("s"))
+            {
+                
+                MoveVector = -Vector3.forward;
+            }
+            else
+            {
+                MoveVector.z = 0;
+            }
+
+            if (Input.GetKey("a"))
+            {
+                    MoveVector = Vector3.left;
+            }
+            else if (Input.GetKey("d"))
+            {
+                    MoveVector = Vector3.right;
+            }
+            else
+            {
+                MoveVector.x = 0;
+            }
+
+            base.Move(MoveVector, moveSpeed);
         }
 
         public override void Interact()
