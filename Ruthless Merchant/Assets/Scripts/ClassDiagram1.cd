@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="RuthlessMerchant.Character">
-    <Position X="8" Y="10.75" Width="1.5" />
+    <Position X="8" Y="12.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AGQkAAAoBoBAIAIIACAAAAQAEIAAEQAAAAQAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Character.cs</FileName>
@@ -13,7 +13,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="RuthlessMerchant.Inventory">
-    <Position X="18" Y="5" Width="1.5" />
+    <Position X="18" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIAAAAACAAACoAAAAgABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Inventory.cs</FileName>
@@ -24,7 +24,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="RuthlessMerchant.Player">
-    <Position X="3.25" Y="8.25" Width="1.75" />
+    <Position X="3.25" Y="10" Width="1.75" />
     <AssociationLine Name="UISystem" Type="RuthlessMerchant.UISystem">
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="2.375" Y="-0.236" />
@@ -40,35 +40,35 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="RuthlessMerchant.Fighter">
-    <Position X="6.5" Y="22.25" Width="1.5" />
+    <Position X="6.5" Y="24" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAIAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAQAAAgAQ=</HashCode>
       <FileName>Assets\Scripts\Fighter.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RuthlessMerchant.Civilian">
-    <Position X="9.75" Y="22.25" Width="1.5" />
+    <Position X="9.75" Y="24" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Civilian.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RuthlessMerchant.Trader">
-    <Position X="9.75" Y="24" Width="1.5" />
+    <Position X="9.75" Y="25.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Trader.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RuthlessMerchant.Item">
-    <Position X="18" Y="7.75" Width="1.5" />
+    <Position X="18" Y="9.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAgAAAAAAAIAAAACAAAAACAAIAABAAAgAQIAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Item.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RuthlessMerchant.InteractiveObject">
-    <Position X="10.25" Y="6.25" Width="1.75" />
+    <Position X="10.25" Y="8" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAEAAAAAAgAAAAAgAIAAAAAAIABAAAACAAAAA0AAAgA=</HashCode>
       <FileName>Assets\Scripts\InteractiveObject.cs</FileName>
@@ -80,14 +80,14 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="RuthlessMerchant.DamageAbleObject">
-    <Position X="10.25" Y="2" Width="1.5" />
+    <Position X="10.25" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAACAAIAAAACAAAAAAEAIAgAAAAAAAAAAAAAAAAAAg=</HashCode>
       <FileName>Assets\Scripts\DamageAbleObject.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RuthlessMerchant.World">
-    <Position X="7.75" Y="0.5" Width="1.5" />
+    <Position X="7.75" Y="2.25" Width="1.5" />
     <AssociationLine Name="InteractiveObjects" Type="RuthlessMerchant.InteractiveObject">
       <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
         <Position X="0.425" Y="0.055" Height="0.182" Width="1.313" />
@@ -104,7 +104,7 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAghCAIAAAgAAAAEQAAAAAAAAACAAAIAgAAAAAgAAAA=</HashCode>
+      <HashCode>AAghCBIAAAgAAAAEQAAAAAAAAACAAAIAgAAAAAgAAAA=</HashCode>
       <FileName>Assets\Scripts\World.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -112,17 +112,19 @@
       <Property Name="UISystem" />
       <Property Name="DialogSystem" />
       <Property Name="Settings" />
+      <Property Name="VictoryPoints" />
+      <Property Name="Buildings" />
     </ShowAsAssociation>
   </Class>
   <Class Name="RuthlessMerchant.GameSettings">
-    <Position X="3" Y="0.5" Width="1.5" />
+    <Position X="3" Y="2.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAgIAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\GameSettings.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RuthlessMerchant.DayCycle">
-    <Position X="5.5" Y="16.75" Width="1.5" />
+    <Position X="5.5" Y="18.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>gAQAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAIAAAAA=</HashCode>
       <FileName>Assets\Scripts\DayCycle.cs</FileName>
@@ -132,7 +134,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="RuthlessMerchant.NPC">
-    <Position X="8" Y="16.75" Width="1.75" />
+    <Position X="8" Y="18.5" Width="1.75" />
     <AssociationLine Name="DialogSystem" Type="RuthlessMerchant.DialogSystem">
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="0.831" Y="0.138" />
@@ -148,14 +150,14 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="RuthlessMerchant.StaminaController">
-    <Position X="11" Y="11" Width="1.75" />
+    <Position X="11" Y="12.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAAAABAAAAAAAAAAAACAAAAAAAUAAAAA=</HashCode>
       <FileName>Assets\Scripts\StaminaController.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RuthlessMerchant.Weapon">
-    <Position X="20.75" Y="9.75" Width="1.5" />
+    <Position X="20.75" Y="11.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ACAAAAAIAAAAgAAAAAAAAAAAAAABAAIAAAAAAAAgAAA=</HashCode>
       <FileName>Assets\Scripts\Weapon.cs</FileName>
@@ -165,7 +167,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="RuthlessMerchant.UISystem">
-    <Position X="6" Y="3.25" Width="1.5" />
+    <Position X="6" Y="5" Width="1.5" />
     <AssociationLine Name="UIs" Type="RuthlessMerchant.UI">
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="0.225" Y="0.124" />
@@ -181,14 +183,14 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="RuthlessMerchant.UI">
-    <Position X="3" Y="3.5" Width="1.5" />
+    <Position X="3" Y="5.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
       <FileName>Assets\Scripts\UI.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RuthlessMerchant.DialogSystem">
-    <Position X="12" Y="19.25" Width="1.75" />
+    <Position X="12" Y="21" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAIAAAAAAAABAAAAAQAAgAAAAIAAiIAAA=</HashCode>
       <FileName>Assets\Scripts\DialogSystem.cs</FileName>
@@ -199,7 +201,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="RuthlessMerchant.FactionStandings">
-    <Position X="6.5" Y="5.75" Width="1.5" />
+    <Position X="6.5" Y="7.5" Width="1.5" />
     <AssociationLine Name="FactionAssignments" Type="RuthlessMerchant.FactionAssignment">
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="0.082" Y="0.542" />
@@ -214,7 +216,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="RuthlessMerchant.PauseMenu">
-    <Position X="0.75" Y="3.5" Width="1.5" />
+    <Position X="0.75" Y="5.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAgAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\PauseMenu.cs</FileName>
@@ -224,7 +226,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="RuthlessMerchant.QuestManager">
-    <Position X="6.25" Y="9.75" Width="1.5" />
+    <Position X="6.25" Y="11.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAA=</HashCode>
       <FileName>Assets\Scripts\QuestManager.cs</FileName>
@@ -234,7 +236,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="RuthlessMerchant.InteractiveWorldObject">
-    <Position X="14" Y="7.75" Width="2" />
+    <Position X="14" Y="9.5" Width="2" />
     <AssociationLine Name="QuestItem" Type="RuthlessMerchant.QuestItem">
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="-0.966" Y="0.176" />
@@ -249,21 +251,21 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="RuthlessMerchant.Monster">
-    <Position X="7.5" Y="25.25" Width="1.5" />
+    <Position X="7.25" Y="27" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Monster.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RuthlessMerchant.DialogUI">
-    <Position X="3" Y="5.75" Width="1.5" />
+    <Position X="3" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\DialogUI.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RuthlessMerchant.Gear">
-    <Position X="18" Y="12.25" Width="1.5" />
+    <Position X="18" Y="14" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ABAAAAAQAAAAAAAAgAAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Gear.cs</FileName>
@@ -273,21 +275,21 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="RuthlessMerchant.Door">
-    <Position X="15.5" Y="3.25" Width="1.5" />
+    <Position X="15.5" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAABAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Door.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RuthlessMerchant.Bed">
-    <Position X="13.5" Y="3.25" Width="1.5" />
+    <Position X="13.5" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AARAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Bed.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RuthlessMerchant.GearSystem">
-    <Position X="11" Y="13.75" Width="1.5" />
+    <Position X="11" Y="15.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAABAAAAAAQAAABEAAAAQAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\GearSystem.cs</FileName>
@@ -298,28 +300,66 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="RuthlessMerchant.Warrior">
-    <Position X="5.25" Y="25.25" Width="1.5" />
+    <Position X="5.25" Y="27" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Warrior.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RuthlessMerchant.Recipe">
-    <Position X="22.75" Y="6.75" Width="1.5" />
+    <Position X="22.75" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAQACAAAAAAAAAAAQIAAAgAAAAAAAAIAAAAA=</HashCode>
       <FileName>Assets\Scripts\Recipe.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="RuthlessMerchant.Hero">
+    <Position X="4" Y="29.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Hero.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RuthlessMerchant.Barrack">
+    <Position X="17.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Barrack.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RuthlessMerchant.Building">
+    <Position X="14.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IACAAAAAAAEAAAAAAEAAAAAAgAAACEAIQEAAAEAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Building.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RuthlessMerchant.Minion" Collapsed="true">
+    <Position X="6.25" Y="29.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Minion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RuthlessMerchant.VictoryPoint">
+    <Position X="11.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAQBAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\VictoryPoint.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Buildings" />
+    </ShowAsAssociation>
+  </Class>
   <Struct Name="RuthlessMerchant.CycleItem">
-    <Position X="2.5" Y="17" Width="1.5" />
+    <Position X="2.5" Y="18.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAQ=</HashCode>
       <FileName>Assets\Scripts\CycleItem.cs</FileName>
     </TypeIdentifier>
   </Struct>
   <Struct Name="RuthlessMerchant.ItemValue">
-    <Position X="20.75" Y="12.25" Width="1.5" />
+    <Position X="20.75" Y="14" Width="1.5" />
     <AssociationLine Name="Item" Type="RuthlessMerchant.Item">
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="0.11" Y="0.12" />
@@ -334,98 +374,98 @@
     </ShowAsAssociation>
   </Struct>
   <Struct Name="RuthlessMerchant.DialogItem">
-    <Position X="15.25" Y="19.5" Width="1.5" />
+    <Position X="15.25" Y="21.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAABAAIAAEAAAAAAAAAAAAAAIAAAAQAAACAAAAAA=</HashCode>
       <FileName>Assets\Scripts\DialogItem.cs</FileName>
     </TypeIdentifier>
   </Struct>
   <Struct Name="RuthlessMerchant.QuestItem">
-    <Position X="13.75" Y="10.25" Width="1.5" />
+    <Position X="13.75" Y="12" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAIAAAAAAAAAAAAQAAAAAAAAAAQAAAAABAAA=</HashCode>
       <FileName>Assets\Scripts\QuestItem.cs</FileName>
     </TypeIdentifier>
   </Struct>
   <Struct Name="RuthlessMerchant.FactionAssignment">
-    <Position X="6.5" Y="7.75" Width="1.5" />
+    <Position X="6.5" Y="9.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAgAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\FactionAssignment.cs</FileName>
     </TypeIdentifier>
   </Struct>
   <Struct Name="RuthlessMerchant.InventorySlot">
-    <Position X="21.75" Y="5" Width="1.75" />
+    <Position X="21.75" Y="6.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQEAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\InventorySlot.cs</FileName>
     </TypeIdentifier>
   </Struct>
   <Struct Name="RuthlessMerchant.GearSlot">
-    <Position X="13.75" Y="13.25" Width="1.5" />
+    <Position X="13.75" Y="15" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAQA=</HashCode>
       <FileName>Assets\Scripts\GearSlot.cs</FileName>
     </TypeIdentifier>
   </Struct>
   <Struct Name="RuthlessMerchant.StatValue">
-    <Position X="14" Y="15.5" Width="1.5" />
+    <Position X="14" Y="17.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIgAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\StatValue.cs</FileName>
     </TypeIdentifier>
   </Struct>
   <Enum Name="RuthlessMerchant.Faction">
-    <Position X="8.25" Y="7.5" Width="1.5" />
+    <Position X="8.25" Y="9.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAACQAAAAgAAAAEAAAA=</HashCode>
       <FileName>Assets\Scripts\Faction.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="RuthlessMerchant.ItemType">
-    <Position X="20" Y="6.75" Width="1.5" />
+    <Position X="20" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BAAAAAAAIAAAAAAAAAAAAAAAAAAIAAgAAAAAAAVAAQA=</HashCode>
       <FileName>Assets\Scripts\ItemType.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="RuthlessMerchant.ActionType">
-    <Position X="0.75" Y="17" Width="1.5" />
+    <Position X="0.75" Y="18.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAoAAABIAYAAABAAQAAAAAAAAIAAAAAAAAAAAAEggAA=</HashCode>
       <FileName>Assets\Scripts\ActionType.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="RuthlessMerchant.QuestType">
-    <Position X="16" Y="9.75" Width="1.5" />
+    <Position X="16" Y="11.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIAAQAAAEAAAgAASAAAAAAAAAAAAAIAAAAAAAEAAAA=</HashCode>
       <FileName>Assets\Scripts\QuestType.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="RuthlessMerchant.WeaponType">
-    <Position X="22.75" Y="10" Width="1.5" />
+    <Position X="22.75" Y="11.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAABAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>Assets\Scripts\WeaponType.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="RuthlessMerchant.DoorState">
-    <Position X="15.5" Y="1.25" Width="1.5" />
+    <Position X="17.5" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAFAAAgAAAAAAAAAGAAAA=</HashCode>
       <FileName>Assets\Scripts\DoorState.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="RuthlessMerchant.GearSlotType">
-    <Position X="16" Y="12.25" Width="1.5" />
+    <Position X="16" Y="14" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQIAAAEAAAAAAIAAEAAAAAAAAAAAgAAAYAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\GearType.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="RuthlessMerchant.StatType">
-    <Position X="14" Y="17.25" Width="1.5" />
+    <Position X="14" Y="19" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BAAACAAAAAAAAAQAgAAAAAABAABAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\StatType.cs</FileName>

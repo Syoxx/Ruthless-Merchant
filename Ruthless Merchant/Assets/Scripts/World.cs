@@ -58,6 +58,30 @@ namespace RuthlessMerchant
             }
         }
 
+        public RuthlessMerchant.VictoryPoint[] VictoryPoints
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
+        public RuthlessMerchant.Building[] Buildings
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
         public void CheckPlayerState()
         {
             throw new System.NotImplementedException();
