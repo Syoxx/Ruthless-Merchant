@@ -15,6 +15,7 @@ namespace RuthlessMerchant
         private float maxJumpHeight;
 
         private Rigidbody rb;
+        private bool isPlayer;
 
         private void Start()
         {
@@ -22,7 +23,14 @@ namespace RuthlessMerchant
             {
                 rb = GetComponent<Rigidbody>();
             }
-            
+            if (CompareTag("Player"))
+            {
+                isPlayer = true;
+            }
+            else
+            {
+                isPlayer = false;
+            }
         }
 
         public StaminaController StaminaController
@@ -68,7 +76,10 @@ namespace RuthlessMerchant
 
         public void Move(Vector3 velocity, float speed)
         {
-            transform.rotation = Quaternion.LookRotation(velocity);
+           
+           if(velocity != Vector3.zero && !isPlayer)
+                transform.rotation = Quaternion.LookRotation(velocity);
+
             transform.Translate(velocity * speed * Time.deltaTime, Space.World);
         }
 
