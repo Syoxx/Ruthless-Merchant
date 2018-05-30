@@ -1,4 +1,6 @@
-﻿namespace RuthlessMerchant
+﻿using System;
+
+namespace RuthlessMerchant
 {
     public class NPC : Character
     {
