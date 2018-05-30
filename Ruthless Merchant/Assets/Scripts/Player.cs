@@ -10,12 +10,15 @@ namespace RuthlessMerchant
         private QuestManager questManager;
         private int maxInteractDistance;
         private float moveSpeed;
-        private float jumpSpeed;
+        
         private Camera camera;
         private Quaternion playerLookAngle;
         private Quaternion cameraPitchAngle;
         private Vector3 MoveVector = Vector3.zero;
         private Vector2 InputVector = Vector2.zero;
+
+        [SerializeField]
+        private float jumpSpeed = 10;
 
         [SerializeField]
         private float walkSpeed = 2;
@@ -109,7 +112,7 @@ namespace RuthlessMerchant
 
             if (Input.GetKey(KeyCode.Space))
             {
-                base.Jump();
+                base.Jump(jumpSpeed);
             }
 
             moveSpeed = isWalking ? walkSpeed : runSpeed;
