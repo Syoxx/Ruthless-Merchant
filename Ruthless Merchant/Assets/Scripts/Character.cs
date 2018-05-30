@@ -113,9 +113,9 @@ namespace RuthlessMerchant
             throw new System.NotImplementedException();
         }
 
-        public void Jump()
+        public void Jump(float JumpVelocity)
         {
-            throw new System.NotImplementedException();
+            rb.velocity = Vector3.up * JumpVelocity;
         }
 
         public void CalculateVelocity()
