@@ -16,6 +16,15 @@ namespace RuthlessMerchant
 
         private Rigidbody rb;
 
+        private void Start()
+        {
+            if (rb == null)
+            {
+                rb = GetComponent<Rigidbody>();
+            }
+            
+        }
+
         public StaminaController StaminaController
         {
             get
