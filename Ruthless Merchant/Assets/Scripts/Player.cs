@@ -10,7 +10,6 @@ namespace RuthlessMerchant
         private int maxInteractDistance;
         private float moveSpeed;
         private Vector3 MoveVector = Vector3.zero;
-        private Vector2 InputVector = Vector2.zero;
 
         [SerializeField]
         private float walkSpeed = 2;
@@ -61,24 +60,42 @@ namespace RuthlessMerchant
         public void HandleInput()
         {
             bool isWalking = false;
-            if (!Input.GetKey(KeyCode.LeftShift))
+            if (Input.GetKey(KeyCode.LeftShift))
             {
                 isWalking = true;
             }
 
             moveSpeed = isWalking ? walkSpeed : runSpeed;
-            
-            float horizontal = Input.GetAxis("Horizontal");
-            float vertical = Input.GetAxis("Vertical");
 
-            InputVector = new Vector2(horizontal, vertical);
-
-            if (InputVector.sqrMagnitude > 1)
+            if (Input.GetKey("w"))
             {
-                InputVector.Normalize();
+                Debug.Log("w pressed");
+                MoveVector = Vector3.forward;
+                
+            }
+            else if (Input.GetKey("s"))
+            {
+                
+                MoveVector = -Vector3.forward;
+            }
+            else
+            {
+                MoveVector.z = 0;
             }
 
-            MoveVector = new Vector3(InputVector.x, 0.0f, InputVector.y);
+            if (Input.GetKey("a"))
+            {
+                    MoveVector = Vector3.left;
+            }
+            else if (Input.GetKey("d"))
+            {
+                    MoveVector = Vector3.right;
+            }
+            else
+            {
+                MoveVector.x = 0;
+            }
+
             base.Move(MoveVector, moveSpeed);
         }
 

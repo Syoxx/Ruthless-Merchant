@@ -68,8 +68,8 @@ namespace RuthlessMerchant
 
         public void Move(Vector3 velocity, float speed)
         {
-            transform.rotation = Quaternion.LookRotation(velocity);
-            transform.Translate(velocity * speed * Time.deltaTime, Space.World);
+            //Test
+            rb.AddForce(velocity * speed);
         }
 
         public void Rotate()
