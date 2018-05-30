@@ -14,6 +14,8 @@ namespace RuthlessMerchant
         private StaminaController staminaController;
         private float maxJumpHeight;
 
+        private Rigidbody rb;
+
         public StaminaController StaminaController
         {
             get
@@ -55,9 +57,10 @@ namespace RuthlessMerchant
             throw new System.NotImplementedException();
         }
 
-        public void Move()
+        public void Move(Vector3 velocity, float speed)
         {
-            throw new System.NotImplementedException();
+            //Test
+            rb.AddForce(velocity * speed);
         }
 
         public void Rotate()
@@ -67,7 +70,7 @@ namespace RuthlessMerchant
 
         public void Update()
         {
-            throw new System.NotImplementedException();
+            
         }
 
         public void Consume()
