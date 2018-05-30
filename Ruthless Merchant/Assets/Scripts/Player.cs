@@ -50,6 +50,9 @@ namespace RuthlessMerchant
 
         private void Start()
         {
+            base.Start();
+
+            playerLookAngle = transform.localRotation;            
             // try to get the first person camera
             try
             {
@@ -59,6 +62,8 @@ namespace RuthlessMerchant
             {
                 Debug.LogException(e, this);
             }
+
+            cameraPitchAngle = camera.transform.localRotation;
         }
 
         private void Update()

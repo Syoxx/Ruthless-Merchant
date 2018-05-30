@@ -17,7 +17,7 @@ namespace RuthlessMerchant
         private Rigidbody rb;
         private bool isPlayer;
 
-        private void Start()
+        public void Start()
         {
             if (rb == null)
             {
@@ -80,7 +80,7 @@ namespace RuthlessMerchant
            if(velocity != Vector3.zero && !isPlayer)
                 transform.rotation = Quaternion.LookRotation(velocity);
 
-            transform.Translate(velocity * speed * Time.deltaTime, Space.World);
+            transform.Translate(velocity * speed * Time.deltaTime, Space.Self);
         }
 
         public void Rotate()
