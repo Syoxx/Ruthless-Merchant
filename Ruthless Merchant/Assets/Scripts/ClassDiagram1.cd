@@ -31,7 +31,7 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>ACCAAAGAAAAAAAAEQBAAAAASIAAAoAAAAIAAAAAAAII=</HashCode>
+      <HashCode>ACSAAAGAACAAAAAEQBAAAAASIAAAoAAAAIAAAAAAAII=</HashCode>
       <FileName>Assets\Scripts\Player.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -42,15 +42,15 @@
   <Class Name="RuthlessMerchant.Fighter">
     <Position X="6.5" Y="24" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAIAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAQAAAgAQ=</HashCode>
-      <FileName>Assets\Scripts\Fighter.cs</FileName>
+      <HashCode>AAAIAAAAACAAAAAAAAIAACCAAAAAAAAAAAAAQAAAgAQ=</HashCode>
+      <FileName>Assets\Scripts\NPC\Fighter.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RuthlessMerchant.Civilian">
     <Position X="9.75" Y="24" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Assets\Scripts\Civilian.cs</FileName>
+      <FileName>Assets\Scripts\NPC\Civilian.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RuthlessMerchant.Trader">
@@ -63,14 +63,14 @@
   <Class Name="RuthlessMerchant.Item">
     <Position X="18" Y="9.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAgAAAAAAAIAAAACAAAAACAAIAABAAAgAQIAAAAAAAA=</HashCode>
+      <HashCode>AAwAAAAAACIAAAACAAAAACAAIAABAAAgAQIAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Item.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RuthlessMerchant.InteractiveObject">
     <Position X="10.25" Y="8" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAEAAAAAAgAAAAAgAIAAAAAAIABAAAACAAAAA0AAAgA=</HashCode>
+      <HashCode>AAUAAAAAAiAAAAAgAIAAAAAAIABAAAACAAAAA0AAAgA=</HashCode>
       <FileName>Assets\Scripts\InteractiveObject.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -131,22 +131,6 @@
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="CycleItems" />
-    </ShowAsAssociation>
-  </Class>
-  <Class Name="RuthlessMerchant.NPC">
-    <Position X="8" Y="18.5" Width="1.75" />
-    <AssociationLine Name="DialogSystem" Type="RuthlessMerchant.DialogSystem">
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.831" Y="0.138" />
-      </MemberNameLabel>
-    </AssociationLine>
-    <TypeIdentifier>
-      <HashCode>AEAAGEAACQgCEAAAgAAgAEAgIAAAAAAAAAAAAACAAAA=</HashCode>
-      <FileName>Assets\Scripts\NPC.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="DayCycle" />
-      <Property Name="DialogSystem" />
     </ShowAsAssociation>
   </Class>
   <Class Name="RuthlessMerchant.StaminaController">
@@ -254,7 +238,7 @@
     <Position X="7.25" Y="27" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Assets\Scripts\Monster.cs</FileName>
+      <FileName>Assets\Scripts\NPC\Monster.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RuthlessMerchant.DialogUI">
@@ -277,14 +261,14 @@
   <Class Name="RuthlessMerchant.Door">
     <Position X="15.5" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAABAAAAAA=</HashCode>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAIAAAAAAAAAAABAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Door.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RuthlessMerchant.Bed">
     <Position X="13.5" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AARAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AARAAAAAACAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Bed.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -303,13 +287,13 @@
     <Position X="5.25" Y="27" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Assets\Scripts\Warrior.cs</FileName>
+      <FileName>Assets\Scripts\NPC\Warrior.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RuthlessMerchant.Recipe">
     <Position X="22.75" Y="8.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAAQACAAAAAAAAAAAQIAAAgAAAAAAAAIAAAAA=</HashCode>
+      <HashCode>AAQAAAAAASACAAAAAAAAAAAQIAAAgAAAAAAAAIAAAAA=</HashCode>
       <FileName>Assets\Scripts\Recipe.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -317,7 +301,7 @@
     <Position X="4" Y="29.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Assets\Scripts\Hero.cs</FileName>
+      <FileName>Assets\Scripts\NPC\Hero.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RuthlessMerchant.Barrack">
@@ -338,7 +322,7 @@
     <Position X="6.25" Y="29.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Assets\Scripts\Minion.cs</FileName>
+      <FileName>Assets\Scripts\NPC\Minion.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RuthlessMerchant.VictoryPoint">
@@ -349,6 +333,22 @@
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Buildings" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="RuthlessMerchant.NPC">
+    <Position X="8" Y="18.5" Width="1.75" />
+    <AssociationLine Name="DialogSystem" Type="RuthlessMerchant.DialogSystem">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.831" Y="0.138" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AGQQmEAACSgCEQBAgAAgEEAgIQMhAAAAAAAAAAKgQAA=</HashCode>
+      <FileName>Assets\Scripts\NPC\NPC.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="DayCycle" />
+      <Property Name="DialogSystem" />
     </ShowAsAssociation>
   </Class>
   <Struct Name="RuthlessMerchant.CycleItem">

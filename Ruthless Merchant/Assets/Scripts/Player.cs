@@ -22,12 +22,6 @@ namespace RuthlessMerchant
 
         [SerializeField]
         private float jumpSpeed = 10;
-
-        [SerializeField]
-        private float walkSpeed = 2;
-
-        [SerializeField]
-        private float runSpeed = 4;
         #endregion
 
         public UISystem UISystem
@@ -54,7 +48,7 @@ namespace RuthlessMerchant
             }
         }
 
-        private void Start()
+        public override void Start()
         {
             base.Start();
             maxInteractDistance = 4;
@@ -75,7 +69,7 @@ namespace RuthlessMerchant
             }
         }
 
-        private void Update()
+        public override void Update()
         {
             LookRotation();
             HandleInput();
