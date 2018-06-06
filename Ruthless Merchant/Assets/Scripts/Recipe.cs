@@ -7,7 +7,12 @@
         public int Duration;
         private float elapsedTime;
 
-        public void Update()
+        public override void Start()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void Update()
         {
             throw new System.NotImplementedException();
         }

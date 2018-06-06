@@ -18,7 +18,7 @@
             }
         }
 
-        public RuthlessMerchant.QuestManager QuestManager
+        public QuestManager QuestManager
         {
             get
             {
@@ -28,6 +28,16 @@
             {
                 questManager = value;
             }
+        }
+
+        public override void Start()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            base.Update();
         }
 
         public void ShowInventory()
