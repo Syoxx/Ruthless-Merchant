@@ -112,7 +112,7 @@ NavMeshSettings:
     accuratePlacement: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: de8c8ebfbd1e4b84b88ce5c5cbb6ccaf, type: 2}
 --- !u!1 &243700754
 GameObject:
   m_ObjectHideFlags: 0
@@ -179,7 +179,8 @@ MonoBehaviour:
   viewDistance: 10
   hearDistance: 5
   attackDistance: 5
-  PatrolActive: 1
+  patrolActive: 1
+  PossiblePatrolPaths: []
   PatrolPoints:
   - Position: {x: 0, y: 0, z: 0}
     Transform: {fileID: 243700755}
