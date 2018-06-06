@@ -75,9 +75,11 @@ namespace RuthlessMerchant
             HandleInput();
         }
 
+        /// <summary>
+        /// Rotates view using mouse movement.
+        /// </summary>
         private void LookRotation()
         {
-            // TODO: Set sensitivity values in menus
             float yRot = Input.GetAxis("Mouse X") * mouseXSensitivity;
             float xRot = Input.GetAxis("Mouse Y") * mouseYSensitivity;
 
@@ -128,6 +130,9 @@ namespace RuthlessMerchant
             throw new System.NotImplementedException();
         }
 
+        /// <summary>
+        /// Checks for input to control the player character.
+        /// </summary>
         public void HandleInput()
         {
             bool isWalking = false;
@@ -186,17 +191,6 @@ namespace RuthlessMerchant
         public override void Interact(GameObject caller)
         {
             throw new NotImplementedException();
-        }
-
-        public void Run()
-        {
-            // GD can alter player speed in inspector
-            throw new System.NotImplementedException();
-        }
-
-        public void Walk()
-        {
-            throw new System.NotImplementedException();
         }
 
         public void Crouch()
