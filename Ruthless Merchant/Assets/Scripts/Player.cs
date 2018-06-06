@@ -8,10 +8,13 @@ namespace RuthlessMerchant
         #region Private Fields
         private UISystem uiSystem;
         private QuestManager questManager;
+        private bool isCursorLocked = true;
         private int maxInteractDistance;
         private float moveSpeed;
+        private float mouseXSensitivity = 1.8f;
+        private float mouseYSensitivity = 1.8f;
         
-        private Camera camera;
+        private Camera playerAttachedCamera;
         private Quaternion playerLookAngle;
         private Quaternion cameraPitchAngle;
         private Vector3 MoveVector = Vector3.zero;
@@ -55,18 +58,20 @@ namespace RuthlessMerchant
         {
             base.Start();
 
-            playerLookAngle = transform.localRotation;            
             // try to get the first person camera
-            try
-            {
-                camera = GetComponentInChildren<Camera>();
-            }
-            catch (Exception e)
-            {
-                Debug.LogException(e, this);
-            }
+            playerAttachedCamera = GetComponentInChildren<Camera>();
 
-            cameraPitchAngle = camera.transform.localRotation;
+            playerLookAngle = transform.localRotation;
+
+            if (playerAttachedCamera != null)
+            {
+                cameraPitchAngle = playerAttachedCamera.transform.localRotation;
+            }
+            else
+            {
+                Debug.Log("Player object does not have a first person camera.");
+                isCursorLocked = false;
+            }
         }
 
         private void Update()
@@ -77,18 +82,44 @@ namespace RuthlessMerchant
 
         private void LookRotation()
         {
-            // TODO: Multiply with sensitivity value
-            float yRot = Input.GetAxis("Mouse X");
-            float xRot = Input.GetAxis("Mouse Y");
+            // TODO: Set sensitivity values in menus
+            float yRot = Input.GetAxis("Mouse X") * mouseXSensitivity;
+            float xRot = Input.GetAxis("Mouse Y") * mouseYSensitivity;
 
             playerLookAngle *= Quaternion.Euler(0f, yRot, 0f);
             cameraPitchAngle *= Quaternion.Euler(-xRot, 0f, 0f);
 
             transform.localRotation = playerLookAngle;
 
-            if (camera != null)
+            if (playerAttachedCamera != null)
             {
-                camera.transform.localRotation = cameraPitchAngle;
+                playerAttachedCamera.transform.localRotation = cameraPitchAngle;
+            }
+
+            FocusCursor();
+        }
+
+        private void FocusCursor()
+        {
+            // Pressing escape makes cursor visible + unlocks it
+            if (Input.GetKeyUp(KeyCode.Escape))
+            {
+                isCursorLocked = false;
+            }
+            else if (Input.GetMouseButtonUp(0))
+            {
+                isCursorLocked = true;
+            }
+
+            if(isCursorLocked)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+            else if (!isCursorLocked)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
             }
         }
 
