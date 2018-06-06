@@ -14,6 +14,25 @@ namespace RuthlessMerchant
         private StaminaController staminaController;
         private float maxJumpHeight;
 
+        private Rigidbody rb;
+        private bool isPlayer;
+
+        public void Start()
+        {
+            if (rb == null)
+            {
+                rb = GetComponent<Rigidbody>();
+            }
+            if (CompareTag("Player"))
+            {
+                isPlayer = true;
+            }
+            else
+            {
+                isPlayer = false;
+            }
+        }
+
         public StaminaController StaminaController
         {
             get
@@ -55,9 +74,13 @@ namespace RuthlessMerchant
             throw new System.NotImplementedException();
         }
 
-        public void Move()
+        public void Move(Vector3 velocity, float speed)
         {
-            throw new System.NotImplementedException();
+           
+           if(velocity != Vector3.zero && !isPlayer)
+                transform.rotation = Quaternion.LookRotation(velocity);
+
+            transform.Translate(velocity * speed * Time.deltaTime, Space.Self);
         }
 
         public void Rotate()
@@ -65,9 +88,9 @@ namespace RuthlessMerchant
             throw new System.NotImplementedException();
         }
 
-        public override void Update()
+        public void Update()
         {
-            throw new System.NotImplementedException();
+            
         }
 
         public void Consume()
@@ -90,9 +113,9 @@ namespace RuthlessMerchant
             throw new System.NotImplementedException();
         }
 
-        public void Jump()
+        public void Jump(float JumpVelocity)
         {
-            throw new System.NotImplementedException();
+            rb.velocity = Vector3.up * JumpVelocity;
         }
 
         public void CalculateVelocity()
