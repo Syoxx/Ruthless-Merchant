@@ -9,9 +9,9 @@ namespace RuthlessMerchant
             base.Start();
         }
 
-        public override void Interact()
+        public override void Interact(GameObject caller)
         {
-            Debug.Log("Interaction with Warrior!");
+            Debug.Log(caller.name + ": Interaction with Warrior!");
         }
     }
 }

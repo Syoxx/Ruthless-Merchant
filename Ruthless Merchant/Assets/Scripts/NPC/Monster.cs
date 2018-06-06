@@ -4,9 +4,9 @@ namespace RuthlessMerchant
 {
     public class Monster : Fighter
     {
-        public override void Interact()
+        public override void Interact(GameObject caller)
         {
-            Debug.Log("Interaction with Monster!");
+            Debug.Log(caller.name + ": Interaction with Monster");
         }
     }
 }

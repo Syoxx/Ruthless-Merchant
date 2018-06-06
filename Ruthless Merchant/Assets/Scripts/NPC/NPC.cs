@@ -261,18 +261,21 @@ namespace RuthlessMerchant
 
         public Waypoint[] GetRandomPath(string[] paths, bool removeOnReached, float waitTime)
         {
-            string path = paths[UnityEngine.Random.Range(0, paths.Length - 1)];
-            if (path != null)
+            if (paths != null && paths.Length > 0)
             {
-                GameObject parentPath = GameObject.Find(path);
-                List<Waypoint> waypoints = new List<Waypoint>();
-                foreach (Transform child in parentPath.transform)
+                string path = paths[UnityEngine.Random.Range(0, paths.Length - 1)];
+                if (path != null)
                 {
-                    if (child.CompareTag(path))
-                        waypoints.Add(new Waypoint(child, removeOnReached, waitTime));
-                }
+                    GameObject parentPath = GameObject.Find(path);
+                    List<Waypoint> waypoints = new List<Waypoint>();
+                    foreach (Transform child in parentPath.transform)
+                    {
+                        if (child.CompareTag(path))
+                            waypoints.Add(new Waypoint(child, removeOnReached, waitTime));
+                    }
 
-                return waypoints.ToArray();
+                    return waypoints.ToArray();
+                }
             }
             return null;
         }
