@@ -240,7 +240,7 @@ namespace RuthlessMerchant
             }
         }
 
-        public override void Interact()
+        public override void Interact(GameObject caller)
         {
             OpenDialog();
         }
