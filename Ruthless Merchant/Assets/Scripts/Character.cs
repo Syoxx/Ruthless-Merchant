@@ -17,7 +17,13 @@ namespace RuthlessMerchant
         private Rigidbody rb;
         private bool isPlayer;
 
-        public void Start()
+        [SerializeField]
+        protected float walkSpeed = 2;
+ 
+        [SerializeField]
+        protected float runSpeed = 4;
+
+        public override void Start()
         {
             if (rb == null)
             {
@@ -75,8 +81,7 @@ namespace RuthlessMerchant
         }
 
         public void Move(Vector3 velocity, float speed)
-        {
-           
+        {           
            if(velocity != Vector3.zero && !isPlayer)
                 transform.rotation = Quaternion.LookRotation(velocity);
 
@@ -88,7 +93,7 @@ namespace RuthlessMerchant
             throw new System.NotImplementedException();
         }
 
-        public void Update()
+        public override void Update()
         {
             
         }
