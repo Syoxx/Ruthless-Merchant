@@ -48,6 +48,7 @@ namespace RuthlessMerchant
 
         private float elapsedWaitTime = 0.0f;
         private Vector3 rotationTarget;
+        protected bool isWalking = true;
 
         public override void Start()
         {
@@ -100,6 +101,8 @@ namespace RuthlessMerchant
             Hear();
             React();
 
+            ChangeSpeed();
+
             if (!agent.pathPending && agent.remainingDistance < agent.baseOffset)
             {
                 agent.isStopped = true;
@@ -110,6 +113,20 @@ namespace RuthlessMerchant
             else
             {
                 RotateToNextTarget(agent.steeringTarget + transform.forward, true);
+            }
+        }
+
+        private void ChangeSpeed()
+        {
+            if (isWalking)
+            {
+                agent.speed = walkSpeed;
+                agent.angularSpeed = walkSpeed;
+            }
+            else
+            {
+                agent.speed = runSpeed;
+                agent.angularSpeed = runSpeed;
             }
         }
 
