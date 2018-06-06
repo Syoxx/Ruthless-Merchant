@@ -17,5 +17,10 @@ namespace RuthlessMerchant
         {
             throw new System.NotImplementedException();
         }
+
+        public override void Interact()
+        {
+            Debug.Log("Interaction with Civilian");
+        }
     }
 }
