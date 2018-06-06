@@ -25,7 +25,12 @@ namespace RuthlessMerchant
 
         [SerializeField]
         private float runSpeed = 4;
+
+        [SerializeField]
+        private Transform teleportTarget;
         #endregion
+
+
 
         public UISystem UISystem
         {
@@ -130,6 +135,19 @@ namespace RuthlessMerchant
             MoveVector = new Vector3(InputVector.x, 0.0f, InputVector.y);
             base.Move(MoveVector, moveSpeed);
         }
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.collider.CompareTag("Teleport"))
+            {
+                Teleport(teleportTarget.position + new Vector3 (0,1));
+            }
+        }
+        
+        private void Teleport(Vector3 targetPos)
+        {
+            transform.position = targetPos;
+        }
+
 
         public override void Interact()
         {
