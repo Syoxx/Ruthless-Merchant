@@ -57,6 +57,7 @@ namespace RuthlessMerchant
         private void Start()
         {
             base.Start();
+            maxInteractDistance = 4;
 
             // try to get the first person camera
             playerAttachedCamera = GetComponentInChildren<Camera>();
@@ -141,6 +142,11 @@ namespace RuthlessMerchant
                 isWalking = true;
             }
 
+            if (Input.GetMouseButtonDown(0))
+            {
+                Interact();
+            }
+
             if (Input.GetKey(KeyCode.Space))
             {
                 base.Jump(jumpSpeed);
@@ -164,7 +170,18 @@ namespace RuthlessMerchant
 
         public override void Interact()
         {
-            throw new System.NotImplementedException();
+            if (playerAttachedCamera != null)
+            {
+                Ray clickRay = playerAttachedCamera.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+                if (Physics.Raycast(clickRay, out hit, maxInteractDistance))
+                {
+                    Debug.Log(hit.collider.name + " " + hit.point + " clicked.");
+
+                    hit.collider.gameObject.GetComponent<InteractiveObject>().Interact();
+                }
+            }
         }
 
         public void Run()
