@@ -55,7 +55,9 @@ namespace RuthlessMerchant
             possibleHearedObjects = new List<AudioSource>();
             possibleSeenObjects = new List<GameObject>();
             noticedGameObjects = new List<GameObject>();
-            waypoints = new List<Waypoint>();
+
+            if(waypoints == null)
+                waypoints = new List<Waypoint>();
 
             GameObject hearObject = transform.GetChild(0).gameObject;
             GameObject seeObject = transform.GetChild(1).gameObject;
@@ -240,9 +242,47 @@ namespace RuthlessMerchant
             }
         }
 
-        public override void Interact()
+        public void SetRandomPath(string[] paths, float waitTime)
         {
-            OpenDialog();
+            string path = paths[UnityEngine.Random.Range(0, paths.Length - 1)];
+            if (path != null)
+            {
+                GameObject parentPath = GameObject.Find(path);
+                List<Waypoint> waypoints = new List<Waypoint>();
+                foreach (Transform child in parentPath.transform)
+                {
+                    if (child.CompareTag(path))
+                        waypoints.Add(new Waypoint(child, true, waitTime));
+                }
+
+                AddPath(waypoints);
+            }
+        }
+
+        public Waypoint[] GetRandomPath(string[] paths, bool removeOnReached, float waitTime)
+        {
+            string path = paths[UnityEngine.Random.Range(0, paths.Length - 1)];
+            if (path != null)
+            {
+                GameObject parentPath = GameObject.Find(path);
+                List<Waypoint> waypoints = new List<Waypoint>();
+                foreach (Transform child in parentPath.transform)
+                {
+                    if (child.CompareTag(path))
+                        waypoints.Add(new Waypoint(child, removeOnReached, waitTime));
+                }
+
+                return waypoints.ToArray();
+            }
+            return null;
+        }
+
+        public void AddPath(IEnumerable<Waypoint> path)
+        {
+            if (waypoints == null)
+                waypoints = new List<Waypoint>();
+
+            waypoints.AddRange(path);
         }
 
         public abstract void Flee();

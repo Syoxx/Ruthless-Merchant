@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace RuthlessMerchant
 {
@@ -7,11 +8,19 @@ namespace RuthlessMerchant
         private int huntDistance;
 
         public bool PatrolActive;
+        public string[] PossiblePatrolPaths;
         public Waypoint[] PatrolPoints;
 
         public override void Start()
         {
             base.Start();
+
+            if (PatrolActive)
+            {
+                PatrolActive = false;
+                PatrolPoints = GetRandomPath(PossiblePatrolPaths, false, 3);
+                Patrol();
+            }
         }
 
         public override void Update()
