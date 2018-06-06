@@ -1,4 +1,6 @@
-﻿namespace RuthlessMerchant
+﻿using UnityEngine;
+
+namespace RuthlessMerchant
 {
     public class Item : InteractiveWorldObject
     {
@@ -32,7 +34,7 @@
             }
         }
 
-        public override void Interact()
+        public override void Interact(GameObject caller)
         {
             throw new System.NotImplementedException();
         }

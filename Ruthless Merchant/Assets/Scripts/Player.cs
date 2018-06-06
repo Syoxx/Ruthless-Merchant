@@ -59,11 +59,11 @@ namespace RuthlessMerchant
             base.Start();
             maxInteractDistance = 4;
 
-            // try to get the first person camera
-            playerAttachedCamera = GetComponentInChildren<Camera>();
-
             playerLookAngle = transform.localRotation;
 
+            // try to get the first person camera
+            playerAttachedCamera = GetComponentInChildren<Camera>();
+            
             if (playerAttachedCamera != null)
             {
                 cameraPitchAngle = playerAttachedCamera.transform.localRotation;
@@ -142,9 +142,9 @@ namespace RuthlessMerchant
                 isWalking = true;
             }
 
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                Interact();
+                SendInteraction();
             }
 
             if (Input.GetKey(KeyCode.Space))
@@ -168,7 +168,7 @@ namespace RuthlessMerchant
             base.Move(MoveVector, moveSpeed);
         }
 
-        public override void Interact()
+        public void SendInteraction()
         {
             if (playerAttachedCamera != null)
             {
@@ -179,9 +179,19 @@ namespace RuthlessMerchant
                 {
                     Debug.Log(hit.collider.name + " " + hit.point + " clicked.");
 
-                    hit.collider.gameObject.GetComponent<InteractiveObject>().Interact();
+                    InteractiveObject target = hit.collider.gameObject.GetComponent<InteractiveObject>();
+
+                    if (target != null)
+                    {
+                        target.Interact(this.gameObject);
+                    }
                 }
             }
+        }
+
+        public override void Interact(GameObject caller)
+        {
+            throw new NotImplementedException();
         }
 
         public void Run()

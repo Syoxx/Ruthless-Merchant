@@ -64,6 +64,6 @@ namespace RuthlessMerchant
             throw new System.NotImplementedException();
         }
 
-        public abstract void Interact();
+        public abstract void Interact(GameObject caller);
     }
 }

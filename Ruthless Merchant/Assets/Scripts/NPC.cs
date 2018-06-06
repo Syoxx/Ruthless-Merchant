@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace RuthlessMerchant
 {
@@ -38,7 +39,7 @@ namespace RuthlessMerchant
             }
         }
 
-        public override void Interact()
+        public override void Interact(GameObject caller)
         {
             throw new System.NotImplementedException();
         }
