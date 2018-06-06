@@ -18,9 +18,11 @@ namespace RuthlessMerchant
         private bool isPlayer;
 
         [SerializeField]
+        [Range(0, 1000)]
         protected float walkSpeed = 2;
  
         [SerializeField]
+        [Range(0, 1000)]
         protected float runSpeed = 4;
 
         public override void Start()
