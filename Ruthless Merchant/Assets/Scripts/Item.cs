@@ -6,7 +6,7 @@
         private ItemType type;
         private ItemValue[] itemValue;
         private int weight;
-        private int MaxStackCount;
+        private int maxStackCount;
 
         public ItemType Type
         {
@@ -29,6 +29,14 @@
             set
             {
                 itemValue = value;
+            }
+        }
+
+        public int MaxStackCount
+        {
+            get
+            {
+                return maxStackCount;
             }
         }
 
