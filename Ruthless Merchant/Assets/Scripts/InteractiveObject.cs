@@ -66,6 +66,6 @@ namespace RuthlessMerchant
 
         public abstract void Start();
         public abstract void Update();
-        public abstract void Interact();
+        public abstract void Interact(GameObject caller);
     }
 }
