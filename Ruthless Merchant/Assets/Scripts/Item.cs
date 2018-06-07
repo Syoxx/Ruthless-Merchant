@@ -53,9 +53,9 @@ namespace RuthlessMerchant
             throw new System.NotImplementedException();
         }
 
-        public void Pickup(out Item targetItem)
+        public void Pickup()
         {
-            targetItem = this;
+            throw new System.NotImplementedException();
         }
 
         public int MaxStackCount

@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace RuthlessMerchant
 {
@@ -20,12 +21,14 @@ namespace RuthlessMerchant
         private Quaternion cameraPitchAngle;
         private Vector3 MoveVector = Vector3.zero;
         private Vector2 InputVector = Vector2.zero;
+        private GameObject uiCanvas;
+        private GameObject itemsContainer;
 
         [SerializeField]
         private float jumpSpeed = 10;
 
         [SerializeField]
-        private GameObject InventoryCanvas;
+        private GameObject ItemsParent;
 
         [SerializeField]
         private GameObject ItemUIPrefab;
@@ -59,13 +62,19 @@ namespace RuthlessMerchant
         {
             base.Start();
 
+
+            itemsContainer = ItemsParent.transform.parent.gameObject;
+            uiCanvas = itemsContainer.transform.parent.gameObject;
+            
             // Ensure hidden inventory
-            if (InventoryCanvas.activeInHierarchy == true)
+            if (uiCanvas.activeInHierarchy == true)
             {
                 ShowInventory(false);
             }
+
             maxInteractDistance = 3;
-            inventory = new Inventory();
+
+            this.inventory = new Inventory();
 
             playerLookAngle = transform.localRotation;
 
@@ -137,12 +146,12 @@ namespace RuthlessMerchant
             if (makeVisible)
             {
                 PopulateInventoryPanel();
-                InventoryCanvas.SetActive(true);
+                uiCanvas.SetActive(true);
                 showingInventory = true;
             }
             else
             {
-                InventoryCanvas.SetActive(false);
+                uiCanvas.SetActive(false);
                 showingInventory = false;
             }
         }
@@ -153,10 +162,25 @@ namespace RuthlessMerchant
             {
                 return;
             }
+            else
+            {
+                // Delete all objects in inventory UI
+                foreach (Transform child in ItemsParent.transform)
+                {
+                    Destroy(child.gameObject);
+                }
+            }
 
+            // Create inventory list objects
             for (int itemIndex = 0; itemIndex < inventory.inventorySlots.Length; itemIndex++)
             {
+                if (inventory.inventorySlots[itemIndex].Item == null)
+                {
+                    continue;
+                }
+
                 GameObject InventoryItem = Instantiate(ItemUIPrefab) as GameObject;
+                InventoryItem.transform.SetParent(ItemsParent.transform, false);
                 InventoryDisplayedData itemInfos = InventoryItem.GetComponent<InventoryDisplayedData>();
                 itemInfos.itemName.text = inventory.inventorySlots[itemIndex].Item.name;
                 itemInfos.itemWeight.text = "" + inventory.inventorySlots[itemIndex].Item.ItemWeight;
@@ -235,8 +259,7 @@ namespace RuthlessMerchant
                     {
                         // Picking up items and gear
                         if (targetItem.Type == ItemType.Weapon || targetItem.Type == ItemType.Gear)
-                        {
-                            targetItem.Pickup(out targetItem);
+                        {                                            
                             // Returns 0 if item was added to inventory
                             int UnsuccessfulPickup = inventory.Add(targetItem, 1);
 
