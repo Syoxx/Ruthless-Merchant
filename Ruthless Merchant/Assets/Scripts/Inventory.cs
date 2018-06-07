@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace RuthlessMerchant
 {
@@ -182,11 +183,11 @@ namespace RuthlessMerchant
         /// <summary>
         /// Interacts with Item within a specific Inventoryslot
         /// </summary
-        public void Interact(int slot)
+        public void Interact(int slot, GameObject caller)
         {
             if(inventorySlots[slot].Count > 0 && slot >= 0 && slot < maxSlotCount)
             {
-                inventorySlots[slot].Item.Interact();
+                inventorySlots[slot].Item.Interact(caller);
             }
         }
 
@@ -194,12 +195,12 @@ namespace RuthlessMerchant
         /// Finds a specific Item within the inventory and interacts with it
         /// </summary>
         /// <returns>returns false if item is not in the inventory</returns>
-        public bool Interact(Item item)
+        public bool Interact(Item item, GameObject caller)
         {
             int slot = FindItem(item);
             if(slot >= 0)
             {
-                inventorySlots[slot].Item.Interact();
+                inventorySlots[slot].Item.Interact(caller);
                 return true;
             }
             else
