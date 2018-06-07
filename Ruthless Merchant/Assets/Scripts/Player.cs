@@ -22,12 +22,6 @@ namespace RuthlessMerchant
 
         [SerializeField]
         private float jumpSpeed = 10;
-
-        [SerializeField]
-        private float walkSpeed = 2;
-
-        [SerializeField]
-        private float runSpeed = 4;
         #endregion
 
         public UISystem UISystem
@@ -54,15 +48,16 @@ namespace RuthlessMerchant
             }
         }
 
-        private void Start()
+        public override void Start()
         {
             base.Start();
-
-            // try to get the first person camera
-            playerAttachedCamera = GetComponentInChildren<Camera>();
+            maxInteractDistance = 4;
 
             playerLookAngle = transform.localRotation;
 
+            // try to get the first person camera
+            playerAttachedCamera = GetComponentInChildren<Camera>();
+            
             if (playerAttachedCamera != null)
             {
                 cameraPitchAngle = playerAttachedCamera.transform.localRotation;
@@ -74,7 +69,7 @@ namespace RuthlessMerchant
             }
         }
 
-        private void Update()
+        public override void Update()
         {
             LookRotation();
             HandleInput();
@@ -141,6 +136,11 @@ namespace RuthlessMerchant
                 isWalking = true;
             }
 
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                SendInteraction();
+            }
+
             if (Input.GetKey(KeyCode.Space))
             {
                 base.Jump(jumpSpeed);
@@ -162,9 +162,30 @@ namespace RuthlessMerchant
             base.Move(MoveVector, moveSpeed);
         }
 
-        public override void Interact()
+        public void SendInteraction()
         {
-            throw new System.NotImplementedException();
+            if (playerAttachedCamera != null)
+            {
+                Ray clickRay = playerAttachedCamera.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+                if (Physics.Raycast(clickRay, out hit, maxInteractDistance))
+                {
+                    Debug.Log(hit.collider.name + " " + hit.point + " clicked.");
+
+                    InteractiveObject target = hit.collider.gameObject.GetComponent<InteractiveObject>();
+
+                    if (target != null)
+                    {
+                        target.Interact(this.gameObject);
+                    }
+                }
+            }
+        }
+
+        public override void Interact(GameObject caller)
+        {
+            throw new NotImplementedException();
         }
 
         public void Run()
