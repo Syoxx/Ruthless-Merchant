@@ -9,10 +9,11 @@ namespace RuthlessMerchant
         private UISystem uiSystem;
         private QuestManager questManager;
         private bool isCursorLocked = true;
+        private bool showingInventory = false;
         private int maxInteractDistance;
         private float moveSpeed;
-        private float mouseXSensitivity = 1.8f;
-        private float mouseYSensitivity = 1.8f;
+        private float mouseXSensitivity = 2f;
+        private float mouseYSensitivity = 2f;
         
         private Camera playerAttachedCamera;
         private Quaternion playerLookAngle;
@@ -22,6 +23,12 @@ namespace RuthlessMerchant
 
         [SerializeField]
         private float jumpSpeed = 10;
+
+        [SerializeField]
+        private GameObject InventoryCanvas;
+
+        [SerializeField]
+        private GameObject ItemUIPrefab;
         #endregion
 
         public UISystem UISystem
@@ -51,7 +58,14 @@ namespace RuthlessMerchant
         public override void Start()
         {
             base.Start();
+
+            // Ensure hidden inventory
+            if (InventoryCanvas.activeInHierarchy == true)
+            {
+                ShowInventory(false);
+            }
             maxInteractDistance = 3;
+            inventory = new Inventory();
 
             playerLookAngle = transform.localRotation;
 
@@ -118,9 +132,36 @@ namespace RuthlessMerchant
             }
         }
 
-        public void ShowInventory()
+        public void ShowInventory(bool makeVisible)
         {
-            throw new System.NotImplementedException();
+            if (makeVisible)
+            {
+                PopulateInventoryPanel();
+                InventoryCanvas.SetActive(true);
+                showingInventory = true;
+            }
+            else
+            {
+                InventoryCanvas.SetActive(false);
+                showingInventory = false;
+            }
+        }
+
+        private void PopulateInventoryPanel()
+        {
+            if (inventory.inventorySlots.Length == 0)
+            {
+                return;
+            }
+
+            for (int itemIndex = 0; itemIndex < inventory.inventorySlots.Length; itemIndex++)
+            {
+                GameObject InventoryItem = Instantiate(ItemUIPrefab) as GameObject;
+                InventoryDisplayedData itemInfos = InventoryItem.GetComponent<InventoryDisplayedData>();
+                itemInfos.itemName.text = inventory.inventorySlots[itemIndex].Item.name;
+                itemInfos.itemWeight.text = "" + inventory.inventorySlots[itemIndex].Item.ItemWeight;
+                // TODO: Item image, description, rarity, price
+            }
         }
 
         public void ShowMap()
@@ -144,6 +185,18 @@ namespace RuthlessMerchant
             if (Input.GetKey(KeyCode.Space))
             {
                 base.Jump(jumpSpeed);
+            }
+
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                if (!showingInventory)
+                {
+                    ShowInventory(true);
+                }
+                else
+                {
+                    ShowInventory(false);
+                }
             }
 
             moveSpeed = isWalking ? walkSpeed : runSpeed;
@@ -180,10 +233,21 @@ namespace RuthlessMerchant
 
                     if (targetItem != null)
                     {
+                        // Picking up items and gear
                         if (targetItem.Type == ItemType.Weapon || targetItem.Type == ItemType.Gear)
                         {
                             targetItem.Pickup(out targetItem);
-                            // TODO: InventorySystem.add
+                            // Returns 0 if item was added to inventory
+                            int UnsuccessfulPickup = inventory.Add(targetItem, 1);
+
+                            if (UnsuccessfulPickup != 0)
+                            {
+                                Debug.Log("Returned " + UnsuccessfulPickup + ", failed to collect item.");
+                            }
+                            else
+                            {
+                                targetItem.Destroy();
+                            }
                         }
                     }
                     else
@@ -192,10 +256,6 @@ namespace RuthlessMerchant
                         NPC targetNPC = target as NPC;
 
                         if (targetNPC != null)
-                        {
-                            target.Interact(this.gameObject);
-                        }
-                        else
                         {
                             target.Interact(this.gameObject);
                         }
