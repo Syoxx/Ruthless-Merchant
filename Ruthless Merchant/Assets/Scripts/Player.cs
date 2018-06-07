@@ -51,7 +51,7 @@ namespace RuthlessMerchant
         public override void Start()
         {
             base.Start();
-            maxInteractDistance = 4;
+            maxInteractDistance = 3;
 
             playerLookAngle = transform.localRotation;
 
@@ -175,9 +175,30 @@ namespace RuthlessMerchant
 
                     InteractiveObject target = hit.collider.gameObject.GetComponent<InteractiveObject>();
 
-                    if (target != null)
+                    // Treat interaction target like an item                    
+                    Item targetItem = target as Item;
+
+                    if (targetItem != null)
                     {
-                        target.Interact(this.gameObject);
+                        if (targetItem.Type == ItemType.Weapon || targetItem.Type == ItemType.Gear)
+                        {
+                            targetItem.Pickup(out targetItem);
+                            // TODO: InventorySystem.add
+                        }
+                    }
+                    else
+                    {
+                        // Treat interaction target like an NPC
+                        NPC targetNPC = target as NPC;
+
+                        if (targetNPC != null)
+                        {
+                            target.Interact(this.gameObject);
+                        }
+                        else
+                        {
+                            target.Interact(this.gameObject);
+                        }
                     }
                 }
             }

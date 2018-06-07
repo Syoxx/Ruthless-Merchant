@@ -5,7 +5,7 @@ namespace RuthlessMerchant
     public class Item : InteractiveWorldObject
     {
         private int ownerId;
-        private ItemType type;
+        public ItemType type;
         private ItemValue[] itemValue;
         private int weight;
         private int MaxStackCount;
@@ -36,12 +36,11 @@ namespace RuthlessMerchant
 
         public override void Start()
         {
-            throw new System.NotImplementedException();
+
         }
 
         public override void Update()
         {
-            throw new System.NotImplementedException();
         }
 
         public override void Interact(GameObject caller)
@@ -49,9 +48,10 @@ namespace RuthlessMerchant
             throw new System.NotImplementedException();
         }
 
-        public void Pickup()
+        public void Pickup(out Item targetItem)
         {
-            throw new System.NotImplementedException();
+            targetItem = this;
+            Debug.Log("item pickup initiated");
         }
     }
 }
