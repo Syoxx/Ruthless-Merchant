@@ -8,7 +8,7 @@ namespace RuthlessMerchant
         public ItemType type;
         private ItemValue[] itemValue;
         private int weight;
-        private int MaxStackCount;
+        private int maxStackCount;
 
         public ItemType Type
         {
@@ -52,6 +52,14 @@ namespace RuthlessMerchant
         {
             targetItem = this;
             Debug.Log("item pickup initiated");
+        }
+
+        public int MaxStackCount
+        {
+            get
+            {
+                return maxStackCount;
+            }
         }
     }
 }
