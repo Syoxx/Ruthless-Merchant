@@ -21,13 +21,19 @@ namespace RuthlessMerchant
         private Vector2 InputVector = Vector2.zero;
 
         [SerializeField]
-        private float jumpSpeed = 10;
+        private float jumpSpeed = 10.0f;
+
+
+        
+        [SerializeField]
+        private float gravityScale = 1.0f;
+        [SerializeField]
+        private LayerMask layermask;
 
         [SerializeField]
-        private float walkSpeed = 2;
-
-        [SerializeField]
-        private float runSpeed = 4;
+        private Transform teleportTarget;
+
+        private bool hasJumped;
         #endregion
 
 
@@ -77,6 +83,20 @@ namespace RuthlessMerchant
             }
         }
 
+        private void FixedUpdate()
+        {
+            if (hasJumped)
+            {
+                base.Jump(jumpSpeed);
+                hasJumped = false;
+            }
+            else
+                base.Grounding(layermask);
+            base.UseGravity(gravityScale);
+
+
+
+        }
         private void Update()
         {
             LookRotation();
@@ -143,7 +163,10 @@ namespace RuthlessMerchant
             {
                 isWalking = true;
             }
-
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                SendInteraction();
+            }
             if (Input.GetKey(KeyCode.Space))
             {
                 hasJumped = true;
@@ -178,7 +201,7 @@ namespace RuthlessMerchant
             transform.position = targetPos;
         }
 
-        public override void Interact()
+        public void SendInteraction()
         {
             if (playerAttachedCamera != null)
             {
@@ -236,40 +259,6 @@ namespace RuthlessMerchant
         }
     }
 }
-        private float jumpSpeed = 10.0f;
-        [SerializeField]
-        private float gravityScale = 1.0f;
-        [SerializeField]
-        private LayerMask layermask;
-
-        [SerializeField]
-        private float walkSpeed = 2;
-
-        [SerializeField]
-        private float runSpeed = 4;
-
-        [SerializeField]
-        private Transform teleportTarget;
-
-        private bool hasJumped;
-        private void FixedUpdate()
-        {
-            if (hasJumped)
-            {
-                base.Jump(jumpSpeed);
-                hasJumped = false;
-            }
-            else
-                base.Grounding(layermask);
-            base.UseGravity(gravityScale);
-            
-        }
-        private void Update()
-            if (Input.GetKeyDown(KeyCode.Space))
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                SendInteraction();
-            }
-
-            if (Input.GetKey(KeyCode.Space))
-        public void SendInteraction()
+       
+        
+     
