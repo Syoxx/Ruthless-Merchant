@@ -40,19 +40,26 @@ namespace RuthlessMerchant
 
         public int Add(Item item, int count)
         {
-            if(FindItem(item) == -1)
+            for (int i = 0; i < maxSlotCount; i++)
             {
-                for(int i = 0; i < maxSlotCount; i++)
+                if (inventorySlots[i].Count <= 0)
                 {
-                    if(inventorySlots[i].Count <= 0)
+                    if (count > item.MaxStackCount)
                     {
-                        if(count > item.MaxStackCount)
+                        count -= item.MaxStackCount;
+                        inventorySlots[i].Count = item.MaxStackCount;
+                        inventorySlots[i].Item = item;
                     }
                 }
-            }
-            else
-            {
-
+                else if(inventorySlots[i].Item == item && inventorySlots[i].Count < item.MaxStackCount)
+                {
+                    if (inventorySlots[i].Count + count > item.MaxStackCount)
+                    {
+                        count -= (item.MaxStackCount - inventorySlots[i].Count);
+                        inventorySlots[i].Count = item.MaxStackCount;
+                        inventorySlots[i].Item = item;
+                    }
+                }
             }
         }
 
