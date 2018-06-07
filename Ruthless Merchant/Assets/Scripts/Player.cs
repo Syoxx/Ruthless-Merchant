@@ -18,7 +18,11 @@ namespace RuthlessMerchant
         private Vector2 InputVector = Vector2.zero;
 
         [SerializeField]
-        private float jumpSpeed = 10;
+        private float jumpSpeed = 10.0f;
+        [SerializeField]
+        private float gravityScale = 1.0f;
+        [SerializeField]
+        private LayerMask layermask;
 
         [SerializeField]
         private float walkSpeed = 2;
@@ -28,6 +32,8 @@ namespace RuthlessMerchant
 
         [SerializeField]
         private Transform teleportTarget;
+
+        private bool hasJumped;
         #endregion
 
 
@@ -73,7 +79,18 @@ namespace RuthlessMerchant
 
             cameraPitchAngle = camera.transform.localRotation;
         }
-
+        private void FixedUpdate()
+        {
+            if (hasJumped)
+            {
+                base.Jump(jumpSpeed);
+                hasJumped = false;
+            }
+            else
+                base.Grounding(layermask);
+            base.UseGravity(gravityScale);
+            
+        }
         private void Update()
         {
             LookRotation();
@@ -115,9 +132,10 @@ namespace RuthlessMerchant
                 isWalking = true;
             }
 
-            if (Input.GetKey(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                base.Jump(jumpSpeed);
+                hasJumped = true;
+               // base.Jump(jumpSpeed);
             }
 
             moveSpeed = isWalking ? walkSpeed : runSpeed;
