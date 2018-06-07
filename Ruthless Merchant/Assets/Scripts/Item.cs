@@ -32,14 +32,6 @@
             }
         }
 
-        public int MaxStackCount
-        {
-            get
-            {
-                return maxStackCount;
-            }
-        }
-
         public override void Interact()
         {
             throw new System.NotImplementedException();
@@ -48,6 +40,14 @@
         public void Pickup()
         {
             throw new System.NotImplementedException();
+        }
+
+        public int MaxStackCount
+        {
+            get
+            {
+                return maxStackCount;
+            }
         }
     }
 }
