@@ -178,5 +178,34 @@ namespace RuthlessMerchant
                 throw new Exception("Error during removing of items from inventory");
             }
         }
+
+        /// <summary>
+        /// Interacts with Item within a specific Inventoryslot
+        /// </summary
+        public void Interact(int slot)
+        {
+            if(inventorySlots[slot].Count > 0 && slot >= 0 && slot < maxSlotCount)
+            {
+                inventorySlots[slot].Item.Interact();
+            }
+        }
+
+        /// <summary>
+        /// Finds a specific Item within the inventory and interacts with it
+        /// </summary>
+        /// <returns>returns false if item is not in the inventory</returns>
+        public bool Interact(Item item)
+        {
+            int slot = FindItem(item);
+            if(slot >= 0)
+            {
+                inventorySlots[slot].Item.Interact();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
