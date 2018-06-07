@@ -58,5 +58,10 @@ namespace RuthlessMerchant
             Time.timeScale = 0f;
             gameIsPaused = true;
         }
+
+        public void SaveGame()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
