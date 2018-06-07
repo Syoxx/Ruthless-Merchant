@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEngine;
 
 namespace RuthlessMerchant
 {
@@ -38,29 +37,48 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// Adds one or multiple items to the inventory
+        /// </summary>
+        /// <param name="item">the item that will be added</param>
+        /// <param name="count">the amount of items to add</param>
+        /// <returns>Returns the number of items that couldn't be stored in the inventory. returns 0 if all items were added successfully</returns>
         public int Add(Item item, int count)
         {
-            for (int i = 0; i < maxSlotCount; i++)
+            try
             {
-                if (inventorySlots[i].Count <= 0)
+                for (int i = 0; i < maxSlotCount; i++)
                 {
-                    if (count > item.MaxStackCount)
+                    if (inventorySlots[i].Count <= 0)
                     {
-                        count -= item.MaxStackCount;
-                        inventorySlots[i].Count = item.MaxStackCount;
-                        inventorySlots[i].Item = item;
+                        if (count > item.MaxStackCount)
+                        {
+                            count -= item.MaxStackCount;
+                            inventorySlots[i].Count = item.MaxStackCount;
+                            inventorySlots[i].Item = item;
+                        }
+                    }
+                    else if (inventorySlots[i].Item == item && inventorySlots[i].Count < item.MaxStackCount)
+                    {
+                        if (inventorySlots[i].Count + count > item.MaxStackCount)
+                        {
+                            count -= (item.MaxStackCount - inventorySlots[i].Count);
+                            inventorySlots[i].Count = item.MaxStackCount;
+                        }
+                        else
+                        {
+                            inventorySlots[i].Count += count;
+                            count = 0;
+                        }
                     }
                 }
-                else if(inventorySlots[i].Item == item && inventorySlots[i].Count < item.MaxStackCount)
-                {
-                    if (inventorySlots[i].Count + count > item.MaxStackCount)
-                    {
-                        count -= (item.MaxStackCount - inventorySlots[i].Count);
-                        inventorySlots[i].Count = item.MaxStackCount;
-                        inventorySlots[i].Item = item;
-                    }
-                }
+                return count;
             }
+            catch
+            {
+                throw new Exception("Error when trying to Add Item to Inventory");
+            }
+
         }
 
         /// <summary>
@@ -83,7 +101,8 @@ namespace RuthlessMerchant
         /// </summary>
         /// <param name="slot">the slot from which items will be removed</param>
         /// <param name="count">the number of items to be removed. Removes all items if negative</param>
-        public void Remove(int slot, int count)
+        /// <returns>Returns the item that was stored at the slot</returns>
+        public Item Remove(int slot, int count)
         {
             if(count > 0)
             {
@@ -99,6 +118,7 @@ namespace RuthlessMerchant
                 inventorySlots[slot].Count = 0;
                 inventorySlots[slot].Item = null;
             }
+            return inventorySlots[slot].Item;
         }
 
         /// <summary>
