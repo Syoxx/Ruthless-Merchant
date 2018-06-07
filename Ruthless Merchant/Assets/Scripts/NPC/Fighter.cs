@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace RuthlessMerchant
 {
@@ -6,12 +7,28 @@ namespace RuthlessMerchant
     {
         private int huntDistance;
 
-        public bool PatrolActive;
+        [SerializeField]
+        private bool patrolActive;
+        public string[] PossiblePatrolPaths;
         public Waypoint[] PatrolPoints;
+
+        public bool PaartolActive
+        {
+            get { return patrolActive; }
+        }
 
         public override void Start()
         {
             base.Start();
+
+            if (patrolActive)
+            {
+                patrolActive = false;
+                if(PossiblePatrolPaths != null && PossiblePatrolPaths.Length > 0)
+                    PatrolPoints = GetRandomPath(PossiblePatrolPaths, false, 3);
+
+                Patrol();
+            }
         }
 
         public override void Update()
@@ -36,31 +53,34 @@ namespace RuthlessMerchant
 
         public void Patrol()
         {
-            if (!PatrolActive)
+            if (!patrolActive)
             {
-                PatrolActive = true;
-                float minDistance = float.MaxValue;
-                int nearestIndex = waypoints.Count;
-                for (int i = 0; i < PatrolPoints.Length; i++)
+                if (PatrolPoints != null)
                 {
-                    float distance = Vector3.Distance(transform.position, PatrolPoints[i].GetPosition());
-                    if(distance < minDistance)
+                    patrolActive = true;
+                    float minDistance = float.MaxValue;
+                    int nearestIndex = waypoints.Count;
+                    for (int i = 0; i < PatrolPoints.Length; i++)
                     {
-                        minDistance = distance;
-                        nearestIndex = waypoints.Count;
+                        float distance = Vector3.Distance(transform.position, PatrolPoints[i].GetPosition());
+                        if (distance < minDistance)
+                        {
+                            minDistance = distance;
+                            nearestIndex = waypoints.Count;
+                        }
+                        waypoints.Add(PatrolPoints[i]);
                     }
-                    waypoints.Add(PatrolPoints[i]);
-                }
 
-                waypointIndex = nearestIndex;
+                    waypointIndex = nearestIndex;
+                }
             }
         }
 
         public void AbortPatrol()
         {
-            if (PatrolActive)
+            if (patrolActive)
             {
-                PatrolActive = false;
+                patrolActive = false;
                 for (int i = 0; i < PatrolPoints.Length; i++)
                 {
                     waypoints.Remove(PatrolPoints[i]);
