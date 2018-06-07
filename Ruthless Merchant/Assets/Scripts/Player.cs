@@ -8,32 +8,26 @@ namespace RuthlessMerchant
         #region Private Fields
         private UISystem uiSystem;
         private QuestManager questManager;
+        private bool isCursorLocked = true;
         private int maxInteractDistance;
         private float moveSpeed;
+        private float mouseXSensitivity = 1.8f;
+        private float mouseYSensitivity = 1.8f;
         
-        private Camera camera;
+        private Camera playerAttachedCamera;
         private Quaternion playerLookAngle;
         private Quaternion cameraPitchAngle;
         private Vector3 MoveVector = Vector3.zero;
         private Vector2 InputVector = Vector2.zero;
 
         [SerializeField]
-        private float jumpSpeed = 10.0f;
-        [SerializeField]
-        private float gravityScale = 1.0f;
-        [SerializeField]
-        private LayerMask layermask;
+        private float jumpSpeed = 10;
 
         [SerializeField]
         private float walkSpeed = 2;
 
         [SerializeField]
         private float runSpeed = 4;
-
-        [SerializeField]
-        private Transform teleportTarget;
-
-        private bool hasJumped;
         #endregion
 
 
@@ -62,35 +56,27 @@ namespace RuthlessMerchant
             }
         }
 
-        private void Start()
+        public override void Start()
         {
             base.Start();
+            maxInteractDistance = 4;
 
-            playerLookAngle = transform.localRotation;            
+            playerLookAngle = transform.localRotation;
+
             // try to get the first person camera
-            try
+            playerAttachedCamera = GetComponentInChildren<Camera>();
+            
+            if (playerAttachedCamera != null)
             {
-                camera = GetComponentInChildren<Camera>();
-            }
-            catch (Exception e)
-            {
-                Debug.LogException(e, this);
-            }
-
-            cameraPitchAngle = camera.transform.localRotation;
-        }
-        private void FixedUpdate()
-        {
-            if (hasJumped)
-            {
-                base.Jump(jumpSpeed);
-                hasJumped = false;
+                cameraPitchAngle = playerAttachedCamera.transform.localRotation;
             }
             else
-                base.Grounding(layermask);
-            base.UseGravity(gravityScale);
-            
+            {
+                Debug.Log("Player object does not have a first person camera.");
+                isCursorLocked = false;
+            }
         }
+
         private void Update()
         {
             LookRotation();
@@ -99,18 +85,44 @@ namespace RuthlessMerchant
 
         private void LookRotation()
         {
-            // TODO: Multiply with sensitivity value
-            float yRot = Input.GetAxis("Mouse X");
-            float xRot = Input.GetAxis("Mouse Y");
+            // TODO: Set sensitivity values in menus
+            float yRot = Input.GetAxis("Mouse X") * mouseXSensitivity;
+            float xRot = Input.GetAxis("Mouse Y") * mouseYSensitivity;
 
             playerLookAngle *= Quaternion.Euler(0f, yRot, 0f);
             cameraPitchAngle *= Quaternion.Euler(-xRot, 0f, 0f);
 
             transform.localRotation = playerLookAngle;
 
-            if (camera != null)
+            if (playerAttachedCamera != null)
             {
-                camera.transform.localRotation = cameraPitchAngle;
+                playerAttachedCamera.transform.localRotation = cameraPitchAngle;
+            }
+
+            FocusCursor();
+        }
+
+        private void FocusCursor()
+        {
+            // Pressing escape makes cursor visible + unlocks it
+            if (Input.GetKeyUp(KeyCode.Escape))
+            {
+                isCursorLocked = false;
+            }
+            else if (Input.GetMouseButtonUp(0))
+            {
+                isCursorLocked = true;
+            }
+
+            if(isCursorLocked)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+            else if (!isCursorLocked)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
             }
         }
 
@@ -132,7 +144,7 @@ namespace RuthlessMerchant
                 isWalking = true;
             }
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKey(KeyCode.Space))
             {
                 hasJumped = true;
                // base.Jump(jumpSpeed);
@@ -166,10 +178,30 @@ namespace RuthlessMerchant
             transform.position = targetPos;
         }
 
-
         public override void Interact()
         {
-            throw new System.NotImplementedException();
+            if (playerAttachedCamera != null)
+            {
+                Ray clickRay = playerAttachedCamera.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+                if (Physics.Raycast(clickRay, out hit, maxInteractDistance))
+                {
+                    Debug.Log(hit.collider.name + " " + hit.point + " clicked.");
+
+                    InteractiveObject target = hit.collider.gameObject.GetComponent<InteractiveObject>();
+
+                    if (target != null)
+                    {
+                        target.Interact(this.gameObject);
+                    }
+                }
+            }
+        }
+
+        public override void Interact(GameObject caller)
+        {
+            throw new NotImplementedException();
         }
 
         public void Run()
@@ -204,3 +236,40 @@ namespace RuthlessMerchant
         }
     }
 }
+        private float jumpSpeed = 10.0f;
+        [SerializeField]
+        private float gravityScale = 1.0f;
+        [SerializeField]
+        private LayerMask layermask;
+
+        [SerializeField]
+        private float walkSpeed = 2;
+
+        [SerializeField]
+        private float runSpeed = 4;
+
+        [SerializeField]
+        private Transform teleportTarget;
+
+        private bool hasJumped;
+        private void FixedUpdate()
+        {
+            if (hasJumped)
+            {
+                base.Jump(jumpSpeed);
+                hasJumped = false;
+            }
+            else
+                base.Grounding(layermask);
+            base.UseGravity(gravityScale);
+            
+        }
+        private void Update()
+            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                SendInteraction();
+            }
+
+            if (Input.GetKey(KeyCode.Space))
+        public void SendInteraction()

@@ -1,4 +1,6 @@
-﻿namespace RuthlessMerchant
+﻿using UnityEngine;
+
+namespace RuthlessMerchant
 {
     public class Recipe : Item
     {
@@ -7,7 +9,12 @@
         public int Duration;
         private float elapsedTime;
 
-        public void Update()
+        public override void Start()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void Update()
         {
             throw new System.NotImplementedException();
         }
@@ -17,7 +24,7 @@
             throw new System.NotImplementedException();
         }
 
-        public override void Interact()
+        public override void Interact(GameObject caller)
         {
             throw new System.NotImplementedException();
         }

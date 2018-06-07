@@ -1,4 +1,6 @@
-﻿namespace RuthlessMerchant
+﻿using UnityEngine;
+
+namespace RuthlessMerchant
 {
     public class Item : InteractiveWorldObject
     {
@@ -6,7 +8,7 @@
         private ItemType type;
         private ItemValue[] itemValue;
         private int weight;
-        private int MaxStackCount;
+        private int maxStackCount;
 
         public ItemType Type
         {
@@ -32,7 +34,17 @@
             }
         }
 
-        public override void Interact()
+        public override void Start()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void Interact(GameObject caller)
         {
             throw new System.NotImplementedException();
         }
@@ -40,6 +52,14 @@
         public void Pickup()
         {
             throw new System.NotImplementedException();
+        }
+
+        public int MaxStackCount
+        {
+            get
+            {
+                return maxStackCount;
+            }
         }
     }
 }
