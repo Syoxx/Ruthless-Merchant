@@ -182,7 +182,7 @@ namespace RuthlessMerchant
                 GameObject InventoryItem = Instantiate(ItemUIPrefab) as GameObject;
                 InventoryItem.transform.SetParent(ItemsParent.transform, false);
                 InventoryDisplayedData itemInfos = InventoryItem.GetComponent<InventoryDisplayedData>();
-                itemInfos.itemName.text = inventory.inventorySlots[itemIndex].Item.name;
+                itemInfos.itemName.text = inventory.inventorySlots[itemIndex].Item.Name;
                 itemInfos.itemWeight.text = "" + inventory.inventorySlots[itemIndex].Item.ItemWeight;
                 // TODO: Item image, description, rarity, price
             }
@@ -259,9 +259,11 @@ namespace RuthlessMerchant
                     {
                         // Picking up items and gear
                         if (targetItem.Type == ItemType.Weapon || targetItem.Type == ItemType.Gear)
-                        {                                            
+                        {
+                            Item clonedItem = targetItem.DeepCopy();
+
                             // Returns 0 if item was added to inventory
-                            int UnsuccessfulPickup = inventory.Add(targetItem, 1);
+                            int UnsuccessfulPickup = inventory.Add(clonedItem, 1);
 
                             if (UnsuccessfulPickup != 0)
                             {

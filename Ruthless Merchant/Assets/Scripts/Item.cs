@@ -8,11 +8,17 @@ namespace RuthlessMerchant
         public ItemType type;
         private ItemValue[] itemValue;
         private int weight;
+        private string itemName = "defaultname";
         private int maxStackCount = 1;
 
         public int ItemWeight
         {
             get { return weight; }
+        }
+
+        public string Name
+        {
+            get { return itemName; }
         }
 
         public ItemType Type
@@ -64,6 +70,13 @@ namespace RuthlessMerchant
             {
                 return maxStackCount;
             }
+        }
+
+        // Creates deep copy of current item
+        internal Item DeepCopy()
+        {
+            Item otherItem = (Item) this.MemberwiseClone();
+            return otherItem;
         }
     }
 }
