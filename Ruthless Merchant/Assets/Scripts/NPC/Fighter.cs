@@ -5,7 +5,13 @@ namespace RuthlessMerchant
 {
     public abstract class Fighter : NPC
     {
-        private int huntDistance;
+        [SerializeField]
+        [Range(0, 1000)]
+        protected int huntDistance = 10;
+
+        [SerializeField]
+        [Range(1, 1000)]
+        protected int attackDistance = 2;
 
         [SerializeField]
         private bool patrolActive;
@@ -17,10 +23,34 @@ namespace RuthlessMerchant
             get { return patrolActive; }
         }
 
+        public int HuntDistance
+        {
+            get
+            {
+                return huntDistance;
+            }
+        }
+
+        public int AttackDistance
+        {
+            get
+            {
+                return attackDistance;
+            }
+        }
+
+        /*
+        Keep distance to enemey (check directions) => DONE?
+        follow victim => DONE?
+        keep victim in view => DONE?
+        Fix Raycast
+        */
+
         public override void Start()
         {
             base.Start();
-
+            HealthSystem.OnHealthChanged += HealthSystem_OnHealthChanged;
+            
             if (patrolActive)
             {
                 patrolActive = false;
@@ -34,21 +64,23 @@ namespace RuthlessMerchant
         public override void Update()
         {
             base.Update();
+            if (CurrentAction == null || !Reacting)
+            {
+                ChangeSpeed(SpeedType.Walk);
+                Patrol();
+            }
+            else
+            {
+                AbortPatrol();
+            }
         }
 
-        public void SearchTarget()
+        private void HealthSystem_OnHealthChanged(object sender, DamageAbleObject.HealthArgs e)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public void Hunt()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void TryAttack()
-        {
-            throw new System.NotImplementedException();
+            if (e.ChangedValue < 0 && e.Sender != null)
+            {
+                AddNewWaypoint(new Waypoint(e.Sender.transform, true, 0));
+            }
         }
 
         public void Patrol()
@@ -71,7 +103,11 @@ namespace RuthlessMerchant
                         waypoints.Add(PatrolPoints[i]);
                     }
 
-                    waypointIndex = nearestIndex;
+                    ChangeSpeed(SpeedType.Walk);
+                    ActionMove moveAction = new ActionMove();
+                    moveAction.StartAction(this, null);
+                    moveAction.WaypointIndex = nearestIndex;
+                    CurrentAction = moveAction;
                 }
             }
         }
@@ -86,13 +122,55 @@ namespace RuthlessMerchant
                     waypoints.Remove(PatrolPoints[i]);
                 }
 
-                waypointIndex = 0;
+                if(CurrentAction != null && CurrentAction is ActionMove)
+                    ((ActionMove)CurrentAction).WaypointIndex = 0;
+
+                if (CurrentAction == null)
+                {
+                    ActionIdle idle = new ActionIdle();
+                    idle.StartAction(this, null);
+                    CurrentAction = idle;
+                }
             }
         }
 
-        public override void Flee()
+        public override void React(Character character, bool isThreat)
         {
-            throw new System.NotImplementedException();
+            if (isThreat)
+            {
+                if (((float)HealthSystem.Health / character.HealthSystem.Health) > 0.15f)
+                {
+                    float distance = Vector3.Distance(transform.position, character.transform.position);
+                    if (distance <= attackDistance)
+                    {
+                        ActionAttack attack = new ActionAttack();
+                        attack.StartAction(this, character.gameObject);
+                        CurrentAction = attack;
+                    }
+                    else
+                    {
+                        ActionHunt hunt = new ActionHunt();
+                        hunt.StartAction(this, character.gameObject);
+                        CurrentAction = hunt;
+                    }
+                }
+                else
+                {
+                    ActionFlee flee = new ActionFlee();
+                    flee.StartAction(this, character.gameObject);
+                    CurrentAction = flee;
+                }
+            }
+            else
+            {
+                //TODO: whatever...
+            }
+        }
+
+        public override void React(Item item)
+        {
+            //TODO: Pickup item
+            Reacting = true;
         }
     }
 }
