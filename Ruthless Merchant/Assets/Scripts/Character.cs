@@ -146,7 +146,6 @@ namespace RuthlessMerchant
 
         public void FixedUpdate()
         {
-            Debug.Log(elapsedSecs);
             if(elapsedSecs >= 0)
               elapsedSecs -= Time.deltaTime;
         }
