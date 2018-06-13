@@ -6,6 +6,8 @@ namespace RuthlessMerchant
 {
     public class Player : Character
     {
+        public static Player Singleton;
+
         #region Private Fields
         private UISystem uiSystem;
         private QuestManager questManager;
@@ -40,14 +42,15 @@ namespace RuthlessMerchant
         [SerializeField]
         private LayerMask layermask;
 
-        #region MonoBehaviour Life Cycle
-
-        private void Awake()
-        {
         [SerializeField]
         private Transform teleportTarget;
 
         private bool hasJumped;
+
+        #region MonoBehaviour Life Cycle
+
+        private void Awake()
+        {
             Singleton = this;
         }
 
