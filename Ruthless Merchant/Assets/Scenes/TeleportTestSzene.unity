@@ -232,11 +232,16 @@ MonoBehaviour:
   walkSpeed: 2
   runSpeed: 4
   jumpSpeed: 6
+  ItemsParent: {fileID: 0}
+  ItemUIPrefab: {fileID: 0}
+  Teleport1: {fileID: 577969585}
+  Teleport2: {fileID: 773599668}
+  Teleport3: {fileID: 994072365}
+  Teleport4: {fileID: 1945918492}
   gravityScale: 1
   layermask:
     serializedVersion: 2
     m_Bits: 1
-  teleportTarget: {fileID: 1945918492}
 --- !u!54 &60629560
 Rigidbody:
   m_ObjectHideFlags: 0
