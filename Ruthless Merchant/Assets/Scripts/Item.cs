@@ -72,19 +72,11 @@ namespace RuthlessMerchant
 
         public override void Start()
         {
-<<<<<<< HEAD
-            //throw new System.NotImplementedException();
-=======
             itemName = this.name;
->>>>>>> 1b80879c31900804716bfbc5ecabe760b947ea67
         }
 
         public override void Update()
         {
-<<<<<<< HEAD
-            //throw new System.NotImplementedException();
-=======
->>>>>>> 1b80879c31900804716bfbc5ecabe760b947ea67
         }
 
         public override void Interact(GameObject caller)

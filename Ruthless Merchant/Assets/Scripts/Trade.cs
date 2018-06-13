@@ -7,6 +7,9 @@ namespace RuthlessMerchant
     {
         public static Trade Singleton;
 
+        // TODO: Delete this
+        public static string PreviousScene;
+
         public Trader Trader;
 
         public Item Item;
@@ -26,6 +29,10 @@ namespace RuthlessMerchant
             }
         }
 
+        float abortTimer = 0;
+        float abortTimerLimit = 2;
+        bool abort = false;
+
         [SerializeField]
         Text traderOffer;
 
@@ -44,6 +51,19 @@ namespace RuthlessMerchant
         void Awake()
         {
             Singleton = this;
+        }
+
+        void Update()
+        {
+            if (abort)
+            {
+                abortTimer += Time.deltaTime;
+
+                if(abortTimer > abortTimerLimit)
+                {
+                    UnityEngine.SceneManagement.SceneManager.LoadScene(PreviousScene);
+                }
+            }
         }
 
         public void UpdateUI(bool exits)
@@ -66,6 +86,7 @@ namespace RuthlessMerchant
         public void Abort()
         {
             bargainEventsText.text = "Dormammu tells you to fuck off and rides off with his galaxy-eating unicorn.";
+            abort = true;
         }
     }
 }
