@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465797, g: 0.49641353, b: 0.5748151, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -233,10 +233,10 @@ MonoBehaviour:
   realAndOfferedRatio: 0
   skepticismTotal: 0
   skepticismDelta: 0
-  skepticismDeltaModifier: 30
+  skepticismDeltaModifier: 0
   irritationTotal: 0
   irritationDelta: 0
-  irritationDeltaModifier: 20
+  irritationDeltaModifier: 0
 --- !u!4 &108451138
 Transform:
   m_ObjectHideFlags: 0
@@ -546,13 +546,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 624456878}
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalRotation: {x: 0.40089577, y: -0.28682563, z: 0.13374898, w: 0.8597238}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 50, y: -36.9, z: 0}
 --- !u!1 &846528669
 GameObject:
   m_ObjectHideFlags: 0
@@ -836,9 +836,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 0
   runSpeed: 0
-  ReputationImperialists: 0.2
-  ReputationFreethinkers: 0.1
+  ReputationImperialists: 0
+  ReputationFreethinkers: 0
   jumpSpeed: 0
+  ItemsParent: {fileID: 0}
+  ItemUIPrefab: {fileID: 0}
+  gravityScale: 1
+  layermask:
+    serializedVersion: 2
+    m_Bits: 0
+  teleportTarget: {fileID: 0}
 --- !u!4 &990211886
 Transform:
   m_ObjectHideFlags: 0
