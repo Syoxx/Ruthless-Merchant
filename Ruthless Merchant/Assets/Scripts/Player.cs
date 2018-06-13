@@ -32,7 +32,7 @@ namespace RuthlessMerchant
         private GameObject itemsContainer;
 
         [SerializeField]
-        private float jumpSpeed = 10;
+        private float jumpSpeed = 10.0f;
 
         [SerializeField]
         private GameObject ItemsParent;
@@ -41,7 +41,18 @@ namespace RuthlessMerchant
         private GameObject ItemUIPrefab;
         #endregion
 
+        
+        [SerializeField]
+        private float gravityScale = 1.0f;
+        [SerializeField]
+        private LayerMask layermask;
+
         #region MonoBehaviour Life Cycle
+        
+        [SerializeField]
+        private Transform teleportTarget;
+
+        private bool hasJumped;
 
         private void Awake()
         {
@@ -49,6 +60,8 @@ namespace RuthlessMerchant
         }
 
         #endregion
+
+
 
         public UISystem UISystem
         {
@@ -108,7 +121,21 @@ namespace RuthlessMerchant
             }
         }
 
-        public override void Update()
+        private void FixedUpdate()
+        {
+            if (hasJumped)
+            {
+                base.Jump(jumpSpeed);
+                hasJumped = false;
+            }
+            else
+                base.Grounding(layermask);
+            base.UseGravity(gravityScale);
+            base.FixedUpdate();
+
+
+        }
+        private void Update()
         {   
             // TODO: Uncomment this.
             //LookRotation();
@@ -224,15 +251,14 @@ namespace RuthlessMerchant
             {
                 isWalking = true;
             }
-
             if (Input.GetKeyDown(KeyCode.E))
             {
                 SendInteraction();
             }
-
             if (Input.GetKey(KeyCode.Space))
             {
-                base.Jump(jumpSpeed);
+                hasJumped = true;
+               // base.Jump(jumpSpeed);
             }
 
             if (Input.GetKeyDown(KeyCode.I))
@@ -261,6 +287,18 @@ namespace RuthlessMerchant
 
             MoveVector = new Vector3(InputVector.x, 0.0f, InputVector.y);
             base.Move(MoveVector, moveSpeed);
+        }
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.collider.CompareTag("Teleport"))
+            {
+                Teleport(teleportTarget.position + new Vector3 (0,1));
+            }
+        }
+        
+        private void Teleport(Vector3 targetPos)
+        {
+            transform.position = targetPos;
         }
 
         public void SendInteraction()
@@ -360,3 +398,6 @@ namespace RuthlessMerchant
         }
     }
 }
+       
+        
+     
