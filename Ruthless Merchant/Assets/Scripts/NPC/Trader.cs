@@ -1,5 +1,9 @@
+<<<<<<< HEAD:Ruthless Merchant/Assets/Scripts/Trader.cs
 ﻿using System;
 using UnityEngine;
+=======
+﻿using UnityEngine;
+>>>>>>> 1b80879c31900804716bfbc5ecabe760b947ea67:Ruthless Merchant/Assets/Scripts/NPC/Trader.cs
 
 namespace RuthlessMerchant
 {
@@ -183,6 +187,11 @@ namespace RuthlessMerchant
 
             if (irritationTotal > 100 || skepticismTotal > 100)
                 trade.Abort();
+        }
+
+        public override void Interact(GameObject caller)
+        {
+            Debug.Log(caller.name + ": Interaction with Trader");
         }
     }
 }

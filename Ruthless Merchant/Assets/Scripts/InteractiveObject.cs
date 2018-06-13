@@ -61,7 +61,7 @@ namespace RuthlessMerchant
 
         public void Destroy()
         {
-            throw new System.NotImplementedException();
+            Destroy(gameObject);
         }
 
         public abstract void Start();
