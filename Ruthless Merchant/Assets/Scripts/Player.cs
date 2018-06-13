@@ -240,6 +240,15 @@ namespace RuthlessMerchant
             float horizontal = Input.GetAxis("Horizontal");
             float vertical = Input.GetAxis("Vertical");
 
+            if (horizontal == 0 && vertical == 0)
+            {
+                gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+            }
+            else
+            {
+                gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+            }
+
             InputVector = new Vector2(horizontal, vertical);
 
             if (InputVector.sqrMagnitude > 1)
