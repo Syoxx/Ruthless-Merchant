@@ -48,13 +48,14 @@ namespace RuthlessMerchant
         private LayerMask layermask;
 
         #region MonoBehaviour Life Cycle
-
-        private void Awake()
-        {
+        
         [SerializeField]
         private Transform teleportTarget;
 
         private bool hasJumped;
+
+        private void Awake()
+        {
             Singleton = this;
         }
 
