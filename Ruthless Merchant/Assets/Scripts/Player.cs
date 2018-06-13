@@ -5,6 +5,13 @@ namespace RuthlessMerchant
 {
     public class Player : Character
     {
+        public static Player Singleton;
+
+        [Range(0,1)]
+        public float ReputationImperialists;
+        [Range(0, 1)]
+        public float ReputationFreethinkers;
+
         #region Private Fields
         private UISystem uiSystem;
         private QuestManager questManager;
@@ -22,6 +29,15 @@ namespace RuthlessMerchant
 
         [SerializeField]
         private float jumpSpeed = 10;
+        #endregion
+
+        #region MonoBehaviour Life Cycle
+
+        private void Awake()
+        {
+            Singleton = this;
+        }
+
         #endregion
 
         public UISystem UISystem
@@ -70,9 +86,10 @@ namespace RuthlessMerchant
         }
 
         public override void Update()
-        {
-            LookRotation();
-            HandleInput();
+        {   
+            // TODO: Uncomment this.
+            //LookRotation();
+            //HandleInput();
         }
 
         private void LookRotation()
@@ -217,6 +234,16 @@ namespace RuthlessMerchant
         public void Sneak()
         {
             throw new System.NotImplementedException();
+        }
+
+        public void MakeOffer(string ownOffer)
+        {
+            Trade trade = Trade.Singleton;
+
+            Trade.Singleton.bargainEventsText.text = "";
+            trade.currentPlayerOffer = int.Parse(ownOffer);
+
+            trade.Trader.HandlePlayerOffer();
         }
     }
 }
