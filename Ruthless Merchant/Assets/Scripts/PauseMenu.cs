@@ -1,11 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-
-namespace RuthlessMerchant
+﻿namespace RuthlessMerchant
 {
-    public class PauseMenu : MonoBehaviour
+    public class PauseMenu : UI
     {
         private GameSettings settings;
         public GameSettings Settings

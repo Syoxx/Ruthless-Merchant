@@ -14,6 +14,12 @@ namespace RuthlessMerchant
         private StaminaController staminaController;
         private float maxJumpHeight;
 
+        private static float globalGravityScale = -9.81f;
+        private float groundedSkin = 0.05f;
+        private bool grounded;
+        private Vector3 playerSize;
+        private Vector3 boxSize;
+
         private Rigidbody rb;
         private bool isPlayer;
 
@@ -25,12 +31,17 @@ namespace RuthlessMerchant
         [Range(0, 1000)]
         protected float runSpeed = 4;
 
+        private float elapsedSecs;
+
         public override void Start()
         {
             if (rb == null)
             {
                 rb = GetComponent<Rigidbody>();
+                rb.useGravity = false;
+                
             }
+
             if (CompareTag("Player"))
             {
                 isPlayer = true;
@@ -39,6 +50,9 @@ namespace RuthlessMerchant
             {
                 isPlayer = false;
             }
+
+            playerSize = GetComponent<BoxCollider>().size;
+            boxSize = new Vector3(playerSize.x, groundedSkin, playerSize.z);
         }
 
         public StaminaController StaminaController
@@ -122,7 +136,19 @@ namespace RuthlessMerchant
 
         public void Jump(float JumpVelocity)
         {
-            rb.velocity = Vector3.up * JumpVelocity;
+            if (grounded)
+            {
+                rb.AddForce(Vector3.up * JumpVelocity, ForceMode.Impulse);
+                grounded = false;
+                elapsedSecs = 1.5f;
+            }
+        }
+
+        public void FixedUpdate()
+        {
+            Debug.Log(elapsedSecs);
+            if(elapsedSecs >= 0)
+              elapsedSecs -= Time.deltaTime;
         }
 
         public void CalculateVelocity()
@@ -138,6 +164,24 @@ namespace RuthlessMerchant
         public void CalculateJumpHeight()
         {
             throw new System.NotImplementedException();
+        }
+
+        public void UseGravity(float gravityScale)
+        {
+            Vector3 gravity = globalGravityScale * gravityScale * Vector3.up;
+            rb.AddForce(gravity, ForceMode.Acceleration);
+        }
+
+        public void Grounding(LayerMask layer)
+        {
+            Vector3 boxCenter = (Vector3)transform.position + Vector3.down * (playerSize.y + boxSize.y) * 0.5f;
+            // grounded = (Physics.OverlapBox(boxCenter, boxSize, Quaternion.identity, layer) != null);
+            if (Physics.CheckBox(boxCenter, boxSize, Quaternion.identity, layer) && elapsedSecs <= 0)
+            {
+                grounded = true;
+            }
+            else
+                grounded = false;
         }
     }
 }
