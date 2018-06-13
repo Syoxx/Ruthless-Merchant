@@ -6,8 +6,8 @@ namespace RuthlessMerchant
     public class Inventory
     {
         private Item[] items;
-        private InventorySlot[] inventorySlots;
-        private int maxSlotCount;
+        public InventorySlot[] inventorySlots;
+        private int maxSlotCount = 10;
 
         public Inventory()
         {
@@ -58,6 +58,13 @@ namespace RuthlessMerchant
                             inventorySlots[i].Count = item.MaxStackCount;
                             inventorySlots[i].Item = item;
                         }
+                        else
+                        {
+                            inventorySlots[i].Count += count;
+                            inventorySlots[i].Item = item;
+                            count = 0;
+                        }
+                        return count;
                     }
                     else if (inventorySlots[i].Item == item && inventorySlots[i].Count < item.MaxStackCount)
                     {
