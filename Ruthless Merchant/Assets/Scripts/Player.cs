@@ -188,9 +188,9 @@ namespace RuthlessMerchant
                 itemInfos.itemRarity.text = inventory.inventorySlots[itemIndex].Item.Rarity.ToString();
                 itemInfos.itemPrice.text = inventory.inventorySlots[itemIndex].Item.Price + "G";
 
-                if (inventory.inventorySlots[itemIndex].Item.Image != null)
+                if (inventory.inventorySlots[itemIndex].Item.ItemSprite != null)
                 {
-                    itemInfos.ItemImage.sprite = inventory.inventorySlots[itemIndex].Item.Image.sprite;
+                    itemInfos.ItemImage.sprite = inventory.inventorySlots[itemIndex].Item.ItemSprite;
                 }
             }
         }

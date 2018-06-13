@@ -6,7 +6,7 @@ namespace RuthlessMerchant
     public class Item : InteractiveWorldObject
     {
         private int ownerId;
-        [SerializeField] private Image itemImage;
+        [SerializeField] private Sprite itemSprite;
         [SerializeField] private ItemType type;
         [SerializeField] private ItemRarity rarity;
         [SerializeField] private int price;
@@ -26,9 +26,9 @@ namespace RuthlessMerchant
             get { return price; }
         }
 
-        public Image Image
+        public Sprite ItemSprite
         {
-            get { return itemImage; }
+            get { return itemSprite; }
         }
 
         public string Name
