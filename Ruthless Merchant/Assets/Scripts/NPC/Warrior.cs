@@ -13,5 +13,10 @@ namespace RuthlessMerchant
         {
             Debug.Log(caller.name + ": Interaction with Warrior!");
         }
+
+        public override void Update()
+        {
+            base.Update();
+        }
     }
 }

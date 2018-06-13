@@ -4,6 +4,7 @@ namespace RuthlessMerchant
 {
     public abstract class Character : InteractiveObject
     {
+        private DamageAbleObject healthSystem;
         private Vector3 velocity;
         private int stamina;
         private int maxStamina;
@@ -17,6 +18,14 @@ namespace RuthlessMerchant
         private Rigidbody rb;
         private bool isPlayer;
 
+        private float attackDelay = 2f;
+        private float elapsedAttackTime = 2f;
+
+        public bool IsPlayer
+        {
+            get { return isPlayer; }
+        }
+
         [SerializeField]
         [Range(0, 1000)]
         protected float walkSpeed = 2;
@@ -25,19 +34,19 @@ namespace RuthlessMerchant
         [Range(0, 1000)]
         protected float runSpeed = 4;
 
-        public override void Start()
+        public float WalkSpeed
         {
-            if (rb == null)
+            get
             {
-                rb = GetComponent<Rigidbody>();
+                return walkSpeed;
             }
-            if (CompareTag("Player"))
+        }
+
+        public float RunSpeed
+        {
+            get
             {
-                isPlayer = true;
-            }
-            else
-            {
-                isPlayer = false;
+                return runSpeed;
             }
         }
 
@@ -77,9 +86,52 @@ namespace RuthlessMerchant
             }
         }
 
-        public void Attack()
+        public DamageAbleObject HealthSystem
         {
-            throw new System.NotImplementedException();
+            get
+            {
+                if (healthSystem == null)
+                {
+                    healthSystem = GetComponent<DamageAbleObject>();
+                    healthSystem.OnDeath += HealthSystem_OnDeath;
+                }
+
+                return healthSystem;
+            }
+        }
+
+        public override void Start()
+        {
+            if (rb == null)
+            {
+                rb = GetComponent<Rigidbody>();
+            }
+
+            if (CompareTag("Player"))
+            {
+                isPlayer = true;
+            }
+            else
+            {
+                isPlayer = false;
+            }
+
+            healthSystem = GetComponent<DamageAbleObject>();
+            healthSystem.OnDeath += HealthSystem_OnDeath;
+        }
+
+        private void HealthSystem_OnDeath(object sender, System.EventArgs e)
+        {
+            DestroyInteractivObject();
+        }
+
+        public void Attack(DamageAbleObject dmg)
+        {
+            if (elapsedAttackTime >= attackDelay)
+            {
+                elapsedAttackTime = 0f;
+                dmg.ChangeHealth(-13, this);
+            }
         }
 
         public void Move(Vector3 velocity, float speed)
@@ -97,7 +149,7 @@ namespace RuthlessMerchant
 
         public override void Update()
         {
-            
+            elapsedAttackTime += Time.deltaTime;
         }
 
         public void Consume()
