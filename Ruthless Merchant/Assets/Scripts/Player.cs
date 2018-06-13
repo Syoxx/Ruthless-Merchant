@@ -23,7 +23,6 @@ namespace RuthlessMerchant
         private Vector2 InputVector = Vector2.zero;
         private GameObject uiCanvas;
         private GameObject itemsContainer;
-        private bool hasJumped;
 
         [SerializeField]
         private float jumpSpeed = 10.0f;
@@ -33,22 +32,23 @@ namespace RuthlessMerchant
 
         [SerializeField]
         private GameObject ItemUIPrefab;
+        #endregion
 
-        [SerializeField]
-        private Transform teleportTarget;
-
+        
         [SerializeField]
         private float gravityScale = 1.0f;
-
         [SerializeField]
         private LayerMask layermask;
-        #endregion
 
         #region MonoBehaviour Life Cycle
 
         private void Awake()
         {
-            //TODO: Singleton = this;
+        [SerializeField]
+        private Transform teleportTarget;
+
+        private bool hasJumped;
+            Singleton = this;
         }
 
         #endregion
@@ -125,8 +125,8 @@ namespace RuthlessMerchant
             base.UseGravity(gravityScale);
             base.FixedUpdate();
 
-        }
 
+        }
         public override void Update()
         {
             LookRotation();
