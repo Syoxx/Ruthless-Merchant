@@ -1,24 +1,49 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 namespace RuthlessMerchant
 {
     public class Item : InteractiveWorldObject
     {
         private int ownerId;
-        public ItemType type;
-        private ItemValue[] itemValue;
-        private int weight;
-        private string itemName = "defaultname";
+        [SerializeField] private Image itemImage;
+        [SerializeField] private ItemType type;
+        [SerializeField] private ItemRarity rarity;
+        [SerializeField] private int price;
+        [SerializeField] private float weight;
+        [SerializeField] private string itemLore = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+        private string itemName = "object name";
         private int maxStackCount = 1;
+        private ItemValue[] itemValue;
 
-        public int ItemWeight
+        public float ItemWeight
         {
             get { return weight; }
+        }
+
+        public int Price
+        {
+            get { return price; }
+        }
+
+        public Image Image
+        {
+            get { return itemImage; }
         }
 
         public string Name
         {
             get { return itemName; }
+        }
+
+        public string Description
+        {
+            get { return itemLore; }
+        }
+
+        public ItemRarity Rarity
+        {
+            get { return rarity; }
         }
 
         public ItemType Type
@@ -47,7 +72,7 @@ namespace RuthlessMerchant
 
         public override void Start()
         {
-
+            itemName = this.name;
         }
 
         public override void Update()

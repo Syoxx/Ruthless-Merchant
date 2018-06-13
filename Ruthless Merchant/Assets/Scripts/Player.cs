@@ -183,8 +183,15 @@ namespace RuthlessMerchant
                 InventoryItem.transform.SetParent(ItemsParent.transform, false);
                 InventoryDisplayedData itemInfos = InventoryItem.GetComponent<InventoryDisplayedData>();
                 itemInfos.itemName.text = inventory.inventorySlots[itemIndex].Item.Name;
-                itemInfos.itemWeight.text = "" + inventory.inventorySlots[itemIndex].Item.ItemWeight;
-                // TODO: Item image, description, rarity, price
+                itemInfos.itemWeight.text = inventory.inventorySlots[itemIndex].Item.ItemWeight + " kg";
+                itemInfos.itemDescription.text = inventory.inventorySlots[itemIndex].Item.Description;
+                itemInfos.itemRarity.text = inventory.inventorySlots[itemIndex].Item.Rarity.ToString();
+                itemInfos.itemPrice.text = inventory.inventorySlots[itemIndex].Item.Price + "G";
+
+                if (inventory.inventorySlots[itemIndex].Item.Image != null)
+                {
+                    itemInfos.ItemImage.sprite = inventory.inventorySlots[itemIndex].Item.Image.sprite;
+                }
             }
         }
 
@@ -258,7 +265,7 @@ namespace RuthlessMerchant
                     if (targetItem != null)
                     {
                         // Picking up items and gear
-                        if (targetItem.Type == ItemType.Weapon || targetItem.Type == ItemType.Gear)
+                        if (targetItem.Type == ItemType.Weapon || targetItem.Type == ItemType.Gear || targetItem.Type == ItemType.ConsumAble)
                         {
                             Item clonedItem = targetItem.DeepCopy();
 
