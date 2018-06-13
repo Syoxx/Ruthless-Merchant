@@ -25,7 +25,7 @@ namespace RuthlessMerchant
         private GameObject itemsContainer;
 
         [SerializeField]
-        private float jumpSpeed = 10;
+        private float jumpSpeed = 10.0f;
 
         [SerializeField]
         private GameObject ItemsParent;
@@ -33,6 +33,27 @@ namespace RuthlessMerchant
         [SerializeField]
         private GameObject ItemUIPrefab;
         #endregion
+
+        
+        [SerializeField]
+        private float gravityScale = 1.0f;
+        [SerializeField]
+        private LayerMask layermask;
+
+        #region MonoBehaviour Life Cycle
+
+        private void Awake()
+        {
+        [SerializeField]
+        private Transform teleportTarget;
+
+        private bool hasJumped;
+            Singleton = this;
+        }
+
+        #endregion
+
+
 
         public UISystem UISystem
         {
@@ -92,15 +113,31 @@ namespace RuthlessMerchant
             }
         }
 
+        private void FixedUpdate()
+        {
+            if (hasJumped)
+            {
+                base.Jump(jumpSpeed);
+                hasJumped = false;
+            }
+            else
+                base.Grounding(layermask);
+            base.UseGravity(gravityScale);
+            base.FixedUpdate();
+
+
+        }
         public override void Update()
         {
             LookRotation();
             HandleInput();
         }
 
+        /// <summary>
+        /// Rotates view using mouse movement.
+        /// </summary>
         private void LookRotation()
         {
-            // TODO: Set sensitivity values in menus
             float yRot = Input.GetAxis("Mouse X") * mouseXSensitivity;
             float xRot = Input.GetAxis("Mouse Y") * mouseYSensitivity;
 
@@ -200,6 +237,9 @@ namespace RuthlessMerchant
             throw new System.NotImplementedException();
         }
 
+        /// <summary>
+        /// Checks for input to control the player character.
+        /// </summary>
         public void HandleInput()
         {
             bool isWalking = false;
@@ -207,15 +247,14 @@ namespace RuthlessMerchant
             {
                 isWalking = true;
             }
-
             if (Input.GetKeyDown(KeyCode.E))
             {
                 SendInteraction();
             }
-
             if (Input.GetKey(KeyCode.Space))
             {
-                base.Jump(jumpSpeed);
+                hasJumped = true;
+               // base.Jump(jumpSpeed);
             }
 
             if (Input.GetKeyDown(KeyCode.I))
@@ -235,6 +274,15 @@ namespace RuthlessMerchant
             float horizontal = Input.GetAxis("Horizontal");
             float vertical = Input.GetAxis("Vertical");
 
+            if (horizontal == 0 && vertical == 0)
+            {
+                gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+            }
+            else
+            {
+                gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+            }
+
             InputVector = new Vector2(horizontal, vertical);
 
             if (InputVector.sqrMagnitude > 1)
@@ -244,6 +292,18 @@ namespace RuthlessMerchant
 
             MoveVector = new Vector3(InputVector.x, 0.0f, InputVector.y);
             base.Move(MoveVector, moveSpeed);
+        }
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.collider.CompareTag("Teleport"))
+            {
+                Teleport(teleportTarget.position + new Vector3 (0,1));
+            }
+        }
+        
+        private void Teleport(Vector3 targetPos)
+        {
+            transform.position = targetPos;
         }
 
         public void SendInteraction()
@@ -301,17 +361,6 @@ namespace RuthlessMerchant
             throw new NotImplementedException();
         }
 
-        public void Run()
-        {
-            // GD can alter player speed in inspector
-            throw new System.NotImplementedException();
-        }
-
-        public void Walk()
-        {
-            throw new System.NotImplementedException();
-        }
-
         public void Crouch()
         {
             throw new System.NotImplementedException();
@@ -333,3 +382,6 @@ namespace RuthlessMerchant
         }
     }
 }
+       
+        
+     
