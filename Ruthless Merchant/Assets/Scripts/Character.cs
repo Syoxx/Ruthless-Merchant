@@ -31,6 +31,8 @@ namespace RuthlessMerchant
         [Range(0, 1000)]
         protected float runSpeed = 4;
 
+        private float elapsedSecs;
+
         public override void Start()
         {
             if (rb == null)
@@ -138,12 +140,15 @@ namespace RuthlessMerchant
             {
                 rb.AddForce(Vector3.up * JumpVelocity, ForceMode.Impulse);
                 grounded = false;
+                elapsedSecs = 1.5f;
             }
         }
 
         public void FixedUpdate()
         {
-
+            Debug.Log(elapsedSecs);
+            if(elapsedSecs >= 0)
+              elapsedSecs -= Time.deltaTime;
         }
 
         public void CalculateVelocity()
@@ -169,9 +174,14 @@ namespace RuthlessMerchant
 
         public void Grounding(LayerMask layer)
         {
-            Vector3 boxCenter = (Vector3)transform.position + Vector3.down * (playerSize.y + boxSize.y) * 0.5f; 
-           // grounded = (Physics.OverlapBox(boxCenter, boxSize, Quaternion.identity, layer) != null);
-            grounded = Physics.CheckBox(boxCenter, boxSize, Quaternion.identity, layer);
+            Vector3 boxCenter = (Vector3)transform.position + Vector3.down * (playerSize.y + boxSize.y) * 0.5f;
+            // grounded = (Physics.OverlapBox(boxCenter, boxSize, Quaternion.identity, layer) != null);
+            if (Physics.CheckBox(boxCenter, boxSize, Quaternion.identity, layer) && elapsedSecs <= 0)
+            {
+                grounded = true;
+            }
+            else
+                grounded = false;
         }
     }
 }

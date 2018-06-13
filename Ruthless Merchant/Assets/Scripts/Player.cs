@@ -93,7 +93,7 @@ namespace RuthlessMerchant
             else
                 base.Grounding(layermask);
             base.UseGravity(gravityScale);
-
+            base.FixedUpdate();
 
 
         }
