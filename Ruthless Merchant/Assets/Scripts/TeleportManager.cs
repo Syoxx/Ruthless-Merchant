@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public class TeleportEnum : MonoBehaviour {
+public class TeleportManager : MonoBehaviour {
 
     //Destinations for Unity Inspector when 
     public enum Destination
     {
-        PointA, PointB, PointC,PointD, PointE
+        PointA, PointB, PointC, PointD, PointE
     }
 
     [SerializeField]
-    TeleportEnum myEnum;
+    TeleportManager myEnum;
 
 
     public Destination TeleportDestination;
@@ -36,7 +35,7 @@ public class TeleportEnum : MonoBehaviour {
             case Destination.PointE:
                 Debug.Log(TeleportDestination);
                 break;
-                
+
         }
     }
 }
