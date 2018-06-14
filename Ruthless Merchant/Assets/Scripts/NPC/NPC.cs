@@ -326,7 +326,6 @@ namespace RuthlessMerchant
         {
             Vector3 direction = gameObject.transform.position - transform.position;
             direction.Normalize();
-            Debug.DrawRay(transform.position, direction, Color.red);
 
             RaycastHit hitInfo;
             bool hit = Physics.Raycast(transform.position, direction, out hitInfo, viewDistance);
