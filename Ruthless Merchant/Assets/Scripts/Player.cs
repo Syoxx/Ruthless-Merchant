@@ -90,13 +90,14 @@ namespace RuthlessMerchant
 
             itemsContainer = ItemsParent.transform.parent.gameObject;
             uiCanvas = itemsContainer.transform.parent.gameObject;
-            
+
             // Ensure hidden inventory
-            if (uiCanvas.activeInHierarchy == true)
+
+            /*if (uiCanvas.activeInHierarchy == true)
             {
                 ShowInventory(false);
             }
-
+            */
             maxInteractDistance = 3;
 
             this.inventory = new Inventory();
@@ -183,8 +184,9 @@ namespace RuthlessMerchant
             }
         }
 
-        public void ShowInventory(bool makeVisible)
-        {
+        public void ShowInventory()
+        {   //Pre-Refactored Code. Daniel/Richard
+            /* 
             if (makeVisible)
             {
                 PopulateInventoryPanel();
@@ -195,6 +197,21 @@ namespace RuthlessMerchant
             {
                 uiCanvas.SetActive(false);
                 showingInventory = false;
+            }
+            */
+
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                if (!uiCanvas.activeSelf)
+                {                   
+                    uiCanvas.SetActive(true);
+                    PopulateInventoryPanel();
+                }
+                else
+                {
+                    uiCanvas.SetActive(false);
+                }
+
             }
 
         }
@@ -265,7 +282,9 @@ namespace RuthlessMerchant
                 hasJumped = true;
                // base.Jump(jumpSpeed);
             }
-
+            
+            //Pre-Refactored Code Daniel/Richard
+            /*
             if (Input.GetKeyDown(KeyCode.I))
             {
                 if (!showingInventory)
@@ -277,7 +296,7 @@ namespace RuthlessMerchant
                     ShowInventory(false);
                 }
             }
-
+            */
             moveSpeed = isWalking ? walkSpeed : runSpeed;
             
             float horizontal = Input.GetAxis("Horizontal");
@@ -302,6 +321,7 @@ namespace RuthlessMerchant
             MoveVector = new Vector3(InputVector.x, 0.0f, InputVector.y);
             base.Move(MoveVector, moveSpeed);
 
+            ShowInventory();
             ShowMap();
         }
         private void OnCollisionEnter(Collision collision)
