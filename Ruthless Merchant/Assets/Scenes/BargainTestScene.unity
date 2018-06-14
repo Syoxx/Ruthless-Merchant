@@ -226,17 +226,27 @@ MonoBehaviour:
   influenceIndividual: 0
   influenceWar: 0
   influenceNeighbours: 0
-  wished: 0
+  upperLimitPerCent: 1.25
+  underLimitPerCent: 0.35
+  upperLimitBargainPerCent: 1.5
+  wished: []
   upperLimitReal: 0
   upperLimitBargain: 0
   underLimitReal: 0
-  realAndOfferedRatio: 0
-  skepticismTotal: 0
+  realAndOfferedRatio: []
+  wishedAndOfferedRatio: []
+  SkepticismTotal: 0
+  SkepticismLimit: 100
+  skepticismStart: 0
+  skepticismStartLimit: 80
   skepticismDelta: 0
-  skepticismDeltaModifier: 30
-  irritationTotal: 0
+  skepticismDeltaModifier: 20
+  IrritationTotal: 0
+  IrritationLimit: 100
+  irritationStart: 0
+  irritationStartLimit: 75
   irritationDelta: 0
-  irritationDeltaModifier: 20
+  irritationDeltaModifier: 25
 --- !u!4 &108451138
 Transform:
   m_ObjectHideFlags: 0
@@ -248,7 +258,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &202644924
 GameObject:
@@ -836,9 +846,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 0
   runSpeed: 0
-  ReputationImperialists: 0.2
-  ReputationFreethinkers: 0.1
+  ReputationImperialists: 0
+  ReputationFreethinkers: 0
   jumpSpeed: 0
+  ItemsParent: {fileID: 0}
+  ItemUIPrefab: {fileID: 0}
 --- !u!4 &990211886
 Transform:
   m_ObjectHideFlags: 0
@@ -850,7 +862,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1003387245
 GameObject:
@@ -1439,7 +1451,7 @@ RectTransform:
   - {fileID: 879164796}
   - {fileID: 65943207}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1808,6 +1820,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1841862056}
   - component: {fileID: 1841862055}
+  - component: {fileID: 1841862057}
   m_Layer: 0
   m_Name: Trade
   m_TagString: Untagged
@@ -1828,7 +1841,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Trader: {fileID: 108451137}
   Item: {fileID: 0}
-  currentPlayerOffer: 0
+  PlayerOffers: []
+  TraderOffers: []
   traderOffer: {fileID: 1276045138}
   playerOfferInputField: {fileID: 983547248}
   bargainEventsText: {fileID: 65943208}
@@ -1847,47 +1861,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1926409793
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1926409795}
-  - component: {fileID: 1926409794}
-  m_Layer: 0
-  m_Name: ItemSetter
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1926409794
+--- !u!114 &1841862057
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1926409793}
+  m_GameObject: {fileID: 1841862054}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e30f10cb18eea1c47a6985b94a134612, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   value: 50
---- !u!4 &1926409795
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1926409793}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2035628446
 GameObject:
   m_ObjectHideFlags: 0

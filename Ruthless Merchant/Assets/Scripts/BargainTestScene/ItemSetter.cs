@@ -6,10 +6,17 @@ namespace RuthlessMerchant
 {
     public class ItemSetter : MonoBehaviour
     {
+        public static  ItemSetter Singleton;
+
         [SerializeField]
         int value;
 
-        void Start()
+        void Awake()
+        {
+            Singleton = this;
+        }
+
+        public void SetTrade()
         {
             Trade trade = Trade.Singleton;
 

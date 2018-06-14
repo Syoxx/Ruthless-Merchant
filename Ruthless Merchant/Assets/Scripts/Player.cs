@@ -349,14 +349,22 @@ namespace RuthlessMerchant
             throw new System.NotImplementedException();
         }
 
-        public void MakeOffer(string ownOffer)
+        public void MakeOffer(string playerOffer)
         {
             Trade trade = Trade.Singleton;
+            trade.AugmentTotalPlayerOffers();
 
-            Trade.Singleton.bargainEventsText.text = "";
-            trade.currentPlayerOffer = int.Parse(ownOffer);
+            int playerOfferParsed = int.Parse(playerOffer);
 
-            trade.Trader.HandlePlayerOffer();
+            if(playerOfferParsed < 1)
+            {
+                playerOfferParsed = 1;
+            }
+
+            trade.PlayerOffers.Add(playerOfferParsed);
+            trade.bargainEventsText.text = "";
+
+            trade.UpdateTrading();
         }
     }
 }

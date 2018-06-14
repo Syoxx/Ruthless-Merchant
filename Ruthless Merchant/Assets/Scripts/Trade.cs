@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace RuthlessMerchant
@@ -7,6 +8,8 @@ namespace RuthlessMerchant
     {
         public static Trade Singleton;
 
+        public float TotalPlayerOffers { get; private set; }
+
         // TODO: Delete this
         public static string PreviousScene;
 
@@ -14,24 +17,12 @@ namespace RuthlessMerchant
 
         public Item Item;
 
-        public float currentPlayerOffer;
+        public List<float> PlayerOffers;
+        public List<float> TraderOffers;
 
-        float currentTraderOffer;
-        public float CurrentTraderOffer
-        {
-            get
-            {
-                return currentTraderOffer;
-            }
-            set
-            {
-                currentTraderOffer = (int)value;
-            }
-        }
-
-        float abortTimer = 0;
-        float abortTimerLimit = 2;
-        bool abort = false;
+        float exitTimer = 0;
+        float exitTimerLimit = 2;
+        bool exit = false;
 
         [SerializeField]
         Text traderOffer;
@@ -48,45 +39,83 @@ namespace RuthlessMerchant
         [SerializeField]
         Slider sliderSkepticism;
 
-        void Awake()
+        #region MonoBehaviour Life Cycle
+
+        public Trade(Trader trader)
         {
             Singleton = this;
+            Trader = trader;
+        }
+
+        void Awake()
+        {
+            // TODO: Delete this
+            Singleton = this;
+        }
+
+        void Start()
+        {
+            // TODO: Delete this
+            ItemSetter.Singleton.SetTrade();
+
+            Trader.SetInitialVariables();
+
+            TotalPlayerOffers = 0;
+            
+            if(Trader.SkepticismTotal >= Trader.SkepticismLimit || Trader.IrritationTotal >= Trader.IrritationLimit)
+            {
+                Abort();
+            }
         }
 
         void Update()
         {
-            if (abort)
+            if (exit)
             {
-                abortTimer += Time.deltaTime;
+                exitTimer += Time.deltaTime;
 
-                if(abortTimer > abortTimerLimit)
+                if(exitTimer > exitTimerLimit)
                 {
                     UnityEngine.SceneManagement.SceneManager.LoadScene(PreviousScene);
                 }
             }
         }
 
-        public void UpdateUI(bool exits)
-        {
-            sliderIrritation.value = Trader.irritationTotal;
-            sliderSkepticism.value = Trader.skepticismTotal;
+        #endregion
 
-            if (!exits)
-            {
-                playerOfferInputField.text = currentPlayerOffer.ToString();
-                traderOffer.text = currentTraderOffer.ToString();
-            }
+        public void UpdateTrading()
+        {
+            Trader.HandlePlayerOffer();
+
+            UpdateUI();
+        }
+
+        public void UpdateUI()
+        {
+            sliderIrritation.value = Trader.IrritationTotal;
+            sliderSkepticism.value = Trader.SkepticismTotal;
+
+            playerOfferInputField.text = PlayerOffers[PlayerOffers.Count - 1].ToString();
+            traderOffer.text = TraderOffers[TraderOffers.Count - 1].ToString();
+        }
+
+        public void AugmentTotalPlayerOffers()
+        {
+            TotalPlayerOffers++;
         }
 
         public void Accept()
         {
-            bargainEventsText.text = "Dormammu accepts your offer.";
+            playerOfferInputField.interactable = false;
+            bargainEventsText.text = "You and Dormammu have a blood-sealing pact. He wishes you a good day and rides off into the sunset.";
+            exit = true;
         }
 
         public void Abort()
         {
+            playerOfferInputField.interactable = false;
             bargainEventsText.text = "Dormammu tells you to fuck off and rides off with his galaxy-eating unicorn.";
-            abort = true;
+            exit = true;
         }
     }
 }
