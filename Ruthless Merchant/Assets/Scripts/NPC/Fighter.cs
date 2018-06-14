@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿//---------------------------------------------------------------
+// Author: Marcel Croonenbroeck
+//
+//---------------------------------------------------------------
+
 using UnityEngine;
 
 namespace RuthlessMerchant
@@ -6,12 +10,12 @@ namespace RuthlessMerchant
     public abstract class Fighter : NPC
     {
         [SerializeField]
-        [Range(0, 1000)]
-        protected int huntDistance = 10;
+        [Range(0, 100)]
+        protected float huntDistance = 5;
 
         [SerializeField]
-        [Range(1, 1000)]
-        protected int attackDistance = 2;
+        [Range(1, 100)]
+        protected float attackDistance = 1.5f;
 
         [SerializeField]
         private bool patrolActive;
@@ -23,7 +27,7 @@ namespace RuthlessMerchant
             get { return patrolActive; }
         }
 
-        public int HuntDistance
+        public float HuntDistance
         {
             get
             {
@@ -31,20 +35,13 @@ namespace RuthlessMerchant
             }
         }
 
-        public int AttackDistance
+        public float AttackDistance
         {
             get
             {
                 return attackDistance;
             }
         }
-
-        /*
-        Keep distance to enemey (check directions) => DONE?
-        follow victim => DONE?
-        keep victim in view => DONE?
-        Fix Raycast
-        */
 
         public override void Start()
         {
@@ -105,9 +102,8 @@ namespace RuthlessMerchant
 
                     ChangeSpeed(SpeedType.Walk);
                     ActionMove moveAction = new ActionMove();
-                    moveAction.StartAction(this, null);
+                    SetCurrentAction(moveAction, null);
                     moveAction.WaypointIndex = nearestIndex;
-                    CurrentAction = moveAction;
                 }
             }
         }
@@ -126,11 +122,7 @@ namespace RuthlessMerchant
                     ((ActionMove)CurrentAction).WaypointIndex = 0;
 
                 if (CurrentAction == null)
-                {
-                    ActionIdle idle = new ActionIdle();
-                    idle.StartAction(this, null);
-                    CurrentAction = idle;
-                }
+                    SetCurrentAction(new ActionIdle(), null);
             }
         }
 
@@ -143,22 +135,19 @@ namespace RuthlessMerchant
                     float distance = Vector3.Distance(transform.position, character.transform.position);
                     if (distance <= attackDistance)
                     {
-                        ActionAttack attack = new ActionAttack();
-                        attack.StartAction(this, character.gameObject);
-                        CurrentAction = attack;
+                        if (CurrentAction == null || !(CurrentAction is ActionAttack))
+                            SetCurrentAction(new ActionAttack(), character.gameObject);
                     }
                     else
                     {
-                        ActionHunt hunt = new ActionHunt();
-                        hunt.StartAction(this, character.gameObject);
-                        CurrentAction = hunt;
+                        if (CurrentAction == null || !(CurrentAction is ActionHunt))
+                            SetCurrentAction(new ActionHunt(), character.gameObject);
                     }
                 }
                 else
                 {
-                    ActionFlee flee = new ActionFlee();
-                    flee.StartAction(this, character.gameObject);
-                    CurrentAction = flee;
+                    if (CurrentAction == null || !(CurrentAction is ActionFlee))
+                        SetCurrentAction(new ActionFlee(), character.gameObject);
                 }
             }
             else
