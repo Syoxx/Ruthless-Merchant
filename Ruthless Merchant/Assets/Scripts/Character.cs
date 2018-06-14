@@ -15,6 +15,13 @@ namespace RuthlessMerchant
         private StaminaController staminaController;
         private float maxJumpHeight;
 
+        private static float globalGravityScale = -9.81f;
+        private float groundedSkin = 0.05f;
+        private bool grounded;
+        //private Vector3 playerSize;
+        private float playerRadius;
+        private Vector3 boxSize;
+
         private Rigidbody rb;
         private bool isPlayer;
 
@@ -105,6 +112,7 @@ namespace RuthlessMerchant
             if (rb == null)
             {
                 rb = GetComponent<Rigidbody>();
+                rb.useGravity = false;
             }
 
             if (CompareTag("Player"))
@@ -174,7 +182,18 @@ namespace RuthlessMerchant
 
         public void Jump(float JumpVelocity)
         {
-            rb.velocity = Vector3.up * JumpVelocity;
+            if (grounded)
+            {
+                rb.AddForce(Vector3.up * JumpVelocity, ForceMode.Impulse);
+                grounded = false;
+                elapsedSecs = 1.5f;
+            }
+        }
+
+        public void FixedUpdate()
+        {
+            if(elapsedSecs >= 0)
+              elapsedSecs -= Time.deltaTime;
         }
 
         public void CalculateVelocity()
@@ -190,6 +209,22 @@ namespace RuthlessMerchant
         public void CalculateJumpHeight()
         {
             throw new System.NotImplementedException();
+        }
+
+        public void UseGravity(float gravityScale)
+        {
+            Vector3 gravity = globalGravityScale * gravityScale * Vector3.up;
+            rb.AddForce(gravity, ForceMode.Acceleration);
+        }
+
+        public void Grounding(LayerMask layer)
+        {
+            if(Physics.CheckCapsule(GetComponent<Collider>().bounds.center, new Vector3(GetComponent<Collider>().bounds.center.x, GetComponent<Collider>().bounds.min.y - 0.1f, GetComponent<Collider>().bounds.center.z), 0.5f) && elapsedSecs <= 0)
+            {
+                grounded = true;
+            }
+            else
+                grounded = false;
         }
     }
 }
