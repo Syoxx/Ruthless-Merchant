@@ -95,36 +95,37 @@ namespace RuthlessMerchant
         {
             base.Start();
 
-            if(ItemsParent != null)
-            itemsContainer = ItemsParent.transform.parent.gameObject;
+            if (ItemsParent != null)
+                itemsContainer = ItemsParent.transform.parent.gameObject;
             if (itemsContainer != null)
             {
                 uiCanvas = itemsContainer.transform.parent.gameObject;
 
                 // Ensure hidden inventory
 
-            /*if (uiCanvas.activeInHierarchy == true)
+                /*if (uiCanvas.activeInHierarchy == true)
+                    {
+                        ShowInventory(false);
+                    }
+                */
+                maxInteractDistance = 3;
+
+                this.inventory = new Inventory();
+
+                playerLookAngle = transform.localRotation;
+
+                // try to get the first person camera
+                playerAttachedCamera = GetComponentInChildren<Camera>();
+
+                if (playerAttachedCamera != null)
                 {
-                    ShowInventory(false);
+                    cameraPitchAngle = playerAttachedCamera.transform.localRotation;
                 }
-            */
-            maxInteractDistance = 3;
-
-            this.inventory = new Inventory();
-
-            playerLookAngle = transform.localRotation;
-
-            // try to get the first person camera
-            playerAttachedCamera = GetComponentInChildren<Camera>();
-            
-            if (playerAttachedCamera != null)
-            {
-                cameraPitchAngle = playerAttachedCamera.transform.localRotation;
-            }
-            else
-            {
-                Debug.Log("Player object does not have a first person camera.");
-                isCursorLocked = false;
+                else
+                {
+                    Debug.Log("Player object does not have a first person camera.");
+                    isCursorLocked = false;
+                }
             }
         }
 
