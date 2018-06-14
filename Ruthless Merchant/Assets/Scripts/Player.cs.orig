@@ -8,11 +8,6 @@ namespace RuthlessMerchant
     {
         public static Player Singleton;
 
-        [Range(0,1)]
-        public float ReputationImperialists;
-        [Range(0, 1)]
-        public float ReputationFreethinkers;
-
         #region Private Fields
         private UISystem uiSystem;
         private QuestManager questManager;
@@ -41,20 +36,41 @@ namespace RuthlessMerchant
         private GameObject ItemUIPrefab;
         #endregion
 
+<<<<<<< HEAD
+        [SerializeField]
+        private Transform Teleport1;
+        [SerializeField]
+        private Transform Teleport2;
+        [SerializeField]
+        private Transform Teleport3;
+        [SerializeField]
+        private Transform Teleport4;
+
+        private Transform teleportTarget;
+
+=======
         
+>>>>>>> origin/Develop
         [SerializeField]
         private float gravityScale = 1.0f;
         [SerializeField]
         private LayerMask layermask;
 
-        #region MonoBehaviour Life Cycle
+<<<<<<< HEAD
 
-        private void Awake()
-        {
+
+        #endregion
+=======
         [SerializeField]
         private Transform teleportTarget;
 
         private bool hasJumped;
+>>>>>>> origin/Develop
+
+        #region MonoBehaviour Life Cycle
+
+        private void Awake()
+        {
             Singleton = this;
         }
 
@@ -90,14 +106,17 @@ namespace RuthlessMerchant
         {
             base.Start();
 
-
+            if(ItemsParent != null)
             itemsContainer = ItemsParent.transform.parent.gameObject;
-            uiCanvas = itemsContainer.transform.parent.gameObject;
-            
-            // Ensure hidden inventory
-            if (uiCanvas.activeInHierarchy == true)
+            if (itemsContainer != null)
             {
-                ShowInventory(false);
+                uiCanvas = itemsContainer.transform.parent.gameObject;
+
+                // Ensure hidden inventory
+                if (uiCanvas.activeInHierarchy == true)
+                {
+                    ShowInventory(false);
+                }
             }
 
             maxInteractDistance = 3;
@@ -134,16 +153,17 @@ namespace RuthlessMerchant
 
 
         }
-        private void Update()
-        {   
-            // TODO: Uncomment this.
-            //LookRotation();
-            //HandleInput();
+        public override void Update()
+        {
+            LookRotation();
+            HandleInput();
         }
 
+        /// <summary>
+        /// Rotates view using mouse movement.
+        /// </summary>
         private void LookRotation()
         {
-            // TODO: Set sensitivity values in menus
             float yRot = Input.GetAxis("Mouse X") * mouseXSensitivity;
             float xRot = Input.GetAxis("Mouse Y") * mouseYSensitivity;
 
@@ -243,6 +263,9 @@ namespace RuthlessMerchant
             throw new System.NotImplementedException();
         }
 
+        /// <summary>
+        /// Checks for input to control the player character.
+        /// </summary>
         public void HandleInput()
         {
             bool isWalking = false;
@@ -271,11 +294,44 @@ namespace RuthlessMerchant
                     ShowInventory(false);
                 }
             }
+            if (Input.GetKey(KeyCode.Alpha1))
+            {
+                teleportTarget = Teleport1;
+                Debug.Log("Teleport1 - Blue");
+            }
+            if (Input.GetKey(KeyCode.Alpha2))
+            {
+                teleportTarget = Teleport2;
+                Debug.Log("Teleport2 - Purple");
+            }
+            if (Input.GetKey(KeyCode.Alpha3))
+            {
+                teleportTarget = Teleport3;
+                Debug.Log("Teleport3 - Green");
+            }
+            if (Input.GetKey(KeyCode.Alpha4))
+            {
+                teleportTarget = Teleport4;
+                Debug.Log("Teleport4 - Yellow");
+            }
+            if(Input.GetKey(KeyCode.T) && teleportTarget != null)
+            {
+                Teleport(teleportTarget.position + new Vector3(0, 1));
+            }
 
             moveSpeed = isWalking ? walkSpeed : runSpeed;
             
             float horizontal = Input.GetAxis("Horizontal");
             float vertical = Input.GetAxis("Vertical");
+
+            if (horizontal == 0 && vertical == 0)
+            {
+                gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+            }
+            else
+            {
+                gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+            }
 
             InputVector = new Vector2(horizontal, vertical);
 
@@ -289,7 +345,7 @@ namespace RuthlessMerchant
         }
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.collider.CompareTag("Teleport"))
+            if (collision.collider.CompareTag("Teleport") && teleportTarget != null)
             {
                 Teleport(teleportTarget.position + new Vector3 (0,1));
             }
@@ -355,17 +411,6 @@ namespace RuthlessMerchant
             throw new NotImplementedException();
         }
 
-        public void Run()
-        {
-            // GD can alter player speed in inspector
-            throw new System.NotImplementedException();
-        }
-
-        public void Walk()
-        {
-            throw new System.NotImplementedException();
-        }
-
         public void Crouch()
         {
             throw new System.NotImplementedException();
@@ -384,16 +429,6 @@ namespace RuthlessMerchant
         public void Sneak()
         {
             throw new System.NotImplementedException();
-        }
-
-        public void MakeOffer(string ownOffer)
-        {
-            Trade trade = Trade.Singleton;
-
-            Trade.Singleton.bargainEventsText.text = "";
-            trade.currentPlayerOffer = int.Parse(ownOffer);
-
-            trade.Trader.HandlePlayerOffer();
         }
     }
 }
