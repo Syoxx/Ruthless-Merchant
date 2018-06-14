@@ -36,7 +36,8 @@ namespace RuthlessMerchant
         private GameObject ItemUIPrefab;
         #endregion
 
-        
+        [SerializeField] private GameObject mapObject;
+
         [SerializeField]
         private float gravityScale = 1.0f;
         [SerializeField]
@@ -134,6 +135,7 @@ namespace RuthlessMerchant
         {
             LookRotation();
             HandleInput();
+            
         }
 
         /// <summary>
@@ -194,6 +196,7 @@ namespace RuthlessMerchant
                 uiCanvas.SetActive(false);
                 showingInventory = false;
             }
+
         }
 
         private void PopulateInventoryPanel()
@@ -237,7 +240,10 @@ namespace RuthlessMerchant
 
         public void ShowMap()
         {
-            throw new System.NotImplementedException();
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                mapObject.SetActive(mapObject.activeSelf == false);
+            }
         }
 
         /// <summary>
@@ -295,6 +301,8 @@ namespace RuthlessMerchant
 
             MoveVector = new Vector3(InputVector.x, 0.0f, InputVector.y);
             base.Move(MoveVector, moveSpeed);
+
+            ShowMap();
         }
         private void OnCollisionEnter(Collision collision)
         {
