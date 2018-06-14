@@ -36,6 +36,9 @@ namespace RuthlessMerchant
         private GameObject ItemUIPrefab;
         #endregion
 
+        [SerializeField]
+        private GameObject mapObject;
+        [SerializeField]
         private Transform Teleport1;
         [SerializeField]
         private Transform Teleport2;
@@ -43,15 +46,15 @@ namespace RuthlessMerchant
         private Transform Teleport3;
         [SerializeField]
         private Transform Teleport4;
+        private Transform teleportTarget;
 
-        
         [SerializeField]
         private float gravityScale = 1.0f;
         [SerializeField]
         private LayerMask layermask;
 
-        [SerializeField]
-        private Transform teleportTarget;
+        
+ 
 
         private bool hasJumped;
         
@@ -94,57 +97,59 @@ namespace RuthlessMerchant
         {
             base.Start();
 
-            if(ItemsParent != null)
-            itemsContainer = ItemsParent.transform.parent.gameObject;
+            if (ItemsParent != null)
+                itemsContainer = ItemsParent.transform.parent.gameObject;
             if (itemsContainer != null)
             {
                 uiCanvas = itemsContainer.transform.parent.gameObject;
 
                 // Ensure hidden inventory
-                if (uiCanvas.activeInHierarchy == true)
+
+                /*if (uiCanvas.activeInHierarchy == true)
+                    {
+                        ShowInventory(false);
+                    }
+                */
+                maxInteractDistance = 3;
+
+                this.inventory = new Inventory();
+
+                playerLookAngle = transform.localRotation;
+
+                // try to get the first person camera
+                playerAttachedCamera = GetComponentInChildren<Camera>();
+
+                if (playerAttachedCamera != null)
                 {
-                    ShowInventory(false);
+                    cameraPitchAngle = playerAttachedCamera.transform.localRotation;
                 }
-            }
-
-            maxInteractDistance = 3;
-
-            this.inventory = new Inventory();
-
-            playerLookAngle = transform.localRotation;
-
-            // try to get the first person camera
-            playerAttachedCamera = GetComponentInChildren<Camera>();
-            
-            if (playerAttachedCamera != null)
-            {
-                cameraPitchAngle = playerAttachedCamera.transform.localRotation;
-            }
-            else
-            {
-                Debug.Log("Player object does not have a first person camera.");
-                isCursorLocked = false;
+                else
+                {
+                    Debug.Log("Player object does not have a first person camera.");
+                    isCursorLocked = false;
+                }
             }
         }
 
-        private void FixedUpdate()
+        protected override void FixedUpdate()
         {
             if (hasJumped)
             {
-                base.Jump(jumpSpeed);
+                Jump(jumpSpeed);
                 hasJumped = false;
             }
-            //else
-            //    base.Grounding(layermask);
-            base.UseGravity(gravityScale);
+            else
+                Grounding(layermask);
+
+            UseGravity(gravityScale);
+
             base.FixedUpdate();
-
-
         }
+
         public override void Update()
         {
             LookRotation();
-            HandleInput();
+            HandleInput();           
         }
 
         /// <summary>
@@ -192,8 +197,9 @@ namespace RuthlessMerchant
             }
         }
 
-        public void ShowInventory(bool makeVisible)
-        {
+        public void ShowInventory()
+        {   //Pre-Refactored Code. Daniel/Richard
+            /* 
             if (makeVisible)
             {
                 PopulateInventoryPanel();
@@ -205,6 +211,22 @@ namespace RuthlessMerchant
                 uiCanvas.SetActive(false);
                 showingInventory = false;
             }
+            */
+
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                if (!uiCanvas.activeSelf)
+                {                   
+                    uiCanvas.SetActive(true);
+                    PopulateInventoryPanel();
+                }
+                else
+                {
+                    uiCanvas.SetActive(false);
+                }
+
+            }
+
         }
 
         private void PopulateInventoryPanel()
@@ -248,7 +270,10 @@ namespace RuthlessMerchant
 
         public void ShowMap()
         {
-            throw new System.NotImplementedException();
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                mapObject.SetActive(mapObject.activeSelf == false);
+            }
         }
 
         /// <summary>
@@ -261,16 +286,15 @@ namespace RuthlessMerchant
             {
                 isWalking = true;
             }
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                SendInteraction();
-            }
+            
             if (Input.GetKey(KeyCode.Space))
             {
                 hasJumped = true;
                // base.Jump(jumpSpeed);
             }
-
+            
+            //Pre-Refactored Code Daniel/Richard
+            /*
             if (Input.GetKeyDown(KeyCode.I))
             {
                 if (!showingInventory)
@@ -282,6 +306,7 @@ namespace RuthlessMerchant
                     ShowInventory(false);
                 }
             }
+            */
             if (Input.GetKey(KeyCode.Alpha1))
             {
                 teleportTarget = Teleport1;
@@ -306,7 +331,6 @@ namespace RuthlessMerchant
             {
                 Teleport(teleportTarget.position + new Vector3(0, 1));
             }
-
             moveSpeed = isWalking ? walkSpeed : runSpeed;
             
             float horizontal = Input.GetAxis("Horizontal");
@@ -330,6 +354,10 @@ namespace RuthlessMerchant
 
             MoveVector = new Vector3(InputVector.x, 0.0f, InputVector.y);
             base.Move(MoveVector, moveSpeed);
+
+            SendInteraction();
+            ShowInventory();
+            ShowMap();
         }
         private void OnCollisionEnter(Collision collision)
         {
@@ -356,48 +384,51 @@ namespace RuthlessMerchant
 
         public void SendInteraction()
         {
-            if (playerAttachedCamera != null)
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                Ray clickRay = playerAttachedCamera.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-
-                if (Physics.Raycast(clickRay, out hit, maxInteractDistance))
+                if (playerAttachedCamera != null)
                 {
-                    Debug.Log(hit.collider.name + " " + hit.point + " clicked.");
+                    Ray clickRay = playerAttachedCamera.ScreenPointToRay(Input.mousePosition);
+                    RaycastHit hit;
 
-                    InteractiveObject target = hit.collider.gameObject.GetComponent<InteractiveObject>();
-
-                    // Treat interaction target like an item                    
-                    Item targetItem = target as Item;
-
-                    if (targetItem != null)
+                    if (Physics.Raycast(clickRay, out hit, maxInteractDistance))
                     {
-                        // Picking up items and gear
-                        if (targetItem.Type == ItemType.Weapon || targetItem.Type == ItemType.Gear || targetItem.Type == ItemType.ConsumAble)
+                        Debug.Log(hit.collider.name + " " + hit.point + " clicked.");
+
+                        InteractiveObject target = hit.collider.gameObject.GetComponent<InteractiveObject>();
+
+                        // Treat interaction target like an item                    
+                        Item targetItem = target as Item;
+
+                        if (targetItem != null)
                         {
-                            Item clonedItem = targetItem.DeepCopy();
-
-                            // Returns 0 if item was added to inventory
-                            int UnsuccessfulPickup = inventory.Add(clonedItem, 1);
-
-                            if (UnsuccessfulPickup != 0)
+                            // Picking up items and gear
+                            if (targetItem.Type == ItemType.Weapon || targetItem.Type == ItemType.Gear || targetItem.Type == ItemType.ConsumAble)
                             {
-                                Debug.Log("Returned " + UnsuccessfulPickup + ", failed to collect item.");
-                            }
-                            else
-                            {
-                                targetItem.Destroy();
+                                Item clonedItem = targetItem.DeepCopy();
+
+                                // Returns 0 if item was added to inventory
+                                int UnsuccessfulPickup = inventory.Add(clonedItem, 1);
+
+                                if (UnsuccessfulPickup != 0)
+                                {
+                                    Debug.Log("Returned " + UnsuccessfulPickup + ", failed to collect item.");
+                                }
+                                else
+                                {
+                                    targetItem.DestroyInteractivObject();
+                                }
                             }
                         }
-                    }
-                    else
-                    {
-                        // Treat interaction target like an NPC
-                        NPC targetNPC = target as NPC;
-
-                        if (targetNPC != null)
+                        else
                         {
-                            target.Interact(this.gameObject);
+                            // Treat interaction target like an NPC
+                            NPC targetNPC = target as NPC;
+
+                            if (targetNPC != null)
+                            {
+                                target.Interact(this.gameObject);
+                            }
                         }
                     }
                 }

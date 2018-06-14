@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿//---------------------------------------------------------------
+// Author: Marcel Croonenbroeck
+//
+//---------------------------------------------------------------
+
+using UnityEngine;
 
 namespace RuthlessMerchant
 {
@@ -12,6 +17,11 @@ namespace RuthlessMerchant
         public override void Interact(GameObject caller)
         {
             Debug.Log(caller.name + ": Interaction with Warrior!");
+        }
+
+        public override void Update()
+        {
+            base.Update();
         }
     }
 }
