@@ -1,4 +1,9 @@
-﻿using System;
+﻿//---------------------------------------------------------------
+// Author: Marcel Croonenbroeck
+//
+//---------------------------------------------------------------
+
+using System;
 
 namespace RuthlessMerchant
 {
@@ -9,7 +14,8 @@ namespace RuthlessMerchant
         /// </summary>
         /// <param name="variable">Flags enumeration to check</param>
         /// <param name="value">Flag to check for</param>
-        /// <returns></returns>
+        /// <returns>Returns true when the variable contains the value</returns>
+        /// Written by: chilltemp at https://stackoverflow.com/questions/4108828/generic-extension-method-to-see-if-an-enum-contains-a-flag
         public static bool HasFlag(this Enum variable, Enum value)
         {
             if (variable == null)
@@ -30,19 +36,26 @@ namespace RuthlessMerchant
 
         }
 
+        /// <summary>
+        /// Adds a flag to a enum variable
+        /// </summary>
+        /// <param name="variable">Variable where the given flag should be added</param>
+        /// <param name="value">Value which should be added to the variable</param>
+        /// <returns>Returns the modified variable</returns>
         public static NPC.TargetState SetFlag(this NPC.TargetState variable, NPC.TargetState value)
         {
             return variable | value;
         }
 
+        /// <summary>
+        /// Removes a flag from a enum variable
+        /// </summary>
+        /// <param name="variable">Variable where the given flag should be removed from</param>
+        /// <param name="value">Value which should be removed from the variable</param>
+        /// <returns>Returns the modified variable</returns>
         public static NPC.TargetState RemoveFlag(this NPC.TargetState variable, NPC.TargetState value)
         {
             return variable & ~value;
-        }
-
-        public static NPC.TargetState Clear(this NPC.TargetState variable)
-        {
-            return NPC.TargetState.None;
         }
     }
 }
