@@ -4,12 +4,19 @@ namespace RuthlessMerchant
 {
     public abstract class InteractiveObject : MonoBehaviour
     {
+        [SerializeField]
         protected Faction faction;
+
         protected int id;
         protected bool freeze;
         protected FactionStandings factionStandings;
         protected DamageAbleObject damageAbleObject;
         protected Inventory inventory;
+
+        public Faction Faction
+        {
+            get { return faction; }
+        }
 
         public Vector3 Position
         {
@@ -59,13 +66,13 @@ namespace RuthlessMerchant
             }
         }
 
-        public void Destroy()
+        public virtual void DestroyInteractivObject()
         {
-            throw new System.NotImplementedException();
+            Destroy(gameObject);
         }
 
         public abstract void Start();
         public abstract void Update();
-        public abstract void Interact();
+        public abstract void Interact(GameObject caller);
     }
 }

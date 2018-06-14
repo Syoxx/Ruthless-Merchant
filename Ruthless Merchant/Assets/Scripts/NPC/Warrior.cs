@@ -1,15 +1,27 @@
-﻿namespace RuthlessMerchant
+﻿//---------------------------------------------------------------
+// Author: Marcel Croonenbroeck
+//
+//---------------------------------------------------------------
+
+using UnityEngine;
+
+namespace RuthlessMerchant
 {
     public class Warrior : Fighter
     {
         public override void Start()
         {
             base.Start();
-            if (PatrolActive)
-            {
-                PatrolActive = false;
-                Patrol();
-            }
+        }
+
+        public override void Interact(GameObject caller)
+        {
+            Debug.Log(caller.name + ": Interaction with Warrior!");
+        }
+
+        public override void Update()
+        {
+            base.Update();
         }
     }
 }

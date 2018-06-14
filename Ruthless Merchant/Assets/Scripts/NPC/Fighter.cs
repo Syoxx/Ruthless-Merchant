@@ -1,78 +1,165 @@
-﻿using UnityEngine;
+﻿//---------------------------------------------------------------
+// Author: Marcel Croonenbroeck
+//
+//---------------------------------------------------------------
+
+using UnityEngine;
 
 namespace RuthlessMerchant
 {
     public abstract class Fighter : NPC
     {
-        private int huntDistance;
+        [SerializeField]
+        [Range(0, 100)]
+        protected float huntDistance = 5;
 
-        public bool PatrolActive;
+        [SerializeField]
+        [Range(1, 100)]
+        protected float attackDistance = 1.5f;
+
+        [SerializeField]
+        private bool patrolActive;
+        public string[] PossiblePatrolPaths;
         public Waypoint[] PatrolPoints;
+
+        public bool PaartolActive
+        {
+            get { return patrolActive; }
+        }
+
+        public float HuntDistance
+        {
+            get
+            {
+                return huntDistance;
+            }
+        }
+
+        public float AttackDistance
+        {
+            get
+            {
+                return attackDistance;
+            }
+        }
 
         public override void Start()
         {
             base.Start();
+            HealthSystem.OnHealthChanged += HealthSystem_OnHealthChanged;
+            
+            if (patrolActive)
+            {
+                patrolActive = false;
+                if(PossiblePatrolPaths != null && PossiblePatrolPaths.Length > 0)
+                    PatrolPoints = GetRandomPath(PossiblePatrolPaths, false, 3);
+
+                Patrol();
+            }
         }
 
         public override void Update()
         {
             base.Update();
+            if (CurrentAction == null || !Reacting)
+            {
+                ChangeSpeed(SpeedType.Walk);
+                Patrol();
+            }
+            else
+            {
+                AbortPatrol();
+            }
         }
 
-        public void SearchTarget()
+        private void HealthSystem_OnHealthChanged(object sender, DamageAbleObject.HealthArgs e)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public void Hunt()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void TryAttack()
-        {
-            throw new System.NotImplementedException();
+            if (e.ChangedValue < 0 && e.Sender != null)
+            {
+                AddNewWaypoint(new Waypoint(e.Sender.transform, true, 0));
+            }
         }
 
         public void Patrol()
         {
-            if (!PatrolActive)
+            if (!patrolActive)
             {
-                PatrolActive = true;
-                float minDistance = float.MaxValue;
-                int nearestIndex = waypoints.Count;
-                for (int i = 0; i < PatrolPoints.Length; i++)
+                if (PatrolPoints != null)
                 {
-                    float distance = Vector3.Distance(transform.position, PatrolPoints[i].GetPosition());
-                    if(distance < minDistance)
+                    patrolActive = true;
+                    float minDistance = float.MaxValue;
+                    int nearestIndex = waypoints.Count;
+                    for (int i = 0; i < PatrolPoints.Length; i++)
                     {
-                        minDistance = distance;
-                        nearestIndex = waypoints.Count;
+                        float distance = Vector3.Distance(transform.position, PatrolPoints[i].GetPosition());
+                        if (distance < minDistance)
+                        {
+                            minDistance = distance;
+                            nearestIndex = waypoints.Count;
+                        }
+                        waypoints.Add(PatrolPoints[i]);
                     }
-                    waypoints.Add(PatrolPoints[i]);
-                }
 
-                waypointIndex = nearestIndex;
+                    ChangeSpeed(SpeedType.Walk);
+                    ActionMove moveAction = new ActionMove();
+                    SetCurrentAction(moveAction, null);
+                    moveAction.WaypointIndex = nearestIndex;
+                }
             }
         }
 
         public void AbortPatrol()
         {
-            if (PatrolActive)
+            if (patrolActive)
             {
-                PatrolActive = false;
+                patrolActive = false;
                 for (int i = 0; i < PatrolPoints.Length; i++)
                 {
                     waypoints.Remove(PatrolPoints[i]);
                 }
 
-                waypointIndex = 0;
+                if(CurrentAction != null && CurrentAction is ActionMove)
+                    ((ActionMove)CurrentAction).WaypointIndex = 0;
+
+                if (CurrentAction == null)
+                    SetCurrentAction(new ActionIdle(), null);
             }
         }
 
-        public override void Flee()
+        public override void React(Character character, bool isThreat)
         {
-            throw new System.NotImplementedException();
+            if (isThreat)
+            {
+                if (((float)HealthSystem.Health / character.HealthSystem.Health) > 0.15f)
+                {
+                    float distance = Vector3.Distance(transform.position, character.transform.position);
+                    if (distance <= attackDistance)
+                    {
+                        if (CurrentAction == null || !(CurrentAction is ActionAttack))
+                            SetCurrentAction(new ActionAttack(), character.gameObject);
+                    }
+                    else
+                    {
+                        if (CurrentAction == null || !(CurrentAction is ActionHunt))
+                            SetCurrentAction(new ActionHunt(), character.gameObject);
+                    }
+                }
+                else
+                {
+                    if (CurrentAction == null || !(CurrentAction is ActionFlee))
+                        SetCurrentAction(new ActionFlee(), character.gameObject);
+                }
+            }
+            else
+            {
+                //TODO: whatever...
+            }
+        }
+
+        public override void React(Item item)
+        {
+            //TODO: Pickup item
+            Reacting = true;
         }
     }
 }
