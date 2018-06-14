@@ -273,10 +273,7 @@ namespace RuthlessMerchant
             {
                 isWalking = true;
             }
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                SendInteraction();
-            }
+            
             if (Input.GetKey(KeyCode.Space))
             {
                 hasJumped = true;
@@ -321,6 +318,7 @@ namespace RuthlessMerchant
             MoveVector = new Vector3(InputVector.x, 0.0f, InputVector.y);
             base.Move(MoveVector, moveSpeed);
 
+            SendInteraction();
             ShowInventory();
             ShowMap();
         }
@@ -339,48 +337,51 @@ namespace RuthlessMerchant
 
         public void SendInteraction()
         {
-            if (playerAttachedCamera != null)
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                Ray clickRay = playerAttachedCamera.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-
-                if (Physics.Raycast(clickRay, out hit, maxInteractDistance))
+                if (playerAttachedCamera != null)
                 {
-                    Debug.Log(hit.collider.name + " " + hit.point + " clicked.");
+                    Ray clickRay = playerAttachedCamera.ScreenPointToRay(Input.mousePosition);
+                    RaycastHit hit;
 
-                    InteractiveObject target = hit.collider.gameObject.GetComponent<InteractiveObject>();
-
-                    // Treat interaction target like an item                    
-                    Item targetItem = target as Item;
-
-                    if (targetItem != null)
+                    if (Physics.Raycast(clickRay, out hit, maxInteractDistance))
                     {
-                        // Picking up items and gear
-                        if (targetItem.Type == ItemType.Weapon || targetItem.Type == ItemType.Gear || targetItem.Type == ItemType.ConsumAble)
+                        Debug.Log(hit.collider.name + " " + hit.point + " clicked.");
+
+                        InteractiveObject target = hit.collider.gameObject.GetComponent<InteractiveObject>();
+
+                        // Treat interaction target like an item                    
+                        Item targetItem = target as Item;
+
+                        if (targetItem != null)
                         {
-                            Item clonedItem = targetItem.DeepCopy();
-
-                            // Returns 0 if item was added to inventory
-                            int UnsuccessfulPickup = inventory.Add(clonedItem, 1);
-
-                            if (UnsuccessfulPickup != 0)
+                            // Picking up items and gear
+                            if (targetItem.Type == ItemType.Weapon || targetItem.Type == ItemType.Gear || targetItem.Type == ItemType.ConsumAble)
                             {
-                                Debug.Log("Returned " + UnsuccessfulPickup + ", failed to collect item.");
-                            }
-                            else
-                            {
-                                targetItem.Destroy();
+                                Item clonedItem = targetItem.DeepCopy();
+
+                                // Returns 0 if item was added to inventory
+                                int UnsuccessfulPickup = inventory.Add(clonedItem, 1);
+
+                                if (UnsuccessfulPickup != 0)
+                                {
+                                    Debug.Log("Returned " + UnsuccessfulPickup + ", failed to collect item.");
+                                }
+                                else
+                                {
+                                    targetItem.Destroy();
+                                }
                             }
                         }
-                    }
-                    else
-                    {
-                        // Treat interaction target like an NPC
-                        NPC targetNPC = target as NPC;
-
-                        if (targetNPC != null)
+                        else
                         {
-                            target.Interact(this.gameObject);
+                            // Treat interaction target like an NPC
+                            NPC targetNPC = target as NPC;
+
+                            if (targetNPC != null)
+                            {
+                                target.Interact(this.gameObject);
+                            }
                         }
                     }
                 }
