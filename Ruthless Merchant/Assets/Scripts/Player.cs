@@ -28,9 +28,6 @@ namespace RuthlessMerchant
         private Transform teleportTarget;
 
         [SerializeField]
-        private float jumpSpeed = 10.0f;
-
-        [SerializeField]
         private GameObject ItemsParent;
 
         [SerializeField]
@@ -61,6 +58,7 @@ namespace RuthlessMerchant
  
 
         private bool hasJumped;
+        private bool isFalling;
         
         #region MonoBehaviour Life Cycle
 
@@ -100,6 +98,7 @@ namespace RuthlessMerchant
         public override void Start()
         {
             base.Start();
+            
 
             if (ItemsParent != null)
                 itemsContainer = ItemsParent.transform.parent.gameObject;
@@ -139,17 +138,17 @@ namespace RuthlessMerchant
         {
             if (hasJumped)
             {
-                Jump(jumpSpeed);
+                Jump();
                 hasJumped = false;
             }
 
-            if (IsGrounded)
+            if (!CharController.isGrounded)
             {
-                UseGravity(0.2f);
+                isFalling = true;
             }
             else
             {
-                UseGravity(gravityScale);
+                isFalling = false;
             }
 
 
@@ -346,14 +345,14 @@ namespace RuthlessMerchant
             float horizontal = Input.GetAxis("Horizontal");
             float vertical = Input.GetAxis("Vertical");
 
-            if (horizontal == 0 && vertical == 0)
-            {
-                gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
-            }
-            else
-            {
-                gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-            }
+            //if (horizontal == 0 && vertical == 0)
+            //{
+            //    gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+            //}
+            //else
+            //{
+            //    gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+            //}
 
             InputVector = new Vector2(horizontal, vertical);
 

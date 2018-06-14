@@ -6,6 +6,8 @@ namespace RuthlessMerchant
     {
         private DamageAbleObject healthSystem;
         private Vector3 velocity;
+        private Vector3 moveVector;
+        private CharacterController charController;
         private int stamina;
         private int maxStamina;
         private int staminaRegeneration;
@@ -13,7 +15,6 @@ namespace RuthlessMerchant
 
         private StatValue[] characterStats;
         private StaminaController staminaController;
-        private float maxJumpHeight;
 
         private static float globalGravityScale = -9.81f;
         private float groundedSkin = 0.05f;
@@ -25,6 +26,7 @@ namespace RuthlessMerchant
         private Rigidbody rb;
         private bool isPlayer;
         private float elapsedSecs;
+        private bool isJumping;
 
         private float attackDelay = 2f;
         private float elapsedAttackTime = 2f;
@@ -41,6 +43,10 @@ namespace RuthlessMerchant
         [SerializeField]
         [Range(0, 1000)]
         protected float runSpeed = 4;
+        private CollisionFlags collisionFlags;
+
+        [SerializeField]
+        private float maxJumpHeight;
 
         public float WalkSpeed
         {
@@ -99,6 +105,11 @@ namespace RuthlessMerchant
             get { return grounded; }
         }
 
+        public CharacterController CharController
+        {
+            get { return charController; }
+        }
+
         public DamageAbleObject HealthSystem
         {
             get
@@ -118,7 +129,7 @@ namespace RuthlessMerchant
             if (rb == null)
             {
                 rb = GetComponent<Rigidbody>();
-                rb.useGravity = false;
+                //rb.useGravity = false;
             }
 
             if (CompareTag("Player"))
@@ -128,6 +139,11 @@ namespace RuthlessMerchant
             else
             {
                 isPlayer = false;
+            }
+
+            if (GetComponent<CharacterController>() != null)
+            {
+                charController = GetComponent<CharacterController>();
             }
 
             healthSystem = GetComponent<DamageAbleObject>();
@@ -153,17 +169,24 @@ namespace RuthlessMerchant
             if (velocity != Vector2.zero && !isPlayer)
             { transform.rotation = Quaternion.LookRotation(velocity); }
 
-            Vector3 moveVector = transform.forward * velocity.y + transform.right * velocity.x;
+            moveVector = transform.forward * velocity.y + transform.right * velocity.x;
 
             RaycastHit hitInfo;
-            CapsuleCollider capCollider = GetComponent<CapsuleCollider>();
-            Vector3 p1 = transform.position + capCollider.center + Vector3.up * -capCollider.height * 0.5F;
-            Vector3 p2 = p1 + Vector3.up * capCollider.height;
-            Physics.CapsuleCast(p1, p2, capCollider.radius, Vector3.down, out hitInfo,
-                               GetComponent<CapsuleCollider>().height / 2, Physics.AllLayers, QueryTriggerInteraction.Ignore);
+            if (charController != null)
+            {
+                Physics.SphereCast(transform.position, charController.radius, Vector3.down, out hitInfo,
+                               charController.height / 2f, Physics.AllLayers, QueryTriggerInteraction.Ignore);
 
-            moveVector = Vector3.ProjectOnPlane(moveVector, hitInfo.normal).normalized;
-            transform.Translate(moveVector * speed * Time.deltaTime, Space.Self);
+                moveVector = Vector3.ProjectOnPlane(moveVector, hitInfo.normal).normalized;
+
+                if (isJumping)
+                {
+                    moveVector.y = maxJumpHeight;
+                    isJumping = false;
+                }
+
+                collisionFlags = charController.Move(moveVector * speed * Time.deltaTime);
+            } 
         }
 
         public void Rotate()
@@ -196,20 +219,32 @@ namespace RuthlessMerchant
             throw new System.NotImplementedException();
         }
 
-        public void Jump(float JumpVelocity)
+        public void Jump()
         {
-            if (grounded)
+            //if (charController.isGrounded)
             {
-                rb.AddForce(Vector3.up * JumpVelocity, ForceMode.Impulse);
-                grounded = false;
-                elapsedSecs = .5f;
+                if (elapsedSecs <= 0)
+                {
+                    //rb.AddForce(Vector3.up * JumpVelocity, ForceMode.Impulse);
+                    isJumping = true;
+                    //grounded = false;
+                    elapsedSecs = .5f;
+
+                }
             }
         }
 
         protected virtual void FixedUpdate()
         {
             if(elapsedSecs >= 0)
-              elapsedSecs -= Time.deltaTime;
+            {
+                elapsedSecs -= Time.deltaTime;
+            }
+
+            if (CharController.isGrounded == false)
+            {
+                UseGravity();
+            }
         }
 
         public void CalculateVelocity()
@@ -227,20 +262,15 @@ namespace RuthlessMerchant
             throw new System.NotImplementedException();
         }
 
-        public void UseGravity(float gravityScale)
+        public void UseGravity(/*float gravityScale*/)
         {
-            Vector3 gravity = globalGravityScale * gravityScale * Vector3.up;
-            rb.AddForce(gravity, ForceMode.Acceleration);
+            Vector3 gravity = 2 * globalGravityScale * Vector3.up * Time.deltaTime;
+            //rb.AddForce(gravity, ForceMode.Acceleration);
+            CharController.Move(gravity);
         }
 
         public void Grounding(bool _grounded)
         {
-            //if(Physics.CheckCapsule(GetComponent<Collider>().bounds.center, new Vector3(GetComponent<Collider>().bounds.center.x, GetComponent<Collider>().bounds.min.y - 0.1f, GetComponent<Collider>().bounds.center.z), 0.5f) /*&& elapsedSecs <= 0*/)
-            //{
-            //    grounded = true;
-            //}
-            //else
-            //    grounded = false;
             grounded = _grounded;
             
         }
@@ -257,6 +287,22 @@ namespace RuthlessMerchant
                 grounded = false;
                 Debug.Log("false");
             }
+        }
+
+        private void OnControllerColliderHit(ControllerColliderHit hit)
+        {
+            Rigidbody body = hit.collider.attachedRigidbody;
+            //dont move the rigidbody if the character is on top of it
+            if (collisionFlags == CollisionFlags.Below)
+            {
+                return;
+            }
+
+            if (body == null || body.isKinematic)
+            {
+                return;
+            }
+            body.AddForceAtPosition(charController.velocity * 0.1f, hit.point, ForceMode.Impulse);
         }
     }
 }

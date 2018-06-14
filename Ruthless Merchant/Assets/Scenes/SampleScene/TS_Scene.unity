@@ -2413,9 +2413,8 @@ GameObject:
   - component: {fileID: 1719939127}
   - component: {fileID: 1719939126}
   - component: {fileID: 1719939125}
-  - component: {fileID: 1719939124}
+  - component: {fileID: 1719939129}
   - component: {fileID: 1719939123}
-  - component: {fileID: 1719939128}
   - component: {fileID: 1719939130}
   m_Layer: 0
   m_Name: Player
@@ -2438,7 +2437,7 @@ MonoBehaviour:
   faction: 0
   walkSpeed: 4
   runSpeed: 8
-  jumpSpeed: 10
+  maxJumpHeight: 100
   ItemsParent: {fileID: 2105189284}
   ItemUIPrefab: {fileID: 1467541113604382, guid: 1ae9b739481380f4293ec96f99231f43,
     type: 2}
@@ -2452,19 +2451,6 @@ MonoBehaviour:
   layermask:
     serializedVersion: 2
     m_Bits: 0
---- !u!136 &1719939124
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1719939122}
-  m_Material: {fileID: 13400000, guid: 387b15426cb082d4a8790253696be690, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!23 &1719939125
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2514,7 +2500,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1719939122}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1588.5376, y: 48.104454, z: 1738.2678}
+  m_LocalPosition: {x: 1588.5376, y: 61.6, z: 1738.2678}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1173774448}
@@ -2523,21 +2509,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!54 &1719939128
-Rigidbody:
+--- !u!143 &1719939129
+CharacterController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1719939122}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
+  m_Height: 1.8
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1719939130
 MonoBehaviour:
   m_ObjectHideFlags: 0
