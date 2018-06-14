@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿//---------------------------------------------------------------
+// Author: Marcel Croonenbroeck
+//
+//---------------------------------------------------------------
+
+using UnityEngine;
 
 namespace RuthlessMerchant
 {
@@ -23,11 +28,7 @@ namespace RuthlessMerchant
         private void HealthSystem_OnHealthChanged(object sender, DamageAbleObject.HealthArgs e)
         {
             if (e.ChangedValue < 0 && e.Sender != null)
-            {
-                ActionFlee flee = new ActionFlee();
-                flee.StartAction(this, e.Sender.gameObject);
-                CurrentAction = flee;
-            }
+                SetCurrentAction(new ActionFlee(), e.Sender.gameObject);
         }
 
         public override void React(Character character, bool isThreat)
@@ -38,9 +39,7 @@ namespace RuthlessMerchant
                 if (distance <= fleeDistance)
                 {
                     Reacting = true;
-                    ActionFlee flee = new ActionFlee();
-                    flee.StartAction(this, character.gameObject);
-                    CurrentAction = flee;
+                    SetCurrentAction(new ActionFlee(), character.gameObject);
                 }
             }
             else
