@@ -1,13 +1,29 @@
-﻿using UnityEngine;
+﻿//---------------------------------------------------------------
+// Author: Marcel Croonenbroeck
+//
+//---------------------------------------------------------------
+
+using UnityEngine;
 
 namespace RuthlessMerchant
 {
     public class ActionFlee : ActionMove
     {
+        /*TODO:
+         * save position on start
+         * return to start position (only if idle for 5 seconds)
+         */
+
+        public override void EndAction()
+        {
+            parent.Reacting = false;
+            base.EndAction();
+        }
+
         public override void StartAction(NPC parent, GameObject other)
         {
-            parent.ChangeSpeed(NPC.SpeedType.Run);
-
+            parent.Reacting = true;
+            parent.ChangeSpeed(NPC.SpeedType.Flee);
             Vector3 direction = other.transform.position - parent.transform.position;
             direction.Normalize();
 
