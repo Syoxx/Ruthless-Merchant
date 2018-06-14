@@ -63,7 +63,6 @@ namespace RuthlessMerchant
         private List<AudioSource> possibleHearedObjects;
 
         private List<GameObject> noticedGameObjects;
-        private List<GameObject> noticedThreats;
 
         public event EventHandler OnCharacterNoticed;
         public event EventHandler OnItemNoticed;
@@ -155,7 +154,6 @@ namespace RuthlessMerchant
             possibleHearedObjects = new List<AudioSource>();
             possibleSeenObjects = new List<GameObject>();
             noticedGameObjects = new List<GameObject>();
-            noticedThreats = new List<GameObject>();
 
             if(waypoints == null)
                 waypoints = new List<Waypoint>();
