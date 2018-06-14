@@ -191,7 +191,7 @@ namespace RuthlessMerchant
             }
         }
 
-        public void FixedUpdate()
+        protected virtual void FixedUpdate()
         {
             if(elapsedSecs >= 0)
               elapsedSecs -= Time.deltaTime;

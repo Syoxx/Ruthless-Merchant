@@ -131,25 +131,25 @@ namespace RuthlessMerchant
             }
         }
 
-        private void FixedUpdate()
+        protected override void FixedUpdate()
         {
             if (hasJumped)
             {
-                base.Jump(jumpSpeed);
+                Jump(jumpSpeed);
                 hasJumped = false;
             }
             else
-                base.Grounding(layermask);
-            base.UseGravity(gravityScale);
+                Grounding(layermask);
+
+            UseGravity(gravityScale);
+
             base.FixedUpdate();
-
-
         }
+
         public override void Update()
         {
             LookRotation();
-            HandleInput();
-            
+            HandleInput();           
         }
 
         /// <summary>
@@ -406,7 +406,7 @@ namespace RuthlessMerchant
                                 }
                                 else
                                 {
-                                    targetItem.Destroy();
+                                    targetItem.DestroyInteractivObject();
                                 }
                             }
                         }
