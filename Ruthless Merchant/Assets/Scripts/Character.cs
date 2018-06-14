@@ -148,12 +148,22 @@ namespace RuthlessMerchant
             }
         }
 
-        public void Move(Vector3 velocity, float speed)
-        {           
-           if(velocity != Vector3.zero && !isPlayer)
-                transform.rotation = Quaternion.LookRotation(velocity);
+        public void Move(Vector2 velocity, float speed)
+        {
+            if (velocity != Vector2.zero && !isPlayer)
+            { transform.rotation = Quaternion.LookRotation(velocity); }
 
-            transform.Translate(velocity * speed * Time.deltaTime, Space.Self);
+            Vector3 moveVector = transform.forward * velocity.y + transform.right * velocity.x;
+
+            RaycastHit hitInfo;
+            CapsuleCollider capCollider = GetComponent<CapsuleCollider>();
+            Vector3 p1 = transform.position + capCollider.center + Vector3.up * -capCollider.height * 0.5F;
+            Vector3 p2 = p1 + Vector3.up * capCollider.height;
+            Physics.CapsuleCast(p1, p2, capCollider.radius, Vector3.down, out hitInfo,
+                               GetComponent<CapsuleCollider>().height / 2, Physics.AllLayers, QueryTriggerInteraction.Ignore);
+
+            moveVector = Vector3.ProjectOnPlane(moveVector, hitInfo.normal).normalized;
+            transform.Translate(moveVector * speed * Time.deltaTime, Space.Self);
         }
 
         public void Rotate()

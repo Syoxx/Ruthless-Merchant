@@ -142,10 +142,16 @@ namespace RuthlessMerchant
                 Jump(jumpSpeed);
                 hasJumped = false;
             }
-            else
-                Grounding(layermask);
 
-            UseGravity(gravityScale);
+            if (IsGrounded)
+            {
+                UseGravity(0.2f);
+            }
+            else
+            {
+                UseGravity(gravityScale);
+            }
+
 
             base.FixedUpdate();
         }
@@ -356,8 +362,8 @@ namespace RuthlessMerchant
                 InputVector.Normalize();
             }
 
-            MoveVector = new Vector3(InputVector.x, MoveVector.y, InputVector.y);
-            base.Move(MoveVector, moveSpeed);
+            //MoveVector = new Vector3(InputVector.x, 0, InputVector.y);
+            base.Move(InputVector, moveSpeed);
 
             SendInteraction();
             ShowInventory();
