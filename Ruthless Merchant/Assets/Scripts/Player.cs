@@ -134,8 +134,8 @@ namespace RuthlessMerchant
                 base.Jump(jumpSpeed);
                 hasJumped = false;
             }
-            else
-                base.Grounding(layermask);
+            //else
+            //    base.Grounding(layermask);
             base.UseGravity(gravityScale);
             base.FixedUpdate();
 
@@ -336,6 +336,16 @@ namespace RuthlessMerchant
             if (collision.collider.CompareTag("Teleport") && teleportTarget != null)
             {
                 Teleport(teleportTarget.position + new Vector3 (0,1));
+            }
+            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Default"))
+            {
+                base.Grounding(true);
+                Debug.Log("true");
+            }
+            else
+            {
+                base.Grounding(false);
+                Debug.Log("false");
             }
         }
         
