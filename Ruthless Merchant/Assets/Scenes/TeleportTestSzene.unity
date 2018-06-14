@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -238,10 +238,6 @@ MonoBehaviour:
   Teleport2: {fileID: 773599668}
   Teleport3: {fileID: 994072365}
   Teleport4: {fileID: 1945918492}
-  gravityScale: 1
-  layermask:
-    serializedVersion: 2
-    m_Bits: 1
 --- !u!54 &60629560
 Rigidbody:
   m_ObjectHideFlags: 0
