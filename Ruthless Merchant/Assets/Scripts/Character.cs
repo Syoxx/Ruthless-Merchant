@@ -17,7 +17,8 @@ namespace RuthlessMerchant
         private static float globalGravityScale = -9.81f;
         private float groundedSkin = 0.05f;
         private bool grounded;
-        private Vector3 playerSize;
+        //private Vector3 playerSize;
+        private float playerRadius;
         private Vector3 boxSize;
 
         private Rigidbody rb;
@@ -51,8 +52,6 @@ namespace RuthlessMerchant
                 isPlayer = false;
             }
 
-            playerSize = GetComponent<BoxCollider>().size;
-            boxSize = new Vector3(playerSize.x, groundedSkin, playerSize.z);
         }
 
         public StaminaController StaminaController
@@ -146,7 +145,6 @@ namespace RuthlessMerchant
 
         public void FixedUpdate()
         {
-            Debug.Log(elapsedSecs);
             if(elapsedSecs >= 0)
               elapsedSecs -= Time.deltaTime;
         }
@@ -174,9 +172,7 @@ namespace RuthlessMerchant
 
         public void Grounding(LayerMask layer)
         {
-            Vector3 boxCenter = (Vector3)transform.position + Vector3.down * (playerSize.y + boxSize.y) * 0.5f;
-            // grounded = (Physics.OverlapBox(boxCenter, boxSize, Quaternion.identity, layer) != null);
-            if (Physics.CheckBox(boxCenter, boxSize, Quaternion.identity, layer) && elapsedSecs <= 0)
+            if(Physics.CheckCapsule(GetComponent<Collider>().bounds.center, new Vector3(GetComponent<Collider>().bounds.center.x, GetComponent<Collider>().bounds.min.y - 0.1f, GetComponent<Collider>().bounds.center.z), 0.5f) && elapsedSecs <= 0)
             {
                 grounded = true;
             }

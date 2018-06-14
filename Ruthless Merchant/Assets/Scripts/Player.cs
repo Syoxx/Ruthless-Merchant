@@ -37,6 +37,14 @@ namespace RuthlessMerchant
         #endregion
 
         [SerializeField] private GameObject mapObject;
+        private Transform Teleport1;
+        [SerializeField]
+        private Transform Teleport2;
+        [SerializeField]
+        private Transform Teleport3;
+        [SerializeField]
+        private Transform Teleport4;
+
 
         [SerializeField]
         private float gravityScale = 1.0f;
@@ -47,7 +55,7 @@ namespace RuthlessMerchant
         private Transform teleportTarget;
 
         private bool hasJumped;
-
+        
         #region MonoBehaviour Life Cycle
 
         private void Awake()
@@ -87,16 +95,18 @@ namespace RuthlessMerchant
         {
             base.Start();
 
-
+            if(ItemsParent != null)
             itemsContainer = ItemsParent.transform.parent.gameObject;
-            uiCanvas = itemsContainer.transform.parent.gameObject;
+            if (itemsContainer != null)
+            {
+                uiCanvas = itemsContainer.transform.parent.gameObject;
 
-            // Ensure hidden inventory
+                // Ensure hidden inventory
 
             /*if (uiCanvas.activeInHierarchy == true)
-            {
-                ShowInventory(false);
-            }
+                {
+                    ShowInventory(false);
+                }
             */
             maxInteractDistance = 3;
 
@@ -294,6 +304,30 @@ namespace RuthlessMerchant
                 }
             }
             */
+            if (Input.GetKey(KeyCode.Alpha1))
+            {
+                teleportTarget = Teleport1;
+                Debug.Log("Teleport1 - Blue");
+            }
+            if (Input.GetKey(KeyCode.Alpha2))
+            {
+                teleportTarget = Teleport2;
+                Debug.Log("Teleport2 - Purple");
+            }
+            if (Input.GetKey(KeyCode.Alpha3))
+            {
+                teleportTarget = Teleport3;
+                Debug.Log("Teleport3 - Green");
+            }
+            if (Input.GetKey(KeyCode.Alpha4))
+            {
+                teleportTarget = Teleport4;
+                Debug.Log("Teleport4 - Yellow");
+            }
+            if(Input.GetKey(KeyCode.T) && teleportTarget != null)
+            {
+                Teleport(teleportTarget.position + new Vector3(0, 1));
+            }
             moveSpeed = isWalking ? walkSpeed : runSpeed;
             
             float horizontal = Input.GetAxis("Horizontal");
@@ -324,7 +358,7 @@ namespace RuthlessMerchant
         }
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.collider.CompareTag("Teleport"))
+            if (collision.collider.CompareTag("Teleport") && teleportTarget != null)
             {
                 Teleport(teleportTarget.position + new Vector3 (0,1));
             }
