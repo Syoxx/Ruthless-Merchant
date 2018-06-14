@@ -25,6 +25,7 @@ namespace RuthlessMerchant
         private Vector2 InputVector = Vector2.zero;
         private GameObject uiCanvas;
         private GameObject itemsContainer;
+        private Transform teleportTarget;
 
         [SerializeField]
         private float jumpSpeed = 10.0f;
@@ -49,7 +50,7 @@ namespace RuthlessMerchant
         private Transform Teleport3;
         [SerializeField]
         private Transform Teleport4;
-                
+                        
         [SerializeField]
         private float gravityScale = 1.0f;
 
