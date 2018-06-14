@@ -55,8 +55,6 @@ namespace RuthlessMerchant
 
         private bool hasJumped;
         
-        #endregion
-
         #region MonoBehaviour Life Cycle
 
         private void Awake()
