@@ -36,7 +36,9 @@ namespace RuthlessMerchant
         private GameObject ItemUIPrefab;
         #endregion
 
-        [SerializeField] private GameObject mapObject;
+        [SerializeField]
+        private GameObject mapObject;
+        [SerializeField]
         private Transform Teleport1;
         [SerializeField]
         private Transform Teleport2;
@@ -44,15 +46,15 @@ namespace RuthlessMerchant
         private Transform Teleport3;
         [SerializeField]
         private Transform Teleport4;
-
+        private Transform teleportTarget;
 
         [SerializeField]
         private float gravityScale = 1.0f;
         [SerializeField]
         private LayerMask layermask;
 
-        [SerializeField]
-        private Transform teleportTarget;
+        
+ 
 
         private bool hasJumped;
         
