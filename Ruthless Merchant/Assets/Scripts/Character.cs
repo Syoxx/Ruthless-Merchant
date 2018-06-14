@@ -187,7 +187,7 @@ namespace RuthlessMerchant
             {
                 rb.AddForce(Vector3.up * JumpVelocity, ForceMode.Impulse);
                 grounded = false;
-                elapsedSecs = 1.5f;
+                elapsedSecs = .5f;
             }
         }
 
@@ -218,14 +218,30 @@ namespace RuthlessMerchant
             rb.AddForce(gravity, ForceMode.Acceleration);
         }
 
-        public void Grounding(LayerMask layer)
+        public void Grounding(bool _grounded)
         {
-            if(Physics.CheckCapsule(GetComponent<Collider>().bounds.center, new Vector3(GetComponent<Collider>().bounds.center.x, GetComponent<Collider>().bounds.min.y - 0.1f, GetComponent<Collider>().bounds.center.z), 0.5f) && elapsedSecs <= 0)
+            //if(Physics.CheckCapsule(GetComponent<Collider>().bounds.center, new Vector3(GetComponent<Collider>().bounds.center.x, GetComponent<Collider>().bounds.min.y - 0.1f, GetComponent<Collider>().bounds.center.z), 0.5f) /*&& elapsedSecs <= 0*/)
+            //{
+            //    grounded = true;
+            //}
+            //else
+            //    grounded = false;
+            grounded = _grounded;
+            
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Default"))
             {
                 grounded = true;
+                Debug.Log("true");
             }
             else
+            {
                 grounded = false;
+                Debug.Log("false");
+            }
         }
     }
 }

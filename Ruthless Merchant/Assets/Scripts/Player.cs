@@ -365,6 +365,16 @@ namespace RuthlessMerchant
             {
                 Teleport(teleportTarget.position + new Vector3 (0,1));
             }
+            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Default"))
+            {
+                base.Grounding(true);
+                Debug.Log("true");
+            }
+            else
+            {
+                base.Grounding(false);
+                Debug.Log("false");
+            }
         }
         
         private void Teleport(Vector3 targetPos)
