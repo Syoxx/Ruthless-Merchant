@@ -16,7 +16,7 @@ namespace RuthlessMerchant
 
         private static float globalGravityScale = -9.81f;
         private float groundedSkin = 0.05f;
-        private bool grounded;
+        private bool grounded = false;
         //private Vector3 playerSize;
         private float playerRadius;
         private Vector3 boxSize;
@@ -88,6 +88,11 @@ namespace RuthlessMerchant
             {
                 characterStats = value;
             }
+        }
+
+        public bool IsGrounded
+        {
+            get { return grounded; }
         }
 
         public void Attack()

@@ -34,6 +34,9 @@ namespace RuthlessMerchant
 
         [SerializeField]
         private GameObject ItemUIPrefab;
+
+        [SerializeField]
+        private float stickToGroundValue;
         #endregion
 
         private Transform Teleport1;
@@ -43,10 +46,10 @@ namespace RuthlessMerchant
         private Transform Teleport3;
         [SerializeField]
         private Transform Teleport4;
-
-        
+                
         [SerializeField]
         private float gravityScale = 1.0f;
+
         [SerializeField]
         private LayerMask layermask;
 
@@ -328,7 +331,7 @@ namespace RuthlessMerchant
                 InputVector.Normalize();
             }
 
-            MoveVector = new Vector3(InputVector.x, 0.0f, InputVector.y);
+            MoveVector = new Vector3(InputVector.x, MoveVector.y, InputVector.y);
             base.Move(MoveVector, moveSpeed);
         }
         private void OnCollisionEnter(Collision collision)
