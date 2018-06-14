@@ -135,25 +135,25 @@ namespace RuthlessMerchant
             }
         }
 
-        private void FixedUpdate()
+        protected override void FixedUpdate()
         {
             if (hasJumped)
             {
-                base.Jump(jumpSpeed);
+                Jump(jumpSpeed);
                 hasJumped = false;
             }
             else
-                base.Grounding(layermask);
-            base.UseGravity(gravityScale);
+                Grounding(layermask);
+
+            UseGravity(gravityScale);
+
             base.FixedUpdate();
-
-
         }
+
         public override void Update()
         {
             LookRotation();
-            HandleInput();
-            
+            HandleInput();           
         }
 
         /// <summary>
@@ -369,6 +369,16 @@ namespace RuthlessMerchant
             {
                 Teleport(teleportTarget.position + new Vector3 (0,1));
             }
+            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Default"))
+            {
+                base.Grounding(true);
+                Debug.Log("true");
+            }
+            else
+            {
+                base.Grounding(false);
+                Debug.Log("false");
+            }
         }
         
         private void Teleport(Vector3 targetPos)
@@ -410,7 +420,7 @@ namespace RuthlessMerchant
                                 }
                                 else
                                 {
-                                    targetItem.Destroy();
+                                    targetItem.DestroyInteractivObject();
                                 }
                             }
                         }

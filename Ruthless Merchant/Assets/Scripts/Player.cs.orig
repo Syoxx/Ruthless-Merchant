@@ -36,10 +36,9 @@ namespace RuthlessMerchant
         private GameObject ItemUIPrefab;
         #endregion
 
-<<<<<<< HEAD
-        [SerializeField] private GameObject mapObject;
-
-=======
+        [SerializeField]
+        private GameObject mapObject;
+        [SerializeField]
         private Transform Teleport1;
         [SerializeField]
         private Transform Teleport2;
@@ -47,16 +46,15 @@ namespace RuthlessMerchant
         private Transform Teleport3;
         [SerializeField]
         private Transform Teleport4;
+        private Transform teleportTarget;
 
-        
->>>>>>> origin/Develop
         [SerializeField]
         private float gravityScale = 1.0f;
         [SerializeField]
         private LayerMask layermask;
 
-        [SerializeField]
-        private Transform teleportTarget;
+        
+ 
 
         private bool hasJumped;
         
@@ -99,66 +97,66 @@ namespace RuthlessMerchant
         {
             base.Start();
 
-            if(ItemsParent != null)
-            itemsContainer = ItemsParent.transform.parent.gameObject;
-<<<<<<< HEAD
-            uiCanvas = itemsContainer.transform.parent.gameObject;
-
-            // Ensure hidden inventory
-
-            /*if (uiCanvas.activeInHierarchy == true)
-=======
+            if (ItemsParent != null)
+                itemsContainer = ItemsParent.transform.parent.gameObject;
             if (itemsContainer != null)
->>>>>>> origin/Develop
             {
                 uiCanvas = itemsContainer.transform.parent.gameObject;
 
                 // Ensure hidden inventory
-                if (uiCanvas.activeInHierarchy == true)
+
+                /*if (uiCanvas.activeInHierarchy == true)
+                    {
+                        ShowInventory(false);
+                    }
+                */
+                maxInteractDistance = 3;
+
+                this.inventory = new Inventory();
+
+                playerLookAngle = transform.localRotation;
+
+                // try to get the first person camera
+                playerAttachedCamera = GetComponentInChildren<Camera>();
+
+                if (playerAttachedCamera != null)
                 {
-                    ShowInventory(false);
+                    cameraPitchAngle = playerAttachedCamera.transform.localRotation;
                 }
-            }
-            */
-            maxInteractDistance = 3;
-
-            this.inventory = new Inventory();
-
-            playerLookAngle = transform.localRotation;
-
-            // try to get the first person camera
-            playerAttachedCamera = GetComponentInChildren<Camera>();
-            
-            if (playerAttachedCamera != null)
-            {
-                cameraPitchAngle = playerAttachedCamera.transform.localRotation;
-            }
-            else
-            {
-                Debug.Log("Player object does not have a first person camera.");
-                isCursorLocked = false;
+                else
+                {
+                    Debug.Log("Player object does not have a first person camera.");
+                    isCursorLocked = false;
+                }
             }
         }
 
-        private void FixedUpdate()
+        protected override void FixedUpdate()
         {
             if (hasJumped)
             {
-                base.Jump(jumpSpeed);
+                Jump(jumpSpeed);
                 hasJumped = false;
             }
-            else
-                base.Grounding(layermask);
+<<<<<<< HEAD
+            //else
+            //    base.Grounding(layermask);
             base.UseGravity(gravityScale);
             base.FixedUpdate();
+=======
+            else
+                Grounding(layermask);
+>>>>>>> origin/Develop
 
+            UseGravity(gravityScale);
 
+            base.FixedUpdate();
         }
+
         public override void Update()
         {
             LookRotation();
-            HandleInput();
-            
+            HandleInput();           
         }
 
         /// <summary>
@@ -315,9 +313,7 @@ namespace RuthlessMerchant
                     ShowInventory(false);
                 }
             }
-<<<<<<< HEAD
             */
-=======
             if (Input.GetKey(KeyCode.Alpha1))
             {
                 teleportTarget = Teleport1;
@@ -342,8 +338,6 @@ namespace RuthlessMerchant
             {
                 Teleport(teleportTarget.position + new Vector3(0, 1));
             }
-
->>>>>>> origin/Develop
             moveSpeed = isWalking ? walkSpeed : runSpeed;
             
             float horizontal = Input.GetAxis("Horizontal");
@@ -377,6 +371,16 @@ namespace RuthlessMerchant
             if (collision.collider.CompareTag("Teleport") && teleportTarget != null)
             {
                 Teleport(teleportTarget.position + new Vector3 (0,1));
+            }
+            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Default"))
+            {
+                base.Grounding(true);
+                Debug.Log("true");
+            }
+            else
+            {
+                base.Grounding(false);
+                Debug.Log("false");
             }
         }
         
@@ -419,7 +423,7 @@ namespace RuthlessMerchant
                                 }
                                 else
                                 {
-                                    targetItem.Destroy();
+                                    targetItem.DestroyInteractivObject();
                                 }
                             }
                         }

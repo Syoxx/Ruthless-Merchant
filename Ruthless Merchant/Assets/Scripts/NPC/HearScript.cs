@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿//---------------------------------------------------------------
+// Author: Marcel Croonenbroeck
+//
+//---------------------------------------------------------------
+
+using UnityEngine;
 
 namespace RuthlessMerchant
 {
@@ -13,16 +18,22 @@ namespace RuthlessMerchant
 
         public void OnTriggerEnter(Collider other)
         {
-            AudioSource source = other.GetComponent<AudioSource>();
-            if (source != null)
-                npc.OnEnterHearArea(source);
+            if (!other.isTrigger && other.transform != transform.parent && (other.CompareTag("NPC") || other.CompareTag("Player") || other.CompareTag("Item")))
+            {
+                AudioSource source = other.GetComponent<AudioSource>();
+                if (source != null)
+                    npc.OnEnterHearArea(source);
+            }
         }
 
         public void OnTriggerExit(Collider other)
         {
-            AudioSource source = other.GetComponent<AudioSource>();
-            if(source != null)
-                npc.OnExitHearArea(source);
+            if (!other.isTrigger && other.transform != transform.parent && (other.CompareTag("NPC") || other.CompareTag("Player") || other.CompareTag("Item")))
+            {
+                AudioSource source = other.GetComponent<AudioSource>();
+                if (source != null)
+                    npc.OnExitHearArea(source);
+            }
         }
     }
 }

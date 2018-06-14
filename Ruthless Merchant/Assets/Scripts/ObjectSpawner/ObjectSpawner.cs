@@ -1,4 +1,9 @@
-﻿using System;
+﻿//---------------------------------------------------------------
+// Author: Marcel Croonenbroeck
+//
+//---------------------------------------------------------------
+
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -48,16 +53,32 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// Adds an object to the spawn queue and spawns a given count of these objects
+        /// </summary>
+        /// <param name="spawnObject">Object to spawn</param>
+        /// <param name="count">Spawn count</param>
         public void Spawn(Transform spawnObject, int count)
         {
             spawnQueue.Enqueue(new SpawnInfo(spawnObject, count));
         }
 
+        /// <summary>
+        /// Spawns a object
+        /// </summary>
+        /// <param name="spawnObject">Object to spawn</param>
+        /// <returns>Returns the spawned object</returns>
         public Transform ForceSpawn(Transform spawnObject)
         {
             return Instantiate(spawnObject, transform.position, transform.rotation);
         }
 
+        /// <summary>
+        /// Spawns a object
+        /// </summary>
+        /// <param name="spawnObject">Object to spawn</param>
+        /// <param name="count">Numbers to spawn</param>
+        /// <returns>Returns all spawned objects</returns>
         public Transform[] ForceSpawn(Transform spawnObject, int count)
         {
             Transform[] spawnedObjects = new Transform[count];

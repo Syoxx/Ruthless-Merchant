@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -234,10 +234,14 @@ MonoBehaviour:
   jumpSpeed: 6
   ItemsParent: {fileID: 0}
   ItemUIPrefab: {fileID: 0}
-  Teleport1: {fileID: 577969585}
   Teleport2: {fileID: 773599668}
   Teleport3: {fileID: 994072365}
   Teleport4: {fileID: 1945918492}
+  gravityScale: 1
+  layermask:
+    serializedVersion: 2
+    m_Bits: 0
+  teleportTarget: {fileID: 0}
 --- !u!54 &60629560
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -897,6 +901,7 @@ GameObject:
   - component: {fileID: 1107198685}
   - component: {fileID: 1107198684}
   - component: {fileID: 1107198683}
+  - component: {fileID: 1107198688}
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -986,6 +991,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &1107198688
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1107198682}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1183268931
 GameObject:
   m_ObjectHideFlags: 0
@@ -1022,7 +1040,6 @@ MonoBehaviour:
   jumpSpeed: 6
   ItemsParent: {fileID: 0}
   ItemUIPrefab: {fileID: 0}
-  Teleport1: {fileID: 577969585}
   Teleport2: {fileID: 773599668}
   Teleport3: {fileID: 994072365}
   Teleport4: {fileID: 1945918492}
@@ -1030,6 +1047,7 @@ MonoBehaviour:
   layermask:
     serializedVersion: 2
     m_Bits: 1
+  teleportTarget: {fileID: 577969585}
 --- !u!54 &1183268933
 Rigidbody:
   m_ObjectHideFlags: 0
