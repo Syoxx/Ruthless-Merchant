@@ -1,4 +1,9 @@
-﻿using System;
+﻿//---------------------------------------------------------------
+// Author: Marcel Croonenbroeck
+//
+//---------------------------------------------------------------
+
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,6 +15,9 @@ namespace RuthlessMerchant
         protected int waypointIndex;
         protected NavMeshAgent agent;
 
+        /// <summary>
+        /// Current waypoint index
+        /// </summary>
         public int WaypointIndex
         {
             get
@@ -28,7 +36,6 @@ namespace RuthlessMerchant
         public override void StartAction(NPC parent, GameObject other)
         {
             base.StartAction(parent, other);
-
             agent = parent.GetComponent<NavMeshAgent>();
         }
 
@@ -43,10 +50,14 @@ namespace RuthlessMerchant
             }
             else
             {
+                agent.isStopped = false;
                 parent.RotateToNextTarget(agent.steeringTarget + parent.transform.forward, true);
             }
         }
 
+        /// <summary>
+        /// Sets the next waypoint
+        /// </summary>
         private void SetDestination()
         {
             if (parent.Waypoints.Count <= 0 || waypointIndex < 0 || waypointIndex >= parent.Waypoints.Count)
