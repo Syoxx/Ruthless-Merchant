@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿//---------------------------------------------------------------
+// Author: Marcel Croonenbroeck
+//
+//---------------------------------------------------------------
+
+using UnityEngine;
 
 namespace RuthlessMerchant
 {
@@ -7,24 +12,32 @@ namespace RuthlessMerchant
         private Fighter fighter;
         public override void EndAction()
         {
+            parent.Reacting = false;
             base.EndAction();
         }
 
         public override void StartAction(NPC parent, GameObject other)
         {
             fighter = parent as Fighter;
+            parent.Reacting = true;
             base.StartAction(parent, other);
         }
 
         public override void Update(float deltaTime)
         {
+            if(parent.CurrentReactTarget == null || other != parent.CurrentReactTarget.gameObject)
+            {
+                parent.SetCurrentAction(new ActionIdle(), null);
+                return;
+            }
+
             float distance = Vector3.Distance(other.transform.position, parent.transform.position);
-            if (distance <= agent.baseOffset + 0.5f)
+            if (distance <= agent.baseOffset)
             {
                 agent.isStopped = true;
                 parent.Waypoints.Clear();
 
-                parent.CurrentAction = null;
+                parent.SetCurrentAction(new ActionIdle(), null);
             }
             else if (fighter.HuntDistance >= distance)
             {
