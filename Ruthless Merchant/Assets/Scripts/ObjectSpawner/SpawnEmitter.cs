@@ -22,7 +22,7 @@ namespace RuthlessMerchant
         private int count = 1;
 
         [SerializeField]
-        private string[] possiblePaths;
+        private string[] possiblePaths = null;
 
         private ObjectSpawner spawner;
         private float elapsedTime = 0f;

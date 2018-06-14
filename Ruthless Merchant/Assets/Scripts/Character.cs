@@ -18,12 +18,13 @@ namespace RuthlessMerchant
         private static float globalGravityScale = -9.81f;
         private float groundedSkin = 0.05f;
         private bool grounded;
-        //private Vector3 playerSize;
+
         private float playerRadius;
         private Vector3 boxSize;
 
         private Rigidbody rb;
         private bool isPlayer;
+        private float elapsedSecs;
 
         private float attackDelay = 2f;
         private float elapsedAttackTime = 2f;
