@@ -1,4 +1,9 @@
-﻿using System.Collections.Generic;
+﻿//---------------------------------------------------------------
+// Author: Marcel Croonenbroeck
+//
+//---------------------------------------------------------------
+
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace RuthlessMerchant
