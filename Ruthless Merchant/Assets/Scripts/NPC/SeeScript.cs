@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿//---------------------------------------------------------------
+// Author: Marcel Croonenbroeck
+//
+//---------------------------------------------------------------
+
+using UnityEngine;
 
 namespace RuthlessMerchant
 {
@@ -13,13 +18,13 @@ namespace RuthlessMerchant
 
         public void OnTriggerEnter(Collider other)
         {
-            if (other.transform != transform.parent)
+            if (!other.isTrigger && other.transform != transform.parent && (other.CompareTag("NPC") || other.CompareTag("Player") || other.CompareTag("Item")))
                 npc.OnEnterViewArea(other);
         }
 
         public void OnTriggerExit(Collider other)
         {
-            if (other.transform != transform.parent)
+            if (!other.isTrigger && other.transform != transform.parent && (other.CompareTag("NPC") || other.CompareTag("Player") || other.CompareTag("Item")))
                 npc.OnExitViewArea(other);
         }
     }
