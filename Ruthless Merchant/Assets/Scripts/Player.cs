@@ -1,4 +1,8 @@
-﻿using System;
+﻿//---------------------------------------------------------------
+// Authors: Daniel Masliy, Richard Brönnimann, Peter Ehmler
+//---------------------------------------------------------------
+
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +17,8 @@ namespace RuthlessMerchant
         private QuestManager questManager;
         private bool isCursorLocked = true;
         private bool showingInventory = false;
+        private bool hasJumped;
+        private bool isFalling;
         private int maxInteractDistance;
         private float moveSpeed;
         private float mouseXSensitivity = 2f;
@@ -34,10 +40,6 @@ namespace RuthlessMerchant
         private GameObject ItemUIPrefab;
 
         [SerializeField]
-        private float stickToGroundValue;
-        #endregion
-
-        [SerializeField]
         private GameObject mapObject;
         [SerializeField]
         private Transform Teleport1;
@@ -47,19 +49,8 @@ namespace RuthlessMerchant
         private Transform Teleport3;
         [SerializeField]
         private Transform Teleport4;
-                        
-        [SerializeField]
-        private float gravityScale = 1.0f;
+        #endregion
 
-        [SerializeField]
-        private LayerMask layermask;
-
-        
- 
-
-        private bool hasJumped;
-        private bool isFalling;
-        
         #region MonoBehaviour Life Cycle
 
         private void Awake()
@@ -99,7 +90,6 @@ namespace RuthlessMerchant
         {
             base.Start();
             
-
             if (ItemsParent != null)
                 itemsContainer = ItemsParent.transform.parent.gameObject;
             if (itemsContainer != null)
@@ -141,16 +131,6 @@ namespace RuthlessMerchant
                 Jump();
                 hasJumped = false;
             }
-
-            if (!CharController.isGrounded)
-            {
-                isFalling = true;
-            }
-            else
-            {
-                isFalling = false;
-            }
-
 
             base.FixedUpdate();
         }
@@ -296,26 +276,12 @@ namespace RuthlessMerchant
                 isWalking = true;
             }
             
-            if (Input.GetKey(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 hasJumped = true;
                // base.Jump(jumpSpeed);
             }
             
-            //Pre-Refactored Code Daniel/Richard
-            /*
-            if (Input.GetKeyDown(KeyCode.I))
-            {
-                if (!showingInventory)
-                {
-                    ShowInventory(true);
-                }
-                else
-                {
-                    ShowInventory(false);
-                }
-            }
-            */
             if (Input.GetKey(KeyCode.Alpha1))
             {
                 teleportTarget = Teleport1;
@@ -345,14 +311,14 @@ namespace RuthlessMerchant
             float horizontal = Input.GetAxis("Horizontal");
             float vertical = Input.GetAxis("Vertical");
 
-            //if (horizontal == 0 && vertical == 0)
-            //{
-            //    gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
-            //}
-            //else
-            //{
-            //    gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-            //}
+            if (horizontal == 0 && vertical == 0)
+            {
+                gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+            }
+            else
+            {
+                gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+            }
 
             InputVector = new Vector2(horizontal, vertical);
 
@@ -360,8 +326,7 @@ namespace RuthlessMerchant
             {
                 InputVector.Normalize();
             }
-
-            //MoveVector = new Vector3(InputVector.x, 0, InputVector.y);
+            
             base.Move(InputVector, moveSpeed);
 
             SendInteraction();
@@ -374,18 +339,22 @@ namespace RuthlessMerchant
             {
                 Teleport(teleportTarget.position + new Vector3 (0,1));
             }
+            
             if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Default"))
             {
                 base.Grounding(true);
                 Debug.Log("true");
             }
-            else
+        }
+
+        private void OnCollisionExit(Collision collision)
+        {
+            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Default"))
             {
                 base.Grounding(false);
-                Debug.Log("false");
             }
         }
-        
+
         private void Teleport(Vector3 targetPos)
         {
             transform.position = targetPos;

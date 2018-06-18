@@ -5,7 +5,7 @@ namespace RuthlessMerchant
     public abstract class Character : InteractiveObject
     {
         private DamageAbleObject healthSystem;
-        private Vector3 velocity;
+        //private Vector3 velocity;
         private Vector3 moveVector;
         private CharacterController charController;
         private int stamina;
@@ -26,7 +26,6 @@ namespace RuthlessMerchant
         private Rigidbody rb;
         private bool isPlayer;
         private float elapsedSecs;
-        private bool isJumping;
 
         private float attackDelay = 2f;
         private float elapsedAttackTime = 2f;
@@ -43,10 +42,16 @@ namespace RuthlessMerchant
         [SerializeField]
         [Range(0, 1000)]
         protected float runSpeed = 4;
-        private CollisionFlags collisionFlags;
 
         [SerializeField]
+        [Range(0, 1000)]
+        private float stickToGroundValue;
+
+        [SerializeField]
+        [Range(0, 1000)]
         private float maxJumpHeight;
+
+        private Vector3 gravity;
 
         public float WalkSpeed
         {
@@ -129,7 +134,7 @@ namespace RuthlessMerchant
             if (rb == null)
             {
                 rb = GetComponent<Rigidbody>();
-                //rb.useGravity = false;
+                rb.useGravity = false;
             }
 
             if (CompareTag("Player"))
@@ -139,12 +144,9 @@ namespace RuthlessMerchant
             else
             {
                 isPlayer = false;
-            }
+            }            
 
-            if (GetComponent<CharacterController>() != null)
-            {
-                charController = GetComponent<CharacterController>();
-            }
+            gravity = Vector3.zero;
 
             healthSystem = GetComponent<DamageAbleObject>();
             healthSystem.OnDeath += HealthSystem_OnDeath;
@@ -169,24 +171,16 @@ namespace RuthlessMerchant
             if (velocity != Vector2.zero && !isPlayer)
             { transform.rotation = Quaternion.LookRotation(velocity); }
 
-            moveVector = transform.forward * velocity.y + transform.right * velocity.x;
+            moveVector = Vector3.zero;
+            moveVector.x = velocity.x;
+            moveVector.z = velocity.y;
 
-            RaycastHit hitInfo;
-            if (charController != null)
+            if (moveVector.sqrMagnitude > 1)
             {
-                Physics.SphereCast(transform.position, charController.radius, Vector3.down, out hitInfo,
-                               charController.height / 2f, Physics.AllLayers, QueryTriggerInteraction.Ignore);
-
-                moveVector = Vector3.ProjectOnPlane(moveVector, hitInfo.normal).normalized;
-
-                if (isJumping)
-                {
-                    moveVector.y = maxJumpHeight;
-                    isJumping = false;
-                }
-
-                collisionFlags = charController.Move(moveVector * speed * Time.deltaTime);
-            } 
+                moveVector.Normalize();
+            }
+            
+            transform.Translate(moveVector * speed * Time.fixedDeltaTime, Space.Self);
         }
 
         public void Rotate()
@@ -221,14 +215,13 @@ namespace RuthlessMerchant
 
         public void Jump()
         {
-            //if (charController.isGrounded)
+            if (grounded)
             {
                 if (elapsedSecs <= 0)
                 {
-                    //rb.AddForce(Vector3.up * JumpVelocity, ForceMode.Impulse);
-                    isJumping = true;
-                    //grounded = false;
-                    elapsedSecs = .5f;
+                    rb.AddForce(Vector3.up * Mathf.Sqrt(maxJumpHeight), ForceMode.VelocityChange);
+                    grounded = false;
+                    elapsedSecs = 2f;
 
                 }
             }
@@ -240,11 +233,19 @@ namespace RuthlessMerchant
             {
                 elapsedSecs -= Time.deltaTime;
             }
-
-            if (CharController.isGrounded == false)
+            
+            if (grounded)
             {
-                UseGravity();
+                gravity = Vector3.zero;
+                gravity.y = -stickToGroundValue * 0.1f;
+                ApplyGravity(gravity);
             }
+            else
+            {
+                gravity += globalGravityScale * Vector3.up * Time.deltaTime;
+                ApplyGravity(gravity);
+            }
+            
         }
 
         public void CalculateVelocity()
@@ -262,11 +263,9 @@ namespace RuthlessMerchant
             throw new System.NotImplementedException();
         }
 
-        public void UseGravity(/*float gravityScale*/)
-        {
-            Vector3 gravity = 2 * globalGravityScale * Vector3.up * Time.deltaTime;
-            //rb.AddForce(gravity, ForceMode.Acceleration);
-            CharController.Move(gravity);
+        public void ApplyGravity(Vector3 gravity)
+        {            
+            rb.AddForce(gravity, ForceMode.Acceleration);
         }
 
         public void Grounding(bool _grounded)
@@ -282,27 +281,6 @@ namespace RuthlessMerchant
                 grounded = true;
                 Debug.Log("true");
             }
-            else
-            {
-                grounded = false;
-                Debug.Log("false");
-            }
-        }
-
-        private void OnControllerColliderHit(ControllerColliderHit hit)
-        {
-            Rigidbody body = hit.collider.attachedRigidbody;
-            //dont move the rigidbody if the character is on top of it
-            if (collisionFlags == CollisionFlags.Below)
-            {
-                return;
-            }
-
-            if (body == null || body.isKinematic)
-            {
-                return;
-            }
-            body.AddForceAtPosition(charController.velocity * 0.1f, hit.point, ForceMode.Impulse);
         }
     }
 }
