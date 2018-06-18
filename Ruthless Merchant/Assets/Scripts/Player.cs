@@ -1,5 +1,5 @@
 ﻿//---------------------------------------------------------------
-// Authors: Daniel Masliy, Richard Brönnimann, Peter Ehmler
+// Authors: Daniel Masly, Richard Brönnimann, Peter Ehmler
 //---------------------------------------------------------------
 
 using System;
@@ -18,7 +18,6 @@ namespace RuthlessMerchant
         private bool isCursorLocked = true;
         private bool showingInventory = false;
         private bool hasJumped;
-        private bool isFalling;
         private int maxInteractDistance;
         private float moveSpeed;
         private float mouseXSensitivity = 2f;
@@ -95,14 +94,7 @@ namespace RuthlessMerchant
             if (itemsContainer != null)
             {
                 uiCanvas = itemsContainer.transform.parent.gameObject;
-
-                // Ensure hidden inventory
-
-                /*if (uiCanvas.activeInHierarchy == true)
-                    {
-                        ShowInventory(false);
-                    }
-                */
+                
                 maxInteractDistance = 3;
 
                 this.inventory = new Inventory();
@@ -150,18 +142,38 @@ namespace RuthlessMerchant
             float xRot = Input.GetAxis("Mouse Y") * mouseYSensitivity;
 
             playerLookAngle *= Quaternion.Euler(0f, yRot, 0f);
-            cameraPitchAngle *= Quaternion.Euler(-xRot, 0f, 0f);
 
             transform.localRotation = playerLookAngle;
-
-            if (playerAttachedCamera != null)
-            {
-                playerAttachedCamera.transform.localRotation = cameraPitchAngle;
-            }
+            
+            Vector3 camRotation = playerAttachedCamera.transform.rotation.eulerAngles + new Vector3(-xRot, 0f, 0f);
+            camRotation.x = ClampAngle(camRotation.x, -90f, 90f);
+            playerAttachedCamera.transform.eulerAngles = camRotation;
 
             FocusCursor();
         }
 
+        /// <summary>
+        /// Limits camera angle on the x-axis
+        /// </summary>
+        /// <returns>
+        /// Angle corrected to be within min and max values.
+        /// </returns>
+        private float ClampAngle(float angle, float min, float max)
+        {
+            if (angle < 0f)
+            {
+                angle = 360 + angle;
+            }
+            if (angle > 180f)
+            {
+                return Mathf.Max(angle, 360 + min);
+            }
+            return Mathf.Min(angle, max);
+        }
+
+        /// <summary>
+        /// Hides the cursor if game window is focused.
+        /// </summary>
         private void FocusCursor()
         {
             // Pressing escape makes cursor visible + unlocks it
@@ -187,21 +199,7 @@ namespace RuthlessMerchant
         }
 
         public void ShowInventory()
-        {   //Pre-Refactored Code. Daniel/Richard
-            /* 
-            if (makeVisible)
-            {
-                PopulateInventoryPanel();
-                uiCanvas.SetActive(true);
-                showingInventory = true;
-            }
-            else
-            {
-                uiCanvas.SetActive(false);
-                showingInventory = false;
-            }
-            */
-
+        {  
             if (Input.GetKeyDown(KeyCode.I))
             {
                 if (!uiCanvas.activeSelf)
@@ -333,6 +331,7 @@ namespace RuthlessMerchant
             ShowInventory();
             ShowMap();
         }
+
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.collider.CompareTag("Teleport") && teleportTarget != null)

@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿//---------------------------------------------------------------
+// Authors: Peter Ehmler, Richard Brönnimann, 
+//---------------------------------------------------------------
+using UnityEngine;
 
 namespace RuthlessMerchant
 {
@@ -38,7 +41,7 @@ namespace RuthlessMerchant
         [SerializeField]
         [Range(0, 1000)]
         protected float walkSpeed = 2;
- 
+
         [SerializeField]
         [Range(0, 1000)]
         protected float runSpeed = 4;
@@ -144,7 +147,7 @@ namespace RuthlessMerchant
             else
             {
                 isPlayer = false;
-            }            
+            }
 
             gravity = Vector3.zero;
 
@@ -172,6 +175,10 @@ namespace RuthlessMerchant
             { transform.rotation = Quaternion.LookRotation(velocity); }
 
             moveVector = Vector3.zero;
+            rb.velocity = new Vector3(0f, rb.velocity.y, 0f);
+
+
+            moveVector.y = 0;
             moveVector.x = velocity.x;
             moveVector.z = velocity.y;
 
@@ -179,7 +186,7 @@ namespace RuthlessMerchant
             {
                 moveVector.Normalize();
             }
-            
+
             transform.Translate(moveVector * speed * Time.fixedDeltaTime, Space.Self);
         }
 
@@ -221,31 +228,30 @@ namespace RuthlessMerchant
                 {
                     rb.AddForce(Vector3.up * Mathf.Sqrt(maxJumpHeight), ForceMode.VelocityChange);
                     grounded = false;
-                    elapsedSecs = 2f;
-
+                    elapsedSecs = 1f;
                 }
             }
         }
 
         protected virtual void FixedUpdate()
         {
-            if(elapsedSecs >= 0)
+            if (elapsedSecs >= 0)
             {
                 elapsedSecs -= Time.deltaTime;
             }
-            
+
             if (grounded)
             {
                 gravity = Vector3.zero;
-                gravity.y = -stickToGroundValue * 0.1f;
+                gravity.y = -stickToGroundValue;
                 ApplyGravity(gravity);
             }
             else
             {
-                gravity += globalGravityScale * Vector3.up * Time.deltaTime;
+                gravity += globalGravityScale * Vector3.up * Time.deltaTime * 2f;
                 ApplyGravity(gravity);
             }
-            
+
         }
 
         public void CalculateVelocity()
@@ -264,14 +270,18 @@ namespace RuthlessMerchant
         }
 
         public void ApplyGravity(Vector3 gravity)
-        {            
+        {
+            if (gravity.y > 0)
+            {
+                gravity.y = 0;
+            }
             rb.AddForce(gravity, ForceMode.Acceleration);
         }
 
         public void Grounding(bool _grounded)
         {
             grounded = _grounded;
-            
+
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -279,7 +289,14 @@ namespace RuthlessMerchant
             if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Default"))
             {
                 grounded = true;
-                Debug.Log("true");
+            }
+        }
+
+        private void OnCollisionExit(Collision collision)
+        {
+            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Default"))
+            {
+                grounded = false;
             }
         }
     }
