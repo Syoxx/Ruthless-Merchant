@@ -26,6 +26,7 @@ namespace RuthlessMerchant
         // Not used things (Dunno if we need this)
         //
         //
+        [SerializeField]
         private int maxStackCount = 1;
         private ItemValue[] itemValue;
         public ItemValue[] ItemValue

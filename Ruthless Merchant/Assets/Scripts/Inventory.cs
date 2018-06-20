@@ -329,17 +329,17 @@ namespace RuthlessMerchant
                         }
                         else if (inventorySlots[i].Item.Faction == inventorySlots[k].Item.Faction)
                         {
-                            if (inventorySlots[i].Item.Type > inventorySlots[k].Item.Type) //Sorty by ItemType
+                            if (inventorySlots[i].Item.itemType > inventorySlots[k].Item.itemType) //Sorty by ItemType
                             {
                                 SwapItemPositions(i, k);
                             }
-                            else if (inventorySlots[i].Item.Type == inventorySlots[k].Item.Type)
+                            else if (inventorySlots[i].Item.itemType == inventorySlots[k].Item.itemType)
                             {
-                                if (inventorySlots[i].Item.Rarity < inventorySlots[k].Item.Rarity) //Sorty by Rarity
+                                if (inventorySlots[i].Item.itemRarity > inventorySlots[k].Item.itemRarity) //Sorty by Rarity
                                 {
                                     SwapItemPositions(i, k);
                                 }
-                                else if (inventorySlots[i].Item.Rarity == inventorySlots[k].Item.Rarity)
+                                else if (inventorySlots[i].Item.itemRarity == inventorySlots[k].Item.itemRarity)
                                 {
                                     if (inventorySlots[i].Item.gameObject.name[0] > inventorySlots[k].Item.gameObject.name[0]) //Sorty by first Letter of Item
                                     {
