@@ -16,7 +16,8 @@ namespace RuthlessMerchant
         [TextArea] public string itemLore;
         [SerializeField] public Sprite itemSprite;
         [SerializeField] public ItemType itemType;
-
+        [SerializeField] public ItemRarity itemRarity;
+       
 
         //
         //

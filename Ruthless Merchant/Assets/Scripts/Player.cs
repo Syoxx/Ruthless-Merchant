@@ -205,7 +205,7 @@ namespace RuthlessMerchant
                 if (!uiCanvas.activeSelf)
                 {                   
                     uiCanvas.SetActive(true);
-                    //TODO Richard & Daniil -> Rework Inventar PopulateInventoryPanel();
+                    PopulateInventoryPanel();
                 }
                 else
                 {
@@ -215,45 +215,45 @@ namespace RuthlessMerchant
             }
 
         }
-      //TODO Richard & Daniil -> Rework Inventar
-      // private void PopulateInventoryPanel()
-      // {
-      //     if (inventory.inventorySlots.Length == 0)
-      //     {
-      //         return;
-      //     }
-      //     else
-      //     {
-      //         // Delete all objects in inventory UI
-      //         foreach (Transform child in ItemsParent.transform)
-      //         {
-      //             Destroy(child.gameObject);
-      //         }
-      //     }
-      //
-      //     // Create inventory list objects
-      //     for (int itemIndex = 0; itemIndex < inventory.inventorySlots.Length; itemIndex++)
-      //     {
-      //         if (inventory.inventorySlots[itemIndex].Item == null)
-      //         {
-      //             continue;
-      //         }
-      //
-      //         GameObject InventoryItem = Instantiate(ItemUIPrefab) as GameObject;
-      //         InventoryItem.transform.SetParent(ItemsParent.transform, false);
-      //         InventoryDisplayedData itemInfos = InventoryItem.GetComponent<InventoryDisplayedData>();
-      //         itemInfos.itemName.text = inventory.inventorySlots[itemIndex].Item.Name;
-      //         itemInfos.itemWeight.text = inventory.inventorySlots[itemIndex].Item.ItemWeight + " kg";
-      //         itemInfos.itemDescription.text = inventory.inventorySlots[itemIndex].Item.Description;
-      //         itemInfos.itemRarity.text = inventory.inventorySlots[itemIndex].Item.Rarity.ToString();
-      //         itemInfos.itemPrice.text = inventory.inventorySlots[itemIndex].Item.Price + "G";
-      //
-      //         if (inventory.inventorySlots[itemIndex].Item.ItemSprite != null)
-      //         {
-      //             itemInfos.ItemImage.sprite = inventory.inventorySlots[itemIndex].Item.ItemSprite;
-      //         }
-      //     }
-      // }
+      
+       private void PopulateInventoryPanel()
+       {
+           if (inventory.inventorySlots.Length == 0)
+           {
+               return;
+           }
+           else
+           {
+               // Delete all objects in inventory UI
+               foreach (Transform child in ItemsParent.transform)
+               {
+                   Destroy(child.gameObject);
+               }
+           }
+      
+           // Create inventory list objects
+           for (int itemIndex = 0; itemIndex < inventory.inventorySlots.Length; itemIndex++)
+           {
+               if (inventory.inventorySlots[itemIndex].Item == null)
+               {
+                   continue;
+               }
+      
+               GameObject InventoryItem = Instantiate(ItemUIPrefab) as GameObject;
+               InventoryItem.transform.SetParent(ItemsParent.transform, false);
+               InventoryDisplayedData itemInfos = InventoryItem.GetComponent<InventoryDisplayedData>();
+               itemInfos.itemName.text = inventory.inventorySlots[itemIndex].Item.itemName;
+               itemInfos.itemWeight.text = inventory.inventorySlots[itemIndex].Item.itemWeight + " kg";
+               itemInfos.itemDescription.text = inventory.inventorySlots[itemIndex].Item.itemLore;
+               itemInfos.itemRarity.text = inventory.inventorySlots[itemIndex].Item.itemRarity.ToString();
+               itemInfos.itemPrice.text = inventory.inventorySlots[itemIndex].Item.itemPrice + "G";
+      
+               if (inventory.inventorySlots[itemIndex].Item.itemSprite != null)
+               {
+                   itemInfos.ItemImage.sprite = inventory.inventorySlots[itemIndex].Item.itemSprite;
+               }
+           }
+       }
 
         public void ShowMap()
         {
@@ -327,8 +327,8 @@ namespace RuthlessMerchant
             
             base.Move(InputVector, moveSpeed);
 
-            //TODO Richard & Daniel Rework
-            //SendInteraction();
+            
+            SendInteraction();
             ShowInventory();
             ShowMap();
         }
@@ -359,59 +359,59 @@ namespace RuthlessMerchant
         {
             transform.position = targetPos;
         }
-      //TODO Richard & Daniel rework
-      // public void SendInteraction()
-      // {
-      //     if (Input.GetKeyDown(KeyCode.E))
-      //     {
-      //         if (playerAttachedCamera != null)
-      //         {
-      //             Ray clickRay = playerAttachedCamera.ScreenPointToRay(Input.mousePosition);
-      //             RaycastHit hit;
-      //
-      //             if (Physics.Raycast(clickRay, out hit, maxInteractDistance))
-      //             {
-      //                 Debug.Log(hit.collider.name + " " + hit.point + " clicked.");
-      //
-      //                 InteractiveObject target = hit.collider.gameObject.GetComponent<InteractiveObject>();
-      //
-      //                 // Treat interaction target like an item                    
-      //                 Item targetItem = target as Item;
-      //
-      //                 if (targetItem != null)
-      //                 {
-      //                     // Picking up items and gear
-      //                     if (targetItem.Type == ItemType.Weapon || targetItem.Type == ItemType.Gear || targetItem.Type == ItemType.ConsumAble)
-      //                     {
-      //                         Item clonedItem = targetItem.DeepCopy();
-      //
-      //                         // Returns 0 if item was added to inventory
-      //                         int UnsuccessfulPickup = inventory.Add(clonedItem, 1);
-      //
-      //                         if (UnsuccessfulPickup != 0)
-      //                         {
-      //                             Debug.Log("Returned " + UnsuccessfulPickup + ", failed to collect item.");
-      //                         }
-      //                         else
-      //                         {
-      //                             targetItem.DestroyInteractivObject();
-      //                         }
-      //                     }
-      //                 }
-      //                 else
-      //                 {
-      //                     // Treat interaction target like an NPC
-      //                     NPC targetNPC = target as NPC;
-      //
-      //                     if (targetNPC != null)
-      //                     {
-      //                         target.Interact(this.gameObject);
-      //                     }
-      //                 }
-      //             }
-      //         }
-      //     }
-      // }
+      
+       public void SendInteraction()
+       {
+           if (Input.GetKeyDown(KeyCode.E))
+           {
+               if (playerAttachedCamera != null)
+               {
+                   Ray clickRay = playerAttachedCamera.ScreenPointToRay(Input.mousePosition);
+                   RaycastHit hit;
+      
+                   if (Physics.Raycast(clickRay, out hit, maxInteractDistance))
+                   {
+                       Debug.Log(hit.collider.name + " " + hit.point + " clicked.");
+      
+                       InteractiveObject target = hit.collider.gameObject.GetComponent<InteractiveObject>();
+      
+                       // Treat interaction target like an item                    
+                       Item targetItem = target as Item;
+      
+                       if (targetItem != null)
+                       {
+                           // Picking up items and gear
+                           if (targetItem.itemType == ItemType.Weapon || targetItem.itemType == ItemType.Ingredient || targetItem.itemType == ItemType.CraftingMaterial)
+                           {
+                               Item clonedItem = targetItem.DeepCopy();
+      
+                               // Returns 0 if item was added to inventory
+                               int UnsuccessfulPickup = inventory.Add(clonedItem, 1);
+      
+                               if (UnsuccessfulPickup != 0)
+                               {
+                                   Debug.Log("Returned " + UnsuccessfulPickup + ", failed to collect item.");
+                               }
+                               else
+                               {
+                                   targetItem.DestroyInteractivObject();
+                               }
+                           }
+                       }
+                       else
+                       {
+                           // Treat interaction target like an NPC
+                           NPC targetNPC = target as NPC;
+      
+                           if (targetNPC != null)
+                           {
+                               target.Interact(this.gameObject);
+                           }
+                       }
+                   }
+               }
+           }
+       }
 
         public override void Interact(GameObject caller)
         {
