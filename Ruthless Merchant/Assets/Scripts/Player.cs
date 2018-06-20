@@ -463,7 +463,7 @@ namespace RuthlessMerchant
 
             if (!isCtrlPressed && wasCrouching != isCtrlPressed)
             {
-                if (playerCollider.height != playerHeight)
+                if (playerCollider.height <= playerHeight)
                 {
                     playerCollider.height += crouchDelta * 0.1f;
                     playerCollider.center -= new Vector3(0, crouchDelta * 0.05f, 0);
