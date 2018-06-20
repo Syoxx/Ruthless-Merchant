@@ -421,7 +421,7 @@ namespace RuthlessMerchant
                        if (targetItem != null)
                        {
                            // Picking up items and gear
-                           if (targetItem.itemType == ItemType.Weapon || targetItem.itemType == ItemType.Ingredient || targetItem.itemType == ItemType.CraftingMaterial)
+                           if (targetItem.itemType == ItemType.Weapon || targetItem.itemType == ItemType.Ingredient || targetItem.itemType == ItemType.CraftingMaterial|| targetItem.itemType == ItemType.ConsumAble)
                            {
                                Item clonedItem = targetItem.DeepCopy();
       
