@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace RuthlessMerchant
 {
@@ -14,10 +15,17 @@ namespace RuthlessMerchant
 
         public List<Item> startinventory;
 
-        private void Start()
+        UnityEvent InventoryChanged;
+
+        private void Awake()
         {
             inventorySlots = new InventorySlot[maxSlotCount];
 
+            InventoryChanged = new UnityEvent();
+        }
+
+        private void Start()
+        {
             //Debugging
             foreach(Item item in startinventory)
             {
@@ -30,7 +38,6 @@ namespace RuthlessMerchant
         /// </summary>
         public void CallInventory()
         {
-            Debug.ClearDeveloperConsole();
             for (int i = 0; i < inventorySlots.Length; i++)
             {
                 if (inventorySlots[i].Item != null)
@@ -116,12 +123,20 @@ namespace RuthlessMerchant
                         {
                             SortInventory();
                         }
+                        else
+                        {
+                            InventoryChanged.Invoke();
+                        }
                         return count;
                     }
                 }
                 if(sortAfterMethod)
                 {
                     SortInventory();
+                }
+                else
+                {
+                    InventoryChanged.Invoke();
                 }
                 return count;
             }
@@ -194,6 +209,10 @@ namespace RuthlessMerchant
             {
                 SortInventory();
             }
+            else
+            {
+                InventoryChanged.Invoke();
+            }
             return inventorySlots[slot].Item;
         }
 
@@ -247,6 +266,10 @@ namespace RuthlessMerchant
                             {
                                 SortInventory();
                             }
+                            else
+                            {
+                                InventoryChanged.Invoke();
+                            }
                             return true;
                         }
                     }
@@ -255,15 +278,15 @@ namespace RuthlessMerchant
                 {
                     SortInventory();
                 }
+                else
+                {
+                    InventoryChanged.Invoke();
+                }
                 return true;
 
             }
             catch
             {
-                if (sortAfterMethod)
-                {
-                    SortInventory();
-                }
                 throw new Exception("Error during removing of items from inventory");
             }
         }
@@ -277,10 +300,6 @@ namespace RuthlessMerchant
             {
                 inventorySlots[slot].Item.Interact(caller);
             }
-            if (sortAfterMethod)
-            {
-                SortInventory();
-            }
         }
 
         /// <summary>
@@ -293,7 +312,6 @@ namespace RuthlessMerchant
             if(slot >= 0)
             {
                 inventorySlots[slot].Item.Interact(caller);
-                SortInventory();
                 return true;
             }
             else
@@ -352,6 +370,7 @@ namespace RuthlessMerchant
                     }
                 }
             }
+            InventoryChanged.Invoke();
         }
 
         /// <summary>
