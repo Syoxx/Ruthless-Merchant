@@ -1,63 +1,30 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityScript.Steps;
 
 namespace RuthlessMerchant
 {
-    public class Item : InteractiveWorldObject
+    public abstract class Item : InteractiveWorldObject
     {
-        private int ownerId;
-        [SerializeField] private Sprite itemSprite;
-        [SerializeField] private ItemType type;
-        [SerializeField] private ItemRarity rarity;
-        [SerializeField] private int price;
-        [SerializeField] private float weight;
-        [SerializeField] private string itemLore = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
-        private string itemName = "object name";
+        //Made by Daniil Masliy
+
+        // SerializeField for Child classes
+        [Header("Item Parameters")]
+        [SerializeField] public int itemPrice;
+        [SerializeField] public int itemWeight;
+        [SerializeField] public string itemName;
+        [TextArea] public string itemLore;
+        [SerializeField] public Sprite itemSprite;
+        [SerializeField] public ItemType itemType;
+
+
+        //
+        //
+        // Not used things (Dunno if we need this)
+        //
+        //
         private int maxStackCount = 1;
         private ItemValue[] itemValue;
-
-        public float ItemWeight
-        {
-            get { return weight; }
-        }
-
-        public int Price
-        {
-            get { return price; }
-        }
-
-        public Sprite ItemSprite
-        {
-            get { return itemSprite; }
-        }
-
-        public string Name
-        {
-            get { return itemName; }
-        }
-
-        public string Description
-        {
-            get { return itemLore; }
-        }
-
-        public ItemRarity Rarity
-        {
-            get { return rarity; }
-        }
-
-        public ItemType Type
-        {
-            get
-            {
-                return type;
-            }
-            set
-            {
-                type = value;
-            }
-        }
-
         public ItemValue[] ItemValue
         {
             get
@@ -68,15 +35,6 @@ namespace RuthlessMerchant
             {
                 itemValue = value;
             }
-        }
-
-        public override void Start()
-        {
-            itemName = this.name;
-        }
-
-        public override void Update()
-        {
         }
 
         public override void Interact(GameObject caller)
