@@ -18,6 +18,9 @@ namespace RuthlessMerchant
         private bool isCursorLocked = true;
         private bool showingInventory = false;
         private bool hasJumped;
+        private bool isCrouching;
+        private bool isCtrlPressed;
+        private bool wasCrouching;
         private int maxInteractDistance;
         private float moveSpeed;
         private float mouseXSensitivity = 2f;
@@ -31,6 +34,12 @@ namespace RuthlessMerchant
         private GameObject uiCanvas;
         private GameObject itemsContainer;
         private Transform teleportTarget;
+        private float crouchDelta;
+        private float playerHeight;
+
+        [SerializeField]
+        [Tooltip("Tip: CrouchHeight must be smaller than the player collider's height.")]
+        private float CrouchHeight;
 
         [SerializeField]
         private GameObject ItemsParent;
@@ -88,31 +97,36 @@ namespace RuthlessMerchant
         public override void Start()
         {
             base.Start();
-            
+
             if (ItemsParent != null)
+            {
                 itemsContainer = ItemsParent.transform.parent.gameObject;
+            }
+
             if (itemsContainer != null)
             {
                 uiCanvas = itemsContainer.transform.parent.gameObject;
-                
-                maxInteractDistance = 3;
+            }
+            maxInteractDistance = 3;
+            
+            playerHeight = GetComponent<CapsuleCollider>().height;
+            crouchDelta = playerHeight - CrouchHeight;
+            
+            this.inventory = new Inventory();
 
-                this.inventory = new Inventory();
+            playerLookAngle = transform.localRotation;
 
-                playerLookAngle = transform.localRotation;
+            // try to get the first person camera
+            playerAttachedCamera = GetComponentInChildren<Camera>();
 
-                // try to get the first person camera
-                playerAttachedCamera = GetComponentInChildren<Camera>();
-
-                if (playerAttachedCamera != null)
-                {
-                    cameraPitchAngle = playerAttachedCamera.transform.localRotation;
-                }
-                else
-                {
-                    Debug.Log("Player object does not have a first person camera.");
-                    isCursorLocked = false;
-                }
+            if (playerAttachedCamera != null)
+            {
+                cameraPitchAngle = playerAttachedCamera.transform.localRotation;
+            }
+            else
+            {
+                Debug.Log("Player object does not have a first person camera.");
+                isCursorLocked = false;
             }
         }
 
@@ -123,6 +137,17 @@ namespace RuthlessMerchant
                 Jump();
                 hasJumped = false;
             }
+
+            if (isCtrlPressed)
+            {
+                isCrouching = true;
+                if (Input.GetKeyUp(KeyCode.LeftControl))
+                {
+                    isCtrlPressed = false;
+                }
+            }
+
+            Crouch();
 
             base.FixedUpdate();
         }
@@ -144,10 +169,14 @@ namespace RuthlessMerchant
             playerLookAngle *= Quaternion.Euler(0f, yRot, 0f);
 
             transform.localRotation = playerLookAngle;
+
+            if (playerAttachedCamera != null)
+            {
+                Vector3 camRotation = playerAttachedCamera.transform.rotation.eulerAngles + new Vector3(-xRot, 0f, 0f);
+                camRotation.x = ClampAngle(camRotation.x, -90f, 90f);
+                playerAttachedCamera.transform.eulerAngles = camRotation;
+            }
             
-            Vector3 camRotation = playerAttachedCamera.transform.rotation.eulerAngles + new Vector3(-xRot, 0f, 0f);
-            camRotation.x = ClampAngle(camRotation.x, -90f, 90f);
-            playerAttachedCamera.transform.eulerAngles = camRotation;
 
             FocusCursor();
         }
@@ -268,16 +297,27 @@ namespace RuthlessMerchant
         /// </summary>
         public void HandleInput()
         {
-            bool isWalking = false;
+            bool isWalking = true;
+
             if (!Input.GetKey(KeyCode.LeftShift))
             {
                 isWalking = true;
+            }
+            else if(!isCrouching)
+            {
+                isWalking = false;
             }
             
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 hasJumped = true;
                // base.Jump(jumpSpeed);
+            }
+
+            //TODO: If toggle_crouch, toggle a switch instead of checking for sneak every update
+            if (Input.GetKey(KeyCode.LeftControl))
+            {
+                isCtrlPressed = true;
             }
             
             if (Input.GetKey(KeyCode.Alpha1))
@@ -420,7 +460,29 @@ namespace RuthlessMerchant
 
         public void Crouch()
         {
-            throw new System.NotImplementedException();
+            CapsuleCollider playerCollider = GetComponent<CapsuleCollider>();
+
+            if (!isCtrlPressed && wasCrouching != isCtrlPressed)
+            {
+                if (playerCollider.height <= playerHeight)
+                {
+                    playerCollider.height += crouchDelta * 0.1f;
+                    playerCollider.center -= new Vector3(0, crouchDelta * 0.05f, 0);
+                }
+                else
+                {
+                    isCrouching = false;
+                    wasCrouching = isCrouching;
+                }
+            }
+
+            if (!wasCrouching && isCrouching)
+            {
+                playerCollider.height -= crouchDelta;
+                playerCollider.center += new Vector3(0, crouchDelta / 2, 0);
+                wasCrouching = isCrouching;
+            }
+            //TODO: other sneak effects
         }
 
         public void Craft()
