@@ -4,6 +4,7 @@ using UnityScript.Steps;
 
 namespace RuthlessMerchant
 {
+    [RequireComponent(typeof(UniqueIDGenerator))]
     public abstract class Item : InteractiveWorldObject
     {
         //Made by Daniil Masliy
@@ -17,7 +18,8 @@ namespace RuthlessMerchant
         [SerializeField] public Sprite itemSprite;
         [SerializeField] public ItemType itemType;
         [SerializeField] public ItemRarity itemRarity;
-       
+        
+
 
         //
         //
