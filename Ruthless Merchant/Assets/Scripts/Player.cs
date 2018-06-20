@@ -18,6 +18,9 @@ namespace RuthlessMerchant
         private bool isCursorLocked = true;
         private bool showingInventory = false;
         private bool hasJumped;
+        private bool isCrouching;
+        private bool isCtrlPressed;
+        private bool wasCrouching;
         private int maxInteractDistance;
         private float moveSpeed;
         private float mouseXSensitivity = 2f;
@@ -31,6 +34,12 @@ namespace RuthlessMerchant
         private GameObject uiCanvas;
         private GameObject itemsContainer;
         private Transform teleportTarget;
+        private float crouchDelta;
+        private float playerHeight;
+
+        [SerializeField]
+        [Tooltip("Tip: CrouchHeight must be smaller than the player collider's height.")]
+        private float CrouchHeight;
 
         [SerializeField]
         private GameObject ItemsParent;
@@ -88,31 +97,36 @@ namespace RuthlessMerchant
         public override void Start()
         {
             base.Start();
-            
+
             if (ItemsParent != null)
+            {
                 itemsContainer = ItemsParent.transform.parent.gameObject;
+            }
+
             if (itemsContainer != null)
             {
                 uiCanvas = itemsContainer.transform.parent.gameObject;
-                
-                maxInteractDistance = 3;
+            }
+            maxInteractDistance = 3;
+            
+            playerHeight = GetComponent<CapsuleCollider>().height;
+            crouchDelta = playerHeight - CrouchHeight;
+            
+            this.inventory = new Inventory();
 
-                this.inventory = new Inventory();
+            playerLookAngle = transform.localRotation;
 
-                playerLookAngle = transform.localRotation;
+            // try to get the first person camera
+            playerAttachedCamera = GetComponentInChildren<Camera>();
 
-                // try to get the first person camera
-                playerAttachedCamera = GetComponentInChildren<Camera>();
-
-                if (playerAttachedCamera != null)
-                {
-                    cameraPitchAngle = playerAttachedCamera.transform.localRotation;
-                }
-                else
-                {
-                    Debug.Log("Player object does not have a first person camera.");
-                    isCursorLocked = false;
-                }
+            if (playerAttachedCamera != null)
+            {
+                cameraPitchAngle = playerAttachedCamera.transform.localRotation;
+            }
+            else
+            {
+                Debug.Log("Player object does not have a first person camera.");
+                isCursorLocked = false;
             }
         }
 
@@ -123,6 +137,17 @@ namespace RuthlessMerchant
                 Jump();
                 hasJumped = false;
             }
+
+            if (isCtrlPressed)
+            {
+                isCrouching = true;
+                if (Input.GetKeyUp(KeyCode.LeftControl))
+                {
+                    isCtrlPressed = false;
+                }
+            }
+
+            Crouch();
 
             base.FixedUpdate();
         }
@@ -144,10 +169,14 @@ namespace RuthlessMerchant
             playerLookAngle *= Quaternion.Euler(0f, yRot, 0f);
 
             transform.localRotation = playerLookAngle;
+
+            if (playerAttachedCamera != null)
+            {
+                Vector3 camRotation = playerAttachedCamera.transform.rotation.eulerAngles + new Vector3(-xRot, 0f, 0f);
+                camRotation.x = ClampAngle(camRotation.x, -90f, 90f);
+                playerAttachedCamera.transform.eulerAngles = camRotation;
+            }
             
-            Vector3 camRotation = playerAttachedCamera.transform.rotation.eulerAngles + new Vector3(-xRot, 0f, 0f);
-            camRotation.x = ClampAngle(camRotation.x, -90f, 90f);
-            playerAttachedCamera.transform.eulerAngles = camRotation;
 
             FocusCursor();
         }
@@ -215,45 +244,45 @@ namespace RuthlessMerchant
             }
 
         }
-
-        private void PopulateInventoryPanel()
-        {
-            if (inventory.inventorySlots.Length == 0)
-            {
-                return;
-            }
-            else
-            {
-                // Delete all objects in inventory UI
-                foreach (Transform child in ItemsParent.transform)
-                {
-                    Destroy(child.gameObject);
-                }
-            }
-
-            // Create inventory list objects
-            for (int itemIndex = 0; itemIndex < inventory.inventorySlots.Length; itemIndex++)
-            {
-                if (inventory.inventorySlots[itemIndex].Item == null)
-                {
-                    continue;
-                }
-
-                GameObject InventoryItem = Instantiate(ItemUIPrefab) as GameObject;
-                InventoryItem.transform.SetParent(ItemsParent.transform, false);
-                InventoryDisplayedData itemInfos = InventoryItem.GetComponent<InventoryDisplayedData>();
-                itemInfos.itemName.text = inventory.inventorySlots[itemIndex].Item.Name;
-                itemInfos.itemWeight.text = inventory.inventorySlots[itemIndex].Item.ItemWeight + " kg";
-                itemInfos.itemDescription.text = inventory.inventorySlots[itemIndex].Item.Description;
-                itemInfos.itemRarity.text = inventory.inventorySlots[itemIndex].Item.Rarity.ToString();
-                itemInfos.itemPrice.text = inventory.inventorySlots[itemIndex].Item.Price + "G";
-
-                if (inventory.inventorySlots[itemIndex].Item.ItemSprite != null)
-                {
-                    itemInfos.ItemImage.sprite = inventory.inventorySlots[itemIndex].Item.ItemSprite;
-                }
-            }
-        }
+      
+       private void PopulateInventoryPanel()
+       {
+           if (inventory.inventorySlots.Length == 0)
+           {
+               return;
+           }
+           else
+           {
+               // Delete all objects in inventory UI
+               foreach (Transform child in ItemsParent.transform)
+               {
+                   Destroy(child.gameObject);
+               }
+           }
+      
+           // Create inventory list objects
+           for (int itemIndex = 0; itemIndex < inventory.inventorySlots.Length; itemIndex++)
+           {
+               if (inventory.inventorySlots[itemIndex].Item == null)
+               {
+                   continue;
+               }
+      
+               GameObject InventoryItem = Instantiate(ItemUIPrefab) as GameObject;
+               InventoryItem.transform.SetParent(ItemsParent.transform, false);
+               InventoryDisplayedData itemInfos = InventoryItem.GetComponent<InventoryDisplayedData>();
+               itemInfos.itemName.text = inventory.inventorySlots[itemIndex].Item.itemName;
+               itemInfos.itemWeight.text = inventory.inventorySlots[itemIndex].Item.itemWeight + " kg";
+               itemInfos.itemDescription.text = inventory.inventorySlots[itemIndex].Item.itemLore;
+               itemInfos.itemRarity.text = inventory.inventorySlots[itemIndex].Item.itemRarity.ToString();
+               itemInfos.itemPrice.text = inventory.inventorySlots[itemIndex].Item.itemPrice + "G";
+      
+               if (inventory.inventorySlots[itemIndex].Item.itemSprite != null)
+               {
+                   itemInfos.ItemImage.sprite = inventory.inventorySlots[itemIndex].Item.itemSprite;
+               }
+           }
+       }
 
         public void ShowMap()
         {
@@ -268,16 +297,27 @@ namespace RuthlessMerchant
         /// </summary>
         public void HandleInput()
         {
-            bool isWalking = false;
+            bool isWalking = true;
+
             if (!Input.GetKey(KeyCode.LeftShift))
             {
                 isWalking = true;
+            }
+            else if(!isCrouching)
+            {
+                isWalking = false;
             }
             
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 hasJumped = true;
                // base.Jump(jumpSpeed);
+            }
+
+            //TODO: If toggle_crouch, toggle a switch instead of checking for sneak every update
+            if (Input.GetKey(KeyCode.LeftControl))
+            {
+                isCtrlPressed = true;
             }
             
             if (Input.GetKey(KeyCode.Alpha1))
@@ -327,6 +367,7 @@ namespace RuthlessMerchant
             
             base.Move(InputVector, moveSpeed);
 
+            
             SendInteraction();
             ShowInventory();
             ShowMap();
@@ -358,59 +399,59 @@ namespace RuthlessMerchant
         {
             transform.position = targetPos;
         }
-
-        public void SendInteraction()
-        {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                if (playerAttachedCamera != null)
-                {
-                    Ray clickRay = playerAttachedCamera.ScreenPointToRay(Input.mousePosition);
-                    RaycastHit hit;
-
-                    if (Physics.Raycast(clickRay, out hit, maxInteractDistance))
-                    {
-                        Debug.Log(hit.collider.name + " " + hit.point + " clicked.");
-
-                        InteractiveObject target = hit.collider.gameObject.GetComponent<InteractiveObject>();
-
-                        // Treat interaction target like an item                    
-                        Item targetItem = target as Item;
-
-                        if (targetItem != null)
-                        {
-                            // Picking up items and gear
-                            if (targetItem.Type == ItemType.Weapon || targetItem.Type == ItemType.Gear || targetItem.Type == ItemType.ConsumAble)
-                            {
-                                Item clonedItem = targetItem.DeepCopy();
-
-                                // Returns 0 if item was added to inventory
-                                int UnsuccessfulPickup = inventory.Add(clonedItem, 1);
-
-                                if (UnsuccessfulPickup != 0)
-                                {
-                                    Debug.Log("Returned " + UnsuccessfulPickup + ", failed to collect item.");
-                                }
-                                else
-                                {
-                                    targetItem.DestroyInteractivObject();
-                                }
-                            }
-                        }
-                        else
-                        {
-                            // Treat interaction target like an NPC
-                            NPC targetNPC = target as NPC;
-
-                            if (targetNPC != null)
-                            {
-                                target.Interact(this.gameObject);
-                            }
-                        }
-                    }
-                }
-            }
-        }
+      
+       public void SendInteraction()
+       {
+           if (Input.GetKeyDown(KeyCode.E))
+           {
+               if (playerAttachedCamera != null)
+               {
+                   Ray clickRay = playerAttachedCamera.ScreenPointToRay(Input.mousePosition);
+                   RaycastHit hit;
+      
+                   if (Physics.Raycast(clickRay, out hit, maxInteractDistance))
+                   {
+                       Debug.Log(hit.collider.name + " " + hit.point + " clicked.");
+      
+                       InteractiveObject target = hit.collider.gameObject.GetComponent<InteractiveObject>();
+      
+                       // Treat interaction target like an item                    
+                       Item targetItem = target as Item;
+      
+                       if (targetItem != null)
+                       {
+                           // Picking up items and gear
+                           if (targetItem.itemType == ItemType.Weapon || targetItem.itemType == ItemType.Ingredient || targetItem.itemType == ItemType.CraftingMaterial)
+                           {
+                               Item clonedItem = targetItem.DeepCopy();
+      
+                               // Returns 0 if item was added to inventory
+                               int UnsuccessfulPickup = inventory.Add(clonedItem, 1);
+      
+                               if (UnsuccessfulPickup != 0)
+                               {
+                                   Debug.Log("Returned " + UnsuccessfulPickup + ", failed to collect item.");
+                               }
+                               else
+                               {
+                                   targetItem.DestroyInteractivObject();
+                               }
+                           }
+                       }
+                       else
+                       {
+                           // Treat interaction target like an NPC
+                           NPC targetNPC = target as NPC;
+      
+                           if (targetNPC != null)
+                           {
+                               target.Interact(this.gameObject);
+                           }
+                       }
+                   }
+               }
+           }
+       }
 
         public override void Interact(GameObject caller)
         {
@@ -419,7 +460,29 @@ namespace RuthlessMerchant
 
         public void Crouch()
         {
-            throw new System.NotImplementedException();
+            CapsuleCollider playerCollider = GetComponent<CapsuleCollider>();
+
+            if (!isCtrlPressed && wasCrouching != isCtrlPressed)
+            {
+                if (playerCollider.height <= playerHeight)
+                {
+                    playerCollider.height += crouchDelta * 0.1f;
+                    playerCollider.center -= new Vector3(0, crouchDelta * 0.05f, 0);
+                }
+                else
+                {
+                    isCrouching = false;
+                    wasCrouching = isCrouching;
+                }
+            }
+
+            if (!wasCrouching && isCrouching)
+            {
+                playerCollider.height -= crouchDelta;
+                playerCollider.center += new Vector3(0, crouchDelta / 2, 0);
+                wasCrouching = isCrouching;
+            }
+            //TODO: other sneak effects
         }
 
         public void Craft()

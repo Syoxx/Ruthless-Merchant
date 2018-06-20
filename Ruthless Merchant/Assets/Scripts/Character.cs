@@ -226,8 +226,9 @@ namespace RuthlessMerchant
             {
                 if (elapsedSecs <= 0)
                 {
-                    rb.AddForce(Vector3.up * Mathf.Sqrt(maxJumpHeight), ForceMode.VelocityChange);
                     grounded = false;
+                    gravity = Vector3.zero;
+                    rb.AddForce(Vector3.up * Mathf.Sqrt(maxJumpHeight), ForceMode.VelocityChange);
                     elapsedSecs = 1f;
                 }
             }
