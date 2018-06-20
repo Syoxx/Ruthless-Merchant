@@ -25,6 +25,9 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// Primarily for Debugging. Outputs the Inventory in the Console.
+        /// </summary>
         public void CallInventory()
         {
             Debug.ClearDeveloperConsole();
@@ -34,14 +37,6 @@ namespace RuthlessMerchant
                     Debug.Log(inventorySlots[i].Item.gameObject.name);
                 else
                     Debug.Log("Empty");
-            }
-        }
-
-        private void Update()
-        {
-            if(Input.GetKeyDown(KeyCode.I))
-            {
-                SortInventory();
             }
         }
 
@@ -79,6 +74,7 @@ namespace RuthlessMerchant
         /// </summary>
         /// <param name="item">the item that will be added</param>
         /// <param name="count">the amount of items to add</param>
+        /// <param name="sortAfterMethod">Set this to true, if Inventory should be sorted after adding the items</param>
         /// <returns>Returns the number of items that couldn't be stored in the inventory. returns 0 if all items were added successfully</returns>
         public int Add(Item item, int count, bool sortAfterMethod)
         {
@@ -176,6 +172,7 @@ namespace RuthlessMerchant
         /// </summary>
         /// <param name="slot">the slot from which items will be removed</param>
         /// <param name="count">the number of items to be removed. Removes all items if negative</param>
+        /// <param name="sortAfterMethod">Set this to true, if Inventory should be sorted after removing the items</param>
         /// <returns>Returns the item that was stored at the slot</returns>
         public Item Remove(int slot, int count, bool sortAfterMethod)
         {
@@ -205,6 +202,7 @@ namespace RuthlessMerchant
         /// </summary>
         /// <param name="item">the item which will be removed</param>
         /// <param name="count">how many of that item should be removed</param>
+        /// <param name="sortAfterMethod">Set this to true, if Inventory should be sorted after removing the items</param>
         /// <returns>returns true if there are more items in the inventory, than count.</returns>
         public bool Remove(Item item, int count, bool sortAfterMethod)
         {
@@ -304,37 +302,40 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// Sorts the Inventory. Priorities Faction, then Type, then Rarity, then name.
+        /// </summary>
         void SortInventory()
         {
             for (int i = 0; i < inventorySlots.Length; i++)
             {
                 for (int k = inventorySlots.Length - 1; k > i; k--)
                 {
-                    if (inventorySlots[i].Item == null && inventorySlots[k].Item != null)
+                    if (inventorySlots[i].Item == null && inventorySlots[k].Item != null) //is the first object empty?
                     {
                         SwapItemPositions(i, k);
                     }
                     else if(inventorySlots[i].Item != null && inventorySlots[k].Item != null)
                     {
-                        if (inventorySlots[i].Item.Faction < inventorySlots[k].Item.Faction)
+                        if (inventorySlots[i].Item.Faction < inventorySlots[k].Item.Faction) //Sorts by Faction
                         {
                             SwapItemPositions(i, k);
                         }
                         else if (inventorySlots[i].Item.Faction == inventorySlots[k].Item.Faction)
                         {
-                            if (inventorySlots[i].Item.Type > inventorySlots[k].Item.Type)
+                            if (inventorySlots[i].Item.Type > inventorySlots[k].Item.Type) //Sorty by ItemType
                             {
                                 SwapItemPositions(i, k);
                             }
                             else if (inventorySlots[i].Item.Type == inventorySlots[k].Item.Type)
                             {
-                                if (inventorySlots[i].Item.Rarity < inventorySlots[k].Item.Rarity)
+                                if (inventorySlots[i].Item.Rarity < inventorySlots[k].Item.Rarity) //Sorty by Rarity
                                 {
                                     SwapItemPositions(i, k);
                                 }
                                 else if (inventorySlots[i].Item.Rarity == inventorySlots[k].Item.Rarity)
                                 {
-                                    if (inventorySlots[i].Item.gameObject.name[0] > inventorySlots[k].Item.gameObject.name[0])
+                                    if (inventorySlots[i].Item.gameObject.name[0] > inventorySlots[k].Item.gameObject.name[0]) //Sorty by first Letter of Item
                                     {
                                         SwapItemPositions(i, k);
                                     }
@@ -346,6 +347,9 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// Swaps the Position of the Items at firstindex and secondIndex.
+        /// </summary>
         void SwapItemPositions(int firstIndex, int SecondIndex)
         {
             InventorySlot buffer = new InventorySlot();

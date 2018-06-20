@@ -34,36 +34,11 @@ namespace RuthlessMerchant
             }
         }
 
-        Recipes.Recipe GetRecipe(int index)
-        {
-            if(!recipes)
-            {
-                return recipes.GetRecipes()[index];
-            }
-            else
-            {
-                return new Recipes.Recipe(new Item(), new List<Recipes.Recipe.Materials> { new Recipes.Recipe.Materials(new Item(), 1) }, false);
-            }
-        }
-
-        // Use this for initialization
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
-        public void Test(int index)
-        {
-            TryCraft(index);
-        }
-
-        public void TryCraft(int index)
+        /// <summary>
+        /// Tries to craft and item. returns true if item was crafted successfully.
+        /// </summary>
+        /// <param name="index">index of the chosen recipe</param>
+        public bool TryCraft(int index)
         {
             if(ContainMaterials(index))
             {
@@ -72,9 +47,16 @@ namespace RuthlessMerchant
                     inventory.Remove(recipes.GetRecipes()[index].ListOfMaterials[i].Item, recipes.GetRecipes()[index].ListOfMaterials[i].Count, false);
                 }
                 inventory.Add(recipes.GetRecipes()[index].Result, 1, true);
+                return true;
             }
+            return false;
         }
 
+        /// <summary>
+        /// Checks if required Items are in the inventory.
+        /// </summary>
+        /// <param name="index">index of the chosen recipe</param>
+        /// <returns>return true if item can be crafted</returns>
         public bool ContainMaterials(int index)
         {
             for(int i = 0; i < recipes.GetRecipes()[index].ListOfMaterials.Count; i++)

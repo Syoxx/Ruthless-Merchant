@@ -140,13 +140,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10f3b86602e35eb4cb4bc42772cb7571, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSlotCount: 10
+  maxSlotCount: 50
   startinventory:
+  - {fileID: 114894984053039798, guid: ce039af5f209e834d88e49605446b962, type: 2}
   - {fileID: 114289662986095978, guid: 022efed35bdeb6549b58ab465df175d0, type: 2}
   - {fileID: 114894984053039798, guid: ce039af5f209e834d88e49605446b962, type: 2}
-  - {fileID: 114063559557749658, guid: e597f8c8591dc97418fbd5543cca7221, type: 2}
-  - {fileID: 114721022954143412, guid: 2c96dcb24e48f7f458980b4d4151bc94, type: 2}
   - {fileID: 114289662986095978, guid: 022efed35bdeb6549b58ab465df175d0, type: 2}
+  - {fileID: 114894984053039798, guid: ce039af5f209e834d88e49605446b962, type: 2}
+  - {fileID: 114289662986095978, guid: 022efed35bdeb6549b58ab465df175d0, type: 2}
+  - {fileID: 114894984053039798, guid: ce039af5f209e834d88e49605446b962, type: 2}
+  - {fileID: 114289662986095978, guid: 022efed35bdeb6549b58ab465df175d0, type: 2}
+  - {fileID: 114894984053039798, guid: ce039af5f209e834d88e49605446b962, type: 2}
+  - {fileID: 114289662986095978, guid: 022efed35bdeb6549b58ab465df175d0, type: 2}
+  - {fileID: 114289662986095978, guid: 022efed35bdeb6549b58ab465df175d0, type: 2}
+  - {fileID: 114894984053039798, guid: ce039af5f209e834d88e49605446b962, type: 2}
+  - {fileID: 114894984053039798, guid: ce039af5f209e834d88e49605446b962, type: 2}
+  - {fileID: 114894984053039798, guid: ce039af5f209e834d88e49605446b962, type: 2}
+  - {fileID: 114894984053039798, guid: ce039af5f209e834d88e49605446b962, type: 2}
 --- !u!4 &71036992
 Transform:
   m_ObjectHideFlags: 0
@@ -242,7 +252,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -465,6 +475,13 @@ MonoBehaviour:
     materials:
     - item: {fileID: 114289662986095978, guid: 022efed35bdeb6549b58ab465df175d0, type: 2}
       count: 3
+    autoUnlocked: 0
+  - result: {fileID: 114063559557749658, guid: eeaa35d9b4b45b845bdc18dc47bc63c7, type: 2}
+    materials:
+    - item: {fileID: 114894984053039798, guid: ce039af5f209e834d88e49605446b962, type: 2}
+      count: 6
+    - item: {fileID: 114289662986095978, guid: 022efed35bdeb6549b58ab465df175d0, type: 2}
+      count: 2
     autoUnlocked: 0
 --- !u!4 &734649498
 Transform:
