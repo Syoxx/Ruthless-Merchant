@@ -305,7 +305,7 @@ namespace RuthlessMerchant
         /// <summary>
         /// Sorts the Inventory. Priorities Faction, then Type, then Rarity, then name.
         /// </summary>
-        void SortInventory()
+        void SortInventory() //I know this Method looks huge, but it's just checking on the different things it can sort after.
         {
             for (int i = 0; i < inventorySlots.Length; i++)
             {
@@ -339,6 +339,13 @@ namespace RuthlessMerchant
                                     {
                                         SwapItemPositions(i, k);
                                     }
+                                    else if(inventorySlots[i].Item == inventorySlots[k].Item)
+                                    {
+                                        if(inventorySlots[i].Count > inventorySlots[k].Count)
+                                        {
+                                            SwapItemPositions(i, k);
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -358,6 +365,16 @@ namespace RuthlessMerchant
 
             inventorySlots[firstIndex] = inventorySlots[SecondIndex];
             inventorySlots[SecondIndex] = buffer;
+        }
+
+        public void AddTest(int number)
+        {
+            Add(startinventory[0], number, true);
+        }
+
+        public void RemoveTest(int number)
+        {
+            Remove(startinventory[0], number, true);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace RuthlessMerchant
         [SerializeField] private float weight;
         [SerializeField] private string itemLore = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
         private string itemName = "object name";
-        private int maxStackCount = 1;
+        [SerializeField] private int maxStackCount = 1;
         private ItemValue[] itemValue;
 
         public float ItemWeight
