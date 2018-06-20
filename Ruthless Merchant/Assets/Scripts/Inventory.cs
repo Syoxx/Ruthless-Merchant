@@ -17,17 +17,17 @@ namespace RuthlessMerchant
         private void Start()
         {
             inventorySlots = new InventorySlot[maxSlotCount];
+
+            //Debugging
             foreach(Item item in startinventory)
             {
-                Add(item, 1);
+                Add(item, 1, true);
             }
-            Remove(2,1);
-
-            CallInventory();
         }
 
-        private void CallInventory()
+        public void CallInventory()
         {
+            Debug.ClearDeveloperConsole();
             for (int i = 0; i < inventorySlots.Length; i++)
             {
                 if (inventorySlots[i].Item != null)
@@ -80,7 +80,7 @@ namespace RuthlessMerchant
         /// <param name="item">the item that will be added</param>
         /// <param name="count">the amount of items to add</param>
         /// <returns>Returns the number of items that couldn't be stored in the inventory. returns 0 if all items were added successfully</returns>
-        public int Add(Item item, int count)
+        public int Add(Item item, int count, bool sortAfterMethod)
         {
             try
             {
@@ -116,11 +116,17 @@ namespace RuthlessMerchant
                     }
                     if(count <= 0)
                     {
-                        SortInventory();
+                        if (sortAfterMethod)
+                        {
+                            SortInventory();
+                        }
                         return count;
                     }
                 }
-                SortInventory();
+                if(sortAfterMethod)
+                {
+                    SortInventory();
+                }
                 return count;
             }
             catch
@@ -171,7 +177,7 @@ namespace RuthlessMerchant
         /// <param name="slot">the slot from which items will be removed</param>
         /// <param name="count">the number of items to be removed. Removes all items if negative</param>
         /// <returns>Returns the item that was stored at the slot</returns>
-        public Item Remove(int slot, int count)
+        public Item Remove(int slot, int count, bool sortAfterMethod)
         {
             if(count > 0)
             {
@@ -187,7 +193,10 @@ namespace RuthlessMerchant
                 inventorySlots[slot].Count = 0;
                 inventorySlots[slot].Item = null;
             }
-            SortInventory();
+            if (sortAfterMethod)
+            {
+                SortInventory();
+            }
             return inventorySlots[slot].Item;
         }
 
@@ -197,7 +206,7 @@ namespace RuthlessMerchant
         /// <param name="item">the item which will be removed</param>
         /// <param name="count">how many of that item should be removed</param>
         /// <returns>returns true if there are more items in the inventory, than count.</returns>
-        public bool Remove(Item item, int count)
+        public bool Remove(Item item, int count, bool sortAfterMethod)
         {
             //Searching for amount of Items
             try
@@ -236,18 +245,27 @@ namespace RuthlessMerchant
                         }
                         else
                         {
-                            SortInventory();
+                            if (sortAfterMethod)
+                            {
+                                SortInventory();
+                            }
                             return true;
                         }
                     }
                 }
-                SortInventory();
+                if (sortAfterMethod)
+                {
+                    SortInventory();
+                }
                 return true;
 
             }
             catch
             {
-                SortInventory();
+                if (sortAfterMethod)
+                {
+                    SortInventory();
+                }
                 throw new Exception("Error during removing of items from inventory");
             }
         }
@@ -255,13 +273,16 @@ namespace RuthlessMerchant
         /// <summary>
         /// Interacts with Item within a specific Inventoryslot
         /// </summary
-        public void Interact(int slot, GameObject caller)
+        public void Interact(int slot, GameObject caller, bool sortAfterMethod)
         {
             if(inventorySlots[slot].Count > 0 && slot >= 0 && slot < maxSlotCount)
             {
                 inventorySlots[slot].Item.Interact(caller);
             }
-            SortInventory();
+            if (sortAfterMethod)
+            {
+                SortInventory();
+            }
         }
 
         /// <summary>

@@ -385,7 +385,7 @@ namespace RuthlessMerchant
                                 Item clonedItem = targetItem.DeepCopy();
 
                                 // Returns 0 if item was added to inventory
-                                int UnsuccessfulPickup = inventory.Add(clonedItem, 1);
+                                int UnsuccessfulPickup = inventory.Add(clonedItem, 1, true);
 
                                 if (UnsuccessfulPickup != 0)
                                 {

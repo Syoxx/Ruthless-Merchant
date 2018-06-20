@@ -58,7 +58,24 @@ namespace RuthlessMerchant
 
         }
 
-        bool ContainMaterials(int index)
+        public void Test(int index)
+        {
+            TryCraft(index);
+        }
+
+        public void TryCraft(int index)
+        {
+            if(ContainMaterials(index))
+            {
+                for(int i = 0; i < recipes.GetRecipes()[index].ListOfMaterials.Count; i++)
+                {
+                    inventory.Remove(recipes.GetRecipes()[index].ListOfMaterials[i].Item, recipes.GetRecipes()[index].ListOfMaterials[i].Count, false);
+                }
+                inventory.Add(recipes.GetRecipes()[index].Result, 1, true);
+            }
+        }
+
+        public bool ContainMaterials(int index)
         {
             for(int i = 0; i < recipes.GetRecipes()[index].ListOfMaterials.Count; i++)
             {
