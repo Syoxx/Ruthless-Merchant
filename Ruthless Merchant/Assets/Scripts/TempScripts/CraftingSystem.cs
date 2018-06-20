@@ -58,11 +58,16 @@ namespace RuthlessMerchant
 
         }
 
-
-
-        ContainMaterials(int index)
+        bool ContainMaterials(int index)
         {
-            for(int i = 0; i < Inventory)
+            for(int i = 0; i < recipes.GetRecipes()[index].ListOfMaterials.Count; i++)
+            {
+                if (recipes.GetRecipes()[index].ListOfMaterials[i].Count > inventory.GetNumberOfItems(recipes.GetRecipes()[index].ListOfMaterials[i].Item))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

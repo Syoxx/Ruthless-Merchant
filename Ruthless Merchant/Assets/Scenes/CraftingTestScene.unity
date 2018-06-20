@@ -113,6 +113,53 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &71036990
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 71036992}
+  - component: {fileID: 71036991}
+  m_Layer: 0
+  m_Name: Inventory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &71036991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 71036990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10f3b86602e35eb4cb4bc42772cb7571, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSlotCount: 10
+  startinventory:
+  - {fileID: 114289662986095978, guid: 022efed35bdeb6549b58ab465df175d0, type: 2}
+  - {fileID: 114894984053039798, guid: ce039af5f209e834d88e49605446b962, type: 2}
+  - {fileID: 114063559557749658, guid: e597f8c8591dc97418fbd5543cca7221, type: 2}
+  - {fileID: 114721022954143412, guid: 2c96dcb24e48f7f458980b4d4151bc94, type: 2}
+  - {fileID: 114289662986095978, guid: 022efed35bdeb6549b58ab465df175d0, type: 2}
+--- !u!4 &71036992
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 71036990}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.2778673, y: 2.8323927, z: -12.718097}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &663119071
 GameObject:
   m_ObjectHideFlags: 0
@@ -222,14 +269,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recipes:
-  - Result: {fileID: 114063559557749658, guid: e597f8c8591dc97418fbd5543cca7221, type: 2}
+  - result: {fileID: 0}
     materials:
     - item: {fileID: 114289662986095978, guid: 022efed35bdeb6549b58ab465df175d0, type: 2}
       count: 1
     - item: {fileID: 114894984053039798, guid: ce039af5f209e834d88e49605446b962, type: 2}
       count: 2
     autoUnlocked: 1
-  - Result: {fileID: 114721022954143412, guid: 2c96dcb24e48f7f458980b4d4151bc94, type: 2}
+  - result: {fileID: 0}
     materials:
     - item: {fileID: 114289662986095978, guid: 022efed35bdeb6549b58ab465df175d0, type: 2}
       count: 3

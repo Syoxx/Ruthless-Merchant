@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace RuthlessMerchant
@@ -7,11 +9,45 @@ namespace RuthlessMerchant
     {
         private Item[] items;
         public InventorySlot[] inventorySlots;
+        [SerializeField]
         private int maxSlotCount = 10;
+
+        public List<Item> startinventory;
+
+        private void Start()
+        {
+            inventorySlots = new InventorySlot[maxSlotCount];
+            foreach(Item item in startinventory)
+            {
+                Add(item, 1);
+            }
+            Remove(2,1);
+
+            CallInventory();
+        }
+
+        private void CallInventory()
+        {
+            for (int i = 0; i < inventorySlots.Length; i++)
+            {
+                if (inventorySlots[i].Item != null)
+                    Debug.Log(inventorySlots[i].Item.gameObject.name);
+                else
+                    Debug.Log("Empty");
+            }
+        }
+
+        private void Update()
+        {
+            if(Input.GetKeyDown(KeyCode.I))
+            {
+                SortInventory();
+            }
+        }
 
         public Inventory()
         {
-            inventorySlots = new InventorySlot[maxSlotCount];
+            //inventorySlots = new InventorySlot[maxSlotCount];
         }
 
         public Item[] Items
@@ -64,7 +100,6 @@ namespace RuthlessMerchant
                             inventorySlots[i].Item = item;
                             count = 0;
                         }
-                        return count;
                     }
                     else if (inventorySlots[i].Item == item && inventorySlots[i].Count < item.MaxStackCount)
                     {
@@ -79,7 +114,13 @@ namespace RuthlessMerchant
                             count = 0;
                         }
                     }
+                    if(count <= 0)
+                    {
+                        SortInventory();
+                        return count;
+                    }
                 }
+                SortInventory();
                 return count;
             }
             catch
@@ -109,7 +150,7 @@ namespace RuthlessMerchant
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        private int GetNumberOfItems(Item item)
+        public int GetNumberOfItems(Item item)
         {
             int amount = 0;
 
@@ -146,6 +187,7 @@ namespace RuthlessMerchant
                 inventorySlots[slot].Count = 0;
                 inventorySlots[slot].Item = null;
             }
+            SortInventory();
             return inventorySlots[slot].Item;
         }
 
@@ -194,15 +236,18 @@ namespace RuthlessMerchant
                         }
                         else
                         {
+                            SortInventory();
                             return true;
                         }
                     }
                 }
+                SortInventory();
                 return true;
 
             }
             catch
             {
+                SortInventory();
                 throw new Exception("Error during removing of items from inventory");
             }
         }
@@ -216,6 +261,7 @@ namespace RuthlessMerchant
             {
                 inventorySlots[slot].Item.Interact(caller);
             }
+            SortInventory();
         }
 
         /// <summary>
@@ -228,12 +274,65 @@ namespace RuthlessMerchant
             if(slot >= 0)
             {
                 inventorySlots[slot].Item.Interact(caller);
+                SortInventory();
                 return true;
             }
             else
             {
                 return false;
             }
+        }
+
+        void SortInventory()
+        {
+            for (int i = 0; i < inventorySlots.Length; i++)
+            {
+                for (int k = inventorySlots.Length - 1; k > i; k--)
+                {
+                    if (inventorySlots[i].Item == null && inventorySlots[k].Item != null)
+                    {
+                        SwapItemPositions(i, k);
+                    }
+                    else if(inventorySlots[i].Item != null && inventorySlots[k].Item != null)
+                    {
+                        if (inventorySlots[i].Item.Faction < inventorySlots[k].Item.Faction)
+                        {
+                            SwapItemPositions(i, k);
+                        }
+                        else if (inventorySlots[i].Item.Faction == inventorySlots[k].Item.Faction)
+                        {
+                            if (inventorySlots[i].Item.Type > inventorySlots[k].Item.Type)
+                            {
+                                SwapItemPositions(i, k);
+                            }
+                            else if (inventorySlots[i].Item.Type == inventorySlots[k].Item.Type)
+                            {
+                                if (inventorySlots[i].Item.Rarity < inventorySlots[k].Item.Rarity)
+                                {
+                                    SwapItemPositions(i, k);
+                                }
+                                else if (inventorySlots[i].Item.Rarity == inventorySlots[k].Item.Rarity)
+                                {
+                                    if (inventorySlots[i].Item.gameObject.name[0] > inventorySlots[k].Item.gameObject.name[0])
+                                    {
+                                        SwapItemPositions(i, k);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        void SwapItemPositions(int firstIndex, int SecondIndex)
+        {
+            InventorySlot buffer = new InventorySlot();
+            buffer.Item = inventorySlots[firstIndex].Item;
+            buffer.Count = inventorySlots[firstIndex].Count;
+
+            inventorySlots[firstIndex] = inventorySlots[SecondIndex];
+            inventorySlots[SecondIndex] = buffer;
         }
     }
 }
