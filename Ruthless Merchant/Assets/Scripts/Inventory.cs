@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace RuthlessMerchant
 {
-    public class Inventory
+    public class Inventory : MonoBehaviour
     {
         private Item[] items;
         public InventorySlot[] inventorySlots;
@@ -102,6 +102,26 @@ namespace RuthlessMerchant
                     return i;
             }
             return -1;
+        }
+
+        /// <summary>
+        /// Returns how many of a specific Item is within the inventory. Returns 0 if you don't have the item
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        private int GetNumberOfItems(Item item)
+        {
+            int amount = 0;
+
+            for(int i = 0; i < maxSlotCount; i++)
+            {
+                if(inventorySlots[i].Item == item)
+                {
+                    amount += inventorySlots[i].Count;
+                }
+            }
+
+            return amount;
         }
 
         /// <summary>

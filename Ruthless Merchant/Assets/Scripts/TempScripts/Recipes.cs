@@ -11,10 +11,10 @@ namespace RuthlessMerchant
         List<Recipe> recipes;
 
         [System.Serializable]
-        struct Recipe
+        public struct Recipe
         {
             [SerializeField]
-            Item Result;
+            Item result;
 
             [SerializeField]
             List<Materials> materials;
@@ -22,18 +22,82 @@ namespace RuthlessMerchant
             [SerializeField]
             bool autoUnlocked;
 
+            #region GetFunctions
+
+            public Item Result
+            {
+                get
+                {
+                    return result;
+                }
+            }
+
+            public List<Materials> ListOfMaterials
+            {
+                get
+                {
+                    return materials;
+                }
+            }
+
+            public bool AutoUnlocked
+            {
+                get
+                {
+                    return autoUnlocked;
+                }
+            }
+
+            #endregion
+
             [System.Serializable]
-            struct Materials
+            public struct Materials
             {
                 [SerializeField]
                 Item item;
 
                 [SerializeField]
                 int count;
+
+                #region GetFunctions
+
+                public Item Item
+                {
+                    get
+                    {
+                        return item;
+                    }
+                }
+
+                public int Count
+                {
+                    get
+                    {
+                        return count;
+                    }
+                }
+
+                #endregion
+
+                public Materials(Item item, int count)
+                {
+                    this.item = item;
+                    this.count = count;
+                }
+            }
+
+            public Recipe(Item result, List<Materials> materials, bool autoUnlocked)
+            {
+                this.result = result;
+                this.materials = materials;
+                this.autoUnlocked = autoUnlocked;
             }
         }
 
-
+        public List<Recipe> GetRecipes()
+        {
+            return recipes;
+        }
 
         // Use this for initialization
         void Start()
