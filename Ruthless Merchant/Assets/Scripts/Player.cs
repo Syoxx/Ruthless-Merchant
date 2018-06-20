@@ -31,7 +31,7 @@ namespace RuthlessMerchant
         private Quaternion cameraPitchAngle;
         private Vector3 MoveVector = Vector3.zero;
         private Vector2 InputVector = Vector2.zero;
-        private GameObject uiCanvas;
+        private GameObject inventoryCanvas;
         private GameObject itemsContainer;
         private Transform teleportTarget;
         private float crouchDelta;
@@ -105,7 +105,7 @@ namespace RuthlessMerchant
 
             if (itemsContainer != null)
             {
-                uiCanvas = itemsContainer.transform.parent.gameObject;
+                inventoryCanvas = itemsContainer.transform.parent.gameObject;
             }
             maxInteractDistance = 3;
             
@@ -231,18 +231,14 @@ namespace RuthlessMerchant
         {  
             if (Input.GetKeyDown(KeyCode.I))
             {
-                if (!uiCanvas.activeSelf)
-                {                   
-                    uiCanvas.SetActive(true);
-                    PopulateInventoryPanel();
-                }
-                else
+                if (mapObject.activeSelf)
                 {
-                    uiCanvas.SetActive(false);
+                    mapObject.SetActive(false);
                 }
 
+                PopulateInventoryPanel();
+                inventoryCanvas.SetActive(inventoryCanvas.activeSelf == false);
             }
-
         }
 
         private void PopulateInventoryPanel()
@@ -288,6 +284,11 @@ namespace RuthlessMerchant
         {
             if (Input.GetKeyDown(KeyCode.M))
             {
+                if (inventoryCanvas.activeSelf)
+                {
+                    inventoryCanvas.SetActive(false);
+                }
+
                 mapObject.SetActive(mapObject.activeSelf == false);
             }
         }
