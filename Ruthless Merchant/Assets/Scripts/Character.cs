@@ -1,10 +1,16 @@
-﻿using UnityEngine;
+﻿//---------------------------------------------------------------
+// Authors: Peter Ehmler, Richard Brönnimann, 
+//---------------------------------------------------------------
+using UnityEngine;
 
 namespace RuthlessMerchant
 {
     public abstract class Character : InteractiveObject
     {
-        private Vector3 velocity;
+        private DamageAbleObject healthSystem;
+        //private Vector3 velocity;
+        private Vector3 moveVector;
+        private CharacterController charController;
         private int stamina;
         private int maxStamina;
         private int staminaRegeneration;
@@ -12,47 +18,58 @@ namespace RuthlessMerchant
 
         private StatValue[] characterStats;
         private StaminaController staminaController;
-        private float maxJumpHeight;
 
         private static float globalGravityScale = -9.81f;
         private float groundedSkin = 0.05f;
         private bool grounded;
-        private Vector3 playerSize;
+
+        private float playerRadius;
         private Vector3 boxSize;
 
         private Rigidbody rb;
         private bool isPlayer;
+        private float elapsedSecs;
+
+        private float attackDelay = 2f;
+        private float elapsedAttackTime = 2f;
+
+        public bool IsPlayer
+        {
+            get { return isPlayer; }
+        }
 
         [SerializeField]
         [Range(0, 1000)]
         protected float walkSpeed = 2;
- 
+
         [SerializeField]
         [Range(0, 1000)]
         protected float runSpeed = 4;
 
-        private float elapsedSecs;
+        [SerializeField]
+        [Range(0, 1000)]
+        private float stickToGroundValue;
 
-        public override void Start()
+        [SerializeField]
+        [Range(0, 1000)]
+        private float maxJumpHeight;
+
+        private Vector3 gravity;
+
+        public float WalkSpeed
         {
-            if (rb == null)
+            get
             {
-                rb = GetComponent<Rigidbody>();
-                rb.useGravity = false;
-                
+                return walkSpeed;
             }
+        }
 
-            if (CompareTag("Player"))
+        public float RunSpeed
+        {
+            get
             {
-                isPlayer = true;
+                return runSpeed;
             }
-            else
-            {
-                isPlayer = false;
-            }
-
-            playerSize = GetComponent<BoxCollider>().size;
-            boxSize = new Vector3(playerSize.x, groundedSkin, playerSize.z);
         }
 
         public StaminaController StaminaController
@@ -91,17 +108,86 @@ namespace RuthlessMerchant
             }
         }
 
-        public void Attack()
+        public bool IsGrounded
         {
-            throw new System.NotImplementedException();
+            get { return grounded; }
         }
 
-        public void Move(Vector3 velocity, float speed)
-        {           
-           if(velocity != Vector3.zero && !isPlayer)
-                transform.rotation = Quaternion.LookRotation(velocity);
+        public CharacterController CharController
+        {
+            get { return charController; }
+        }
 
-            transform.Translate(velocity * speed * Time.deltaTime, Space.Self);
+        public DamageAbleObject HealthSystem
+        {
+            get
+            {
+                if (healthSystem == null)
+                {
+                    healthSystem = GetComponent<DamageAbleObject>();
+                    healthSystem.OnDeath += HealthSystem_OnDeath;
+                }
+
+                return healthSystem;
+            }
+        }
+
+        public override void Start()
+        {
+            if (rb == null)
+            {
+                rb = GetComponent<Rigidbody>();
+                rb.useGravity = false;
+            }
+
+            if (CompareTag("Player"))
+            {
+                isPlayer = true;
+            }
+            else
+            {
+                isPlayer = false;
+            }
+
+            gravity = Vector3.zero;
+
+            healthSystem = GetComponent<DamageAbleObject>();
+            healthSystem.OnDeath += HealthSystem_OnDeath;
+        }
+
+        private void HealthSystem_OnDeath(object sender, System.EventArgs e)
+        {
+            DestroyInteractivObject();
+        }
+
+        public void Attack(DamageAbleObject dmg)
+        {
+            if (elapsedAttackTime >= attackDelay)
+            {
+                elapsedAttackTime = 0f;
+                dmg.ChangeHealth(-13, this);
+            }
+        }
+
+        public void Move(Vector2 velocity, float speed)
+        {
+            if (velocity != Vector2.zero && !isPlayer)
+            { transform.rotation = Quaternion.LookRotation(velocity); }
+
+            moveVector = Vector3.zero;
+            rb.velocity = new Vector3(0f, rb.velocity.y, 0f);
+
+
+            moveVector.y = 0;
+            moveVector.x = velocity.x;
+            moveVector.z = velocity.y;
+
+            if (moveVector.sqrMagnitude > 1)
+            {
+                moveVector.Normalize();
+            }
+
+            transform.Translate(moveVector * speed * Time.fixedDeltaTime, Space.Self);
         }
 
         public void Rotate()
@@ -111,7 +197,7 @@ namespace RuthlessMerchant
 
         public override void Update()
         {
-            
+            elapsedAttackTime += Time.deltaTime;
         }
 
         public void Consume()
@@ -134,21 +220,38 @@ namespace RuthlessMerchant
             throw new System.NotImplementedException();
         }
 
-        public void Jump(float JumpVelocity)
+        public void Jump()
         {
             if (grounded)
             {
-                rb.AddForce(Vector3.up * JumpVelocity, ForceMode.Impulse);
-                grounded = false;
-                elapsedSecs = 1.5f;
+                if (elapsedSecs <= 0)
+                {
+                    rb.AddForce(Vector3.up * Mathf.Sqrt(maxJumpHeight), ForceMode.VelocityChange);
+                    grounded = false;
+                    elapsedSecs = 1f;
+                }
             }
         }
 
-        public void FixedUpdate()
+        protected virtual void FixedUpdate()
         {
-            Debug.Log(elapsedSecs);
-            if(elapsedSecs >= 0)
-              elapsedSecs -= Time.deltaTime;
+            if (elapsedSecs >= 0)
+            {
+                elapsedSecs -= Time.deltaTime;
+            }
+
+            if (grounded)
+            {
+                gravity = Vector3.zero;
+                gravity.y = -stickToGroundValue;
+                ApplyGravity(gravity);
+            }
+            else
+            {
+                gravity += globalGravityScale * Vector3.up * Time.deltaTime * 2f;
+                ApplyGravity(gravity);
+            }
+
         }
 
         public void CalculateVelocity()
@@ -166,22 +269,35 @@ namespace RuthlessMerchant
             throw new System.NotImplementedException();
         }
 
-        public void UseGravity(float gravityScale)
+        public void ApplyGravity(Vector3 gravity)
         {
-            Vector3 gravity = globalGravityScale * gravityScale * Vector3.up;
+            if (gravity.y > 0)
+            {
+                gravity.y = 0;
+            }
             rb.AddForce(gravity, ForceMode.Acceleration);
         }
 
-        public void Grounding(LayerMask layer)
+        public void Grounding(bool _grounded)
         {
-            Vector3 boxCenter = (Vector3)transform.position + Vector3.down * (playerSize.y + boxSize.y) * 0.5f;
-            // grounded = (Physics.OverlapBox(boxCenter, boxSize, Quaternion.identity, layer) != null);
-            if (Physics.CheckBox(boxCenter, boxSize, Quaternion.identity, layer) && elapsedSecs <= 0)
+            grounded = _grounded;
+
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Default"))
             {
                 grounded = true;
             }
-            else
+        }
+
+        private void OnCollisionExit(Collision collision)
+        {
+            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Default"))
+            {
                 grounded = false;
+            }
         }
     }
 }

@@ -1,4 +1,9 @@
-﻿using System.Collections.Generic;
+﻿//---------------------------------------------------------------
+// Author: Marcel Croonenbroeck
+//
+//---------------------------------------------------------------
+
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace RuthlessMerchant
@@ -17,7 +22,7 @@ namespace RuthlessMerchant
         private int count = 1;
 
         [SerializeField]
-        private string[] possiblePaths;
+        private string[] possiblePaths = null;
 
         private ObjectSpawner spawner;
         private float elapsedTime = 0f;
