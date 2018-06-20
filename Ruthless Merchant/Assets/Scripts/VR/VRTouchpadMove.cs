@@ -3,42 +3,46 @@ using System.Collections.Generic;
 using System.Net;
 using UnityEngine;
 
-public class VRTouchpadMove : MonoBehaviour
+namespace RuthlessMerchant
 {
-    [SerializeField] private Transform rig;
-
-    private Valve.VR.EVRButtonId touchpad = Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad;
-
-    private SteamVR_Controller.Device controller { get {return SteamVR_Controller.Input((int) trackedObj.index);} }
-    private SteamVR_TrackedObject trackedObj;
-
-    // Set axis values to zero
-    private Vector2 axis = Vector2.zero;
-
-    void Start()
+    public class VRTouchpadMove : MonoBehaviour
     {
-        trackedObj = GetComponent<SteamVR_TrackedObject>();
-    }
+        [SerializeField] private Transform rig;
 
-    void Update()
-    {
-        if (controller == null)
+        private Valve.VR.EVRButtonId touchpad = Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad;
+
+        private SteamVR_Controller.Device controller { get { return SteamVR_Controller.Input((int)trackedObj.index); } }
+        private SteamVR_TrackedObject trackedObj;
+
+        // Set axis values to zero
+        private Vector2 axis = Vector2.zero;
+
+        void Start()
         {
-            Debug.Log("Controller not initialized");
-            return;
+            trackedObj = GetComponent<SteamVR_TrackedObject>();
         }
 
-        var device = SteamVR_Controller.Input((int) trackedObj.index);
-
-        if (controller.GetTouch(touchpad))
+        void Update()
         {
-            axis = device.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0);
-
-            if (rig != null)
+            if (controller == null)
             {
-                rig.position += (transform.right * axis.x + transform.forward * axis.y) * Time.deltaTime;
-                rig.position = new Vector3(rig.position.x, 0, rig.position.z);
+                Debug.Log("Controller not initialized");
+                return;
+            }
+
+            var device = SteamVR_Controller.Input((int)trackedObj.index);
+
+            if (controller.GetTouch(touchpad))
+            {
+                axis = device.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0);
+
+                if (rig != null)
+                {
+                    rig.position += (transform.right * axis.x + transform.forward * axis.y) * Time.deltaTime;
+                    rig.position = new Vector3(rig.position.x, 0, rig.position.z);
+                }
             }
         }
     }
+
 }
