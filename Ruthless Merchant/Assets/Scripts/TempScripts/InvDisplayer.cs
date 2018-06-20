@@ -11,12 +11,16 @@ namespace RuthlessMerchant
         [SerializeField]
         GameObject panelPrefab;
 
+        [SerializeField]
         Inventory inventory;
 
         // Use this for initialization
         void Start()
         {
-            inventory = FindObjectOfType<Inventory>();
+            if(inventory == null)
+            {
+                inventory = FindObjectOfType<Inventory>();
+            }
             inventory.InventoryChanged.AddListener(UpdateInv);
         }
 

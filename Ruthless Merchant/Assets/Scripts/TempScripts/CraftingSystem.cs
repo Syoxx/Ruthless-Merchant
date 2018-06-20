@@ -6,7 +6,7 @@ namespace RuthlessMerchant
 {
     public class CraftingSystem : MonoBehaviour
     {
-
+        [SerializeField]
         Recipes recipes;
 
         [SerializeField]
@@ -14,23 +14,13 @@ namespace RuthlessMerchant
 
         private void Awake()
         {
-            recipes = GetComponent<Recipes>();
-            if(!recipes)
+            if(recipes == null)
             {
-                //If A Crafting-Station has no local Recipes, It will search for global recipes
-                recipes = FindObjectOfType<Recipes>();
-                if (!recipes)
-                {
-                    throw new System.Exception("No Recipes were found in this Scene");
-                }
+                throw new System.Exception("No Recipes Added");
             }
-            if(!inventory)
+            if(inventory == null)
             {
-                inventory = FindObjectOfType<Inventory>();
-                if(!inventory)
-                {
-                    throw new System.Exception("No Inventory was found in this Scene");
-                }
+                throw new System.Exception("No Inventory Added");
             }
         }
 

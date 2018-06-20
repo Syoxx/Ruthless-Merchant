@@ -458,6 +458,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panelPrefab: {fileID: 1927065155796678, guid: e5005bba2845ba84a9d16e6b678f9748,
     type: 2}
+  inventory: {fileID: 10049067}
 --- !u!1 &419663738
 GameObject:
   m_ObjectHideFlags: 0
@@ -1405,7 +1406,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1387610785}
   - component: {fileID: 1387610784}
-  - component: {fileID: 1387610783}
   - component: {fileID: 1387610782}
   m_Layer: 0
   m_Name: CraftSystem
@@ -1445,18 +1445,6 @@ MonoBehaviour:
     - item: {fileID: 114289662986095978, guid: 022efed35bdeb6549b58ab465df175d0, type: 2}
       count: 2
     autoUnlocked: 0
---- !u!114 &1387610783
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1387610781}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12c1f18f19c8e9b42b571d16ed5c4a74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventory: {fileID: 0}
 --- !u!114 &1387610784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1468,7 +1456,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12c1f18f19c8e9b42b571d16ed5c4a74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventory: {fileID: 0}
+  recipes: {fileID: 1387610782}
+  inventory: {fileID: 10049067}
 --- !u!4 &1387610785
 Transform:
   m_ObjectHideFlags: 0
