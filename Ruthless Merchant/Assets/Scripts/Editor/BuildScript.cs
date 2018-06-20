@@ -10,7 +10,7 @@ namespace RuthlessMerchant
     {
         static string[] SCENES = FindEnabledEditorScenes();
 
-        static string APP_NAME = "AngryBots";
+        static string APP_NAME = "RuthlessMerchant";
         static string TARGET_DIR = "C:/Users/Riku/Desktop/RuthlessMerchantDaily";
 
         static void PerformAllBuilds()
@@ -95,5 +95,4 @@ namespace RuthlessMerchant
             BuildPipeline.BuildPlayer(scenes, target_dir, build_target, build_options);
         }
     }
-}
 }
