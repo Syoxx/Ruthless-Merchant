@@ -38,7 +38,7 @@ namespace RuthlessMerchant
         /// Tries to craft and item. returns true if item was crafted successfully.
         /// </summary>
         /// <param name="index">index of the chosen recipe</param>
-        public bool TryCraft(int index)
+        public void TryCraft(int index)
         {
             if(ContainMaterials(index))
             {
@@ -47,9 +47,9 @@ namespace RuthlessMerchant
                     inventory.Remove(recipes.GetRecipes()[index].ListOfMaterials[i].Item, recipes.GetRecipes()[index].ListOfMaterials[i].Count, false);
                 }
                 inventory.Add(recipes.GetRecipes()[index].Result, 1, true);
-                return true;
+
             }
-            return false;
+
         }
 
         /// <summary>

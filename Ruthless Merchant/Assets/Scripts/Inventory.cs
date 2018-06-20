@@ -15,13 +15,21 @@ namespace RuthlessMerchant
 
         public List<Item> startinventory;
 
-        UnityEvent InventoryChanged;
+        UnityEvent inventoryChanged;
+
+        public UnityEvent InventoryChanged
+        {
+            get
+            {
+                return inventoryChanged;
+            }
+        }
 
         private void Awake()
         {
             inventorySlots = new InventorySlot[maxSlotCount];
 
-            InventoryChanged = new UnityEvent();
+            inventoryChanged = new UnityEvent();
         }
 
         private void Start()
@@ -123,20 +131,12 @@ namespace RuthlessMerchant
                         {
                             SortInventory();
                         }
-                        else
-                        {
-                            InventoryChanged.Invoke();
-                        }
                         return count;
                     }
                 }
                 if(sortAfterMethod)
                 {
                     SortInventory();
-                }
-                else
-                {
-                    InventoryChanged.Invoke();
                 }
                 return count;
             }
@@ -209,10 +209,6 @@ namespace RuthlessMerchant
             {
                 SortInventory();
             }
-            else
-            {
-                InventoryChanged.Invoke();
-            }
             return inventorySlots[slot].Item;
         }
 
@@ -266,10 +262,6 @@ namespace RuthlessMerchant
                             {
                                 SortInventory();
                             }
-                            else
-                            {
-                                InventoryChanged.Invoke();
-                            }
                             return true;
                         }
                     }
@@ -277,10 +269,6 @@ namespace RuthlessMerchant
                 if (sortAfterMethod)
                 {
                     SortInventory();
-                }
-                else
-                {
-                    InventoryChanged.Invoke();
                 }
                 return true;
 
@@ -370,7 +358,7 @@ namespace RuthlessMerchant
                     }
                 }
             }
-            InventoryChanged.Invoke();
+            inventoryChanged.Invoke();
         }
 
         /// <summary>
@@ -388,12 +376,12 @@ namespace RuthlessMerchant
 
         public void AddTest(int number)
         {
-            Add(startinventory[0], number, true);
+            Add(startinventory[number], 1, true);
         }
 
         public void RemoveTest(int number)
         {
-            Remove(startinventory[0], number, true);
+            Remove(startinventory[number], 1, true);
         }
     }
 }
