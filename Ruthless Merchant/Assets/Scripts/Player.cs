@@ -39,6 +39,9 @@ namespace RuthlessMerchant
         private float playerHeight;
 
         [SerializeField]
+        private Texture2D aimpointTexture;
+
+        [SerializeField]
         [Tooltip("Tip: CrouchHeight must be smaller than the player collider's height.")]
         private float CrouchHeight;
 
@@ -236,6 +239,7 @@ namespace RuthlessMerchant
         {  
             if (Input.GetKeyDown(KeyCode.I))
             {
+                isCursorLocked = false;
                 if (mapObject.activeSelf)
                 {
                     mapObject.SetActive(false);
@@ -288,6 +292,7 @@ namespace RuthlessMerchant
         {
             if (Input.GetKeyDown(KeyCode.M))
             {
+                isCursorLocked = false;
                 if (inventoryCanvas.activeSelf)
                 {
                     inventoryCanvas.SetActive(false);
