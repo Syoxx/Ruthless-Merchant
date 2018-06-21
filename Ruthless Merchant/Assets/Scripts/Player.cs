@@ -11,16 +11,17 @@ namespace RuthlessMerchant
     public class Player : Character
     {
         public static Player Singleton;
+        private static bool isCursorLocked = true;
 
         #region Private Fields
         private UISystem uiSystem;
         private QuestManager questManager;
-        private bool isCursorLocked = true;
         private bool showingInventory = false;
         private bool hasJumped;
         private bool isCrouching;
         private bool isCtrlPressed;
         private bool wasCrouching;
+        private bool isGameFocused;
         private int maxInteractDistance;
         private float moveSpeed;
         private float mouseXSensitivity = 2f;
@@ -31,9 +32,9 @@ namespace RuthlessMerchant
         private Quaternion cameraPitchAngle;
         private Vector3 MoveVector = Vector3.zero;
         private Vector2 InputVector = Vector2.zero;
-        private GameObject uiCanvas;
+        private GameObject inventoryCanvas;
         private GameObject itemsContainer;
-        private Transform teleportTarget;
+
         private float crouchDelta;
         private float playerHeight;
 
@@ -49,14 +50,7 @@ namespace RuthlessMerchant
 
         [SerializeField]
         private GameObject mapObject;
-        [SerializeField]
-        private Transform Teleport1;
-        [SerializeField]
-        private Transform Teleport2;
-        [SerializeField]
-        private Transform Teleport3;
-        [SerializeField]
-        private Transform Teleport4;
+
         #endregion
 
         #region MonoBehaviour Life Cycle
@@ -69,6 +63,11 @@ namespace RuthlessMerchant
         #endregion
 
 
+        public static bool IsCursorLocked
+        {
+            get { return isCursorLocked; }
+            set { isCursorLocked = value; }
+        }
 
         public UISystem UISystem
         {
@@ -105,7 +104,7 @@ namespace RuthlessMerchant
 
             if (itemsContainer != null)
             {
-                uiCanvas = itemsContainer.transform.parent.gameObject;
+                inventoryCanvas = itemsContainer.transform.parent.gameObject;
             }
             maxInteractDistance = 3;
             
@@ -122,6 +121,7 @@ namespace RuthlessMerchant
             if (playerAttachedCamera != null)
             {
                 cameraPitchAngle = playerAttachedCamera.transform.localRotation;
+                isCursorLocked = true;
             }
             else
             {
@@ -155,7 +155,8 @@ namespace RuthlessMerchant
         public override void Update()
         {
             LookRotation();
-            HandleInput();           
+            HandleInput();
+            FocusCursor();
         }
 
         /// <summary>
@@ -176,9 +177,6 @@ namespace RuthlessMerchant
                 camRotation.x = ClampAngle(camRotation.x, -90f, 90f);
                 playerAttachedCamera.transform.eulerAngles = camRotation;
             }
-            
-
-            FocusCursor();
         }
 
         /// <summary>
@@ -208,19 +206,19 @@ namespace RuthlessMerchant
             // Pressing escape makes cursor visible + unlocks it
             if (Input.GetKeyUp(KeyCode.Escape))
             {
-                isCursorLocked = false;
+                isGameFocused = false;
             }
             else if (Input.GetMouseButtonUp(0))
             {
-                isCursorLocked = true;
+                isGameFocused = true;
             }
 
-            if(isCursorLocked)
+            if(isCursorLocked && isGameFocused)
             {
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
             }
-            else if (!isCursorLocked)
+            else
             {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
@@ -231,18 +229,13 @@ namespace RuthlessMerchant
         {  
             if (Input.GetKeyDown(KeyCode.I))
             {
-                if (!uiCanvas.activeSelf)
-                {                   
-                    uiCanvas.SetActive(true);
-                    PopulateInventoryPanel();
-                }
-                else
+                if (mapObject.activeSelf)
                 {
-                    uiCanvas.SetActive(false);
+                    mapObject.SetActive(false);
                 }
 
+                inventoryCanvas.SetActive(inventoryCanvas.activeSelf == false);
             }
-
         }
       
        private void PopulateInventoryPanel()
@@ -288,6 +281,11 @@ namespace RuthlessMerchant
         {
             if (Input.GetKeyDown(KeyCode.M))
             {
+                if (inventoryCanvas.activeSelf)
+                {
+                    inventoryCanvas.SetActive(false);
+                }
+
                 mapObject.SetActive(mapObject.activeSelf == false);
             }
         }
@@ -320,30 +318,7 @@ namespace RuthlessMerchant
                 isCtrlPressed = true;
             }
             
-            if (Input.GetKey(KeyCode.Alpha1))
-            {
-                teleportTarget = Teleport1;
-                Debug.Log("Teleport1 - Blue");
-            }
-            if (Input.GetKey(KeyCode.Alpha2))
-            {
-                teleportTarget = Teleport2;
-                Debug.Log("Teleport2 - Purple");
-            }
-            if (Input.GetKey(KeyCode.Alpha3))
-            {
-                teleportTarget = Teleport3;
-                Debug.Log("Teleport3 - Green");
-            }
-            if (Input.GetKey(KeyCode.Alpha4))
-            {
-                teleportTarget = Teleport4;
-                Debug.Log("Teleport4 - Yellow");
-            }
-            if(Input.GetKey(KeyCode.T) && teleportTarget != null)
-            {
-                Teleport(teleportTarget.position + new Vector3(0, 1));
-            }
+            
             moveSpeed = isWalking ? walkSpeed : runSpeed;
             
             float horizontal = Input.GetAxis("Horizontal");
@@ -375,10 +350,6 @@ namespace RuthlessMerchant
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.collider.CompareTag("Teleport") && teleportTarget != null)
-            {
-                Teleport(teleportTarget.position + new Vector3 (0,1));
-            }
             
             if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Default"))
             {
@@ -395,10 +366,6 @@ namespace RuthlessMerchant
             }
         }
 
-        private void Teleport(Vector3 targetPos)
-        {
-            transform.position = targetPos;
-        }
       
        public void SendInteraction()
        {
@@ -435,6 +402,7 @@ namespace RuthlessMerchant
                                else
                                {
                                    targetItem.DestroyInteractivObject();
+                                    PopulateInventoryPanel();
                                }
                            }
                        }
@@ -446,6 +414,7 @@ namespace RuthlessMerchant
                            if (targetNPC != null)
                            {
                                target.Interact(this.gameObject);
+                                PopulateInventoryPanel();
                            }
                        }
                    }
