@@ -288,7 +288,7 @@ namespace RuthlessMerchant
                GameObject InventoryItem = Instantiate(ItemUIPrefab) as GameObject;
                InventoryItem.transform.SetParent(ItemsParent.transform, false);
                InventoryDisplayedData itemInfos = InventoryItem.GetComponent<InventoryDisplayedData>();
-               itemInfos.itemName.text = inventory.inventorySlots[itemIndex].Item.itemName;
+               itemInfos.itemName.text = inventory.inventorySlots[itemIndex].Item.itemName + " x" +  inventory.inventorySlots[itemIndex].Count;
                itemInfos.itemWeight.text = inventory.inventorySlots[itemIndex].Item.itemWeight + " kg";
                itemInfos.itemDescription.text = inventory.inventorySlots[itemIndex].Item.itemLore;
                itemInfos.itemRarity.text = inventory.inventorySlots[itemIndex].Item.itemRarity.ToString();

@@ -637,6 +637,12 @@ Prefab:
       propertyPath: Teleport2
       value: 
       objectReference: {fileID: 1854317099}
+    - target: {fileID: 114991098099390920, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: recipeUiPrefab
+      value: 
+      objectReference: {fileID: 1213390701520696, guid: c3881c4b3762cd34a85b93f25baa7db9,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 44a219676742c784c8cf187979537aa9, type: 2}
   m_IsPrefabParent: 0
@@ -1174,8 +1180,6 @@ MonoBehaviour:
   Reacting: 0
   fleeDistance: 5
   recipes: {fileID: 567150176}
-  recipeUiPrefab: {fileID: 1213390701520696, guid: c3881c4b3762cd34a85b93f25baa7db9,
-    type: 2}
 --- !u!65 &567150171
 BoxCollider:
   m_ObjectHideFlags: 0
