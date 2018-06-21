@@ -357,7 +357,7 @@ namespace RuthlessMerchant
                                         {
                                             SwapItemPositions(i, k);
                                         }
-                                        else if (inventorySlots[i].Item == inventorySlots[k].Item)
+                                        else if (inventorySlots[i].Item.itemName == inventorySlots[k].Item.itemName)
                                         {
                                             if (inventorySlots[i].Count > inventorySlots[k].Count)
                                             {
