@@ -112,17 +112,21 @@ namespace RuthlessMerchant
                         count = 0;
                     }
                 }
-                else if (inventorySlots[i].Item == item && inventorySlots[i].Count < item.MaxStackCount)
+                else
+                if (inventorySlots[i].Item)
                 {
-                    if (inventorySlots[i].Count + count > item.MaxStackCount)
+                    if (inventorySlots[i].Item.itemName == item.itemName && inventorySlots[i].Count < item.MaxStackCount)
                     {
-                        count -= (item.MaxStackCount - inventorySlots[i].Count);
-                        inventorySlots[i].Count = item.MaxStackCount;
-                    }
-                    else
-                    {
-                        inventorySlots[i].Count += count;
-                        count = 0;
+                        if (inventorySlots[i].Count + count > item.MaxStackCount)
+                        {
+                            count -= (item.MaxStackCount - inventorySlots[i].Count);
+                            inventorySlots[i].Count = item.MaxStackCount;
+                        }
+                        else
+                        {
+                            inventorySlots[i].Count += count;
+                            count = 0;
+                        }
                     }
                 }
                 if (count <= 0)
@@ -150,8 +154,11 @@ namespace RuthlessMerchant
         {
             for (int i = 0; i < maxSlotCount; i++)
             {
-                if (inventorySlots[i].Item == item)
-                    return i;
+                if (inventorySlots[i].Item)
+                {
+                    if (inventorySlots[i].Item.itemName == item.itemName)
+                        return i;
+                }
             }
             return -1;
         }
@@ -167,9 +174,12 @@ namespace RuthlessMerchant
 
             for(int i = 0; i < maxSlotCount; i++)
             {
-                if(inventorySlots[i].Item == item)
+                if(inventorySlots[i].Item)
                 {
-                    amount += inventorySlots[i].Count;
+                    if (inventorySlots[i].Item.itemName == item.itemName)
+                    {
+                        amount += inventorySlots[i].Count;
+                    }
                 }
             }
 
@@ -221,9 +231,12 @@ namespace RuthlessMerchant
                 int foundItems = 0;
                 for (int i = 0; i < maxSlotCount; i++)
                 {
-                    if (inventorySlots[i].Item == item)
+                    if(inventorySlots[i].Item)
                     {
-                        foundItems += inventorySlots[i].Count;
+                        if (inventorySlots[i].Item.itemName == item.itemName)
+                        {
+                            foundItems += inventorySlots[i].Count;
+                        }
                     }
                 }
                 if (foundItems < count)
@@ -241,22 +254,25 @@ namespace RuthlessMerchant
             {
                 for (int i = 0; i < maxSlotCount; i++)
                 {
-                    if (inventorySlots[i].Item == item)
+                    if (inventorySlots[i].Item)
                     {
-                        inventorySlots[i].Count -= count;
-                        if (inventorySlots[i].Count <= 0)
+                        if (inventorySlots[i].Item.itemName == item.itemName)
                         {
-                            inventorySlots[i].Item = null;
-                            count = -inventorySlots[i].Count;
-                            inventorySlots[i].Count = 0;
-                        }
-                        else
-                        {
-                            if (sortAfterMethod)
+                            inventorySlots[i].Count -= count;
+                            if (inventorySlots[i].Count <= 0)
                             {
-                                SortInventory();
+                                inventorySlots[i].Item = null;
+                                count = -inventorySlots[i].Count;
+                                inventorySlots[i].Count = 0;
                             }
-                            return true;
+                            else
+                            {
+                                if (sortAfterMethod)
+                                {
+                                    SortInventory();
+                                }
+                                return true;
+                            }
                         }
                     }
                 }
