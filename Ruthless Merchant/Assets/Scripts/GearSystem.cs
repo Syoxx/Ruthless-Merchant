@@ -42,7 +42,7 @@
 
         public void EquipGear(Item GearItem)
         {
-            if (GearItem.Type == ItemType.Gear)
+            if (GearItem.itemType == ItemType.Gear)
             {
                 // Remove reference to gear in GearSlot
                 if (ProtectiveGear.Gear != null)
