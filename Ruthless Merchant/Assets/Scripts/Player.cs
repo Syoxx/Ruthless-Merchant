@@ -114,9 +114,12 @@ namespace RuthlessMerchant
             base.Start();
 
             smithCanvas = GameObject.Find("SmithCanvas");
-            smithCanvas.SetActive(false);
+            if(smithCanvas)
+            {
+                smithCanvas.SetActive(false);
+            }
 
-            if(!recipes)
+            if (!recipes)
             {
                 recipes = FindObjectOfType<Recipes>();
             }
