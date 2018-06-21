@@ -11,16 +11,17 @@ namespace RuthlessMerchant
     public class Player : Character
     {
         public static Player Singleton;
+        private static bool isCursorLocked = true;
 
         #region Private Fields
         private UISystem uiSystem;
         private QuestManager questManager;
-        private bool isCursorLocked = true;
         private bool showingInventory = false;
         private bool hasJumped;
         private bool isCrouching;
         private bool isCtrlPressed;
         private bool wasCrouching;
+        private bool isGameFocused;
         private int maxInteractDistance;
         private float moveSpeed;
         private float mouseXSensitivity = 2f;
@@ -31,7 +32,7 @@ namespace RuthlessMerchant
         private Quaternion cameraPitchAngle;
         private Vector3 MoveVector = Vector3.zero;
         private Vector2 InputVector = Vector2.zero;
-        private GameObject uiCanvas;
+        private GameObject inventoryCanvas;
         private GameObject itemsContainer;
         private Transform teleportTarget;
         private float crouchDelta;
@@ -69,6 +70,11 @@ namespace RuthlessMerchant
         #endregion
 
 
+        public static bool IsCursorLocked
+        {
+            get { return isCursorLocked; }
+            set { isCursorLocked = value; }
+        }
 
         public UISystem UISystem
         {
@@ -105,7 +111,7 @@ namespace RuthlessMerchant
 
             if (itemsContainer != null)
             {
-                uiCanvas = itemsContainer.transform.parent.gameObject;
+                inventoryCanvas = itemsContainer.transform.parent.gameObject;
             }
             maxInteractDistance = 3;
             
@@ -122,6 +128,7 @@ namespace RuthlessMerchant
             if (playerAttachedCamera != null)
             {
                 cameraPitchAngle = playerAttachedCamera.transform.localRotation;
+                isCursorLocked = true;
             }
             else
             {
@@ -155,7 +162,8 @@ namespace RuthlessMerchant
         public override void Update()
         {
             LookRotation();
-            HandleInput();           
+            HandleInput();
+            FocusCursor();
         }
 
         /// <summary>
@@ -176,9 +184,6 @@ namespace RuthlessMerchant
                 camRotation.x = ClampAngle(camRotation.x, -90f, 90f);
                 playerAttachedCamera.transform.eulerAngles = camRotation;
             }
-            
-
-            FocusCursor();
         }
 
         /// <summary>
@@ -208,19 +213,19 @@ namespace RuthlessMerchant
             // Pressing escape makes cursor visible + unlocks it
             if (Input.GetKeyUp(KeyCode.Escape))
             {
-                isCursorLocked = false;
+                isGameFocused = false;
             }
             else if (Input.GetMouseButtonUp(0))
             {
-                isCursorLocked = true;
+                isGameFocused = true;
             }
 
-            if(isCursorLocked)
+            if(isCursorLocked && isGameFocused)
             {
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
             }
-            else if (!isCursorLocked)
+            else
             {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
@@ -231,18 +236,13 @@ namespace RuthlessMerchant
         {  
             if (Input.GetKeyDown(KeyCode.I))
             {
-                if (!uiCanvas.activeSelf)
-                {                   
-                    uiCanvas.SetActive(true);
-                    PopulateInventoryPanel();
-                }
-                else
+                if (mapObject.activeSelf)
                 {
-                    uiCanvas.SetActive(false);
+                    mapObject.SetActive(false);
                 }
 
+                inventoryCanvas.SetActive(inventoryCanvas.activeSelf == false);
             }
-
         }
       
        private void PopulateInventoryPanel()
@@ -288,6 +288,11 @@ namespace RuthlessMerchant
         {
             if (Input.GetKeyDown(KeyCode.M))
             {
+                if (inventoryCanvas.activeSelf)
+                {
+                    inventoryCanvas.SetActive(false);
+                }
+
                 mapObject.SetActive(mapObject.activeSelf == false);
             }
         }
@@ -435,6 +440,7 @@ namespace RuthlessMerchant
                                else
                                {
                                    targetItem.DestroyInteractivObject();
+                                    PopulateInventoryPanel();
                                }
                            }
                        }

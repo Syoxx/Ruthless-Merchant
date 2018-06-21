@@ -153,6 +153,8 @@ namespace RuthlessMerchant
 
             healthSystem = GetComponent<DamageAbleObject>();
             healthSystem.OnDeath += HealthSystem_OnDeath;
+
+            gearSystem = new GearSystem(isPlayer);
         }
 
         private void HealthSystem_OnDeath(object sender, System.EventArgs e)
