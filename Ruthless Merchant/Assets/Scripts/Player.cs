@@ -26,6 +26,11 @@ namespace RuthlessMerchant
         private float moveSpeed;
         private float mouseXSensitivity = 2f;
         private float mouseYSensitivity = 2f;
+
+        enum ControlMode
+        {
+            Move = 0, Smith = 1
+        }
         
         private Camera playerAttachedCamera;
         private Quaternion playerLookAngle;
@@ -34,6 +39,11 @@ namespace RuthlessMerchant
         private Vector2 InputVector = Vector2.zero;
         private GameObject inventoryCanvas;
         private GameObject itemsContainer;
+        private ControlMode controlMode = ControlMode.Move;
+
+        int currenRecipe;
+        GameObject smithCanvas;
+        Smith localSmith;
 
         private float crouchDelta;
         private float playerHeight;
@@ -49,7 +59,13 @@ namespace RuthlessMerchant
         private GameObject ItemUIPrefab;
 
         [SerializeField]
+        GameObject recipeUiPrefab;
+
+        [SerializeField]
         private GameObject mapObject;
+
+        [SerializeField]
+        private Recipes recipes;
 
         #endregion
 
@@ -96,6 +112,14 @@ namespace RuthlessMerchant
         public override void Start()
         {
             base.Start();
+
+            smithCanvas = GameObject.Find("SmithCanvas");
+            smithCanvas.SetActive(false);
+
+            if(!recipes)
+            {
+                recipes = FindObjectOfType<Recipes>();
+            }
 
             if (ItemsParent != null)
             {
@@ -277,6 +301,20 @@ namespace RuthlessMerchant
            }
        }
 
+        private void UpdateCanvas(int currentRecipe)
+        {
+            Transform canv = smithCanvas.transform.GetChild(0);
+            foreach (Transform child in canv.transform)
+            {
+                Destroy(child.gameObject);
+            }
+            for (int i = 0; i < recipes.GetRecipes()[currenRecipe].ListOfMaterials.Count; i++)
+            {
+                GameObject newPanel = Instantiate(recipeUiPrefab, canv);
+                newPanel.GetComponentInChildren<Text>().text = recipes.GetRecipes()[currenRecipe].ListOfMaterials[i].Item.itemName + "\n" + recipes.GetRecipes()[currenRecipe].ListOfMaterials[i].Count;
+            }
+        }
+
         public void ShowMap()
         {
             if (Input.GetKeyDown(KeyCode.M))
@@ -295,21 +333,34 @@ namespace RuthlessMerchant
         /// </summary>
         public void HandleInput()
         {
+            switch(controlMode)
+            {
+                case ControlMode.Move:
+                    ControleModeMove();
+                    break;
+                case ControlMode.Smith:
+                    ControlModeSmith();
+                    break;
+            }
+        }
+
+        private void ControleModeMove()
+        {
             bool isWalking = true;
 
             if (!Input.GetKey(KeyCode.LeftShift))
             {
                 isWalking = true;
             }
-            else if(!isCrouching)
+            else if (!isCrouching)
             {
                 isWalking = false;
             }
-            
+
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 hasJumped = true;
-               // base.Jump(jumpSpeed);
+                // base.Jump(jumpSpeed);
             }
 
             //TODO: If toggle_crouch, toggle a switch instead of checking for sneak every update
@@ -317,10 +368,10 @@ namespace RuthlessMerchant
             {
                 isCtrlPressed = true;
             }
-            
-            
+
+
             moveSpeed = isWalking ? walkSpeed : runSpeed;
-            
+
             float horizontal = Input.GetAxis("Horizontal");
             float vertical = Input.GetAxis("Vertical");
 
@@ -339,13 +390,46 @@ namespace RuthlessMerchant
             {
                 InputVector.Normalize();
             }
-            
+
             base.Move(InputVector, moveSpeed);
 
-            
+
             SendInteraction();
             ShowInventory();
             ShowMap();
+        }
+
+        private void ControlModeSmith()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                controlMode = ControlMode.Move;
+                smithCanvas.SetActive(false);
+            }
+            else if (Input.GetKeyDown(KeyCode.W))
+            {
+                currenRecipe++;
+                if(currenRecipe >= recipes.GetRecipes().Count)
+                {
+                    currenRecipe = 0;
+                }
+                UpdateCanvas(currenRecipe);
+            }
+            else if (Input.GetKeyDown(KeyCode.S))
+            {
+                currenRecipe--;
+                if (currenRecipe < 0)
+                {
+                    currenRecipe = recipes.GetRecipes().Count - 1;
+                }
+                UpdateCanvas(currenRecipe);
+                
+            }
+            else if(Input.GetKeyDown(KeyCode.E))
+            {
+                localSmith.TryCraft(inventory, currenRecipe);
+                PopulateInventoryPanel();
+            }
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -452,6 +536,16 @@ namespace RuthlessMerchant
                 wasCrouching = isCrouching;
             }
             //TODO: other sneak effects
+        }
+
+        public void EnterSmith(Smith smith)
+        {
+            localSmith = smith;
+            controlMode = ControlMode.Smith;
+            currenRecipe = 0;
+
+            smithCanvas.SetActive(true);
+            UpdateCanvas(currenRecipe);
         }
 
         public void Craft()

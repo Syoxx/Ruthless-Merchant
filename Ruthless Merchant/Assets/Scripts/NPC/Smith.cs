@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace RuthlessMerchant
 {
@@ -9,6 +10,8 @@ namespace RuthlessMerchant
         [SerializeField]
         Recipes recipes;
 
+
+
         public override void Update()
         {
             
@@ -16,23 +19,12 @@ namespace RuthlessMerchant
 
         public override void Start()
         {
-            if(!recipes)
-            {
-                recipes = GetComponent<Recipes>();
-            }
         }
 
         public override void Interact(GameObject caller)
         {
-            Inventory inventory = caller.GetComponent<Player>().Inventory;
-            if(!recipes)
-            {
-                recipes = caller.GetComponent<Recipes>();
-            }
-            if(recipes)
-            {
-                TryCraft(inventory, 0);
-            }
+            Player player = caller.GetComponent<Player>();
+            player.EnterSmith(this);
         }
 
         public void TryCraft(Inventory inventory, int index)
