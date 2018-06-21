@@ -12,12 +12,8 @@ public class MenuControl : MonoBehaviour {
     #region Fields
     private bool gameIsPaused = false;
     [SerializeField]
-    private GameObject pauseMenuUI;
+    private GameObject pauseMenuUI, pauseMenu, settingsMenu, loadMenu, saveMenu;
     private GameObject currentState;
-    private GameObject pauseMenu;
-    private GameObject settingsMenu;
-    private GameObject loadMenu;
-    private GameObject saveMenu;
     #endregion
 
     private enum MenuStates
@@ -31,10 +27,6 @@ public class MenuControl : MonoBehaviour {
     #region Methods
     public void Awake()
     {
-        pauseMenu = GameObject.Find("PauseMenuObject");
-        settingsMenu = GameObject.Find("SettingsMenuObject");
-        loadMenu = GameObject.Find("LoadMenuObject");
-        saveMenu = GameObject.Find("SaveMenuObject");
         currentState = pauseMenu;
     }
     public void PlayButton()
@@ -60,7 +52,9 @@ public class MenuControl : MonoBehaviour {
             if (gameIsPaused)
                 Resume();
             else
+            {
                 Pause();
+            }
         }
     }
 
@@ -68,16 +62,16 @@ public class MenuControl : MonoBehaviour {
     {
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
+        SwitchMenu(MenuStates.Pause);
+        //Player.isCursorLocked = true;
         gameIsPaused = false;
     }
 
     private void Pause()
     {
         pauseMenuUI.SetActive(true);
-        loadMenu.SetActive(false);
-        saveMenu.SetActive(false);
-        settingsMenu.SetActive(false);
         Time.timeScale = 0f;
+        //Player.isCursorLocked = false;
         gameIsPaused = true;
     }
 
@@ -103,7 +97,7 @@ public class MenuControl : MonoBehaviour {
 
     private void SwitchMenu(MenuStates menu)
     {
-        GameObject newState = pauseMenu;
+        GameObject newState;
 
         switch (menu)
         {
@@ -118,6 +112,9 @@ public class MenuControl : MonoBehaviour {
                 break;
             case MenuStates.Save:
                 newState = saveMenu;
+                break;
+            default:
+                newState = pauseMenu;
                 break;
         }
 
