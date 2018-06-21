@@ -11,26 +11,46 @@ namespace RuthlessMerchant
     public class Player : Character
     {
         public static Player Singleton;
+        private static bool isCursorLocked = true;
 
         #region Private Fields
         private UISystem uiSystem;
         private QuestManager questManager;
-        private bool isCursorLocked = true;
         private bool showingInventory = false;
         private bool hasJumped;
+        private bool isCrouching;
+        private bool isCtrlPressed;
+        private bool wasCrouching;
+        private bool isGameFocused;
         private int maxInteractDistance;
         private float moveSpeed;
         private float mouseXSensitivity = 2f;
         private float mouseYSensitivity = 2f;
+
+        enum ControlMode
+        {
+            Move = 0, Smith = 1
+        }
         
         private Camera playerAttachedCamera;
         private Quaternion playerLookAngle;
         private Quaternion cameraPitchAngle;
         private Vector3 MoveVector = Vector3.zero;
         private Vector2 InputVector = Vector2.zero;
-        private GameObject uiCanvas;
+        private GameObject inventoryCanvas;
         private GameObject itemsContainer;
-        private Transform teleportTarget;
+        private ControlMode controlMode = ControlMode.Move;
+
+        int currenRecipe;
+        GameObject smithCanvas;
+        Smith localSmith;
+
+        private float crouchDelta;
+        private float playerHeight;
+
+        [SerializeField]
+        [Tooltip("Tip: CrouchHeight must be smaller than the player collider's height.")]
+        private float CrouchHeight;
 
         [SerializeField]
         private GameObject ItemsParent;
@@ -39,15 +59,14 @@ namespace RuthlessMerchant
         private GameObject ItemUIPrefab;
 
         [SerializeField]
+        GameObject recipeUiPrefab;
+
+        [SerializeField]
         private GameObject mapObject;
+
         [SerializeField]
-        private Transform Teleport1;
-        [SerializeField]
-        private Transform Teleport2;
-        [SerializeField]
-        private Transform Teleport3;
-        [SerializeField]
-        private Transform Teleport4;
+        private Recipes recipes;
+
         #endregion
 
         #region MonoBehaviour Life Cycle
@@ -60,6 +79,11 @@ namespace RuthlessMerchant
         #endregion
 
 
+        public static bool IsCursorLocked
+        {
+            get { return isCursorLocked; }
+            set { isCursorLocked = value; }
+        }
 
         public UISystem UISystem
         {
@@ -88,31 +112,48 @@ namespace RuthlessMerchant
         public override void Start()
         {
             base.Start();
-            
+
+            smithCanvas = GameObject.Find("SmithCanvas");
+            if(smithCanvas)
+            {
+                smithCanvas.SetActive(false);
+            }
+
+            if (!recipes)
+            {
+                recipes = FindObjectOfType<Recipes>();
+            }
+
             if (ItemsParent != null)
+            {
                 itemsContainer = ItemsParent.transform.parent.gameObject;
+            }
+
             if (itemsContainer != null)
             {
-                uiCanvas = itemsContainer.transform.parent.gameObject;
-                
-                maxInteractDistance = 3;
+                inventoryCanvas = itemsContainer.transform.parent.gameObject;
+            }
+            maxInteractDistance = 3;
+            
+            playerHeight = GetComponent<CapsuleCollider>().height;
+            crouchDelta = playerHeight - CrouchHeight;
+            
+            this.inventory = new Inventory();
 
-                this.inventory = new Inventory();
+            playerLookAngle = transform.localRotation;
 
-                playerLookAngle = transform.localRotation;
+            // try to get the first person camera
+            playerAttachedCamera = GetComponentInChildren<Camera>();
 
-                // try to get the first person camera
-                playerAttachedCamera = GetComponentInChildren<Camera>();
-
-                if (playerAttachedCamera != null)
-                {
-                    cameraPitchAngle = playerAttachedCamera.transform.localRotation;
-                }
-                else
-                {
-                    Debug.Log("Player object does not have a first person camera.");
-                    isCursorLocked = false;
-                }
+            if (playerAttachedCamera != null)
+            {
+                cameraPitchAngle = playerAttachedCamera.transform.localRotation;
+                isCursorLocked = true;
+            }
+            else
+            {
+                Debug.Log("Player object does not have a first person camera.");
+                isCursorLocked = false;
             }
         }
 
@@ -124,13 +165,25 @@ namespace RuthlessMerchant
                 hasJumped = false;
             }
 
+            if (isCtrlPressed)
+            {
+                isCrouching = true;
+                if (Input.GetKeyUp(KeyCode.LeftControl))
+                {
+                    isCtrlPressed = false;
+                }
+            }
+
+            Crouch();
+
             base.FixedUpdate();
         }
 
         public override void Update()
         {
             LookRotation();
-            HandleInput();           
+            HandleInput();
+            FocusCursor();
         }
 
         /// <summary>
@@ -144,12 +197,13 @@ namespace RuthlessMerchant
             playerLookAngle *= Quaternion.Euler(0f, yRot, 0f);
 
             transform.localRotation = playerLookAngle;
-            
-            Vector3 camRotation = playerAttachedCamera.transform.rotation.eulerAngles + new Vector3(-xRot, 0f, 0f);
-            camRotation.x = ClampAngle(camRotation.x, -90f, 90f);
-            playerAttachedCamera.transform.eulerAngles = camRotation;
 
-            FocusCursor();
+            if (playerAttachedCamera != null)
+            {
+                Vector3 camRotation = playerAttachedCamera.transform.rotation.eulerAngles + new Vector3(-xRot, 0f, 0f);
+                camRotation.x = ClampAngle(camRotation.x, -90f, 90f);
+                playerAttachedCamera.transform.eulerAngles = camRotation;
+            }
         }
 
         /// <summary>
@@ -179,19 +233,19 @@ namespace RuthlessMerchant
             // Pressing escape makes cursor visible + unlocks it
             if (Input.GetKeyUp(KeyCode.Escape))
             {
-                isCursorLocked = false;
+                isGameFocused = false;
             }
             else if (Input.GetMouseButtonUp(0))
             {
-                isCursorLocked = true;
+                isGameFocused = true;
             }
 
-            if(isCursorLocked)
+            if(isCursorLocked && isGameFocused)
             {
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
             }
-            else if (!isCursorLocked)
+            else
             {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
@@ -202,56 +256,65 @@ namespace RuthlessMerchant
         {  
             if (Input.GetKeyDown(KeyCode.I))
             {
-                if (!uiCanvas.activeSelf)
-                {                   
-                    uiCanvas.SetActive(true);
-                    PopulateInventoryPanel();
-                }
-                else
+                if (mapObject.activeSelf)
                 {
-                    uiCanvas.SetActive(false);
+                    mapObject.SetActive(false);
                 }
 
+                inventoryCanvas.SetActive(inventoryCanvas.activeSelf == false);
             }
-
         }
+      
+       private void PopulateInventoryPanel()
+       {
+           if (inventory.inventorySlots.Length == 0)
+           {
+               return;
+           }
+           else
+           {
+               // Delete all objects in inventory UI
+               foreach (Transform child in ItemsParent.transform)
+               {
+                   Destroy(child.gameObject);
+               }
+           }
+      
+           // Create inventory list objects
+           for (int itemIndex = 0; itemIndex < inventory.inventorySlots.Length; itemIndex++)
+           {
+               if (inventory.inventorySlots[itemIndex].Item == null)
+               {
+                   continue;
+               }
+      
+               GameObject InventoryItem = Instantiate(ItemUIPrefab) as GameObject;
+               InventoryItem.transform.SetParent(ItemsParent.transform, false);
+               InventoryDisplayedData itemInfos = InventoryItem.GetComponent<InventoryDisplayedData>();
+               itemInfos.itemName.text = inventory.inventorySlots[itemIndex].Item.itemName + " x" +  inventory.inventorySlots[itemIndex].Count;
+               itemInfos.itemWeight.text = inventory.inventorySlots[itemIndex].Item.itemWeight + " kg";
+               itemInfos.itemDescription.text = inventory.inventorySlots[itemIndex].Item.itemLore;
+               itemInfos.itemRarity.text = inventory.inventorySlots[itemIndex].Item.itemRarity.ToString();
+               itemInfos.itemPrice.text = inventory.inventorySlots[itemIndex].Item.itemPrice + "G";
+      
+               if (inventory.inventorySlots[itemIndex].Item.itemSprite != null)
+               {
+                   itemInfos.ItemImage.sprite = inventory.inventorySlots[itemIndex].Item.itemSprite;
+               }
+           }
+       }
 
-        private void PopulateInventoryPanel()
+        private void UpdateCanvas(int currentRecipe)
         {
-            if (inventory.inventorySlots.Length == 0)
+            Transform canv = smithCanvas.transform.GetChild(0);
+            foreach (Transform child in canv.transform)
             {
-                return;
+                Destroy(child.gameObject);
             }
-            else
+            for (int i = 0; i < recipes.GetRecipes()[currenRecipe].ListOfMaterials.Count; i++)
             {
-                // Delete all objects in inventory UI
-                foreach (Transform child in ItemsParent.transform)
-                {
-                    Destroy(child.gameObject);
-                }
-            }
-
-            // Create inventory list objects
-            for (int itemIndex = 0; itemIndex < inventory.inventorySlots.Length; itemIndex++)
-            {
-                if (inventory.inventorySlots[itemIndex].Item == null)
-                {
-                    continue;
-                }
-
-                GameObject InventoryItem = Instantiate(ItemUIPrefab) as GameObject;
-                InventoryItem.transform.SetParent(ItemsParent.transform, false);
-                InventoryDisplayedData itemInfos = InventoryItem.GetComponent<InventoryDisplayedData>();
-                itemInfos.itemName.text = inventory.inventorySlots[itemIndex].Item.Name;
-                itemInfos.itemWeight.text = inventory.inventorySlots[itemIndex].Item.ItemWeight + " kg";
-                itemInfos.itemDescription.text = inventory.inventorySlots[itemIndex].Item.Description;
-                itemInfos.itemRarity.text = inventory.inventorySlots[itemIndex].Item.Rarity.ToString();
-                itemInfos.itemPrice.text = inventory.inventorySlots[itemIndex].Item.Price + "G";
-
-                if (inventory.inventorySlots[itemIndex].Item.ItemSprite != null)
-                {
-                    itemInfos.ItemImage.sprite = inventory.inventorySlots[itemIndex].Item.ItemSprite;
-                }
+                GameObject newPanel = Instantiate(recipeUiPrefab, canv);
+                newPanel.GetComponentInChildren<Text>().text = recipes.GetRecipes()[currenRecipe].ListOfMaterials[i].Item.itemName + "\n" + recipes.GetRecipes()[currenRecipe].ListOfMaterials[i].Count;
             }
         }
 
@@ -259,6 +322,11 @@ namespace RuthlessMerchant
         {
             if (Input.GetKeyDown(KeyCode.M))
             {
+                if (inventoryCanvas.activeSelf)
+                {
+                    inventoryCanvas.SetActive(false);
+                }
+
                 mapObject.SetActive(mapObject.activeSelf == false);
             }
         }
@@ -268,44 +336,45 @@ namespace RuthlessMerchant
         /// </summary>
         public void HandleInput()
         {
-            bool isWalking = false;
+            switch(controlMode)
+            {
+                case ControlMode.Move:
+                    ControleModeMove();
+                    break;
+                case ControlMode.Smith:
+                    ControlModeSmith();
+                    break;
+            }
+        }
+
+        private void ControleModeMove()
+        {
+            bool isWalking = true;
+
             if (!Input.GetKey(KeyCode.LeftShift))
             {
                 isWalking = true;
             }
-            
+            else if (!isCrouching)
+            {
+                isWalking = false;
+            }
+
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 hasJumped = true;
-               // base.Jump(jumpSpeed);
+                // base.Jump(jumpSpeed);
             }
-            
-            if (Input.GetKey(KeyCode.Alpha1))
+
+            //TODO: If toggle_crouch, toggle a switch instead of checking for sneak every update
+            if (Input.GetKey(KeyCode.LeftControl))
             {
-                teleportTarget = Teleport1;
-                Debug.Log("Teleport1 - Blue");
+                isCtrlPressed = true;
             }
-            if (Input.GetKey(KeyCode.Alpha2))
-            {
-                teleportTarget = Teleport2;
-                Debug.Log("Teleport2 - Purple");
-            }
-            if (Input.GetKey(KeyCode.Alpha3))
-            {
-                teleportTarget = Teleport3;
-                Debug.Log("Teleport3 - Green");
-            }
-            if (Input.GetKey(KeyCode.Alpha4))
-            {
-                teleportTarget = Teleport4;
-                Debug.Log("Teleport4 - Yellow");
-            }
-            if(Input.GetKey(KeyCode.T) && teleportTarget != null)
-            {
-                Teleport(teleportTarget.position + new Vector3(0, 1));
-            }
+
+
             moveSpeed = isWalking ? walkSpeed : runSpeed;
-            
+
             float horizontal = Input.GetAxis("Horizontal");
             float vertical = Input.GetAxis("Vertical");
 
@@ -324,20 +393,71 @@ namespace RuthlessMerchant
             {
                 InputVector.Normalize();
             }
-            
+
             base.Move(InputVector, moveSpeed);
+
 
             SendInteraction();
             ShowInventory();
             ShowMap();
         }
 
+        private void ControlModeSmith()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                controlMode = ControlMode.Move;
+                smithCanvas.SetActive(false);
+            }
+            else if (Input.GetKeyDown(KeyCode.W))
+            {
+
+                currenRecipe++;
+                if (currenRecipe >= recipes.GetRecipes().Count)
+                {
+                    currenRecipe = 0;
+                }
+
+                while(!recipes.GetRecipes()[currenRecipe].Unlocked)
+                {
+                    currenRecipe++;
+                    if (currenRecipe >= recipes.GetRecipes().Count)
+                    {
+                        currenRecipe = 0;
+                    }
+                }
+
+                UpdateCanvas(currenRecipe);
+            }
+            else if (Input.GetKeyDown(KeyCode.S))
+            {
+                currenRecipe--;
+                if (currenRecipe < 0)
+                {
+                    currenRecipe = recipes.GetRecipes().Count - 1;
+                }
+
+                while (!recipes.GetRecipes()[currenRecipe].Unlocked)
+                {
+                    currenRecipe--;
+                    if (currenRecipe < 0)
+                    {
+                        currenRecipe = recipes.GetRecipes().Count - 1;
+                    }
+                }
+
+                UpdateCanvas(currenRecipe);
+                
+            }
+            else if(Input.GetKeyDown(KeyCode.E))
+            {
+                localSmith.TryCraft(inventory, currenRecipe);
+                PopulateInventoryPanel();
+            }
+        }
+
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.collider.CompareTag("Teleport") && teleportTarget != null)
-            {
-                Teleport(teleportTarget.position + new Vector3 (0,1));
-            }
             
             if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Default"))
             {
@@ -354,63 +474,61 @@ namespace RuthlessMerchant
             }
         }
 
-        private void Teleport(Vector3 targetPos)
-        {
-            transform.position = targetPos;
-        }
-
-        public void SendInteraction()
-        {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                if (playerAttachedCamera != null)
-                {
-                    Ray clickRay = playerAttachedCamera.ScreenPointToRay(Input.mousePosition);
-                    RaycastHit hit;
-
-                    if (Physics.Raycast(clickRay, out hit, maxInteractDistance))
-                    {
-                        Debug.Log(hit.collider.name + " " + hit.point + " clicked.");
-
-                        InteractiveObject target = hit.collider.gameObject.GetComponent<InteractiveObject>();
-
-                        // Treat interaction target like an item                    
-                        Item targetItem = target as Item;
-
-                        if (targetItem != null)
-                        {
-                            // Picking up items and gear
-                            if (targetItem.Type == ItemType.Weapon || targetItem.Type == ItemType.Gear || targetItem.Type == ItemType.ConsumAble)
-                            {
-                                Item clonedItem = targetItem.DeepCopy();
-
-                                // Returns 0 if item was added to inventory
-                                int UnsuccessfulPickup = inventory.Add(clonedItem, 1);
-
-                                if (UnsuccessfulPickup != 0)
-                                {
-                                    Debug.Log("Returned " + UnsuccessfulPickup + ", failed to collect item.");
-                                }
-                                else
-                                {
-                                    targetItem.DestroyInteractivObject();
-                                }
-                            }
-                        }
-                        else
-                        {
-                            // Treat interaction target like an NPC
-                            NPC targetNPC = target as NPC;
-
-                            if (targetNPC != null)
-                            {
-                                target.Interact(this.gameObject);
-                            }
-                        }
-                    }
-                }
-            }
-        }
+      
+       public void SendInteraction()
+       {
+           if (Input.GetKeyDown(KeyCode.E))
+           {
+               if (playerAttachedCamera != null)
+               {
+                   Ray clickRay = playerAttachedCamera.ScreenPointToRay(Input.mousePosition);
+                   RaycastHit hit;
+      
+                   if (Physics.Raycast(clickRay, out hit, maxInteractDistance))
+                   {
+                       Debug.Log(hit.collider.name + " " + hit.point + " clicked.");
+      
+                       InteractiveObject target = hit.collider.gameObject.GetComponent<InteractiveObject>();
+      
+                       // Treat interaction target like an item                    
+                       Item targetItem = target as Item;
+      
+                       if (targetItem != null)
+                       {
+                           // Picking up items and gear
+                           if (targetItem.itemType == ItemType.Weapon || targetItem.itemType == ItemType.Ingredient || targetItem.itemType == ItemType.CraftingMaterial|| targetItem.itemType == ItemType.ConsumAble)
+                           {
+                               Item clonedItem = targetItem.DeepCopy();
+      
+                               // Returns 0 if item was added to inventory
+                               int UnsuccessfulPickup = inventory.Add(clonedItem, 1, true);
+      
+                               if (UnsuccessfulPickup != 0)
+                               {
+                                   Debug.Log("Returned " + UnsuccessfulPickup + ", failed to collect item.");
+                               }
+                               else
+                               {
+                                   targetItem.DestroyInteractivObject();
+                                    PopulateInventoryPanel();
+                               }
+                           }
+                       }
+                       else
+                       {
+                           // Treat interaction target like an NPC
+                           NPC targetNPC = target as NPC;
+      
+                           if (targetNPC != null)
+                           {
+                               target.Interact(this.gameObject);
+                                PopulateInventoryPanel();
+                           }
+                       }
+                   }
+               }
+           }
+       }
 
         public override void Interact(GameObject caller)
         {
@@ -419,7 +537,39 @@ namespace RuthlessMerchant
 
         public void Crouch()
         {
-            throw new System.NotImplementedException();
+            CapsuleCollider playerCollider = GetComponent<CapsuleCollider>();
+
+            if (!isCtrlPressed && wasCrouching != isCtrlPressed)
+            {
+                if (playerCollider.height <= playerHeight)
+                {
+                    playerCollider.height += crouchDelta * 0.1f;
+                    playerCollider.center -= new Vector3(0, crouchDelta * 0.05f, 0);
+                }
+                else
+                {
+                    isCrouching = false;
+                    wasCrouching = isCrouching;
+                }
+            }
+
+            if (!wasCrouching && isCrouching)
+            {
+                playerCollider.height -= crouchDelta;
+                playerCollider.center += new Vector3(0, crouchDelta / 2, 0);
+                wasCrouching = isCrouching;
+            }
+            //TODO: other sneak effects
+        }
+
+        public void EnterSmith(Smith smith)
+        {
+            localSmith = smith;
+            controlMode = ControlMode.Smith;
+            currenRecipe = 0;
+
+            smithCanvas.SetActive(true);
+            UpdateCanvas(currenRecipe);
         }
 
         public void Craft()

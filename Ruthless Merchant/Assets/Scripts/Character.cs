@@ -153,6 +153,8 @@ namespace RuthlessMerchant
 
             healthSystem = GetComponent<DamageAbleObject>();
             healthSystem.OnDeath += HealthSystem_OnDeath;
+
+            gearSystem = new GearSystem(isPlayer);
         }
 
         private void HealthSystem_OnDeath(object sender, System.EventArgs e)
@@ -226,8 +228,9 @@ namespace RuthlessMerchant
             {
                 if (elapsedSecs <= 0)
                 {
-                    rb.AddForce(Vector3.up * Mathf.Sqrt(maxJumpHeight), ForceMode.VelocityChange);
                     grounded = false;
+                    gravity = Vector3.zero;
+                    rb.AddForce(Vector3.up * Mathf.Sqrt(maxJumpHeight), ForceMode.VelocityChange);
                     elapsedSecs = 1f;
                 }
             }
