@@ -42,7 +42,7 @@
 
         public void EquipGear(Item GearItem)
         {
-            if (GearItem.Type == ItemType.Weapon)
+            if (GearItem.Type == ItemType.Gear)
             {
                 // Remove reference to gear in GearSlot
                 if (ProtectiveGear.Gear != null)
@@ -50,13 +50,13 @@
                     ProtectiveGear.Gear = null;
                 }
 
-                // Add GearItem
-                ProtectiveGear.Gear = GearItem;
-            }
-            else if (GearItem.Type == ItemType.Gear)
-            {
+                Gear CastedItem = GearItem as Gear;
 
+                // Add GearItem
+                if (CastedItem != null)
+                    ProtectiveGear.Gear = CastedItem;
             }
+
             // UpdateGearStats
         }
 
