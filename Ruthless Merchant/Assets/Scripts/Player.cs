@@ -114,9 +114,12 @@ namespace RuthlessMerchant
             base.Start();
 
             smithCanvas = GameObject.Find("SmithCanvas");
-            smithCanvas.SetActive(false);
+            if(smithCanvas)
+            {
+                smithCanvas.SetActive(false);
+            }
 
-            if(!recipes)
+            if (!recipes)
             {
                 recipes = FindObjectOfType<Recipes>();
             }
@@ -408,11 +411,22 @@ namespace RuthlessMerchant
             }
             else if (Input.GetKeyDown(KeyCode.W))
             {
+
                 currenRecipe++;
-                if(currenRecipe >= recipes.GetRecipes().Count)
+                if (currenRecipe >= recipes.GetRecipes().Count)
                 {
                     currenRecipe = 0;
                 }
+
+                while(!recipes.GetRecipes()[currenRecipe].Unlocked)
+                {
+                    currenRecipe++;
+                    if (currenRecipe >= recipes.GetRecipes().Count)
+                    {
+                        currenRecipe = 0;
+                    }
+                }
+
                 UpdateCanvas(currenRecipe);
             }
             else if (Input.GetKeyDown(KeyCode.S))
@@ -422,6 +436,16 @@ namespace RuthlessMerchant
                 {
                     currenRecipe = recipes.GetRecipes().Count - 1;
                 }
+
+                while (!recipes.GetRecipes()[currenRecipe].Unlocked)
+                {
+                    currenRecipe--;
+                    if (currenRecipe < 0)
+                    {
+                        currenRecipe = recipes.GetRecipes().Count - 1;
+                    }
+                }
+
                 UpdateCanvas(currenRecipe);
                 
             }
