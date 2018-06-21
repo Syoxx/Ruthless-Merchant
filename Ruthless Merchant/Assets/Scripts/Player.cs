@@ -452,6 +452,7 @@ namespace RuthlessMerchant
                            if (targetNPC != null)
                            {
                                target.Interact(this.gameObject);
+                                PopulateInventoryPanel();
                            }
                        }
                    }
