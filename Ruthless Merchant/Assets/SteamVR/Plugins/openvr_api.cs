@@ -4147,7 +4147,7 @@ public enum EVRScreenshotError
 	[FieldOffset(0)] public VREvent_Property_t property;
 	[FieldOffset(0)] public VREvent_DualAnalog_t dualAnalog;
 	[FieldOffset(0)] public VREvent_HapticVibration_t hapticVibration;
-	[FieldOffset(0)] public VREvent_Keyboard_t keyboard; // This has to be at the end due to a mono bug
+	[FieldOffset(0)] public VREvent_Keyboard_t keyboard; // This has to be at the end due to a monobug
 }
 
 
