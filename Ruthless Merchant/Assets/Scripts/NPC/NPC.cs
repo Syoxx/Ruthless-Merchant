@@ -181,6 +181,9 @@ namespace RuthlessMerchant
             Recognize();
             Hear();
 
+            //if(!agent.isStopped)
+            //    GetComponent<Rigidbody>().velocity = transform.forward * agent.speed;
+
             if(currentAction != null)
                 currentAction.Update(Time.deltaTime);
 
@@ -368,8 +371,15 @@ namespace RuthlessMerchant
                 {
                     if (!reactionState.HasFlag(TargetState.IsThreat))
                     {
-                        if (Vector3.Distance(gameObject.transform.position, transform.position) <
-                            Vector3.Distance(currentReactTarget.transform.position, transform.position))
+                        if (currentReactTarget != null)
+                        {
+                            if (Vector3.Distance(gameObject.transform.position, transform.position) <
+                                Vector3.Distance(currentReactTarget.transform.position, transform.position))
+                            {
+                                currentReactTarget = character;
+                            }
+                        }
+                        else
                         {
                             currentReactTarget = character;
                         }
@@ -450,31 +460,24 @@ namespace RuthlessMerchant
             {
                 case SpeedType.None:
                     agent.speed = 0;
-                    agent.angularSpeed = 0;
                     break;
                 case SpeedType.Walk:
                     agent.speed = walkSpeed;
-                    agent.angularSpeed = walkSpeed;
                     break;
                 case SpeedType.Run:
                     agent.speed = runSpeed;
-                    agent.angularSpeed = runSpeed;
                     break;
                 case SpeedType.Stealth:
                     agent.speed = walkSpeed;
-                    agent.angularSpeed = walkSpeed;
                     break;
                 case SpeedType.Crouch:
                     agent.speed = walkSpeed;
-                    agent.angularSpeed = walkSpeed;
                     break;
                 case SpeedType.Jump:
                     agent.speed = runSpeed;
-                    agent.angularSpeed = runSpeed;
                     break;
                 case SpeedType.Flee:
                     agent.speed = runSpeed * 1.5f;
-                    agent.angularSpeed = runSpeed * 1.5f;
                     break;
                 default:
                     break;
