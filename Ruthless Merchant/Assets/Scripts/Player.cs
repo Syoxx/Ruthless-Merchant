@@ -471,6 +471,7 @@ namespace RuthlessMerchant
 
         private void ControlModeSmith()
         {
+            gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 controlMode = ControlMode.Move;
@@ -524,12 +525,12 @@ namespace RuthlessMerchant
         }
         public void OnWorkbenchButton(int itemslot)
         {
-            Debug.Log(itemSlot);
             localWorkbench.BreakdownItem(inventory.inventorySlots[itemSlot].Item, Inventory);
             PopulateWorkbenchPanel();
         }
         private void ControlModeWorkbench()
         {
+            gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 PopulateInventoryPanel();
