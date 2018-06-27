@@ -16,7 +16,7 @@ namespace RuthlessMerchant
         #region Private Fields
         private UISystem uiSystem;
         private QuestManager questManager;
-        private bool showingInventory = false;
+        private bool restrictMovement = false;
         private bool hasJumped;
         private bool isCrouching;
         private bool isCtrlPressed;
@@ -52,6 +52,9 @@ namespace RuthlessMerchant
 
         private float crouchDelta;
         private float playerHeight;
+
+        [SerializeField]
+        private Texture2D aimpointTexture;
 
         [SerializeField]
         [Tooltip("Tip: CrouchHeight must be smaller than the player collider's height.")]
@@ -176,7 +179,7 @@ namespace RuthlessMerchant
             if (isCtrlPressed)
             {
                 isCrouching = true;
-                if (Input.GetKeyUp(KeyCode.LeftControl))
+                if (Input.GetKeyUp(KeyCode.LeftControl) || restrictMovement == true)
                 {
                     isCtrlPressed = false;
                 }
@@ -264,12 +267,14 @@ namespace RuthlessMerchant
         {  
             if (Input.GetKeyDown(KeyCode.I))
             {
+                bool isUI_Inactive = (inventoryCanvas.activeSelf == false);
                 if (mapObject.activeSelf)
                 {
                     mapObject.SetActive(false);
                 }
 
-                inventoryCanvas.SetActive(inventoryCanvas.activeSelf == false);
+                inventoryCanvas.SetActive(isUI_Inactive);
+                restrictMovement = isUI_Inactive;
             }
         }
         private void PopulateWorkbenchPanel()
@@ -385,12 +390,15 @@ namespace RuthlessMerchant
         {
             if (Input.GetKeyDown(KeyCode.M))
             {
+                bool isUI_Inactive = (mapObject.activeSelf == false);
+
                 if (inventoryCanvas.activeSelf)
                 {
                     inventoryCanvas.SetActive(false);
                 }
 
-                mapObject.SetActive(mapObject.activeSelf == false);
+                mapObject.SetActive(isUI_Inactive);
+                restrictMovement = isUI_Inactive;
             }
         }
 
@@ -429,21 +437,32 @@ namespace RuthlessMerchant
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                hasJumped = true;
-                // base.Jump(jumpSpeed);
+                if (!restrictMovement)
+                {
+                    hasJumped = true;
+                }
             }
 
             //TODO: If toggle_crouch, toggle a switch instead of checking for sneak every update
             if (Input.GetKey(KeyCode.LeftControl))
             {
-                isCtrlPressed = true;
+                if (!restrictMovement)
+                {
+                    isCtrlPressed = true;
+                }
             }
 
 
             moveSpeed = isWalking ? walkSpeed : runSpeed;
 
-            float horizontal = Input.GetAxis("Horizontal");
-            float vertical = Input.GetAxis("Vertical");
+            float horizontal = 0f;
+            float vertical = 0f;
+
+            if (!restrictMovement)
+            {
+                horizontal = Input.GetAxis("Horizontal");
+                vertical = Input.GetAxis("Vertical");
+            }
 
             if (horizontal == 0 && vertical == 0)
             {
@@ -475,6 +494,7 @@ namespace RuthlessMerchant
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 controlMode = ControlMode.Move;
+                restrictMovement = false;
                 smithCanvas.SetActive(false);
             }
             else if (Input.GetKeyDown(KeyCode.W))
@@ -534,6 +554,7 @@ namespace RuthlessMerchant
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 PopulateInventoryPanel();
+                restrictMovement = false;
                 inventoryCanvas.SetActive(false);
                 IsCursorLocked = false;
                 controlMode = ControlMode.Move;
@@ -542,12 +563,7 @@ namespace RuthlessMerchant
             {
                 localWorkbench.BreakdownItem(inventory.inventorySlots[0].Item, Inventory);
                 PopulateWorkbenchPanel();
-                //if (mapObject.activeSelf)
-                //{
-                //    mapObject.SetActive(false);
-                //}
 
-                //inventoryCanvas.SetActive(inventoryCanvas.activeSelf == false);
             }
         }
         private void OnCollisionEnter(Collision collision)
@@ -668,6 +684,7 @@ namespace RuthlessMerchant
             currenRecipe = 0;
 
             smithCanvas.SetActive(true);
+            restrictMovement = true;
             UpdateCanvas(currenRecipe);
         }
 
@@ -680,8 +697,8 @@ namespace RuthlessMerchant
                 mapObject.SetActive(false);
             }
 
-            inventoryCanvas.SetActive(inventoryCanvas.activeSelf == false);
-           // Button workbenchButton = Instantiate(
+            inventoryCanvas.SetActive(true);
+            restrictMovement = true;
             localWorkbench = workbench;
             controlMode = ControlMode.Workbench;
         }
