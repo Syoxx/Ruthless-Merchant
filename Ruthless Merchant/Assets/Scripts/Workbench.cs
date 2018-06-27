@@ -6,32 +6,38 @@ namespace RuthlessMerchant {
     public class Workbench : Character {
 
         [SerializeField]
-        Recipes recipe;
+        Recipes recipes;
         [SerializeField]
-        Item breakableItem;
+        Canvas workbenchCanvas;
 
 
         public override void Interact(GameObject caller)
         {
-            Inventory inventory = caller.GetComponent<Player>().Inventory;
-            BreakdownItem(breakableItem, caller, inventory);
-
+            Player player = caller.GetComponent<Player>();
+            player.EnterWorkbench(this);
         }
-        public void BreakdownItem(Item BreakableItem, GameObject caller, Inventory inventory)
+        public void BreakdownItem(Item BreakableItem, Inventory inventory)
         {
-            for (int i = 0; i < recipe.GetRecipes().Count; i++)
+            for (int i = 0; i < recipes.GetRecipes().Count; i++)
             {
-                if (recipe.GetRecipes()[i].Result == BreakableItem)
+                if (recipes.GetRecipes()[i].Result == BreakableItem)
                 {
-
-                    for (int j = 0; j < recipe.GetRecipes()[i].ListOfMaterials[j].Count; j++)
+                    
+                    for (int j = 0; j < recipes.GetRecipes()[i].ListOfMaterials.Count; j++)
                     {
-                        inventory.Add(recipe.GetRecipes()[i].ListOfMaterials[j].Item, recipe.GetRecipes()[i].ListOfMaterials[j].Count, false);
+                        inventory.Add(recipes.GetRecipes()[i].ListOfMaterials[j].Item, recipes.GetRecipes()[i].ListOfMaterials[j].Count, true);
+                        Debug.Log("Added " + recipes.GetRecipes()[i].ListOfMaterials[j].Item);
                     }
-                    inventory.Remove(BreakableItem, 1, false);
+                    inventory.Remove(BreakableItem, 1, true);
                     break;
                 }
+                else continue;               
             }
+        }
+
+        public void ActivateWorkbenchCanvas()
+        {
+
         }
 
     }

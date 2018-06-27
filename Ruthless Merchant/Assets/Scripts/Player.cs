@@ -29,7 +29,7 @@ namespace RuthlessMerchant
 
         enum ControlMode
         {
-            Move = 0, Smith = 1
+            Move = 0, Smith = 1, Workbench = 2
         }
         
         private Camera playerAttachedCamera;
@@ -45,6 +45,11 @@ namespace RuthlessMerchant
         GameObject smithCanvas;
         Smith localSmith;
 
+        Canvas workbenchCanvas;
+        Workbench localWorkbench;
+        Item breakableItem;
+        int itemSlot;
+
         private float crouchDelta;
         private float playerHeight;
 
@@ -57,6 +62,9 @@ namespace RuthlessMerchant
 
         [SerializeField]
         private GameObject ItemUIPrefab;
+
+        [SerializeField]
+        private GameObject workshopUIPrefab;
 
         [SerializeField]
         GameObject recipeUiPrefab;
@@ -264,7 +272,61 @@ namespace RuthlessMerchant
                 inventoryCanvas.SetActive(inventoryCanvas.activeSelf == false);
             }
         }
-      
+        private void PopulateWorkbenchPanel()
+        {
+            if (inventory.inventorySlots.Length == 0)
+            {
+                return;
+            }
+            else
+            {
+                foreach (Transform child in ItemsParent.transform)
+                {
+                    Destroy(child.gameObject);
+                }
+
+            }
+            for (int itemIndex = 0; itemIndex < inventory.inventorySlots.Length; itemIndex++)
+            {
+                if (inventory.inventorySlots[itemIndex].Item == null)
+                {
+                    continue;
+                }
+                else if (inventory.inventorySlots[itemIndex].Item.itemType == ItemType.Weapon)
+                {                  
+                    GameObject InventoryItem = Instantiate(ItemUIPrefab) as GameObject;
+                    InventoryItem.transform.SetParent(ItemsParent.transform, false);
+                    InventoryDisplayedData itemInfos = InventoryItem.GetComponent<InventoryDisplayedData>();
+                    itemInfos.itemName.text = inventory.inventorySlots[itemIndex].Item.itemName + " x" + inventory.inventorySlots[itemIndex].Count;
+                    itemInfos.itemWeight.text = inventory.inventorySlots[itemIndex].Item.itemWeight + " kg";
+                    itemInfos.itemDescription.text = inventory.inventorySlots[itemIndex].Item.itemLore;
+                    itemInfos.itemRarity.text = inventory.inventorySlots[itemIndex].Item.itemRarity.ToString();
+                    itemInfos.itemPrice.text = inventory.inventorySlots[itemIndex].Item.itemPrice + "G";
+
+                    if (inventory.inventorySlots[itemIndex].Item.itemSprite != null)
+                    {
+                        itemInfos.ItemImage.sprite = inventory.inventorySlots[itemIndex].Item.itemSprite;
+                    }
+                    GameObject workshopButton = Instantiate(workshopUIPrefab) as GameObject;
+                    workshopButton.transform.SetParent(/*inventory.inventorySlots[itemIndex].Item.transform*/InventoryItem.transform, false);
+                    if (workshopButton.GetComponent<Button>() != null)
+                    {
+                        itemSlot = itemIndex;
+                        workshopButton.GetComponent<Button>().onClick.AddListener(() => OnWorkbenchButton(itemSlot));
+                    }
+                    
+                    //Set Button-Width and Height
+                    workshopButton.GetComponent<RectTransform>().offsetMin = new Vector2(-400, -65);
+                    workshopButton.GetComponent<RectTransform>().offsetMax = new Vector2(400, 65);
+
+
+                    //workshopButton.transform.position = inventory.inventorySlots[itemIndex].Item.transform.position;
+                    //InventoryItem.GetComponent<RectTransform>().rect.x, InventoryItem.GetComponent<RectTransform>().rect.y, InventoryItem.GetComponent<RectTransform>().rect.width, InventoryItem.GetComponent<RectTransform>().rect.height
+                    workshopButton.SetActive(true);
+                }
+                else continue;
+            }
+        }
        private void PopulateInventoryPanel()
        {
            if (inventory.inventorySlots.Length == 0)
@@ -279,6 +341,7 @@ namespace RuthlessMerchant
                    Destroy(child.gameObject);
                }
            }
+
       
            // Create inventory list objects
            for (int itemIndex = 0; itemIndex < inventory.inventorySlots.Length; itemIndex++)
@@ -343,6 +406,10 @@ namespace RuthlessMerchant
                     break;
                 case ControlMode.Smith:
                     ControlModeSmith();
+                    break;
+                case ControlMode.Workbench:
+                    IsCursorLocked = false;
+                    ControlModeWorkbench();
                     break;
             }
         }
@@ -455,14 +522,39 @@ namespace RuthlessMerchant
                 PopulateInventoryPanel();
             }
         }
+        public void OnWorkbenchButton(int itemslot)
+        {
+            Debug.Log(itemSlot);
+            localWorkbench.BreakdownItem(inventory.inventorySlots[itemSlot].Item, Inventory);
+            PopulateWorkbenchPanel();
+        }
+        private void ControlModeWorkbench()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                PopulateInventoryPanel();
+                inventoryCanvas.SetActive(false);
+                IsCursorLocked = false;
+                controlMode = ControlMode.Move;
+            }
+            if(Input.GetKeyDown(KeyCode.E))
+            {
+                localWorkbench.BreakdownItem(inventory.inventorySlots[0].Item, Inventory);
+                PopulateWorkbenchPanel();
+                //if (mapObject.activeSelf)
+                //{
+                //    mapObject.SetActive(false);
+                //}
 
+                //inventoryCanvas.SetActive(inventoryCanvas.activeSelf == false);
+            }
+        }
         private void OnCollisionEnter(Collision collision)
         {
             
             if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Default"))
             {
                 base.Grounding(true);
-                Debug.Log("true");
             }
         }
 
@@ -499,7 +591,7 @@ namespace RuthlessMerchant
                            if (targetItem.itemType == ItemType.Weapon || targetItem.itemType == ItemType.Ingredient || targetItem.itemType == ItemType.CraftingMaterial|| targetItem.itemType == ItemType.ConsumAble)
                            {
                                Item clonedItem = targetItem.DeepCopy();
-      
+                                
                                // Returns 0 if item was added to inventory
                                int UnsuccessfulPickup = inventory.Add(clonedItem, 1, true);
       
@@ -518,12 +610,18 @@ namespace RuthlessMerchant
                        {
                            // Treat interaction target like an NPC
                            NPC targetNPC = target as NPC;
-      
+
                            if (targetNPC != null)
                            {
+
                                target.Interact(this.gameObject);
                                 PopulateInventoryPanel();
                            }
+                           else
+                            {
+                                target.Interact(this.gameObject);
+                                PopulateWorkbenchPanel();
+                            }
                        }
                    }
                }
@@ -570,6 +668,21 @@ namespace RuthlessMerchant
 
             smithCanvas.SetActive(true);
             UpdateCanvas(currenRecipe);
+        }
+
+        public void EnterWorkbench(Workbench workbench)
+        {
+            //Might be excessiv Populating
+            PopulateWorkbenchPanel();
+            if (mapObject.activeSelf)
+            {
+                mapObject.SetActive(false);
+            }
+
+            inventoryCanvas.SetActive(inventoryCanvas.activeSelf == false);
+           // Button workbenchButton = Instantiate(
+            localWorkbench = workbench;
+            controlMode = ControlMode.Workbench;
         }
 
         public void Craft()
