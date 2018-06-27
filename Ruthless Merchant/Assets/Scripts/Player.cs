@@ -29,7 +29,7 @@ namespace RuthlessMerchant
 
         enum ControlMode
         {
-            Move = 0, Smith = 1, Workbench = 2
+            Move = 0, Smith = 1, Workbench = 2, Alchemist = 3
         }
         
         private Camera playerAttachedCamera;
@@ -44,6 +44,9 @@ namespace RuthlessMerchant
         int currenRecipe;
         GameObject smithCanvas;
         Smith localSmith;
+
+        AlchemySlot localAlchemist;
+        GameObject alchemyCanvas;
 
         Canvas workbenchCanvas;
         Workbench localWorkbench;
@@ -122,6 +125,7 @@ namespace RuthlessMerchant
             base.Start();
 
             smithCanvas = GameObject.Find("SmithCanvas");
+            alchemyCanvas = GameObject.Find("AlchemyCanvas");
             if(smithCanvas)
             {
                 smithCanvas.SetActive(false);
@@ -411,6 +415,9 @@ namespace RuthlessMerchant
                     IsCursorLocked = false;
                     ControlModeWorkbench();
                     break;
+                case ControlMode.Alchemist:
+                    ControlModeAlchemist();
+                    break;
             }
         }
 
@@ -523,11 +530,27 @@ namespace RuthlessMerchant
                 PopulateInventoryPanel();
             }
         }
+
+        void ControlModeAlchemist()
+        {
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                controlMode = ControlMode.Move;
+            }
+        }
+
+        public void OnAlchemyButton(int itemSlot)
+        {
+            localAlchemist.AddItem((Ingredient)Inventory.inventorySlots[itemSlot].Item);
+            Inventory.Remove(itemSlot, 1, true);
+        }
+
         public void OnWorkbenchButton(int itemslot)
         {
             localWorkbench.BreakdownItem(inventory.inventorySlots[itemSlot].Item, Inventory);
             PopulateWorkbenchPanel();
         }
+
         private void ControlModeWorkbench()
         {
             gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
@@ -684,6 +707,14 @@ namespace RuthlessMerchant
            // Button workbenchButton = Instantiate(
             localWorkbench = workbench;
             controlMode = ControlMode.Workbench;
+        }
+
+        public void EnterAlchemySlot(AlchemySlot alchemySlot)
+        {
+            localAlchemist = alchemySlot;
+            controlMode = ControlMode.Alchemist;
+
+
         }
 
         public void Craft()
