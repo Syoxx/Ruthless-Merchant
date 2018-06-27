@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace RuthlessMerchant {
-    public class Workbench : Character {
+    public class Workbench : InteractiveObject {
 
         [SerializeField]
         Recipes recipes;
@@ -35,10 +35,14 @@ namespace RuthlessMerchant {
             }
         }
 
-        public void ActivateWorkbenchCanvas()
+        public override void Start()
         {
 
         }
 
+        public override void Update()
+        {
+
+        }
     }
 }
