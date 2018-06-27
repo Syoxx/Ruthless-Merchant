@@ -20,7 +20,7 @@ namespace RuthlessMerchant
             List<Materials> materials;
 
             [SerializeField]
-            bool autoUnlocked;
+            bool unlocked;
 
             #region GetFunctions
 
@@ -40,11 +40,11 @@ namespace RuthlessMerchant
                 }
             }
 
-            public bool AutoUnlocked
+            public bool Unlocked
             {
                 get
                 {
-                    return autoUnlocked;
+                    return unlocked;
                 }
             }
 
@@ -90,7 +90,7 @@ namespace RuthlessMerchant
             {
                 this.result = result;
                 this.materials = materials;
-                this.autoUnlocked = autoUnlocked;
+                this.unlocked = autoUnlocked;
             }
         }
 
