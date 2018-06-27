@@ -38,6 +38,9 @@ namespace RuthlessMerchant
         private float crouchDelta;
         private float playerHeight;
 
+
+        
+
         [SerializeField]
         [Tooltip("Tip: CrouchHeight must be smaller than the player collider's height.")]
         private float CrouchHeight;
@@ -58,6 +61,10 @@ namespace RuthlessMerchant
         private Transform Teleport3;
         [SerializeField]
         private Transform Teleport4;
+
+        [Header("Book")]
+        [SerializeField] [Tooltip("Drag a book canvas there / Daniil Masliy")]
+        private GameObject _bookCanvas;
         #endregion
 
         #region MonoBehaviour Life Cycle
@@ -376,6 +383,7 @@ namespace RuthlessMerchant
             SendInteraction();
             ShowInventory();
             ShowMap();
+            OpenBook();
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -489,6 +497,17 @@ namespace RuthlessMerchant
                 wasCrouching = isCrouching;
             }
             //TODO: other sneak effects
+        }
+
+        /// <summary>
+        /// A simple function to open a book
+        /// </summary>
+        private void OpenBook()
+        {
+            if (Input.GetKeyDown(KeyCode.J))
+            {
+                _bookCanvas.SetActive(_bookCanvas.activeSelf == false);
+            }
         }
 
         public void Craft()
