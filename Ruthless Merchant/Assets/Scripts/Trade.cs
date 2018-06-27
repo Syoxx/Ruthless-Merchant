@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,14 +31,21 @@ namespace RuthlessMerchant
         [SerializeField]
         InputField playerOfferInputField;
 
-        [SerializeField]
-        public Text bargainEventsText;
+        public Text BargainEventsText;
+
+        public Button AcceptButton;
 
         [SerializeField]
         Slider sliderIrritation;
 
         [SerializeField]
+        Text sliderIrritationNumber;
+
+        [SerializeField]
         Slider sliderSkepticism;
+
+        [SerializeField]
+        Text sliderSkepticismNumber;
 
         #region MonoBehaviour Life Cycle
 
@@ -76,7 +84,7 @@ namespace RuthlessMerchant
 
                 if(exitTimer > exitTimerLimit)
                 {
-                    UnityEngine.SceneManagement.SceneManager.LoadScene(PreviousScene);
+                    //UnityEngine.SceneManagement.SceneManager.LoadScene(PreviousScene);
                 }
             }
         }
@@ -95,8 +103,11 @@ namespace RuthlessMerchant
             sliderIrritation.value = Trader.IrritationTotal;
             sliderSkepticism.value = Trader.SkepticismTotal;
 
+            sliderIrritationNumber.text = Trader.IrritationTotal.ToString();
+            sliderSkepticismNumber.text = Trader.SkepticismTotal.ToString();
+
             playerOfferInputField.text = PlayerOffers[PlayerOffers.Count - 1].ToString();
-            traderOffer.text = TraderOffers[TraderOffers.Count - 1].ToString();
+            traderOffer.text = Math.Floor(TraderOffers[TraderOffers.Count - 1]).ToString() + " (" + TraderOffers[TraderOffers.Count - 1].ToString() + ")";
         }
 
         public void AugmentTotalPlayerOffers()
@@ -107,14 +118,15 @@ namespace RuthlessMerchant
         public void Accept()
         {
             playerOfferInputField.interactable = false;
-            bargainEventsText.text = "You and Dormammu have a blood-sealing pact. He wishes you a good day and rides off into the sunset.";
+            AcceptButton.interactable = false;
+            BargainEventsText.text = "You and Dormammu have a blood-sealing pact. He wishes you a good day and rides off into the sunset.";
             exit = true;
         }
 
         public void Abort()
         {
             playerOfferInputField.interactable = false;
-            bargainEventsText.text = "Dormammu tells you to fuck off and rides off with his galaxy-eating unicorn.";
+            BargainEventsText.text = "Dormammu tells you to fuck off and rides off with his galaxy-eating unicorn.";
             exit = true;
         }
     }

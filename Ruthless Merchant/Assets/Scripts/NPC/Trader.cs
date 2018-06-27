@@ -20,38 +20,36 @@ namespace RuthlessMerchant
 
         [Header("Influence Variables")]
 
-        #region Reputation
-
-        [SerializeField, Range(0, 1)]
+        [SerializeField, Range(0, 1), Tooltip("Ruf: Fraktion")]
         float influenceFraction;
 
-        [SerializeField, Range(0, 1)]
+        [SerializeField, Range(0, 1), Tooltip("Ruf: Individuell")]
         float influenceIndividual;
 
-        #endregion
-
-        #region Situation
-
-        [SerializeField, Range(0, 1)]
+        [SerializeField, Range(0, 1), Tooltip("Situation: Krieg")]
         float influenceWar;
 
-        [SerializeField, Range(0, 1)]
+        [SerializeField, Range(0, 1), Tooltip("Situation: Nachbarn")]
         float influenceNeighbours;
-
-        #endregion
 
         #endregion
 
         #region Deviation Constants
 
-        [SerializeField, ReadOnly]
-        float upperLimitPerCent = 1.25f;
+        [SerializeField, Range(0, 1), Tooltip("Obergrenze %")]
+        float upperLimitPerCent = 0.25f;
 
-        [SerializeField, ReadOnly]
+        [SerializeField, Range(0, 1), Tooltip("Untergrenze %")]
         float underLimitPerCent = 0.35f;
 
-        [SerializeField, ReadOnly]
-        float upperLimitBargainPerCent = 1.5f;
+        [SerializeField, Range(0, 1), Tooltip("Feilschfaktor Obergrenze")]
+        float upperLimitBargainPerCent = 0.5f;
+
+        [SerializeField, ReadOnly, Tooltip("(Obergrenze %) summiert")]
+        float upperLimitPercentTotal;
+
+        [SerializeField, ReadOnly, Tooltip("(Untergrenze %) summiert")]
+        float underLimitPercentTotal;
 
         #endregion
 
@@ -59,22 +57,22 @@ namespace RuthlessMerchant
 
         [Header("Price Variables")]
 
-        [SerializeField, ReadOnly]
+        [SerializeField, ReadOnly, Tooltip("Wunschwerte")]
         List<float> wished;
 
-        [SerializeField, ReadOnly]
+        [SerializeField, ReadOnly, Tooltip("(Obergrenze) absolut von Realwert")]
         float upperLimitReal;
 
-        [SerializeField, ReadOnly]
+        [SerializeField, ReadOnly, Tooltip("(Obergrenze) Schmerzgrenze Feilschen")]
         float upperLimitBargain;
 
-        [SerializeField, ReadOnly]
+        [SerializeField, ReadOnly, Tooltip("(Untergrenze) absolut von Realwert")]
         float underLimitReal;
 
-        [SerializeField, ReadOnly]
+        [SerializeField, ReadOnly, Tooltip("Faktoren zu Realwert")]
         List<float> realAndOfferedRatio;
 
-        [SerializeField, ReadOnly]
+        [SerializeField, ReadOnly, Tooltip("Faktoren zu Wunschwert")]
         List<float> wishedAndOfferedRatio;
 
         #endregion
@@ -98,7 +96,7 @@ namespace RuthlessMerchant
         [SerializeField, ReadOnly]
         float skepticismDelta;
 
-        [SerializeField, Range(0, 100)]
+        [SerializeField, Range(0, 100), Tooltip("Skepsis plus Grundwert")]
         float skepticismDeltaModifier;
 
         [SerializeField, Range(0, 100)]
@@ -116,7 +114,7 @@ namespace RuthlessMerchant
         [SerializeField, ReadOnly]
         float irritationDelta;
 
-        [SerializeField, Range(0, 100)]
+        [SerializeField, Range(0, 100), Tooltip("Genervt plus Grundwert")]
         float irritationDeltaModifier;
 
         #endregion
@@ -159,9 +157,12 @@ namespace RuthlessMerchant
                 {
                     float realPrice = itemValue[0].Count;
 
-                    upperLimitReal      = (float)Math.Ceiling(realPrice * (upperLimitPerCent));
-                    upperLimitBargain   = (float)Math.Ceiling(upperLimitReal * (upperLimitBargainPerCent));
-                    underLimitReal      = (float)Math.Floor(realPrice * (1 - underLimitPerCent));
+                    upperLimitPercentTotal = upperLimitPerCent + ((upperLimitPerCent * influenceFraction) + (upperLimitPerCent * influenceIndividual) + (upperLimitPerCent * influenceWar) + (upperLimitPerCent * influenceNeighbours)) / 4;
+                    underLimitPercentTotal = underLimitPerCent + (-(underLimitPerCent * influenceFraction) - (underLimitPerCent * influenceIndividual) + (underLimitPerCent * influenceWar) + (underLimitPerCent * influenceNeighbours)) / 4;
+
+                    upperLimitReal = (float)Math.Ceiling(realPrice * (1 + upperLimitPercentTotal));
+                    upperLimitBargain   = (float)Math.Ceiling(upperLimitReal * (1 + upperLimitBargainPerCent));
+                    underLimitReal      = (float)Math.Floor(realPrice * (1 - underLimitPercentTotal));
                     wished.Add((float)Math.Floor((upperLimitReal + underLimitReal) / 2));
                 }
                 else
@@ -184,6 +185,7 @@ namespace RuthlessMerchant
                 if (trade.TotalPlayerOffers == 1)
                 {
                     HandleFirstPlayerOffer();
+                    trade.AcceptButton.interactable = true;
                 }
                 else
                 {
