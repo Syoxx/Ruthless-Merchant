@@ -693,6 +693,8 @@ namespace RuthlessMerchant
             {
                 _bookCanvas.SetActive(_bookCanvas.activeSelf == false);
             }
+        }
+
         public void EnterSmith(Smith smith)
         {
             localSmith = smith;
