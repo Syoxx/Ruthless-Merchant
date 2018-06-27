@@ -47,14 +47,11 @@ namespace RuthlessMerchant
                 debugMessage += "Touchpad Click Input! X: " + axis.x + ", Y: " + axis.y + "\n";
             }
 
-            float triggerPressed = device.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0).x;
+            Vector2 triggerPressed = device.GetAxis(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger);
 
-            if (triggerPressed > 0)
-            {
-                debugMessage += "Hairtrigger Input! Pressed: " + triggerPressed;
-            }
+            debugMessage += "Hairtrigger Pressed: " + triggerPressed + "\n";
 
-            if (triggerPressed > 0.96f)
+            if (triggerPressed.x > 0.96f)
             {
                 debugMessage += "Hairtrigger Click Input!" + "\n";
             }
