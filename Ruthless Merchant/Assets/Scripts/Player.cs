@@ -714,7 +714,18 @@ namespace RuthlessMerchant
             localAlchemist = alchemySlot;
             controlMode = ControlMode.Alchemist;
 
+            alchemyCanvas.SetActive(true);
+            CreateAlchemyCanvas();
+        }
 
+        void CreateAlchemyCanvas()
+        {
+            for(int i = 0; i < inventory.inventorySlots.Length; i++)
+            {
+                if(inventory.inventorySlots[i].Item.itemType == ItemType.Ingredient)
+                {
+                }
+            }
         }
 
         public void Craft()

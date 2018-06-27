@@ -33,7 +33,7 @@ namespace RuthlessMerchant
             }
             else
             {
-                
+                RemoveItem(caller.GetComponent<Player>().Inventory);
             }
         }
 
