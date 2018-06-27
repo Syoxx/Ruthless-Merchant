@@ -1,11 +1,16 @@
-﻿using UnityEngine;
+﻿//---------------------------------------------------------------
+// Authors: Peter Ehmler, Richard Brönnimann, 
+//---------------------------------------------------------------
+using UnityEngine;
 
 namespace RuthlessMerchant
 {
     public abstract class Character : InteractiveObject
     {
         private DamageAbleObject healthSystem;
-        private Vector3 velocity;
+        //private Vector3 velocity;
+        private Vector3 moveVector;
+        private CharacterController charController;
         private int stamina;
         private int maxStamina;
         private int staminaRegeneration;
@@ -13,7 +18,6 @@ namespace RuthlessMerchant
 
         private StatValue[] characterStats;
         private StaminaController staminaController;
-        private float maxJumpHeight;
 
         private static float globalGravityScale = -9.81f;
         private float groundedSkin = 0.05f;
@@ -37,10 +41,20 @@ namespace RuthlessMerchant
         [SerializeField]
         [Range(0, 1000)]
         protected float walkSpeed = 2;
- 
+
         [SerializeField]
         [Range(0, 1000)]
         protected float runSpeed = 4;
+
+        [SerializeField]
+        [Range(0, 1000)]
+        private float stickToGroundValue;
+
+        [SerializeField]
+        [Range(0, 1000)]
+        private float maxJumpHeight;
+
+        private Vector3 gravity;
 
         public float WalkSpeed
         {
@@ -94,6 +108,16 @@ namespace RuthlessMerchant
             }
         }
 
+        public bool IsGrounded
+        {
+            get { return grounded; }
+        }
+
+        public CharacterController CharController
+        {
+            get { return charController; }
+        }
+
         public DamageAbleObject HealthSystem
         {
             get
@@ -125,8 +149,12 @@ namespace RuthlessMerchant
                 isPlayer = false;
             }
 
+            gravity = Vector3.zero;
+
             healthSystem = GetComponent<DamageAbleObject>();
             healthSystem.OnDeath += HealthSystem_OnDeath;
+
+            gearSystem = new GearSystem(isPlayer);
         }
 
         private void HealthSystem_OnDeath(object sender, System.EventArgs e)
@@ -143,12 +171,25 @@ namespace RuthlessMerchant
             }
         }
 
-        public void Move(Vector3 velocity, float speed)
-        {           
-           if(velocity != Vector3.zero && !isPlayer)
-                transform.rotation = Quaternion.LookRotation(velocity);
+        public void Move(Vector2 velocity, float speed)
+        {
+            if (velocity != Vector2.zero && !isPlayer)
+            { transform.rotation = Quaternion.LookRotation(velocity); }
 
-            transform.Translate(velocity * speed * Time.deltaTime, Space.Self);
+            moveVector = Vector3.zero;
+            rb.velocity = new Vector3(0f, rb.velocity.y, 0f);
+
+
+            moveVector.y = 0;
+            moveVector.x = velocity.x;
+            moveVector.z = velocity.y;
+
+            if (moveVector.sqrMagnitude > 1)
+            {
+                moveVector.Normalize();
+            }
+
+            transform.Translate(moveVector * speed * Time.fixedDeltaTime, Space.Self);
         }
 
         public void Rotate()
@@ -181,20 +222,39 @@ namespace RuthlessMerchant
             throw new System.NotImplementedException();
         }
 
-        public void Jump(float JumpVelocity)
+        public void Jump()
         {
             if (grounded)
             {
-                rb.AddForce(Vector3.up * JumpVelocity, ForceMode.Impulse);
-                grounded = false;
-                elapsedSecs = 1.5f;
+                if (elapsedSecs <= 0)
+                {
+                    grounded = false;
+                    gravity = Vector3.zero;
+                    rb.AddForce(Vector3.up * Mathf.Sqrt(maxJumpHeight), ForceMode.VelocityChange);
+                    elapsedSecs = 1f;
+                }
             }
         }
 
         protected virtual void FixedUpdate()
         {
-            if(elapsedSecs >= 0)
-              elapsedSecs -= Time.deltaTime;
+            if (elapsedSecs >= 0)
+            {
+                elapsedSecs -= Time.deltaTime;
+            }
+
+            if (grounded)
+            {
+                gravity = Vector3.zero;
+                gravity.y = -stickToGroundValue;
+                ApplyGravity(gravity);
+            }
+            else
+            {
+                gravity += globalGravityScale * Vector3.up * Time.deltaTime * 2f;
+                ApplyGravity(gravity);
+            }
+
         }
 
         public void CalculateVelocity()
@@ -212,20 +272,35 @@ namespace RuthlessMerchant
             throw new System.NotImplementedException();
         }
 
-        public void UseGravity(float gravityScale)
+        public void ApplyGravity(Vector3 gravity)
         {
-            Vector3 gravity = globalGravityScale * gravityScale * Vector3.up;
+            if (gravity.y > 0)
+            {
+                gravity.y = 0;
+            }
             rb.AddForce(gravity, ForceMode.Acceleration);
         }
 
-        public void Grounding(LayerMask layer)
+        public void Grounding(bool _grounded)
         {
-            if(Physics.CheckCapsule(GetComponent<Collider>().bounds.center, new Vector3(GetComponent<Collider>().bounds.center.x, GetComponent<Collider>().bounds.min.y - 0.1f, GetComponent<Collider>().bounds.center.z), 0.5f) && elapsedSecs <= 0)
+            grounded = _grounded;
+
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Default"))
             {
                 grounded = true;
             }
-            else
+        }
+
+        private void OnCollisionExit(Collision collision)
+        {
+            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Default"))
+            {
                 grounded = false;
+            }
         }
     }
 }

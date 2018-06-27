@@ -63,7 +63,6 @@ namespace RuthlessMerchant
         private List<AudioSource> possibleHearedObjects;
 
         private List<GameObject> noticedGameObjects;
-        private List<GameObject> noticedThreats;
 
         public event EventHandler OnCharacterNoticed;
         public event EventHandler OnItemNoticed;
@@ -155,7 +154,6 @@ namespace RuthlessMerchant
             possibleHearedObjects = new List<AudioSource>();
             possibleSeenObjects = new List<GameObject>();
             noticedGameObjects = new List<GameObject>();
-            noticedThreats = new List<GameObject>();
 
             if(waypoints == null)
                 waypoints = new List<Waypoint>();
@@ -329,7 +327,6 @@ namespace RuthlessMerchant
         {
             Vector3 direction = gameObject.transform.position - transform.position;
             direction.Normalize();
-            Debug.DrawRay(transform.position, direction, Color.red);
 
             RaycastHit hitInfo;
             bool hit = Physics.Raycast(transform.position, direction, out hitInfo, viewDistance);
