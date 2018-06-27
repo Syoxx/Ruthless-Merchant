@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.25
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 984039097}
-  m_IndirectSpecularColor: {r: 0.19645199, g: 0.21990749, b: 0.25424626, a: 0.25}
+  m_IndirectSpecularColor: {r: 0.19645259, g: 0.21994084, b: 0.254242, a: 0.25}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1412,9 +1412,13 @@ MonoBehaviour:
       count: 1
     - item: {fileID: 114887516679605566, guid: 7eedd3cecc6144e43b7bb60a6aae6234, type: 2}
       count: 3
-    unlocked: 1
-  - result: {fileID: 0}
-    materials: []
+    unlocked: 0
+  - result: {fileID: 114628218058561934, guid: 9c7f52522ae8cbe4ab2a4a192f744792, type: 2}
+    materials:
+    - item: {fileID: 114887516679605566, guid: 7eedd3cecc6144e43b7bb60a6aae6234, type: 2}
+      count: 4
+    - item: {fileID: 114104083275804290, guid: 02f5e0a77c77c0f4890f9f4a8d0c57ff, type: 2}
+      count: 1
     unlocked: 0
 --- !u!1 &590165400
 GameObject:
@@ -2587,7 +2591,7 @@ GameObject:
   - component: {fileID: 1218201708}
   - component: {fileID: 1218201713}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Workbench
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2605,10 +2609,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction: 0
-  walkSpeed: 2
-  runSpeed: 4
-  stickToGroundValue: 0
-  maxJumpHeight: 0
   recipes: {fileID: 567150176}
   workbenchCanvas: {fileID: 0}
 --- !u!65 &1218201709
@@ -3623,6 +3623,10 @@ Prefab:
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1423687591660586, guid: 749c4eff792f6b84090b13cd2469df38, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 749c4eff792f6b84090b13cd2469df38, type: 2}
