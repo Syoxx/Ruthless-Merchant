@@ -1413,9 +1413,11 @@ MonoBehaviour:
     - item: {fileID: 114887516679605566, guid: 7eedd3cecc6144e43b7bb60a6aae6234, type: 2}
       count: 3
     unlocked: 1
-  - result: {fileID: 0}
-    materials: []
-    unlocked: 0
+  - result: {fileID: 114104083275804290, guid: 02f5e0a77c77c0f4890f9f4a8d0c57ff, type: 2}
+    materials:
+    - item: {fileID: 114887516679605566, guid: c791c00511275d949a7dd8c7e3694f8f, type: 2}
+      count: 2
+    unlocked: 1
 --- !u!1 &590165400
 GameObject:
   m_ObjectHideFlags: 0
@@ -2587,7 +2589,7 @@ GameObject:
   - component: {fileID: 1218201708}
   - component: {fileID: 1218201713}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Workbench
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2605,10 +2607,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction: 0
-  walkSpeed: 2
-  runSpeed: 4
-  stickToGroundValue: 0
-  maxJumpHeight: 0
   recipes: {fileID: 567150176}
   workbenchCanvas: {fileID: 0}
 --- !u!65 &1218201709
