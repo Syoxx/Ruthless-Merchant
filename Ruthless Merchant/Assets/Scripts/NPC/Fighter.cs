@@ -3,6 +3,7 @@
 //
 //---------------------------------------------------------------
 
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace RuthlessMerchant
@@ -52,7 +53,7 @@ namespace RuthlessMerchant
             {
                 patrolActive = false;
                 if(PossiblePatrolPaths != null && PossiblePatrolPaths.Length > 0)
-                    PatrolPoints = GetRandomPath(PossiblePatrolPaths, false, 3);
+                    PatrolPoints = new List<Waypoint>(GetRandomPath(PossiblePatrolPaths, false, 3)).ToArray();
 
                 Patrol();
             }
@@ -84,7 +85,7 @@ namespace RuthlessMerchant
         {
             if (!patrolActive)
             {
-                if (PatrolPoints != null)
+                if (PatrolPoints != null && PatrolPoints.Length > 0)
                 {
                     patrolActive = true;
                     float minDistance = float.MaxValue;

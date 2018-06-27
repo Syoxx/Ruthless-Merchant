@@ -171,6 +171,8 @@ namespace RuthlessMerchant
             agent.autoBraking = false;
 
             ChangeSpeed(SpeedType.Walk);
+
+            base.Start();
         }
 
         public override void Update()
@@ -499,9 +501,25 @@ namespace RuthlessMerchant
         /// </summary>
         /// <param name="paths">Array of path names</param>
         /// <param name="waitTime">Wait time on a waypoint</param>
-        public void SetRandomPath(string[] paths, float waitTime)
+        /// <returns>Returns true on success</returns>
+        public bool SetRandomPath(string[] paths, float waitTime)
         {
-            string path = paths[UnityEngine.Random.Range(0, paths.Length - 1)];
+            if (paths != null && paths.Length > 0)
+            {
+                string path = paths[UnityEngine.Random.Range(0, paths.Length)];
+                return SetPath(path, waitTime) != null;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Sets a given path
+        /// </summary>
+        /// <param name="path">Name of path</param>
+        /// <param name="waitTime">Wait time on each waypoint</param>
+        /// <returns>Returns a list of waypoints</returns>
+        public IEnumerable<Waypoint> SetPath(string path, float waitTime, bool removeOnWaypointReached = true)
+        {
             if (path != null)
             {
                 GameObject parentPath = GameObject.Find(path);
@@ -509,11 +527,15 @@ namespace RuthlessMerchant
                 foreach (Transform child in parentPath.transform)
                 {
                     if (child.CompareTag(path))
-                        waypoints.Add(new Waypoint(child, true, waitTime));
+                        waypoints.Add(new Waypoint(child, removeOnWaypointReached, waitTime));
                 }
 
-                AddPath(waypoints);
+                AddWaypoints(waypoints);
+
+                return waypoints;
             }
+
+            return null;
         }
 
         /// <summary>
@@ -522,24 +544,13 @@ namespace RuthlessMerchant
         /// <param name="paths">Array of path names</param>
         /// <param name="removeOnReached">Indicates whether the waypoint should be removed or not when the waypoint was reached</param>
         /// <param name="waitTime">Wait time on a waypoint</param>
-        /// <returns></returns>
-        public Waypoint[] GetRandomPath(string[] paths, bool removeOnReached, float waitTime)
+        /// <returns>Returns a list of waypoints</returns>
+        public IEnumerable<Waypoint> GetRandomPath(string[] paths, bool removeOnReached, float waitTime)
         {
             if (paths != null && paths.Length > 0)
             {
-                string path = paths[UnityEngine.Random.Range(0, paths.Length - 1)];
-                if (path != null)
-                {
-                    GameObject parentPath = GameObject.Find(path);
-                    List<Waypoint> waypoints = new List<Waypoint>();
-                    foreach (Transform child in parentPath.transform)
-                    {
-                        if (child.CompareTag(path))
-                            waypoints.Add(new Waypoint(child, removeOnReached, waitTime));
-                    }
-
-                    return waypoints.ToArray();
-                }
+                string path = paths[UnityEngine.Random.Range(0, paths.Length)];
+                return SetPath(path, waitTime, removeOnReached);
             }
             return null;
         }
@@ -548,12 +559,17 @@ namespace RuthlessMerchant
         /// Adds a given path to the current path
         /// </summary>
         /// <param name="path">Array of waypoints</param>
-        public void AddPath(IEnumerable<Waypoint> path)
+        public void AddWaypoints(IEnumerable<Waypoint> path)
         {
             if (waypoints == null)
                 waypoints = new List<Waypoint>();
 
             waypoints.AddRange(path);
+        }
+
+        public virtual void ChangeFaction(Faction newFaction)
+        {
+            faction = newFaction;
         }
 
         /// <summary>
