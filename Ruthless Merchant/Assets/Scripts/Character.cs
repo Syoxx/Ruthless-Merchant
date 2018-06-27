@@ -177,7 +177,7 @@ namespace RuthlessMerchant
             { transform.rotation = Quaternion.LookRotation(velocity); }
 
             moveVector = Vector3.zero;
-            //rb.velocity = new Vector3(0f, rb.velocity.y, 0f);
+            rb.velocity = new Vector3(0f, rb.velocity.y, 0f);
 
 
             moveVector.y = 0;
@@ -230,7 +230,7 @@ namespace RuthlessMerchant
                 {
                     grounded = false;
                     gravity = Vector3.zero;
-                    //rb.AddForce(Vector3.up * Mathf.Sqrt(maxJumpHeight), ForceMode.VelocityChange);
+                    rb.AddForce(Vector3.up * Mathf.Sqrt(maxJumpHeight), ForceMode.VelocityChange);
                     elapsedSecs = 1f;
                 }
             }
@@ -244,15 +244,20 @@ namespace RuthlessMerchant
             }
 
             if (grounded)
-            {
-                gravity = Vector3.zero;
-                gravity.y = -stickToGroundValue;
-                ApplyGravity(gravity);
+            {if (rb != null)
+                {
+                    gravity = Vector3.zero;
+                    gravity.y = -stickToGroundValue;
+                    ApplyGravity(gravity);
+                }
             }
             else
             {
-                gravity += globalGravityScale * Vector3.up * Time.deltaTime * 2f;
-                ApplyGravity(gravity);
+                if (rb != null)
+                {
+                    gravity += globalGravityScale * Vector3.up * Time.deltaTime * 2f;
+                    ApplyGravity(gravity);
+                }
             }
 
         }
@@ -278,7 +283,7 @@ namespace RuthlessMerchant
             {
                 gravity.y = 0;
             }
-            //rb.AddForce(gravity, ForceMode.Acceleration);
+            rb.AddForce(gravity, ForceMode.Acceleration);
         }
 
         public void Grounding(bool _grounded)
