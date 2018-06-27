@@ -29,7 +29,7 @@ namespace RuthlessMerchant
 
         enum ControlMode
         {
-            Move = 0, Smith = 1, Workbench = 2
+            Move = 0, Smith = 1, Workbench = 2, AlchemySlot = 3
         }
         
         private Camera playerAttachedCamera;
@@ -44,6 +44,7 @@ namespace RuthlessMerchant
         int currenRecipe;
         GameObject smithCanvas;
         Smith localSmith;
+        AlchemySlot localAlchemist;
 
         Canvas workbenchCanvas;
         Workbench localWorkbench;
@@ -686,6 +687,18 @@ namespace RuthlessMerchant
             smithCanvas.SetActive(true);
             restrictMovement = true;
             UpdateCanvas(currenRecipe);
+        }
+
+        public void EnterAlchemist(AlchemySlot alchemySlot)
+        {
+            bool hasIngridients = false;
+            for(int i = 0; i < inventory.inventorySlots.Length; i++)
+            {
+                if (inventory.inventorySlots[i].Item.GetType() == typeof(Ingredient))
+                    hasIngridients = true;
+            }
+            localAlchemist = alchemySlot;
+            controlMode = ControlMode.AlchemySlot;
         }
 
         public void EnterWorkbench(Workbench workbench)
