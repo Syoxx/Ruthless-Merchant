@@ -244,15 +244,20 @@ namespace RuthlessMerchant
             }
 
             if (grounded)
-            {
-                gravity = Vector3.zero;
-                gravity.y = -stickToGroundValue;
-                ApplyGravity(gravity);
+            {if (rb != null)
+                {
+                    gravity = Vector3.zero;
+                    gravity.y = -stickToGroundValue;
+                    ApplyGravity(gravity);
+                }
             }
             else
             {
-                gravity += globalGravityScale * Vector3.up * Time.deltaTime * 2f;
-                ApplyGravity(gravity);
+                if (rb != null)
+                {
+                    gravity += globalGravityScale * Vector3.up * Time.deltaTime * 2f;
+                    ApplyGravity(gravity);
+                }
             }
 
         }
