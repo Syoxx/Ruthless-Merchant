@@ -494,6 +494,7 @@ namespace RuthlessMerchant
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 controlMode = ControlMode.Move;
+                restrictMovement = false;
                 smithCanvas.SetActive(false);
             }
             else if (Input.GetKeyDown(KeyCode.W))
@@ -553,6 +554,7 @@ namespace RuthlessMerchant
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 PopulateInventoryPanel();
+                restrictMovement = false;
                 inventoryCanvas.SetActive(false);
                 IsCursorLocked = false;
                 controlMode = ControlMode.Move;
@@ -561,12 +563,7 @@ namespace RuthlessMerchant
             {
                 localWorkbench.BreakdownItem(inventory.inventorySlots[0].Item, Inventory);
                 PopulateWorkbenchPanel();
-                //if (mapObject.activeSelf)
-                //{
-                //    mapObject.SetActive(false);
-                //}
 
-                //inventoryCanvas.SetActive(inventoryCanvas.activeSelf == false);
             }
         }
         private void OnCollisionEnter(Collision collision)
@@ -687,6 +684,7 @@ namespace RuthlessMerchant
             currenRecipe = 0;
 
             smithCanvas.SetActive(true);
+            restrictMovement = true;
             UpdateCanvas(currenRecipe);
         }
 
@@ -699,8 +697,8 @@ namespace RuthlessMerchant
                 mapObject.SetActive(false);
             }
 
-            inventoryCanvas.SetActive(inventoryCanvas.activeSelf == false);
-           // Button workbenchButton = Instantiate(
+            inventoryCanvas.SetActive(true);
+            restrictMovement = true;
             localWorkbench = workbench;
             controlMode = ControlMode.Workbench;
         }
