@@ -64,6 +64,7 @@ public class MenuControl : MonoBehaviour {
         Time.timeScale = 1f;
         SwitchMenu(MenuStates.Pause);
         //Player.isCursorLocked = true;
+        RuthlessMerchant.Player.IsPaused = false;
         gameIsPaused = false;
     }
 
@@ -72,6 +73,7 @@ public class MenuControl : MonoBehaviour {
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         //Player.isCursorLocked = false;
+        RuthlessMerchant.Player.IsPaused = true;
         gameIsPaused = true;
     }
 

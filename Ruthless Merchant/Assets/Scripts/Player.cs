@@ -11,7 +11,7 @@ namespace RuthlessMerchant
     public class Player : Character
     {
         public static Player Singleton;
-        private static bool isCursorLocked = true;
+        private static bool isPaused = false;
 
         #region Private Fields
         private UISystem uiSystem;
@@ -61,7 +61,7 @@ namespace RuthlessMerchant
         private Texture2D aimpointTexture;
 
         [SerializeField]
-        [Tooltip("Tip: CrouchHeight must be smaller than the player collider's height.")]
+        [Tooltip("Tip: If this value matches the rigidbody's height, crouching doesn't affect player height")]
         private float CrouchHeight;
 
         [SerializeField]
@@ -97,10 +97,10 @@ namespace RuthlessMerchant
         #endregion
 
 
-        public static bool IsCursorLocked
+        public static bool IsPaused
         {
-            get { return isCursorLocked; }
-            set { isCursorLocked = value; }
+            get { return isPaused; }
+            set { isPaused = value; }
         }
 
         public UISystem UISystem
@@ -166,12 +166,12 @@ namespace RuthlessMerchant
             if (playerAttachedCamera != null)
             {
                 cameraPitchAngle = playerAttachedCamera.transform.localRotation;
-                isCursorLocked = true;
+                isGameFocused = true;
             }
             else
             {
                 Debug.Log("Player object does not have a first person camera.");
-                isCursorLocked = false;
+                isGameFocused = false;
             }
         }
 
@@ -189,6 +189,11 @@ namespace RuthlessMerchant
                 if (Input.GetKeyUp(KeyCode.LeftControl) || restrictMovement == true)
                 {
                     isCtrlPressed = false;
+
+                    if (crouchDelta == 0)
+                    {
+                        isCrouching = false;
+                    }
                 }
             }
 
@@ -209,19 +214,23 @@ namespace RuthlessMerchant
         /// </summary>
         private void LookRotation()
         {
-            float yRot = Input.GetAxis("Mouse X") * mouseXSensitivity;
-            float xRot = Input.GetAxis("Mouse Y") * mouseYSensitivity;
-
-            playerLookAngle *= Quaternion.Euler(0f, yRot, 0f);
-
-            transform.localRotation = playerLookAngle;
-
-            if (playerAttachedCamera != null)
+            if (!isPaused)
             {
-                Vector3 camRotation = playerAttachedCamera.transform.rotation.eulerAngles + new Vector3(-xRot, 0f, 0f);
-                camRotation.x = ClampAngle(camRotation.x, -90f, 90f);
-                playerAttachedCamera.transform.eulerAngles = camRotation;
+                float yRot = Input.GetAxis("Mouse X") * mouseXSensitivity;
+                float xRot = Input.GetAxis("Mouse Y") * mouseYSensitivity;
+
+                playerLookAngle *= Quaternion.Euler(0f, yRot, 0f);
+
+                transform.localRotation = playerLookAngle;
+
+                if (playerAttachedCamera != null)
+                {
+                    Vector3 camRotation = playerAttachedCamera.transform.rotation.eulerAngles + new Vector3(-xRot, 0f, 0f);
+                    camRotation.x = ClampAngle(camRotation.x, -90f, 90f);
+                    playerAttachedCamera.transform.eulerAngles = camRotation;
+                }
             }
+
         }
 
         /// <summary>
@@ -249,16 +258,17 @@ namespace RuthlessMerchant
         private void FocusCursor()
         {
             // Pressing escape makes cursor visible + unlocks it
-            if (Input.GetKeyUp(KeyCode.Escape))
+            if (Input.GetKeyUp(KeyCode.Escape) && (isGameFocused == true))
             {
                 isGameFocused = false;
             }
-            else if (Input.GetMouseButtonUp(0))
+            else if (!isPaused && (Input.GetMouseButtonUp(0) || Input.GetKey(KeyCode.Escape)))
             {
+                Cursor.lockState = CursorLockMode.Locked;
                 isGameFocused = true;
             }
 
-            if(isCursorLocked && isGameFocused)
+            if(!isPaused && isGameFocused)
             {
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
@@ -423,7 +433,6 @@ namespace RuthlessMerchant
                     ControlModeSmith();
                     break;
                 case ControlMode.Workbench:
-                    IsCursorLocked = false;
                     ControlModeWorkbench();
                     break;
             }
@@ -444,7 +453,7 @@ namespace RuthlessMerchant
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                if (!restrictMovement)
+                if (!restrictMovement && !isPaused)
                 {
                     hasJumped = true;
                 }
@@ -453,7 +462,7 @@ namespace RuthlessMerchant
             //TODO: If toggle_crouch, toggle a switch instead of checking for sneak every update
             if (Input.GetKey(KeyCode.LeftControl))
             {
-                if (!restrictMovement)
+                if (!restrictMovement && !isPaused)
                 {
                     isCtrlPressed = true;
                 }
@@ -465,7 +474,7 @@ namespace RuthlessMerchant
             float horizontal = 0f;
             float vertical = 0f;
 
-            if (!restrictMovement)
+            if (!restrictMovement && !isPaused)
             {
                 horizontal = Input.GetAxis("Horizontal");
                 vertical = Input.GetAxis("Vertical");
@@ -564,7 +573,6 @@ namespace RuthlessMerchant
                 PopulateInventoryPanel();
                 restrictMovement = false;
                 inventoryCanvas.SetActive(false);
-                IsCursorLocked = false;
                 controlMode = ControlMode.Move;
             }
             if(Input.GetKeyDown(KeyCode.E))
@@ -662,26 +670,29 @@ namespace RuthlessMerchant
         {
             CapsuleCollider playerCollider = GetComponent<CapsuleCollider>();
 
-            if (!isCtrlPressed && wasCrouching != isCtrlPressed)
-            {
-                if (playerCollider.height <= playerHeight)
+            //if (crouchDelta != 0)
+            //{
+                if (!isCtrlPressed && wasCrouching != isCtrlPressed)
                 {
-                    playerCollider.height += crouchDelta * 0.1f;
-                    playerCollider.center -= new Vector3(0, crouchDelta * 0.05f, 0);
+                    if (playerCollider.height <= playerHeight)
+                    {
+                        playerCollider.height += crouchDelta * 0.1f;
+                        playerCollider.center -= new Vector3(0, crouchDelta * 0.05f, 0);
+                    }
+                    else
+                    {
+                        isCrouching = false;
+                        wasCrouching = isCrouching;
+                    }
                 }
-                else
+
+                if (!wasCrouching && isCrouching)
                 {
-                    isCrouching = false;
+                    playerCollider.height -= crouchDelta;
+                    playerCollider.center += new Vector3(0, crouchDelta / 2, 0);
                     wasCrouching = isCrouching;
                 }
-            }
-
-            if (!wasCrouching && isCrouching)
-            {
-                playerCollider.height -= crouchDelta;
-                playerCollider.center += new Vector3(0, crouchDelta / 2, 0);
-                wasCrouching = isCrouching;
-            }
+            
             //TODO: other sneak effects
         }
 
