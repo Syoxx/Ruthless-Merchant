@@ -61,6 +61,11 @@ namespace RuthlessMerchant
                 }
             }
 
+            if (TriggerPressed.x == 1)
+            {
+                controller.TriggerHapticPulse(255);
+            }
+
             prevTriggerPressed = TriggerPressed;
         }
 
@@ -72,8 +77,7 @@ namespace RuthlessMerchant
             {
                 TriggerClicked(this, EventArgs.Empty);
             }
-
-            LongVibration(2, 1);
+            //LongVibration(2, 1);
         }
 
         void OnTouchpadTouched(object sender, ClickedEventArgs e)
