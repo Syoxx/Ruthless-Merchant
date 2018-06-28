@@ -67,6 +67,9 @@ namespace RuthlessMerchant
         private GameObject ItemUIPrefab;
 
         [SerializeField]
+        GameObject alchemyUiPrefab;
+
+        [SerializeField]
         private GameObject workshopUIPrefab;
 
         [SerializeField]
@@ -129,6 +132,10 @@ namespace RuthlessMerchant
             if(smithCanvas)
             {
                 smithCanvas.SetActive(false);
+            }
+            if (alchemyCanvas)
+            {
+                alchemyCanvas.SetActive(false);
             }
 
             if (!recipes)
@@ -195,7 +202,13 @@ namespace RuthlessMerchant
         {
             LookRotation();
             HandleInput();
-            FocusCursor();
+            if(controlMode == ControlMode.Move)
+                FocusCursor();
+            else
+            {
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+            }
         }
 
         /// <summary>
@@ -273,6 +286,7 @@ namespace RuthlessMerchant
                     mapObject.SetActive(false);
                 }
 
+                PopulateInventoryPanel();
                 inventoryCanvas.SetActive(inventoryCanvas.activeSelf == false);
             }
         }
@@ -535,6 +549,7 @@ namespace RuthlessMerchant
         {
             if(Input.GetKeyDown(KeyCode.Escape))
             {
+                alchemyCanvas.SetActive(false);
                 controlMode = ControlMode.Move;
             }
         }
@@ -543,6 +558,8 @@ namespace RuthlessMerchant
         {
             localAlchemist.AddItem((Ingredient)Inventory.inventorySlots[itemSlot].Item);
             Inventory.Remove(itemSlot, 1, true);
+            alchemyCanvas.SetActive(false);
+            controlMode = ControlMode.Move;
         }
 
         public void OnWorkbenchButton(int itemslot)
@@ -626,7 +643,7 @@ namespace RuthlessMerchant
                                else
                                {
                                    targetItem.DestroyInteractivObject();
-                                    PopulateInventoryPanel();
+                                   PopulateInventoryPanel();
                                }
                            }
                        }
@@ -637,14 +654,21 @@ namespace RuthlessMerchant
 
                            if (targetNPC != null)
                            {
-
                                target.Interact(this.gameObject);
                                 PopulateInventoryPanel();
                            }
                            else
                             {
-                                target.Interact(this.gameObject);
-                                PopulateWorkbenchPanel();
+                                InteractiveWorldObject targetObject = (InteractiveWorldObject)target;
+                                if(targetObject != null)
+                                {
+                                    targetObject.Interact(gameObject);
+                                }
+                                else
+                                {
+                                    target.Interact(this.gameObject);
+                                    PopulateWorkbenchPanel();
+                                }
                             }
                        }
                    }
@@ -720,11 +744,22 @@ namespace RuthlessMerchant
 
         void CreateAlchemyCanvas()
         {
-            for(int i = 0; i < inventory.inventorySlots.Length; i++)
+            foreach(Transform item in alchemyCanvas.transform)
             {
-                if(inventory.inventorySlots[i].Item.itemType == ItemType.Ingredient)
-                {
-                }
+                Destroy(item.gameObject);
+            }
+            for (int i = 0; i < inventory.inventorySlots.Length; i++)
+            {
+                if (inventory.inventorySlots[i].Item)
+                    if (inventory.inventorySlots[i].Item.itemType == ItemType.Ingredient)
+                    {
+                        Button newPanel = Instantiate(alchemyUiPrefab, alchemyCanvas.transform).GetComponent<Button>();
+
+                        int panel = i;
+                        newPanel.onClick.AddListener(delegate { OnAlchemyButton(panel); });
+
+                        newPanel.GetComponentInChildren<Text>().text = inventory.inventorySlots[i].Item.itemName;
+                    }
             }
         }
 

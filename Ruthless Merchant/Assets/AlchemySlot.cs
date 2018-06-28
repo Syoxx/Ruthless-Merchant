@@ -15,6 +15,11 @@ namespace RuthlessMerchant
 
         #region Properties ##############################################################
 
+        public Ingredient Ingredient
+        {
+            get { return _ingredient; }
+        }
+
         #endregion
 
 
@@ -52,11 +57,16 @@ namespace RuthlessMerchant
             _ingredient = ingredient;
         }
 
-        public Item RemoveItem(Inventory inventory)
+        public void RemoveItem(Inventory inventory)
         {
-            Item item = (Item)_ingredient.DeepCopy();
+            Item item = _ingredient.DeepCopy();
+            inventory.Add(item, 1, true);
             _ingredient = null;
-            return item;
+        }
+
+        public void ClearItem()
+        {
+            _ingredient = null;
         }
 
         #endregion
