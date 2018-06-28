@@ -490,6 +490,9 @@ namespace RuthlessMerchant
         /// <param name="clearWaypoints">Indicates whether the current path should be removed or not</param>
         public void AddNewWaypoint(Waypoint waypoint, bool clearWaypoints = false)
         {
+            if (waypoints == null)
+                waypoints = new List<Waypoint>();
+
             if (clearWaypoints)
                 waypoints.Clear();
 
@@ -536,6 +539,24 @@ namespace RuthlessMerchant
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Adds a new waypoint
+        /// </summary>
+        /// <param name="path">Next capture trigger</param>
+        /// <param name="waitTime">Wait time on waypoint</param>
+        /// <returns>Returns a waypoint</returns>
+        public Waypoint SetPath(CaptureTrigger path, float waitTime, bool removeOnWaypointReached = true)
+        {
+            if (path != null)
+            {
+                Waypoint waypoint = new Waypoint(path.transform, removeOnWaypointReached, waitTime);
+                AddNewWaypoint(waypoint);
+                return waypoint;
+            }
+
+            return default(Waypoint);
         }
 
         /// <summary>
