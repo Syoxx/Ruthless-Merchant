@@ -29,7 +29,7 @@ namespace RuthlessMerchant
         // Update is called once per frame
         protected virtual void Update()
         {
-            if (blockingObjects.Count == 0)
+            if (blockingObjects !=null && spawnQueue != null && blockingObjects.Count == 0)
             {
                 if (objectsToSpawn == 0 && spawnQueue.Count > 0)
                 {
@@ -92,7 +92,8 @@ namespace RuthlessMerchant
 
         protected virtual void OnTriggerEnter(Collider other)
         {
-            blockingObjects.Add(other);
+            if(other.CompareTag("NPC"))
+                blockingObjects.Add(other);
         }
 
         protected virtual void OnTriggerExit(Collider other)
