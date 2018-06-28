@@ -23,6 +23,8 @@ namespace RuthlessMerchant
         public string[] PossiblePatrolPaths;
         public Waypoint[] PatrolPoints;
 
+        private CaptureTrigger currentTrigger = null;
+
         public bool PaartolActive
         {
             get { return patrolActive; }
@@ -70,6 +72,15 @@ namespace RuthlessMerchant
             else
             {
                 AbortPatrol();
+            }
+
+            if(currentTrigger != null && (CurrentAction == null || CurrentAction is ActionIdle))
+            {
+                if(currentTrigger.Owner == faction)
+                {
+                    ChangeSpeed(SpeedType.Walk);
+                    SelectNextOutpost(currentTrigger);
+                }
             }
         }
 
@@ -162,5 +173,91 @@ namespace RuthlessMerchant
             //TODO: Pickup item
             Reacting = true;
         }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("CaptureTrigger"))
+            {
+                CaptureTrigger trigger = other.GetComponent<CaptureTrigger>();
+                if (trigger.Owner != faction)
+                {
+                    currentTrigger = trigger;
+                    SetCurrentAction(new ActionIdle(), null);
+                }
+                else
+                {
+                    SelectNextOutpost(trigger);
+                }
+            }
+        }
+
+        private void SelectNextOutpost(CaptureTrigger trigger)
+        {
+            if (trigger != null)
+            {
+                List<CaptureTrigger> possibleTriggers = new List<CaptureTrigger>();
+                if (Faction == Faction.Freidenker)
+                {
+                    if (trigger.OutpostsToImperialist != null && trigger.OutpostsToImperialist.Length > 0)
+                    {
+                        possibleTriggers.Add(trigger.OutpostsToImperialist[0]);
+                        for (int i = 1; i < trigger.OutpostsToImperialist.Length; i++)
+                        {
+                            if (trigger.OutpostsToImperialist[i].Owner != Faction.Freidenker)
+                                possibleTriggers.Add(trigger.OutpostsToImperialist[i]);
+                        }
+                    }
+                }
+                else if (Faction == Faction.Imperialisten)
+                {
+                    if (trigger.OutpostsToFreidenker != null && trigger.OutpostsToFreidenker.Length > 0)
+                    {
+                        possibleTriggers.Add(trigger.OutpostsToFreidenker[0]);
+                        for (int i = 1; i < trigger.OutpostsToFreidenker.Length; i++)
+                        {
+                            if (trigger.OutpostsToFreidenker[i].Owner != Faction.Imperialisten)
+                                possibleTriggers.Add(trigger.OutpostsToFreidenker[i]);
+                        }
+                    }
+                }
+
+                int selectedPath = Random.Range(0, possibleTriggers.Count);
+                AddNewWaypoint(new Waypoint(possibleTriggers[selectedPath].transform, true, 0));
+                SetCurrentAction(new ActionMove(), null);
+            }
+        }
+
+        /// <summary>
+        /// Selects a path from capture points
+        /// </summary>
+        /*protected void SelectPath(CaptureTrigger captureTrigger)
+        {
+            if (captureTrigger != null)
+            {
+                if (Faction == Faction.Freidenker)
+                {
+                    if (currentTrigger.OutpostsToImperialist != null && currentTrigger.OutpostsToImperialist.Length > 0)
+                    {
+
+                        int selectedPath = Random.Range(0, currentTrigger.OutpostsToImperialist.Length);
+                        ö
+                        
+                            currentTrigger = currentTrigger.OutpostsToImperialist[selectedPath];
+                            currentPath.Add(currentTrigger);
+                        
+                    }
+                }
+                else if (Faction == Faction.Imperialisten)
+                {
+                    if (currentTrigger.OutpostsToFreidenker != null && currentTrigger.OutpostsToFreidenker.Length > 0)
+                    {
+                        int selectedPath = Random.Range(0, currentTrigger.OutpostsToFreidenker.Length);
+                            currentTrigger = currentTrigger.OutpostsToFreidenker[selectedPath];
+                            currentPath.Add(currentTrigger);
+                        
+                    }
+                }
+            }
+        }*/
     }
 }
