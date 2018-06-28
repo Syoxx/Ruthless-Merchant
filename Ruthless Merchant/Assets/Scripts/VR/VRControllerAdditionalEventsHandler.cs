@@ -18,6 +18,8 @@ namespace RuthlessMerchant
         public Vector2 TriggerPressed;
         private Vector2 prevTriggerPressed;
 
+        public bool TriggerClick;
+
         void Awake()
         {
             trackedObj = GetComponent<SteamVR_TrackedObject>();
@@ -47,11 +49,16 @@ namespace RuthlessMerchant
             if (TriggerPressed.x != prevTriggerPressed.x)
             {
                 Debug.Log("Trigger Pressed: " + TriggerPressed + "\n");
-            }
 
-            if (TriggerPressed.x > 0.96f)
-            {
-                OnTriggerClicked();
+                if (TriggerPressed.x == 1)
+                {
+                    OnTriggerClicked();
+                    TriggerClick = true;
+                }
+                else
+                {
+                    TriggerClick = false;
+                }
             }
 
             prevTriggerPressed = TriggerPressed;
@@ -65,6 +72,8 @@ namespace RuthlessMerchant
             {
                 TriggerClicked(this, EventArgs.Empty);
             }
+
+            LongVibration(2, 1);
         }
 
         void OnTouchpadTouched(object sender, ClickedEventArgs e)
@@ -87,25 +96,15 @@ namespace RuthlessMerchant
             Debug.Log("Gripped");
         }
 
-        IEnumerator TriggerPulse(int microseconds)
+        //length is how long the vibration should go for
+        //strength is vibration strength from 0-1
+        IEnumerator LongVibration(float length, float strength)
         {
-            ushort rest = 0;
-
-            if(microseconds > 3500)
+            for (float i = 0; i < length; i += Time.deltaTime)
             {
-                rest = (ushort)(microseconds - 3500);
-                microseconds = 3500;
+                SteamVR_Controller.Input((int)trackedObj.index).TriggerHapticPulse((ushort)Mathf.Lerp(0, 3999, strength));
+                yield return null;
             }
-
-            controller.TriggerHapticPulse((ushort)microseconds);
-
-            if (rest > 0)
-            {
-                yield return new WaitForSeconds(0.0035f);
-                StartCoroutine(TriggerPulse(rest));
-            }
-
-            yield return null;
         }
     }
 }
