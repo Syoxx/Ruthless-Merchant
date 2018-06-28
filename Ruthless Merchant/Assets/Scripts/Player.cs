@@ -54,6 +54,9 @@ namespace RuthlessMerchant
         private float crouchDelta;
         private float playerHeight;
 
+
+        
+
         [SerializeField]
         private Texture2D aimpointTexture;
 
@@ -79,6 +82,9 @@ namespace RuthlessMerchant
         [SerializeField]
         private Recipes recipes;
 
+        [Header("Book")]
+        [SerializeField] [Tooltip("Drag a book canvas there / Daniil Masliy")]
+        private GameObject _bookCanvas;
         #endregion
 
         #region MonoBehaviour Life Cycle
@@ -487,6 +493,7 @@ namespace RuthlessMerchant
             SendInteraction();
             ShowInventory();
             ShowMap();
+            OpenBook();
         }
 
         private void ControlModeSmith()
@@ -676,6 +683,17 @@ namespace RuthlessMerchant
                 wasCrouching = isCrouching;
             }
             //TODO: other sneak effects
+        }
+
+        /// <summary>
+        /// A simple function to open a book
+        /// </summary>
+        private void OpenBook()
+        {
+            if (Input.GetKeyDown(KeyCode.J))
+            {
+                _bookCanvas.SetActive(_bookCanvas.activeSelf == false);
+            }
         }
 
         public void EnterSmith(Smith smith)
