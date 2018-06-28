@@ -14,8 +14,8 @@ public class JumpToPaper : MonoBehaviour
 	}
 	
 	// Update is called once per frame
-	public void SwitchToPage ()
-	{
+	void Update ()
+	{  if(Input.anyKey)
 	    _currentPage.CurrentPaper = JumpToPage;
 	}
 }
