@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,6 +11,8 @@ using UnityEngine.SceneManagement;
 public class MenuControl : MonoBehaviour {
 
     #region Fields
+    [SerializeField]
+    private GameObject WorldRootObject;
     private bool gameIsPaused = false;
     [SerializeField]
     private GameObject pauseMenuUI, pauseMenu, settingsMenu, loadMenu, saveMenu;
@@ -23,6 +26,13 @@ public class MenuControl : MonoBehaviour {
         Load,
         Save
     };
+    
+    [Serializable]
+    public class SaveData
+    {
+        //GameObject[] saveArray = serializedObjects.ToArray();
+        public GameObject exampleObject;
+    }
 
     #region Methods
     public void Awake()
@@ -78,11 +88,23 @@ public class MenuControl : MonoBehaviour {
     public void SaveGameMenu()
     {
         SwitchMenu(MenuStates.Save);
+        BinaryFormatter bf = new BinaryFormatter();
+        System.IO.FileStream stream = System.IO.File.Open(Application.persistentDataPath + "SaveFile.rm", System.IO.FileMode.Open);
+        //SceneManager.GetActiveScene();
+        SaveData data = new SaveData();
+        data.exampleObject = WorldRootObject;
+        bf.Serialize(stream, data);
+        stream.Close();
     }
 
     public void LoadGameMenu()
     {
-        SwitchMenu(MenuStates.Load);
+        if (System.IO.File.Exists(Application.persistentDataPath + "SaveFile.rm"))
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            System.IO.FileStream stream = System.IO.File.Open(Application.persistentDataPath + "SaveFile.rm", System.IO.FileMode.Open);
+            //(GameObject[])bf.Deserialize(stream);
+        }
     }
 
     public void SettingsMenu()
