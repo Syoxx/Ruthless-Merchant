@@ -14,7 +14,7 @@ public class MenuControl : MonoBehaviour {
 	[SerializeField]
 	private string gamePlaySceneName, mainMenuSceneName;
     [SerializeField]
-    private GameObject pauseMenuUI, pauseMenu, settingsMenu, loadMenu, saveMenu;
+    private GameObject BookPrefab, pauseMenu, settingsMenu, loadMenu, saveMenu;
     private GameObject currentState;
     #endregion
 
@@ -62,7 +62,7 @@ public class MenuControl : MonoBehaviour {
 
     public void Resume()
     {
-        pauseMenuUI.SetActive(false);
+        BookPrefab.SetActive(false);
         Time.timeScale = 1f;
         SwitchMenu(MenuStates.Pause);
         //Player.isCursorLocked = true;
@@ -72,7 +72,7 @@ public class MenuControl : MonoBehaviour {
 
     private void Pause()
     {
-        pauseMenuUI.SetActive(true);
+        BookPrefab.SetActive(true);
         Time.timeScale = 0f;
         //Player.isCursorLocked = false;
         RuthlessMerchant.Player.IsPaused = true;
