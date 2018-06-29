@@ -285,17 +285,17 @@ namespace RuthlessMerchant
 
         public void ShowInventory()
         {  
-            if (Input.GetKeyDown(KeyCode.I))
-            {
-                bool isUI_Inactive = (inventoryCanvas.activeSelf == false);
-                if (mapObject.activeSelf)
-                {
-                    mapObject.SetActive(false);
-                }
+            //if (Input.GetKeyDown(KeyCode.I))
+            //{
+            //    bool isUI_Inactive = (inventoryCanvas.activeSelf == false);
+            //    if (mapObject.activeSelf)
+            //    {
+            //        mapObject.SetActive(false);
+            //    }
 
-                inventoryCanvas.SetActive(isUI_Inactive);
-                restrictMovement = isUI_Inactive;
-            }
+            //    inventoryCanvas.SetActive(isUI_Inactive);
+            //    restrictMovement = isUI_Inactive;
+            //}
         }
         private void PopulateWorkbenchPanel()
         {
