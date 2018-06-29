@@ -285,17 +285,17 @@ namespace RuthlessMerchant
 
         public void ShowInventory()
         {  
-            if (Input.GetKeyDown(KeyCode.I))
-            {
-                bool isUI_Inactive = (inventoryCanvas.activeSelf == false);
-                if (mapObject.activeSelf)
-                {
-                    mapObject.SetActive(false);
-                }
+            //if (Input.GetKeyDown(KeyCode.I))
+            //{
+            //    bool isUI_Inactive = (inventoryCanvas.activeSelf == false);
+            //    if (mapObject.activeSelf)
+            //    {
+            //        mapObject.SetActive(false);
+            //    }
 
-                inventoryCanvas.SetActive(isUI_Inactive);
-                restrictMovement = isUI_Inactive;
-            }
+            //    inventoryCanvas.SetActive(isUI_Inactive);
+            //    restrictMovement = isUI_Inactive;
+            //}
         }
         private void PopulateWorkbenchPanel()
         {
@@ -773,6 +773,38 @@ namespace RuthlessMerchant
         {
             throw new System.NotImplementedException();
         }
+
+        public void MakeOffer(string playerOfferString)
+        {
+            Trade trade = Trade.Singleton;
+            trade.AugmentTotalPlayerOffers();
+
+            float playerOfferParsed = float.Parse(playerOfferString);
+            float playerOffer = (float)Math.Floor(playerOfferParsed);
+
+            int lastPlayerOffer = -1;
+
+            if (trade.PlayerOffers.Count > 0)
+            {
+                lastPlayerOffer = (int)Math.Floor(trade.PlayerOffers[trade.PlayerOffers.Count - 1]);
+            }
+
+            if (playerOffer < 1 || lastPlayerOffer != -1 && lastPlayerOffer < 2)
+            {
+                playerOffer = 1;
+            }
+
+            else if (lastPlayerOffer != -1 && playerOffer >= lastPlayerOffer)
+            {
+                playerOffer = lastPlayerOffer - 1;
+            }
+
+            trade.PlayerOffers.Add(playerOffer);
+            trade.BargainEventsText.text = "";
+
+            trade.UpdateTrading();
+        }
+
     }
 }
        
