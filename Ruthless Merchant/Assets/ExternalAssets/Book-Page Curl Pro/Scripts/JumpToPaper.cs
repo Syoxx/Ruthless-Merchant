@@ -17,12 +17,12 @@ public class JumpToPaper : MonoBehaviour
 	public void SwitchToMenu ()
 	{
 		Debug.Log ("I'm here");
-	    _currentPage.CurrentPaper = 1;
+	    _currentPage.CurrentPaper = 2;
 	}
 
     public void SwitchToInventar()
     {
-        _currentPage.CurrentPaper = 2;
+        _currentPage.CurrentPaper = 1;
     }
  }
 
