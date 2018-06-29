@@ -6,16 +6,22 @@ public class JumpToPaper : MonoBehaviour
 {
     private BookPro _currentPage;
 
-    [SerializeField] private int JumpToPage;
+    //[SerializeField] private int JumpToPage;
 	// Use this for initialization
 	void Start ()
 	{
 	    _currentPage = GetComponent<BookPro>();
 	}
 	
-	// Update is called once per frame
-	void Update ()
-	{  if(Input.anyKey)
-	    _currentPage.CurrentPaper = JumpToPage;
+	// Hardcodded for Build. Will be changed in the future
+	public void SwitchToMenu ()
+	{
+	    _currentPage.CurrentPaper = 1;
 	}
-}
+
+    public void SwitchToInventar()
+    {
+        _currentPage.CurrentPaper = 2;
+    }
+ }
+

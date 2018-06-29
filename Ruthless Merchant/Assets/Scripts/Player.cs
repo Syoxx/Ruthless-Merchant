@@ -85,6 +85,9 @@ namespace RuthlessMerchant
         [Header("Book")]
         [SerializeField] [Tooltip("Drag a book canvas there / Daniil Masliy")]
         private GameObject _bookCanvas;
+
+        [SerializeField] private int MaxItemsPerPage;
+
         #endregion
 
         #region MonoBehaviour Life Cycle
@@ -363,13 +366,13 @@ namespace RuthlessMerchant
                    continue;
                }
       
-               GameObject InventoryItem = Instantiate(ItemUIPrefab) as GameObject;
-               InventoryItem.transform.SetParent(ItemsParent.transform, false);
-               InventoryDisplayedData itemInfos = InventoryItem.GetComponent<InventoryDisplayedData>();
-               itemInfos.itemName.text = inventory.inventorySlots[itemIndex].Item.itemName + " x" +  inventory.inventorySlots[itemIndex].Count;
-               itemInfos.itemWeight.text = inventory.inventorySlots[itemIndex].Item.itemWeight + " kg";
+               GameObject inventoryItem = Instantiate(ItemUIPrefab) as GameObject;
+               inventoryItem.transform.SetParent(ItemsParent.transform, false);
+               InventoryDisplayedData itemInfos = inventoryItem.GetComponent<InventoryDisplayedData>();
+               itemInfos.itemName.text = inventory.inventorySlots[itemIndex].Count + "x " + inventory.inventorySlots[itemIndex].Item.itemName + " (" + inventory.inventorySlots[itemIndex].Item.itemRarity + ")";
+               //itemInfos.itemWeight.text = inventory.inventorySlots[itemIndex].Item.itemWeight + " kg";
                itemInfos.itemDescription.text = inventory.inventorySlots[itemIndex].Item.itemLore;
-               itemInfos.itemRarity.text = inventory.inventorySlots[itemIndex].Item.itemRarity.ToString();
+               //itemInfos.itemRarity.text = inventory.inventorySlots[itemIndex].Item.itemRarity.ToString();
                itemInfos.itemPrice.text = inventory.inventorySlots[itemIndex].Item.itemPrice + "G";
       
                if (inventory.inventorySlots[itemIndex].Item.itemSprite != null)
@@ -551,6 +554,11 @@ namespace RuthlessMerchant
                 PopulateInventoryPanel();
             }
         }
+
+        private void ControlModeInventoryBook()
+        {
+
+        }
         public void OnWorkbenchButton(int itemslot)
         {
             localWorkbench.BreakdownItem(inventory.inventorySlots[itemSlot].Item, Inventory);
@@ -631,6 +639,7 @@ namespace RuthlessMerchant
                                }
                            }
                        }
+                       
                        else
                        {
                            // Treat interaction target like an NPC
@@ -642,10 +651,9 @@ namespace RuthlessMerchant
                                target.Interact(this.gameObject);
                                 PopulateInventoryPanel();
                            }
-                           else
-                            {
+                           else if(target !=null )
+                           {
                                 target.Interact(this.gameObject);
-                                PopulateWorkbenchPanel();
                             }
                        }
                    }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
@@ -7,5 +8,7 @@ using UnityEngine.UI;
 public class InventoryDisplayedData : MonoBehaviour {
 
     public Image ItemImage;
-    public Text itemName, itemRarity, itemDescription, itemPrice, itemWeight;
+    public TextMeshProUGUI itemName, itemRarity, itemDescription, itemPrice, itemWeight;
+
+    
 }
