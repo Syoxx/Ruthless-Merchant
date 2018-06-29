@@ -11,7 +11,7 @@ namespace RuthlessMerchant
     public class Player : Character
     {
         public static Player Singleton;
-        private static bool isPaused = false;
+        private static bool restrictCamera = false;
 
         #region Private Fields
         private UISystem uiSystem;
@@ -100,10 +100,10 @@ namespace RuthlessMerchant
         #endregion
 
 
-        public static bool IsPaused
+        public static bool RestrictCamera
         {
-            get { return isPaused; }
-            set { isPaused = value; }
+            get { return restrictCamera; }
+            set { restrictCamera = value; }
         }
 
         public UISystem UISystem
@@ -217,7 +217,7 @@ namespace RuthlessMerchant
         /// </summary>
         private void LookRotation()
         {
-            if (!isPaused)
+            if (!restrictCamera)
             {
                 float yRot = Input.GetAxis("Mouse X") * mouseXSensitivity;
                 float xRot = Input.GetAxis("Mouse Y") * mouseYSensitivity;
@@ -265,13 +265,13 @@ namespace RuthlessMerchant
             {
                 isGameFocused = false;
             }
-            else if (!isPaused && (Input.GetMouseButtonUp(0) || Input.GetKey(KeyCode.Escape)))
+            else if (!restrictCamera && (Input.GetMouseButtonUp(0) || Input.GetKey(KeyCode.Escape)))
             {
                 Cursor.lockState = CursorLockMode.Locked;
                 isGameFocused = true;
             }
 
-            if(!isPaused && isGameFocused)
+            if(!restrictCamera && isGameFocused)
             {
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
@@ -456,7 +456,7 @@ namespace RuthlessMerchant
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                if (!restrictMovement && !isPaused)
+                if (!restrictMovement && !restrictCamera)
                 {
                     hasJumped = true;
                 }
@@ -465,7 +465,7 @@ namespace RuthlessMerchant
             //TODO: If toggle_crouch, toggle a switch instead of checking for sneak every update
             if (Input.GetKey(KeyCode.LeftControl))
             {
-                if (!restrictMovement && !isPaused)
+                if (!restrictMovement && !restrictCamera)
                 {
                     isCtrlPressed = true;
                 }
@@ -477,17 +477,17 @@ namespace RuthlessMerchant
             float horizontal = 0f;
             float vertical = 0f;
 
-            if (!restrictMovement && !isPaused)
+            if (!restrictMovement && !restrictCamera)
             {
                 horizontal = Input.GetAxis("Horizontal");
                 vertical = Input.GetAxis("Vertical");
             }
-
-            if (horizontal == 0 && vertical == 0)
-            {
-                gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
-            }
             else
+            {
+                gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+            }
+            
+            if (horizontal != 0 || vertical != 0)
             {
                 gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
             }
@@ -510,11 +510,12 @@ namespace RuthlessMerchant
 
         private void ControlModeSmith()
         {
-            gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+            gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 controlMode = ControlMode.Move;
                 restrictMovement = false;
+                restrictCamera = false;
                 smithCanvas.SetActive(false);
             }
             else if (Input.GetKeyDown(KeyCode.W))
@@ -575,11 +576,12 @@ namespace RuthlessMerchant
         }
         private void ControlModeWorkbench()
         {
-            gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+            gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 PopulateInventoryPanel();
                 restrictMovement = false;
+                restrictCamera = false;
                 inventoryCanvas.SetActive(false);
                 controlMode = ControlMode.Move;
             }
@@ -590,7 +592,7 @@ namespace RuthlessMerchant
 
             }
         }
-        private void OnCollisionEnter(Collision collision)
+        private void OnCollisionStay(Collision collision)
         {
             
             if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Default"))
@@ -712,6 +714,8 @@ namespace RuthlessMerchant
             if (Input.GetKeyDown(KeyCode.J))
             {
                 _bookCanvas.SetActive(_bookCanvas.activeSelf == false);
+                restrictMovement = !(_bookCanvas.activeSelf == false);
+                restrictCamera = !(_bookCanvas.activeSelf == false);
             }
         }
 
@@ -723,6 +727,7 @@ namespace RuthlessMerchant
 
             smithCanvas.SetActive(true);
             restrictMovement = true;
+            restrictCamera = true;
             UpdateCanvas(currenRecipe);
         }
 
@@ -749,6 +754,7 @@ namespace RuthlessMerchant
 
             inventoryCanvas.SetActive(true);
             restrictMovement = true;
+            restrictCamera = true;
             localWorkbench = workbench;
             controlMode = ControlMode.Workbench;
         }
