@@ -48,10 +48,10 @@ namespace RuthlessMerchant
         [SerializeField, Range(0, 1), Tooltip("Feilschfaktor Obergrenze")]
         float upperLimitBargainPerCent = 0.5f;
 
-        [SerializeField, ReadOnly, Tooltip("(Obergrenze %) summiert")]
+        [SerializeField, Tooltip("(Obergrenze %) summiert")]
         float upperLimitPercentTotal;
 
-        [SerializeField, ReadOnly, Tooltip("(Untergrenze %) summiert")]
+        [SerializeField, Tooltip("(Untergrenze %) summiert")]
         float underLimitPercentTotal;
 
         #endregion
@@ -60,22 +60,22 @@ namespace RuthlessMerchant
 
         [Header("Price Variables")]
 
-        [SerializeField, ReadOnly, Tooltip("Wunschwerte")]
+        [SerializeField, Tooltip("Wunschwerte")]
         List<float> wished;
 
-        [SerializeField, ReadOnly, Tooltip("(Obergrenze) absolut von Realwert")]
+        [SerializeField, Tooltip("(Obergrenze) absolut von Realwert")]
         float upperLimitReal;
 
-        [SerializeField, ReadOnly, Tooltip("(Obergrenze) Schmerzgrenze Feilschen")]
+        [SerializeField, Tooltip("(Obergrenze) Schmerzgrenze Feilschen")]
         float upperLimitBargain;
 
-        [SerializeField, ReadOnly, Tooltip("(Untergrenze) absolut von Realwert")]
+        [SerializeField, Tooltip("(Untergrenze) absolut von Realwert")]
         float underLimitReal;
 
-        [SerializeField, ReadOnly, Tooltip("Faktoren zu Realwert")]
+        [SerializeField, Tooltip("Faktoren zu Realwert")]
         List<float> realAndOfferedRatio;
 
-        [SerializeField, ReadOnly, Tooltip("Faktoren zu Wunschwert")]
+        [SerializeField, Tooltip("Faktoren zu Wunschwert")]
         List<float> wishedAndOfferedRatio;
 
         #endregion
@@ -96,7 +96,7 @@ namespace RuthlessMerchant
         [SerializeField, Range(0, 100)]
         float skepticismStartLimit;
 
-        [SerializeField, ReadOnly]
+        [SerializeField]
         float skepticismDelta;
 
         [SerializeField, Range(0, 100), Tooltip("Skepsis plus Grundwert")]
@@ -114,7 +114,7 @@ namespace RuthlessMerchant
         [SerializeField, Range(0, 100)]
         float irritationStartLimit;
 
-        [SerializeField, ReadOnly]
+        [SerializeField]
         float irritationDelta;
 
         [SerializeField, Range(0, 100), Tooltip("Genervt plus Grundwert")]
