@@ -16,6 +16,7 @@ public class JumpToPaper : MonoBehaviour
 	// Hardcodded for Build. Will be changed in the future
 	public void SwitchToMenu ()
 	{
+		Debug.Log ("I'm here");
 	    _currentPage.CurrentPaper = 1;
 	}
 
