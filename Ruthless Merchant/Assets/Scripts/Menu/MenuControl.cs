@@ -11,6 +11,8 @@ public class MenuControl : MonoBehaviour {
 
     #region Fields
     private bool gameIsPaused = false;
+	[SerializeField]
+	private string gamePlaySceneName, mainMenuSceneName;
     [SerializeField]
     private GameObject pauseMenuUI, pauseMenu, settingsMenu, loadMenu, saveMenu;
     private GameObject currentState;
@@ -31,12 +33,12 @@ public class MenuControl : MonoBehaviour {
     }
     public void PlayButton()
     {
-        SceneManager.LoadScene("TS_Scene");
+        SceneManager.LoadScene(gamePlaySceneName);
     }
 
     public void ReturnToMainMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene(mainMenuSceneName);
     }
 
     public void QuitButton()
