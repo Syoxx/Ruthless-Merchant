@@ -3252,6 +3252,11 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 400004, guid: 16ca9560f54454f42a7a39ea0cd8012c, type: 3}
   m_PrefabInternal: {fileID: 320263682}
+--- !u!1 &321308838 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1983859930579094, guid: 0ffd2bf229c71dc498a55c3fb5516a8b,
+    type: 2}
+  m_PrefabInternal: {fileID: 48662098}
 --- !u!1001 &327136081
 Prefab:
   m_ObjectHideFlags: 0
@@ -19188,6 +19193,23 @@ Prefab:
       propertyPath: recipes
       value: 
       objectReference: {fileID: 1194931460}
+    - target: {fileID: 114991098099390920, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: ItemsParent
+      value: 
+      objectReference: {fileID: 321308838}
+    - target: {fileID: 114991098099390920, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: workshopUIPrefab
+      value: 
+      objectReference: {fileID: 1945718349876518, guid: 32a5b0bcd68386a429f30e72d78509e9,
+        type: 2}
+    - target: {fileID: 114991098099390920, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: recipeUiPrefab
+      value: 
+      objectReference: {fileID: 1213390701520696, guid: c3881c4b3762cd34a85b93f25baa7db9,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 44a219676742c784c8cf187979537aa9, type: 2}
   m_IsPrefabParent: 0
