@@ -65,8 +65,7 @@ public class MenuControl : MonoBehaviour {
         BookPrefab.SetActive(false);
         Time.timeScale = 1f;
         SwitchMenu(MenuStates.Pause);
-        //Player.isCursorLocked = true;
-        RuthlessMerchant.Player.IsPaused = false;
+        RuthlessMerchant.Player.RestrictCamera = false;
         gameIsPaused = false;
     }
 
@@ -74,8 +73,7 @@ public class MenuControl : MonoBehaviour {
     {
         BookPrefab.SetActive(true);
         Time.timeScale = 0f;
-        //Player.isCursorLocked = false;
-        RuthlessMerchant.Player.IsPaused = true;
+        RuthlessMerchant.Player.RestrictCamera = true;
         gameIsPaused = true;
     }
 

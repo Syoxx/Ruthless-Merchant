@@ -299,6 +299,7 @@ namespace RuthlessMerchant
         }
         private void PopulateWorkbenchPanel()
         {
+            /*
             if (inventory.inventorySlots.Length == 0)
             {
                 return;
@@ -333,7 +334,7 @@ namespace RuthlessMerchant
                         itemInfos.ItemImage.sprite = inventory.inventorySlots[itemIndex].Item.itemSprite;
                     }
                     GameObject workshopButton = Instantiate(workshopUIPrefab) as GameObject;
-                    workshopButton.transform.SetParent(/*inventory.inventorySlots[itemIndex].Item.transform*/InventoryItem.transform, false);
+                    workshopButton.transform.SetParent(InventoryItem.transform, false);
                     if (workshopButton.GetComponent<Button>() != null)
                     {
                         itemSlot = itemIndex;
@@ -351,6 +352,7 @@ namespace RuthlessMerchant
                 }
                 else continue;
             }
+            */
         }
        private void PopulateInventoryPanel()
        {
@@ -576,21 +578,26 @@ namespace RuthlessMerchant
         }
         private void ControlModeWorkbench()
         {
-            gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                PopulateInventoryPanel();
-                restrictMovement = false;
-                restrictCamera = false;
-                inventoryCanvas.SetActive(false);
-                controlMode = ControlMode.Move;
-            }
-            if(Input.GetKeyDown(KeyCode.E))
-            {
-                localWorkbench.BreakdownItem(inventory.inventorySlots[0].Item, Inventory);
-                PopulateWorkbenchPanel();
+            //gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
+            //if (Input.GetKeyDown(KeyCode.Escape))
+            //{
+            //    PopulateInventoryPanel();
+            //    restrictMovement = false;
+            //    restrictCamera = false;
+            //    inventoryCanvas.SetActive(false);
+            //    controlMode = ControlMode.Move;
+            //}
+            //if(Input.GetKeyDown(KeyCode.E))
+            //{
+            //    localWorkbench.BreakdownItem(inventory.inventorySlots[0].Item, Inventory);
+            //    PopulateWorkbenchPanel();
 
-            }
+            //}
+
+            /* REMOVE ONCE WORKBENCH IS FIXED:  */
+            restrictMovement = false;
+            restrictCamera = false;
+            controlMode = ControlMode.Move;
         }
         private void OnCollisionStay(Collision collision)
         {
