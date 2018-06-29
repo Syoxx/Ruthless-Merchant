@@ -11,9 +11,6 @@ namespace RuthlessMerchant
 
         public float TotalPlayerOffers { get; private set; }
 
-        // TODO: Delete this
-        public static string PreviousScene;
-
         public Trader Trader;
 
         public Item Item;
@@ -22,7 +19,6 @@ namespace RuthlessMerchant
         public List<float> TraderOffers;
 
         float exitTimer = 0;
-        float exitTimerLimit = 2;
         bool exit = false;
 
         [SerializeField]
@@ -52,28 +48,30 @@ namespace RuthlessMerchant
         public Trade(Trader trader)
         {
             Singleton = this;
-            Trader = trader;
         }
 
         void Awake()
         {
-            // TODO: Delete this
             Singleton = this;
         }
 
-        void Start()
+        public void InitializeTrade()
         {
-            // TODO: Delete this
-            ItemSetter.Singleton.SetTrade();
+            GetComponent<ItemSetter>().SetTrade(this);
 
             Trader.SetInitialVariables();
 
             TotalPlayerOffers = 0;
+
+            playerOfferInputField.onEndEdit.AddListener(Player.Singleton.MakeOffer);
+            AcceptButton.onClick.AddListener(Accept);
             
             if(Trader.SkepticismTotal >= Trader.SkepticismLimit || Trader.IrritationTotal >= Trader.IrritationLimit)
             {
                 Abort();
             }
+
+            Cursor.visible = true;
         }
 
         void Update()
@@ -82,10 +80,17 @@ namespace RuthlessMerchant
             {
                 exitTimer += Time.deltaTime;
 
-                if(exitTimer > exitTimerLimit)
+                if (exitTimer > 3)
                 {
-                    //UnityEngine.SceneManagement.SceneManager.LoadScene(PreviousScene);
+                    Cursor.visible = false;
+                    Destroy(gameObject);
                 }
+            }
+
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                Cursor.visible = false;
+                Destroy(gameObject);
             }
         }
 

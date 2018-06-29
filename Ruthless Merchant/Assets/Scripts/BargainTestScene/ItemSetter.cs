@@ -6,22 +6,15 @@ namespace RuthlessMerchant
 {
     public class ItemSetter : MonoBehaviour
     {
-        public static  ItemSetter Singleton;
-
         [SerializeField]
         int value;
 
-        void Awake()
+        public void SetTrade(Trade trade)
         {
-            Singleton = this;
-        }
+            // TODO: Change this to currency class
+            Material currencyItem = gameObject.AddComponent<Material>();
 
-        public void SetTrade()
-        {
-            Trade trade = Trade.Singleton;
-
-            Item currencyItem = trade.gameObject.AddComponent<Item>();
-            currencyItem.Type = ItemType.Other;
+            currencyItem.itemType = ItemType.Other;
 
             ItemValue itemValue = new ItemValue()
             {
@@ -32,7 +25,7 @@ namespace RuthlessMerchant
             ItemValue[] itemValueArray = new ItemValue[1];
             itemValueArray[0] = itemValue;
 
-            Item itemToTrade = trade.gameObject.AddComponent<Item>();
+            Material itemToTrade = trade.gameObject.AddComponent<Material>();
             itemToTrade.ItemValue = itemValueArray;
 
             trade.Item = itemToTrade;

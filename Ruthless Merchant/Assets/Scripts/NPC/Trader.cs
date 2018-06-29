@@ -16,6 +16,9 @@ namespace RuthlessMerchant
 
         #endregion
 
+        [SerializeField]
+        GameObject tradePrefab;
+
         #region Influence Properties
 
         [Header("Influence Variables")]
@@ -153,7 +156,7 @@ namespace RuthlessMerchant
             }
             else
             {
-                if (itemValue.Length == 1 && itemValue[0].Item.Type == ItemType.Other)
+                if (itemValue.Length == 1 && itemValue[0].Item.itemType == ItemType.Other)
                 {
                     float realPrice = itemValue[0].Count;
 
@@ -298,8 +301,9 @@ namespace RuthlessMerchant
         {
             Debug.Log(caller.name + ": Interaction with Trader");
 
-            Trade.PreviousScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-            UnityEngine.SceneManagement.SceneManager.LoadScene("BargainTestScene");
+            Trade trade = Instantiate(tradePrefab, transform).GetComponent<Trade>();
+            trade.Trader = this;
+            trade.InitializeTrade();
         }
     }
 }
