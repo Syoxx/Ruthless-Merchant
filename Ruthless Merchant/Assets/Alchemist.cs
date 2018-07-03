@@ -8,7 +8,6 @@ namespace RuthlessMerchant
     {
         #region Fields ##################################################################
 
-        [SerializeField]
         AlchemySlot[] alchemySlots;
 
         #endregion
@@ -20,6 +19,11 @@ namespace RuthlessMerchant
 
 
         #region Private Functions #######################################################
+
+        private void Awake()
+        {
+            alchemySlots = GetComponentsInChildren<AlchemySlot>();
+        }
 
         #endregion
 

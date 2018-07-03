@@ -72,19 +72,19 @@ namespace RuthlessMerchant
         [SerializeField]
         private GameObject ItemUIPrefab;
 
-        [SerializeField]
+        [SerializeField, Tooltip("This is the UI Prefab that appears for each Item when accessing an Alchemyslot")]
         GameObject alchemyUiPrefab;
 
         [SerializeField]
         private GameObject workshopUIPrefab;
 
-        [SerializeField]
+        [SerializeField, Tooltip("The UI Prefab that appears for each recipe when accessing the Smith")]
         GameObject recipeUiPrefab;
 
         [SerializeField]
         private GameObject mapObject;
 
-        [SerializeField]
+        [SerializeField, Tooltip("This is the Recipe Component placed on this Object")]
         private Recipes recipes;
 
         [Header("Book")]
