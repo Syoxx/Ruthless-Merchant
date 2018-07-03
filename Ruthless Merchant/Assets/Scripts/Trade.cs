@@ -71,7 +71,7 @@ namespace RuthlessMerchant
                 Abort();
             }
 
-            Cursor.visible = true;
+            Player.RestrictCamera = true;
         }
 
         void Update()
@@ -82,14 +82,14 @@ namespace RuthlessMerchant
 
                 if (exitTimer > 3)
                 {
-                    Cursor.visible = false;
+                    Player.RestrictCamera = false;
                     Destroy(gameObject);
                 }
             }
 
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                Cursor.visible = false;
+                Player.RestrictCamera = false;
                 Destroy(gameObject);
             }
         }

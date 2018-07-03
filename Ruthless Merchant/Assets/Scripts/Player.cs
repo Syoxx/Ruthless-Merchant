@@ -260,26 +260,34 @@ namespace RuthlessMerchant
         /// </summary>
         private void FocusCursor()
         {
-            // Pressing escape makes cursor visible + unlocks it
-            if (Input.GetKeyUp(KeyCode.Escape) && (isGameFocused == true))
+            // Pressing escape in a menu switches back to game (no cursor)
+            if (Input.GetKeyUp(KeyCode.Escape) && restrictCamera)
             {
-                isGameFocused = false;
-            }
-            else if (!restrictCamera && (Input.GetMouseButtonUp(0) || Input.GetKey(KeyCode.Escape)))
-            {
-                Cursor.lockState = CursorLockMode.Locked;
                 isGameFocused = true;
+                restrictCamera = false;
+            }
+            else if ((!restrictCamera) && restrictMovement)
+            {
+                // This prevents movement being disabled while restrictCamera is not on
+                restrictMovement = false;
             }
 
-            if(!restrictCamera && isGameFocused)
+            if (!restrictCamera && isGameFocused)
             {
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
+                if (Cursor.lockState != CursorLockMode.Locked)
+                {
+                    Cursor.lockState = CursorLockMode.Locked;
+                    Cursor.visible = false;
+                }
             }
             else
             {
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
+                // Currently using None instead of Limited
+                if (Cursor.lockState != CursorLockMode.None)
+                {
+                    Cursor.lockState = CursorLockMode.None;
+                    Cursor.visible = true;
+                }
             }
         }
 
@@ -517,7 +525,6 @@ namespace RuthlessMerchant
             {
                 controlMode = ControlMode.Move;
                 restrictMovement = false;
-                restrictCamera = false;
                 smithCanvas.SetActive(false);
             }
             else if (Input.GetKeyDown(KeyCode.W))
@@ -583,7 +590,6 @@ namespace RuthlessMerchant
             //{
             //    PopulateInventoryPanel();
             //    restrictMovement = false;
-            //    restrictCamera = false;
             //    inventoryCanvas.SetActive(false);
             //    controlMode = ControlMode.Move;
             //}
