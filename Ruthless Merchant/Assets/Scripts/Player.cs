@@ -86,7 +86,8 @@ namespace RuthlessMerchant
         [SerializeField] [Tooltip("Drag a book canvas there / Daniil Masliy")]
         private GameObject _bookCanvas;
 
-        [SerializeField] private int MaxItemsPerPage;
+        private JumpToPaper _bookLogic;
+        public int _maxWeaponsPerPage;
 
         #endregion
 
@@ -176,6 +177,10 @@ namespace RuthlessMerchant
                 Debug.Log("Player object does not have a first person camera.");
                 isGameFocused = false;
             }
+
+            //BookLogic instantiate
+            _bookLogic = new JumpToPaper();
+            _bookLogic.GeneratePages();
         }
 
         protected override void FixedUpdate()
@@ -379,7 +384,9 @@ namespace RuthlessMerchant
                }
       
                GameObject inventoryItem = Instantiate(ItemUIPrefab) as GameObject;
-               inventoryItem.transform.SetParent(ItemsParent.transform, false);
+               Debug.Log(_bookLogic._pagesList);
+              
+               inventoryItem.transform.SetParent(_bookLogic._pagesList[_bookLogic.pageForCurrentWeaponPlacement()].transform.Find("PNL_ZoneForItem").transform, false);
                InventoryDisplayedData itemInfos = inventoryItem.GetComponent<InventoryDisplayedData>();
                itemInfos.itemName.text = inventory.inventorySlots[itemIndex].Count + "x " + inventory.inventorySlots[itemIndex].Item.itemName + " (" + inventory.inventorySlots[itemIndex].Item.itemRarity + ")";
                //itemInfos.itemWeight.text = inventory.inventorySlots[itemIndex].Item.itemWeight + " kg";
@@ -652,7 +659,7 @@ namespace RuthlessMerchant
                                else
                                {
                                    targetItem.DestroyInteractivObject();
-                                    PopulateInventoryPanel();
+                                   PopulateInventoryPanel();
                                }
                            }
                        }
@@ -666,7 +673,7 @@ namespace RuthlessMerchant
                            {
 
                                target.Interact(this.gameObject);
-                                PopulateInventoryPanel();
+                               PopulateInventoryPanel();
                            }
                            else if(target !=null )
                            {
