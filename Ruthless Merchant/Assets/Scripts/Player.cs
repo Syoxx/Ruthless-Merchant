@@ -186,6 +186,8 @@ namespace RuthlessMerchant
                 Debug.Log("Player object does not have a first person camera.");
                 isGameFocused = false;
             }
+
+            inventory.InventoryChanged.AddListener(PopulateInventoryPanel);
         }
 
         protected override void FixedUpdate()
