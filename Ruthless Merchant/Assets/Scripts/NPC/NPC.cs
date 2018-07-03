@@ -12,6 +12,20 @@ namespace RuthlessMerchant
 {
     public abstract class NPC : Character
     {
+        /* TODO
+         * 
+         * Some stop acting
+         * Split between lane 2 and 3
+         * Outpost flag
+         */
+
+        public static int MaxNPCCountPerFaction = 30;
+        public static Dictionary<Faction, int> NPCCount = new Dictionary<Faction, int>()
+        {
+            { Faction.Freidenker, 0 },
+            { Faction.Imperialisten,0 }
+        };
+
         public enum SpeedType
         {
             None,
@@ -33,7 +47,6 @@ namespace RuthlessMerchant
             IsThreat
         }
 
-        private DayCycle dayCycle;
         private DialogSystem dialogSystem;
 
         protected List<Waypoint> waypoints;
@@ -41,19 +54,19 @@ namespace RuthlessMerchant
         [HideInInspector]
         public Nullable<Waypoint> CurrentWaypoint = null;
 
-        [SerializeField]
+        [SerializeField, Tooltip("Roation Speed")]
         [Range(0.1f, 100.0f)]
         protected float rotationSpeed = 8.0f;
 
-        [SerializeField]
+        [SerializeField, Tooltip("Field of view")]
         [Range(25, 90)]
         protected int fov = 45;
 
-        [SerializeField]
+        [SerializeField, Tooltip("Max. view distance of npc. Is used by child gameobject with see script")]
         [Range(1, 1000)]
         protected int viewDistance = 10;
 
-        [SerializeField]
+        [SerializeField, Tooltip("Max. hear distance of npcs. Is used by child gameoject with hear script")]
         [Range(1, 1000)]
         protected int hearDistance = 5;
 
@@ -80,18 +93,6 @@ namespace RuthlessMerchant
         private SpeedType currentSpeedType = SpeedType.None;
         private float elapsedLostTime = 0.0f;
         private float lostDuration = 3.0f;
-
-        public DayCycle DayCycle
-        {
-            get
-            {
-                return dayCycle;
-            }
-            set
-            {
-                dayCycle = value;
-            }
-        }
 
         public DialogSystem DialogSystem
         {
@@ -172,6 +173,7 @@ namespace RuthlessMerchant
 
             ChangeSpeed(SpeedType.Walk);
 
+            NPCCount[faction]++;
             base.Start();
         }
 
@@ -181,35 +183,62 @@ namespace RuthlessMerchant
             Recognize();
             Hear();
 
-            //if(!agent.isStopped)
-            //    GetComponent<Rigidbody>().velocity = transform.forward * agent.speed;
-
             if(currentAction != null)
                 currentAction.Update(Time.deltaTime);
 
+            CheckReactionState();
+
+            if (!Reacting)
+            {
+                ChangeSpeed(SpeedType.Walk);
+            }
+
+            if(agent.remainingDistance <= agent.baseOffset || agent.remainingDistance <= agent.stoppingDistance)
+            {
+                agent.isStopped = true;
+            }
+        }
+
+        public override void DestroyInteractivObject()
+        {
+            NPCCount[faction]--;
+            base.DestroyInteractivObject();
+        }
+
+        private void CheckReactionState()
+        {
             if (currentReactTarget != null)
-            { 
-                if(reactionState.HasFlag(TargetState.Lost))
+            {
+                //Check Target Health
+                if (CurrentReactTarget.HealthSystem.Health <= 0)
+                {
+                    reactionState = TargetState.None;
+                    currentReactTarget = null;
+                    elapsedLostTime = 0;
+                }
+
+                //Check lost targets
+                if (reactionState.HasFlag(TargetState.Lost))
                 {
                     elapsedLostTime += Time.deltaTime;
-                    if(elapsedLostTime >= lostDuration)
+                    if (elapsedLostTime >= lostDuration)
                     {
                         reactionState = TargetState.None;
                         currentReactTarget = null;
                         elapsedLostTime = 0;
                     }
                 }
+            }
 
-                if (currentReactTarget != null)
-                {
-                    React(currentReactTarget, reactionState.HasFlag(TargetState.IsThreat));
-                }
+            //Execute Reaction
+            if (currentReactTarget != null)
+            {
+                React(currentReactTarget, reactionState.HasFlag(TargetState.IsThreat));
             }
             else if (currentItemTarget != null)
                 React(currentItemTarget);
-
-            if(!Reacting)
-                ChangeSpeed(SpeedType.Walk);
+            else if(!(currentAction is ActionIdle))
+                SetCurrentAction(new ActionIdle(), null);
         }
 
         /// <summary>
@@ -220,7 +249,7 @@ namespace RuthlessMerchant
         protected bool IsThreat(GameObject gameObject)
         {
             Character character = gameObject.GetComponent<Character>();
-            if (character != null && faction != character.Faction)
+            if (character != null && faction != character.Faction && character.HealthSystem.Health > 0)
             {
                 if (character.IsPlayer)
                 {
@@ -314,6 +343,7 @@ namespace RuthlessMerchant
                             elapsedLostTime = 0.0f;
                             reactionState = reactionState.SetFlag(TargetState.Lost);
                             reactionState = reactionState.RemoveFlag(TargetState.InView);
+
                         }
                     }
                 }
@@ -415,13 +445,16 @@ namespace RuthlessMerchant
         /// </summary>
         /// <param name="action">Action to set</param>
         /// <param name="other">Gameobject which might be useful for the action start</param>
-        public void SetCurrentAction(ActionNPC action, GameObject other)
+        public void SetCurrentAction(ActionNPC action, GameObject other, bool force = false, bool executeEnd = true)
         {
-            if (currentAction != null)
-                currentAction.EndAction();
+            if (force || currentAction == null || currentAction.Priority <= action.Priority)
+            {
+                if (currentAction != null)
+                    currentAction.EndAction(executeEnd);
 
-            currentAction = action;
-            currentAction.StartAction(this, other);
+                currentAction = action;
+                currentAction.StartAction(this, other);
+            }
         }
 
         /// <summary>
@@ -552,7 +585,7 @@ namespace RuthlessMerchant
             if (path != null)
             {
                 Waypoint waypoint = new Waypoint(path.transform, removeOnWaypointReached, waitTime);
-                AddNewWaypoint(waypoint);
+                AddNewWaypoint(waypoint, true);
                 return waypoint;
             }
 

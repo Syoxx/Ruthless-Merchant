@@ -30,8 +30,8 @@ namespace RuthlessMerchant
         private bool isPlayer;
         private float elapsedSecs;
 
-        private float attackDelay = 2f;
-        private float elapsedAttackTime = 2f;
+        private float attackDelay = 0.5f;
+        private float elapsedAttackTime = 0.5f;
 
         public bool IsPlayer
         {
