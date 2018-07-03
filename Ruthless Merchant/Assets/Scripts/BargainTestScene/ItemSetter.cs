@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace RuthlessMerchant
 {
@@ -8,6 +9,9 @@ namespace RuthlessMerchant
     {
         [SerializeField]
         int value;
+
+        [SerializeField]
+        Text valueText;
 
         public void SetTrade(Trade trade)
         {
@@ -29,6 +33,8 @@ namespace RuthlessMerchant
             itemToTrade.ItemValue = itemValueArray;
 
             trade.Item = itemToTrade;
+
+            valueText.text = value.ToString();
         }
     }
 }

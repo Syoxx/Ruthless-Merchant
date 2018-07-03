@@ -8,6 +8,8 @@ namespace RuthlessMerchant
 {
     public class Trader : Civilian
     {
+        public static Trader CurrentTrader;
+
         #region Editor Separation
 
         [Space(3)]
@@ -48,9 +50,15 @@ namespace RuthlessMerchant
         [SerializeField, Range(0, 1), Tooltip("Feilschfaktor Obergrenze")]
         float upperLimitBargainPerCent = 0.5f;
 
+        #if UNITY_EDITOR
+        [ReadOnly]
+        #endif
         [SerializeField, Tooltip("(Obergrenze %) summiert")]
         float upperLimitPercentTotal;
 
+        #if UNITY_EDITOR
+        [ReadOnly]
+        #endif
         [SerializeField, Tooltip("(Untergrenze %) summiert")]
         float underLimitPercentTotal;
 
@@ -60,21 +68,40 @@ namespace RuthlessMerchant
 
         [Header("Price Variables")]
 
+        #if UNITY_EDITOR
+        [ReadOnly]
+        #endif
         [SerializeField, Tooltip("Wunschwerte")]
         List<float> wished;
 
+        #if UNITY_EDITOR
+        [ReadOnly]
+        #endif
         [SerializeField, Tooltip("(Obergrenze) absolut von Realwert")]
         float upperLimitReal;
 
+        #if UNITY_EDITOR
+        [ReadOnly]
+        #endif
         [SerializeField, Tooltip("(Obergrenze) Schmerzgrenze Feilschen")]
         float upperLimitBargain;
 
+        #if UNITY_EDITOR
+        [ReadOnly]
+        #endif
         [SerializeField, Tooltip("(Untergrenze) absolut von Realwert")]
         float underLimitReal;
 
+        #if UNITY_EDITOR
+        [ReadOnly]
+        #endif
         [SerializeField, Tooltip("Faktoren zu Realwert")]
         List<float> realAndOfferedRatio;
 
+
+        #if UNITY_EDITOR
+        [ReadOnly]
+        #endif
         [SerializeField, Tooltip("Faktoren zu Wunschwert")]
         List<float> wishedAndOfferedRatio;
 
@@ -96,6 +123,9 @@ namespace RuthlessMerchant
         [SerializeField, Range(0, 100)]
         float skepticismStartLimit;
 
+        #if UNITY_EDITOR
+        [ReadOnly]
+        #endif
         [SerializeField]
         float skepticismDelta;
 
@@ -114,6 +144,9 @@ namespace RuthlessMerchant
         [SerializeField, Range(0, 100)]
         float irritationStartLimit;
 
+        #if UNITY_EDITOR
+        [ReadOnly]
+        #endif
         [SerializeField]
         float irritationDelta;
 
@@ -123,6 +156,12 @@ namespace RuthlessMerchant
         #endregion
 
         #region MonoBehaviour cycle
+
+        void Awake()
+        {
+            // TODO: Delete this.
+            CurrentTrader = this;
+        }
 
         public override void Start()
         {
@@ -137,20 +176,18 @@ namespace RuthlessMerchant
         /// <summary>
         /// Sets the initial trading variables.
         /// </summary>
-        public void SetInitialVariables()
+        public void Initialize(Trade trade)
         {
             wished                = new List<float>();
             realAndOfferedRatio   = new List<float>();
             wishedAndOfferedRatio = new List<float>();
-
-            Trade trade = Trade.Singleton;
 
             ItemValue[] itemValue = trade.Item.ItemValue;
 
             IrritationTotal = irritationStart;
             SkepticismTotal = skepticismStart;
 
-            if (IrritationTotal > 100 || SkepticismTotal > 100)
+            if (IrritationTotal > irritationStartLimit || SkepticismTotal > skepticismStartLimit)
             {
                 trade.Abort();
             }
@@ -175,20 +212,17 @@ namespace RuthlessMerchant
             }
         }
 
-        public void HandlePlayerOffer()
+        public void ReactToPlayerOffer(Trade trade)
         {
-            Trade trade = Trade.Singleton;
-
             realAndOfferedRatio.Add(lastItem(trade.PlayerOffers) / trade.Item.ItemValue[0].Count);
             wishedAndOfferedRatio.Add(lastItem(trade.PlayerOffers) / lastItem(wished));
             wished.Add((float)Math.Ceiling(upperLimitReal - ((upperLimitReal - lastItem(wished)) / lastItem(wishedAndOfferedRatio))));
 
             if (UpdatePsychology())
             {
-                if (trade.TotalPlayerOffers == 1)
+                if (trade.PlayerOffers.Count == 1)
                 {
                     HandleFirstPlayerOffer();
-                    trade.AcceptButton.interactable = true;
                 }
                 else
                 {
@@ -239,23 +273,6 @@ namespace RuthlessMerchant
             }
         }
 
-        float lastItem(List<float> list, int beforeLast = 0, string round = "")
-        {
-            float result = list[list.Count - (1 + beforeLast)];
-
-            switch(round)
-            {
-                case "UP":
-                    return (float)Math.Ceiling(result);
-
-                case "DOWN":
-                    return (float)Math.Floor(result);
-
-                default:
-                    return result;
-            }            
-        }
-
         /// <summary>
         /// Updates the irritation and skepticism levels.
         /// </summary>
@@ -301,9 +318,25 @@ namespace RuthlessMerchant
         {
             Debug.Log(caller.name + ": Interaction with Trader");
 
+            CurrentTrader = this;
             Trade trade = Instantiate(tradePrefab, transform).GetComponent<Trade>();
-            trade.Trader = this;
-            trade.InitializeTrade();
+        }
+
+        float lastItem(List<float> list, int beforeLast = 0, string round = "")
+        {
+            float result = list[list.Count - (1 + beforeLast)];
+
+            switch (round)
+            {
+                case "UP":
+                    return (float)Math.Ceiling(result);
+
+                case "DOWN":
+                    return (float)Math.Floor(result);
+
+                default:
+                    return result;
+            }
         }
     }
 }

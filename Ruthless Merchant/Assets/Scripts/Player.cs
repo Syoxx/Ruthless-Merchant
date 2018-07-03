@@ -780,38 +780,6 @@ namespace RuthlessMerchant
         {
             throw new System.NotImplementedException();
         }
-
-        public void MakeOffer(string playerOfferString)
-        {
-            Trade trade = Trade.Singleton;
-            trade.AugmentTotalPlayerOffers();
-
-            float playerOfferParsed = float.Parse(playerOfferString);
-            float playerOffer = (float)Math.Floor(playerOfferParsed);
-
-            int lastPlayerOffer = -1;
-
-            if (trade.PlayerOffers.Count > 0)
-            {
-                lastPlayerOffer = (int)Math.Floor(trade.PlayerOffers[trade.PlayerOffers.Count - 1]);
-            }
-
-            if (playerOffer < 1 || lastPlayerOffer != -1 && lastPlayerOffer < 2)
-            {
-                playerOffer = 1;
-            }
-
-            else if (lastPlayerOffer != -1 && playerOffer >= lastPlayerOffer)
-            {
-                playerOffer = lastPlayerOffer - 1;
-            }
-
-            trade.PlayerOffers.Add(playerOffer);
-            trade.BargainEventsText.text = "";
-
-            trade.UpdateTrading();
-        }
-
     }
 }
        

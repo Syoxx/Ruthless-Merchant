@@ -9,27 +9,46 @@ namespace RuthlessMerchant
     {
         public static Trade Singleton;
 
-        public float TotalPlayerOffers { get; private set; }
+        #region Public Fields
 
-        public Trader Trader;
-
+        #if UNITY_EDITOR
+        [ReadOnly]
+        #endif
         public Item Item;
 
+        #if UNITY_EDITOR
+        [ReadOnly]
+        #endif
         public List<float> PlayerOffers;
+
+        #if UNITY_EDITOR
+        [ReadOnly]
+        #endif
         public List<float> TraderOffers;
 
-        float exitTimer = 0;
-        bool exit = false;
+        public Text TradeDialogue;
+
+        #endregion
+
+        #region Serialized Fields
+
+        [Serializable]
+        struct WeightsPrefabs
+        {
+            public GameObject weight1;
+
+            public GameObject weight5;
+
+            public GameObject weight10;
+
+            public GameObject weight50;
+        }
 
         [SerializeField]
-        Text traderOffer;
+        WeightsPrefabs weightsPrefabs;
 
         [SerializeField]
-        InputField playerOfferInputField;
-
-        public Text BargainEventsText;
-
-        public Button AcceptButton;
+        Transform spawnPoint;
 
         [SerializeField]
         Slider sliderIrritation;
@@ -43,35 +62,52 @@ namespace RuthlessMerchant
         [SerializeField]
         Text sliderSkepticismNumber;
 
-        #region MonoBehaviour Life Cycle
+        [SerializeField]
+        Text traderOffer;
 
-        public Trade(Trader trader)
-        {
-            Singleton = this;
-        }
+        [SerializeField]
+        Text nextPlayerOfferText;
+
+        [SerializeField]
+        Text currentPlayerOfferText;
+
+        [SerializeField]
+        Transform weightsParent;
+
+        #if UNITY_EDITOR
+        [ReadOnly]
+        #endif
+        [SerializeField]
+        int nextPlayerOffer;
+
+        #endregion
+
+        #region Private Fields
+
+        float exitTimer = 0;
+
+        bool exit = false;
+
+        #endregion
+
+        #region MonoBehaviour Life Cycle
 
         void Awake()
         {
             Singleton = this;
+            PlayerOffers = new List<float>();
+            TraderOffers = new List<float>();
         }
 
-        public void InitializeTrade()
+        void Start()
         {
-            GetComponent<ItemSetter>().SetTrade(this);
-
-            Trader.SetInitialVariables();
-
-            TotalPlayerOffers = 0;
-
-            playerOfferInputField.onEndEdit.AddListener(Player.Singleton.MakeOffer);
-            AcceptButton.onClick.AddListener(Accept);
-            
-            if(Trader.SkepticismTotal >= Trader.SkepticismLimit || Trader.IrritationTotal >= Trader.IrritationLimit)
-            {
-                Abort();
-            }
-
             Cursor.visible = true;
+            GetComponent<ItemSetter>().SetTrade(this);
+            Trader.CurrentTrader.Initialize(this);
+
+            nextPlayerOffer = Item.ItemValue[0].Count;
+            nextPlayerOfferText.text = nextPlayerOffer.ToString();
+            nextPlayerOfferText.fontStyle = FontStyle.Italic;
         }
 
         void Update()
@@ -86,53 +122,204 @@ namespace RuthlessMerchant
                     Destroy(gameObject);
                 }
             }
-
-            if (Input.GetKeyDown(KeyCode.Q))
+            else
             {
-                Cursor.visible = false;
-                Destroy(gameObject);
+                if (Input.GetAxis("Mouse ScrollWheel") != 0)
+                {
+                    ModifyOffer();
+                }
+
+                else if (Input.GetMouseButtonDown(0))
+                {
+                    HandlePlayerOffer();
+                }
+
+                else if (Input.GetKeyDown(KeyCode.X))
+                {
+                    Accept();
+                }
+
+                else if (Input.GetKeyDown(KeyCode.Q))
+                {
+                    Cursor.visible = false;
+                    Destroy(gameObject);
+                }
             }
         }
 
         #endregion
 
-        public void UpdateTrading()
+        void ModifyOffer()
         {
-            Trader.HandlePlayerOffer();
+            float wheelAxis = Input.GetAxis("Mouse ScrollWheel");
 
+            if (PlayerOffers.Count != 0 && nextPlayerOffer + (int)(wheelAxis * 10) >= PlayerOffers[PlayerOffers.Count - 1])
+            {
+                nextPlayerOffer = (int)Math.Floor(PlayerOffers[PlayerOffers.Count - 1]) - 1;
+            }
+            else
+            {
+                int multiplier = 10;
+
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    multiplier = 100;
+                }
+
+                nextPlayerOffer += (int)(wheelAxis * multiplier);
+            }
+
+            nextPlayerOfferText.fontStyle = FontStyle.Italic;
+            UpdateUI();
+            UpdateWeights();
+        }
+
+        void HandlePlayerOffer()
+        {
+            int lastPlayerOffer = -1;
+
+            if (PlayerOffers.Count > 0)
+            {
+                lastPlayerOffer = (int)Math.Floor(PlayerOffers[PlayerOffers.Count - 1]);
+            }
+
+            if (nextPlayerOffer < 1 || lastPlayerOffer != -1 && lastPlayerOffer < 2)
+            {
+                nextPlayerOffer = 1;
+            }
+
+            else if (lastPlayerOffer != -1 && nextPlayerOffer >= lastPlayerOffer)
+            {
+                nextPlayerOffer = lastPlayerOffer - 1;
+            }
+
+            PlayerOffers.Add(nextPlayerOffer);
+            TradeDialogue.text = "";
+
+            Trader.CurrentTrader.ReactToPlayerOffer(this);
+
+            nextPlayerOffer -= 1;
+            nextPlayerOfferText.fontStyle = FontStyle.Normal;
+            currentPlayerOfferText.text = nextPlayerOfferText.text;
             UpdateUI();
         }
 
-        public void UpdateUI()
+        void UpdateUI()
         {
-            sliderIrritation.value = Trader.IrritationTotal;
-            sliderSkepticism.value = Trader.SkepticismTotal;
+            nextPlayerOfferText.text = nextPlayerOffer.ToString();
 
-            sliderIrritationNumber.text = Trader.IrritationTotal.ToString();
-            sliderSkepticismNumber.text = Trader.SkepticismTotal.ToString();
+            if (TraderOffers.Count > 0)
+            {
+                traderOffer.text = Math.Floor(TraderOffers[TraderOffers.Count - 1]).ToString();
+            }
 
-            playerOfferInputField.text = PlayerOffers[PlayerOffers.Count - 1].ToString();
-            traderOffer.text = Math.Floor(TraderOffers[TraderOffers.Count - 1]).ToString() + " (" + TraderOffers[TraderOffers.Count - 1].ToString() + ")";
+            sliderIrritation.value = Trader.CurrentTrader.IrritationTotal;
+            sliderSkepticism.value = Trader.CurrentTrader.SkepticismTotal;
+
+            sliderIrritationNumber.text = Trader.CurrentTrader.IrritationTotal.ToString();
+            sliderSkepticismNumber.text = Trader.CurrentTrader.SkepticismTotal.ToString();
         }
 
-        public void AugmentTotalPlayerOffers()
+        void Accept()
         {
-            TotalPlayerOffers++;
-        }
-
-        public void Accept()
-        {
-            playerOfferInputField.interactable = false;
-            AcceptButton.interactable = false;
-            BargainEventsText.text = "You and Dormammu have a blood-sealing pact. He wishes you a good day and rides off into the sunset.";
+            TradeDialogue.text = "You and Dormammu have a blood-sealing pact. He wishes you a good day and rides off into the sunset.";
             exit = true;
         }
 
         public void Abort()
         {
-            playerOfferInputField.interactable = false;
-            BargainEventsText.text = "Dormammu tells you to fuck off and rides off with his galaxy-eating unicorn.";
+            TradeDialogue.text = "Dormammu tells you to fuck off and rides off with his galaxy-eating unicorn.";
             exit = true;
+        }
+
+        void UpdateWeights()
+        {
+            List<List<GameObject>> presentWeightsGaObj = GetPresentWeights();
+            int[] wantedWeights = GetWantedWeights();
+
+            HandleWeight(presentWeightsGaObj, wantedWeights, weightsPrefabs.weight1, "Weight1", 0);
+            HandleWeight(presentWeightsGaObj, wantedWeights, weightsPrefabs.weight5, "Weight5", 1);
+            HandleWeight(presentWeightsGaObj, wantedWeights, weightsPrefabs.weight10, "Weight10", 2);
+            HandleWeight(presentWeightsGaObj, wantedWeights, weightsPrefabs.weight50, "Weight50", 3);
+
+            Debug.Log("nextPlayerOffer: " + nextPlayerOffer);
+            Debug.Log("Wanted Weights: " + wantedWeights[0].ToString() + " " + wantedWeights[1].ToString() + " " + wantedWeights[2].ToString() + " " + wantedWeights[3].ToString());
+        }
+
+        void HandleWeight(List<List<GameObject>> presentWeightsGaObj, int[] wantedWeights, GameObject weightPrefab, string weightName, int weightIndex)
+        {
+            GameObject newWeight;
+
+            for (int x = presentWeightsGaObj[weightIndex].Count - 1; x >= 0; x--)
+            {
+                Destroy(presentWeightsGaObj[weightIndex][x]);
+            }
+
+            for (int x = 0; x < wantedWeights[weightIndex]; x++)
+            {
+                newWeight = Instantiate(weightPrefab, weightsParent);
+                newWeight.transform.position += new Vector3(0, x * newWeight.transform.localScale.y);
+                newWeight.name = weightName;
+            }
+        }
+
+        List<List<GameObject>> GetPresentWeights()
+        {
+            List<GameObject> weights1 = new List<GameObject>();
+            List<GameObject> weights5 = new List<GameObject>();
+            List<GameObject> weights10 = new List<GameObject>();
+            List<GameObject> weights50 = new List<GameObject>();
+
+            GameObject[] weights = GameObject.FindGameObjectsWithTag("Weight");
+
+            foreach(GameObject weight in weights)
+            {
+                if (weight.name == "Weight1")
+                {
+                    weights1.Add(weight);
+                }
+
+                else if (weight.name == "Weight5")
+                {
+                    weights5.Add(weight);
+                }
+
+                else if (weight.name == "Weight10")
+                {
+                    weights10.Add(weight);
+                }
+
+                else if (weight.name == "Weight50")
+                {
+                    weights50.Add(weight);
+                }
+            }
+
+            List<List<GameObject>> result = new List<List<GameObject>>
+            {
+                weights1,
+                weights5,
+                weights10,
+                weights50
+            };
+
+            return result;
+        }
+
+        int[] GetWantedWeights()
+        {
+            int w50 = (int)((float)nextPlayerOffer / 50f);
+            int w10 = (int)((float)(nextPlayerOffer - w50 * 50) / 10f);
+            int w5 = (int)((float)(nextPlayerOffer - w50 * 50 - w10 * 10) / 5f);
+            int w1 = nextPlayerOffer - w50 * 50 - w10 * 10 - w5 * 5;
+
+            return new int[]
+            {
+                w1,
+                w5,
+                w10,
+                w50
+            };
         }
     }
 }
