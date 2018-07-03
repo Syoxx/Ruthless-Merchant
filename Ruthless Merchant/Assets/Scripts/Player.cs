@@ -422,13 +422,14 @@ namespace RuthlessMerchant
             {
                 bool isUI_Inactive = (mapObject.activeSelf == false);
 
-                if (inventoryCanvas.activeSelf)
+                if (_bookCanvas.activeSelf)
                 {
-                    inventoryCanvas.SetActive(false);
+                    _bookCanvas.SetActive(false);
                 }
 
                 mapObject.SetActive(isUI_Inactive);
                 restrictMovement = isUI_Inactive;
+                restrictCamera = isUI_Inactive;
             }
         }
 
@@ -726,6 +727,11 @@ namespace RuthlessMerchant
         {
             if (Input.GetKeyDown(KeyCode.J))
             {
+                if (mapObject.activeSelf == true)
+                {
+                    mapObject.SetActive(false);
+                }
+
                 _bookCanvas.SetActive(_bookCanvas.activeSelf == false);
                 restrictMovement = !(_bookCanvas.activeSelf == false);
                 restrictCamera = !(_bookCanvas.activeSelf == false);
