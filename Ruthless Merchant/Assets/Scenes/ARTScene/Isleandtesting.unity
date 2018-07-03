@@ -4000,9 +4000,10 @@ MonoBehaviour:
   walkSpeed: 3
   runSpeed: 7
   stickToGroundValue: 15
-  maxJumpHeight: 20
+  maxJumpHeight: 30
+  maxSlopeAngle: 40
   aimpointTexture: {fileID: 0}
-  CrouchHeight: 1.1
+  CrouchHeight: 1.8
   ItemsParent: {fileID: 1827847519}
   ItemUIPrefab: {fileID: 1003242521413218, guid: 1bc36308a3bc84d4a8de9805ef0a1e8f,
     type: 2}
@@ -12416,6 +12417,7 @@ MonoBehaviour:
   runSpeed: 4
   stickToGroundValue: 0
   maxJumpHeight: 0
+  maxSlopeAngle: 0
   rotationSpeed: 8
   fov: 45
   viewDistance: 10
