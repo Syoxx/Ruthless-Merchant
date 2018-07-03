@@ -25,7 +25,10 @@ namespace RuthlessMerchant {
                     
                     for (int j = 0; j < recipes.GetRecipes()[i].ListOfMaterials.Count; j++)
                     {
-                        inventory.Add(recipes.GetRecipes()[i].ListOfMaterials[j].Item, recipes.GetRecipes()[i].ListOfMaterials[j].Count, true);
+                        if(recipes.GetRecipes()[i].ListOfMaterials[j].Count > 1)
+                            inventory.Add(recipes.GetRecipes()[i].ListOfMaterials[j].Item, recipes.GetRecipes()[i].ListOfMaterials[j].Count - 1, true);
+                        else
+                            inventory.Add(recipes.GetRecipes()[i].ListOfMaterials[j].Item, recipes.GetRecipes()[i].ListOfMaterials[j].Count, true);
                         Debug.Log("Added " + recipes.GetRecipes()[i].ListOfMaterials[j].Item);
                     }
                     inventory.Remove(BreakableItem, 1, true);

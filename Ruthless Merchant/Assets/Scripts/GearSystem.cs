@@ -45,16 +45,31 @@
             if (GearItem.itemType == ItemType.Gear)
             {
                 // Remove reference to gear in GearSlot
-                if (ProtectiveGear.Gear != null)
+                if (ProtectiveGear.Gearitem != null)
                 {
-                    ProtectiveGear.Gear = null;
+                    ProtectiveGear.Gearitem = null;
                 }
 
-                Gear CastedItem = GearItem as Gear;
+                Gear CastedGear = GearItem as Gear;
 
                 // Add GearItem
-                if (CastedItem != null)
-                    ProtectiveGear.Gear = CastedItem;
+                if (CastedGear != null)
+                    ProtectiveGear.Gearitem = CastedGear;
+            }
+
+            if (GearItem.itemType == ItemType.Weapon)
+            {
+                // Remove reference to gear in GearSlot
+                if (Weaponry.Gearitem != null)
+                {
+                    ProtectiveGear.Gearitem = null;
+                }
+
+                Weapon CastedWeapon = GearItem as Weapon;
+
+                // Add GearItem
+                if (CastedWeapon != null)
+                    Weaponry.Gearitem = CastedWeapon;
             }
 
             // UpdateGearStats

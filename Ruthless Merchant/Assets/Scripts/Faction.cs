@@ -5,7 +5,7 @@ namespace RuthlessMerchant
     {
         Freidenker,
         Monster,
-        Nutral,
+        Neutral,
         Imperialisten,
         None
     }

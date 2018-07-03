@@ -11,8 +11,10 @@ public class MenuControl : MonoBehaviour {
 
     #region Fields
     private bool gameIsPaused = false;
+	[SerializeField]
+	private string gamePlaySceneName, mainMenuSceneName;
     [SerializeField]
-    private GameObject pauseMenuUI, pauseMenu, settingsMenu, loadMenu, saveMenu;
+    private GameObject BookPrefab, pauseMenu, settingsMenu, loadMenu, saveMenu;
     private GameObject currentState;
     #endregion
 
@@ -31,12 +33,12 @@ public class MenuControl : MonoBehaviour {
     }
     public void PlayButton()
     {
-        SceneManager.LoadScene("TS_Scene");
+        SceneManager.LoadScene(gamePlaySceneName);
     }
 
     public void ReturnToMainMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene(mainMenuSceneName);
     }
 
     public void QuitButton()
@@ -47,31 +49,31 @@ public class MenuControl : MonoBehaviour {
 
     public void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (gameIsPaused)
-                Resume();
-            else
-            {
-                Pause();
-            }
-        }
+        //if(Input.GetKeyDown(KeyCode.Escape))
+        //{
+        //    if (gameIsPaused)
+        //        Resume();
+        //    else
+        //    {
+        //        Pause();
+        //    }
+        //}
     }
 
     public void Resume()
     {
-        pauseMenuUI.SetActive(false);
+        BookPrefab.SetActive(false);
         Time.timeScale = 1f;
         SwitchMenu(MenuStates.Pause);
-        //Player.isCursorLocked = true;
+        RuthlessMerchant.Player.RestrictCamera = false;
         gameIsPaused = false;
     }
 
     private void Pause()
     {
-        pauseMenuUI.SetActive(true);
+        BookPrefab.SetActive(true);
         Time.timeScale = 0f;
-        //Player.isCursorLocked = false;
+        RuthlessMerchant.Player.RestrictCamera = true;
         gameIsPaused = true;
     }
 
