@@ -79,7 +79,7 @@ public class JumpToPaper : MonoBehaviour
     public int pageForCurrentWeaponPlacement()
     {
         //Debug.Log("Alo" + Mathf.Floor(CountWeaponsInInventory()  / GameObject.Find("NewPlayerPrefab").GetComponent<Player>()._maxWeaponsPerPage));
-        return (int) Mathf.Floor(CountWeaponsInInventory()/ GameObject.Find("NewPlayerPrefab").GetComponent<Player>()._maxWeaponsPerPage);
+        return (CountWeaponsInInventory() / GameObject.Find("NewPlayerPrefab").GetComponent<Player>()._maxWeaponsPerPage);
     }
 
   
