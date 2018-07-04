@@ -11,7 +11,7 @@ namespace RuthlessMerchant
     public class Player : Character
     {
         public static Player Singleton;
-        private static bool isPaused = false;
+        private static bool restrictCamera = false;
 
         #region Private Fields
         private UISystem uiSystem;
@@ -44,7 +44,9 @@ namespace RuthlessMerchant
         int currenRecipe;
         GameObject smithCanvas;
         Smith localSmith;
+
         AlchemySlot localAlchemist;
+        GameObject alchemyCanvas;
 
         Canvas workbenchCanvas;
         Workbench localWorkbench;
@@ -70,21 +72,27 @@ namespace RuthlessMerchant
         [SerializeField]
         private GameObject ItemUIPrefab;
 
+        [SerializeField, Tooltip("This is the UI Prefab that appears for each Item when accessing an Alchemyslot")]
+        GameObject alchemyUiPrefab;
+
         [SerializeField]
         private GameObject workshopUIPrefab;
 
-        [SerializeField]
+        [SerializeField, Tooltip("The UI Prefab that appears for each recipe when accessing the Smith")]
         GameObject recipeUiPrefab;
 
         [SerializeField]
         private GameObject mapObject;
 
-        [SerializeField]
+        [SerializeField, Tooltip("This is the Recipe Component placed on this Object")]
         private Recipes recipes;
 
         [Header("Book")]
         [SerializeField] [Tooltip("Drag a book canvas there / Daniil Masliy")]
         private GameObject _bookCanvas;
+
+        [SerializeField] private int MaxItemsPerPage;
+
         #endregion
 
         #region MonoBehaviour Life Cycle
@@ -97,10 +105,10 @@ namespace RuthlessMerchant
         #endregion
 
 
-        public static bool IsPaused
+        public static bool RestrictCamera
         {
-            get { return isPaused; }
-            set { isPaused = value; }
+            get { return restrictCamera; }
+            set { restrictCamera = value; }
         }
 
         public UISystem UISystem
@@ -132,9 +140,14 @@ namespace RuthlessMerchant
             base.Start();
 
             smithCanvas = GameObject.Find("SmithCanvas");
+            alchemyCanvas = GameObject.Find("AlchemyCanvas");
             if(smithCanvas)
             {
                 smithCanvas.SetActive(false);
+            }
+            if (alchemyCanvas)
+            {
+                alchemyCanvas.SetActive(false);
             }
 
             if (!recipes)
@@ -173,6 +186,8 @@ namespace RuthlessMerchant
                 Debug.Log("Player object does not have a first person camera.");
                 isGameFocused = false;
             }
+
+            inventory.InventoryChanged.AddListener(PopulateInventoryPanel);
         }
 
         protected override void FixedUpdate()
@@ -206,7 +221,13 @@ namespace RuthlessMerchant
         {
             LookRotation();
             HandleInput();
-            FocusCursor();
+            if(controlMode == ControlMode.Move)
+                FocusCursor();
+            else
+            {
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+            }
         }
 
         /// <summary>
@@ -214,7 +235,7 @@ namespace RuthlessMerchant
         /// </summary>
         private void LookRotation()
         {
-            if (!isPaused)
+            if (!restrictCamera)
             {
                 float yRot = Input.GetAxis("Mouse X") * mouseXSensitivity;
                 float xRot = Input.GetAxis("Mouse Y") * mouseYSensitivity;
@@ -257,45 +278,54 @@ namespace RuthlessMerchant
         /// </summary>
         private void FocusCursor()
         {
-            // Pressing escape makes cursor visible + unlocks it
-            if (Input.GetKeyUp(KeyCode.Escape) && (isGameFocused == true))
+            // Pressing escape in a menu switches back to game (no cursor)
+            if (Input.GetKeyUp(KeyCode.Escape) && restrictCamera)
             {
-                isGameFocused = false;
-            }
-            else if (!isPaused && (Input.GetMouseButtonUp(0) || Input.GetKey(KeyCode.Escape)))
-            {
-                Cursor.lockState = CursorLockMode.Locked;
                 isGameFocused = true;
+                restrictCamera = false;
+            }
+            else if ((!restrictCamera) && restrictMovement)
+            {
+                // This prevents movement being disabled while restrictCamera is not on
+                restrictMovement = false;
             }
 
-            if(!isPaused && isGameFocused)
+            if (!restrictCamera && isGameFocused)
             {
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
+                if (Cursor.lockState != CursorLockMode.Locked)
+                {
+                    Cursor.lockState = CursorLockMode.Locked;
+                    Cursor.visible = false;
+                }
             }
             else
             {
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
+                // Currently using None instead of Limited
+                if (Cursor.lockState != CursorLockMode.None)
+                {
+                    Cursor.lockState = CursorLockMode.None;
+                    Cursor.visible = true;
+                }
             }
         }
 
         public void ShowInventory()
         {  
-            if (Input.GetKeyDown(KeyCode.I))
-            {
-                bool isUI_Inactive = (inventoryCanvas.activeSelf == false);
-                if (mapObject.activeSelf)
-                {
-                    mapObject.SetActive(false);
-                }
+            //if (Input.GetKeyDown(KeyCode.I))
+            //{
+            //    bool isUI_Inactive = (inventoryCanvas.activeSelf == false);
+            //    if (mapObject.activeSelf)
+            //    {
+            //        mapObject.SetActive(false);
+            //    }
 
-                inventoryCanvas.SetActive(isUI_Inactive);
-                restrictMovement = isUI_Inactive;
-            }
+            //    inventoryCanvas.SetActive(isUI_Inactive);
+            //    restrictMovement = isUI_Inactive;
+            //}
         }
         private void PopulateWorkbenchPanel()
         {
+            /*
             if (inventory.inventorySlots.Length == 0)
             {
                 return;
@@ -330,7 +360,7 @@ namespace RuthlessMerchant
                         itemInfos.ItemImage.sprite = inventory.inventorySlots[itemIndex].Item.itemSprite;
                     }
                     GameObject workshopButton = Instantiate(workshopUIPrefab) as GameObject;
-                    workshopButton.transform.SetParent(/*inventory.inventorySlots[itemIndex].Item.transform*/InventoryItem.transform, false);
+                    workshopButton.transform.SetParent(InventoryItem.transform, false);
                     if (workshopButton.GetComponent<Button>() != null)
                     {
                         itemSlot = itemIndex;
@@ -348,6 +378,7 @@ namespace RuthlessMerchant
                 }
                 else continue;
             }
+            */
         }
        private void PopulateInventoryPanel()
        {
@@ -373,13 +404,13 @@ namespace RuthlessMerchant
                    continue;
                }
       
-               GameObject InventoryItem = Instantiate(ItemUIPrefab) as GameObject;
-               InventoryItem.transform.SetParent(ItemsParent.transform, false);
-               InventoryDisplayedData itemInfos = InventoryItem.GetComponent<InventoryDisplayedData>();
-               itemInfos.itemName.text = inventory.inventorySlots[itemIndex].Item.itemName + " x" +  inventory.inventorySlots[itemIndex].Count;
-               itemInfos.itemWeight.text = inventory.inventorySlots[itemIndex].Item.itemWeight + " kg";
+               GameObject inventoryItem = Instantiate(ItemUIPrefab) as GameObject;
+               inventoryItem.transform.SetParent(ItemsParent.transform, false);
+               InventoryDisplayedData itemInfos = inventoryItem.GetComponent<InventoryDisplayedData>();
+               itemInfos.itemName.text = inventory.inventorySlots[itemIndex].Count + "x " + inventory.inventorySlots[itemIndex].Item.itemName + " (" + inventory.inventorySlots[itemIndex].Item.itemRarity + ")";
+               //itemInfos.itemWeight.text = inventory.inventorySlots[itemIndex].Item.itemWeight + " kg";
                itemInfos.itemDescription.text = inventory.inventorySlots[itemIndex].Item.itemLore;
-               itemInfos.itemRarity.text = inventory.inventorySlots[itemIndex].Item.itemRarity.ToString();
+               //itemInfos.itemRarity.text = inventory.inventorySlots[itemIndex].Item.itemRarity.ToString();
                itemInfos.itemPrice.text = inventory.inventorySlots[itemIndex].Item.itemPrice + "G";
       
                if (inventory.inventorySlots[itemIndex].Item.itemSprite != null)
@@ -409,13 +440,14 @@ namespace RuthlessMerchant
             {
                 bool isUI_Inactive = (mapObject.activeSelf == false);
 
-                if (inventoryCanvas.activeSelf)
+                if (_bookCanvas.activeSelf)
                 {
-                    inventoryCanvas.SetActive(false);
+                    _bookCanvas.SetActive(false);
                 }
 
                 mapObject.SetActive(isUI_Inactive);
                 restrictMovement = isUI_Inactive;
+                restrictCamera = isUI_Inactive;
             }
         }
 
@@ -435,6 +467,9 @@ namespace RuthlessMerchant
                 case ControlMode.Workbench:
                     ControlModeWorkbench();
                     break;
+                case ControlMode.AlchemySlot:
+                    ControlModeAlchemist();
+                    break;
             }
         }
 
@@ -453,7 +488,7 @@ namespace RuthlessMerchant
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                if (!restrictMovement && !isPaused)
+                if (!restrictMovement && !restrictCamera)
                 {
                     hasJumped = true;
                 }
@@ -462,7 +497,7 @@ namespace RuthlessMerchant
             //TODO: If toggle_crouch, toggle a switch instead of checking for sneak every update
             if (Input.GetKey(KeyCode.LeftControl))
             {
-                if (!restrictMovement && !isPaused)
+                if (!restrictMovement && !restrictCamera)
                 {
                     isCtrlPressed = true;
                 }
@@ -474,17 +509,17 @@ namespace RuthlessMerchant
             float horizontal = 0f;
             float vertical = 0f;
 
-            if (!restrictMovement && !isPaused)
+            if (!restrictMovement && !restrictCamera)
             {
                 horizontal = Input.GetAxis("Horizontal");
                 vertical = Input.GetAxis("Vertical");
             }
-
-            if (horizontal == 0 && vertical == 0)
-            {
-                gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
-            }
             else
+            {
+                gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+            }
+            
+            if (horizontal != 0 || vertical != 0)
             {
                 gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
             }
@@ -507,7 +542,7 @@ namespace RuthlessMerchant
 
         private void ControlModeSmith()
         {
-            gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+            gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 controlMode = ControlMode.Move;
@@ -560,29 +595,58 @@ namespace RuthlessMerchant
                 PopulateInventoryPanel();
             }
         }
+
+        void ControlModeAlchemist()
+        {
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                alchemyCanvas.SetActive(false);
+                controlMode = ControlMode.Move;
+            }
+        }
+
+        public void OnAlchemyButton(int itemSlot)
+        {
+            localAlchemist.AddItem((Ingredient)Inventory.inventorySlots[itemSlot].Item);
+            Inventory.Remove(itemSlot, 1, true);
+            alchemyCanvas.SetActive(false);
+            controlMode = ControlMode.Move;
+        }
+
+
+        private void ControlModeInventoryBook()
+        {
+
+        }
         public void OnWorkbenchButton(int itemslot)
         {
             localWorkbench.BreakdownItem(inventory.inventorySlots[itemSlot].Item, Inventory);
             PopulateWorkbenchPanel();
         }
+
         private void ControlModeWorkbench()
         {
-            gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                PopulateInventoryPanel();
-                restrictMovement = false;
-                inventoryCanvas.SetActive(false);
-                controlMode = ControlMode.Move;
-            }
-            if(Input.GetKeyDown(KeyCode.E))
-            {
-                localWorkbench.BreakdownItem(inventory.inventorySlots[0].Item, Inventory);
-                PopulateWorkbenchPanel();
+            //gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
+            //if (Input.GetKeyDown(KeyCode.Escape))
+            //{
+            //    PopulateInventoryPanel();
+            //    restrictMovement = false;
+            //    inventoryCanvas.SetActive(false);
+            //    controlMode = ControlMode.Move;
+            //}
+            //if(Input.GetKeyDown(KeyCode.E))
+            //{
+            //    localWorkbench.BreakdownItem(inventory.inventorySlots[0].Item, Inventory);
+            //    PopulateWorkbenchPanel();
 
-            }
+            //}
+
+            /* REMOVE ONCE WORKBENCH IS FIXED:  */
+            restrictMovement = false;
+            restrictCamera = false;
+            controlMode = ControlMode.Move;
         }
-        private void OnCollisionEnter(Collision collision)
+        private void OnCollisionStay(Collision collision)
         {
             
             if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Default"))
@@ -635,10 +699,11 @@ namespace RuthlessMerchant
                                else
                                {
                                    targetItem.DestroyInteractivObject();
-                                    PopulateInventoryPanel();
+                                   PopulateInventoryPanel();
                                }
                            }
                        }
+                       
                        else
                        {
                            // Treat interaction target like an NPC
@@ -646,14 +711,12 @@ namespace RuthlessMerchant
 
                            if (targetNPC != null)
                            {
-
                                target.Interact(this.gameObject);
                                 PopulateInventoryPanel();
                            }
-                           else
-                            {
+                           else if(target !=null )
+                           {
                                 target.Interact(this.gameObject);
-                                PopulateWorkbenchPanel();
                             }
                        }
                    }
@@ -703,7 +766,14 @@ namespace RuthlessMerchant
         {
             if (Input.GetKeyDown(KeyCode.J))
             {
+                if (mapObject.activeSelf == true)
+                {
+                    mapObject.SetActive(false);
+                }
+
                 _bookCanvas.SetActive(_bookCanvas.activeSelf == false);
+                restrictMovement = !(_bookCanvas.activeSelf == false);
+                restrictCamera = !(_bookCanvas.activeSelf == false);
             }
         }
 
@@ -715,6 +785,7 @@ namespace RuthlessMerchant
 
             smithCanvas.SetActive(true);
             restrictMovement = true;
+            restrictCamera = true;
             UpdateCanvas(currenRecipe);
         }
 
@@ -741,8 +812,39 @@ namespace RuthlessMerchant
 
             inventoryCanvas.SetActive(true);
             restrictMovement = true;
+            restrictCamera = true;
             localWorkbench = workbench;
             controlMode = ControlMode.Workbench;
+        }
+
+        public void EnterAlchemySlot(AlchemySlot alchemySlot)
+        {
+            localAlchemist = alchemySlot;
+            controlMode = ControlMode.AlchemySlot;
+
+            alchemyCanvas.SetActive(true);
+            CreateAlchemyCanvas();
+        }
+
+        void CreateAlchemyCanvas()
+        {
+            foreach(Transform item in alchemyCanvas.transform)
+            {
+                Destroy(item.gameObject);
+            }
+            for (int i = 0; i < inventory.inventorySlots.Length; i++)
+            {
+                if (inventory.inventorySlots[i].Item)
+                    if (inventory.inventorySlots[i].Item.itemType == ItemType.Ingredient)
+                    {
+                        Button newPanel = Instantiate(alchemyUiPrefab, alchemyCanvas.transform).GetComponent<Button>();
+
+                        int panel = i;
+                        newPanel.onClick.AddListener(delegate { OnAlchemyButton(panel); });
+
+                        newPanel.GetComponentInChildren<Text>().text = inventory.inventorySlots[i].Item.itemName;
+                    }
+            }
         }
 
         public void Craft()
@@ -759,6 +861,38 @@ namespace RuthlessMerchant
         {
             throw new System.NotImplementedException();
         }
+
+        public void MakeOffer(string playerOfferString)
+        {
+            Trade trade = Trade.Singleton;
+            trade.AugmentTotalPlayerOffers();
+
+            float playerOfferParsed = float.Parse(playerOfferString);
+            float playerOffer = (float)Math.Floor(playerOfferParsed);
+
+            int lastPlayerOffer = -1;
+
+            if (trade.PlayerOffers.Count > 0)
+            {
+                lastPlayerOffer = (int)Math.Floor(trade.PlayerOffers[trade.PlayerOffers.Count - 1]);
+            }
+
+            if (playerOffer < 1 || lastPlayerOffer != -1 && lastPlayerOffer < 2)
+            {
+                playerOffer = 1;
+            }
+
+            else if (lastPlayerOffer != -1 && playerOffer >= lastPlayerOffer)
+            {
+                playerOffer = lastPlayerOffer - 1;
+            }
+
+            trade.PlayerOffers.Add(playerOffer);
+            trade.BargainEventsText.text = "";
+
+            trade.UpdateTrading();
+        }
+
     }
 }
        

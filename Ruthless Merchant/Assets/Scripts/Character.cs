@@ -1,6 +1,7 @@
 ﻿//---------------------------------------------------------------
 // Authors: Peter Ehmler, Richard Brönnimann, 
 //---------------------------------------------------------------
+using System;
 using UnityEngine;
 
 namespace RuthlessMerchant
@@ -27,8 +28,11 @@ namespace RuthlessMerchant
         private Vector3 boxSize;
 
         private Rigidbody rb;
+        private CapsuleCollider charCollider;
         private bool isPlayer;
+        private bool preventClimbing = false;
         private float elapsedSecs;
+        private float terrainCheckRadius;
 
         private float attackDelay = 0.5f;
         private float elapsedAttackTime = 0.5f;
@@ -40,19 +44,28 @@ namespace RuthlessMerchant
 
         [SerializeField]
         [Range(0, 1000)]
+        [Tooltip("Player speed only using WASD.")]
         protected float walkSpeed = 2;
 
         [SerializeField]
         [Range(0, 1000)]
+        [Tooltip("Player speed while holding shift.")]
         protected float runSpeed = 4;
 
         [SerializeField]
         [Range(0, 1000)]
+        [Tooltip("Constant downward force, used instead of gravity when on the ground.")]
         private float stickToGroundValue;
 
         [SerializeField]
         [Range(0, 1000)]
+        [Tooltip("Affects how high player can jump.")]
         private float maxJumpHeight;
+
+        [SerializeField]
+        [Range(0, 1000)]
+        [Tooltip("Limits the terrain angle player can climb.")]
+        private float maxSlopeAngle;
 
         private Vector3 gravity;
 
@@ -140,6 +153,12 @@ namespace RuthlessMerchant
                 rb.useGravity = false;
             }
 
+            if (charCollider == null)
+            {
+                charCollider = GetComponent<CapsuleCollider>();
+                terrainCheckRadius = charCollider.radius + 1f;
+            }            
+
             if (CompareTag("Player"))
             {
                 isPlayer = true;
@@ -224,7 +243,7 @@ namespace RuthlessMerchant
 
         public void Jump()
         {
-            if (grounded)
+            if (grounded && (!preventClimbing))
             {
                 if (elapsedSecs <= 0)
                 {
@@ -243,7 +262,30 @@ namespace RuthlessMerchant
                 elapsedSecs -= Time.deltaTime;
             }
 
-            if (grounded)
+            if (isPlayer)
+            {
+                preventClimbing = false;
+                                
+                //Ray ray = new Ray(transform.position, Vector3.down);
+                Ray rayLeft = new Ray(new Vector3(transform.localPosition.x - terrainCheckRadius, transform.localPosition.y,transform.localPosition.z), Vector3.down);
+                Ray rayRight = new Ray(new Vector3(transform.localPosition.x + terrainCheckRadius, transform.localPosition.y, transform.localPosition.z), Vector3.down);
+                Ray rayFront = new Ray(new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z + terrainCheckRadius), Vector3.down);
+                Ray rayBack = new Ray(new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z - terrainCheckRadius), Vector3.down);
+                
+                bool is_climbable_left = CheckGroundAngle(rayLeft);
+                bool is_climbable_right = CheckGroundAngle(rayRight);
+                bool is_climbable_front = CheckGroundAngle(rayFront);
+                bool is_climbable_back = CheckGroundAngle(rayBack);
+
+                if (!is_climbable_left || !is_climbable_right || !is_climbable_front || !is_climbable_back)
+                {
+                    preventClimbing = true;
+                }
+            }
+            
+
+
+            if (grounded && !preventClimbing)
             {if (rb != null)
                 {
                     gravity = Vector3.zero;
@@ -255,11 +297,38 @@ namespace RuthlessMerchant
             {
                 if (rb != null)
                 {
+                    if (preventClimbing)
+                    {
+                        gravity.y -= 3;
+                    }
+
                     gravity += globalGravityScale * Vector3.up * Time.deltaTime * 2f;
                     ApplyGravity(gravity);
                 }
             }
 
+        }
+
+        /// <summary>
+        /// Use raycast to check angle of ground beneath character.
+        /// </summary>
+        /// <returns>
+        /// Returns true if angle is less than maxSlopeAngle.
+        /// </returns>
+        private bool CheckGroundAngle(Ray ray)
+        {
+            RaycastHit hitInfo;
+            bool isClimbableAngle = true;
+
+            Physics.Raycast(ray, out hitInfo);
+            float slopeAngle = Vector3.Angle(hitInfo.normal, Vector3.up);
+
+            if (slopeAngle > maxSlopeAngle)
+            {
+                isClimbableAngle = false;
+            }
+
+            return isClimbableAngle;
         }
 
         public void CalculateVelocity()
