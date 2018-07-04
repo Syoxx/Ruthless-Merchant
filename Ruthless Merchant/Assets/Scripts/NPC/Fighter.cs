@@ -158,29 +158,17 @@ namespace RuthlessMerchant
         {
             if (isThreat)
             {
-                if (((float)HealthSystem.Health / character.HealthSystem.Health) > 0.15f)
+                float distance = Vector3.Distance(transform.position, character.transform.position);
+                if (distance <= attackDistance)
                 {
-                    float distance = Vector3.Distance(transform.position, character.transform.position);
-                    if (distance <= attackDistance)
-                    {
-                        if (CurrentAction == null || !(CurrentAction is ActionAttack))
-                            SetCurrentAction(new ActionAttack(), character.gameObject);
-                    }
-                    else
-                    {
-                        if (CurrentAction == null || !(CurrentAction is ActionHunt))
-                            SetCurrentAction(new ActionHunt(), character.gameObject);
-                    }
+                    if (CurrentAction == null || !(CurrentAction is ActionAttack))
+                        SetCurrentAction(new ActionAttack(), character.gameObject);
                 }
                 else
                 {
-                    if (CurrentAction == null || !(CurrentAction is ActionFlee))
-                        SetCurrentAction(new ActionFlee(), character.gameObject);
+                    if (CurrentAction == null || !(CurrentAction is ActionHunt))
+                        SetCurrentAction(new ActionHunt(), character.gameObject);
                 }
-            }
-            else
-            {
-                //TODO: whatever...
             }
         }
 
@@ -222,11 +210,18 @@ namespace RuthlessMerchant
                 {
                     if (trigger.OutpostsToImperialist != null && trigger.OutpostsToImperialist.Length > 0)
                     {
-                        possibleTriggers.Add(trigger.OutpostsToImperialist[0]);
-                        for (int i = 1; i < trigger.OutpostsToImperialist.Length; i++)
+                        if (trigger.IsLaneSplitter && laneSelectionIndex < trigger.OutpostsToImperialist.Length)
                         {
-                            if (trigger.OutpostsToImperialist[i].Owner != Faction.Freidenker)
-                                possibleTriggers.Add(trigger.OutpostsToImperialist[i]);
+                            possibleTriggers.Add(trigger.OutpostsToImperialist[laneSelectionIndex]);
+                        }
+                        else
+                        {
+                            possibleTriggers.Add(trigger.OutpostsToImperialist[0]);
+                            for (int i = 1; i < trigger.OutpostsToImperialist.Length; i++)
+                            {
+                                if (trigger.OutpostsToImperialist[i].Owner != Faction.Freidenker)
+                                    possibleTriggers.Add(trigger.OutpostsToImperialist[i]);
+                            }
                         }
                     }
                 }
@@ -234,11 +229,18 @@ namespace RuthlessMerchant
                 {
                     if (trigger.OutpostsToFreidenker != null && trigger.OutpostsToFreidenker.Length > 0)
                     {
-                        possibleTriggers.Add(trigger.OutpostsToFreidenker[0]);
-                        for (int i = 1; i < trigger.OutpostsToFreidenker.Length; i++)
+                        if (trigger.IsLaneSplitter && laneSelectionIndex < trigger.OutpostsToFreidenker.Length)
                         {
-                            if (trigger.OutpostsToFreidenker[i].Owner != Faction.Imperialisten)
-                                possibleTriggers.Add(trigger.OutpostsToFreidenker[i]);
+                            possibleTriggers.Add(trigger.OutpostsToFreidenker[laneSelectionIndex]);
+                        }
+                        else
+                        {
+                            possibleTriggers.Add(trigger.OutpostsToFreidenker[0]);
+                            for (int i = 1; i < trigger.OutpostsToFreidenker.Length; i++)
+                            {
+                                if (trigger.OutpostsToFreidenker[i].Owner != Faction.Imperialisten)
+                                    possibleTriggers.Add(trigger.OutpostsToFreidenker[i]);
+                            }
                         }
                     }
                 }

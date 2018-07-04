@@ -13,10 +13,7 @@ namespace RuthlessMerchant
     public abstract class NPC : Character
     {
         /* TODO
-         * 
          * Some stop acting
-         * Split between lane 2 and 3
-         * Outpost flag
          */
 
         public static int MaxNPCCountPerFaction = 30;
@@ -70,7 +67,20 @@ namespace RuthlessMerchant
         [Range(1, 1000)]
         protected int hearDistance = 5;
 
+        [SerializeField]
+        [Range(0, 100)]
+        protected int capValuePerSecond = 1;
+
+        public int CapValuePerSecond
+        {
+            get
+            {
+                return capValuePerSecond;
+            }
+        }
+
         protected NavMeshAgent agent;
+        protected int laneSelectionIndex = 0;
 
         private List<GameObject> possibleSeenObjects;
         private List<AudioSource> possibleHearedObjects;
@@ -580,10 +590,11 @@ namespace RuthlessMerchant
         /// <param name="path">Next capture trigger</param>
         /// <param name="waitTime">Wait time on waypoint</param>
         /// <returns>Returns a waypoint</returns>
-        public Waypoint SetPath(CaptureTrigger path, float waitTime, bool removeOnWaypointReached = true)
+        public Waypoint SetPath(CaptureTrigger path, float waitTime, bool removeOnWaypointReached = true, int laneSelectionIndex = 0)
         {
             if (path != null)
             {
+                this.laneSelectionIndex = laneSelectionIndex;
                 Waypoint waypoint = new Waypoint(path.transform, removeOnWaypointReached, waitTime);
                 AddNewWaypoint(waypoint, true);
                 return waypoint;
