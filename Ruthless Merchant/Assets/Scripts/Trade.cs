@@ -59,11 +59,14 @@ namespace RuthlessMerchant
         [SerializeField]
         Transform weightsTraderParent;
 
-#if UNITY_EDITOR
+        #if UNITY_EDITOR
         [ReadOnly]
         #endif
         [SerializeField]
         int nextPlayerOffer;
+
+        [SerializeField, Range(1, 50)]
+        float weightsDeltaModifier;
 
         #endregion
 
@@ -143,7 +146,7 @@ namespace RuthlessMerchant
                     Accept();
                 }
 
-                else if (Input.GetKeyDown(KeyCode.Escape))
+                else if (Input.GetKeyDown(KeyCode.Q))
                 {
                     TradeDialogue.text = "U quitted coz u a lil chicken.";
                     exit = true;
@@ -157,29 +160,28 @@ namespace RuthlessMerchant
         {
             float wheelAxis = Input.GetAxis("Mouse ScrollWheel");
 
-            if (PlayerOffers.Count != 0 && nextPlayerOffer + (int)(wheelAxis * 10) >= PlayerOffers[PlayerOffers.Count - 1])
+            int multiplier = 10;
+
+            if (Input.GetKey(KeyCode.LeftShift))
+                multiplier = 100;
+
+            if (PlayerOffers.Count != 0 && nextPlayerOffer + (int)(wheelAxis * multiplier) >= PlayerOffers[PlayerOffers.Count - 1])
             {
                 nextPlayerOffer = (int)Math.Floor(PlayerOffers[PlayerOffers.Count - 1]) - 1;
             }
             else
             {
-                int multiplier = 10;
-
-                if (Input.GetKey(KeyCode.LeftShift))
-                {
-                    multiplier = 100;
-                }
-
                 nextPlayerOffer += (int)(wheelAxis * multiplier);
 
                 if(nextPlayerOffer > 400)
-                {
                     nextPlayerOffer = 400;
-                }
+
+                else if (nextPlayerOffer < 0)
+                    nextPlayerOffer = 0;
             }
 
             nextPlayerOfferText.fontStyle = FontStyle.Italic;
-            UpdateUI();
+            nextPlayerOfferText.text = nextPlayerOffer.ToString();
             UpdateWeights(weightsPlayer, nextPlayerOffer);
         }
 
@@ -206,17 +208,18 @@ namespace RuthlessMerchant
 
             TradeDialogue.text = "";
             Trader.CurrentTrader.ReactToPlayerOffer(this);
-            UpdateWeights(weightsTrader, (int)TraderOffers[TraderOffers.Count -1]);
+
+            if (TraderOffers.Count > 0)
+                UpdateWeights(weightsTrader, (int)TraderOffers[TraderOffers.Count -1]);
 
             nextPlayerOffer -= 1;
             nextPlayerOfferText.fontStyle = FontStyle.Normal;
-            currentPlayerOfferText.text = nextPlayerOfferText.text;
             UpdateUI();
         }
 
         void UpdateUI()
         {
-            nextPlayerOfferText.text = nextPlayerOffer.ToString();
+            currentPlayerOfferText.text = nextPlayerOfferText.text;
 
             if (TraderOffers.Count > 0)
             {
@@ -253,9 +256,16 @@ namespace RuthlessMerchant
 
             if (TraderOffers.Count > 0)
             {
-                float playerTraderOfferRatio = (float)nextPlayerOffer / (float)TraderOffers[TraderOffers.Count - 1] - 1;
-                weightsPlayerParent.position += new Vector3(0, -weightsPlayerParent.position.y - playerTraderOfferRatio, 0);
-                weightsTraderParent.position += new Vector3(0, -weightsTraderParent.position.y + playerTraderOfferRatio, 0);
+                float playerTraderOfferDelta = ((float)nextPlayerOffer / (float)TraderOffers[TraderOffers.Count - 1] - 1) / weightsDeltaModifier;
+
+                if (playerTraderOfferDelta > 0.75f)
+                    playerTraderOfferDelta = 0.75f;
+
+                else if (playerTraderOfferDelta < -0.75f)
+                    playerTraderOfferDelta = -0.75f;
+
+                weightsPlayerParent.position += new Vector3(0, -weightsPlayerParent.position.y - playerTraderOfferDelta, 0);
+                weightsTraderParent.position += new Vector3(0, -weightsTraderParent.position.y + playerTraderOfferDelta, 0);
             }
         }
 
