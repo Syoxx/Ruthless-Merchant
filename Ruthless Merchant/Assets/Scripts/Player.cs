@@ -44,7 +44,9 @@ namespace RuthlessMerchant
         int currenRecipe;
         GameObject smithCanvas;
         Smith localSmith;
+
         AlchemySlot localAlchemist;
+        GameObject alchemyCanvas;
 
         Canvas workbenchCanvas;
         Workbench localWorkbench;
@@ -70,16 +72,19 @@ namespace RuthlessMerchant
         [SerializeField]
         private GameObject ItemUIPrefab;
 
+        [SerializeField, Tooltip("This is the UI Prefab that appears for each Item when accessing an Alchemyslot")]
+        GameObject alchemyUiPrefab;
+
         [SerializeField]
         private GameObject workshopUIPrefab;
 
-        [SerializeField]
+        [SerializeField, Tooltip("The UI Prefab that appears for each recipe when accessing the Smith")]
         GameObject recipeUiPrefab;
 
         [SerializeField]
         private GameObject mapObject;
 
-        [SerializeField]
+        [SerializeField, Tooltip("This is the Recipe Component placed on this Object")]
         private Recipes recipes;
 
         [Header("Book")]
@@ -135,9 +140,14 @@ namespace RuthlessMerchant
             base.Start();
 
             smithCanvas = GameObject.Find("SmithCanvas");
+            alchemyCanvas = GameObject.Find("AlchemyCanvas");
             if(smithCanvas)
             {
                 smithCanvas.SetActive(false);
+            }
+            if (alchemyCanvas)
+            {
+                alchemyCanvas.SetActive(false);
             }
 
             if (!recipes)
@@ -176,6 +186,8 @@ namespace RuthlessMerchant
                 Debug.Log("Player object does not have a first person camera.");
                 isGameFocused = false;
             }
+
+            inventory.InventoryChanged.AddListener(PopulateInventoryPanel);
         }
 
         protected override void FixedUpdate()
@@ -209,7 +221,13 @@ namespace RuthlessMerchant
         {
             LookRotation();
             HandleInput();
-            FocusCursor();
+            if(controlMode == ControlMode.Move)
+                FocusCursor();
+            else
+            {
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+            }
         }
 
         /// <summary>
@@ -422,13 +440,14 @@ namespace RuthlessMerchant
             {
                 bool isUI_Inactive = (mapObject.activeSelf == false);
 
-                if (inventoryCanvas.activeSelf)
+                if (_bookCanvas.activeSelf)
                 {
-                    inventoryCanvas.SetActive(false);
+                    _bookCanvas.SetActive(false);
                 }
 
                 mapObject.SetActive(isUI_Inactive);
                 restrictMovement = isUI_Inactive;
+                restrictCamera = isUI_Inactive;
             }
         }
 
@@ -447,6 +466,9 @@ namespace RuthlessMerchant
                     break;
                 case ControlMode.Workbench:
                     ControlModeWorkbench();
+                    break;
+                case ControlMode.AlchemySlot:
+                    ControlModeAlchemist();
                     break;
             }
         }
@@ -574,6 +596,24 @@ namespace RuthlessMerchant
             }
         }
 
+        void ControlModeAlchemist()
+        {
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                alchemyCanvas.SetActive(false);
+                controlMode = ControlMode.Move;
+            }
+        }
+
+        public void OnAlchemyButton(int itemSlot)
+        {
+            localAlchemist.AddItem((Ingredient)Inventory.inventorySlots[itemSlot].Item);
+            Inventory.Remove(itemSlot, 1, true);
+            alchemyCanvas.SetActive(false);
+            controlMode = ControlMode.Move;
+        }
+
+
         private void ControlModeInventoryBook()
         {
 
@@ -583,6 +623,7 @@ namespace RuthlessMerchant
             localWorkbench.BreakdownItem(inventory.inventorySlots[itemSlot].Item, Inventory);
             PopulateWorkbenchPanel();
         }
+
         private void ControlModeWorkbench()
         {
             //gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
@@ -658,7 +699,7 @@ namespace RuthlessMerchant
                                else
                                {
                                    targetItem.DestroyInteractivObject();
-                                    PopulateInventoryPanel();
+                                   PopulateInventoryPanel();
                                }
                            }
                        }
@@ -670,7 +711,6 @@ namespace RuthlessMerchant
 
                            if (targetNPC != null)
                            {
-
                                target.Interact(this.gameObject);
                                 PopulateInventoryPanel();
                            }
@@ -726,6 +766,11 @@ namespace RuthlessMerchant
         {
             if (Input.GetKeyDown(KeyCode.J))
             {
+                if (mapObject.activeSelf == true)
+                {
+                    mapObject.SetActive(false);
+                }
+
                 _bookCanvas.SetActive(_bookCanvas.activeSelf == false);
                 restrictMovement = !(_bookCanvas.activeSelf == false);
                 restrictCamera = !(_bookCanvas.activeSelf == false);
@@ -770,6 +815,36 @@ namespace RuthlessMerchant
             restrictCamera = true;
             localWorkbench = workbench;
             controlMode = ControlMode.Workbench;
+        }
+
+        public void EnterAlchemySlot(AlchemySlot alchemySlot)
+        {
+            localAlchemist = alchemySlot;
+            controlMode = ControlMode.AlchemySlot;
+
+            alchemyCanvas.SetActive(true);
+            CreateAlchemyCanvas();
+        }
+
+        void CreateAlchemyCanvas()
+        {
+            foreach(Transform item in alchemyCanvas.transform)
+            {
+                Destroy(item.gameObject);
+            }
+            for (int i = 0; i < inventory.inventorySlots.Length; i++)
+            {
+                if (inventory.inventorySlots[i].Item)
+                    if (inventory.inventorySlots[i].Item.itemType == ItemType.Ingredient)
+                    {
+                        Button newPanel = Instantiate(alchemyUiPrefab, alchemyCanvas.transform).GetComponent<Button>();
+
+                        int panel = i;
+                        newPanel.onClick.AddListener(delegate { OnAlchemyButton(panel); });
+
+                        newPanel.GetComponentInChildren<Text>().text = inventory.inventorySlots[i].Item.itemName;
+                    }
+            }
         }
 
         public void Craft()
