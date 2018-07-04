@@ -99,21 +99,25 @@ public class JumpToPaper : MonoBehaviour
         if (Player.lastKeyPressed == KeyCode.I)
         {
             _myBook.CurrentPaper = 1;
+            Player.lastKeyPressed = KeyCode.None;
         }
 
         if (Player.lastKeyPressed == KeyCode.J)
         {
             _myBook.CurrentPaper = 1;
+            Player.lastKeyPressed = KeyCode.None;
         }
 
         if (Player.lastKeyPressed == KeyCode.N)
         {
             _myBook.CurrentPaper = 1;
+            Player.lastKeyPressed = KeyCode.None;
         }
 
         if (Player.lastKeyPressed == KeyCode.Escape)
         {
             _myBook.CurrentPaper = 1;
+            Player.lastKeyPressed = KeyCode.None;
         }
 
     }
@@ -142,11 +146,13 @@ public class JumpToPaper : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.I) || Player.lastKeyPressed == KeyCode.I)
         {
             _myBook.CurrentPaper = 1;
+            Player.lastKeyPressed = KeyCode.None;
         }
 
         if (Input.GetKeyDown(KeyCode.J) || Player.lastKeyPressed == KeyCode.J)
         {
             _myBook.CurrentPaper = 1;
+            Player.lastKeyPressed = KeyCode.None;
         }
         
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -157,10 +163,12 @@ public class JumpToPaper : MonoBehaviour
         if (Player.lastKeyPressed == KeyCode.Escape)
         {
             _myBook.CurrentPaper = 2;
+            Player.lastKeyPressed = KeyCode.None;
         }
         if (Input.GetKeyDown(KeyCode.N) || Player.lastKeyPressed == KeyCode.N)
         {
             _myBook.CurrentPaper = 1;
+            Player.lastKeyPressed = KeyCode.None;
         }
 
     }
