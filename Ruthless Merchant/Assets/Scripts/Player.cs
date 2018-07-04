@@ -590,7 +590,7 @@ namespace RuthlessMerchant
             }
             else if(Input.GetKeyDown(KeyCode.E))
             {
-                localSmith.TryCraft(inventory, currenRecipe);
+                localSmith.TryCraft(inventory, currenRecipe, recipes);
                 PopulateInventoryPanel();
             }
         }
@@ -619,7 +619,7 @@ namespace RuthlessMerchant
         }
         public void OnWorkbenchButton(int itemslot)
         {
-            localWorkbench.BreakdownItem(inventory.inventorySlots[itemSlot].Item, Inventory);
+            localWorkbench.BreakdownItem(inventory.inventorySlots[itemSlot].Item, Inventory, recipes);
             PopulateWorkbenchPanel();
         }
 
