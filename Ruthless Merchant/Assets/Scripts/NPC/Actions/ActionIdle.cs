@@ -11,6 +11,16 @@ namespace RuthlessMerchant
     {
         private float elapsedIdleTime;
 
+        public ActionIdle() : base (ActionPriority.None)
+        {
+
+        }
+
+        public ActionIdle(ActionPriority priority) : base(priority)
+        {
+
+        }
+
         public override void StartAction(NPC parent, GameObject other)
         {
             elapsedIdleTime = 0;
