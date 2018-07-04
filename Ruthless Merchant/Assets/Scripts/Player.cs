@@ -89,6 +89,9 @@ namespace RuthlessMerchant
         private JumpToPaper _bookLogic;
         public int _maxWeaponsPerPage;
 
+        [HideInInspector]
+        public static KeyCode lastKeyPressed;
+
         #endregion
 
         #region MonoBehaviour Life Cycle
@@ -727,7 +730,29 @@ namespace RuthlessMerchant
         {
             if (Input.GetKeyDown(KeyCode.J))
             {
+                _bookCanvas.SetActive(true);
+                lastKeyPressed = KeyCode.J;
+                restrictMovement = !(_bookCanvas.activeSelf == false);
+                restrictCamera = !(_bookCanvas.activeSelf == false);
+            }
+            if (Input.GetKeyDown(KeyCode.N))
+            {
+                _bookCanvas.SetActive(true);
+                lastKeyPressed = KeyCode.N;
+                restrictMovement = !(_bookCanvas.activeSelf == false);
+                restrictCamera = !(_bookCanvas.activeSelf == false);
+            }
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
                 _bookCanvas.SetActive(_bookCanvas.activeSelf == false);
+                lastKeyPressed = KeyCode.Escape;
+                restrictMovement = !(_bookCanvas.activeSelf == false);
+                restrictCamera = !(_bookCanvas.activeSelf == false);
+            }
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                _bookCanvas.SetActive(true);
+                lastKeyPressed = KeyCode.I;
                 restrictMovement = !(_bookCanvas.activeSelf == false);
                 restrictCamera = !(_bookCanvas.activeSelf == false);
             }
