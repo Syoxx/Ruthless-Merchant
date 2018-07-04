@@ -199,7 +199,7 @@ namespace RuthlessMerchant
                 isGameFocused = false;
             }
 
-            inventory.InventoryChanged.AddListener(PopulateInventoryPanel);
+            //inventory.InventoryChanged.AddListener(PopulateInventoryPanel);
         }
 
         protected override void FixedUpdate()
@@ -724,7 +724,7 @@ namespace RuthlessMerchant
                                else
                                {
                                    targetItem.DestroyInteractivObject();
-                                   PopulateInventoryPanel();
+                                   //PopulateInventoryPanel();
                                }
                            }
                        }
