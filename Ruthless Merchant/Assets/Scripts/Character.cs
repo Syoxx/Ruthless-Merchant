@@ -35,8 +35,8 @@ namespace RuthlessMerchant
         private float terrainCheckRadius;
         private float colliderHeight;
 
-        private float attackDelay = 2f;
-        private float elapsedAttackTime = 2f;
+        private float attackDelay = 0.5f;
+        private float elapsedAttackTime = 0.5f;
 
         public bool IsPlayer
         {

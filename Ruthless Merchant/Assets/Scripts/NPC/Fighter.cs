@@ -10,11 +10,11 @@ namespace RuthlessMerchant
 {
     public abstract class Fighter : NPC
     {
-        [SerializeField]
+        [SerializeField, Tooltip("If the distance to a character is smaller than the hunting distance, the NPC follows the character")]
         [Range(0, 100)]
         protected float huntDistance = 5;
 
-        [SerializeField]
+        [SerializeField, Tooltip("If the distance to a character is smaller then the attacking distance, the npc attacks the character")]
         [Range(1, 100)]
         protected float attackDistance = 1.5f;
 
@@ -24,6 +24,7 @@ namespace RuthlessMerchant
         public Waypoint[] PatrolPoints;
 
         private CaptureTrigger currentTrigger = null;
+        private CaptureTrigger lastTrigger = null;
 
         public bool PaartolActive
         {
@@ -74,22 +75,37 @@ namespace RuthlessMerchant
                 AbortPatrol();
             }
 
-            if(currentTrigger != null && (CurrentAction == null || CurrentAction is ActionIdle))
+            if(CurrentAction == null || (CurrentAction is ActionIdle && !(CurrentAction is ActionCapture)))
             {
-                if(currentTrigger.Owner == faction)
+                CaptureTrigger trigger = currentTrigger;
+                if (currentTrigger == null)
+                    trigger = lastTrigger;
+
+                if (trigger != null)
                 {
-                    ChangeSpeed(SpeedType.Walk);
-                    SelectNextOutpost(currentTrigger);
+                    if (trigger.Owner == faction)
+                    {
+                        ChangeSpeed(SpeedType.Walk);
+                        SelectNextOutpost(trigger);
+                    }
+                    else
+                    {
+                        AddNewWaypoint(new Waypoint(trigger.transform, true, 0));
+                        SetCurrentAction(new ActionMove(), null);
+                    }
                 }
             }
         }
 
         private void HealthSystem_OnHealthChanged(object sender, DamageAbleObject.HealthArgs e)
         {
-            if (e.ChangedValue < 0 && e.Sender != null)
+            if (CurrentAction == null || CurrentAction is ActionIdle)
             {
-                AddNewWaypoint(new Waypoint(e.Sender.transform, true, 0));
-            }
+                if (e.ChangedValue < 0 && e.Sender != null && HealthSystem.Health > 0)
+                {
+                    SetCurrentAction(new ActionHunt(ActionNPC.ActionPriority.Medium), e.Sender.gameObject, false, true);
+                }
+            }          
         }
 
         public void Patrol()
@@ -178,15 +194,21 @@ namespace RuthlessMerchant
         {
             if (other.CompareTag("CaptureTrigger"))
             {
-                CaptureTrigger trigger = other.GetComponent<CaptureTrigger>();
-                if (trigger.Owner != faction)
+                if (CurrentAction == null || CurrentAction is ActionMove || CurrentAction is ActionIdle)
                 {
-                    currentTrigger = trigger;
-                    SetCurrentAction(new ActionIdle(), null);
-                }
-                else
-                {
-                    SelectNextOutpost(trigger);
+                    CaptureTrigger trigger = other.GetComponent<CaptureTrigger>();
+                    if (trigger != null)
+                    {
+                        if (trigger.Owner != faction)
+                        {
+                            currentTrigger = trigger;
+                            SetCurrentAction(new ActionCapture(ActionNPC.ActionPriority.Medium), trigger.gameObject, false, false);
+                        }
+                        else
+                        {
+                            SelectNextOutpost(trigger);
+                        }
+                    }
                 }
             }
         }
@@ -221,9 +243,13 @@ namespace RuthlessMerchant
                     }
                 }
 
-                int selectedPath = Random.Range(0, possibleTriggers.Count);
-                AddNewWaypoint(new Waypoint(possibleTriggers[selectedPath].transform, true, 0));
-                SetCurrentAction(new ActionMove(), null);
+                if (possibleTriggers.Count > 0)
+                {
+                    int selectedPath = Random.Range(0, possibleTriggers.Count);
+                    AddNewWaypoint(new Waypoint(possibleTriggers[selectedPath].transform, true, 0));
+                    SetCurrentAction(new ActionMove(), null);
+                    lastTrigger = possibleTriggers[selectedPath];
+                }
             }
         }
 
