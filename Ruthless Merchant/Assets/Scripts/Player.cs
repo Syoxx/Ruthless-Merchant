@@ -92,6 +92,7 @@ namespace RuthlessMerchant
         private GameObject _bookCanvas;
 
         [SerializeField] private int MaxItemsPerPage;
+        private Transform lastGroundedPosition;
 
         #endregion
 
@@ -652,6 +653,7 @@ namespace RuthlessMerchant
             if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Default"))
             {
                 base.Grounding(true);
+                lastGroundedPosition = gameObject.transform;
             }
         }
 
@@ -891,6 +893,11 @@ namespace RuthlessMerchant
             trade.BargainEventsText.text = "";
 
             trade.UpdateTrading();
+        }
+
+        public void OnOutOfBound()
+        {
+            gameObject.transform.position = lastGroundedPosition.position;
         }
 
     }
