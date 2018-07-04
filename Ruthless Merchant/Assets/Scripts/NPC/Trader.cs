@@ -47,7 +47,7 @@ namespace RuthlessMerchant
         [SerializeField, Range(0, 1), Tooltip("Untergrenze %")]
         float underLimitPerCent = 0.35f;
 
-        [SerializeField, Range(0, 1), Tooltip("Feilschfaktor Obergrenze")]
+        [SerializeField, Tooltip("Feilschfaktor Obergrenze")]
         float upperLimitBargainPerCent = 0.5f;
 
         #if UNITY_EDITOR

@@ -32,24 +32,6 @@ namespace RuthlessMerchant
 
         #region Serialized Fields
 
-        [Serializable]
-        struct WeightsPrefabs
-        {
-            public GameObject weight1;
-
-            public GameObject weight5;
-
-            public GameObject weight10;
-
-            public GameObject weight50;
-        }
-
-        [SerializeField]
-        WeightsPrefabs weightsPrefabs;
-
-        [SerializeField]
-        Transform spawnPoint;
-
         [SerializeField]
         Slider sliderIrritation;
 
@@ -72,9 +54,12 @@ namespace RuthlessMerchant
         Text currentPlayerOfferText;
 
         [SerializeField]
-        Transform weightsParent;
+        Transform weightsPlayerParent;
 
-        #if UNITY_EDITOR
+        [SerializeField]
+        Transform weightsTraderParent;
+
+#if UNITY_EDITOR
         [ReadOnly]
         #endif
         [SerializeField]
@@ -83,6 +68,10 @@ namespace RuthlessMerchant
         #endregion
 
         #region Private Fields
+
+        List<List<GameObject>> weightsPlayer;
+
+        List<List<GameObject>> weightsTrader;
 
         float exitTimer = 0;
 
@@ -97,6 +86,8 @@ namespace RuthlessMerchant
             Singleton = this;
             PlayerOffers = new List<float>();
             TraderOffers = new List<float>();
+            weightsPlayer = new List<List<GameObject>>();
+            weightsTrader = new List<List<GameObject>>();
         }
 
         void Start()
@@ -108,6 +99,19 @@ namespace RuthlessMerchant
             nextPlayerOffer = Item.ItemValue[0].Count;
             nextPlayerOfferText.text = nextPlayerOffer.ToString();
             nextPlayerOfferText.fontStyle = FontStyle.Italic;
+            weightsPlayer = GetPresentWeights(weightsPlayerParent);
+            weightsTrader = GetPresentWeights(weightsTraderParent);
+
+            for (int x = 0; x < weightsPlayer.Count; x++)
+            {
+                for(int y = 0; y < weightsPlayer[x].Count; y++)
+                {
+                    weightsPlayer[x][y].SetActive(false);
+                    weightsTrader[x][y].SetActive(false);
+                }
+            }
+
+            UpdateWeights(weightsPlayer, nextPlayerOffer);
         }
 
         void Update()
@@ -134,15 +138,15 @@ namespace RuthlessMerchant
                     HandlePlayerOffer();
                 }
 
-                else if (Input.GetKeyDown(KeyCode.X))
+                else if (Input.GetKeyDown(KeyCode.E))
                 {
                     Accept();
                 }
 
-                else if (Input.GetKeyDown(KeyCode.Q))
+                else if (Input.GetKeyDown(KeyCode.Escape))
                 {
-                    Cursor.visible = false;
-                    Destroy(gameObject);
+                    TradeDialogue.text = "U quitted coz u a lil chicken.";
+                    exit = true;
                 }
             }
         }
@@ -167,11 +171,16 @@ namespace RuthlessMerchant
                 }
 
                 nextPlayerOffer += (int)(wheelAxis * multiplier);
+
+                if(nextPlayerOffer > 400)
+                {
+                    nextPlayerOffer = 400;
+                }
             }
 
             nextPlayerOfferText.fontStyle = FontStyle.Italic;
             UpdateUI();
-            UpdateWeights();
+            UpdateWeights(weightsPlayer, nextPlayerOffer);
         }
 
         void HandlePlayerOffer()
@@ -194,9 +203,10 @@ namespace RuthlessMerchant
             }
 
             PlayerOffers.Add(nextPlayerOffer);
-            TradeDialogue.text = "";
 
+            TradeDialogue.text = "";
             Trader.CurrentTrader.ReactToPlayerOffer(this);
+            UpdateWeights(weightsTrader, (int)TraderOffers[TraderOffers.Count -1]);
 
             nextPlayerOffer -= 1;
             nextPlayerOfferText.fontStyle = FontStyle.Normal;
@@ -232,66 +242,65 @@ namespace RuthlessMerchant
             exit = true;
         }
 
-        void UpdateWeights()
+        void UpdateWeights(List<List<GameObject>> weights, int offer)
         {
-            List<List<GameObject>> presentWeightsGaObj = GetPresentWeights();
-            int[] wantedWeights = GetWantedWeights();
+            int[] wantedWeights = GetWantedWeights(offer);
 
-            HandleWeight(presentWeightsGaObj, wantedWeights, weightsPrefabs.weight1, "Weight1", 0);
-            HandleWeight(presentWeightsGaObj, wantedWeights, weightsPrefabs.weight5, "Weight5", 1);
-            HandleWeight(presentWeightsGaObj, wantedWeights, weightsPrefabs.weight10, "Weight10", 2);
-            HandleWeight(presentWeightsGaObj, wantedWeights, weightsPrefabs.weight50, "Weight50", 3);
+            HandleWeight(weights, wantedWeights, 0);
+            HandleWeight(weights, wantedWeights, 1);
+            HandleWeight(weights, wantedWeights, 2);
+            HandleWeight(weights, wantedWeights, 3);
 
-            Debug.Log("nextPlayerOffer: " + nextPlayerOffer);
-            Debug.Log("Wanted Weights: " + wantedWeights[0].ToString() + " " + wantedWeights[1].ToString() + " " + wantedWeights[2].ToString() + " " + wantedWeights[3].ToString());
+            if (TraderOffers.Count > 0)
+            {
+                float playerTraderOfferRatio = (float)nextPlayerOffer / (float)TraderOffers[TraderOffers.Count - 1] - 1;
+                weightsPlayerParent.position += new Vector3(0, -weightsPlayerParent.position.y - playerTraderOfferRatio, 0);
+                weightsTraderParent.position += new Vector3(0, -weightsTraderParent.position.y + playerTraderOfferRatio, 0);
+            }
         }
 
-        void HandleWeight(List<List<GameObject>> presentWeightsGaObj, int[] wantedWeights, GameObject weightPrefab, string weightName, int weightIndex)
+        void HandleWeight(List<List<GameObject>> presentWeightsGaObj, int[] wantedWeights, int weightIndex)
         {
-            GameObject newWeight;
-
             for (int x = presentWeightsGaObj[weightIndex].Count - 1; x >= 0; x--)
             {
-                Destroy(presentWeightsGaObj[weightIndex][x]);
+                presentWeightsGaObj[weightIndex][x].SetActive(false);
             }
 
             for (int x = 0; x < wantedWeights[weightIndex]; x++)
             {
-                newWeight = Instantiate(weightPrefab, weightsParent);
-                newWeight.transform.position += new Vector3(0, x * newWeight.transform.localScale.y);
-                newWeight.name = weightName;
+                presentWeightsGaObj[weightIndex][x].SetActive(true);
             }
         }
 
-        List<List<GameObject>> GetPresentWeights()
+        List<List<GameObject>> GetPresentWeights(Transform weightsParent)
         {
             List<GameObject> weights1 = new List<GameObject>();
             List<GameObject> weights5 = new List<GameObject>();
             List<GameObject> weights10 = new List<GameObject>();
             List<GameObject> weights50 = new List<GameObject>();
 
-            GameObject[] weights = GameObject.FindGameObjectsWithTag("Weight");
+            UniqueIDGenerator[] weights = weightsParent.GetComponentsInChildren<UniqueIDGenerator>(true);
 
-            foreach(GameObject weight in weights)
+            foreach(UniqueIDGenerator weight in weights)
             {
                 if (weight.name == "Weight1")
                 {
-                    weights1.Add(weight);
+                    weights1.Add(weight.gameObject);
                 }
 
                 else if (weight.name == "Weight5")
                 {
-                    weights5.Add(weight);
+                    weights5.Add(weight.gameObject);
                 }
 
                 else if (weight.name == "Weight10")
                 {
-                    weights10.Add(weight);
+                    weights10.Add(weight.gameObject);
                 }
 
                 else if (weight.name == "Weight50")
                 {
-                    weights50.Add(weight);
+                    weights50.Add(weight.gameObject);
                 }
             }
 
@@ -306,12 +315,12 @@ namespace RuthlessMerchant
             return result;
         }
 
-        int[] GetWantedWeights()
+        int[] GetWantedWeights(int offer)
         {
-            int w50 = (int)((float)nextPlayerOffer / 50f);
-            int w10 = (int)((float)(nextPlayerOffer - w50 * 50) / 10f);
-            int w5 = (int)((float)(nextPlayerOffer - w50 * 50 - w10 * 10) / 5f);
-            int w1 = nextPlayerOffer - w50 * 50 - w10 * 10 - w5 * 5;
+            int w50 = (int)((float)offer / 50f);
+            int w10 = (int)((float)(offer - w50 * 50) / 10f);
+            int w5 = (int)((float)(offer - w50 * 50 - w10 * 10) / 5f);
+            int w1 = offer - w50 * 50 - w10 * 10 - w5 * 5;
 
             return new int[]
             {
