@@ -481,7 +481,7 @@ namespace RuthlessMerchant
             {
                 isWalking = true;
             }
-            else if (!isCrouching)
+            else
             {
                 isWalking = false;
             }
@@ -503,8 +503,14 @@ namespace RuthlessMerchant
                 }
             }
 
-
-            moveSpeed = isWalking ? walkSpeed : runSpeed;
+            if (!isCrouching)
+            {
+                moveSpeed = isWalking ? walkSpeed : runSpeed;
+            }
+            else
+            {
+                moveSpeed = sneakSpeed;
+            }
 
             float horizontal = 0f;
             float vertical = 0f;
