@@ -6,7 +6,10 @@ using UnityEngine;
 public class JumpToPaper : MonoBehaviour
 {
     private BookPro _myBook;
-    private AutoFlip _flipEffect;
+    private AutoFlip flipEffect;
+    [SerializeField][Tooltip("Just put the canvas here itself")]
+    private GameObject BookItSelf;
+    
 
     //Collecting pages
     public List<GameObject> _pagesList = new List<GameObject>();
@@ -15,7 +18,7 @@ public class JumpToPaper : MonoBehaviour
 
    
 
-    //Needed forhelping to count Items
+    //Needed for helping to count Items
     private int ItemsAmount;
 
 
@@ -23,8 +26,16 @@ public class JumpToPaper : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-	    _myBook = GetComponent<BookPro>();          
+	    _myBook = GetComponent<BookPro>();
+        flipEffect = GetComponent<AutoFlip>();
+        Debug.Log("Start Launched");
 	}
+
+    void Update()
+    {
+
+        BookControlling();
+    }
 
     public void GeneratePages()
     {
@@ -74,12 +85,8 @@ public class JumpToPaper : MonoBehaviour
   
 	// Hardcodded for Build. Will be changed in the future
 	public void SwitchToMenu ()
-	{
-        
-		//Debug.Log ("I'm here");
-	    _myBook.CurrentPaper = 2;
-
-        
+	{       
+	    _myBook.CurrentPaper = 2;       
 	}
 
     public void SwitchToInventar()
@@ -87,6 +94,76 @@ public class JumpToPaper : MonoBehaviour
         _myBook.CurrentPaper = 1;
     }
 
+    public void StartingPage()
+    {
+        if (Player.lastKeyPressed == KeyCode.I)
+        {
+            _myBook.CurrentPaper = 1;
+        }
+
+        if (Player.lastKeyPressed == KeyCode.J)
+        {
+            _myBook.CurrentPaper = 1;
+        }
+
+        if (Player.lastKeyPressed == KeyCode.N)
+        {
+            _myBook.CurrentPaper = 1;
+        }
+
+        if (Player.lastKeyPressed == KeyCode.Escape)
+        {
+            _myBook.CurrentPaper = 1;
+        }
+
+    }
+
+    //Flipping pages with MouseClick
+    private void BookControlling()
+    {
+        //Mouse Control - Flip effect with LMB/RMB
+        //
+        //TODO
+        //Currently turned off due of the missing navigation with W/A/S/D. Just uncomment it when navigation is done
+        //
+        //
+
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    flipEffect.FlipRightPage();
+        //}
+        //if (Input.GetMouseButtonDown(1))
+        //{
+        //    flipEffect.FlipLeftPage();
+        //}
+
+
+        //Buttons Control to jump to certain points
+        if (Input.GetKeyDown(KeyCode.I) || Player.lastKeyPressed == KeyCode.I)
+        {
+            _myBook.CurrentPaper = 1;
+        }
+
+        if (Input.GetKeyDown(KeyCode.J) || Player.lastKeyPressed == KeyCode.J)
+        {
+            _myBook.CurrentPaper = 1;
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            BookItSelf.SetActive(BookItSelf.activeSelf == false);
+        }
+
+        if (Player.lastKeyPressed == KeyCode.Escape)
+        {
+            _myBook.CurrentPaper = 2;
+        }
+        if (Input.GetKeyDown(KeyCode.N) || Player.lastKeyPressed == KeyCode.N)
+        {
+            _myBook.CurrentPaper = 1;
+        }
+
+    }
 
  }
 
