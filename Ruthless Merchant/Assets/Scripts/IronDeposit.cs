@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace RuthlessMerchant
 {
@@ -15,6 +13,10 @@ namespace RuthlessMerchant
         [SerializeField]
         [Tooltip("Insert Item Prefab for the desired spawned Rare Item here")]
         private GameObject rareItemPrefab;
+
+        [SerializeField]
+        [Tooltip("Check to enable Rare Item Drop")]
+        private bool allowRareItemDrop = false;
 
         [Header("Irons in Deposits")]
         [Tooltip("Number of Irons in Deposit will be Randomized between these to Variables")]
@@ -65,7 +67,9 @@ namespace RuthlessMerchant
         /// </summary>
         private void DropItems()
         {
-            //DropRareItem();
+            if (allowRareItemDrop)
+                DropRareItem();
+
             for (int i = 1; i <= numberOfIrons; i++)
             {
                 if (i % 2 == 0)
