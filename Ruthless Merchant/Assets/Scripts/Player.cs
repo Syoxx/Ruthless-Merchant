@@ -58,40 +58,49 @@ namespace RuthlessMerchant
 
 
         
-
-        [SerializeField]
+        //[Header("")]
+        [SerializeField, Tooltip("")] 
         private Texture2D aimpointTexture;
 
-        [SerializeField]
-        [Tooltip("Tip: If this value matches the rigidbody's height, crouching doesn't affect player height")]
+        //[Header("")]
+        [SerializeField, Tooltip("Tip: If this value matches the rigidbody's height, crouching doesn't affect player height")]
         private float CrouchHeight;
 
-        [SerializeField]
+        //[Header("")]
+        [SerializeField, Tooltip("")]
         private GameObject ItemsParent;
 
-        [SerializeField]
+        //[Header("")]
+        [SerializeField, Tooltip("")]
         private GameObject ItemUIPrefab;
 
+        //[Header("")]
         [SerializeField, Tooltip("This is the UI Prefab that appears for each Item when accessing an Alchemyslot")]
         GameObject alchemyUiPrefab;
 
-        [SerializeField]
+        //[Header("")]
+        [SerializeField, Tooltip("")]
         private GameObject workshopUIPrefab;
 
+        //[Header("")]
         [SerializeField, Tooltip("The UI Prefab that appears for each recipe when accessing the Smith")]
         GameObject recipeUiPrefab;
 
-        [SerializeField]
+        //[Header("")]
+        [SerializeField, Tooltip("")]
         private GameObject mapObject;
 
+        //[Header("")]
         [SerializeField, Tooltip("This is the Recipe Component placed on this Object")]
         private Recipes recipes;
 
         [Header("Book")]
-        [SerializeField] [Tooltip("Drag a book canvas there / Daniil Masliy")]
+        [SerializeField, Tooltip("Drag a book canvas there / Daniil Masliy")]
         private GameObject _bookCanvas;
 
-        [SerializeField] private int MaxItemsPerPage;
+        //[Header("")]
+        [SerializeField, Tooltip("")]
+        private int MaxItemsPerPage;
 
         #endregion
 
