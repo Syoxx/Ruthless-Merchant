@@ -8,6 +8,15 @@ namespace RuthlessMerchant
     public class Ingredient : Item
     {
         [SerializeField] private IngredientType ingredientType;
+
+        public IngredientType IngredientType
+        {
+            get
+            {
+                return ingredientType;
+            }
+        }
+
         public override void Start()
         {
             

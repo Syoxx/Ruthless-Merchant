@@ -12,10 +12,19 @@ namespace RuthlessMerchant
         [SerializeField]
         private CaptureTrigger nextOutpost = null;
 
+        [SerializeField]
+        private Faction faction;
+
         protected override void Start()
         {
             base.Start();
             spawner.OnObjectSpawned += Spawner_OnObjectSpawned;
+        }
+
+        protected override void Update()
+        {
+            if(NPC.NPCCount[faction] + 1 <= NPC.MaxNPCCountPerFaction)
+                base.Update();
         }
 
         private void Spawner_OnObjectSpawned(object sender, SpawnArgs e)

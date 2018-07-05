@@ -10,14 +10,29 @@ namespace RuthlessMerchant
     public class ActionHunt : ActionMove
     {
         private Fighter fighter;
-        public override void EndAction()
+
+        public ActionHunt() : base(ActionPriority.Medium)
         {
-            parent.Reacting = false;
-            base.EndAction();
+
+        }
+
+        public ActionHunt(ActionPriority priority) : base(priority)
+        {
+
+        }
+
+        public override void EndAction(bool executeEnd = true)
+        {
+            if (executeEnd)
+            {
+                parent.Reacting = false;
+            }
+            base.EndAction(executeEnd);
         }
 
         public override void StartAction(NPC parent, GameObject other)
         {
+            parent.Waypoints.Clear();
             fighter = parent as Fighter;
             parent.Reacting = true;
             base.StartAction(parent, other);
