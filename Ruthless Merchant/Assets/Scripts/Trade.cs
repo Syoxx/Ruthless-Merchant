@@ -26,11 +26,21 @@ namespace RuthlessMerchant
         #endif
         public List<float> TraderOffers;
 
-        public Text TradeDialogue;
-
         #endregion
 
         #region Serialized Fields
+
+        [SerializeField, Range(1, 50)]
+        float weightsDeltaModifier;
+
+        #if UNITY_EDITOR
+        [ReadOnly]
+        #endif
+        [SerializeField]
+        int nextPlayerOffer;
+
+        [SerializeField]
+        Text TradeDialogue;
 
         [SerializeField]
         Slider sliderIrritation;
@@ -58,15 +68,6 @@ namespace RuthlessMerchant
 
         [SerializeField]
         Transform weightsTraderParent;
-
-        #if UNITY_EDITOR
-        [ReadOnly]
-        #endif
-        [SerializeField]
-        int nextPlayerOffer;
-
-        [SerializeField, Range(1, 50)]
-        float weightsDeltaModifier;
 
         #endregion
 
@@ -121,13 +122,14 @@ namespace RuthlessMerchant
         {
             if (exit)
             {
-                exitTimer += Time.deltaTime;
+                // TODO: Uncomment this
+                //exitTimer += Time.deltaTime;
 
-                if (exitTimer > 3)
-                {
-                    Cursor.visible = false;
-                    Destroy(gameObject);
-                }
+                //if (exitTimer > 3)
+                //{
+                //    Cursor.visible = false;
+                //    Destroy(gameObject);
+                //}
             }
             else
             {
@@ -141,21 +143,36 @@ namespace RuthlessMerchant
                     HandlePlayerOffer();
                 }
 
-                else if (Input.GetKeyDown(KeyCode.E))
+                else if (Input.GetKeyDown(KeyCode.E) && TraderOffers.Count > 0)
                 {
                     Accept();
                 }
 
+                #if UNITY_EDITOR
                 else if (Input.GetKeyDown(KeyCode.Q))
                 {
-                    TradeDialogue.text = "U quitted coz u a lil chicken.";
-                    exit = true;
+                    Quit();
                 }
+                #else
+                else if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    Quit();
+                }
+                #endif
+            }
+
+            // TODO: Delete this
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
             }
         }
 
         #endregion
 
+        /// <summary>
+        /// Modifies nextPlayerOffer and its representation by weights in the scene.
+        /// </summary>
         void ModifyOffer()
         {
             float wheelAxis = Input.GetAxis("Mouse ScrollWheel");
@@ -176,8 +193,8 @@ namespace RuthlessMerchant
                 if(nextPlayerOffer > 400)
                     nextPlayerOffer = 400;
 
-                else if (nextPlayerOffer < 0)
-                    nextPlayerOffer = 0;
+                else if (nextPlayerOffer < 1)
+                    nextPlayerOffer = 1;
             }
 
             nextPlayerOfferText.fontStyle = FontStyle.Italic;
@@ -185,8 +202,17 @@ namespace RuthlessMerchant
             UpdateWeights(weightsPlayer, nextPlayerOffer);
         }
 
+        /// <summary>
+        /// Handles the player's offer.
+        /// </summary>
         void HandlePlayerOffer()
         {
+            if(TraderOffers.Count > 0 && nextPlayerOffer == (int)TraderOffers[TraderOffers.Count - 1])
+            {
+                Accept();
+                return;
+            }
+
             int lastPlayerOffer = -1;
 
             if (PlayerOffers.Count > 0)
@@ -214,12 +240,17 @@ namespace RuthlessMerchant
 
             nextPlayerOffer -= 1;
             nextPlayerOfferText.fontStyle = FontStyle.Normal;
+            UpdateWeights(weightsPlayer, nextPlayerOffer);
             UpdateUI();
         }
 
+        /// <summary>
+        /// Updates the UI with numerous trading variables. This method will be deleted in the future.
+        /// </summary>
         void UpdateUI()
         {
             currentPlayerOfferText.text = nextPlayerOfferText.text;
+            nextPlayerOfferText.text = nextPlayerOffer.ToString();
 
             if (TraderOffers.Count > 0)
             {
@@ -233,30 +264,50 @@ namespace RuthlessMerchant
             sliderSkepticismNumber.text = Trader.CurrentTrader.SkepticismTotal.ToString();
         }
 
+        /// <summary>
+        /// Called when the player accepts the trader's offer.
+        /// </summary>
         void Accept()
         {
             TradeDialogue.text = "You and Dormammu have a blood-sealing pact. He wishes you a good day and rides off into the sunset.";
             exit = true;
         }
 
+        /// <summary>
+        /// Called when the trader doesn't want to trade anymore.
+        /// </summary>
         public void Abort()
         {
             TradeDialogue.text = "Dormammu tells you to fuck off and rides off with his galaxy-eating unicorn.";
             exit = true;
         }
 
+        /// <summary>
+        /// Called when the player quits the trade.
+        /// </summary>
+        public void Quit()
+        {
+            TradeDialogue.text = "U quitted coz u a lil chicken.";
+            exit = true;
+        }
+
+        /// <summary>
+        /// Updates the weight representation in the scene.
+        /// </summary>
+        /// <param name="weights">The weight group to be updated (either weightsPlayer or weightsTrader).</param>
+        /// <param name="offer">The offer to be represented.</param>
         void UpdateWeights(List<List<GameObject>> weights, int offer)
         {
-            int[] wantedWeights = GetWantedWeights(offer);
+            int[] targetWeights = GetTargetWeights(offer);
 
-            HandleWeight(weights, wantedWeights, 0);
-            HandleWeight(weights, wantedWeights, 1);
-            HandleWeight(weights, wantedWeights, 2);
-            HandleWeight(weights, wantedWeights, 3);
+            UpdateWeight(weights, targetWeights, 0);
+            UpdateWeight(weights, targetWeights, 1);
+            UpdateWeight(weights, targetWeights, 2);
+            UpdateWeight(weights, targetWeights, 3);
 
             if (TraderOffers.Count > 0)
             {
-                float playerTraderOfferDelta = ((float)nextPlayerOffer / (float)TraderOffers[TraderOffers.Count - 1] - 1) / weightsDeltaModifier;
+                float playerTraderOfferDelta = ((float)nextPlayerOffer / (int)(float)TraderOffers[TraderOffers.Count - 1] - 1) / weightsDeltaModifier;
 
                 if (playerTraderOfferDelta > 0.75f)
                     playerTraderOfferDelta = 0.75f;
@@ -269,19 +320,30 @@ namespace RuthlessMerchant
             }
         }
 
-        void HandleWeight(List<List<GameObject>> presentWeightsGaObj, int[] wantedWeights, int weightIndex)
+        /// <summary>
+        /// Updates a single weight group in the scene.
+        /// </summary>
+        /// <param name="weights">The weight group to be updated.</param>
+        /// <param name="targetWeights">The array of all target weight groups.</param>
+        /// <param name="weightIndex">The array index that specifies the weight group</param>
+        void UpdateWeight(List<List<GameObject>> weights, int[] targetWeights, int weightIndex)
         {
-            for (int x = presentWeightsGaObj[weightIndex].Count - 1; x >= 0; x--)
+            for (int x = weights[weightIndex].Count - 1; x >= targetWeights[weightIndex]; x--)
             {
-                presentWeightsGaObj[weightIndex][x].SetActive(false);
+                weights[weightIndex][x].SetActive(false);
             }
 
-            for (int x = 0; x < wantedWeights[weightIndex]; x++)
+            for (int x = 0; x < targetWeights[weightIndex]; x++)
             {
-                presentWeightsGaObj[weightIndex][x].SetActive(true);
+                weights[weightIndex][x].SetActive(true);
             }
         }
 
+        /// <summary>
+        /// Gets the weight children of a specified weightParent in the scene.
+        /// </summary>
+        /// <param name="weightsParent">The weightsParent in which to look for weights.</param>
+        /// <returns>A list with four GameObject Lists. Each List includes a weight group.</returns>
         List<List<GameObject>> GetPresentWeights(Transform weightsParent)
         {
             List<GameObject> weights1 = new List<GameObject>();
@@ -325,7 +387,12 @@ namespace RuthlessMerchant
             return result;
         }
 
-        int[] GetWantedWeights(int offer)
+        /// <summary>
+        /// Calculates how an offer should be represented in weights.
+        /// </summary>
+        /// <param name="offer">The amount and type of weights the offer would be represented with.</param>
+        /// <returns>An array with four integers, every one of them describes how many weights in their weight group should be present.</returns>
+        int[] GetTargetWeights(int offer)
         {
             int w50 = (int)((float)offer / 50f);
             int w10 = (int)((float)(offer - w50 * 50) / 10f);

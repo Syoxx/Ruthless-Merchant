@@ -48,7 +48,7 @@ namespace RuthlessMerchant
         float underLimitPerCent = 0.35f;
 
         [SerializeField, Tooltip("Feilschfaktor Obergrenze")]
-        float upperLimitBargainPerCent = 0.5f;
+        float upperLimitBargainPerCent;
 
         #if UNITY_EDITOR
         [ReadOnly]
@@ -98,7 +98,6 @@ namespace RuthlessMerchant
         [SerializeField, Tooltip("Faktoren zu Realwert")]
         List<float> realAndOfferedRatio;
 
-
         #if UNITY_EDITOR
         [ReadOnly]
         #endif
@@ -110,6 +109,12 @@ namespace RuthlessMerchant
         #region Psychological Variables
 
         [Header("Psychological Variables")]
+
+        #if UNITY_EDITOR
+        [ReadOnly]
+        #endif
+        [SerializeField]
+        bool continueTrade = true;
 
         [SerializeField, Range(0, 100)]
         public float SkepticismTotal;
@@ -187,7 +192,7 @@ namespace RuthlessMerchant
             IrritationTotal = irritationStart;
             SkepticismTotal = skepticismStart;
 
-            if (IrritationTotal > irritationStartLimit || SkepticismTotal > skepticismStartLimit)
+            if (IrritationTotal >= irritationStartLimit || SkepticismTotal >= skepticismStartLimit)
             {
                 trade.Abort();
             }
@@ -229,6 +234,11 @@ namespace RuthlessMerchant
                     HandleLaterPlayerOffers();
                 }
             }
+
+            if (IrritationTotal >= irritationStartLimit || SkepticismTotal >= skepticismStartLimit)
+            {
+                continueTrade = false;
+            }
         }
 
         /// <summary>
@@ -262,6 +272,12 @@ namespace RuthlessMerchant
         void HandleLaterPlayerOffers()
         {
             Trade trade = Trade.Singleton;
+
+            if (!continueTrade)
+            {
+                trade.Abort();
+                return;
+            }
 
             if (lastItem(trade.PlayerOffers) <= lastItem(wished, 1))
             {
@@ -301,7 +317,7 @@ namespace RuthlessMerchant
             IrritationTotal += irritationDelta;
             SkepticismTotal += skepticismDelta;
 
-            if (IrritationTotal > 100 || SkepticismTotal > 100)
+            if (IrritationTotal >= IrritationLimit || SkepticismTotal >= SkepticismLimit)
             {
                 trade.Abort();
                 return false;
@@ -316,12 +332,12 @@ namespace RuthlessMerchant
         /// <param name="caller"></param>
         public override void Interact(GameObject caller)
         {
-            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "TradeScene")
-            {
-                Debug.Log(caller.name + ": Interaction with Trader");
-                CurrentTrader = this;
-                Trade trade = Instantiate(tradePrefab, transform).GetComponent<Trade>();
-            }
+            //if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "TradeScene")
+            //{
+            //    Debug.Log(caller.name + ": Interaction with Trader");
+            //    CurrentTrader = this;
+            //    Trade trade = Instantiate(tradePrefab, transform).GetComponent<Trade>();
+            //}
         }
 
         float lastItem(List<float> list, int beforeLast = 0, string round = "")
