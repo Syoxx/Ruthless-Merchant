@@ -768,19 +768,30 @@ namespace RuthlessMerchant
                 _bookCanvas.SetActive(_bookCanvas.activeSelf == false);
                 restrictMovement = !(_bookCanvas.activeSelf == false);
                 restrictCamera = !(_bookCanvas.activeSelf == false);
+                if (!_bookCanvas.activeSelf)
+                {
+                    for (int i = 0; i < recipes.Panels.Count; i++)
+                    {
+                        recipes.Panels[i].Button.onClick.RemoveAllListeners();
+                    }
+                }
             }
         }
 
         public void EnterSmith(Smith smith)
         {
             localSmith = smith;
-            controlMode = ControlMode.Smith;
-            currenRecipe = 0;
-
-            smithCanvas.SetActive(true);
-            restrictMovement = true;
-            restrictCamera = true;
-            UpdateCanvas(currenRecipe);
+            for(int i = 0; i <  recipes.Panels.Count; i++)
+            {
+                int num = i;
+                recipes.Panels[num].Button.onClick.RemoveAllListeners();
+                recipes.Panels[num].Button.onClick.AddListener(delegate { localSmith.TryCraft(inventory, recipes.Panels[num].Recipe, recipes); });
+            }
+            {
+                _bookCanvas.SetActive(_bookCanvas.activeSelf == false);
+                restrictMovement = !(_bookCanvas.activeSelf == false);
+                restrictCamera = !(_bookCanvas.activeSelf == false);
+            }
         }
 
         public void EnterAlchemist(AlchemySlot alchemySlot)
