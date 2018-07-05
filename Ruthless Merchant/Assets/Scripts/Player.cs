@@ -56,53 +56,58 @@ namespace RuthlessMerchant
         private float crouchDelta;
         private float playerHeight;
 
-
-        
-        //[Header("")]
-        [SerializeField, Tooltip("")] 
-        private Texture2D aimpointTexture;
-
-        //[Header("")]
         [SerializeField, Tooltip("Tip: If this value matches the rigidbody's height, crouching doesn't affect player height")]
+        [Range(0,5)]
         private float CrouchHeight;
 
-        //[Header("")]
-        [SerializeField, Tooltip("")]
-        private GameObject ItemsParent;
+        [Space(10)]
 
-        //[Header("")]
-        [SerializeField, Tooltip("")]
-        private GameObject ItemUIPrefab;
+        [Header("Texture")]
+        [SerializeField, Tooltip("2D Texture for aimpoint.")]
+        private Texture2D aimpointTexture;
 
-        //[Header("")]
+        [Header("UI Prefabs")]
         [SerializeField, Tooltip("This is the UI Prefab that appears for each Item when accessing an Alchemyslot")]
         GameObject alchemyUiPrefab;
+        
+        [SerializeField, Tooltip("This is the UI Prefab that appears for each Item when accessing the workbench.")]
+        private GameObject workshopUiPrefab;
 
-        //[Header("")]
-        [SerializeField, Tooltip("")]
-        private GameObject workshopUIPrefab;
-
-        //[Header("")]
         [SerializeField, Tooltip("The UI Prefab that appears for each recipe when accessing the Smith")]
         GameObject recipeUiPrefab;
 
-        //[Header("")]
-        [SerializeField, Tooltip("")]
+        [Space(15)]
+        
+        [SerializeField, Tooltip("Drag Map_Canvas object here.")]
         private GameObject mapObject;
 
-        //[Header("")]
-        [SerializeField, Tooltip("This is the Recipe Component placed on this Object")]
+        [SerializeField, Tooltip("This is the Recipe Component placed on this object")]
         private Recipes recipes;
+
+        [Space(10)]
 
         [Header("Book")]
         [SerializeField, Tooltip("Drag a book canvas there / Daniil Masliy")]
         private GameObject _bookCanvas;
 
-        //[Header("")]
-        [SerializeField, Tooltip("")]
-        private int MaxItemsPerPage;
-        private JumpToPaper _bookLogic;
+        [SerializeField, Tooltip("Drag PNL_ItemZone Prefab here.")]
+        private GameObject ItemUIPrefab;
+
+        [SerializeField, Tooltip("Drag PNL_ZoneForItem here.")]
+        private GameObject ItemsParent;
+
+        [Space(8)]
+
+        //TODO: Set maximum ItemsPerPage after know how much the maximum is
+        [SerializeField, Tooltip("Set the maximum amount of items per page.")]
+        [Range(0,8)]
+        private int MaxItemsPerPage = 4;
+
+        [SerializeField, Tooltip("Set the maximum amount of weapons per page.")]
+        [Range(0,4)]
         public int _maxWeaponsPerPage;
+
+        private JumpToPaper _bookLogic;
 
         [HideInInspector]
         public static KeyCode lastKeyPressed;
@@ -381,7 +386,7 @@ namespace RuthlessMerchant
                     {
                         itemInfos.ItemImage.sprite = inventory.inventorySlots[itemIndex].Item.itemSprite;
                     }
-                    GameObject workshopButton = Instantiate(workshopUIPrefab) as GameObject;
+                    GameObject workshopButton = Instantiate(workshopUiPrefab) as GameObject;
                     workshopButton.transform.SetParent(InventoryItem.transform, false);
                     if (workshopButton.GetComponent<Button>() != null)
                     {
