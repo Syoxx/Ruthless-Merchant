@@ -15,6 +15,16 @@ namespace RuthlessMerchant
         protected int waypointIndex;
         protected NavMeshAgent agent;
 
+        public ActionMove() : base(ActionPriority.Low)
+        {
+
+        }
+
+        public ActionMove(ActionPriority priority) : base(priority)
+        {
+
+        }
+
         /// <summary>
         /// Current waypoint index
         /// </summary>
@@ -55,6 +65,15 @@ namespace RuthlessMerchant
             }
         }
 
+        public override void EndAction(bool executeEnd = true)
+        {
+            if (executeEnd)
+            {
+                agent.isStopped = true;
+                agent.velocity = Vector3.zero;
+            }
+            base.EndAction(executeEnd);
+        }
         /// <summary>
         /// Sets the next waypoint
         /// </summary>
