@@ -224,7 +224,7 @@ namespace RuthlessMerchant
                 Jump();
                 hasJumped = false;
             }
-
+            //NOTE: Slow Walking Speed
             if (isCtrlPressed)
             {
                 isCrouching = true;
@@ -256,7 +256,7 @@ namespace RuthlessMerchant
                 Cursor.lockState = CursorLockMode.None;
             }
         }
-
+        //NOTE: Camera Rotation
         /// <summary>
         /// Rotates view using mouse movement.
         /// </summary>
@@ -305,6 +305,7 @@ namespace RuthlessMerchant
         /// </summary>
         private void FocusCursor()
         {
+            //NOTE: Back button
             // Pressing escape in a menu switches back to game (no cursor)
             if (Input.GetKeyUp(KeyCode.Escape) && restrictCamera)
             {
@@ -337,7 +338,7 @@ namespace RuthlessMerchant
         }
 
         public void ShowInventory()
-        {  
+        {  //NOTE: Input Button I = Inventar
             //if (Input.GetKeyDown(KeyCode.I))
             //{
             //    bool isUI_Inactive = (inventoryCanvas.activeSelf == false);
@@ -469,7 +470,7 @@ namespace RuthlessMerchant
         }
 
         public void ShowMap()
-        {
+        {//NOTE: Input Button M = Map
             if (Input.GetKeyDown(KeyCode.M))
             {
                 bool isUI_Inactive = (mapObject.activeSelf == false);
@@ -507,7 +508,7 @@ namespace RuthlessMerchant
         private void ControleModeMove()
         {
             bool isWalking = true;
-
+            //NOTE: Input LEFTSHIFT = RUN
             if (!Input.GetKey(KeyCode.LeftShift))
             {
                 isWalking = true;
@@ -516,7 +517,7 @@ namespace RuthlessMerchant
             {
                 isWalking = false;
             }
-
+            //NOTE: Input JUMP
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 if (!restrictMovement && !restrictCamera)
@@ -533,7 +534,7 @@ namespace RuthlessMerchant
                     isCtrlPressed = true;
                 }
             }
-
+            //NOTE: CROUCHING = SLOW SPEED
             if (!isCrouching)
             {
                 moveSpeed = isWalking ? walkSpeed : runSpeed;
@@ -545,7 +546,7 @@ namespace RuthlessMerchant
 
             float horizontal = 0f;
             float vertical = 0f;
-
+            //NOTE: WALKING DIRECTION
             if (!restrictMovement && !restrictCamera)
             {
                 horizontal = Input.GetAxis("Horizontal");
@@ -578,7 +579,7 @@ namespace RuthlessMerchant
         }
 
         void ControlModeAlchemist()
-        {
+        {//NOTE: Input ESC = BACK BUTTON
             if(Input.GetKeyDown(KeyCode.Escape))
             {
                 alchemyCanvas.SetActive(false);
@@ -646,7 +647,7 @@ namespace RuthlessMerchant
 
       
        public void SendInteraction()
-       {
+       {//NOTE: Input Button E = ACCEPT/ A
            if (Input.GetKeyDown(KeyCode.E))
            {
                if (playerAttachedCamera != null)
@@ -739,7 +740,7 @@ namespace RuthlessMerchant
             
             //TODO: other sneak effects
         }
-
+        //NOTE: BOOK INTERACTION
         /// <summary>
         /// A simple function to open a book
         /// </summary>
