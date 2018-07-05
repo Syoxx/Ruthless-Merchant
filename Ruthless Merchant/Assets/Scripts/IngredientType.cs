@@ -3,9 +3,9 @@ namespace RuthlessMerchant
 {
     public enum IngredientType
     {
-        Schwertglas,
+        Schwertgras,
         Stichelpilz,
-        SteinernderRüstling,
+        SteinernderRuestling,
         GemeinerDornling,
         Windfarn,
         KnarzigeKnolle,

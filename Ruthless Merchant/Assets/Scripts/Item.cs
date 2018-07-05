@@ -18,8 +18,15 @@ namespace RuthlessMerchant
         [SerializeField] public Sprite itemSprite;
         [SerializeField] public ItemType itemType;
         [SerializeField] public ItemRarity itemRarity;
-        
 
+
+
+        // Creates deep copy of current item
+        internal Item DeepCopy()
+        {
+            Item otherItem = (Item) this.MemberwiseClone();
+            return otherItem;
+        }
 
         //
         //
@@ -57,13 +64,6 @@ namespace RuthlessMerchant
             {
                 return maxStackCount;
             }
-        }
-
-        // Creates deep copy of current item
-        internal Item DeepCopy()
-        {
-            Item otherItem = (Item) this.MemberwiseClone();
-            return otherItem;
         }
     }
 }

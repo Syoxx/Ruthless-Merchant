@@ -1,6 +1,7 @@
 ﻿//---------------------------------------------------------------
 // Authors: Peter Ehmler, Richard Brönnimann, 
 //---------------------------------------------------------------
+using System;
 using UnityEngine;
 
 namespace RuthlessMerchant
@@ -27,8 +28,12 @@ namespace RuthlessMerchant
         private Vector3 boxSize;
 
         private Rigidbody rb;
+        private CapsuleCollider charCollider;
         private bool isPlayer;
+        private bool preventClimbing = false;
         private float elapsedSecs;
+        private float terrainCheckRadius;
+        private float colliderHeight;
 
         [Header("Character Attack Settings")]
         [SerializeField, Range(0, 1000), Tooltip("Base damage per attack")]
@@ -46,23 +51,36 @@ namespace RuthlessMerchant
         {
             get { return isPlayer; }
         }
+        [SerializeField]
+        [Range(0, 1000)]
+        [Tooltip("Player speed while holding LCtrl.")]
+        protected float sneakSpeed = 2;
 
         [Header("Character Movement Settings")]
         [SerializeField]
         [Range(0, 1000)]
-        protected float walkSpeed = 2;
+        [Tooltip("Player speed only using WASD.")]
+        protected float walkSpeed = 3;
 
         [SerializeField]
         [Range(0, 1000)]
-        protected float runSpeed = 4;
+        [Tooltip("Player speed while holding shift.")]
+        protected float runSpeed = 6;
 
         [SerializeField]
         [Range(0, 1000)]
+        [Tooltip("Constant downward force, used instead of gravity when on the ground.")]
         private float stickToGroundValue;
 
         [SerializeField]
         [Range(0, 1000)]
+        [Tooltip("Affects how high player can jump.")]
         private float maxJumpHeight;
+
+        [SerializeField]
+        [Range(0, 90)]
+        [Tooltip("Limits the terrain angle player can climb.")]
+        private float maxSlopeAngle;
 
         private Vector3 gravity;
 
@@ -152,6 +170,13 @@ namespace RuthlessMerchant
                 rb.useGravity = false;
             }
 
+            if (charCollider == null)
+            {
+                charCollider = GetComponent<CapsuleCollider>();
+                terrainCheckRadius = charCollider.radius;
+                colliderHeight = charCollider.height;
+            }            
+
             if (CompareTag("Player"))
             {
                 isPlayer = true;
@@ -196,7 +221,6 @@ namespace RuthlessMerchant
             moveVector = Vector3.zero;
             rb.velocity = new Vector3(0f, rb.velocity.y, 0f);
 
-
             moveVector.y = 0;
             moveVector.x = velocity.x;
             moveVector.z = velocity.y;
@@ -205,6 +229,7 @@ namespace RuthlessMerchant
             {
                 moveVector.Normalize();
             }
+
 
             transform.Translate(moveVector * speed * Time.fixedDeltaTime, Space.Self);
         }
@@ -241,7 +266,7 @@ namespace RuthlessMerchant
 
         public void Jump()
         {
-            if (grounded)
+            if (grounded && !preventClimbing)
             {
                 if (elapsedSecs <= 0)
                 {
@@ -260,7 +285,29 @@ namespace RuthlessMerchant
                 elapsedSecs -= Time.deltaTime;
             }
 
-            if (grounded)
+            if (isPlayer)
+            {
+                preventClimbing = false;
+                                
+                Ray rayLeft     = new Ray(new Vector3(transform.localPosition.x - terrainCheckRadius, transform.localPosition.y + 0.1f, transform.localPosition.z), Vector3.down);
+                Ray rayRight    = new Ray(new Vector3(transform.localPosition.x + terrainCheckRadius, transform.localPosition.y + 0.1f, transform.localPosition.z), Vector3.down);
+                Ray rayFront    = new Ray(new Vector3(transform.localPosition.x, transform.localPosition.y + 0.1f, transform.localPosition.z + terrainCheckRadius), Vector3.down);
+                Ray rayBack     = new Ray(new Vector3(transform.localPosition.x, transform.localPosition.y + 0.1f, transform.localPosition.z - terrainCheckRadius), Vector3.down);
+                
+                bool is_climbable_left = CheckGroundAngle(rayLeft);
+                bool is_climbable_right = CheckGroundAngle(rayRight);
+                bool is_climbable_front = CheckGroundAngle(rayFront);
+                bool is_climbable_back = CheckGroundAngle(rayBack);
+
+                if (!is_climbable_left || !is_climbable_right || !is_climbable_front || !is_climbable_back)
+                {
+                    preventClimbing = true;
+                }
+            }
+            
+
+
+            if (grounded && !preventClimbing)
             {if (rb != null)
                 {
                     gravity = Vector3.zero;
@@ -272,11 +319,45 @@ namespace RuthlessMerchant
             {
                 if (rb != null)
                 {
+                    if (preventClimbing)
+                    {
+                        gravity.y -= 20;
+                    }
+
                     gravity += globalGravityScale * Vector3.up * Time.deltaTime * 2f;
                     ApplyGravity(gravity);
                 }
             }
 
+        }
+
+        /// <summary>
+        /// Use raycast to check angle of ground beneath character.
+        /// </summary>
+        /// <returns>
+        /// Returns true if angle is less than maxSlopeAngle.
+        /// </returns>
+        private bool CheckGroundAngle(Ray ray)
+        {
+            RaycastHit hitInfo;
+            bool isClimbableAngle = true;
+
+            Physics.Raycast(ray, out hitInfo, 4f);
+
+            if (hitInfo.collider != null)
+            {
+                float slopeAngle = Vector3.Angle(hitInfo.normal, Vector3.up);
+
+                if (hitInfo.collider.gameObject.layer == LayerMask.NameToLayer("Default"))
+                {
+                    if (slopeAngle > maxSlopeAngle)
+                    {
+                        isClimbableAngle = false;
+                    }
+                }
+            }          
+
+            return isClimbableAngle;
         }
 
         public void CalculateVelocity()
