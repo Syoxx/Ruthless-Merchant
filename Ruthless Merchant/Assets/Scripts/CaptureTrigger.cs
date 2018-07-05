@@ -10,7 +10,7 @@ namespace RuthlessMerchant
 {
     public class CaptureTrigger : MonoBehaviour
     {
-        [SerializeField]
+        [SerializeField, Tooltip("Owner of outpost on gamestart")]
         private Faction owner = Faction.None;
         private float captureValue = 0;
 
@@ -20,13 +20,13 @@ namespace RuthlessMerchant
 
         private Renderer flagRenderer;
 
-        [SerializeField]
+        [SerializeField, Tooltip("Indicates whether an army has to split between different lanes")]
         private bool isLaneSplitter = false;
 
-        [SerializeField]
+        [SerializeField, Tooltip("Indicates the possible next outpost in the direction to the Freidenker city (first item is the default outpost, all other items are optional items for lane splitting or defending)")]
         private CaptureTrigger[] outpostsToFreidenker;
 
-        [SerializeField]
+        [SerializeField, Tooltip("Indicates the possible next outpost in the direction to the Imperialist city (first item is the default outpost, all other items are optional items for lane splitting or defending)")]
         private CaptureTrigger[] outpostsToImperialist;
 
         public float CaptureValue
