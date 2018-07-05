@@ -29,6 +29,7 @@ namespace RuthlessMerchant {
             Player player = caller.GetComponent<Player>();
             player.EnterWorkbench(this);
         }
+        public void BreakdownItem(Item BreakableItem, Inventory inventory, Recipes recipes)
         public static void BreakdownItem(Item BreakableItem, Inventory inventory)
         {
             for (int i = 0; i < recipes.GetRecipes().Count; i++)

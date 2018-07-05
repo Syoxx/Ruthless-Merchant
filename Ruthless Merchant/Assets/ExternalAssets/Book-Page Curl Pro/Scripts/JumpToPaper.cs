@@ -4,6 +4,8 @@ using RuthlessMerchant;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System.Linq;
+using JetBrains.Annotations;
 
 public class JumpToPaper : MonoBehaviour
 {
@@ -15,9 +17,13 @@ public class JumpToPaper : MonoBehaviour
     private Button FirstMenuButton;
     private Transform FirstInventoryPanel;
 
+    private int flippedPages = 0;
+
 
     //Collecting pages
-    public List<GameObject> _pagesList = new List<GameObject>();
+    [HideInInspector] public List<GameObject> InventoryPageList = new List<GameObject>();
+
+    [HideInInspector] public List<GameObject> PageList = new List<GameObject>();
 
     private GameObject blub;
 
@@ -25,6 +31,7 @@ public class JumpToPaper : MonoBehaviour
 
     //Needed for helping to count Items
     private int ItemsAmount;
+    private int numberPagesSkipped;
 
 
     //[SerializeField] private int JumpToPage;
@@ -33,7 +40,6 @@ public class JumpToPaper : MonoBehaviour
     {
         _myBook = GetComponent<BookPro>();
         flipEffect = GetComponent<AutoFlip>();
-        Debug.Log("Start Launched");
         Transform PauseObject = BookItSelf.transform.GetChild(0);
         
         // For finding the first selected button on inventory page
@@ -65,41 +71,40 @@ public class JumpToPaper : MonoBehaviour
 
     public void GeneratePages()
     {
-        foreach (GameObject inventoryPage in GameObject.FindGameObjectsWithTag("Book_Inventory"))
+        InventoryPageList = GameObject.FindGameObjectsWithTag("Book_Inventory")
+            .OrderBy(inventoryPage => inventoryPage.name).ToList();
+
+        GameObject Pages = GameObject.Find("Pages");
+        foreach (Transform child in Pages.transform)
         {
-            _pagesList.Add(inventoryPage);
+            // Debug.Log("M " + child);
+        }
+
+        PageList = PageList.OrderBy(child => child.name).ToList();
+        foreach (var o in PageList)
+        {
+            //Debug.Log("MyObjectName " + o.name);
         }
     }
 
-    //Count the Childs in PNL_ZoneForItem (Located in Page 1 and Page 2 as a child). The counter == The items in _pagesList 
-    //
-    //
-    //This shit is broken.
-    //
-    //An Marcel - Hier wird der falscher "itemsAmout" ausgespückt. Somit kann leider die Funktion "pageForCurrentWeaponPlacement" nicht funktionieren. 
-    //Die Aufgabe ist - die Items von der pagesList zu zählen. Diese werden als "PNL_ItemZone" unter "Page1/2" ->  "PNL_ZoneForItem" als prefab hergestellt (Beim aufnahme eines Items)
-    //Wenn du Fragen bezüglich den Items hast, sollst du an Richard wenden.
-    //Falls du eine bessere Idee hast, kannst du es auch gerne deine Lösung schreiben.
-    //P.S. Dieser Code funktioniert auch, wenn das Buch Deactivated in der Scene ist ABER es muss in Inspector aktiviert sein. Später werde ich die bestimmte Funktionen einfach an bestimmte Stellen aufrufen um das zu vermeiden.
-    //Also, im Prinzip, du kannst das Buch wieder zuschließen um Items aufzuheben ("J") aber wie gesagt, bei "default" lass es an (Du startest mit geöffnetes Buch)
-    private int CountWeaponsInInventory()
+    public void CheckIfNextPageEmpty()
     {
-        int itemsAmount = 0;
-        foreach (GameObject myObject in _pagesList)
+        int myCurrentPage = _myBook.currentPaper * 2 + 1;
+        while (myCurrentPage <= PageList.Count())
         {
-            Debug.Log("name" + myObject.name);
-            InventoryDisplayedData[] data = myObject.GetComponentsInChildren<InventoryDisplayedData>();
-            //Transform t = myObject.transform.Find("PNL_ZoneForItem");
-            if (data != null)
+            if (PageList[myCurrentPage].GetComponent<PageCheck>().PageIsFilled != true ||
+                PageList[myCurrentPage].GetComponent<PageCheck>().StartingPage != true)
             {
-                itemsAmount += data.Length;
-                Debug.Log("count" + data.Length);
+                numberPagesSkipped++;
+                myCurrentPage++;
             }
 
+            else
+            {
+                break;
+            }
         }
-        Debug.Log("Items" + itemsAmount);
-        return itemsAmount;
-    }
+         Debug.Log("Next page " + myCurrentPage );
 
     // Here we decide for the Page where should be the weapon placed.
     // CountWeaponsInInvetory = current itemsAmount, _maxWeaponsPerPage (adjusted at Player prefab). -1 stands for a case n/m where n=m.
@@ -118,36 +123,85 @@ public class JumpToPaper : MonoBehaviour
 
     public void SwitchToInventar()
     {
-        _myBook.CurrentPaper = 1;
-    }
+        int myCurrentPage = _myBook.currentPaper * 2 + 1;
+        while (myCurrentPage <= PageList.Count())
+        {
+            if (PageList[myCurrentPage].GetComponent<PageCheck>().PageIsFilled != true ||
+                PageList[myCurrentPage].GetComponent<PageCheck>().StartingPage != true)
+            {
+                numberPagesSkipped++;
+                myCurrentPage--;
+            }
 
-    public void StartingPage()
+            else
+            {
+                break;
+            }
+        }
+}
+
+    private int CountWeaponsInInventory()
     {
-        if (Player.lastKeyPressed == KeyCode.I)
+        int itemsAmount = 0;
+        foreach (GameObject myObject in InventoryPageList)
         {
-            _myBook.CurrentPaper = 1;
-            Player.lastKeyPressed = KeyCode.None;
+            InventoryDisplayedData[] data = myObject.GetComponentsInChildren<InventoryDisplayedData>();
+            if (data != null)
+            {
+                itemsAmount += data.Length;
+            }
         }
 
-        if (Player.lastKeyPressed == KeyCode.J)
-        {
-            _myBook.CurrentPaper = 1;
-            Player.lastKeyPressed = KeyCode.None;
-        }
-
-        if (Player.lastKeyPressed == KeyCode.N)
-        {
-            _myBook.CurrentPaper = 1;
-            Player.lastKeyPressed = KeyCode.None;
-        }
-
-        if (Player.lastKeyPressed == KeyCode.Escape)
-        {
-            _myBook.CurrentPaper = 1;
-            Player.lastKeyPressed = KeyCode.None;
-        }
-
+        return itemsAmount;
     }
+
+    // Here we decide for the Page where should be the weapon placed.
+    public int PageForCurrentWeaponPlacement()
+    {
+        return (CountWeaponsInInventory() /
+                GameObject.Find("NewPlayerPrefab").GetComponent<Player>()._maxWeaponsPerPage);
+    }
+
+
+    // Hardcodded for Build. Will be changed in the future
+   // public void SwitchToMenu()
+   // {
+   //     _myBook.CurrentPaper = 2;
+   // }
+   //
+   // public void SwitchToInventar()
+   // {
+   //     _myBook.CurrentPaper = 1;
+   // }
+
+ // public void StartingPage()
+ // {
+ //     if (Player.lastKeyPressed == KeyCode.I)
+ //     {
+ //         _myBook.CurrentPaper = 9;
+ //         Player.lastKeyPressed = KeyCode.None;
+ //     }
+ //
+ //     if (Player.lastKeyPressed == KeyCode.J)
+ //     {
+ //         _myBook.CurrentPaper = 6;
+ //         Player.lastKeyPressed = KeyCode.None;
+ //     }
+ //
+ //     if (Player.lastKeyPressed == KeyCode.N)
+ //     {
+ //         _myBook.CurrentPaper = 1;
+ //         Player.lastKeyPressed = KeyCode.None;
+ //     }
+ //
+ //     if (Player.lastKeyPressed == KeyCode.Escape)
+ //     {
+ //         _myBook.CurrentPaper = 19;
+ //         Player.lastKeyPressed = KeyCode.None;
+ //         
+ //     }
+ //
+ // }
 
     //Flipping pages with MouseClick
     private void BookControlling()
@@ -172,7 +226,7 @@ public class JumpToPaper : MonoBehaviour
         //Buttons Control to jump to certain points
         if (Input.GetKeyDown(KeyCode.I) || Player.lastKeyPressed == KeyCode.I)
         {
-            _myBook.CurrentPaper = 1;
+            _myBook.CurrentPaper = 10;
             Player.lastKeyPressed = KeyCode.None;
 
             Button FirstInventoryButton = null;
@@ -188,7 +242,7 @@ public class JumpToPaper : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.J) || Player.lastKeyPressed == KeyCode.J)
         {
-            _myBook.CurrentPaper = 1;
+            _myBook.CurrentPaper = 7;
             Player.lastKeyPressed = KeyCode.None;
         }
 
@@ -199,11 +253,12 @@ public class JumpToPaper : MonoBehaviour
 
         if (Player.lastKeyPressed == KeyCode.Escape)
         {
-            _myBook.CurrentPaper = 2;
+            _myBook.CurrentPaper = 19;
             Player.lastKeyPressed = KeyCode.None;
             
             EventSystem.current.SetSelectedGameObject(FirstMenuButton.gameObject);
         }
+
         if (Input.GetKeyDown(KeyCode.N) || Player.lastKeyPressed == KeyCode.N)
         {
             _myBook.CurrentPaper = 1;
@@ -212,5 +267,30 @@ public class JumpToPaper : MonoBehaviour
 
     }
 
+    public void SwitchToCertainPages(int n)
+    {
+        flipEffect.PageFlipTime = 0.1f;  
+        StartCoroutine(FlipPageDelayed(n));
+    }
+
+    
+
+    IEnumerator FlipPageDelayed(int n)
+    {
+        flipEffect.FlipRightPage();
+        flippedPages++;
+
+        if (flippedPages < n)
+        {
+            yield return new WaitForSeconds(flipEffect.PageFlipTime);
+
+            StartCoroutine(FlipPageDelayed(n));
+        }
+        else
+        {
+            flippedPages = 0;
+            flipEffect.PageFlipTime = 1f;
+        }
+    }
 }
 

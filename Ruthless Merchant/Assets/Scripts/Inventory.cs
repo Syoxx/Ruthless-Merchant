@@ -330,7 +330,7 @@ namespace RuthlessMerchant
             if (ItemUIPrefab == null)
                 return null;
 
-            Transform parent = BookLogic._pagesList[BookLogic.pageForCurrentWeaponPlacement()].transform.Find("PNL_ZoneForItem");
+            Transform parent = BookLogic.InventoryPageList[BookLogic.PageForCurrentWeaponPlacement()].transform.Find("PNL_ZoneForItem");
             GameObject inventoryItem = Instantiate(ItemUIPrefab, parent) as GameObject;
             //inventoryItem.transform.SetParent(parent, false);
 
