@@ -1,15 +1,28 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace RuthlessMerchant {
     public class Workbench : InteractiveObject {
 
+        public class WorkbenchArgs : EventArgs
+        {
+            public Workbench Sender;
+
+            public WorkbenchArgs(Workbench sender)
+            {
+                Sender = sender;
+            }
+        }
+
         [SerializeField]
         Recipes recipes;
         [SerializeField]
         Canvas workbenchCanvas;
 
+        public static event EventHandler<WorkbenchArgs> PlayerTriggerEnter;
+        public static event EventHandler<WorkbenchArgs> PlayerTriggerExit;
 
         public override void Interact(GameObject caller)
         {
@@ -46,6 +59,34 @@ namespace RuthlessMerchant {
         public override void Update()
         {
 
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            Character collidingChar = other.gameObject.GetComponent<Character>();
+
+            if (collidingChar != null)
+            {
+                if (collidingChar.IsPlayer)
+                {
+                    //enable workbench crafting
+                    PlayerTriggerEnter.Invoke(this, new WorkbenchArgs(this));
+                }
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            Character collidingChar = other.gameObject.GetComponent<Character>();
+
+            if (collidingChar != null)
+            {
+                if (collidingChar.IsPlayer)
+                {
+                    //disable workbench crafting
+                    PlayerTriggerExit.Invoke(this, new WorkbenchArgs(this));
+                }
+            }
         }
     }
 }

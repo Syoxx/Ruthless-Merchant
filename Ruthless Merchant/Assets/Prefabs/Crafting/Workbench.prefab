@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 65434095309784248}
   - component: {fileID: 54697452142362720}
   - component: {fileID: 114991593485676020}
+  - component: {fileID: 135078703321101838}
   m_Layer: 0
   m_Name: Workbench
   m_TagString: Untagged
@@ -214,3 +215,15 @@ MonoBehaviour:
   faction: 0
   recipes: {fileID: 0}
   workbenchCanvas: {fileID: 0}
+--- !u!135 &135078703321101838
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1333171193356156}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2.5
+  m_Center: {x: 0, y: 0, z: 0}

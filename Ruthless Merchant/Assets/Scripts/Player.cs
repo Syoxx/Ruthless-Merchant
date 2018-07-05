@@ -1,5 +1,5 @@
 ﻿//---------------------------------------------------------------
-// Authors: Daniel Masly, Richard Brönnimann, Peter Ehmler
+// Authors: Daniil Masliy, Richard Brönnimann, Peter Ehmler
 //---------------------------------------------------------------
 
 using System;
@@ -22,6 +22,8 @@ namespace RuthlessMerchant
         private bool isCtrlPressed;
         private bool wasCrouching;
         private bool isGameFocused;
+        private bool isInSmithRange;
+        private bool isInWorkbenchRange;
         private int maxInteractDistance;
         private float moveSpeed;
         private float mouseXSensitivity = 2f;
@@ -145,6 +147,13 @@ namespace RuthlessMerchant
         {
             base.Start();
 
+            Smith.PlayerTriggerEnter += localSmith_OnEnterZone;
+            Smith.PlayerTriggerExit += localSmith_OnExitZone;
+            Workbench.PlayerTriggerEnter += localWorkbench_OnEnterZone;
+            Workbench.PlayerTriggerExit += localWorkbench_OnExitZone;
+
+            isInSmithRange = false;
+            isInWorkbenchRange = false;
             smithCanvas = GameObject.Find("SmithCanvas");
             alchemyCanvas = GameObject.Find("AlchemyCanvas");
             if(smithCanvas)
@@ -933,6 +942,30 @@ namespace RuthlessMerchant
             trade.BargainEventsText.text = "";
 
             trade.UpdateTrading();
+        }
+
+        private void localSmith_OnEnterZone(object sender, System.EventArgs e)
+        {
+            Debug.Log("Entered smith range.");
+            isInSmithRange = true;
+        }
+
+        private void localSmith_OnExitZone(object sender, System.EventArgs e)
+        {
+            Debug.Log("Left smith range.");
+            isInSmithRange = false;
+        }
+
+        private void localWorkbench_OnEnterZone(object sender, System.EventArgs e)
+        {
+            Debug.Log("Entered workbench range.");
+            isInWorkbenchRange = true;
+        }
+
+        private void localWorkbench_OnExitZone(object sender, System.EventArgs e)
+        {
+            Debug.Log("Entered workbench range.");
+            isInWorkbenchRange = false;
         }
 
     }

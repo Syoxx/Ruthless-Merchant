@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,10 +8,24 @@ namespace RuthlessMerchant
 {
     public class Smith : Civilian
     {
+        public static Smith CurrentSmith;
+
+
+        public class SmithArgs : EventArgs
+        {
+            public Character Sender;
+
+            public SmithArgs(Character sender)
+            {
+                Sender = sender;
+            }
+        }
+
         [SerializeField]
         Recipes recipes;
 
-
+        public static event EventHandler<SmithArgs> PlayerTriggerEnter;
+        public static event EventHandler<SmithArgs> PlayerTriggerExit;
 
         public override void Update()
         {
@@ -49,6 +64,34 @@ namespace RuthlessMerchant
                 }
             }
             return true;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            Character collidingChar = other.gameObject.GetComponent<Character>();
+
+            if (collidingChar != null)
+            {
+                if (collidingChar.IsPlayer)
+                {
+                    //enable smith crafting
+                    PlayerTriggerEnter.Invoke(this, new SmithArgs(this));
+                }
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            Character collidingChar = other.gameObject.GetComponent<Character>();
+
+            if (collidingChar != null)
+            {
+                if (collidingChar.IsPlayer)
+                {
+                    //disable smith crafting
+                    PlayerTriggerExit.Invoke(this, new SmithArgs(this));
+                }
+            }
         }
     }
 

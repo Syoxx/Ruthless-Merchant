@@ -11,7 +11,7 @@ namespace RuthlessMerchant
         private Item[] items;
         public InventorySlot[] inventorySlots;
         [SerializeField]
-        private int maxSlotCount = 10;
+        private int maxSlotCount = 52;
 
         public List<Item> startinventory;
         private UnityEvent inventoryChanged;
