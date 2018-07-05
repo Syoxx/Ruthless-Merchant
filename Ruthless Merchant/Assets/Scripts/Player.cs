@@ -422,9 +422,9 @@ namespace RuthlessMerchant
                 }
 
                 GameObject inventoryItem = Instantiate(ItemUIPrefab) as GameObject;
-                Debug.Log(_bookLogic._pagesList);
+                Debug.Log(_bookLogic.InventoryPageList);
 
-                inventoryItem.transform.SetParent(_bookLogic._pagesList[_bookLogic.pageForCurrentWeaponPlacement()].transform.Find("PNL_ZoneForItem").transform, false);
+                inventoryItem.transform.SetParent(_bookLogic.InventoryPageList[_bookLogic.pageForCurrentWeaponPlacement()].transform.Find("PNL_ZoneForItem").transform, false);
                 InventoryDisplayedData itemInfos = inventoryItem.GetComponent<InventoryDisplayedData>();
                 itemInfos.itemName.text = inventory.inventorySlots[itemIndex].Count + "x " + inventory.inventorySlots[itemIndex].Item.itemName + " (" + inventory.inventorySlots[itemIndex].Item.itemRarity + ")";
                 //itemInfos.itemWeight.text = inventory.inventorySlots[itemIndex].Item.itemWeight + " kg";
@@ -750,7 +750,7 @@ namespace RuthlessMerchant
                 lastKeyPressed = KeyCode.Escape;
                 restrictMovement = !(_bookCanvas.activeSelf == false);
                 restrictCamera = !(_bookCanvas.activeSelf == false);
-                if (!_bookCanvas.activeSelf)
+                if (!_bookCanvas.activeSelf && recipes != null)
                 {
                     for (int i = 0; i < recipes.Panels.Count; i++)
                     {
