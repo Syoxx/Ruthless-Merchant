@@ -14,9 +14,22 @@ namespace RuthlessMerchant
          * return to start position (only if idle for 5 seconds)
          */
 
-        public override void EndAction()
+        public ActionFlee() : base(ActionPriority.High)
         {
-            parent.Reacting = false;
+
+        }
+
+        public ActionFlee(ActionPriority priority) : base(priority)
+        {
+
+        }
+
+        public override void EndAction(bool executeEnd = true)
+        {
+            if (executeEnd)
+            {
+                parent.Reacting = false;
+            }
             base.EndAction();
         }
 
