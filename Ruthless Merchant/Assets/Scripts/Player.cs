@@ -179,9 +179,8 @@ namespace RuthlessMerchant
             _bookLogic = new JumpToPaper();
             _bookLogic.GeneratePages();
 
-            inventory = new Inventory();
-            inventory.BookLogic = _bookLogic;
-            inventory.ItemUIPrefab = ItemUIPrefab;
+            Inventory.Singleton.BookLogic = _bookLogic;
+            Inventory.Singleton.ItemUIPrefab = ItemUIPrefab;
 
             playerLookAngle = transform.localRotation;
 
@@ -449,7 +448,7 @@ namespace RuthlessMerchant
             for (int i = 0; i < recipes.GetRecipes()[currenRecipe].ListOfMaterials.Count; i++)
             {
                 GameObject newPanel = Instantiate(recipeUiPrefab, canv);
-                newPanel.GetComponentInChildren<Text>().text = recipes.GetRecipes()[currenRecipe].ListOfMaterials[i].Item.itemName + "\n" + recipes.GetRecipes()[currenRecipe].ListOfMaterials[i].Count;
+                newPanel.GetComponentInChildren<Text>().text = recipes.GetRecipes()[currenRecipe].ListOfMaterials[i].Item.ItemName + "\n" + recipes.GetRecipes()[currenRecipe].ListOfMaterials[i].Count;
             }
         }
 
@@ -651,7 +650,7 @@ namespace RuthlessMerchant
                        if (targetItem != null)
                        {
                            // Picking up items and gear
-                           if (targetItem.itemType == ItemType.Weapon || targetItem.itemType == ItemType.Ingredient || targetItem.itemType == ItemType.CraftingMaterial|| targetItem.itemType == ItemType.ConsumAble)
+                           if (targetItem.ItemType == ItemType.Weapon || targetItem.ItemType == ItemType.Ingredient || targetItem.ItemType == ItemType.CraftingMaterial|| targetItem.ItemType == ItemType.ConsumAble)
                            {
                                Item clonedItem = targetItem.DeepCopy();
                                 
@@ -829,14 +828,14 @@ namespace RuthlessMerchant
             for (int i = 0; i < inventory.inventorySlots.Length; i++)
             {
                 if (inventory.inventorySlots[i].Item)
-                    if (inventory.inventorySlots[i].Item.itemType == ItemType.Ingredient)
+                    if (inventory.inventorySlots[i].Item.ItemType == ItemType.Ingredient)
                     {
                         Button newPanel = Instantiate(alchemyUiPrefab, alchemyCanvas.transform).GetComponent<Button>();
 
                         int panel = i;
                         newPanel.onClick.AddListener(delegate { OnAlchemyButton(panel); });
 
-                        newPanel.GetComponentInChildren<Text>().text = inventory.inventorySlots[i].Item.itemName;
+                        newPanel.GetComponentInChildren<Text>().text = inventory.inventorySlots[i].Item.ItemName;
                     }
             }
         }

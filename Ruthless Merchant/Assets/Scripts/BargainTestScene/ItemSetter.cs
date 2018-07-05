@@ -18,7 +18,7 @@ namespace RuthlessMerchant
             // TODO: Change this to currency class
             Material currencyItem = gameObject.AddComponent<Material>();
 
-            currencyItem.itemType = ItemType.Other;
+            currencyItem.ItemType = ItemType.Other;
 
             ItemValue itemValue = new ItemValue()
             {

@@ -198,7 +198,7 @@ namespace RuthlessMerchant
             }
             else
             {
-                if (itemValue.Length == 1 && itemValue[0].Item.itemType == ItemType.Other)
+                if (itemValue.Length == 1 && itemValue[0].Item.ItemType == ItemType.Other)
                 {
                     float realPrice = itemValue[0].Count;
 
