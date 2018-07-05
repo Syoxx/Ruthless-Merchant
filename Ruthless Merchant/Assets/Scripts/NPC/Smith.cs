@@ -7,11 +7,6 @@ namespace RuthlessMerchant
 {
     public class Smith : Civilian
     {
-        [SerializeField]
-        Recipes recipes;
-
-
-
         public override void Update()
         {
             
@@ -27,9 +22,9 @@ namespace RuthlessMerchant
             player.EnterSmith(this);
         }
 
-        public void TryCraft(Inventory inventory, int index)
+        public void TryCraft(Inventory inventory, int index, Recipes recipes)
         {
-            if (ContainMaterials(inventory, index))
+            if (ContainMaterials(inventory, index, recipes))
             {
                 for (int i = 0; i < recipes.GetRecipes()[index].ListOfMaterials.Count; i++)
                 {
@@ -39,7 +34,7 @@ namespace RuthlessMerchant
             }
         }
 
-        public bool ContainMaterials(Inventory inventory, int index)
+        public bool ContainMaterials(Inventory inventory, int index, Recipes recipes)
         {
             for (int i = 0; i < recipes.GetRecipes()[index].ListOfMaterials.Count; i++)
             {

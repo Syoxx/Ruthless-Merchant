@@ -480,9 +480,6 @@ namespace RuthlessMerchant
                 case ControlMode.Move:
                     ControleModeMove();
                     break;
-                case ControlMode.Smith:
-                    ControlModeSmith();
-                    break;
                 case ControlMode.Workbench:
                     ControlModeWorkbench();
                     break;
@@ -565,62 +562,6 @@ namespace RuthlessMerchant
             OpenBook();
         }
 
-        private void ControlModeSmith()
-        {
-            gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                controlMode = ControlMode.Move;
-                restrictMovement = false;
-                smithCanvas.SetActive(false);
-            }
-            else if (Input.GetKeyDown(KeyCode.W))
-            {
-
-                currenRecipe++;
-                if (currenRecipe >= recipes.GetRecipes().Count)
-                {
-                    currenRecipe = 0;
-                }
-
-                while(!recipes.GetRecipes()[currenRecipe].Unlocked)
-                {
-                    currenRecipe++;
-                    if (currenRecipe >= recipes.GetRecipes().Count)
-                    {
-                        currenRecipe = 0;
-                    }
-                }
-
-                UpdateCanvas(currenRecipe);
-            }
-            else if (Input.GetKeyDown(KeyCode.S))
-            {
-                currenRecipe--;
-                if (currenRecipe < 0)
-                {
-                    currenRecipe = recipes.GetRecipes().Count - 1;
-                }
-
-                while (!recipes.GetRecipes()[currenRecipe].Unlocked)
-                {
-                    currenRecipe--;
-                    if (currenRecipe < 0)
-                    {
-                        currenRecipe = recipes.GetRecipes().Count - 1;
-                    }
-                }
-
-                UpdateCanvas(currenRecipe);
-                
-            }
-            else if(Input.GetKeyDown(KeyCode.E))
-            {
-                localSmith.TryCraft(inventory, currenRecipe);
-                //PopulateInventoryPanel();
-            }
-        }
-
         void ControlModeAlchemist()
         {
             if(Input.GetKeyDown(KeyCode.Escape))
@@ -645,7 +586,7 @@ namespace RuthlessMerchant
         }
         public void OnWorkbenchButton(int itemslot)
         {
-            localWorkbench.BreakdownItem(inventory.inventorySlots[itemSlot].Item, Inventory);
+            localWorkbench.BreakdownItem(inventory.inventorySlots[itemSlot].Item, Inventory, recipes);
             PopulateWorkbenchPanel();
         }
 
@@ -809,6 +750,13 @@ namespace RuthlessMerchant
                 lastKeyPressed = KeyCode.Escape;
                 restrictMovement = !(_bookCanvas.activeSelf == false);
                 restrictCamera = !(_bookCanvas.activeSelf == false);
+                if (!_bookCanvas.activeSelf)
+                {
+                    for (int i = 0; i < recipes.Panels.Count; i++)
+                    {
+                        recipes.Panels[i].Button.onClick.RemoveAllListeners();
+                    }
+                }
             }
             if (Input.GetKeyDown(KeyCode.I))
             {
@@ -822,13 +770,17 @@ namespace RuthlessMerchant
         public void EnterSmith(Smith smith)
         {
             localSmith = smith;
-            controlMode = ControlMode.Smith;
-            currenRecipe = 0;
-
-            smithCanvas.SetActive(true);
-            restrictMovement = true;
-            restrictCamera = true;
-            UpdateCanvas(currenRecipe);
+            for(int i = 0; i <  recipes.Panels.Count; i++)
+            {
+                int num = i;
+                recipes.Panels[num].Button.onClick.RemoveAllListeners();
+                recipes.Panels[num].Button.onClick.AddListener(delegate { localSmith.TryCraft(inventory, recipes.Panels[num].Recipe, recipes); });
+            }
+            {
+                _bookCanvas.SetActive(_bookCanvas.activeSelf == false);
+                restrictMovement = !(_bookCanvas.activeSelf == false);
+                restrictCamera = !(_bookCanvas.activeSelf == false);
+            }
         }
 
         public void EnterAlchemist(AlchemySlot alchemySlot)
