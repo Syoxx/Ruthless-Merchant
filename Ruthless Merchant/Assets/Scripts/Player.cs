@@ -782,6 +782,10 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// This funcion runs once when interacting with a Smith
+        /// </summary>
+        /// <param name="smith">The smith the player is currently interacting with</param>
         public void EnterSmith(Smith smith)
         {
             localSmith = smith;
@@ -798,6 +802,10 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// This funcion runs once when interacting with a AlchemySlot
+        /// </summary>
+        /// <param name="alchemySlot">The slot the player is currently interacting with</param>
         public void EnterAlchemist(AlchemySlot alchemySlot)
         {
             bool hasIngridients = false;
