@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 /// <summary>
 /// Fabian Subat, Nikolas Pietrek
@@ -89,11 +91,37 @@ public class MenuControl : MonoBehaviour {
 
     public void SettingsMenu()
     {
+        // Gets a button in settings menu
+        Button aSettingsButton = null;
+        if (settingsMenu.transform.GetChild(1) != null)
+        {
+            aSettingsButton = settingsMenu.transform.GetChild(1).gameObject.GetComponent<Button>();
+
+            // Makes eventsystem select that button 
+            if (aSettingsButton != null)
+            {
+                EventSystem.current.SetSelectedGameObject(aSettingsButton.gameObject);
+            }
+        }        
+
         SwitchMenu(MenuStates.Settings);
     }
 
     public void PauseMenu()
     {
+        // Gets a button
+        Button aMenuButton = null;
+        if (pauseMenu.transform.GetChild(0) != null)
+        {
+            aMenuButton = pauseMenu.transform.GetChild(0).gameObject.GetComponent<Button>();
+
+            // Makes eventsystem select that button
+            if (aMenuButton != null)
+            {
+                EventSystem.current.SetSelectedGameObject(aMenuButton.gameObject);
+            }
+        }
+
         SwitchMenu(MenuStates.Pause);
     }
 

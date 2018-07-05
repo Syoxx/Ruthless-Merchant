@@ -21,7 +21,6 @@ namespace RuthlessMerchant
         private bool isCrouching;
         private bool isCtrlPressed;
         private bool wasCrouching;
-        private bool isGameFocused;
         private bool isInSmithRange;
         private bool isInWorkbenchRange;
         private int maxInteractDistance;
@@ -29,7 +28,7 @@ namespace RuthlessMerchant
         private float mouseXSensitivity = 2f;
         private float mouseYSensitivity = 2f;
 
-        enum ControlMode
+        public enum ControlMode
         {
             Move = 0, Smith = 1, Workbench = 2, AlchemySlot = 3
         }
@@ -41,7 +40,7 @@ namespace RuthlessMerchant
         private Vector2 InputVector = Vector2.zero;
         private GameObject inventoryCanvas;
         private GameObject itemsContainer;
-        private ControlMode controlMode = ControlMode.Move;
+        private static ControlMode controlMode = ControlMode.Move;
 
         int currenRecipe;
         GameObject smithCanvas;
@@ -94,7 +93,7 @@ namespace RuthlessMerchant
         private GameObject _bookCanvas;
 
         private JumpToPaper _bookLogic;
-        public int _maxWeaponsPerPage;
+        public int _maxWeaponsPerPage = 4;
 
         [HideInInspector]
         public static KeyCode lastKeyPressed;
@@ -112,6 +111,10 @@ namespace RuthlessMerchant
 
         #endregion
 
+        public static ControlMode CurrentControlMode
+        {
+            get { return controlMode; }
+        }
 
         public static bool RestrictCamera
         {
@@ -200,12 +203,14 @@ namespace RuthlessMerchant
             if (playerAttachedCamera != null)
             {
                 cameraPitchAngle = playerAttachedCamera.transform.localRotation;
-                isGameFocused = true;
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
             }
             else
             {
                 Debug.Log("Player object does not have a first person camera.");
-                isGameFocused = false;
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
             }
 
             //inventory.InventoryChanged.AddListener(PopulateInventoryPanel);
@@ -242,13 +247,13 @@ namespace RuthlessMerchant
         {
             LookRotation();
             HandleInput();
-            if(controlMode == ControlMode.Move)
-                FocusCursor();
-            else
-            {
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
-            }
+            //if(controlMode == ControlMode.Move)
+            //FocusCursor();
+            //else
+            //{
+            //    Cursor.visible = true;
+            //    Cursor.lockState = CursorLockMode.None;
+            //}
         }
 
         /// <summary>
@@ -294,56 +299,6 @@ namespace RuthlessMerchant
             return Mathf.Min(angle, max);
         }
 
-        /// <summary>
-        /// Hides the cursor if game window is focused.
-        /// </summary>
-        private void FocusCursor()
-        {
-            // Pressing escape in a menu switches back to game (no cursor)
-            if (Input.GetKeyUp(KeyCode.Escape) && restrictCamera)
-            {
-                isGameFocused = true;
-                restrictCamera = false;
-            }
-            else if ((!restrictCamera) && restrictMovement)
-            {
-                // This prevents movement being disabled while restrictCamera is not on
-                restrictMovement = false;
-            }
-
-            if (!restrictCamera && isGameFocused)
-            {
-                if (Cursor.lockState != CursorLockMode.Locked)
-                {
-                    Cursor.lockState = CursorLockMode.Locked;
-                    Cursor.visible = false;
-                }
-            }
-            else
-            {
-                // Currently using None instead of Limited
-                if (Cursor.lockState != CursorLockMode.None)
-                {
-                    Cursor.lockState = CursorLockMode.None;
-                    Cursor.visible = true;
-                }
-            }
-        }
-
-        public void ShowInventory()
-        {  
-            //if (Input.GetKeyDown(KeyCode.I))
-            //{
-            //    bool isUI_Inactive = (inventoryCanvas.activeSelf == false);
-            //    if (mapObject.activeSelf)
-            //    {
-            //        mapObject.SetActive(false);
-            //    }
-
-            //    inventoryCanvas.SetActive(isUI_Inactive);
-            //    restrictMovement = isUI_Inactive;
-            //}
-        }
         private void PopulateWorkbenchPanel()
         {
             /*
@@ -401,52 +356,6 @@ namespace RuthlessMerchant
             }
             */
         }
-
-        /*private void PopulateInventoryPanel()
-        {
-            //Get current Items (with unquie id)
-            //Create new Items
-
-
-            if (inventory.inventorySlots.Length == 0)
-            {
-                return;
-            }
-            else
-            {
-                // Delete all objects in inventory UI
-                foreach (Transform child in ItemsParent.transform)
-                {
-                    Destroy(child.gameObject);
-                }
-            }
-
-
-            // Create inventory list objects
-            for (int itemIndex = 0; itemIndex < inventory.inventorySlots.Length; itemIndex++)
-            {
-                if (inventory.inventorySlots[itemIndex].Item == null)
-                {
-                    continue;
-                }
-
-                GameObject inventoryItem = Instantiate(ItemUIPrefab) as GameObject;
-                Debug.Log(_bookLogic._pagesList);
-
-                inventoryItem.transform.SetParent(_bookLogic._pagesList[_bookLogic.pageForCurrentWeaponPlacement()].transform.Find("PNL_ZoneForItem").transform, false);
-                InventoryDisplayedData itemInfos = inventoryItem.GetComponent<InventoryDisplayedData>();
-                itemInfos.itemName.text = inventory.inventorySlots[itemIndex].Count + "x " + inventory.inventorySlots[itemIndex].Item.itemName + " (" + inventory.inventorySlots[itemIndex].Item.itemRarity + ")";
-                //itemInfos.itemWeight.text = inventory.inventorySlots[itemIndex].Item.itemWeight + " kg";
-                itemInfos.itemDescription.text = inventory.inventorySlots[itemIndex].Item.itemLore;
-                //itemInfos.itemRarity.text = inventory.inventorySlots[itemIndex].Item.itemRarity.ToString();
-                itemInfos.itemPrice.text = inventory.inventorySlots[itemIndex].Item.itemPrice + "G";
-
-                if (inventory.inventorySlots[itemIndex].Item.itemSprite != null)
-                {
-                    itemInfos.ItemImage.sprite = inventory.inventorySlots[itemIndex].Item.itemSprite;
-                }
-            }
-        }*/
 
         private void UpdateCanvas(int currentRecipe)
         {
@@ -569,7 +478,6 @@ namespace RuthlessMerchant
 
 
             SendInteraction();
-            ShowInventory();
             ShowMap();
             OpenBook();
         }
@@ -654,7 +562,7 @@ namespace RuthlessMerchant
         }
         public void OnWorkbenchButton(int itemslot)
         {
-            localWorkbench.BreakdownItem(inventory.inventorySlots[itemSlot].Item, Inventory);
+            //localWorkbench.BreakdownItem(inventory.inventorySlots[itemSlot].Item, Inventory);
             PopulateWorkbenchPanel();
         }
 
@@ -675,11 +583,25 @@ namespace RuthlessMerchant
 
             //}
 
-            /* REMOVE ONCE WORKBENCH IS FIXED:  */
-            restrictMovement = false;
-            restrictCamera = false;
-            controlMode = ControlMode.Move;
+            _bookCanvas.SetActive(true);
+            lastKeyPressed = KeyCode.I;
+            restrictMovement = true;
+            restrictCamera = true;
+            //controlMode = ControlMode.Move;
         }
+
+        public void InventorySlotClicked(int inventoryIndex)
+        {
+            if (isInSmithRange)
+            {
+                // crafting??
+            }
+            else if (isInWorkbenchRange)
+            {
+                //Workbench.BreakdownItem(inventoryIndex, inventory)
+            }
+        }
+
         private void OnCollisionStay(Collision collision)
         {
             
@@ -733,7 +655,6 @@ namespace RuthlessMerchant
                                else
                                {
                                    targetItem.DestroyInteractivObject();
-                                   //PopulateInventoryPanel();
                                }
                            }
                        }
@@ -746,7 +667,6 @@ namespace RuthlessMerchant
                            if (targetNPC != null)
                            {
                                target.Interact(this.gameObject);
-                               //PopulateInventoryPanel();
                            }
                            else if(target !=null )
                            {
@@ -766,9 +686,7 @@ namespace RuthlessMerchant
         public void Crouch()
         {
             CapsuleCollider playerCollider = GetComponent<CapsuleCollider>();
-
-            //if (crouchDelta != 0)
-            //{
+            
                 if (!isCtrlPressed && wasCrouching != isCtrlPressed)
                 {
                     if (playerCollider.height <= playerHeight)
@@ -855,13 +773,13 @@ namespace RuthlessMerchant
         public void EnterWorkbench(Workbench workbench)
         {
             //Might be excessiv Populating
-            PopulateWorkbenchPanel();
+            //PopulateWorkbenchPanel();
             if (mapObject.activeSelf)
             {
                 mapObject.SetActive(false);
             }
 
-            inventoryCanvas.SetActive(true);
+            //inventoryCanvas.SetActive(true);
             restrictMovement = true;
             restrictCamera = true;
             localWorkbench = workbench;
@@ -946,25 +864,25 @@ namespace RuthlessMerchant
 
         private void localSmith_OnEnterZone(object sender, System.EventArgs e)
         {
-            Debug.Log("Entered smith range.");
+            //Debug.Log("Entered smith range.");
             isInSmithRange = true;
         }
 
         private void localSmith_OnExitZone(object sender, System.EventArgs e)
         {
-            Debug.Log("Left smith range.");
+            //Debug.Log("Left smith range.");
             isInSmithRange = false;
         }
 
         private void localWorkbench_OnEnterZone(object sender, System.EventArgs e)
         {
-            Debug.Log("Entered workbench range.");
+            //Debug.Log("Entered workbench range.");
             isInWorkbenchRange = true;
         }
 
         private void localWorkbench_OnExitZone(object sender, System.EventArgs e)
         {
-            Debug.Log("Entered workbench range.");
+            //Debug.Log("Entered workbench range.");
             isInWorkbenchRange = false;
         }
 
