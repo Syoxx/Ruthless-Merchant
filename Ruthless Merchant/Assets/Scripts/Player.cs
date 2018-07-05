@@ -480,9 +480,6 @@ namespace RuthlessMerchant
                 case ControlMode.Move:
                     ControleModeMove();
                     break;
-                case ControlMode.Smith:
-                    ControlModeSmith();
-                    break;
                 case ControlMode.Workbench:
                     ControlModeWorkbench();
                     break;
@@ -563,62 +560,6 @@ namespace RuthlessMerchant
             ShowInventory();
             ShowMap();
             OpenBook();
-        }
-
-        private void ControlModeSmith()
-        {
-            gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                controlMode = ControlMode.Move;
-                restrictMovement = false;
-                smithCanvas.SetActive(false);
-            }
-            else if (Input.GetKeyDown(KeyCode.W))
-            {
-
-                currenRecipe++;
-                if (currenRecipe >= recipes.GetRecipes().Count)
-                {
-                    currenRecipe = 0;
-                }
-
-                while(!recipes.GetRecipes()[currenRecipe].Unlocked)
-                {
-                    currenRecipe++;
-                    if (currenRecipe >= recipes.GetRecipes().Count)
-                    {
-                        currenRecipe = 0;
-                    }
-                }
-
-                UpdateCanvas(currenRecipe);
-            }
-            else if (Input.GetKeyDown(KeyCode.S))
-            {
-                currenRecipe--;
-                if (currenRecipe < 0)
-                {
-                    currenRecipe = recipes.GetRecipes().Count - 1;
-                }
-
-                while (!recipes.GetRecipes()[currenRecipe].Unlocked)
-                {
-                    currenRecipe--;
-                    if (currenRecipe < 0)
-                    {
-                        currenRecipe = recipes.GetRecipes().Count - 1;
-                    }
-                }
-
-                UpdateCanvas(currenRecipe);
-                
-            }
-            else if(Input.GetKeyDown(KeyCode.E))
-            {
-                localSmith.TryCraft(inventory, currenRecipe);
-                //PopulateInventoryPanel();
-            }
         }
 
         void ControlModeAlchemist()
