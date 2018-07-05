@@ -212,10 +212,15 @@ public class JumpToPaper : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.N) || Player.lastKeyPressed == KeyCode.N)
         {
-            _myBook.CurrentPaper = 1;
+            _myBook.CurrentPaper = 2;
             Player.lastKeyPressed = KeyCode.None;
         }
 
+        if (Input.GetKeyDown(KeyCode.R) || Player.lastKeyPressed == KeyCode.R)
+        {
+            _myBook.CurrentPaper = 16;
+            Player.lastKeyPressed = KeyCode.None;
+        }
     }
 
     public void SwitchToCertainPages(int n)
