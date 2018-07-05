@@ -10,6 +10,7 @@ namespace RuthlessMerchant
 {
     public abstract class Fighter : NPC
     {
+        [Header("NPC Fighter settings")]
         [SerializeField, Tooltip("If the distance to a character is smaller than the hunting distance, the NPC follows the character")]
         [Range(0, 100)]
         protected float huntDistance = 5;
@@ -18,6 +19,7 @@ namespace RuthlessMerchant
         [Range(1, 100)]
         protected float attackDistance = 1.5f;
 
+        [Header("Patrol settings")]
         [SerializeField]
         private bool patrolActive;
         public string[] PossiblePatrolPaths;
