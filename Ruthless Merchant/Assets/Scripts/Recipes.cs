@@ -8,7 +8,7 @@ namespace RuthlessMerchant
 {
     public class Recipes : MonoBehaviour
     {
-        [SerializeField, Tooltip("The panel in which the recipes will be displayed. It isn't required but the panel should have a vertical layout group component")]
+        [SerializeField, Tooltip("The panel in the book in which the recipes will be displayed (currently named RecipeCanvas). It isn't required but the panel should have a vertical layout group component")]
         GameObject recipeCanvas;
 
         [SerializeField, Tooltip("The Prefab that will be used for displaying the recipes")]

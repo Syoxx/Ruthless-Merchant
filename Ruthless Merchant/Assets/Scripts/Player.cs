@@ -56,43 +56,58 @@ namespace RuthlessMerchant
         private float crouchDelta;
         private float playerHeight;
 
-
-        
-
-        [SerializeField]
-        private Texture2D aimpointTexture;
-
-        [SerializeField]
-        [Tooltip("Tip: If this value matches the rigidbody's height, crouching doesn't affect player height")]
+        [SerializeField, Tooltip("Tip: If this value matches the rigidbody's height, crouching doesn't affect player height")]
+        [Range(0,5)]
         private float CrouchHeight;
 
-        [SerializeField]
-        private GameObject ItemsParent;
+        [Space(10)]
 
-        [SerializeField]
-        private GameObject ItemUIPrefab;
+        [Header("Texture")]
+        [SerializeField, Tooltip("2D Texture for aimpoint.")]
+        private Texture2D aimpointTexture;
 
+        [Header("UI Prefabs")]
         [SerializeField, Tooltip("This is the UI Prefab that appears for each Item when accessing an Alchemyslot")]
         GameObject alchemyUiPrefab;
-
-        [SerializeField]
-        private GameObject workshopUIPrefab;
+        
+        [SerializeField, Tooltip("This is the UI Prefab that appears for each Item when accessing the workbench.")]
+        private GameObject workshopUiPrefab;
 
         [SerializeField, Tooltip("The UI Prefab that appears for each recipe when accessing the Smith")]
         GameObject recipeUiPrefab;
 
-        [SerializeField]
+        [Space(15)]
+        
+        [SerializeField, Tooltip("Drag Map_Canvas object here.")]
         private GameObject mapObject;
 
-        [SerializeField, Tooltip("This is the Recipe Component placed on this Object")]
+        [SerializeField, Tooltip("This is the Recipe Component placed on this object")]
         private Recipes recipes;
 
+        [Space(10)]
+
         [Header("Book")]
-        [SerializeField] [Tooltip("Drag a book canvas there / Daniil Masliy")]
+        [SerializeField, Tooltip("Drag a book canvas there / Daniil Masliy")]
         private GameObject _bookCanvas;
 
-        private JumpToPaper _bookLogic;
+        [SerializeField, Tooltip("Drag PNL_ItemZone Prefab here.")]
+        private GameObject ItemUIPrefab;
+
+        [SerializeField, Tooltip("Drag PNL_ZoneForItem here.")]
+        private GameObject ItemsParent;
+
+        [Space(8)]
+
+        //TODO: Set maximum ItemsPerPage after know how much the maximum is
+        [SerializeField, Tooltip("Set the maximum amount of items per page.")]
+        [Range(0,8)]
+        private int MaxItemsPerPage = 4;
+
+        [SerializeField, Tooltip("Set the maximum amount of weapons per page.")]
+        [Range(0,4)]
         public int _maxWeaponsPerPage;
+
+        private JumpToPaper _bookLogic;
 
         [HideInInspector]
         public static KeyCode lastKeyPressed;
@@ -291,12 +306,12 @@ namespace RuthlessMerchant
         private void FocusCursor()
         {
             // Pressing escape in a menu switches back to game (no cursor)
-            if (Input.GetKeyUp(KeyCode.Escape) && restrictCamera)
-            {
-                isGameFocused = true;
-                restrictCamera = false;
-            }
-            else if ((!restrictCamera) && restrictMovement)
+            //if (Input.GetKeyUp(KeyCode.Escape) && restrictCamera)
+            //{
+            //    isGameFocused = true;
+            //    restrictCamera = false;
+            //}
+            /*else*/ if ((!restrictCamera) && restrictMovement)
             {
                 // This prevents movement being disabled while restrictCamera is not on
                 restrictMovement = false;
@@ -371,7 +386,7 @@ namespace RuthlessMerchant
                     {
                         itemInfos.ItemImage.sprite = inventory.inventorySlots[itemIndex].Item.itemSprite;
                     }
-                    GameObject workshopButton = Instantiate(workshopUIPrefab) as GameObject;
+                    GameObject workshopButton = Instantiate(workshopUiPrefab) as GameObject;
                     workshopButton.transform.SetParent(InventoryItem.transform, false);
                     if (workshopButton.GetComponent<Button>() != null)
                     {
@@ -422,9 +437,9 @@ namespace RuthlessMerchant
                 }
 
                 GameObject inventoryItem = Instantiate(ItemUIPrefab) as GameObject;
-                Debug.Log(_bookLogic._pagesList);
+                Debug.Log(_bookLogic.InventoryPageList);
 
-                inventoryItem.transform.SetParent(_bookLogic._pagesList[_bookLogic.pageForCurrentWeaponPlacement()].transform.Find("PNL_ZoneForItem").transform, false);
+                inventoryItem.transform.SetParent(_bookLogic.InventoryPageList[_bookLogic.pageForCurrentWeaponPlacement()].transform.Find("PNL_ZoneForItem").transform, false);
                 InventoryDisplayedData itemInfos = inventoryItem.GetComponent<InventoryDisplayedData>();
                 itemInfos.itemName.text = inventory.inventorySlots[itemIndex].Count + "x " + inventory.inventorySlots[itemIndex].Item.itemName + " (" + inventory.inventorySlots[itemIndex].Item.itemRarity + ")";
                 //itemInfos.itemWeight.text = inventory.inventorySlots[itemIndex].Item.itemWeight + " kg";
@@ -750,7 +765,7 @@ namespace RuthlessMerchant
                 lastKeyPressed = KeyCode.Escape;
                 restrictMovement = !(_bookCanvas.activeSelf == false);
                 restrictCamera = !(_bookCanvas.activeSelf == false);
-                if (!_bookCanvas.activeSelf)
+                if (!_bookCanvas.activeSelf && recipes != null)
                 {
                     for (int i = 0; i < recipes.Panels.Count; i++)
                     {
