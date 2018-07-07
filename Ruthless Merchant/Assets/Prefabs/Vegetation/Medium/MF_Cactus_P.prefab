@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4776661135587024}
   - component: {fileID: 33746978629587826}
   - component: {fileID: 23431132887131154}
+  - component: {fileID: 64608978910701312}
   m_Layer: 0
   m_Name: MF_Cactus_P
   m_TagString: Untagged
@@ -84,4 +85,18 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1026968670620244}
+  m_Mesh: {fileID: 4300000, guid: 7863cf780013ffc45bd2d534c6ad8e97, type: 3}
+--- !u!64 &64608978910701312
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1026968670620244}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 7863cf780013ffc45bd2d534c6ad8e97, type: 3}
