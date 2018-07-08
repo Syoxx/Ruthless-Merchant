@@ -33,24 +33,39 @@ namespace RuthlessMerchant
         private bool preventClimbing = false;
         private float elapsedSecs;
         private float terrainCheckRadius;
+        private float colliderHeight;
 
-        private float attackDelay = 2f;
-        private float elapsedAttackTime = 2f;
+        [Header("Character Attack Settings")]
+        [SerializeField, Range(0, 1000), Tooltip("Base damage per attack")]
+        protected int baseDamagePerAtk = 75;
+
+        [SerializeField, Range(0, 10), Tooltip("Base time between attacks")]
+        protected float baseAttackDelay = 2;
+
+        [SerializeField, Range(0, 1000), Tooltip("Base defense value")]
+        protected int baseDefense = 10;
+
+        private float elapsedAttackTime = 2;
 
         public bool IsPlayer
         {
             get { return isPlayer; }
         }
+        [SerializeField]
+        [Range(0, 1000)]
+        [Tooltip("Player speed while holding LCtrl.")]
+        protected float sneakSpeed = 2;
 
+        [Header("Character Movement Settings")]
         [SerializeField]
         [Range(0, 1000)]
         [Tooltip("Player speed only using WASD.")]
-        protected float walkSpeed = 2;
+        protected float walkSpeed = 3;
 
         [SerializeField]
         [Range(0, 1000)]
         [Tooltip("Player speed while holding shift.")]
-        protected float runSpeed = 4;
+        protected float runSpeed = 6;
 
         [SerializeField]
         [Range(0, 1000)]
@@ -63,7 +78,7 @@ namespace RuthlessMerchant
         private float maxJumpHeight;
 
         [SerializeField]
-        [Range(0, 1000)]
+        [Range(0, 90)]
         [Tooltip("Limits the terrain angle player can climb.")]
         private float maxSlopeAngle;
 
@@ -147,6 +162,8 @@ namespace RuthlessMerchant
 
         public override void Start()
         {
+            elapsedAttackTime = baseAttackDelay;
+
             if (rb == null)
             {
                 rb = GetComponent<Rigidbody>();
@@ -156,7 +173,8 @@ namespace RuthlessMerchant
             if (charCollider == null)
             {
                 charCollider = GetComponent<CapsuleCollider>();
-                terrainCheckRadius = charCollider.radius + 1f;
+                terrainCheckRadius = charCollider.radius;
+                colliderHeight = charCollider.height;
             }            
 
             if (CompareTag("Player"))
@@ -181,12 +199,17 @@ namespace RuthlessMerchant
             DestroyInteractivObject();
         }
 
-        public void Attack(DamageAbleObject dmg)
+        public void Attack(Character character)
         {
-            if (elapsedAttackTime >= attackDelay)
+            if (elapsedAttackTime >= baseAttackDelay)
             {
                 elapsedAttackTime = 0f;
-                dmg.ChangeHealth(-13, this);
+
+                int damage = baseDamagePerAtk - baseDefense;
+                if (damage <= 0)
+                    damage = 1;
+
+                character.HealthSystem.ChangeHealth(-damage, this);
             }
         }
 
@@ -198,7 +221,6 @@ namespace RuthlessMerchant
             moveVector = Vector3.zero;
             rb.velocity = new Vector3(0f, rb.velocity.y, 0f);
 
-
             moveVector.y = 0;
             moveVector.x = velocity.x;
             moveVector.z = velocity.y;
@@ -207,6 +229,7 @@ namespace RuthlessMerchant
             {
                 moveVector.Normalize();
             }
+
 
             transform.Translate(moveVector * speed * Time.fixedDeltaTime, Space.Self);
         }
@@ -243,7 +266,7 @@ namespace RuthlessMerchant
 
         public void Jump()
         {
-            if (grounded && (!preventClimbing))
+            if (grounded && !preventClimbing)
             {
                 if (elapsedSecs <= 0)
                 {
@@ -266,11 +289,10 @@ namespace RuthlessMerchant
             {
                 preventClimbing = false;
                                 
-                //Ray ray = new Ray(transform.position, Vector3.down);
-                Ray rayLeft = new Ray(new Vector3(transform.localPosition.x - terrainCheckRadius, transform.localPosition.y,transform.localPosition.z), Vector3.down);
-                Ray rayRight = new Ray(new Vector3(transform.localPosition.x + terrainCheckRadius, transform.localPosition.y, transform.localPosition.z), Vector3.down);
-                Ray rayFront = new Ray(new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z + terrainCheckRadius), Vector3.down);
-                Ray rayBack = new Ray(new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z - terrainCheckRadius), Vector3.down);
+                Ray rayLeft     = new Ray(new Vector3(transform.localPosition.x - terrainCheckRadius, transform.localPosition.y + 0.1f, transform.localPosition.z), Vector3.down);
+                Ray rayRight    = new Ray(new Vector3(transform.localPosition.x + terrainCheckRadius, transform.localPosition.y + 0.1f, transform.localPosition.z), Vector3.down);
+                Ray rayFront    = new Ray(new Vector3(transform.localPosition.x, transform.localPosition.y + 0.1f, transform.localPosition.z + terrainCheckRadius), Vector3.down);
+                Ray rayBack     = new Ray(new Vector3(transform.localPosition.x, transform.localPosition.y + 0.1f, transform.localPosition.z - terrainCheckRadius), Vector3.down);
                 
                 bool is_climbable_left = CheckGroundAngle(rayLeft);
                 bool is_climbable_right = CheckGroundAngle(rayRight);
@@ -299,7 +321,7 @@ namespace RuthlessMerchant
                 {
                     if (preventClimbing)
                     {
-                        gravity.y -= 3;
+                        gravity.y -= 20;
                     }
 
                     gravity += globalGravityScale * Vector3.up * Time.deltaTime * 2f;
@@ -320,13 +342,20 @@ namespace RuthlessMerchant
             RaycastHit hitInfo;
             bool isClimbableAngle = true;
 
-            Physics.Raycast(ray, out hitInfo);
-            float slopeAngle = Vector3.Angle(hitInfo.normal, Vector3.up);
+            Physics.Raycast(ray, out hitInfo, 4f);
 
-            if (slopeAngle > maxSlopeAngle)
+            if (hitInfo.collider != null)
             {
-                isClimbableAngle = false;
-            }
+                float slopeAngle = Vector3.Angle(hitInfo.normal, Vector3.up);
+
+                if (hitInfo.collider.gameObject.layer == LayerMask.NameToLayer("Default"))
+                {
+                    if (slopeAngle > maxSlopeAngle)
+                    {
+                        isClimbableAngle = false;
+                    }
+                }
+            }          
 
             return isClimbableAngle;
         }

@@ -6,8 +6,6 @@ namespace RuthlessMerchant {
     public class Workbench : InteractiveObject {
 
         [SerializeField]
-        Recipes recipes;
-        [SerializeField]
         Canvas workbenchCanvas;
 
 
@@ -16,7 +14,7 @@ namespace RuthlessMerchant {
             Player player = caller.GetComponent<Player>();
             player.EnterWorkbench(this);
         }
-        public void BreakdownItem(Item BreakableItem, Inventory inventory)
+        public void BreakdownItem(Item BreakableItem, Inventory inventory, Recipes recipes)
         {
             for (int i = 0; i < recipes.GetRecipes().Count; i++)
             {
