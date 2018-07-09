@@ -21,6 +21,13 @@ namespace RuthlessMerchant
         void Awake()
         {
             listedItems = new List<InventoryItem>();
+            FindObjectOfType<BookPro>().CurrentPaper = 1;
+            //FindObjectOfType<BookPro>().UpdatePages();
+        }
+
+        private void Start()
+        {
+            FindObjectOfType<BookPro>().CurrentPaper = 1;
         }
 
         public void AddItemToSellingList(InventoryItem inventoryItem)
@@ -85,6 +92,7 @@ namespace RuthlessMerchant
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             Player.RestrictCamera = true;
+            FindObjectOfType<BookPro>().CurrentPaper = 1;
         }
     }
 }
