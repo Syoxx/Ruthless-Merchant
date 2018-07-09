@@ -175,6 +175,11 @@ namespace RuthlessMerchant
                 recipes = FindObjectOfType<Recipes>();
             }
 
+            if (!inventory)
+            {
+                inventory = FindObjectOfType<Inventory>();
+            }
+
             if (ItemsParent != null)
             {
                 itemsContainer = ItemsParent.transform.parent.gameObject;
@@ -192,8 +197,7 @@ namespace RuthlessMerchant
             //BookLogic instantiate
             _bookLogic = new JumpToPaper();
             _bookLogic.GeneratePages();
-
-            inventory = new Inventory();
+            
             inventory.BookLogic = _bookLogic;
             inventory.ItemUIPrefab = ItemUIPrefab;
 

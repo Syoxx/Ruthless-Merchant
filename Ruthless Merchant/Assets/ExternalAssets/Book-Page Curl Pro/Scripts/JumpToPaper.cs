@@ -222,7 +222,7 @@ public class JumpToPaper : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R) || Player.lastKeyPressed == KeyCode.R)
         {
-            _myBook.CurrentPaper = 16;
+            _myBook.CurrentPaper = 17;
             Player.lastKeyPressed = KeyCode.None;
         }
     }
