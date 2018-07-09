@@ -808,14 +808,20 @@ namespace RuthlessMerchant
         /// <param name="alchemySlot">The slot the player is currently interacting with</param>
         public void EnterAlchemist(AlchemySlot alchemySlot)
         {
-            bool hasIngridients = false;
-            for(int i = 0; i < inventory.inventorySlots.Length; i++)
-            {
-                if (inventory.inventorySlots[i].Item.GetType() == typeof(Ingredient))
-                    hasIngridients = true;
-            }
             localAlchemist = alchemySlot;
-            controlMode = ControlMode.AlchemySlot;
+            OpenBook();
+            _bookCanvas.SetActive(true);
+            restrictMovement = !(_bookCanvas.activeSelf == false);
+            restrictCamera = !(_bookCanvas.activeSelf == false);
+            _bookLogic.SwitchToCertainPages(10);
+            //bool hasIngridients = false;
+            //for(int i = 0; i < inventory.inventorySlots.Length; i++)
+            //{
+            //    if (inventory.inventorySlots[i].Item.GetType() == typeof(Ingredient))
+            //        hasIngridients = true;
+            //}
+
+            //controlMode = ControlMode.AlchemySlot;
         }
 
         public void EnterWorkbench(Workbench workbench)
@@ -837,10 +843,15 @@ namespace RuthlessMerchant
         public void EnterAlchemySlot(AlchemySlot alchemySlot)
         {
             localAlchemist = alchemySlot;
-            controlMode = ControlMode.AlchemySlot;
+            OpenBook();
+            _bookCanvas.SetActive(true);
+            restrictMovement = !(_bookCanvas.activeSelf == false);
+            restrictCamera = !(_bookCanvas.activeSelf == false);
+            _bookLogic.SwitchToCertainPages(10);
+            //controlMode = ControlMode.AlchemySlot;
 
-            alchemyCanvas.SetActive(true);
-            CreateAlchemyCanvas();
+            //alchemyCanvas.SetActive(true);
+            //CreateAlchemyCanvas();
         }
 
         void CreateAlchemyCanvas()
