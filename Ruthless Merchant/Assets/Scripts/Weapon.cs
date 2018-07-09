@@ -14,15 +14,6 @@ namespace RuthlessMerchant
         [SerializeField] private int DefencePower;
         [SerializeField] private int AttackSpeed;
 
-
-        [Header("Crating")]
-        [SerializeField] private MaterialsType firstIngredient;
-        [SerializeField] private int firstIngredientAmount;
-        [SerializeField] private MaterialsType secondIngredient;
-        [SerializeField] private int secondIngredientAmount;
-        [SerializeField] private MaterialsType thirdIngredient;
-        [SerializeField] private int thirdIngredientAmount;
-
         public override void Start()
         {
             
