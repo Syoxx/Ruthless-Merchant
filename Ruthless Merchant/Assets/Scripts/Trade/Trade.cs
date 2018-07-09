@@ -93,6 +93,18 @@ namespace RuthlessMerchant
             weightsPlayer = new List<List<GameObject>>();
             weightsTrader = new List<List<GameObject>>();
 
+            weightsPlayer = GetPresentWeights(weightsPlayerParent);
+            weightsTrader = GetPresentWeights(weightsTraderParent);
+
+            for (int x = 0; x < weightsPlayer.Count; x++)
+            {
+                for (int y = 0; y < weightsPlayer[x].Count; y++)
+                {
+                    weightsPlayer[x][y].SetActive(false);
+                    weightsTrader[x][y].SetActive(false);
+                }
+            }
+
             enabled = false;
         }
 
@@ -105,17 +117,6 @@ namespace RuthlessMerchant
             nextPlayerOffer = Item.ItemValue[0].Count;
             nextPlayerOfferText.text = nextPlayerOffer.ToString();
             nextPlayerOfferText.fontStyle = FontStyle.Italic;
-            weightsPlayer = GetPresentWeights(weightsPlayerParent);
-            weightsTrader = GetPresentWeights(weightsTraderParent);
-
-            for (int x = 0; x < weightsPlayer.Count; x++)
-            {
-                for(int y = 0; y < weightsPlayer[x].Count; y++)
-                {
-                    weightsPlayer[x][y].SetActive(false);
-                    weightsTrader[x][y].SetActive(false);
-                }
-            }
 
             UpdateWeights(weightsPlayer, nextPlayerOffer);
 
