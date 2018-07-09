@@ -506,7 +506,7 @@ namespace RuthlessMerchant
         private void OnCollisionStay(Collision collision)
         {
             
-            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Default"))
+            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Terrain"))
             {
                 base.Grounding(true);
             }
@@ -514,7 +514,7 @@ namespace RuthlessMerchant
 
         private void OnCollisionExit(Collision collision)
         {
-            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Default"))
+            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Terrain"))
             {
                 base.Grounding(false);
             }

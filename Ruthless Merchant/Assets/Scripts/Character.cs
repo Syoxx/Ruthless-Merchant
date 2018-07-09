@@ -289,10 +289,10 @@ namespace RuthlessMerchant
             {
                 preventClimbing = false;
                                 
-                Ray rayLeft     = new Ray(new Vector3(transform.localPosition.x - terrainCheckRadius, transform.localPosition.y + 0.1f, transform.localPosition.z), Vector3.down);
-                Ray rayRight    = new Ray(new Vector3(transform.localPosition.x + terrainCheckRadius, transform.localPosition.y + 0.1f, transform.localPosition.z), Vector3.down);
-                Ray rayFront    = new Ray(new Vector3(transform.localPosition.x, transform.localPosition.y + 0.1f, transform.localPosition.z + terrainCheckRadius), Vector3.down);
-                Ray rayBack     = new Ray(new Vector3(transform.localPosition.x, transform.localPosition.y + 0.1f, transform.localPosition.z - terrainCheckRadius), Vector3.down);
+                Ray rayLeft     = new Ray(new Vector3(transform.localPosition.x - terrainCheckRadius, transform.localPosition.y /*+ 0.1f*/, transform.localPosition.z), Vector3.down);
+                Ray rayRight    = new Ray(new Vector3(transform.localPosition.x + terrainCheckRadius, transform.localPosition.y /*+ 0.1f*/, transform.localPosition.z), Vector3.down);
+                Ray rayFront    = new Ray(new Vector3(transform.localPosition.x, transform.localPosition.y /*+ 0.1f*/, transform.localPosition.z + terrainCheckRadius), Vector3.down);
+                Ray rayBack     = new Ray(new Vector3(transform.localPosition.x, transform.localPosition.y /*+ 0.1f*/, transform.localPosition.z - terrainCheckRadius), Vector3.down);
                 
                 bool is_climbable_left = CheckGroundAngle(rayLeft);
                 bool is_climbable_right = CheckGroundAngle(rayRight);
@@ -302,12 +302,13 @@ namespace RuthlessMerchant
                 if (!is_climbable_left || !is_climbable_right || !is_climbable_front || !is_climbable_back)
                 {
                     preventClimbing = true;
+                    grounded = false;
                 }
             }
             
 
 
-            if (grounded && !preventClimbing)
+            if (grounded /*&& !preventClimbing*/)
             {if (rb != null)
                 {
                     gravity = Vector3.zero;
@@ -319,12 +320,12 @@ namespace RuthlessMerchant
             {
                 if (rb != null)
                 {
-                    if (preventClimbing)
-                    {
-                        gravity.y -= 20;
-                    }
+                    //if (preventClimbing)
+                    //{
+                    //    gravity.y -= 30;
+                    //}
 
-                    gravity += globalGravityScale * Vector3.up * Time.deltaTime * 2f;
+                    gravity += globalGravityScale * Vector3.up * Time.deltaTime * 5f;
                     ApplyGravity(gravity);
                 }
             }
@@ -348,7 +349,7 @@ namespace RuthlessMerchant
             {
                 float slopeAngle = Vector3.Angle(hitInfo.normal, Vector3.up);
 
-                if (hitInfo.collider.gameObject.layer == LayerMask.NameToLayer("Default"))
+                if (hitInfo.collider.gameObject.layer == LayerMask.NameToLayer("Terrain"))
                 {
                     if (slopeAngle > maxSlopeAngle)
                     {
@@ -390,17 +391,20 @@ namespace RuthlessMerchant
 
         }
 
-        private void OnCollisionEnter(Collision collision)
+        private void OnCollisionStay(Collision collision)
         {
-            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Default"))
+            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Terrain"))
             {
-                grounded = true;
+                if (!preventClimbing)
+                {
+                    grounded = true;
+                }
             }
         }
 
         private void OnCollisionExit(Collision collision)
         {
-            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Default"))
+            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Terrain"))
             {
                 grounded = false;
             }
