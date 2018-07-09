@@ -343,7 +343,7 @@ namespace RuthlessMerchant
                 {
                     continue;
                 }
-                else if (inventory.inventorySlots[itemIndex].Item.itemType == ItemType.Weapon)
+                else if (inventory.inventorySlots[itemIndex].Item.ItemType == ItemType.Weapon)
                 {
                     GameObject panelPrefab = inventory.inventorySlots[itemIndex].DisplayData.gameObject;
                     if (panelPrefab.GetComponent<Button>() != null)
@@ -366,7 +366,7 @@ namespace RuthlessMerchant
             for (int i = 0; i < recipes.GetRecipes()[currenRecipe].ListOfMaterials.Count; i++)
             {
                 GameObject newPanel = Instantiate(recipeUiPrefab, canv);
-                newPanel.GetComponentInChildren<Text>().text = recipes.GetRecipes()[currenRecipe].ListOfMaterials[i].Item.itemName + "\n" + recipes.GetRecipes()[currenRecipe].ListOfMaterials[i].Count;
+                newPanel.GetComponentInChildren<Text>().text = recipes.GetRecipes()[currenRecipe].ListOfMaterials[i].Item.ItemName + "\n" + recipes.GetRecipes()[currenRecipe].ListOfMaterials[i].Count;
             }
         }
 
@@ -542,7 +542,7 @@ namespace RuthlessMerchant
                        if (targetItem != null)
                        {
                            // Picking up items and gear
-                           if (targetItem.itemType == ItemType.Weapon || targetItem.itemType == ItemType.Ingredient || targetItem.itemType == ItemType.CraftingMaterial|| targetItem.itemType == ItemType.ConsumAble)
+                           if (targetItem.ItemType == ItemType.Weapon || targetItem.ItemType == ItemType.Ingredient || targetItem.ItemType == ItemType.CraftingMaterial|| targetItem.ItemType == ItemType.ConsumAble)
                            {
                                Item clonedItem = targetItem.DeepCopy();
                                 
@@ -721,14 +721,14 @@ namespace RuthlessMerchant
             for (int i = 0; i < inventory.inventorySlots.Length; i++)
             {
                 if (inventory.inventorySlots[i].Item)
-                    if (inventory.inventorySlots[i].Item.itemType == ItemType.Ingredient)
+                    if (inventory.inventorySlots[i].Item.ItemType == ItemType.Ingredient)
                     {
                         Button newPanel = Instantiate(alchemyUiPrefab, alchemyCanvas.transform).GetComponent<Button>();
 
                         int panel = i;
                         newPanel.onClick.AddListener(delegate { OnAlchemyButton(panel); });
 
-                        newPanel.GetComponentInChildren<Text>().text = inventory.inventorySlots[i].Item.itemName;
+                        newPanel.GetComponentInChildren<Text>().text = inventory.inventorySlots[i].Item.ItemName;
                     }
             }
         }
@@ -747,38 +747,6 @@ namespace RuthlessMerchant
         {
             throw new System.NotImplementedException();
         }
-
-        public void MakeOffer(string playerOfferString)
-        {
-            Trade trade = Trade.Singleton;
-            trade.AugmentTotalPlayerOffers();
-
-            float playerOfferParsed = float.Parse(playerOfferString);
-            float playerOffer = (float)Math.Floor(playerOfferParsed);
-
-            int lastPlayerOffer = -1;
-
-            if (trade.PlayerOffers.Count > 0)
-            {
-                lastPlayerOffer = (int)Math.Floor(trade.PlayerOffers[trade.PlayerOffers.Count - 1]);
-            }
-
-            if (playerOffer < 1 || lastPlayerOffer != -1 && lastPlayerOffer < 2)
-            {
-                playerOffer = 1;
-            }
-
-            else if (lastPlayerOffer != -1 && playerOffer >= lastPlayerOffer)
-            {
-                playerOffer = lastPlayerOffer - 1;
-            }
-
-            trade.PlayerOffers.Add(playerOffer);
-            trade.BargainEventsText.text = "";
-
-            trade.UpdateTrading();
-        }
-
     }
 }
        
