@@ -10,20 +10,26 @@ namespace RuthlessMerchant
 {
     public class CaptureTrigger : MonoBehaviour
     {
-        [SerializeField]
+        [SerializeField, Tooltip("Owner of outpost on gamestart")]
         private Faction owner = Faction.None;
-        private int captureValue = 0;
+        private float captureValue = 0;
 
         private Hero hero;
         private Dictionary<Faction, int> capturingUnits;
+        private List<NPC> capturingUnitsList;
 
-        [SerializeField]
+        private Renderer flagRenderer;
+
+        [SerializeField, Tooltip("Indicates whether an army has to split between different lanes")]
+        private bool isLaneSplitter = false;
+
+        [SerializeField, Tooltip("Indicates the possible next outpost in the direction to the Freidenker city (first item is the default outpost, all other items are optional items for lane splitting or defending)")]
         private CaptureTrigger[] outpostsToFreidenker;
 
-        [SerializeField]
+        [SerializeField, Tooltip("Indicates the possible next outpost in the direction to the Imperialist city (first item is the default outpost, all other items are optional items for lane splitting or defending)")]
         private CaptureTrigger[] outpostsToImperialist;
 
-        public int CaptureValue
+        public float CaptureValue
         {
             get
             {
@@ -92,6 +98,16 @@ namespace RuthlessMerchant
                 owner = value;
                 if (hero != null && hero.Faction != owner)
                     hero = null;
+
+                UpdateFlagColor();
+            }
+        }
+
+        public bool IsLaneSplitter
+        {
+            get
+            {
+                return isLaneSplitter;
             }
         }
 
@@ -99,10 +115,23 @@ namespace RuthlessMerchant
         void Start()
         {
             capturingUnits = new Dictionary<Faction, int>();
+            capturingUnitsList = new List<NPC>();
             if (owner == Faction.Freidenker)
                 captureValue = -100;
             else if (owner == Faction.Imperialisten)
                 captureValue = 100;
+
+            Transform parentFlag = transform.Find("Flag");
+            if (parentFlag != null)
+            {
+                Transform obj = parentFlag.Find("Flag");
+
+                if (obj != null && obj.CompareTag("Flag"))
+                {
+                    flagRenderer = obj.GetComponent<Renderer>();
+                    UpdateFlagColor();
+                }
+            }
         }
 
         // Update is called once per frame
@@ -110,11 +139,52 @@ namespace RuthlessMerchant
         {
             if (hero == null && capturingUnits != null)
             {
-                int freidenkerCount = capturingUnits.ContainsKey(Faction.Freidenker) ? capturingUnits[Faction.Freidenker] : 0;
-                int imperialistenCount = capturingUnits.ContainsKey(Faction.Imperialisten) ? capturingUnits[Faction.Imperialisten] : 0;
+                //int freidenkerCount = capturingUnits.ContainsKey(Faction.Freidenker) ? capturingUnits[Faction.Freidenker] : 0;
+                //int imperialistenCount = capturingUnits.ContainsKey(Faction.Imperialisten) ? capturingUnits[Faction.Imperialisten] : 0;
                 int monsterCount = capturingUnits.ContainsKey(Faction.Monster) ? capturingUnits[Faction.Monster] : 0;
 
-                if (freidenkerCount > imperialistenCount)
+                float capValue = 0;
+                for (int i = 0; i < capturingUnitsList.Count; i++)
+                {                   
+                    if(capturingUnitsList[i].Faction == Faction.Freidenker)
+                    {
+                        capValue -= capturingUnitsList[i].CapValuePerSecond * Time.deltaTime;
+                    }
+                    else if(capturingUnitsList[i].Faction == Faction.Imperialisten)
+                    {
+                        capValue += capturingUnitsList[i].CapValuePerSecond * Time.deltaTime;
+                    }
+                    else if(capturingUnitsList[i].Faction == Faction.Monster)
+                    {
+                        if (captureValue < 0)
+                            capValue += capturingUnitsList[i].CapValuePerSecond * Time.deltaTime;
+                        else if (captureValue > 0)
+                            capValue -= capturingUnitsList[i].CapValuePerSecond * Time.deltaTime;
+                    }
+                }
+
+                if (monsterCount <= 0 || System.Math.Abs(CaptureValue + capValue) < System.Math.Abs(CaptureValue))
+                {
+                    if (hero != null)
+                    {
+                        if (owner == Faction.Freidenker)
+                        {
+                            if (CaptureValue + capValue > -50)
+                                CaptureValue = -50;
+
+                        }
+                        else if (owner == Faction.Imperialisten)
+                        {
+                            if (CaptureValue + capValue < 50)
+                                CaptureValue = 50;
+                        }
+                    }
+                    else
+                    {
+                        CaptureValue += capValue;
+                    }
+                }
+               /* if (freidenkerCount > imperialistenCount)
                 {
                     if (CaptureValue > 0 || freidenkerCount > imperialistenCount + monsterCount)
                         CaptureValue--;
@@ -124,14 +194,27 @@ namespace RuthlessMerchant
                 {
                     if (CaptureValue < 0 || imperialistenCount > freidenkerCount + monsterCount)
                         CaptureValue++;
-                }
+                }*/
 
-                if (captureValue < -25)
+                if (captureValue <= -50)
                     Owner = Faction.Freidenker;
-                else if (captureValue > 25)
+                else if (captureValue >= 50)
                     Owner = Faction.Imperialisten;
                 else
                     Owner = Faction.Neutral;
+            }
+        }
+
+        private void UpdateFlagColor()
+        {
+            if (flagRenderer != null)
+            {
+                if (owner == Faction.Freidenker)
+                    flagRenderer.material.color = Color.green;
+                else if (owner == Faction.Imperialisten)
+                    flagRenderer.material.color = Color.red;
+                else
+                    flagRenderer.GetComponent<Renderer>().material.color = Color.gray;
             }
         }
 
@@ -143,6 +226,7 @@ namespace RuthlessMerchant
                 if (!capturingUnits.ContainsKey(npc.Faction))
                     capturingUnits.Add(npc.Faction, 0);
 
+                capturingUnitsList.Add(npc);
                 capturingUnits[npc.Faction]++;
             }
         }
@@ -157,6 +241,8 @@ namespace RuthlessMerchant
                     capturingUnits[npc.Faction]--;
                     if (capturingUnits[npc.Faction] <= 0)
                         capturingUnits.Remove(npc.Faction);
+
+                    capturingUnitsList.Remove(npc);
                 }
             }
         }

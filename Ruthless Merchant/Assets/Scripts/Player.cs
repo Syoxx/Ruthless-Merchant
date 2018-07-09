@@ -306,12 +306,12 @@ namespace RuthlessMerchant
         private void FocusCursor()
         {
             // Pressing escape in a menu switches back to game (no cursor)
-            if (Input.GetKeyUp(KeyCode.Escape) && restrictCamera)
-            {
-                isGameFocused = true;
-                restrictCamera = false;
-            }
-            else if ((!restrictCamera) && restrictMovement)
+            //if (Input.GetKeyUp(KeyCode.Escape) && restrictCamera)
+            //{
+            //    isGameFocused = true;
+            //    restrictCamera = false;
+            //}
+            /*else*/ if ((!restrictCamera) && restrictMovement)
             {
                 // This prevents movement being disabled while restrictCamera is not on
                 restrictMovement = false;

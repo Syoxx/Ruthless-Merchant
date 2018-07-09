@@ -187,8 +187,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97914d5b6dd26014dab9a2e600e6950a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
-  maxHealth: 100
+  health: 450
+  maxHealth: 450
 --- !u!114 &114792944690591780
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -212,14 +212,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction: 0
+  baseDamagePerAtk: 75
+  baseAttackDelay: 2
+  baseDefense: 10
   walkSpeed: 5
   runSpeed: 10
   stickToGroundValue: 0
   maxJumpHeight: 0
   rotationSpeed: 8
-  fov: 45
+  fov: 90
   viewDistance: 10
   hearDistance: 5
+  healthRegPerSec: 0
+  capValuePerSecond: 1
+  ActionOutput: 
   Reacting: 0
   huntDistance: 5
   attackDistance: 1.5

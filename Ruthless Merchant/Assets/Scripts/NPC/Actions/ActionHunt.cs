@@ -42,7 +42,7 @@ namespace RuthlessMerchant
         {
             if(parent.CurrentReactTarget == null || other != parent.CurrentReactTarget.gameObject)
             {
-                parent.SetCurrentAction(new ActionIdle(), null);
+                parent.SetCurrentAction(new ActionIdle(), null, true);
                 return;
             }
 
@@ -51,8 +51,7 @@ namespace RuthlessMerchant
             {
                 agent.isStopped = true;
                 parent.Waypoints.Clear();
-
-                parent.SetCurrentAction(new ActionIdle(), null);
+                parent.SetCurrentAction(new ActionIdle(), null, true);
             }
             else if (fighter.HuntDistance >= distance)
             {
@@ -61,7 +60,7 @@ namespace RuthlessMerchant
                 parent.ChangeSpeed(NPC.SpeedType.Run);
             }
             parent.RotateToNextTarget(other.transform.position, false);
-
+            
             base.Update(deltaTime);
         }
     }
