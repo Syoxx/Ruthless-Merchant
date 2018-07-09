@@ -216,12 +216,13 @@ namespace RuthlessMerchant
                     item = inventorySlots[slot].Item;
                     inventorySlots[slot].Count = 0;
                     inventorySlots[slot].Item = null;
-                }
 
-                if (inventorySlots[slot].DisplayData == null)
-                    inventorySlots[slot].DisplayData = CreateDisplayData(inventorySlots[slot]);
-                else
-                    inventorySlots[slot].DisplayData = UpdateDisplayData(inventorySlots[slot]);
+                    if (inventorySlots[slot].DisplayData != null)
+                    {
+                        Destroy(inventorySlots[slot].DisplayData.gameObject);
+                        inventorySlots[slot].DisplayData = null;
+                    }
+                }
             }
             else if(count < 0)
             {
@@ -229,10 +230,11 @@ namespace RuthlessMerchant
                 inventorySlots[slot].Count = 0;
                 inventorySlots[slot].Item = null;
 
-                if (inventorySlots[slot].DisplayData == null)
-                    inventorySlots[slot].DisplayData = CreateDisplayData(inventorySlots[slot]);
-                else
-                    inventorySlots[slot].DisplayData = UpdateDisplayData(inventorySlots[slot]);
+                if (inventorySlots[slot].DisplayData != null)
+                {
+                    Destroy(inventorySlots[slot].DisplayData.gameObject);
+                    inventorySlots[slot].DisplayData = null;
+                }
             }
 
             if (sortAfterMethod)
@@ -293,7 +295,10 @@ namespace RuthlessMerchant
                                 inventorySlots[i].Count = 0;
 
                                 if (inventorySlots[i].DisplayData != null)
+                                {
                                     Destroy(inventorySlots[i].DisplayData.gameObject);
+                                    inventorySlots[i].DisplayData = null;
+                                }
                             }
                             else
                             {

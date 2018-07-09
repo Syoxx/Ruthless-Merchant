@@ -122,7 +122,7 @@ public class JumpToPaper : MonoBehaviour
     // Here we decide for the Page where should be the weapon placed.
     public int PageForCurrentWeaponPlacement()
     {
-        maxWeaponsPerPage = GameObject.Find("NewPlayerPrefab").GetComponent<Player>()._maxWeaponsPerPage;
+        maxWeaponsPerPage = GameObject.Find("NewPlayerPrefab").GetComponent<Player>().MaxItemsPerPage;
         if (maxWeaponsPerPage == 0)
             maxWeaponsPerPage = 1;
         return (CountWeaponsInInventory() /
@@ -222,7 +222,7 @@ public class JumpToPaper : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R) || Player.lastKeyPressed == KeyCode.R)
         {
-            _myBook.CurrentPaper = 16;
+            _myBook.CurrentPaper = 17;
             Player.lastKeyPressed = KeyCode.None;
         }
     }
