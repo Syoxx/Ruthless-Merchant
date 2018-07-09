@@ -113,11 +113,6 @@ namespace RuthlessMerchant
                         inventorySlots[i].Item = item;
                         count = 0;
                     }
-
-                    if (inventorySlots[i].DisplayData == null)
-                        inventorySlots[i].DisplayData = CreateDisplayData(inventorySlots[i]);
-                    else
-                        inventorySlots[i].DisplayData = UpdateDisplayData(inventorySlots[i]);
                 }
                 else if (inventorySlots[i].Item)
                 {
@@ -133,22 +128,12 @@ namespace RuthlessMerchant
                             inventorySlots[i].Count += count;
                             count = 0;
                         }
-
-                        if (inventorySlots[i].DisplayData == null)
-                            inventorySlots[i].DisplayData = CreateDisplayData(inventorySlots[i]);
-                        else
-                            inventorySlots[i].DisplayData = UpdateDisplayData(inventorySlots[i]);
                     }
                 }
 
                 if (count <= 0)
                 {
-                    if (sortAfterMethod)
-                    {
-                        SortInventory();
-                    }
-
-                    return count;
+                    break;
                 }
             }
             if (sortAfterMethod)
@@ -218,22 +203,12 @@ namespace RuthlessMerchant
                     inventorySlots[slot].Count = 0;
                     inventorySlots[slot].Item = null;
                 }
-
-                if (inventorySlots[slot].DisplayData == null)
-                    inventorySlots[slot].DisplayData = CreateDisplayData(inventorySlots[slot]);
-                else
-                    inventorySlots[slot].DisplayData = UpdateDisplayData(inventorySlots[slot]);
             }
             else if(count < 0)
             {
                 item = inventorySlots[slot].Item;
                 inventorySlots[slot].Count = 0;
                 inventorySlots[slot].Item = null;
-
-                if (inventorySlots[slot].DisplayData == null)
-                    inventorySlots[slot].DisplayData = CreateDisplayData(inventorySlots[slot]);
-                else
-                    inventorySlots[slot].DisplayData = UpdateDisplayData(inventorySlots[slot]);
             }
 
             if (sortAfterMethod)
@@ -292,14 +267,9 @@ namespace RuthlessMerchant
                                 inventorySlots[i].Item = null;
                                 count = -inventorySlots[i].Count;
                                 inventorySlots[i].Count = 0;
-
-                                if (inventorySlots[i].DisplayData != null)
-                                    Destroy(inventorySlots[i].DisplayData.gameObject);
                             }
                             else
                             {
-                                inventorySlots[i].DisplayData = UpdateDisplayData(inventorySlots[i]);
-
                                 if (sortAfterMethod)
                                 {
                                     SortInventory();
@@ -353,7 +323,17 @@ namespace RuthlessMerchant
                 return null;
 
             InventoryDisplayedData itemInfos = inventorySlot.DisplayData;
-            if (itemInfos == null)
+            if (itemInfos == null && inventorySlot.Item == null)
+            {
+                return null;
+            }
+            else if(itemInfos != null && inventorySlot.Item == null)
+            {
+                Destroy(itemInfos.gameObject);
+                inventorySlot.DisplayData = null;
+                return null;
+            }
+            else if (itemInfos == null && inventorySlot.Item != null)
                 return CreateDisplayData(inventorySlot);
 
             itemInfos.itemName.text = inventorySlot.Count + "x " + inventorySlot.Item.itemName + " (" + inventorySlot.Item.itemRarity + ")";
@@ -366,6 +346,14 @@ namespace RuthlessMerchant
             }
 
             return itemInfos;
+        }
+
+        void UpdateDisplay()
+        {
+            for(int i = 0; i < inventorySlots.Length; i++)
+            {
+                inventorySlots[i].DisplayData = UpdateDisplayData(inventorySlots[i]);
+            }
         }
 
         /// <summary>
@@ -454,6 +442,7 @@ namespace RuthlessMerchant
                     }
                 }
             }
+            UpdateDisplay();
             inventoryChanged.Invoke();
         }
 
