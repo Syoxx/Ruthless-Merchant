@@ -122,7 +122,7 @@ public class JumpToPaper : MonoBehaviour
     // Here we decide for the Page where should be the weapon placed.
     public int PageForCurrentWeaponPlacement()
     {
-        maxWeaponsPerPage = GameObject.Find("NewPlayerPrefab").GetComponent<Player>()._maxWeaponsPerPage;
+        maxWeaponsPerPage = GameObject.Find("NewPlayerPrefab").GetComponent<Player>().MaxItemsPerPage;
         if (maxWeaponsPerPage == 0)
             maxWeaponsPerPage = 1;
         return (CountWeaponsInInventory() /
