@@ -50,11 +50,11 @@ public class JumpToPaper : MonoBehaviour
         InventoryPageList = GameObject.FindGameObjectsWithTag("Book_Inventory")
             .OrderBy(inventoryPage => inventoryPage.name).ToList();
 
-        GameObject Pages = GameObject.Find("Pages");
-        foreach (Transform child in Pages.transform)
-        {
-            // Debug.Log("M " + child);
-        }
+        //GameObject Pages = GameObject.Find("Pages");
+        //foreach (Transform child in Pages.transform)
+        //{
+        //    // Debug.Log("M " + child);
+        //}
 
         PageList = PageList.OrderBy(child => child.name).ToList();
         foreach (var o in PageList)
@@ -109,7 +109,7 @@ public class JumpToPaper : MonoBehaviour
         int itemsAmount = 0;
         foreach (GameObject myObject in InventoryPageList)
         {
-            InventoryDisplayedData[] data = myObject.GetComponentsInChildren<InventoryDisplayedData>();
+            InventoryItem[] data = myObject.GetComponentsInChildren<InventoryItem>();
             if (data != null)
             {
                 itemsAmount += data.Length;
@@ -222,7 +222,7 @@ public class JumpToPaper : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R) || Player.lastKeyPressed == KeyCode.R)
         {
-            _myBook.CurrentPaper = 16;
+            _myBook.CurrentPaper = 17;
             Player.lastKeyPressed = KeyCode.None;
         }
     }

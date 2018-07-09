@@ -4,6 +4,6 @@
     {
         public int Count;
         public Item Item;
-        public InventoryDisplayedData DisplayData;
+        public InventoryItem DisplayData;
     }
 }
