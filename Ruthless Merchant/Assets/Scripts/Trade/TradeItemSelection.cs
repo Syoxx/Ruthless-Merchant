@@ -16,21 +16,21 @@ namespace RuthlessMerchant
         [SerializeField]
         Text price;
 
-        List<Item_UI> listedItems;
+        List<InventoryItem> listedItems;
 
         void Awake()
         {
-            listedItems = new List<Item_UI>();
+            listedItems = new List<InventoryItem>();
         }
 
-        public void AddItemToSellingList(Item_UI inventoryItem)
+        public void AddItemToSellingList(InventoryItem inventoryItem)
         {
             if (!addToPresent(inventoryItem))
             {
                 GameObject newObject = Instantiate(sellingItemPrefab, sellingItemParent);
                 newObject.name = "SellingItem";
 
-                Item_UI newItem = newObject.GetComponent<Item_UI>();
+                InventoryItem newItem = newObject.GetComponent<InventoryItem>();
                 newItem.itemQuantity.text = "1x";
                 newItem.itemName.text = inventoryItem.itemName.text;
                 newItem.itemPrice.text = inventoryItem.itemPrice.text;
@@ -54,9 +54,9 @@ namespace RuthlessMerchant
             }
         }
 
-        bool addToPresent(Item_UI data)
+        bool addToPresent(InventoryItem data)
         {
-            foreach (Item_UI item in listedItems)
+            foreach (InventoryItem item in listedItems)
             {
                 if (item.itemName.text == data.itemName.text && item.itemDescription.text == data.itemDescription.text)
                 {

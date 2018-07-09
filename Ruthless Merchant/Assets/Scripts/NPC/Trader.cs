@@ -332,12 +332,10 @@ namespace RuthlessMerchant
         /// <param name="caller"></param>
         public override void Interact(GameObject caller)
         {
-            //if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "TradeScene")
-            //{
-            //    Debug.Log(caller.name + ": Interaction with Trader");
-            //    CurrentTrader = this;
-            //    Trade trade = Instantiate(tradePrefab, transform).GetComponent<Trade>();
-            //}
+            if (FindObjectOfType<Trade>() == null)
+            {
+                Main_SceneManager.LoadSceneAdditively("TradeScene");
+            }
         }
 
         float lastItem(List<float> list, int beforeLast = 0, string round = "")

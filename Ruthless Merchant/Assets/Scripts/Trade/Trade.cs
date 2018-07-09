@@ -122,14 +122,13 @@ namespace RuthlessMerchant
         {
             if (exit)
             {
-                // TODO: Uncomment this
-                //exitTimer += Time.deltaTime;
+                exitTimer += Time.deltaTime;
 
-                //if (exitTimer > 3)
-                //{
-                //    Cursor.visible = false;
-                //    Destroy(gameObject);
-                //}
+                if (exitTimer > 3)
+                {
+                    Cursor.visible = false;
+                    UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync("TradeScene");
+                }
             }
             else
             {

@@ -15,7 +15,6 @@ public class Main_SceneManager : MonoBehaviour
     void Start()
     {
         LoadSceneAdditively("Isleandtesting");
-        LoadSceneAdditively("TradeScene");
     }
 
     public static void LoadSceneAdditively(string sceneName)

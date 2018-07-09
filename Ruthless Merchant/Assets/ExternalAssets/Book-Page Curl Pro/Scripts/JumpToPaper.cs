@@ -61,7 +61,7 @@ public class JumpToPaper : MonoBehaviour
         int itemsAmount = 0;
         foreach (GameObject myObject in _pagesList)
         { Debug.Log("name" + myObject.name);
-            Item_UI[] data = myObject.GetComponentsInChildren<Item_UI>();
+            InventoryItem[] data = myObject.GetComponentsInChildren<InventoryItem>();
             //Transform t = myObject.transform.Find("PNL_ZoneForItem");
             if (data != null)
             {

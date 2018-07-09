@@ -5,7 +5,7 @@ using UnityEngine.UI;
 /// <summary>
 /// This script permits setting information of an inventory UI object
 /// </summary>
-public class Item_UI : MonoBehaviour
+public class InventoryItem : MonoBehaviour
 {
     public enum UILocation
     {

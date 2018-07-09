@@ -324,7 +324,7 @@ namespace RuthlessMerchant
             }
         }
 
-        private Item_UI CreateDisplayData(InventorySlot inventorySlot)
+        private InventoryItem CreateDisplayData(InventorySlot inventorySlot)
         {
             if (ItemUIPrefab == null)
                 return null;
@@ -333,7 +333,7 @@ namespace RuthlessMerchant
             GameObject inventoryItem = Instantiate(ItemUIPrefab, parent) as GameObject;
             //inventoryItem.transform.SetParent(parent, false);
 
-            Item_UI itemInfos = inventoryItem.GetComponent<Item_UI>();
+            InventoryItem itemInfos = inventoryItem.GetComponent<InventoryItem>();
             itemInfos.itemName.text = inventorySlot.Count + "x " + inventorySlot.Item.ItemName + " (" + inventorySlot.Item.ItemRarity + ")";
             itemInfos.itemDescription.text = inventorySlot.Item.ItemLore;
             itemInfos.itemPrice.text = inventorySlot.Item.ItemValue[0].Count + "G";
@@ -346,12 +346,12 @@ namespace RuthlessMerchant
             return itemInfos;
         }
 
-        private Item_UI UpdateDisplayData(InventorySlot inventorySlot)
+        private InventoryItem UpdateDisplayData(InventorySlot inventorySlot)
         {
             if (ItemUIPrefab == null)
                 return null;
 
-            Item_UI itemInfos = inventorySlot.DisplayData;
+            InventoryItem itemInfos = inventorySlot.DisplayData;
             if (itemInfos == null)
                 return CreateDisplayData(inventorySlot);
 
