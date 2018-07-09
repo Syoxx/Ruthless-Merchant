@@ -7,13 +7,14 @@ using JetBrains.Annotations;
 
 public class JumpToPaper : MonoBehaviour
 {
-    private BookPro _myBook;
-    private AutoFlip flipEffect;
+    BookPro _myBook;
+    AutoFlip flipEffect;
 
-    [SerializeField] [Tooltip("Just put the canvas here itself")]
-    private GameObject BookItSelf;
+    [SerializeField]
+    [Tooltip("Just put the canvas here itself")]
+    GameObject BookItSelf;
 
-    private int flippedPages = 0;
+    int flippedPages = 0;
 
 
     //Collecting pages
@@ -21,14 +22,12 @@ public class JumpToPaper : MonoBehaviour
 
     [HideInInspector] public List<GameObject> PageList = new List<GameObject>();
 
-    private GameObject blub;
-
-
+    GameObject blub;
 
     //Needed for helping to count Items
-    private int ItemsAmount;
-    private int numberPagesSkipped;
-    private int maxWeaponsPerPage;
+    int ItemsAmount;
+    int numberPagesSkipped;
+    int maxWeaponsPerPage;
 
 
     //[SerializeField] private int JumpToPage;

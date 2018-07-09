@@ -34,8 +34,8 @@ namespace RuthlessMerchant
             return otherItem;
         }
 
-        [SerializeField]
-        public int MaxStackCount { get; private set; }
+        [SerializeField, Range(1,100)]
+        public int MaxStackCount = 20;
 
         public override void Interact(GameObject caller)
         {

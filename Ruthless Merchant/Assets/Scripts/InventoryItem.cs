@@ -18,15 +18,15 @@ public class InventoryItem : MonoBehaviour
 
     public Image ItemImage;
 
-    public Text itemQuantity;
+    public TextMeshProUGUI itemQuantity;
 
-    public Text itemName;
+    public TextMeshProUGUI itemName;
 
-    public Text itemRarity;
+    public TextMeshProUGUI itemRarity;
 
-    public Text itemDescription;
+    public TextMeshProUGUI itemDescription;
 
-    public Text itemPrice;
+    public TextMeshProUGUI itemPrice;
 
-    public Text itemWeight; 
+    public TextMeshProUGUI itemWeight; 
 }
