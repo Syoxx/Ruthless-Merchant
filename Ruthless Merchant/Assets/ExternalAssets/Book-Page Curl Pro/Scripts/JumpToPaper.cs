@@ -28,6 +28,7 @@ public class JumpToPaper : MonoBehaviour
     //Needed for helping to count Items
     private int ItemsAmount;
     private int numberPagesSkipped;
+    private int maxWeaponsPerPage;
 
 
     //[SerializeField] private int JumpToPage;
@@ -121,8 +122,11 @@ public class JumpToPaper : MonoBehaviour
     // Here we decide for the Page where should be the weapon placed.
     public int PageForCurrentWeaponPlacement()
     {
+        maxWeaponsPerPage = GameObject.Find("NewPlayerPrefab").GetComponent<Player>()._maxWeaponsPerPage;
+        if (maxWeaponsPerPage == 0)
+            maxWeaponsPerPage = 1;
         return (CountWeaponsInInventory() /
-                GameObject.Find("NewPlayerPrefab").GetComponent<Player>()._maxWeaponsPerPage);
+                maxWeaponsPerPage);
     }
 
 
