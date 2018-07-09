@@ -92,12 +92,14 @@ namespace RuthlessMerchant
             TraderOffers = new List<float>();
             weightsPlayer = new List<List<GameObject>>();
             weightsTrader = new List<List<GameObject>>();
+
+            enabled = false;
         }
 
-        void Start()
+        public void Initialize(int value)
         {
             Cursor.visible = true;
-            GetComponent<ItemSetter>().SetTrade(this);
+            GetComponent<ItemSetter>().SetTrade(this, value);
             Trader.CurrentTrader.Initialize(this);
 
             nextPlayerOffer = Item.ItemValue[0].Count;
@@ -116,6 +118,8 @@ namespace RuthlessMerchant
             }
 
             UpdateWeights(weightsPlayer, nextPlayerOffer);
+
+            enabled = true;
         }
 
         void Update()
@@ -127,7 +131,8 @@ namespace RuthlessMerchant
                 if (exitTimer > 3)
                 {
                     Cursor.visible = false;
-                    UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync("TradeScene");
+                    //UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync("TradeScene");
+                    UnityEngine.SceneManagement.SceneManager.LoadScene("Isleandtesting");
                 }
             }
             else
@@ -150,12 +155,12 @@ namespace RuthlessMerchant
                 #if UNITY_EDITOR
                 else if (Input.GetKeyDown(KeyCode.Q))
                 {
-                    Quit();
+                    UnityEngine.SceneManagement.SceneManager.LoadScene("Isleandtesting");
                 }
                 #else
                 else if (Input.GetKeyDown(KeyCode.Escape))
                 {
-                    Quit();
+                    UnityEngine.SceneManagement.SceneManager.LoadScene("Isleandtesting");                
                 }
                 #endif
             }
@@ -286,8 +291,7 @@ namespace RuthlessMerchant
         /// </summary>
         public void Quit()
         {
-            TradeDialogue.text = "U quitted coz u a lil chicken.";
-            exit = true;
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Isleandtesting");
         }
 
         /// <summary>

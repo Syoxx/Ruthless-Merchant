@@ -334,7 +334,9 @@ namespace RuthlessMerchant
         {
             if (FindObjectOfType<Trade>() == null)
             {
-                Main_SceneManager.LoadSceneAdditively("TradeScene");
+                //Main_SceneManager.LoadSceneAdditively("TradeScene");
+                //GameObject.Find("TradePlayerPrefab").transform.rotation = GameObject.Find("NewPlayerPrefab").transform.rotation;
+                UnityEngine.SceneManagement.SceneManager.LoadScene("TradeScene");
             }
         }
 

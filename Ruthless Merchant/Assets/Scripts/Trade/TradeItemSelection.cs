@@ -72,5 +72,17 @@ namespace RuthlessMerchant
         {
 
         }
+
+        public void ConfirmTradeItems()
+        {
+            Trade.Singleton.Initialize(int.Parse(price.text));
+            GameObject.Find("UICanvas").SetActive(false);
+        }
+
+        private void LateUpdate()
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
     }
 }
