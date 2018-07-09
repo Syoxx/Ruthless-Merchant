@@ -89,6 +89,8 @@ namespace RuthlessMerchant
 
         private void LateUpdate()
         {
+            //TODO: Clean this.
+
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             Player.RestrictCamera = true;

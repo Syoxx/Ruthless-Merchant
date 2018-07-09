@@ -35,7 +35,7 @@ namespace RuthlessMerchant
         }
 
         [SerializeField]
-        public int MaxStackCount { get; private set; }
+        public int MaxStackCount;
 
         public override void Interact(GameObject caller)
         {

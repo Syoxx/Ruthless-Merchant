@@ -334,14 +334,17 @@ namespace RuthlessMerchant
             if (ItemUIPrefab == null)
                 return null;
 
+            Debug.LogWarning("Create Display Data");
+
             Transform parent = BookLogic.InventoryPageList[BookLogic.PageForCurrentWeaponPlacement()].transform.Find("PNL_ZoneForItem");
             GameObject inventoryItem = Instantiate(ItemUIPrefab, parent) as GameObject;
             //inventoryItem.transform.SetParent(parent, false);
 
             InventoryItem itemInfos = inventoryItem.GetComponent<InventoryItem>();
+
             itemInfos.itemName.text = inventorySlot.Count + "x " + inventorySlot.Item.ItemName + " (" + inventorySlot.Item.ItemRarity + ")";
             itemInfos.itemDescription.text = inventorySlot.Item.ItemLore;
-            itemInfos.itemPrice.text = inventorySlot.Item.ItemValue[0].Count + "G";
+            itemInfos.itemPrice.text = inventorySlot.Item.ItemValue[0].Count.ToString();
 
             if (inventorySlot.Item.ItemSprite != null)
             {
