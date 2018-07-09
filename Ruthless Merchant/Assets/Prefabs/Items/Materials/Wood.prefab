@@ -39,7 +39,7 @@ Transform:
   m_GameObject: {fileID: 1531244868073720}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1608.1792, y: 49.010002, z: 1765.4845}
-  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_LocalScale: {x: 0.1697547, y: 0.1697547, z: 0.1697547}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -121,12 +121,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction: 2
-  itemPrice: 0
-  itemWeight: 0
-  itemName: Wood
-  itemLore: 
-  itemSprite: {fileID: 21300000, guid: 37a846438c803e04da16c9c65b7c34ab, type: 3}
-  itemType: 3
-  itemRarity: 0
-  maxStackCount: 10
+  ItemName: Wood
+  ItemValue:
+  - Count: 1
+  ItemWeight: 0
+  ItemLore: 
+  ItemSprite: {fileID: 0}
+  ItemType: 0
+  ItemRarity: 0
+  MaxStackCount: 20
   materialsType: 0
