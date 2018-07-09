@@ -33,13 +33,13 @@ namespace RuthlessMerchant
             woodCounter = player.Inventory.GetNumberOfItems(woodPrefab);
             ironCounter = player.Inventory.GetNumberOfItems(ironPrefab);
 
-            questDialogue = "1.    Waffe aufsammeln \n" +
-               "2.    Den Wald besuchen\n" +
-               "3.    Holz sammeln (" + woodCounter + "/5)\n" +
-               "4.    Iron sammeln (" + ironCounter + "/5)\n" +
-               "5.    Alte Waffe zerlegen\n" +
-               "6.    Crafting aus Eisen + Holz = neue Waffe\n" +
-               "7.    Mit einem Händler handeln";
+            questDialogue =
+               "1.    Den Wald besuchen\n" +
+               "2.    Holz sammeln (" + woodCounter + "/5)\n" +
+               "3.    Iron sammeln (" + ironCounter + "/5)\n" +
+               "4.    Crafting aus Eisen + Holz = neue Waffe\n" +
+               "5.    Waffe an der Workbench zerlegen oder\n" +
+               "6.    Mit einem Händler handeln";
 
             textMesh.text = questDialogue.ToString();
         }

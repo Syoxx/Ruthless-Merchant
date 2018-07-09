@@ -820,6 +820,8 @@ MonoBehaviour:
 
     Change amount of weights (10): Mousewheel + Shift
 
+    Make Offer: Left Mouse Click
+
     Accept Offer: E
 
     Quit: Escape'
@@ -4228,12 +4230,12 @@ Prefab:
     - target: {fileID: 224605925442676280, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 176.15
       objectReference: {fileID: 0}
     - target: {fileID: 224605925442676280, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -44.8
       objectReference: {fileID: 0}
     - target: {fileID: 224605925442676280, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
@@ -4253,7 +4255,7 @@ Prefab:
     - target: {fileID: 224605925442676280, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224605925442676280, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
@@ -4263,7 +4265,7 @@ Prefab:
     - target: {fileID: 224605925442676280, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224605925442676280, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
@@ -4283,27 +4285,27 @@ Prefab:
     - target: {fileID: 224781845004828414, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 7.792208
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224765176653636026, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 67.90476
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 224893931260611604, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 146.19914
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 224781845004828414, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224781845004828414, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224781845004828414, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
@@ -4318,12 +4320,12 @@ Prefab:
     - target: {fileID: 224765176653636026, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224765176653636026, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224765176653636026, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
@@ -4338,12 +4340,12 @@ Prefab:
     - target: {fileID: 224893931260611604, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224893931260611604, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224893931260611604, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
@@ -4358,7 +4360,7 @@ Prefab:
     - target: {fileID: 224179642711637092, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 224781845004828414, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
@@ -12653,7 +12655,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1847388665
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13957,7 +13959,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: -75}
-  m_SizeDelta: {x: 310.4, y: 75}
+  m_SizeDelta: {x: 310.4, y: 82.58}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2067553550
 MonoBehaviour:
