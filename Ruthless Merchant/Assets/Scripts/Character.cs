@@ -348,7 +348,7 @@ namespace RuthlessMerchant
             {
                 float slopeAngle = Vector3.Angle(hitInfo.normal, Vector3.up);
 
-                if (hitInfo.collider.gameObject.layer == LayerMask.NameToLayer("Default"))
+                if (hitInfo.collider.gameObject.layer == LayerMask.NameToLayer("Terrain"))
                 {
                     if (slopeAngle > maxSlopeAngle)
                     {
@@ -392,7 +392,7 @@ namespace RuthlessMerchant
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Default"))
+            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Terrain"))
             {
                 grounded = true;
             }
@@ -400,7 +400,7 @@ namespace RuthlessMerchant
 
         private void OnCollisionExit(Collision collision)
         {
-            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Default"))
+            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Terrain"))
             {
                 grounded = false;
             }
