@@ -100,11 +100,7 @@ namespace RuthlessMerchant
         
         [SerializeField, Tooltip("Set the maximum amount of items per page.")]
         [Range(0,8)]
-        private int MaxItemsPerPage = 4;
-
-        [SerializeField, Tooltip("Set the maximum amount of weapons per page.")]
-        [Range(0,4)]
-        public int _maxWeaponsPerPage;
+        public int MaxItemsPerPage = 4;
 
         private JumpToPaper _bookLogic;
 
