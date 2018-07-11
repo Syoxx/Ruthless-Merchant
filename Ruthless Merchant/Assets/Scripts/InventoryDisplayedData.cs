@@ -9,6 +9,7 @@ public class InventoryDisplayedData : MonoBehaviour {
 
     public Image ItemImage;
     public TextMeshProUGUI itemName, itemRarity, itemDescription, itemPrice, itemWeight;
+    public Button button;
 
     
 }

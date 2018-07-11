@@ -12,6 +12,9 @@ namespace RuthlessMerchant
         [SerializeField]
         private CaptureTrigger nextOutpost = null;
 
+        [SerializeField, Range(0, 1)]
+        private int laneSelectionIndex = 0;
+
         [SerializeField]
         private Faction faction;
 
@@ -32,7 +35,7 @@ namespace RuthlessMerchant
             NPC npc = e.SpawnedObject.GetComponent<NPC>();
             if (npc != null)
             {
-                npc.SetPath(nextOutpost, 0, true);
+                npc.SetPath(nextOutpost, 0, true, laneSelectionIndex);
                 npc.SetCurrentAction(new ActionMove(), null);
             }
         }

@@ -35,8 +35,17 @@ namespace RuthlessMerchant
         private float terrainCheckRadius;
         private float colliderHeight;
 
-        private float attackDelay = 0.5f;
-        private float elapsedAttackTime = 0.5f;
+        [Header("Character Attack Settings")]
+        [SerializeField, Range(0, 1000), Tooltip("Base damage per attack")]
+        protected int baseDamagePerAtk = 75;
+
+        [SerializeField, Range(0, 10), Tooltip("Base time between attacks")]
+        protected float baseAttackDelay = 2;
+
+        [SerializeField, Range(0, 1000), Tooltip("Base defense value")]
+        protected int baseDefense = 10;
+
+        private float elapsedAttackTime = 2;
 
         public bool IsPlayer
         {
@@ -47,6 +56,7 @@ namespace RuthlessMerchant
         [Tooltip("Player speed while holding LCtrl.")]
         protected float sneakSpeed = 2;
 
+        [Header("Character Movement Settings")]
         [SerializeField]
         [Range(0, 1000)]
         [Tooltip("Player speed only using WASD.")]
@@ -152,6 +162,8 @@ namespace RuthlessMerchant
 
         public override void Start()
         {
+            elapsedAttackTime = baseAttackDelay;
+
             if (rb == null)
             {
                 rb = GetComponent<Rigidbody>();
@@ -187,12 +199,17 @@ namespace RuthlessMerchant
             DestroyInteractivObject();
         }
 
-        public void Attack(DamageAbleObject dmg)
+        public void Attack(Character character)
         {
-            if (elapsedAttackTime >= attackDelay)
+            if (elapsedAttackTime >= baseAttackDelay)
             {
                 elapsedAttackTime = 0f;
-                dmg.ChangeHealth(-13, this);
+
+                int damage = baseDamagePerAtk - baseDefense;
+                if (damage <= 0)
+                    damage = 1;
+
+                character.HealthSystem.ChangeHealth(-damage, this);
             }
         }
 

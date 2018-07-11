@@ -26,6 +26,7 @@ namespace RuthlessMerchant
         protected virtual void Start()
         {
             spawner = GetComponent<ObjectSpawner>();
+            elapsedTime = intervall;
         }
 
         protected virtual void Update()
