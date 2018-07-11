@@ -4,38 +4,25 @@ using UnityEngine;
 
 public class TeleportManager : MonoBehaviour {
 
-    //Destinations for Unity Inspector when 
-    public enum Destination
+    //By Daniil Masliy
+    [SerializeField] [Tooltip("Drag a GameObject there. This object will be considered as Destination")] private GameObject TeleportDestination;
+
+    Rigidbody rb;
+    [HideInInspector]
+    public Vector3 positionOfDestination;
+
+    /// <summary>
+    /// Use this position, to 
+    /// </summary>
+    private void Start()
     {
-        PointA, PointB, PointC, PointD, PointE
+        rb = GetComponentInParent<Rigidbody>();
     }
-
-    [SerializeField]
-    TeleportManager myEnum;
-
-
-    public Destination TeleportDestination;
-
     public void Teleport()
     {
-        switch (TeleportDestination)
-        {
-            case Destination.PointA:
-                Debug.Log(TeleportDestination);
-                break;
-            case Destination.PointB:
-                Debug.Log(TeleportDestination);
-                break;
-            case Destination.PointC:
-                Debug.Log(TeleportDestination);
-                break;
-            case Destination.PointD:
-                Debug.Log(TeleportDestination);
-                break;
-            case Destination.PointE:
-                Debug.Log(TeleportDestination);
-                break;
+        positionOfDestination = TeleportDestination.transform.position;
+        //ThingToTeleportate.transform.position = positionOfDestination;
+        rb.transform.position = positionOfDestination;
 
-        }
     }
 }

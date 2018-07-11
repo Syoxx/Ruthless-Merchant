@@ -1,83 +1,41 @@
-﻿using UnityEngine;
+﻿// Authors: Daniil Masliy, Alberto Lladó
+
+using UnityEngine;
 using UnityEngine.UI;
+using UnityScript.Steps;
 
 namespace RuthlessMerchant
 {
-    public class Item : InteractiveWorldObject
+    [RequireComponent(typeof(UniqueIDGenerator))]
+    public abstract class Item : InteractiveWorldObject
     {
-        private int ownerId;
-        [SerializeField] private Sprite itemSprite;
-        [SerializeField] private ItemType type;
-        [SerializeField] private ItemRarity rarity;
-        [SerializeField] private int price;
-        [SerializeField] private float weight;
-        [SerializeField] private string itemLore = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
-        private string itemName = "object name";
-        private int maxStackCount = 1;
-        private ItemValue[] itemValue;
+        public string ItemName;
 
-        public float ItemWeight
+        public ItemValue[] ItemValue;
+
+        public int ItemWeight;
+
+        [TextArea]
+        public string ItemLore;
+
+        public Sprite ItemSprite;
+
+        public ItemType ItemType;
+
+        public ItemRarity ItemRarity;
+
+        /// <summary>
+        /// Creates deep copy of current item
+        /// </summary>
+        /// <returns></returns>
+        internal Item DeepCopy()
         {
-            get { return weight; }
+            Item otherItem = (Item)this.MemberwiseClone();
+            return otherItem;
         }
 
-        public int Price
-        {
-            get { return price; }
-        }
-
-        public Sprite ItemSprite
-        {
-            get { return itemSprite; }
-        }
-
-        public string Name
-        {
-            get { return itemName; }
-        }
-
-        public string Description
-        {
-            get { return itemLore; }
-        }
-
-        public ItemRarity Rarity
-        {
-            get { return rarity; }
-        }
-
-        public ItemType Type
-        {
-            get
-            {
-                return type;
-            }
-            set
-            {
-                type = value;
-            }
-        }
-
-        public ItemValue[] ItemValue
-        {
-            get
-            {
-                return itemValue;
-            }
-            set
-            {
-                itemValue = value;
-            }
-        }
-
-        public override void Start()
-        {
-            itemName = this.name;
-        }
-
-        public override void Update()
-        {
-        }
+        [SerializeField, Range(1,100)]
+        public int MaxStackCount = 20;
 
         public override void Interact(GameObject caller)
         {
@@ -87,21 +45,6 @@ namespace RuthlessMerchant
         public void Pickup()
         {
             throw new System.NotImplementedException();
-        }
-
-        public int MaxStackCount
-        {
-            get
-            {
-                return maxStackCount;
-            }
-        }
-
-        // Creates deep copy of current item
-        internal Item DeepCopy()
-        {
-            Item otherItem = (Item) this.MemberwiseClone();
-            return otherItem;
         }
     }
 }
