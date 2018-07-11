@@ -1,7 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+
+/// <summary>
+/// NOT USED CURRENTLY
+/// </summary>
 public class PageCheck : MonoBehaviour
 {
     [HideInInspector]
@@ -21,7 +23,6 @@ public class PageCheck : MonoBehaviour
     // Update is called once per frame
     void Update ()
     {
-        Debug.Log("Page is " + PageIsFilled);
         if (!StartingPage)
         {
             switch (pageType)
@@ -29,10 +30,8 @@ public class PageCheck : MonoBehaviour
                 case PageType.Inventory:
                     if(GameObject.Find("PNL_ItemZone(Clone)") != null)
                     { 
-                        PageIsFilled = true;
-                        
+                        PageIsFilled = true;                      
                     }
-
                     break;
                 case PageType.Journal:
                     break;
