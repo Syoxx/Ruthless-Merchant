@@ -349,6 +349,7 @@ namespace RuthlessMerchant
                     if (panelPrefab.GetComponent<Button>() != null)
                     {
                         itemSlot = itemIndex;
+                        panelPrefab.GetComponent<Button>().onClick.RemoveAllListeners();
                         panelPrefab.GetComponent<Button>().onClick.AddListener(() => OnWorkbenchButton(itemSlot));
                     }
                 }
@@ -500,7 +501,7 @@ namespace RuthlessMerchant
         public void OnWorkbenchButton(int itemslot)
         {
             localWorkbench.BreakdownItem(inventory.inventorySlots[itemSlot].Item, Inventory, recipes);
-            // TODO: update book inventory?
+            PopulateWorkbenchPanel();
         }
 
         private void OnCollisionStay(Collision collision)

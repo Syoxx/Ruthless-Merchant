@@ -31,6 +31,7 @@ namespace RuthlessMerchant
         private CapsuleCollider charCollider;
         private bool isPlayer;
         private bool preventClimbing = false;
+        private Vector3 previousPosition;
         private float elapsedSecs;
         private float terrainCheckRadius;
         private float colliderHeight;
@@ -164,6 +165,11 @@ namespace RuthlessMerchant
         {
             elapsedAttackTime = baseAttackDelay;
 
+            if (isPlayer)
+            {
+                previousPosition = transform.position;
+            }
+
             if (rb == null)
             {
                 rb = GetComponent<Rigidbody>();
@@ -289,10 +295,10 @@ namespace RuthlessMerchant
             {
                 preventClimbing = false;
                                 
-                Ray rayLeft     = new Ray(new Vector3(transform.localPosition.x - terrainCheckRadius, transform.localPosition.y /*+ 0.1f*/, transform.localPosition.z), Vector3.down);
-                Ray rayRight    = new Ray(new Vector3(transform.localPosition.x + terrainCheckRadius, transform.localPosition.y /*+ 0.1f*/, transform.localPosition.z), Vector3.down);
-                Ray rayFront    = new Ray(new Vector3(transform.localPosition.x, transform.localPosition.y /*+ 0.1f*/, transform.localPosition.z + terrainCheckRadius), Vector3.down);
-                Ray rayBack     = new Ray(new Vector3(transform.localPosition.x, transform.localPosition.y /*+ 0.1f*/, transform.localPosition.z - terrainCheckRadius), Vector3.down);
+                Ray rayLeft     = new Ray(new Vector3(transform.localPosition.x - terrainCheckRadius, transform.localPosition.y + 0.1f, transform.localPosition.z), Vector3.down);
+                Ray rayRight    = new Ray(new Vector3(transform.localPosition.x + terrainCheckRadius, transform.localPosition.y + 0.1f, transform.localPosition.z), Vector3.down);
+                Ray rayFront    = new Ray(new Vector3(transform.localPosition.x, transform.localPosition.y + 0.1f, transform.localPosition.z + terrainCheckRadius), Vector3.down);
+                Ray rayBack     = new Ray(new Vector3(transform.localPosition.x, transform.localPosition.y + 0.1f, transform.localPosition.z - terrainCheckRadius), Vector3.down);
                 
                 bool is_climbable_left = CheckGroundAngle(rayLeft);
                 bool is_climbable_right = CheckGroundAngle(rayRight);
@@ -301,14 +307,17 @@ namespace RuthlessMerchant
 
                 if (!is_climbable_left || !is_climbable_right || !is_climbable_front || !is_climbable_back)
                 {
-                    preventClimbing = true;
-                    grounded = false;
+                    // TODO: tweak this to (transform.y - previous.y > threshold)
+                    if (previousPosition.y < transform.position.y)
+                    {
+                        preventClimbing = true;
+                    }
                 }
             }
             
 
 
-            if (grounded /*&& !preventClimbing*/)
+            if (grounded && !preventClimbing)
             {if (rb != null)
                 {
                     gravity = Vector3.zero;
@@ -320,16 +329,23 @@ namespace RuthlessMerchant
             {
                 if (rb != null)
                 {
-                    //if (preventClimbing)
-                    //{
-                    //    gravity.y -= 30;
-                    //}
+                    if (preventClimbing)
+                    {
+                        //gravity.y -= 30;
+                        rb.MovePosition(previousPosition);
+                    }
 
-                    gravity += globalGravityScale * Vector3.up * Time.deltaTime * 5f;
+                    gravity += globalGravityScale * Vector3.up * Time.deltaTime * 2f;
                     ApplyGravity(gravity);
                 }
             }
 
+            if (!preventClimbing)
+            {
+                previousPosition.x = transform.position.x;
+                previousPosition.y = transform.position.y;
+                previousPosition.z = transform.position.z;
+            }
         }
 
         /// <summary>
@@ -343,7 +359,7 @@ namespace RuthlessMerchant
             RaycastHit hitInfo;
             bool isClimbableAngle = true;
 
-            Physics.Raycast(ray, out hitInfo, 4f);
+            Physics.Raycast(ray, out hitInfo, 0.7f);
 
             if (hitInfo.collider != null)
             {
