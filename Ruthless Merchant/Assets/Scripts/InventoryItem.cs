@@ -28,5 +28,7 @@ public class InventoryItem : MonoBehaviour
 
     public TextMeshProUGUI itemPrice;
 
-    public TextMeshProUGUI itemWeight; 
+    public TextMeshProUGUI itemWeight;
+
+    public Button itemButton;
 }
