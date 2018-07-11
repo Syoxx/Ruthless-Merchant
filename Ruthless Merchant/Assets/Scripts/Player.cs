@@ -637,17 +637,7 @@ namespace RuthlessMerchant
             }
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                _bookCanvas.SetActive(_bookCanvas.activeSelf == false);
-                lastKeyPressed = KeyCode.Escape;
-                restrictMovement = !(_bookCanvas.activeSelf == false);
-                restrictCamera = !(_bookCanvas.activeSelf == false);
-                if (!_bookCanvas.activeSelf && recipes != null)
-                {
-                    for (int i = 0; i < recipes.Panels.Count; i++)
-                    {
-                        recipes.Panels[i].Button.onClick.RemoveAllListeners();
-                    }
-                }
+                CloseBook();
             }
             if (Input.GetKeyDown(KeyCode.I))
             {
@@ -658,6 +648,25 @@ namespace RuthlessMerchant
             }
         }
 
+        private void CloseBook()
+        {
+            _bookCanvas.SetActive(_bookCanvas.activeSelf == false);
+            lastKeyPressed = KeyCode.Escape;
+            restrictMovement = !(_bookCanvas.activeSelf == false);
+            restrictCamera = !(_bookCanvas.activeSelf == false);
+            if (!_bookCanvas.activeSelf && recipes != null)
+            {
+                for (int i = 0; i < recipes.Panels.Count; i++)
+                {
+                    recipes.Panels[i].Button.onClick.RemoveAllListeners();
+                }
+                for (int i = 0; i < inventory.InventorySlots.Length; i++)
+                {
+                    if (inventory.inventorySlots[i].DisplayData)
+                        inventory.inventorySlots[i].DisplayData.itemButton.onClick.RemoveAllListeners();
+                }
+            }
+        }
         public void EnterSmith(Smith smith)
         {
             localSmith = smith;
