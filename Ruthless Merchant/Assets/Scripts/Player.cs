@@ -295,13 +295,7 @@ namespace RuthlessMerchant
         /// </summary>
         private void FocusCursor()
         {
-            // Pressing escape in a menu switches back to game (no cursor)
-            //if (Input.GetKeyUp(KeyCode.Escape) && restrictCamera)
-            //{
-            //    isGameFocused = true;
-            //    restrictCamera = false;
-            //}
-            /*else*/ if ((!restrictCamera) && restrictMovement)
+            if ((!restrictCamera) && restrictMovement)
             {
                 // This prevents movement being disabled while restrictCamera is not on
                 restrictMovement = false;
@@ -340,6 +334,7 @@ namespace RuthlessMerchant
                     if (panelPrefab.GetComponent<Button>() != null)
                     {
                         itemSlot = itemIndex;
+                        panelPrefab.GetComponent<Button>().onClick.RemoveAllListeners();
                         panelPrefab.GetComponent<Button>().onClick.AddListener(() => OnWorkbenchButton(itemSlot));
                     }
                 }
@@ -490,7 +485,7 @@ namespace RuthlessMerchant
         public void OnWorkbenchButton(int itemslot)
         {
             localWorkbench.BreakdownItem(inventory.inventorySlots[itemSlot].Item, Inventory, recipes);
-            // TODO: update book inventory?
+            PopulateWorkbenchPanel();
         }
 
         private void OnCollisionStay(Collision collision)
