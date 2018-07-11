@@ -136,16 +136,16 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1726920853392978}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 62.4, y: 27.3, z: 228.7}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0.7918156, z: -0, w: 0.6107603}
+  m_LocalPosition: {x: 39.28, y: 25.461, z: 229.19}
+  m_LocalScale: {x: 0.22, y: 0.22, z: 0.22}
   m_Children:
   - {fileID: 4879695853813120}
   - {fileID: 224178872741364900}
   - {fileID: 4880634211867532}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -104.711006, z: 0}
 --- !u!20 &20041294989328524
 Camera:
   m_ObjectHideFlags: 1
@@ -405,6 +405,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction: 0
+  baseDamagePerAtk: 75
+  baseAttackDelay: 2
+  baseDefense: 10
   sneakSpeed: 2
   walkSpeed: 3
   runSpeed: 7
@@ -413,7 +416,8 @@ MonoBehaviour:
   maxSlopeAngle: 40
   CrouchHeight: 1.8
   aimpointTexture: {fileID: 0}
-  alchemyUiPrefab: {fileID: 0}
+  alchemyUiPrefab: {fileID: 1130014939077452, guid: e078c3a6ff729074da7b01b3cfec7794,
+    type: 2}
   workshopUiPrefab: {fileID: 0}
   recipeUiPrefab: {fileID: 1213390701520696, guid: c3881c4b3762cd34a85b93f25baa7db9,
     type: 2}

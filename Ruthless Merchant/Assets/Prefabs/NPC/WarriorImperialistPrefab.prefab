@@ -75,7 +75,7 @@ Transform:
   m_GameObject: {fileID: 1675400970968520}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 197.51898, y: 25.995422, z: 143.03612}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.22, y: 0.22, z: 0.22}
   m_Children:
   - {fileID: 4523198383581264}
   - {fileID: 4553530576427708}
@@ -215,10 +215,12 @@ MonoBehaviour:
   baseDamagePerAtk: 75
   baseAttackDelay: 2
   baseDefense: 10
+  sneakSpeed: 2
   walkSpeed: 5
   runSpeed: 10
   stickToGroundValue: 0
   maxJumpHeight: 0
+  maxSlopeAngle: 0
   rotationSpeed: 8
   fov: 90
   viewDistance: 10

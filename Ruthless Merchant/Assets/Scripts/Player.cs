@@ -1,5 +1,5 @@
 ﻿//---------------------------------------------------------------
-// Authors: Daniel Masly, Richard Brönnimann, Peter Ehmler
+// Authors: Daniil Masliy, Richard Brönnimann, Peter Ehmler
 //---------------------------------------------------------------
 
 using System;
@@ -29,7 +29,7 @@ namespace RuthlessMerchant
 
         enum ControlMode
         {
-            Move = 0, Smith = 1, Workbench = 2, AlchemySlot = 3
+            Move = 0, AlchemySlot = 1
         }
         
         private Camera playerAttachedCamera;
@@ -97,15 +97,10 @@ namespace RuthlessMerchant
         private GameObject ItemsParent;
 
         [Space(8)]
-
-        //TODO: Set maximum ItemsPerPage after know how much the maximum is
+        
         [SerializeField, Tooltip("Set the maximum amount of items per page.")]
         [Range(0,8)]
-        private int MaxItemsPerPage = 4;
-
-        [SerializeField, Tooltip("Set the maximum amount of weapons per page.")]
-        [Range(0,4)]
-        public int _maxWeaponsPerPage;
+        public int MaxItemsPerPage = 4;
 
         private JumpToPaper _bookLogic;
 
@@ -176,6 +171,11 @@ namespace RuthlessMerchant
                 recipes = FindObjectOfType<Recipes>();
             }
 
+            if (!inventory)
+            {
+                inventory = FindObjectOfType<Inventory>();
+            }
+
             if (ItemsParent != null)
             {
                 itemsContainer = ItemsParent.transform.parent.gameObject;
@@ -193,8 +193,7 @@ namespace RuthlessMerchant
             //BookLogic instantiate
             _bookLogic = new JumpToPaper();
             _bookLogic.GeneratePages();
-
-            inventory = new Inventory();
+            
             inventory.BookLogic = _bookLogic;
             inventory.ItemUIPrefab = ItemUIPrefab;
 
@@ -353,51 +352,28 @@ namespace RuthlessMerchant
         }
 
         /*private void PopulateInventoryPanel()
+        
+        private void PopulateWorkbenchPanel()
         {
-            //Get current Items (with unquie id)
-            //Create new Items
-
-
-            if (inventory.inventorySlots.Length == 0)
-            {
-                return;
-            }
-            else
-            {
-                // Delete all objects in inventory UI
-                foreach (Transform child in ItemsParent.transform)
-                {
-                    Destroy(child.gameObject);
-                }
-            }
-
-
-            // Create inventory list objects
             for (int itemIndex = 0; itemIndex < inventory.inventorySlots.Length; itemIndex++)
             {
                 if (inventory.inventorySlots[itemIndex].Item == null)
                 {
                     continue;
                 }
-
-                GameObject inventoryItem = Instantiate(ItemUIPrefab) as GameObject;
-                Debug.Log(_bookLogic.InventoryPageList);
-
-                inventoryItem.transform.SetParent(_bookLogic.InventoryPageList[_bookLogic.pageForCurrentWeaponPlacement()].transform.Find("PNL_ZoneForItem").transform, false);
-                InventoryDisplayedData itemInfos = inventoryItem.GetComponent<InventoryDisplayedData>();
-                itemInfos.itemName.text = inventory.inventorySlots[itemIndex].Count + "x " + inventory.inventorySlots[itemIndex].Item.itemName + " (" + inventory.inventorySlots[itemIndex].Item.itemRarity + ")";
-                //itemInfos.itemWeight.text = inventory.inventorySlots[itemIndex].Item.itemWeight + " kg";
-                itemInfos.itemDescription.text = inventory.inventorySlots[itemIndex].Item.itemLore;
-                //itemInfos.itemRarity.text = inventory.inventorySlots[itemIndex].Item.itemRarity.ToString();
-                itemInfos.itemPrice.text = inventory.inventorySlots[itemIndex].Item.itemPrice + "G";
-
-                if (inventory.inventorySlots[itemIndex].Item.itemSprite != null)
+                else if (inventory.inventorySlots[itemIndex].Item.ItemType == ItemType.Weapon)
                 {
-                    itemInfos.ItemImage.sprite = inventory.inventorySlots[itemIndex].Item.itemSprite;
+                    GameObject panelPrefab = inventory.inventorySlots[itemIndex].DisplayData.gameObject;
+                    if (panelPrefab.GetComponent<Button>() != null)
+                    {
+                        itemSlot = itemIndex;
+                        panelPrefab.GetComponent<Button>().onClick.AddListener(() => OnWorkbenchButton(itemSlot));
+                    }
                 }
+                else continue;
             }
-        }*/
-
+        }
+        
         private void UpdateCanvas(int currentRecipe)
         {
             Transform canv = smithCanvas.transform.GetChild(0);
@@ -408,7 +384,7 @@ namespace RuthlessMerchant
             for (int i = 0; i < recipes.GetRecipes()[currenRecipe].ListOfMaterials.Count; i++)
             {
                 GameObject newPanel = Instantiate(recipeUiPrefab, canv);
-                newPanel.GetComponentInChildren<Text>().text = recipes.GetRecipes()[currenRecipe].ListOfMaterials[i].Item.itemName + "\n" + recipes.GetRecipes()[currenRecipe].ListOfMaterials[i].Count;
+                newPanel.GetComponentInChildren<Text>().text = recipes.GetRecipes()[currenRecipe].ListOfMaterials[i].Item.ItemName + "\n" + recipes.GetRecipes()[currenRecipe].ListOfMaterials[i].Count;
             }
         }
 
@@ -439,9 +415,6 @@ namespace RuthlessMerchant
                 case ControlMode.Move:
                     ControleModeMove();
                     break;
-                case ControlMode.Workbench:
-                    ControlModeWorkbench();
-                    break;
                 case ControlMode.AlchemySlot:
                     ControlModeAlchemist();
                     break;
@@ -468,8 +441,7 @@ namespace RuthlessMerchant
                     hasJumped = true;
                 }
             }
-
-            //TODO: If toggle_crouch, toggle a switch instead of checking for sneak every update
+            
             if (Input.GetKey(KeyCode.LeftControl))
             {
                 if (!restrictMovement && !restrictCamera)
@@ -516,7 +488,6 @@ namespace RuthlessMerchant
 
 
             SendInteraction();
-            ShowInventory();
             ShowMap();
             OpenBook();
         }
@@ -534,7 +505,8 @@ namespace RuthlessMerchant
         {
             localAlchemist.AddItem((Ingredient)Inventory.inventorySlots[itemSlot].Item);
             Inventory.Remove(itemSlot, 1, true);
-            CloseBook();
+            alchemyCanvas.SetActive(false);
+            controlMode = ControlMode.Move;
         }
 
 
@@ -542,37 +514,17 @@ namespace RuthlessMerchant
         {
 
         }
+
         public void OnWorkbenchButton(int itemslot)
         {
             localWorkbench.BreakdownItem(inventory.inventorySlots[itemSlot].Item, Inventory, recipes);
+            // TODO: update book inventory?
         }
 
-        private void ControlModeWorkbench()
-        {
-            //gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
-            //if (Input.GetKeyDown(KeyCode.Escape))
-            //{
-            //    PopulateInventoryPanel();
-            //    restrictMovement = false;
-            //    inventoryCanvas.SetActive(false);
-            //    controlMode = ControlMode.Move;
-            //}
-            //if(Input.GetKeyDown(KeyCode.E))
-            //{
-            //    localWorkbench.BreakdownItem(inventory.inventorySlots[0].Item, Inventory);
-            //    PopulateWorkbenchPanel();
-
-            //}
-
-            /* REMOVE ONCE WORKBENCH IS FIXED:  */
-            restrictMovement = false;
-            restrictCamera = false;
-            controlMode = ControlMode.Move;
-        }
         private void OnCollisionStay(Collision collision)
         {
             
-            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Default"))
+            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Terrain"))
             {
                 base.Grounding(true);
             }
@@ -580,7 +532,7 @@ namespace RuthlessMerchant
 
         private void OnCollisionExit(Collision collision)
         {
-            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Default"))
+            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Terrain"))
             {
                 base.Grounding(false);
             }
@@ -608,7 +560,7 @@ namespace RuthlessMerchant
                        if (targetItem != null)
                        {
                            // Picking up items and gear
-                           if (targetItem.itemType == ItemType.Weapon || targetItem.itemType == ItemType.Ingredient || targetItem.itemType == ItemType.CraftingMaterial|| targetItem.itemType == ItemType.ConsumAble)
+                           if (targetItem.ItemType == ItemType.Weapon || targetItem.ItemType == ItemType.Ingredient || targetItem.ItemType == ItemType.CraftingMaterial|| targetItem.ItemType == ItemType.ConsumAble)
                            {
                                Item clonedItem = targetItem.DeepCopy();
                                 
@@ -703,7 +655,17 @@ namespace RuthlessMerchant
             }
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                CloseBook();
+                _bookCanvas.SetActive(_bookCanvas.activeSelf == false);
+                lastKeyPressed = KeyCode.Escape;
+                restrictMovement = !(_bookCanvas.activeSelf == false);
+                restrictCamera = !(_bookCanvas.activeSelf == false);
+                if (!_bookCanvas.activeSelf && recipes != null)
+                {
+                    for (int i = 0; i < recipes.Panels.Count; i++)
+                    {
+                        recipes.Panels[i].Button.onClick.RemoveAllListeners();
+                    }
+                }
             }
             if (Input.GetKeyDown(KeyCode.I))
             {
@@ -714,30 +676,6 @@ namespace RuthlessMerchant
             }
         }
 
-        private void CloseBook()
-        {
-            _bookCanvas.SetActive(_bookCanvas.activeSelf == false);
-            lastKeyPressed = KeyCode.Escape;
-            restrictMovement = !(_bookCanvas.activeSelf == false);
-            restrictCamera = !(_bookCanvas.activeSelf == false);
-            if (!_bookCanvas.activeSelf && recipes != null)
-            {
-                for (int i = 0; i < recipes.Panels.Count; i++)
-                {
-                    recipes.Panels[i].Button.onClick.RemoveAllListeners();
-                }
-                for (int i = 0; i < inventory.InventorySlots.Length; i++)
-                {
-                    if(inventory.inventorySlots[i].DisplayData)
-                        inventory.inventorySlots[i].DisplayData.button.onClick.RemoveAllListeners();
-                }
-            }
-        }
-
-        /// <summary>
-        /// This funcion runs once when interacting with a Smith
-        /// </summary>
-        /// <param name="smith">The smith the player is currently interacting with</param>
         public void EnterSmith(Smith smith)
         {
             localSmith = smith;
@@ -749,66 +687,67 @@ namespace RuthlessMerchant
             }
             {
                 _bookCanvas.SetActive(_bookCanvas.activeSelf == false);
+                lastKeyPressed = KeyCode.R;
                 restrictMovement = !(_bookCanvas.activeSelf == false);
                 restrictCamera = !(_bookCanvas.activeSelf == false);
             }
         }
 
-        /// <summary>
-        /// This funcion runs once when interacting with a AlchemySlot
-        /// </summary>
-        /// <param name="alchemySlot">The slot the player is currently interacting with</param>
         public void EnterAlchemist(AlchemySlot alchemySlot)
         {
-
+            bool hasIngridients = false;
+            for(int i = 0; i < inventory.inventorySlots.Length; i++)
+            {
+                if (inventory.inventorySlots[i].Item.GetType() == typeof(Ingredient))
+                    hasIngridients = true;
+            }
+            localAlchemist = alchemySlot;
+            controlMode = ControlMode.AlchemySlot;
         }
 
         public void EnterWorkbench(Workbench workbench)
         {
             //Might be excessiv Populating
+            PopulateWorkbenchPanel();
             if (mapObject.activeSelf)
             {
                 mapObject.SetActive(false);
             }
 
-            inventoryCanvas.SetActive(true);
+            _bookCanvas.SetActive(true);
+            lastKeyPressed = KeyCode.I;
             restrictMovement = true;
             restrictCamera = true;
             localWorkbench = workbench;
-            controlMode = ControlMode.Workbench;
         }
 
         public void EnterAlchemySlot(AlchemySlot alchemySlot)
         {
             localAlchemist = alchemySlot;
-            lastKeyPressed = KeyCode.I;
-            if(localAlchemist.Ingredient == null)
-            {
-                OpenBook();
-                _bookCanvas.SetActive(true);
-                restrictMovement = !(_bookCanvas.activeSelf == false);
-                restrictCamera = !(_bookCanvas.activeSelf == false);
+            controlMode = ControlMode.AlchemySlot;
 
-                SetAlchemyItemButtons();
-            }
-            else
-            {
-                localAlchemist.RemoveItem(inventory);
-            }
+            alchemyCanvas.SetActive(true);
+            CreateAlchemyCanvas();
         }
 
-        void SetAlchemyItemButtons()
+        void CreateAlchemyCanvas()
         {
-            for(int i = 0; i < inventory.inventorySlots.Length; i++)
+            foreach(Transform item in alchemyCanvas.transform)
             {
-                if(inventory.inventorySlots[i].DisplayData)
-                {
-                    if(inventory.inventorySlots[i].Item.itemType == ItemType.Ingredient)
+                Destroy(item.gameObject);
+            }
+            for (int i = 0; i < inventory.inventorySlots.Length; i++)
+            {
+                if (inventory.inventorySlots[i].Item)
+                    if (inventory.inventorySlots[i].Item.ItemType == ItemType.Ingredient)
                     {
-                        int value = i;
-                        inventory.inventorySlots[i].DisplayData.button.onClick.AddListener(delegate { OnAlchemyButton(value); });
+                        Button newPanel = Instantiate(alchemyUiPrefab, alchemyCanvas.transform).GetComponent<Button>();
+
+                        int panel = i;
+                        newPanel.onClick.AddListener(delegate { OnAlchemyButton(panel); });
+
+                        newPanel.GetComponentInChildren<Text>().text = inventory.inventorySlots[i].Item.ItemName;
                     }
-                }
             }
         }
 
@@ -826,38 +765,6 @@ namespace RuthlessMerchant
         {
             throw new System.NotImplementedException();
         }
-
-        public void MakeOffer(string playerOfferString)
-        {
-            Trade trade = Trade.Singleton;
-            trade.AugmentTotalPlayerOffers();
-
-            float playerOfferParsed = float.Parse(playerOfferString);
-            float playerOffer = (float)Math.Floor(playerOfferParsed);
-
-            int lastPlayerOffer = -1;
-
-            if (trade.PlayerOffers.Count > 0)
-            {
-                lastPlayerOffer = (int)Math.Floor(trade.PlayerOffers[trade.PlayerOffers.Count - 1]);
-            }
-
-            if (playerOffer < 1 || lastPlayerOffer != -1 && lastPlayerOffer < 2)
-            {
-                playerOffer = 1;
-            }
-
-            else if (lastPlayerOffer != -1 && playerOffer >= lastPlayerOffer)
-            {
-                playerOffer = lastPlayerOffer - 1;
-            }
-
-            trade.PlayerOffers.Add(playerOffer);
-            trade.BargainEventsText.text = "";
-
-            trade.UpdateTrading();
-        }
-
     }
 }
        

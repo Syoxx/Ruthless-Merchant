@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 4927627085784462}
   - component: {fileID: 33793208627247970}
   - component: {fileID: 23405682298002012}
+  - component: {fileID: 64247325456323016}
   m_Layer: 0
   m_Name: MF_Doubletree_Leaves_P
   m_TagString: Untagged
@@ -156,4 +157,18 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1826017284100184}
+  m_Mesh: {fileID: 4300000, guid: bd2ff5ff3ee97bf469bbaba38bcec568, type: 3}
+--- !u!64 &64247325456323016
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1826017284100184}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: bd2ff5ff3ee97bf469bbaba38bcec568, type: 3}

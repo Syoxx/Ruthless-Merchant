@@ -82,8 +82,8 @@ namespace RuthlessMerchant
 
             Potion potion = new GameObject(itemName).AddComponent<Potion>();
             potion.CreatePotion(atk, def, speed, hp);
-            potion.itemName = itemName;
-            potion.itemType = ItemType.ConsumAble;
+            potion.ItemName = itemName;
+            potion.ItemType = ItemType.ConsumAble;
 
             Player p = caller.GetComponent<Player>();
             p.Inventory.Add(potion.DeepCopy(), 1, true);

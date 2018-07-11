@@ -7,13 +7,14 @@ using JetBrains.Annotations;
 
 public class JumpToPaper : MonoBehaviour
 {
-    private BookPro _myBook;
-    private AutoFlip flipEffect;
+    BookPro _myBook;
+    AutoFlip flipEffect;
 
-    [SerializeField] [Tooltip("Just put the canvas here itself")]
-    private GameObject BookItSelf;
+    [SerializeField]
+    [Tooltip("Just put the canvas here itself")]
+    GameObject BookItSelf;
 
-    private int flippedPages = 0;
+    int flippedPages = 0;
 
 
     //Collecting pages
@@ -21,13 +22,12 @@ public class JumpToPaper : MonoBehaviour
 
     [HideInInspector] public List<GameObject> PageList = new List<GameObject>();
 
-    private GameObject blub;
-
-
+    GameObject blub;
 
     //Needed for helping to count Items
-    private int ItemsAmount;
-    private int numberPagesSkipped;
+    int ItemsAmount;
+    int numberPagesSkipped;
+    int maxWeaponsPerPage;
 
 
     //[SerializeField] private int JumpToPage;
@@ -49,11 +49,11 @@ public class JumpToPaper : MonoBehaviour
         InventoryPageList = GameObject.FindGameObjectsWithTag("Book_Inventory")
             .OrderBy(inventoryPage => inventoryPage.name).ToList();
 
-        GameObject Pages = GameObject.Find("Pages");
-        foreach (Transform child in Pages.transform)
-        {
-            // Debug.Log("M " + child);
-        }
+        //GameObject Pages = GameObject.Find("Pages");
+        //foreach (Transform child in Pages.transform)
+        //{
+        //    // Debug.Log("M " + child);
+        //}
 
         PageList = PageList.OrderBy(child => child.name).ToList();
         foreach (var o in PageList)
@@ -108,7 +108,7 @@ public class JumpToPaper : MonoBehaviour
         int itemsAmount = 0;
         foreach (GameObject myObject in InventoryPageList)
         {
-            InventoryDisplayedData[] data = myObject.GetComponentsInChildren<InventoryDisplayedData>();
+            InventoryItem[] data = myObject.GetComponentsInChildren<InventoryItem>();
             if (data != null)
             {
                 itemsAmount += data.Length;
@@ -121,8 +121,11 @@ public class JumpToPaper : MonoBehaviour
     // Here we decide for the Page where should be the weapon placed.
     public int PageForCurrentWeaponPlacement()
     {
+        maxWeaponsPerPage = GameObject.Find("NewPlayerPrefab").GetComponent<Player>().MaxItemsPerPage;
+        if (maxWeaponsPerPage == 0)
+            maxWeaponsPerPage = 1;
         return (CountWeaponsInInventory() /
-                GameObject.Find("NewPlayerPrefab").GetComponent<Player>()._maxWeaponsPerPage);
+                maxWeaponsPerPage);
     }
 
 
@@ -218,7 +221,7 @@ public class JumpToPaper : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R) || Player.lastKeyPressed == KeyCode.R)
         {
-            _myBook.CurrentPaper = 16;
+            _myBook.CurrentPaper = 17;
             Player.lastKeyPressed = KeyCode.None;
         }
     }
