@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using RuthlessMerchant;
 using UnityEngine;
 using System.Linq;
-using JetBrains.Annotations;
 
 public class PageLogic : MonoBehaviour
 {
@@ -30,8 +29,6 @@ public class PageLogic : MonoBehaviour
     int numberPagesSkipped;
     int maxWeaponsPerPage;
 
-
-    //[SerializeField] private int JumpToPage;
     // Use this for initialization
     void Start()
     {

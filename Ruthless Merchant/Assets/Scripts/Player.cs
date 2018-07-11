@@ -631,20 +631,20 @@ namespace RuthlessMerchant
             }
             if (Input.GetKeyDown(KeyCode.I))
             {
-                _bookCanvas.SetActive(true);
+                bookCanvas.SetActive(true);
                 lastKeyPressed = KeyCode.I;
-                restrictMovement = !(_bookCanvas.activeSelf == false);
-                restrictCamera = !(_bookCanvas.activeSelf == false);
+                restrictMovement = !(bookCanvas.activeSelf == false);
+                restrictCamera = !(bookCanvas.activeSelf == false);
             }
         }
 
         private void CloseBook()
         {
-            _bookCanvas.SetActive(_bookCanvas.activeSelf == false);
+            bookCanvas.SetActive(bookCanvas.activeSelf == false);
             lastKeyPressed = KeyCode.Escape;
-            restrictMovement = !(_bookCanvas.activeSelf == false);
-            restrictCamera = !(_bookCanvas.activeSelf == false);
-            if (!_bookCanvas.activeSelf && recipes != null)
+            restrictMovement = !(bookCanvas.activeSelf == false);
+            restrictCamera = !(bookCanvas.activeSelf == false);
+            if (!bookCanvas.activeSelf && recipes != null)
             {
                 for (int i = 0; i < recipes.Panels.Count; i++)
                 {
@@ -681,9 +681,9 @@ namespace RuthlessMerchant
             if (localAlchemist.Ingredient == null)
             {
                 OpenBook();
-                _bookCanvas.SetActive(true);
-                restrictMovement = !(_bookCanvas.activeSelf == false);
-                restrictCamera = !(_bookCanvas.activeSelf == false);
+                bookCanvas.SetActive(true);
+                restrictMovement = !(bookCanvas.activeSelf == false);
+                restrictCamera = !(bookCanvas.activeSelf == false);
 
                 SetAlchemyItemButtons();
             }
