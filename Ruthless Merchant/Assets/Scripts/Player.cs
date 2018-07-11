@@ -675,16 +675,38 @@ namespace RuthlessMerchant
             }
         }
 
-        public void EnterAlchemist(AlchemySlot alchemySlot)
+        public void EnterAlchemySlot(AlchemySlot alchemySlot)
         {
-            bool hasIngridients = false;
-            for(int i = 0; i < inventory.inventorySlots.Length; i++)
-            {
-                if (inventory.inventorySlots[i].Item.GetType() == typeof(Ingredient))
-                    hasIngridients = true;
-            }
             localAlchemist = alchemySlot;
-            controlMode = ControlMode.AlchemySlot;
+            lastKeyPressed = KeyCode.I;
+            if (localAlchemist.Ingredient == null)
+            {
+                OpenBook();
+                _bookCanvas.SetActive(true);
+                restrictMovement = !(_bookCanvas.activeSelf == false);
+                restrictCamera = !(_bookCanvas.activeSelf == false);
+
+                SetAlchemyItemButtons();
+            }
+            else
+            {
+                localAlchemist.RemoveItem(inventory);
+            }
+        }
+
+        void SetAlchemyItemButtons()
+        {
+            for (int i = 0; i < inventory.inventorySlots.Length; i++)
+            {
+                if (inventory.inventorySlots[i].DisplayData)
+                {
+                    if (inventory.inventorySlots[i].Item.ItemType == ItemType.Ingredient)
+                    {
+                        int value = i;
+                        inventory.inventorySlots[i].DisplayData.itemButton.onClick.AddListener(delegate { OnAlchemyButton(value); });
+                    }
+                }
+            }
         }
 
         public void EnterWorkbench(Workbench workbench)
@@ -701,15 +723,6 @@ namespace RuthlessMerchant
             restrictMovement = true;
             restrictCamera = true;
             localWorkbench = workbench;
-        }
-
-        public void EnterAlchemySlot(AlchemySlot alchemySlot)
-        {
-            localAlchemist = alchemySlot;
-            controlMode = ControlMode.AlchemySlot;
-
-            alchemyCanvas.SetActive(true);
-            CreateAlchemyCanvas();
         }
 
         void CreateAlchemyCanvas()
