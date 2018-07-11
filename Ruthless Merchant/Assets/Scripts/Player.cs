@@ -487,8 +487,7 @@ namespace RuthlessMerchant
         {
             localAlchemist.AddItem((Ingredient)Inventory.inventorySlots[itemSlot].Item);
             Inventory.Remove(itemSlot, 1, true);
-            alchemyCanvas.SetActive(false);
-            controlMode = ControlMode.Move;
+            CloseBook();
         }
 
 
@@ -637,17 +636,7 @@ namespace RuthlessMerchant
             }
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                _bookCanvas.SetActive(_bookCanvas.activeSelf == false);
-                lastKeyPressed = KeyCode.Escape;
-                restrictMovement = !(_bookCanvas.activeSelf == false);
-                restrictCamera = !(_bookCanvas.activeSelf == false);
-                if (!_bookCanvas.activeSelf && recipes != null)
-                {
-                    for (int i = 0; i < recipes.Panels.Count; i++)
-                    {
-                        recipes.Panels[i].Button.onClick.RemoveAllListeners();
-                    }
-                }
+                CloseBook();
             }
             if (Input.GetKeyDown(KeyCode.I))
             {
@@ -658,6 +647,25 @@ namespace RuthlessMerchant
             }
         }
 
+        private void CloseBook()
+        {
+            _bookCanvas.SetActive(_bookCanvas.activeSelf == false);
+            lastKeyPressed = KeyCode.Escape;
+            restrictMovement = !(_bookCanvas.activeSelf == false);
+            restrictCamera = !(_bookCanvas.activeSelf == false);
+            if (!_bookCanvas.activeSelf && recipes != null)
+            {
+                for (int i = 0; i < recipes.Panels.Count; i++)
+                {
+                    recipes.Panels[i].Button.onClick.RemoveAllListeners();
+                }
+                for (int i = 0; i < inventory.InventorySlots.Length; i++)
+                {
+                    if (inventory.inventorySlots[i].DisplayData)
+                        inventory.inventorySlots[i].DisplayData.itemButton.onClick.RemoveAllListeners();
+                }
+            }
+        }
         public void EnterSmith(Smith smith)
         {
             localSmith = smith;
@@ -675,16 +683,38 @@ namespace RuthlessMerchant
             }
         }
 
-        public void EnterAlchemist(AlchemySlot alchemySlot)
+        public void EnterAlchemySlot(AlchemySlot alchemySlot)
         {
-            bool hasIngridients = false;
-            for(int i = 0; i < inventory.inventorySlots.Length; i++)
-            {
-                if (inventory.inventorySlots[i].Item.GetType() == typeof(Ingredient))
-                    hasIngridients = true;
-            }
             localAlchemist = alchemySlot;
-            controlMode = ControlMode.AlchemySlot;
+            lastKeyPressed = KeyCode.I;
+            if (localAlchemist.Ingredient == null)
+            {
+                OpenBook();
+                _bookCanvas.SetActive(true);
+                restrictMovement = !(_bookCanvas.activeSelf == false);
+                restrictCamera = !(_bookCanvas.activeSelf == false);
+
+                SetAlchemyItemButtons();
+            }
+            else
+            {
+                localAlchemist.RemoveItem(inventory);
+            }
+        }
+
+        void SetAlchemyItemButtons()
+        {
+            for (int i = 0; i < inventory.inventorySlots.Length; i++)
+            {
+                if (inventory.inventorySlots[i].DisplayData)
+                {
+                    if (inventory.inventorySlots[i].Item.ItemType == ItemType.Ingredient)
+                    {
+                        int value = i;
+                        inventory.inventorySlots[i].DisplayData.itemButton.onClick.AddListener(delegate { OnAlchemyButton(value); });
+                    }
+                }
+            }
         }
 
         public void EnterWorkbench(Workbench workbench)
@@ -701,15 +731,6 @@ namespace RuthlessMerchant
             restrictMovement = true;
             restrictCamera = true;
             localWorkbench = workbench;
-        }
-
-        public void EnterAlchemySlot(AlchemySlot alchemySlot)
-        {
-            localAlchemist = alchemySlot;
-            controlMode = ControlMode.AlchemySlot;
-
-            alchemyCanvas.SetActive(true);
-            CreateAlchemyCanvas();
         }
 
         void CreateAlchemyCanvas()
