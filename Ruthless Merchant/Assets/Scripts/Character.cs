@@ -23,6 +23,10 @@ namespace RuthlessMerchant
         private static float globalGravityScale = -9.81f;
         private float groundedSkin = 0.05f;
         private bool grounded;
+        bool is_climbable_left;
+        bool is_climbable_right;
+        bool is_climbable_front;
+        bool is_climbable_back;
 
         private float playerRadius;
         private Vector3 boxSize;
@@ -179,7 +183,7 @@ namespace RuthlessMerchant
             if (charCollider == null)
             {
                 charCollider = GetComponent<CapsuleCollider>();
-                terrainCheckRadius = charCollider.radius;
+                terrainCheckRadius = charCollider.radius - 0.1f;
                 colliderHeight = charCollider.height;
             }            
 
@@ -272,7 +276,7 @@ namespace RuthlessMerchant
 
         public void Jump()
         {
-            if (grounded && !preventClimbing)
+            if (grounded)
             {
                 if (elapsedSecs <= 0)
                 {
@@ -293,38 +297,30 @@ namespace RuthlessMerchant
 
             if (isPlayer)
             {
+                // check the terrain angle in four directions player could move
                 preventClimbing = false;
+                Vector3 rayOriginInPlayer = new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z);
                                 
-                Ray rayLeft     = new Ray(new Vector3(transform.localPosition.x - terrainCheckRadius, transform.localPosition.y + 0.1f, transform.localPosition.z), Vector3.down);
-                Ray rayRight    = new Ray(new Vector3(transform.localPosition.x + terrainCheckRadius, transform.localPosition.y + 0.1f, transform.localPosition.z), Vector3.down);
-                Ray rayFront    = new Ray(new Vector3(transform.localPosition.x, transform.localPosition.y + 0.1f, transform.localPosition.z + terrainCheckRadius), Vector3.down);
-                Ray rayBack     = new Ray(new Vector3(transform.localPosition.x, transform.localPosition.y + 0.1f, transform.localPosition.z - terrainCheckRadius), Vector3.down);
+                Ray rayLeft     = new Ray(rayOriginInPlayer - transform.right * terrainCheckRadius, Vector3.down);
+                Ray rayRight    = new Ray(rayOriginInPlayer + transform.right * terrainCheckRadius, Vector3.down);
+                Ray rayFront    = new Ray(rayOriginInPlayer + transform.forward * terrainCheckRadius, Vector3.down);
+                Ray rayBack     = new Ray(rayOriginInPlayer - transform.forward * terrainCheckRadius, Vector3.down);
                 
-                bool is_climbable_left = CheckGroundAngle(rayLeft);
-                bool is_climbable_right = CheckGroundAngle(rayRight);
-                bool is_climbable_front = CheckGroundAngle(rayFront);
-                bool is_climbable_back = CheckGroundAngle(rayBack);
+                is_climbable_left = CheckGroundAngle(rayLeft);
+                is_climbable_right = CheckGroundAngle(rayRight);
+                is_climbable_front = CheckGroundAngle(rayFront);
+                is_climbable_back = CheckGroundAngle(rayBack);
 
                 if (!is_climbable_left || !is_climbable_right || !is_climbable_front || !is_climbable_back)
                 {
-                    // TODO: tweak this to (transform.y - previous.y > threshold)
-                    if (previousPosition.y < transform.position.y)
-                    {
-                        preventClimbing = true;
-                    }
+                    preventClimbing = true;
                 }
-            }
-
-            if (!preventClimbing)
-            {
-                previousPosition.x = transform.position.x;
-                previousPosition.y = transform.position.y;
-                previousPosition.z = transform.position.z;
-            }
+            }            
         }
 
         private void LateUpdate()
         {
+            // Set gravity and prevent player climbing walls
             if (grounded && !preventClimbing)
             {
                 if (rb != null)
@@ -333,15 +329,24 @@ namespace RuthlessMerchant
                     gravity.y = -stickToGroundValue;
                     ApplyGravity(gravity);
                 }
+                previousPosition.x = transform.position.x;
+                previousPosition.y = transform.position.y;
+                previousPosition.z = transform.position.z;
             }
             else
             {
                 if (rb != null)
                 {
-                    if (preventClimbing)
+                    if ((!is_climbable_front && moveVector.z > 0.5f) || (!is_climbable_back && moveVector.z < -0.5f)
+                    || (!is_climbable_right && moveVector.x > 0.5f) || (!is_climbable_left && moveVector.x < -0.5f))
                     {
-                        //gravity.y -= 30;
                         rb.MovePosition(previousPosition);
+                    }
+                    else
+                    {
+                        previousPosition.x = transform.position.x;
+                        previousPosition.y = transform.position.y;
+                        previousPosition.z = transform.position.z;
                     }
 
                     gravity += globalGravityScale * Vector3.up * Time.deltaTime * 2f;
@@ -361,7 +366,7 @@ namespace RuthlessMerchant
             RaycastHit hitInfo;
             bool isClimbableAngle = true;
 
-            Physics.Raycast(ray, out hitInfo, 0.7f);
+            Physics.Raycast(ray, out hitInfo, 0.2f);
 
             if (hitInfo.collider != null)
             {
