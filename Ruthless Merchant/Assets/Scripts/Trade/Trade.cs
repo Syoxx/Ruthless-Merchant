@@ -14,7 +14,7 @@ namespace RuthlessMerchant
         #if UNITY_EDITOR
         [ReadOnly]
         #endif
-        public Item Item;
+        public int RealValue;
 
         #if UNITY_EDITOR
         [ReadOnly]
@@ -39,8 +39,18 @@ namespace RuthlessMerchant
         [SerializeField]
         int nextPlayerOffer;
 
+        // TODO: Delete this.
         [SerializeField]
-        Text TradeDialogue;
+        int defaultValue = 35;
+
+        [SerializeField]
+        GameObject TradeObjectsParent;
+
+        [SerializeField]
+        Text tradeDialogue;
+
+        [SerializeField]
+        Text valueText;
 
         [SerializeField]
         Slider sliderIrritation;
@@ -77,6 +87,8 @@ namespace RuthlessMerchant
 
         List<List<GameObject>> weightsTrader;
 
+        float NeutralPositionY;
+
         float exitTimer = 0;
 
         bool exit = false;
@@ -92,7 +104,10 @@ namespace RuthlessMerchant
             TraderOffers = new List<float>();
             weightsPlayer = new List<List<GameObject>>();
             weightsTrader = new List<List<GameObject>>();
+        }
 
+        private void Start()
+        {
             weightsPlayer = GetPresentWeights(weightsPlayerParent);
             weightsTrader = GetPresentWeights(weightsTraderParent);
 
@@ -105,22 +120,10 @@ namespace RuthlessMerchant
                 }
             }
 
+            TradeObjectsParent.transform.position = Trader.CurrentTrader.gameObject.transform.position;
+            NeutralPositionY = weightsPlayerParent.transform.position.y;
+
             enabled = false;
-        }
-
-        public void Initialize(int value)
-        {
-            Cursor.visible = true;
-            GetComponent<ItemSetter>().SetTrade(this, value);
-            Trader.CurrentTrader.Initialize(this);
-
-            nextPlayerOffer = Item.ItemValue[0].Count;
-            nextPlayerOfferText.text = nextPlayerOffer.ToString();
-            nextPlayerOfferText.fontStyle = FontStyle.Italic;
-
-            UpdateWeights(weightsPlayer, nextPlayerOffer);
-
-            enabled = true;
         }
 
         void Update()
@@ -132,8 +135,7 @@ namespace RuthlessMerchant
                 if (exitTimer > 3)
                 {
                     Cursor.visible = false;
-                    //UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync("TradeScene");
-                    UnityEngine.SceneManagement.SceneManager.LoadScene("Isleandtesting");
+                    Main_SceneManager.UnLoadScene("TradeScene");
                 }
             }
             else
@@ -156,12 +158,12 @@ namespace RuthlessMerchant
                 #if UNITY_EDITOR
                 else if (Input.GetKeyDown(KeyCode.Q))
                 {
-                    UnityEngine.SceneManagement.SceneManager.LoadScene("Isleandtesting");
+                    Quit();
                 }
                 #else
                 else if (Input.GetKeyDown(KeyCode.Escape))
                 {
-                    UnityEngine.SceneManagement.SceneManager.LoadScene("Isleandtesting");                
+                    Quit();
                 }
                 #endif
             }
@@ -174,6 +176,37 @@ namespace RuthlessMerchant
         }
 
         #endregion
+
+        /// <summary>
+        /// Initializes the trade.
+        /// </summary>
+        /// <param name="realValue">The RealValue of the trade.</param>
+        public void Initialize(int realValue)
+        {
+            Cursor.visible = true;
+            SetItemValue(realValue);
+            Trader.CurrentTrader.Initialize(this);
+
+            nextPlayerOffer = RealValue; ;
+            nextPlayerOfferText.text = nextPlayerOffer.ToString();
+            nextPlayerOfferText.fontStyle = FontStyle.Italic;
+
+            UpdateWeights(weightsPlayer, nextPlayerOffer);
+
+            enabled = true;
+        }
+
+        /// <summary>
+        /// Sets the RealValue of the trade.
+        /// </summary>
+        void SetItemValue(int realValue = 0)
+        {
+            if (realValue == 0)
+                realValue = defaultValue;
+
+            RealValue = realValue;
+            valueText.text = realValue.ToString();
+        }
 
         /// <summary>
         /// Modifies nextPlayerOffer and its representation by weights in the scene.
@@ -237,8 +270,8 @@ namespace RuthlessMerchant
 
             PlayerOffers.Add(nextPlayerOffer);
 
-            TradeDialogue.text = "";
-            Trader.CurrentTrader.ReactToPlayerOffer(this);
+            tradeDialogue.text = "";
+            Trader.CurrentTrader.ReactToPlayerOffer();
 
             if (TraderOffers.Count > 0)
                 UpdateWeights(weightsTrader, (int)TraderOffers[TraderOffers.Count -1]);
@@ -274,7 +307,7 @@ namespace RuthlessMerchant
         /// </summary>
         void Accept()
         {
-            TradeDialogue.text = "You and Dormammu have a blood-sealing pact. He wishes you a good day and rides off into the sunset.";
+            tradeDialogue.text = "You and Dormammu have a blood-sealing pact. He wishes you a good day and rides off into the sunset.";
             exit = true;
         }
 
@@ -283,7 +316,7 @@ namespace RuthlessMerchant
         /// </summary>
         public void Abort()
         {
-            TradeDialogue.text = "Dormammu tells you to fuck off and rides off with his galaxy-eating unicorn.";
+            tradeDialogue.text = "Dormammu tells you to fuck off and rides off with his galaxy-eating unicorn.";
             exit = true;
         }
 
@@ -292,7 +325,8 @@ namespace RuthlessMerchant
         /// </summary>
         public void Quit()
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("Isleandtesting");
+            tradeDialogue.text = "U quitted coz u a lil chicken.";
+            exit = true;
         }
 
         /// <summary>
@@ -319,8 +353,8 @@ namespace RuthlessMerchant
                 else if (playerTraderOfferDelta < -0.75f)
                     playerTraderOfferDelta = -0.75f;
 
-                weightsPlayerParent.position += new Vector3(0, -weightsPlayerParent.position.y - playerTraderOfferDelta, 0);
-                weightsTraderParent.position += new Vector3(0, -weightsTraderParent.position.y + playerTraderOfferDelta, 0);
+                weightsPlayerParent.position += new Vector3(0, -weightsPlayerParent.position.y + NeutralPositionY - playerTraderOfferDelta, 0);
+                weightsTraderParent.position += new Vector3(0, -weightsTraderParent.position.y + NeutralPositionY + playerTraderOfferDelta, 0);
             }
         }
 
