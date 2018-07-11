@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 4489626135084620}
   - component: {fileID: 33033482578774660}
   - component: {fileID: 23930349653969268}
+  - component: {fileID: 64295473040678940}
   m_Layer: 0
   m_Name: MF_Dschungletree_3_P
   m_TagString: Untagged
@@ -158,3 +159,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1375430057345216}
   m_Mesh: {fileID: 4300002, guid: 110faee86a85e5549a12ddbb3055b4e7, type: 3}
+--- !u!64 &64295473040678940
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1852591259875242}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300000, guid: 110faee86a85e5549a12ddbb3055b4e7, type: 3}

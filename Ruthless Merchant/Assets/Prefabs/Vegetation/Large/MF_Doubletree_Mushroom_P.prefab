@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4678709744034558}
   - component: {fileID: 33816968565244704}
   - component: {fileID: 23930613045744672}
+  - component: {fileID: 64882697708728086}
   m_Layer: 0
   m_Name: MF_Doubletree_Mushroom_P
   m_TagString: Untagged
@@ -84,4 +85,18 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1629181909582426}
+  m_Mesh: {fileID: 4300000, guid: 67a887f32241ddc478cb801c953d3663, type: 3}
+--- !u!64 &64882697708728086
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1629181909582426}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 67a887f32241ddc478cb801c953d3663, type: 3}

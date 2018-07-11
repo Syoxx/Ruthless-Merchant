@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4423957687612406}
   - component: {fileID: 33467384473736048}
   - component: {fileID: 23323567925260616}
+  - component: {fileID: 64414633178180782}
   m_Layer: 0
   m_Name: MF_Sunflower_P
   m_TagString: Untagged
@@ -84,4 +85,18 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1263183217328962}
+  m_Mesh: {fileID: 4300000, guid: 822d65b10a5c12743853135fda60c660, type: 3}
+--- !u!64 &64414633178180782
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1263183217328962}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 822d65b10a5c12743853135fda60c660, type: 3}

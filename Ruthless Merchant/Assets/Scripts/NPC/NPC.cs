@@ -13,10 +13,7 @@ namespace RuthlessMerchant
     public abstract class NPC : Character
     {
         /* TODO
-         * 
          * Some stop acting
-         * Split between lane 2 and 3
-         * Outpost flag
          */
 
         public static int MaxNPCCountPerFaction = 30;
@@ -54,23 +51,39 @@ namespace RuthlessMerchant
         [HideInInspector]
         public Nullable<Waypoint> CurrentWaypoint = null;
 
-        [SerializeField, Tooltip("Roation Speed")]
-        [Range(0.1f, 100.0f)]
+        [SerializeField, Range(0.1f, 100.0f), Tooltip("Roation Speed")]
         protected float rotationSpeed = 8.0f;
 
-        [SerializeField, Tooltip("Field of view")]
-        [Range(25, 90)]
+        [Header("NPC Recogniction Settings")]
+        [SerializeField, Range(25, 90), Tooltip("Field of view")]
         protected int fov = 45;
 
-        [SerializeField, Tooltip("Max. view distance of npc. Is used by child gameobject with see script")]
-        [Range(1, 1000)]
+        [SerializeField, Range(1, 100), Tooltip("Max. view distance")]
         protected int viewDistance = 10;
 
-        [SerializeField, Tooltip("Max. hear distance of npcs. Is used by child gameoject with hear script")]
-        [Range(1, 1000)]
+        [SerializeField, Range(1, 100), Tooltip("Max. hear distance of npcs. Is used by child gameoject with hear script")]
         protected int hearDistance = 5;
 
+        [Header("NPC Settings")]
+        [SerializeField, Range(0, 50.0f), Tooltip("Health Regneration per second")]
+        private float healthRegPerSec = 0;
+        private float healthRegValue = 0.0f;
+
+        [SerializeField, Range(0, 100), Tooltip("Capturing value per second")]
+        protected int capValuePerSecond = 1;
+
+        public int CapValuePerSecond
+        {
+            get
+            {
+                return capValuePerSecond;
+            }
+        }
+
+        public string ActionOutput;
+
         protected NavMeshAgent agent;
+        protected int laneSelectionIndex = 0;
 
         private List<GameObject> possibleSeenObjects;
         private List<AudioSource> possibleHearedObjects;
@@ -84,6 +97,8 @@ namespace RuthlessMerchant
         private ActionNPC currentAction;
 
         private Vector3 rotationTarget;
+
+        [HideInInspector]
         public bool Reacting;
 
         private Character currentReactTarget;
@@ -182,6 +197,7 @@ namespace RuthlessMerchant
             base.Update();
             Recognize();
             Hear();
+            Regeneration();
 
             if(currentAction != null)
                 currentAction.Update(Time.deltaTime);
@@ -203,6 +219,20 @@ namespace RuthlessMerchant
         {
             NPCCount[faction]--;
             base.DestroyInteractivObject();
+        }
+
+        private void Regeneration()
+        {
+            if(healthRegPerSec > 0)
+            {
+                healthRegValue += healthRegPerSec * Time.deltaTime;
+                if(healthRegValue > 1.0f)
+                {
+                    int addValue = (int)Math.Floor(healthRegValue);
+                    healthRegValue -= addValue;
+                    HealthSystem.ChangeHealth(addValue, this);
+                }
+            }
         }
 
         private void CheckReactionState()
@@ -379,7 +409,7 @@ namespace RuthlessMerchant
             {
                 if (IsThreat(gameObject))
                 {
-                    if (currentReactTarget != null)
+                    if (currentReactTarget != null && reactionState.HasFlag(TargetState.IsThreat))
                     {
                         if (Vector3.Distance(gameObject.transform.position, transform.position) <
                             Vector3.Distance(currentReactTarget.transform.position, transform.position))
@@ -454,6 +484,8 @@ namespace RuthlessMerchant
 
                 currentAction = action;
                 currentAction.StartAction(this, other);
+
+                ActionOutput = currentAction.GetType().FullName;
             }
         }
 
@@ -580,10 +612,11 @@ namespace RuthlessMerchant
         /// <param name="path">Next capture trigger</param>
         /// <param name="waitTime">Wait time on waypoint</param>
         /// <returns>Returns a waypoint</returns>
-        public Waypoint SetPath(CaptureTrigger path, float waitTime, bool removeOnWaypointReached = true)
+        public Waypoint SetPath(CaptureTrigger path, float waitTime, bool removeOnWaypointReached = true, int laneSelectionIndex = 0)
         {
             if (path != null)
             {
+                this.laneSelectionIndex = laneSelectionIndex;
                 Waypoint waypoint = new Waypoint(path.transform, removeOnWaypointReached, waitTime);
                 AddNewWaypoint(waypoint, true);
                 return waypoint;

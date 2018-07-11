@@ -83,7 +83,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1102669656456726
 GameObject:
   m_ObjectHideFlags: 1
@@ -2265,6 +2265,7 @@ MonoBehaviour:
   DelayBeforeStart: 0
   TimeBetweenPages: 2
   AutoStartFlip: 0
+  isPageFlipping: 0
 --- !u!114 &114240265352676676
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5305,6 +5306,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b246637723c4f7459299553161f42b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BookItSelf: {fileID: 0}
+  InventoryPageList: []
+  PageList: []
 --- !u!114 &114866851529423936
 MonoBehaviour:
   m_ObjectHideFlags: 1

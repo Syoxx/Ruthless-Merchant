@@ -8,14 +8,21 @@ namespace RuthlessMerchant
 {
     public class Inventory : MonoBehaviour
     {
+        public static Inventory Singleton;
+
         private Item[] items;
         public InventorySlot[] inventorySlots;
         [SerializeField]
         private int maxSlotCount = 10;
 
         public List<Item> startinventory;
+        private UnityEvent inventoryChanged;
 
-        UnityEvent inventoryChanged;
+        [System.NonSerialized]
+        public JumpToPaper BookLogic = null;
+
+        [System.NonSerialized]
+        public GameObject ItemUIPrefab = null;
 
         public UnityEvent InventoryChanged
         {
@@ -28,8 +35,9 @@ namespace RuthlessMerchant
         private void Awake()
         {
             inventorySlots = new InventorySlot[maxSlotCount];
-
             inventoryChanged = new UnityEvent();
+
+            Singleton = this;
         }
 
         private void Start()
@@ -53,13 +61,6 @@ namespace RuthlessMerchant
                 else
                     Debug.Log("Empty");
             }
-        }
-
-        public Inventory()
-        {
-            inventorySlots = new InventorySlot[maxSlotCount];
-
-            inventoryChanged = new UnityEvent();
         }
 
         public Item[] Items
@@ -111,11 +112,15 @@ namespace RuthlessMerchant
                         inventorySlots[i].Item = item;
                         count = 0;
                     }
+
+                    if (inventorySlots[i].DisplayData == null)
+                        inventorySlots[i].DisplayData = CreateDisplayData(inventorySlots[i]);
+                    else
+                        inventorySlots[i].DisplayData = UpdateDisplayData(inventorySlots[i]);
                 }
-                else
-                if (inventorySlots[i].Item)
+                else if (inventorySlots[i].Item)
                 {
-                    if (inventorySlots[i].Item.itemName == item.itemName && inventorySlots[i].Count < item.MaxStackCount)
+                    if (inventorySlots[i].Item.ItemName == item.ItemName && inventorySlots[i].Count < item.MaxStackCount)
                     {
                         if (inventorySlots[i].Count + count > item.MaxStackCount)
                         {
@@ -127,14 +132,21 @@ namespace RuthlessMerchant
                             inventorySlots[i].Count += count;
                             count = 0;
                         }
+
+                        if (inventorySlots[i].DisplayData == null)
+                            inventorySlots[i].DisplayData = CreateDisplayData(inventorySlots[i]);
+                        else
+                            inventorySlots[i].DisplayData = UpdateDisplayData(inventorySlots[i]);
                     }
                 }
+
                 if (count <= 0)
                 {
                     if (sortAfterMethod)
                     {
                         SortInventory();
                     }
+
                     return count;
                 }
             }
@@ -156,7 +168,7 @@ namespace RuthlessMerchant
             {
                 if (inventorySlots[i].Item)
                 {
-                    if (inventorySlots[i].Item.itemName == item.itemName)
+                    if (inventorySlots[i].Item.ItemName == item.ItemName)
                         return i;
                 }
             }
@@ -176,7 +188,7 @@ namespace RuthlessMerchant
             {
                 if(inventorySlots[i].Item)
                 {
-                    if (inventorySlots[i].Item.itemName == item.itemName)
+                    if (inventorySlots[i].Item.ItemName == item.ItemName)
                     {
                         amount += inventorySlots[i].Count;
                     }
@@ -195,25 +207,42 @@ namespace RuthlessMerchant
         /// <returns>Returns the item that was stored at the slot</returns>
         public Item Remove(int slot, int count, bool sortAfterMethod)
         {
+            Item item = null;
             if(count > 0)
             {
                 inventorySlots[slot].Count -= count;
                 if (inventorySlots[slot].Count <= 0)
                 {
+                    item = inventorySlots[slot].Item;
                     inventorySlots[slot].Count = 0;
                     inventorySlots[slot].Item = null;
+
+                    if (inventorySlots[slot].DisplayData != null)
+                    {
+                        Destroy(inventorySlots[slot].DisplayData.gameObject);
+                        inventorySlots[slot].DisplayData = null;
+                    }
                 }
             }
             else if(count < 0)
             {
+                item = inventorySlots[slot].Item;
                 inventorySlots[slot].Count = 0;
                 inventorySlots[slot].Item = null;
+
+                if (inventorySlots[slot].DisplayData != null)
+                {
+                    Destroy(inventorySlots[slot].DisplayData.gameObject);
+                    inventorySlots[slot].DisplayData = null;
+                }
             }
+
             if (sortAfterMethod)
             {
                 SortInventory();
             }
-            return inventorySlots[slot].Item;
+
+            return item;
         }
 
         /// <summary>
@@ -233,7 +262,7 @@ namespace RuthlessMerchant
                 {
                     if(inventorySlots[i].Item)
                     {
-                        if (inventorySlots[i].Item.itemName == item.itemName)
+                        if (inventorySlots[i].Item.ItemName == item.ItemName)
                         {
                             foundItems += inventorySlots[i].Count;
                         }
@@ -256,7 +285,7 @@ namespace RuthlessMerchant
                 {
                     if (inventorySlots[i].Item)
                     {
-                        if (inventorySlots[i].Item.itemName == item.itemName)
+                        if (inventorySlots[i].Item.ItemName == item.ItemName)
                         {
                             inventorySlots[i].Count -= count;
                             if (inventorySlots[i].Count <= 0)
@@ -264,22 +293,33 @@ namespace RuthlessMerchant
                                 inventorySlots[i].Item = null;
                                 count = -inventorySlots[i].Count;
                                 inventorySlots[i].Count = 0;
+
+                                if (inventorySlots[i].DisplayData != null)
+                                {
+                                    Destroy(inventorySlots[i].DisplayData.gameObject);
+                                    inventorySlots[i].DisplayData = null;
+                                }
                             }
                             else
                             {
+                                inventorySlots[i].DisplayData = UpdateDisplayData(inventorySlots[i]);
+
                                 if (sortAfterMethod)
                                 {
                                     SortInventory();
                                 }
+
                                 return true;
                             }
                         }
                     }
                 }
+
                 if (sortAfterMethod)
                 {
                     SortInventory();
                 }
+
                 return true;
 
             }
@@ -287,6 +327,52 @@ namespace RuthlessMerchant
             {
                 throw new Exception("Error during removing of items from inventory");
             }
+        }
+
+        private InventoryItem CreateDisplayData(InventorySlot inventorySlot)
+        {
+            if (ItemUIPrefab == null)
+                return null;
+
+            Debug.LogWarning("Create Display Data");
+
+            Transform parent = BookLogic.InventoryPageList[BookLogic.PageForCurrentWeaponPlacement()].transform.Find("PNL_ZoneForItem");
+            GameObject inventoryItem = Instantiate(ItemUIPrefab, parent) as GameObject;
+            //inventoryItem.transform.SetParent(parent, false);
+
+            InventoryItem itemInfos = inventoryItem.GetComponent<InventoryItem>();
+
+            itemInfos.itemName.text = inventorySlot.Count + "x " + inventorySlot.Item.ItemName + " (" + inventorySlot.Item.ItemRarity + ")";
+            itemInfos.itemDescription.text = inventorySlot.Item.ItemLore;
+            itemInfos.itemPrice.text = inventorySlot.Item.ItemValue[0].Count.ToString();
+
+            if (inventorySlot.Item.ItemSprite != null)
+            {
+                itemInfos.ItemImage.sprite = inventorySlot.Item.ItemSprite;
+            }
+
+            return itemInfos;
+        }
+
+        private InventoryItem UpdateDisplayData(InventorySlot inventorySlot)
+        {
+            if (ItemUIPrefab == null)
+                return null;
+
+            InventoryItem itemInfos = inventorySlot.DisplayData;
+            if (itemInfos == null)
+                return CreateDisplayData(inventorySlot);
+
+            itemInfos.itemName.text = inventorySlot.Count + "x " + inventorySlot.Item.ItemName + " (" + inventorySlot.Item.ItemRarity + ")";
+            itemInfos.itemDescription.text = inventorySlot.Item.ItemLore;
+            itemInfos.itemPrice.text = inventorySlot.Item.ItemValue[0].Count + "G";
+
+            if (inventorySlot.Item.ItemSprite != null)
+            {
+                itemInfos.ItemImage.sprite = inventorySlot.Item.ItemSprite;
+            }
+
+            return itemInfos;
         }
 
         /// <summary>
@@ -341,23 +427,23 @@ namespace RuthlessMerchant
                             }
                             else if (inventorySlots[i].Item.Faction == inventorySlots[k].Item.Faction)
                             {
-                                if (inventorySlots[i].Item.itemType > inventorySlots[k].Item.itemType) //Sorty by ItemType
+                                if (inventorySlots[i].Item.ItemType > inventorySlots[k].Item.ItemType) //Sorty by ItemType
                                 {
                                     SwapItemPositions(i, k);
                                 }
-                                else if (inventorySlots[i].Item.itemType == inventorySlots[k].Item.itemType)
+                                else if (inventorySlots[i].Item.ItemType == inventorySlots[k].Item.ItemType)
                                 {
-                                    if (inventorySlots[i].Item.itemRarity > inventorySlots[k].Item.itemRarity) //Sorty by Rarity
+                                    if (inventorySlots[i].Item.ItemRarity > inventorySlots[k].Item.ItemRarity) //Sorty by Rarity
                                     {
                                         SwapItemPositions(i, k);
                                     }
-                                    else if (inventorySlots[i].Item.itemRarity == inventorySlots[k].Item.itemRarity)
+                                    else if (inventorySlots[i].Item.ItemRarity == inventorySlots[k].Item.ItemRarity)
                                     {
-                                        if (inventorySlots[i].Item.itemName[0] > inventorySlots[k].Item.itemName[0]) //Sorty by first Letter of Item
+                                        if (inventorySlots[i].Item.ItemName[0] > inventorySlots[k].Item.ItemName[0]) //Sorty by first Letter of Item
                                         {
                                             SwapItemPositions(i, k);
                                         }
-                                        else if (inventorySlots[i].Item.itemName == inventorySlots[k].Item.itemName)
+                                        else if (inventorySlots[i].Item.ItemName == inventorySlots[k].Item.ItemName)
                                         {
                                             if (inventorySlots[i].Count > inventorySlots[k].Count)
                                             {
@@ -383,22 +469,13 @@ namespace RuthlessMerchant
         /// </summary>
         void SwapItemPositions(int firstIndex, int SecondIndex)
         {
-            InventorySlot buffer = new InventorySlot();
+           /* InventorySlot buffer = new InventorySlot();
             buffer.Item = inventorySlots[firstIndex].Item;
-            buffer.Count = inventorySlots[firstIndex].Count;
+            buffer.Count = inventorySlots[firstIndex].Count;*/
 
+            InventorySlot buffer = inventorySlots[firstIndex];
             inventorySlots[firstIndex] = inventorySlots[SecondIndex];
             inventorySlots[SecondIndex] = buffer;
-        }
-
-        public void AddTest(int number)
-        {
-            Add(startinventory[number], 1, true);
-        }
-
-        public void RemoveTest(int number)
-        {
-            Remove(startinventory[number], 1, true);
         }
     }
 }
