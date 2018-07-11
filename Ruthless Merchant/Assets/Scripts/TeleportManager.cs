@@ -5,23 +5,29 @@ using UnityEngine;
 public class TeleportManager : MonoBehaviour {
 
     //By Daniil Masliy
-    [SerializeField] [Tooltip("Drag a GameObject there. This object will be considered as Destination")] private GameObject TeleportDestination;
 
-    Rigidbody rb;
-    [HideInInspector]
-    public Vector3 positionOfDestination;
+    #region Serialize Fields
+    [SerializeField] [Tooltip("Drag a GameObject there. This object will be considered as Destination")]
+    private GameObject teleportDestination;
+    #endregion
 
-    /// <summary>
-    /// Use this position, to 
-    /// </summary>
+    #region Private Fields
+    private Rigidbody rb;
+    private Vector3 positionOfDestination;
+    #endregion
+
+
     private void Start()
     {
         rb = GetComponentInParent<Rigidbody>();
     }
+
+    /// <summary>
+    /// Use this position, to declare where to teleport
+    /// </summary>
     public void Teleport()
     {
-        positionOfDestination = TeleportDestination.transform.position;
-        //ThingToTeleportate.transform.position = positionOfDestination;
+        positionOfDestination = teleportDestination.transform.position;
         rb.transform.position = positionOfDestination;
 
     }

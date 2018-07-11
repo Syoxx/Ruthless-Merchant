@@ -12,7 +12,7 @@ namespace RuthlessMerchant
         private Item ironPrefab;
         #endregion
 
-        #region Private Variables
+        #region Private Fields
         private string questDialogue;
         private int woodCounter;
         private int ironCounter;
