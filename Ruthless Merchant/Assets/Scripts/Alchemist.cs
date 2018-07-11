@@ -90,6 +90,14 @@ namespace RuthlessMerchant
             Destroy(potion.gameObject);
         }
 
+        /// <summary>
+        /// Creates a Name for the Potion
+        /// </summary>
+        /// <param name="atk">ATK-Parameter of the potion</param>
+        /// <param name="def">DEF-Parameter of the potion</param>
+        /// <param name="speed">Speed-Parameter of the potion</param>
+        /// <param name="hp">Health Regeneration-Parameter of the potion</param>
+        /// <returns>final name as string</returns>
         string PotionName(int atk, int def, int speed, int hp)
         {
             string name = "potion of";
@@ -157,6 +165,11 @@ namespace RuthlessMerchant
             return name;
         }
 
+        /// <summary>
+        /// Creates a part-name that describes the strength of the potion
+        /// </summary>
+        /// <param name="power">strength value</param>
+        /// <returns>returns the strength as string</returns>
         string GetPowerAsString(int power)
         {
             if(Mathf.Abs(power) >2)
