@@ -278,7 +278,7 @@ namespace RuthlessMerchant
                 {
                     grounded = false;
                     gravity = Vector3.zero;
-                    rb.AddForce(Vector3.up * Mathf.Sqrt(maxJumpHeight), ForceMode.VelocityChange);
+                    rb.AddForce(Vector3.up * 0.1f * maxJumpHeight, ForceMode.VelocityChange);
                     elapsedSecs = 1f;
                 }
             }
@@ -314,11 +314,20 @@ namespace RuthlessMerchant
                     }
                 }
             }
-            
 
+            if (!preventClimbing)
+            {
+                previousPosition.x = transform.position.x;
+                previousPosition.y = transform.position.y;
+                previousPosition.z = transform.position.z;
+            }
+        }
 
+        private void LateUpdate()
+        {
             if (grounded && !preventClimbing)
-            {if (rb != null)
+            {
+                if (rb != null)
                 {
                     gravity = Vector3.zero;
                     gravity.y = -stickToGroundValue;
@@ -338,13 +347,6 @@ namespace RuthlessMerchant
                     gravity += globalGravityScale * Vector3.up * Time.deltaTime * 2f;
                     ApplyGravity(gravity);
                 }
-            }
-
-            if (!preventClimbing)
-            {
-                previousPosition.x = transform.position.x;
-                previousPosition.y = transform.position.y;
-                previousPosition.z = transform.position.z;
             }
         }
 
