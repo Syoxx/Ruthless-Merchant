@@ -487,8 +487,7 @@ namespace RuthlessMerchant
         {
             localAlchemist.AddItem((Ingredient)Inventory.inventorySlots[itemSlot].Item);
             Inventory.Remove(itemSlot, 1, true);
-            alchemyCanvas.SetActive(false);
-            controlMode = ControlMode.Move;
+            CloseBook();
         }
 
 
