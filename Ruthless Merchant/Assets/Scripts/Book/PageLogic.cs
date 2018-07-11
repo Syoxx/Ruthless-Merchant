@@ -5,7 +5,7 @@ using UnityEngine;
 using System.Linq;
 using JetBrains.Annotations;
 
-public class JumpToPaper : MonoBehaviour
+public class PageLogic : MonoBehaviour
 {
     BookPro _myBook;
     AutoFlip flipEffect;

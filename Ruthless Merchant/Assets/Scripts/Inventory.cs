@@ -19,7 +19,7 @@ namespace RuthlessMerchant
         private UnityEvent inventoryChanged;
 
         [System.NonSerialized]
-        public JumpToPaper BookLogic = null;
+        public PageLogic BookLogic = null;
 
         [System.NonSerialized]
         public GameObject ItemUIPrefab = null;
