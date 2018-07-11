@@ -19,7 +19,7 @@ namespace RuthlessMerchant
         private UnityEvent inventoryChanged;
 
         [System.NonSerialized]
-        public JumpToPaper BookLogic = null;
+        public PageLogic BookLogic = null;
 
         [System.NonSerialized]
         public GameObject ItemUIPrefab = null;
@@ -306,7 +306,7 @@ namespace RuthlessMerchant
 
             Debug.LogWarning("Create Display Data");
 
-            Transform parent = BookLogic.InventoryPageList[BookLogic.PageForCurrentWeaponPlacement()].transform.Find("PNL_ZoneForItem");
+            Transform parent = BookLogic.InventoryPageList[BookLogic.PageForCurrentItemPlacement()].transform.Find("PNL_ZoneForItem");
             GameObject inventoryItem = Instantiate(ItemUIPrefab, parent) as GameObject;
             //inventoryItem.transform.SetParent(parent, false);
 
