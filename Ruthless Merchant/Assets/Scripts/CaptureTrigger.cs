@@ -19,6 +19,7 @@ namespace RuthlessMerchant
         private List<NPC> capturingUnitsList;
 
         private Renderer flagRenderer;
+        private Renderer mapMarkerRenderer;
 
         [SerializeField, Tooltip("Indicates whether an army has to split between different lanes")]
         private bool isLaneSplitter = false;
@@ -99,7 +100,8 @@ namespace RuthlessMerchant
                 if (hero != null && hero.Faction != owner)
                     hero = null;
 
-                UpdateFlagColor();
+                UpdateRendererColor(flagRenderer);
+                UpdateRendererColor(mapMarkerRenderer);
             }
         }
 
@@ -121,6 +123,14 @@ namespace RuthlessMerchant
             else if (owner == Faction.Imperialisten)
                 captureValue = 100;
 
+
+            Transform mapMarker = transform.Find("MapMarker");
+            if(mapMarker != null)
+            {
+                mapMarkerRenderer = mapMarker.GetComponent<Renderer>();
+                UpdateRendererColor(mapMarkerRenderer);
+            }
+
             Transform parentFlag = transform.Find("Flag");
             if (parentFlag != null)
             {
@@ -129,7 +139,7 @@ namespace RuthlessMerchant
                 if (obj != null && obj.CompareTag("Flag"))
                 {
                     flagRenderer = obj.GetComponent<Renderer>();
-                    UpdateFlagColor();
+                    UpdateRendererColor(flagRenderer);
                 }
             }
         }
@@ -197,16 +207,16 @@ namespace RuthlessMerchant
         /// <summary>
         /// Updates the color of the Outpost flag to visualize the owner of the outpost
         /// </summary>
-        private void UpdateFlagColor()
+        private void UpdateRendererColor(Renderer renderer)
         {
-            if (flagRenderer != null)
+            if (renderer != null)
             {
                 if (owner == Faction.Freidenker)
-                    flagRenderer.material.color = Color.green;
+                    renderer.material.color = Color.green;
                 else if (owner == Faction.Imperialisten)
-                    flagRenderer.material.color = Color.red;
+                    renderer.material.color = Color.red;
                 else
-                    flagRenderer.GetComponent<Renderer>().material.color = Color.gray;
+                    renderer.material.color = Color.gray;
             }
         }
 
