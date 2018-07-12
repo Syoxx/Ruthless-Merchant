@@ -184,17 +184,6 @@ namespace RuthlessMerchant
                         CaptureValue += capValue;
                     }
                 }
-               /* if (freidenkerCount > imperialistenCount)
-                {
-                    if (CaptureValue > 0 || freidenkerCount > imperialistenCount + monsterCount)
-                        CaptureValue--;
-
-                }
-                else if (imperialistenCount > freidenkerCount)
-                {
-                    if (CaptureValue < 0 || imperialistenCount > freidenkerCount + monsterCount)
-                        CaptureValue++;
-                }*/
 
                 if (captureValue <= -50)
                     Owner = Faction.Freidenker;
@@ -205,6 +194,9 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// Updates the color of the Outpost flag to visualize the owner of the outpost
+        /// </summary>
         private void UpdateFlagColor()
         {
             if (flagRenderer != null)
