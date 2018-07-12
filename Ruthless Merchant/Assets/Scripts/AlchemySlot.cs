@@ -52,11 +52,19 @@ namespace RuthlessMerchant
 
         }
 
+        /// <summary>
+        /// Adds an Item to the Alchemyslot
+        /// </summary>
+        /// <param name="ingredient">ingredient to add</param>
         public void AddItem(Ingredient ingredient)
         {
             _ingredient = ingredient;
         }
 
+        /// <summary>
+        /// Removes the Item from the Slot and adds it to the inventory
+        /// </summary>
+        /// <param name="inventory">Inventory to add the item to</param>
         public void RemoveItem(Inventory inventory)
         {
             Item item = _ingredient.DeepCopy();
