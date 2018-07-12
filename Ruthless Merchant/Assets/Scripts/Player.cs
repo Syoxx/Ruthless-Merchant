@@ -40,8 +40,9 @@ namespace RuthlessMerchant
         private GameObject inventoryCanvas;
         private GameObject itemsContainer;
         private ControlMode controlMode = ControlMode.Move;
-
+        private Reputation reputation;
         int currenRecipe;
+        private Recipes recipes;
         GameObject smithCanvas;
         Smith localSmith;
 
@@ -70,19 +71,13 @@ namespace RuthlessMerchant
         [SerializeField, Tooltip("This is the UI Prefab that appears for each Item when accessing an Alchemyslot")]
         GameObject alchemyUiPrefab;
         
-        [SerializeField, Tooltip("This is the UI Prefab that appears for each Item when accessing the workbench.")]
-        private GameObject workshopUiPrefab;
-
         [SerializeField, Tooltip("The UI Prefab that appears for each recipe when accessing the Smith")]
         GameObject recipeUiPrefab;
 
         [Space(15)]
         
         [SerializeField, Tooltip("Drag Map_Canvas object here.")]
-        private GameObject mapObject;
-
-        [SerializeField, Tooltip("This is the Recipe Component placed on this object")]
-        private Recipes recipes;
+        private GameObject mapObject;        
 
         [Space(10)]
 
@@ -147,12 +142,26 @@ namespace RuthlessMerchant
             }
         }
 
+        public Reputation Reputation
+        {
+            get
+            {
+                if (reputation == null)
+                {
+                    reputation = GetComponent<Reputation>();
+                }
+                return reputation;
+            }
+        }
+
         public override void Start()
         {
             base.Start();
 
             smithCanvas = GameObject.Find("SmithCanvas");
             alchemyCanvas = GameObject.Find("AlchemyCanvas");
+            reputation = GetComponent<Reputation>();
+
             if(smithCanvas)
             {
                 smithCanvas.SetActive(false);
