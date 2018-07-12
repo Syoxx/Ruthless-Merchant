@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 
 namespace RuthlessMerchant
 {
@@ -13,6 +14,11 @@ namespace RuthlessMerchant
         [SerializeField]
         [Tooltip("Insert Item Prefab for the desired spawned Rare Item here")]
         private GameObject rareItemPrefab;
+
+        [SerializeField]
+        [Tooltip("Maximum Distance allowed from Iron Deposit to allow Iron to spawn")]
+        [Range(0.2f, 5f)]
+        private float maxSpawnDistance;
 
         [SerializeField]
         [Tooltip("Check to enable Rare Item Drop")]
@@ -37,15 +43,16 @@ namespace RuthlessMerchant
 
         private int numberOfIrons;
         private Transform spawnPosition;
+        private Vector3 ironForce;
         #endregion
 
-        
+
 
         #region Gameplay Loop
         // Use this for initialization
         public override void Start()
         {
-            numberOfIrons = Random.Range(minNrOfIron, maxNrOfIron);
+            numberOfIrons = UnityEngine.Random.Range(minNrOfIron, maxNrOfIron);
         }
 
         // Update is called once per frame
@@ -72,10 +79,7 @@ namespace RuthlessMerchant
 
             for (int i = 1; i <= numberOfIrons; i++)
             {
-                if (i % 2 == 0)
-                    SpawnItem(ironSpawnRandomizerMin, ironSpawnRandomizerMax, ironPrefab);
-                else
-                    SpawnItem(ironSpawnRandomizerMax * -1, ironSpawnRandomizerMin * -1, ironPrefab);
+                SpawnItem(ironPrefab, true, i);
                 if (i == numberOfIrons)
                     Destroy(this.gameObject);
             }
@@ -87,11 +91,12 @@ namespace RuthlessMerchant
         /// <param name="spawnRandomizerMin"></param>
         /// <param name="spawnRandomizerMax"></param>
         /// <param name="itemPrefab"></param>
-        private void SpawnItem(int spawnRandomizerMin, int spawnRandomizerMax, GameObject itemPrefab)
+        private void SpawnItem(GameObject itemPrefab, bool isIron, int nrOfItem)
         {
             spawnPosition = this.transform;
-            spawnPosition.position += new Vector3(Random.Range(spawnRandomizerMin, spawnRandomizerMax), 0, Random.Range(spawnRandomizerMin, spawnRandomizerMax));
-            Instantiate(itemPrefab,spawnPosition.position, spawnPosition.rotation);
+            //spawnPosition.position += new Vector3(Random.Range(spawnRandomizerMin, spawnRandomizerMax), 0, Random.Range(spawnRandomizerMin, spawnRandomizerMax));
+            GameObject spawnedIron = Instantiate(itemPrefab,spawnPosition.position, spawnPosition.rotation);
+            spawnedIron.GetComponent<Rigidbody>().AddForce(CalculateForce(isIron, nrOfItem));
         }
 
         /// <summary>
@@ -99,9 +104,22 @@ namespace RuthlessMerchant
         /// </summary>
         private void DropRareItem()
         {
-            float randomRoll = Random.Range(0f, 100f);
+            float randomRoll = UnityEngine.Random.Range(0f, 100f);
             if (randomRoll <= rareItemDropChance)
-                SpawnItem(ironSpawnRandomizerMin, ironSpawnRandomizerMax, rareItemPrefab);
+                SpawnItem(rareItemPrefab, false, 1);
+        }
+
+        private Vector3 CalculateForce(bool isIron, int nrOfItem)
+        {
+            double spawnDegree = (360 / numberOfIrons) * nrOfItem;
+            ironForce.x = (float)(maxSpawnDistance * Math.Cos(spawnDegree));
+            if (ironForce.x < 0)
+                ironForce.x = ironForce.x * -1;
+            ironForce.z = (float)(maxSpawnDistance * Math.Sin(spawnDegree));
+            if (ironForce.z < 0)
+                ironForce.z = ironForce.z * -1;
+            ironForce.y = 1f;
+            return ironForce;
         }
         #endregion
     }
