@@ -70,7 +70,7 @@ namespace RuthlessMerchant
         /// <returns>Returns the spawned object</returns>
         public virtual Transform ForceSpawn(Transform spawnObject)
         {
-            return Instantiate(spawnObject, transform.position, transform.rotation);
+            return Instantiate(spawnObject, transform.position, transform.rotation, transform);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace RuthlessMerchant
             Transform[] spawnedObjects = new Transform[count];
             for (int i = 0; i < count; i++)
             {
-                spawnedObjects[i] = Instantiate(spawnObject, transform.position, transform.rotation);
+                spawnedObjects[i] = Instantiate(spawnObject, transform.position, transform.rotation, transform);
             }
 
             return spawnedObjects;
