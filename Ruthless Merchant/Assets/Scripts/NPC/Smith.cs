@@ -7,9 +7,38 @@ namespace RuthlessMerchant
 {
     public class Smith : Civilian
     {
+        #region Fields #############################################################################################
+
+
+
+        #endregion
+
+
+        #region Properties #########################################################################################
+
+
+
+        #endregion
+
+
+        #region Structs ############################################################################################
+
+
+
+        #endregion
+
+
+        #region Private Functions ##################################################################################
+
+
+
+        #endregion
+
+
+        #region Public Functions ##################################################################################
+
         public override void Update()
         {
-            
         }
 
         public override void Start()
@@ -61,6 +90,7 @@ namespace RuthlessMerchant
             }
             return true;
         }
-    }
 
+        #endregion
+    }
 }

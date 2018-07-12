@@ -1,0 +1,312 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1344\cocoasubrtf720
+{\fonttbl\f0\fswiss\fcharset0 ArialMT;\f1\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;\red0\green45\blue153;\red255\green39\blue18;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww15840\viewh16500\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\sl264\slmult1\pardirnatural
+
+\f0\b\fs48 \cf0 AFS Foliage Shaders\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural
+
+\b0\fs36 \cf0 As written in the introduction the foliage shaders are the most advanced shaders of this package\'97at least when it comes to lighting as they offer full support of unity\'92s new pbs lighting.\
+These shaders are suitable for more complex meshes like ferns, bushes or even smaller trees and need complex bending information to be baked into the mesh.
+\b \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\b0 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\sl264\slmult1\pardirnatural
+
+\b \cf0 Table of Content\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\sl264\slmult1\pardirnatural
+
+\fs24 \cf0 \
+1. Foliage Shaders\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\b0 \cf0 1.1. AfsFoliage Shader v4\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\sl264\slmult1\pardirnatural
+\cf0 1.2. AfsFoliageShader Raindrops v4\
+1.3. AfsFoliageShader Touchbending v4\
+1.4. AfsFoliageShader Terrain v4
+\b \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\sl264\slmult1\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\sl264\slmult1\pardirnatural
+
+\fs24 \cf0 2. Adding Foliage\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\b0 \cf0 2.1. Adding Foliage using the terrain engine\
+2.2. Adding manually placed Foliage objects\
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\sl264\slmult1\pardirnatural
+
+\b\fs48 \cf0 1. Regular Foliage Shaders\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\sl264\slmult1\pardirnatural
+
+\b0\fs24 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\b\fs36 \cf0 1.1. AfsFoliageShader v4
+\b0\fs24 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\i \cf0 (AFS/Foliage Shader v4)
+\i0\fs12 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2333
+
+\b\fs28 \cf0 Features and Usage
+\fs24 \
+
+\b0 This shader is the basic version of all foliage shaders and supports procedural wind animation, physically based shading and physically based wetness.\
+It can be used one single game objects but i highly recommend to always use the "Combine Children Afs" script as it will not only reduce the number of draw calls and speed up rendering but also give you much more variety.\
+In order to be able to use the shader with your own meshes latter have to fit its needs descried in the "AFS Model and Texture Guide.pdf". And just to give you a brief overview: You have to have double sided geometry on thin = translucent parts like leaves and have to add vertex colors (and may be even UV4 coordinates), which control bending. Add those manually or use the Afs foliage tool to do so.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\sl264\slmult1\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\b\fs28 \cf0 Shader Inputs
+\fs24 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li559\fi2\ri-2333\pardirnatural
+
+\b\fs24 \cf0 Base (RGB) Alpha (A)
+\b0 \
+Main diffuse texture (RGB) transparency (A)\
+
+\fs12 \
+
+\b\fs24 Alpha cutoff
+\b0 \
+If the alpha channel of the Base texture contains different shades of gray instead of just black and white, you can manually determine the cutoff point by adjusting the slider.\
+
+\fs12 \
+
+\b\fs24 Normal (GA) Trans(R) Smoothness(B)
+\b0 \
+This slot holds the combined texture containing the normal map, the translucency map and the smoothness map. You have to author this texture according to the AFS model guide.\
+Tiling on this texture will be ignored: it follows the settings made for the base texture.\
+
+\fs12 \
+
+\b\fs24 Specular Reflectivity (Color)
+\b0 \
+\'84Specular Reflectivity\'93 equals \'84Specular Color\'93 (when using the standard shader and the specular setup). In physically based shading the specular color describes the \'84base reflectivity\'93 of a material determining the minimum amount of light that is reflected when looking at it from an angle of 0 degrees. This base reflectivity gains up to 100% percent at grazing angles (which is known as fresnel reflection).\
+As plants usually have a non metal but dielectric surface this should be set to a rather dark gray.\
+Please keep in mind: When talking about specular reflections the most important input will be a nice and proper roughness/smoothness map.\
+
+\fs12 \
+
+\b\fs24 Translucency Color
+\b0 \
+The color that will be added on top when the leaves are backlit.\
+
+\fs12 \
+
+\b\fs24 View Dependency
+\b0 \
+Fully view dependent translucency is relative to the angle between the view direction and the light direction. View independent is relative to the angle between the leaf's normal vector and the light direction.\
+
+\fs12 \
+
+\b\fs24 Leaf Turbulence
+\b0 \
+Increasing Leaf Turbulence will make those parts of the plant which are effected by secondary bending sway faster if the wind blows stronger.\
+The per material Leaf Turbulence factor will be multiplied with vertex color red so you will get some variation between different leaves o fthe same plant. Please make sure taht vertex color red is not set to 0.0.\
+
+\fs12 \
+
+\b\fs24 Bending Parameters
+\b0 \
+Chose between "Vertex Colors" and "Vertex Colors And UV4" according to how the bending information is baked into the given mesh.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li561\fi-1\ri-2329\sl264\slmult1\pardirnatural
+\cf2 See: AFS Model and Texture Guide.pdf for more details.\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\sl264\slmult1\pardirnatural
+
+\fs28 \cf0 \
+All other foliage shaders are based on this one.\
+So their base inputs are more or less the same. For this reason I am only addressing the special inputs and needs of all other foliage shaders in the following descriptions.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\sl264\slmult1\pardirnatural
+
+\b\fs36 \cf0 1.2. FoliageShader Raindrops v4
+\b0\fs28 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2333\pardirnatural
+
+\i\fs24 \cf0 (AFS/Foliage Shader Raindrops v4)
+\i0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2333\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2333
+
+\b\fs28 \cf0 Features and Usage
+\fs24 \
+
+\b0 This shader will not only change the diffuse albedo, roughness and specularity of your plants according to the rain settings but it will also add rain drops on top of the leafs.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2333\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2333\pardirnatural
+
+\b\fs28 \cf0 Special Shader Inputs
+\fs24 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2333\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\li558\fi1\ri-2333\pardirnatural
+
+\b\fs24 \cf0 Rain Normal
+\b0 \
+Regular normal map for the rain drops.\
+
+\fs12 \
+
+\b\fs24 Rain Mask
+\b0 \
+This texture contains some kind of blurred height map of the rain drops in the green color channel and acts as a mask to let the drops grow according to the rain amount.\
+Add some variety in the shades of gray to the different drops to avoid that all of them will fade in at the same amount of rain.\
+
+\fs12 \
+
+\b\fs24 Rain Texture Scale
+\b0 \
+Scale factor for the Rain Normal and Rain Mask relative to the Base Texture.
+\b\fs36 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\sl264\slmult1\pardirnatural
+\cf0 \
+1.3. AfsFoliageShader Touchbending v4\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\i\b0\fs24 \cf0 (AFS/Foliage Shader TouchBending v4)\
+
+\i0\fs12 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2333
+
+\b\fs24 \cf0 F
+\fs28 eatures and Usage
+\fs24 \
+
+\b0 This shader is needed if you want to use touch bending on selected game objects. Compared to the regular foliage shader it just uses an additional (touch) bending function.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2333\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2333
+
+\b\fs28 \cf0 Limits and Requirements
+\b0\fs24 \
+You have to setup touch bending according to the docs and assign the "touchBendingCollisionGS" script to each plant which should react to touch bending.\
+Furthermore each plant using touch bending needs to have a collider (marked as "trigger") to be attached.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2333\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2333\pardirnatural
+
+\b\fs28 \cf0 Special Shader Inputs
+\fs24 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2333\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx0\tx473\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\li556\fi7\ri-2333\pardirnatural
+
+\b\fs24 \cf0 TouchBendingPosition
+\b0 \
+Is set by the "Touch Bending Collision GS" script\
+\pard\tx0\tx473\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\li556\fi7\ri-2333\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx0\tx473\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\li556\fi7\ri-2333\pardirnatural
+
+\b\fs24 \cf0 TouchBendingForce
+\b0 \
+Is set by the "Touch Bending Collision GS" script\
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\sl264\slmult1\pardirnatural
+
+\b\fs36 \cf0 1.4. AfsFoliageShader Terrain v4\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\sl264\slmult1\pardirnatural
+
+\i\b0\fs24 \cf0 (hidden shader)
+\i0\b\fs36 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\sl264\slmult1\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2333
+
+\b\fs28 \cf0 Features and Usage\
+
+\b0\fs24 This shader replaces the built in "VertexLit" shader for the terrain engine and lets you use even complex models within the terrain engine along with all advanced lighting features.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+\cf0 However the terrain engine does not allow those meshes to cast real time shadows.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\sl264\slmult1\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\f1\b\fs24 \cf3 Please note: 
+\b0 Models added to the terrain engine just have a si
+\f0 ngle diffuse texture. The combined "Normal (GA) Trans(R) Smoothness(B)" map is passed using the "Setup Advanced Foliage Shader" script\'97just as most other parameters like cut off, translucency color etc.\
+Make sure that all detail objects added to the terrain engine share the same material/texture by creating a huge texture atlas and laying out the UVs accordingly.\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\sl264\slmult1\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\fs24 \cf0 The shader will use the overall bending and direct and ambient lighting functions. So in case you want to also add details like small rocks to your terrain you have to add vertex colors to their meshes: Set the vertex colors RGB to 0.0 to prevent the vertices from being bent. Vertex color alpha may contain ambient occlusion.
+\i \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\i0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\f1\b\fs24 \cf3 Please note: 
+\b0 This Shader only supports bending completely stored in vertex colors (legacy bending)\'97limited by the terrain engine which simply skips UV4 coordinates.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\f0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\fs24 \cf0 "Dry" and "healthy color" will not be applied to color or shade the meshes differently: As those colors are stored in vertex colors just like the bending parameters they will control bending instead.\
+However: Different values in the alpha channel of "dry" and "healthy color" will give you slightly differently shaded plants. 
+\b\fs36 \
+\pard\tx0\tx473\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\li556\fi7\ri-2333\pardirnatural
+
+\b0\fs24 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\sl264\slmult1\pardirnatural
+
+\b\fs48 \cf0 2. Adding Foliage
+\fs36 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\sl264\slmult1\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\b\fs24 \cf0 2.1. Adding Foliage using the terrain engine\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\sl264\slmult1\pardirnatural
+
+\b0 \cf0 Add your foliage meshes to the terrain by choosing "Paint Details -> Edit Details -> Add Detail Mesh" in the terrain inspector. Assign the mesh or prefab and make sure you choose "Vertex Lit" as "Render Mode". Then simply start painting.
+\b \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+\cf0 \
+2.2. Adding manually placed Foliage objects\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\b0 \cf0 You may simply drag your foliage prefabs to your scene, place, rotate and scale them or use the free 
+\f1 "Geometry Brush AFS" tool: 
+\f0 a very nice and handy tool that will help you to manually paint any game object onto any terrain or geometry \'96 originally posted by Matt McDonald, Owner, Chief Creative Officer and President of Heavy Water, {\field{\*\fldinst{HYPERLINK "http://www.heavyh2o.com/"}}{\fldrslt www.heavyh2o.com}}, but optimized for the use with the advanced foliage shader package.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2306\sl264\slmult1\pardirnatural
+\cf0 You will find it in the folder: "Scripts [free Addons]".
+\f1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2333
+\cf0 \
+}

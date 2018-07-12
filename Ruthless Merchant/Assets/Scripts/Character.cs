@@ -1,7 +1,6 @@
 ﻿//---------------------------------------------------------------
 // Authors: Peter Ehmler, Richard Brönnimann, 
 //---------------------------------------------------------------
-using System;
 using UnityEngine;
 
 namespace RuthlessMerchant
@@ -9,7 +8,6 @@ namespace RuthlessMerchant
     public abstract class Character : InteractiveObject
     {
         private DamageAbleObject healthSystem;
-        //private Vector3 velocity;
         private Vector3 moveVector;
         private CharacterController charController;
         private int stamina;
@@ -23,6 +21,10 @@ namespace RuthlessMerchant
         private static float globalGravityScale = -9.81f;
         private float groundedSkin = 0.05f;
         private bool grounded;
+        bool is_climbable_left;
+        bool is_climbable_right;
+        bool is_climbable_front;
+        bool is_climbable_back;
 
         private float playerRadius;
         private Vector3 boxSize;
@@ -31,9 +33,9 @@ namespace RuthlessMerchant
         private CapsuleCollider charCollider;
         private bool isPlayer;
         private bool preventClimbing = false;
+        private Vector3 previousPosition;
         private float elapsedSecs;
         private float terrainCheckRadius;
-        private float colliderHeight;
 
         [Header("Character Attack Settings")]
         [SerializeField, Range(0, 1000), Tooltip("Base damage per attack")]
@@ -164,6 +166,11 @@ namespace RuthlessMerchant
         {
             elapsedAttackTime = baseAttackDelay;
 
+            if (isPlayer)
+            {
+                previousPosition = transform.position;
+            }
+
             if (rb == null)
             {
                 rb = GetComponent<Rigidbody>();
@@ -173,8 +180,7 @@ namespace RuthlessMerchant
             if (charCollider == null)
             {
                 charCollider = GetComponent<CapsuleCollider>();
-                terrainCheckRadius = charCollider.radius;
-                colliderHeight = charCollider.height;
+                terrainCheckRadius = charCollider.radius / 4;
             }            
 
             if (CompareTag("Player"))
@@ -266,13 +272,13 @@ namespace RuthlessMerchant
 
         public void Jump()
         {
-            if (grounded && !preventClimbing)
+            if (grounded)
             {
                 if (elapsedSecs <= 0)
                 {
                     grounded = false;
                     gravity = Vector3.zero;
-                    rb.AddForce(Vector3.up * Mathf.Sqrt(maxJumpHeight), ForceMode.VelocityChange);
+                    rb.AddForce(Vector3.up * 0.1f * maxJumpHeight, ForceMode.VelocityChange);
                     elapsedSecs = 1f;
                 }
             }
@@ -287,45 +293,66 @@ namespace RuthlessMerchant
 
             if (isPlayer)
             {
+                // check the terrain angle in four directions player could move
                 preventClimbing = false;
+                Vector3 rayOriginInPlayer = new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z);
                                 
-                Ray rayLeft     = new Ray(new Vector3(transform.localPosition.x - terrainCheckRadius, transform.localPosition.y /*+ 0.1f*/, transform.localPosition.z), Vector3.down);
-                Ray rayRight    = new Ray(new Vector3(transform.localPosition.x + terrainCheckRadius, transform.localPosition.y /*+ 0.1f*/, transform.localPosition.z), Vector3.down);
-                Ray rayFront    = new Ray(new Vector3(transform.localPosition.x, transform.localPosition.y /*+ 0.1f*/, transform.localPosition.z + terrainCheckRadius), Vector3.down);
-                Ray rayBack     = new Ray(new Vector3(transform.localPosition.x, transform.localPosition.y /*+ 0.1f*/, transform.localPosition.z - terrainCheckRadius), Vector3.down);
+                Ray rayLeft     = new Ray(rayOriginInPlayer - transform.right * terrainCheckRadius, Vector3.down);
+                Ray rayRight    = new Ray(rayOriginInPlayer + transform.right * terrainCheckRadius, Vector3.down);
+                Ray rayFront    = new Ray(rayOriginInPlayer + transform.forward * terrainCheckRadius, Vector3.down);
+                Ray rayBack     = new Ray(rayOriginInPlayer - transform.forward * terrainCheckRadius, Vector3.down);
                 
-                bool is_climbable_left = CheckGroundAngle(rayLeft);
-                bool is_climbable_right = CheckGroundAngle(rayRight);
-                bool is_climbable_front = CheckGroundAngle(rayFront);
-                bool is_climbable_back = CheckGroundAngle(rayBack);
+                is_climbable_left = CheckGroundAngle(rayLeft);
+                is_climbable_right = CheckGroundAngle(rayRight);
+                is_climbable_front = CheckGroundAngle(rayFront);
+                is_climbable_back = CheckGroundAngle(rayBack);
 
                 if (!is_climbable_left || !is_climbable_right || !is_climbable_front || !is_climbable_back)
                 {
                     preventClimbing = true;
-                    grounded = false;
                 }
-            }
-            
+            }            
+        }
 
-
-            if (grounded /*&& !preventClimbing*/)
-            {if (rb != null)
+        private void LateUpdate()
+        {
+            // Set gravity and prevent player climbing walls
+            if (grounded && !preventClimbing)
+            {
+                if (rb != null)
                 {
                     gravity = Vector3.zero;
                     gravity.y = -stickToGroundValue;
                     ApplyGravity(gravity);
                 }
+
+                if (isPlayer)
+                {
+                    previousPosition.x = transform.position.x;
+                    previousPosition.y = transform.position.y;
+                    previousPosition.z = transform.position.z;
+                }                
             }
             else
             {
                 if (rb != null)
                 {
-                    //if (preventClimbing)
-                    //{
-                    //    gravity.y -= 30;
-                    //}
+                    if (isPlayer)
+                    {
+                        if ((!is_climbable_front && moveVector.z > 0.5f) || (!is_climbable_back && moveVector.z < -0.5f)
+                                            || (!is_climbable_right && moveVector.x > 0.5f) || (!is_climbable_left && moveVector.x < -0.5f))
+                        {
+                            rb.MovePosition(previousPosition);
+                        }
+                        else
+                        {
+                            previousPosition.x = transform.position.x;
+                            previousPosition.y = transform.position.y;
+                            previousPosition.z = transform.position.z;
+                        }
+                    }                    
 
-                    gravity += globalGravityScale * Vector3.up * Time.deltaTime * 5f;
+                    gravity += globalGravityScale * Vector3.up * Time.deltaTime * 2f;
                     ApplyGravity(gravity);
                 }
             }
@@ -343,7 +370,7 @@ namespace RuthlessMerchant
             RaycastHit hitInfo;
             bool isClimbableAngle = true;
 
-            Physics.Raycast(ray, out hitInfo, 4f);
+            Physics.Raycast(ray, out hitInfo, 0.4f);
 
             if (hitInfo.collider != null)
             {

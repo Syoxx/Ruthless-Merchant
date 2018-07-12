@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace RuthlessMerchant
 {
     public class Recipes : MonoBehaviour
     {
+        #region Fields #############################################################################################
+
         [SerializeField, Tooltip("The panel in the book in which the recipes will be displayed (currently named RecipeCanvas). It isn't required but the panel should have a vertical layout group component")]
         GameObject recipeCanvas;
 
@@ -22,9 +23,19 @@ namespace RuthlessMerchant
 
         List<RecipePanel> recipePanels;
 
+        List<ItemCount> counts;
+
+        #endregion
+
+
+        #region Properties #########################################################################################
+
         public List<RecipePanel> Panels { get { return recipePanels; } }
 
-        List<ItemCount> counts;
+        #endregion
+
+
+        #region Structs #############################################################################################
 
         [System.Serializable]
         public struct Recipe
@@ -146,7 +157,7 @@ namespace RuthlessMerchant
             int recipe;
 
             public int Recipe { get { return recipe; } }
-            public Button Button{ get { return button; } }
+            public Button Button { get { return button; } }
 
             public RecipePanel(int recipe, Button button)
             {
@@ -154,6 +165,34 @@ namespace RuthlessMerchant
                 this.button = button;
             }
         }
+
+        #endregion
+
+
+        #region Private Functions ##################################################################################
+
+        private void Awake()
+        {
+            recipePanels = new List<RecipePanel>();
+            counts = new List<ItemCount>();
+        }
+
+        private void Start()
+        {
+            for (int i = 0; i < recipes.Count; i++)
+            {
+                if (recipes[i].Unlocked)
+                {
+                    AddRecipePanel(i);
+                }
+            }
+            Player.Singleton.Inventory.InventoryChanged.AddListener(UpdateCounts);
+        }
+
+        #endregion
+
+
+        #region Public Functions ##################################################################################
 
         /// <summary>
         /// Returns all the recipes listed in this class
@@ -169,7 +208,7 @@ namespace RuthlessMerchant
         /// <param name="recipeIndex">the index of the recipe in the recipes-list. returns null if index is out of range</param>
         public GameObject AddRecipePanel(int recipeIndex)
         {
-            if(recipeIndex >= recipes.Count || recipeIndex < 0)
+            if (recipeIndex >= recipes.Count || recipeIndex < 0)
             {
                 return null;
             }
@@ -195,14 +234,14 @@ namespace RuthlessMerchant
         }
 
         /// <summary>
-        /// Updates the numbers for
+        /// Updates the numbers for counts in inventorypanels.
         /// </summary>
         public void UpdateCounts()
         {
-            for(int i = 0; i < counts.Count; i++)
+            for (int i = 0; i < counts.Count; i++)
             {
                 counts[i].Textfield.text = Player.Singleton.Inventory.GetNumberOfItems(counts[i].ItemToCount).ToString() + "/" + counts[i].Count.ToString();
-                if(Player.Singleton.Inventory.GetNumberOfItems(counts[i].ItemToCount) < counts[i].Count)
+                if (Player.Singleton.Inventory.GetNumberOfItems(counts[i].ItemToCount) < counts[i].Count)
                 {
                     counts[i].Textfield.color = Color.red;
                 }
@@ -224,23 +263,7 @@ namespace RuthlessMerchant
             }
         }
 
-        private void Awake()
-        {
-            recipePanels = new List<RecipePanel>();
-            counts = new List<ItemCount>();
-        }
-
-        private void Start()
-        {
-            for(int i = 0; i < recipes.Count; i++)
-            {
-                if(recipes[i].Unlocked)
-                {
-                    AddRecipePanel(i);
-                }
-            }
-            Player.Singleton.Inventory.InventoryChanged.AddListener(UpdateCounts);
-        }
+        #endregion
     }
 }
 
