@@ -45,9 +45,6 @@ namespace RuthlessMerchant
         {
             this.parent = parent;
             this.other = other;
-//#if NPCDebugging && Debug
-            Debug.Log("Action \"" + GetType().FullName + "\" started!");
-//#endif
         }
 
         /// <summary>
@@ -61,9 +58,6 @@ namespace RuthlessMerchant
         /// </summary>
         public virtual void EndAction(bool executeEnd = true)
         {
-           // #if NPCDebugging && Debug
-            Debug.Log("Action \"" + GetType().FullName + "\" ended!");
-           // #endif
         }
     }
 }
