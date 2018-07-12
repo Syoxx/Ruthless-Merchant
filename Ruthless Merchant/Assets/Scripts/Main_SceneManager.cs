@@ -20,11 +20,11 @@ public class Main_SceneManager : MonoBehaviour
 
     void Start()
     {
-        LoadSceneAdditively("Isleandtesting");
+        LoadSceneAdditively("IslandtestingCode");
 
         if (loadArtScene)
         {
-            LoadSceneAdditively("IslandtestingArt");
+            LoadSceneAdditively("Islandtesting");
         }
     }
 
