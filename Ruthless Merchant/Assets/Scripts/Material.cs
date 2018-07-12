@@ -18,6 +18,15 @@ namespace RuthlessMerchant
         {
             
         }
+
+        public void OnCollisionEnter(Collision collision)
+        {
+            if (gameObject.tag == "Iron")
+            {
+                if (collision.gameObject.tag == "Iron")
+                    Physics.IgnoreCollision(collision.collider, gameObject.GetComponent<Collider>());
+            }
+        }
     }
 
 }
