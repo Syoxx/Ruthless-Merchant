@@ -1,7 +1,6 @@
 ﻿//---------------------------------------------------------------
 // Authors: Peter Ehmler, Richard Brönnimann, 
 //---------------------------------------------------------------
-using System;
 using UnityEngine;
 
 namespace RuthlessMerchant
@@ -9,7 +8,6 @@ namespace RuthlessMerchant
     public abstract class Character : InteractiveObject
     {
         private DamageAbleObject healthSystem;
-        //private Vector3 velocity;
         private Vector3 moveVector;
         private CharacterController charController;
         private int stamina;
@@ -38,7 +36,6 @@ namespace RuthlessMerchant
         private Vector3 previousPosition;
         private float elapsedSecs;
         private float terrainCheckRadius;
-        private float colliderHeight;
 
         [Header("Character Attack Settings")]
         [SerializeField, Range(0, 1000), Tooltip("Base damage per attack")]
@@ -184,7 +181,6 @@ namespace RuthlessMerchant
             {
                 charCollider = GetComponent<CapsuleCollider>();
                 terrainCheckRadius = charCollider.radius / 4;
-                colliderHeight = charCollider.height;
             }            
 
             if (CompareTag("Player"))
