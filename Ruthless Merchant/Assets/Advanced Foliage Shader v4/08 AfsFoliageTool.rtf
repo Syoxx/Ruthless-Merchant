@@ -1,0 +1,605 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1344\cocoasubrtf720
+{\fonttbl\f0\fswiss\fcharset0 ArialMT;\f1\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red255\green39\blue18;\red14\green14\blue14;\red254\green254\blue254;
+\red0\green45\blue153;\red103\green103\blue103;\red102\green0\blue141;\red217\green11\blue0;\red68\green68\blue68;
+}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}
+{\list\listtemplateid2\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid101\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid2}
+{\list\listtemplateid3\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid201\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid3}
+{\list\listtemplateid4\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid301\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid4}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}{\listoverride\listid3\listoverridecount0\ls3}{\listoverride\listid4\listoverridecount0\ls4}}
+\paperw11900\paperh16840\margl1440\margr1440\vieww15940\viewh14980\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\sl264\slmult1\pardirnatural
+
+\f0\b\fs48 \cf0 AFS Foliage Tool
+\fs36 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b0 \cf0 \
+The AFS Foliage Tool lets you adjust bending of your plant meshes directly within unity and convert trees created using the built in tree creator.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\sl264\slmult1\pardirnatural
+
+\b \cf0 Table of Content\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\sl264\slmult1\pardirnatural
+
+\fs12 \cf0 \
+
+\fs24 1. Setting up a test scene\
+
+\b0\fs12 \
+
+\b\fs24 2. Using the script\
+
+\b0\fs12 \
+
+\b\fs24 3. Converting "tree creator" trees\
+
+\b0\fs12 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\fs24 \cf0 3.1. Why should i use the advanced foliage shader on trees or convert a tree into a flattened tree?\
+3.2. Converting a tree into a flattened tree\
+3.2.1. Cons\
+3.2.2. Pros\
+3.2.3. Recommended Use Case\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\sl264\slmult1\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\fs24 \cf0 3.3.  Converting a tree into a mesh compatible with the foliage shaders\
+3.3.1. Cons\
+3.3.2. Pros\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+\cf0 3.3.3. Recommended Use Case\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\sl264\slmult1\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\fs24 \cf0 3.4. How to convert a tree\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320
+\cf0 3.4.1. Convert Tree to flattened Tree\
+3.4.2. Convert Tree to Foliage Shader\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\sl264\slmult1\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b\fs48 \cf0 1. Setting up a test scene\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b0\fs24 \cf0 In order to adjust bending parameters i recommend to create a little test scene which should contain almost all of your plant models as it is very important to judge the bending of a certain plant relatively to all others.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\sl264\slmult1\pardirnatural
+
+\b \cf2 Important:
+\b0  You have to add the "setupAdvancedFoliageShader" script too. Otherwise you won\'92t see any bending at all. Set up the wind so that it will fit your general settings.\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320
+\cf3 \cb4 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\sl264\slmult1\pardirnatural
+
+\b\fs48 \cf0 \cb1 2. Using the script\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b0\fs24 \cf0 Select the plant/prefab you would like to edit, drag it to the scene view and choose "Component" --> \'84AFS\'93 \'97> \'93Mesh" --> "AFS Foliage Tool".\
+A custom editor will become visible in the inspector.\
+\
+The script will ask you to save a new mesh asset first.\
+When done you will get two foldouts giving you two different ways to edit the new mesh:\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b \cf0 Set bending\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b0 \cf0 Open this foldout if you want to completely redefine primary and secondary bending (both stored in vertex.color.blue).\
+\
+	
+\b Bending Parameters\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li583\fi-19\ri-2320\pardirnatural
+
+\b0 \cf0 	Lets you choose where primary and secondary bending should be stored:\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li1116\fi26\ri-2320\pardirnatural
+
+\b\fs24 \cf0 Vertex Colors:
+\b0  Primary and secondary bending will both be stored in vertex color blue which gives you less control over bending but a smaller vertex count.\
+
+\b \cf2 Please note
+\b0 : Meshes which should be added using the terrain engine have to use this method.\
+
+\fs12 \cf0 \
+
+\b\fs24 Vertex Colors And UV4:
+\b0  Primary and secondary bending will be stored in UV4 so you can adjust them separately. This gives you better control but will increase vertex count.
+\b \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+\cf0 	\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b0 \cf0 	Depending on the selection you have made above you will get different inputs:\
+\
+	
+\b Bending Parameters = Vertex Colors
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx1119\tx1141\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\li1142\fi-9\ri-2320
+
+\b\fs24 \cf0 	Along Y_Axis\
+\pard\tx1119\tx1141\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\li1142\fi-9\ri-2320\pardirnatural
+
+\b0 \cf0 Sets up primary and secondary bending according to the position of the given vertex along the y-axis relative to the pivot (slider defines max strength, curve defines the strength along the given axis).\
+\pard\tx1119\tx1141\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li1142\fi-9\ri-2320\pardirnatural
+\cf0 Suitable for more or less upright orientated plants.\
+
+\fs12 \
+\pard\tx1119\tx1141\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\li1142\fi-9\ri-2320
+
+\b\fs24 \cf0 Relative To Pivot\
+\pard\tx1119\tx1141\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\li1142\fi-9\ri-2320\pardirnatural
+
+\b0 \cf0 	Sets up primary and secondary bending according to the distance between the pivot and the given vertex (slider defines max strength, curve defines the strength along the given axis).\
+Suitable for "bushy" plants.\
+\pard\tx1119\tx1141\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li1142\fi-9\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx1119\tx1141\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\li1142\fi-9\ri-2320
+
+\b\fs24 \cf0 	Along XZ-Axis\
+\pard\tx1119\tx1141\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li1142\fi-9\ri-2320\pardirnatural
+
+\b0 \cf0 	Use this if you want to add stronger bending to the outer parts of your plant.\
+	It will add primary and secondary bending according to the vertex position along the xz-axes relative to the pivot (slider defines max strength, curve defines the strength along the given axis).\cf2 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+\cf0 	
+\b Bending Parameters = Vertex Colors And UV4
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx1119\tx1141\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\li1142\fi-9\ri-2320
+
+\b\fs24 \cf0 	Primary Bending \'96 Along Y_Axis\
+\pard\tx1119\tx1141\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li1142\fi-9\ri-2320\pardirnatural
+
+\b0 \cf0 	Sets up primary bending which will be stored in UV4.x according to the y-position of the given vertex (slider defines max strength, curve defines the strength along the given axis).\
+Suitable for more or less upright orientated plants.\
+
+\fs12 \
+\pard\tx1119\tx1141\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\li1142\fi-9\ri-2320
+
+\b\fs24 \cf0 Primary Bending \'96 Relative To Pivot\
+\pard\tx1119\tx1141\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\li1142\fi-9\ri-2320\pardirnatural
+
+\b0 \cf0 	Sets up primary bending which will be stored in UV4.x according to the distance between the pivot and the given vertex (slider defines max strength, curve defines the strength along the given axis).\
+Suitable for "bushy" plants.\
+\pard\tx1119\tx1141\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li1142\fi-9\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx1119\tx1141\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\li1142\fi-9\ri-2320
+
+\b\fs24 \cf0 	Secondary Bending \'96 Along XZ-Axes\
+\pard\tx1119\tx1141\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li1142\fi-9\ri-2320\pardirnatural
+
+\b0 \cf0 	Use this if you want to add stronger bending to the outer parts of your plant.\
+	It will store secondary bending values in UV4.y according to the vertex position along the xz-axes relative to the pivot. (Slider defines max strength, curve defines the strength along the given axis).\
+
+\fs12 \
+\pard\tx1119\tx1141\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\li1142\fi-9\ri-2320
+
+\b\fs24 \cf0 Mask secondary Bending \'96 Along Y_Axis\
+\pard\tx1119\tx1141\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li1142\fi-9\ri-2320\pardirnatural
+
+\b0 \cf0 	Check this and adjust the related curve to prevent vertices to get any secondary bending applied to according to their y-position \'96 or simply lower secondary bending on certain parts.\
+
+\fs12 \
+\pard\tx1119\tx1141\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\li1142\fi-9\ri-2320
+
+\b\fs24 \cf0 	Mask secondary Bending \'96 by Vertex Color Blue\
+\pard\tx1119\tx1141\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li1142\fi-9\ri-2320\pardirnatural
+
+\b0 \cf0 	Check this if your model has been set up using vertex color blue to mask or define secondary bending.\
+In case even strength has been baked to vertex color blue you might set the curve which control secondary bending along the xz-axes (green curve) to a flat line by simply applying the first curve preset in the curve editing window. You still may adjust the overall strength using the corresponding slider.\
+\pard\tx1119\tx1141\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li1142\fi-9\ri-2320\pardirnatural
+\cf5 See: AFS Model and Texture Guide.pdf for details\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320
+
+\b \cf0 	Show Gizmos\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li583\fi-19\ri-2320\pardirnatural
+
+\b0 \cf0 If checked you will see the bounding box of the current mesh next to some colored markers \'96 each representing a key of the curves that shares the same color.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li583\fi-19\ri-2320\pardirnatural
+
+\b\fs24 \cf6 Vertex Color Blue Value stored\
+
+\b0 \cf6 Simply shows if the originally vertex color blue values have been stored.
+\b \cf6 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320
+
+\b\fs24 \cf0 	Apply\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b0 \cf0 	Hit "Apply" to bake the new values to the temporary mesh.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\fs24 \cf0 	
+\b Test\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\b0 \cf0 	Hit "Test" to see how wind will bend the temporary mesh in play mode.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs24 \cf0 	
+\b \cf2 Important:
+\b0  Do not forget to save the modified mesh when you are done!\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320
+
+\b\fs24 \cf0 Adjust vertex colors\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b0 \cf0 Open this foldout if you just want to adjust already existing vertex colors.
+\fs12 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320
+
+\b\fs24 \cf0 	Apply\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\b0 \cf0 	Hit "Apply" to bake the new values to the temporary mesh.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs24 \cf0 	
+\b Test\
+
+\b0 	Hit "Test" to see how wind will bend the temporary mesh in play mode.
+\fs12 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li565\fi-14\ri-2320\pardirnatural
+
+\fs24 \cf2 	
+\b Important:
+\b0  Do not forget to save the modified mesh when you are done!\
+	Whenever you hit "Apply" all changes are done relatively to the temporary mesh. In case you want to return to the original mesh you will have to reassign it manually first, then save a new mesh.\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\sl264\slmult1\pardirnatural
+
+\b\fs48 \cf0 3. Converting "tree creator" trees\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b0\fs24 \cf0 In case you want to use the advanced foliage or simple tree shader on models created with the built in tree creator you might use the foliage tool to make those models fit the needs of those shaders.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b\fs28 \cf0 3.1. Why should i use the advanced foliage shader on trees or convert a tree into a flattened tree?\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\fs24 \cf0 A lot of packages on the asset store ship with rather small plants modeled using the tree creator like bushes or even small trees.\
+Using the original tree creator shaders will usually force 2 draw calls per instance (6 when using real time shadows)\'97 1 for bark + 1 for leaves\'97whereas when converting the tree to a "flattened Tree" it is only 1 (3) draw call as all materials are flattened and everything is rendered using the leaf shader.\
+Using the "foliage" shaders in conjunction with the combine children AFS script might give you even less draw calls.\
+So if you do not need absolutely correct lighting (as bark is lit as leaves) converting those models will safe you a lot of draw calls.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b\fs28 \cf0 3.2. Converting a tree into a flattened tree
+\b0\fs24 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b\fs24 \cf0 3.2.1. Cons
+\b0 \
+\pard\tx83\tx374\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li377\fi-378\ri-2320\pardirnatural
+\ls1\ilvl0\cf0 {\listtext	\'95	}Only one shader (leaves) will be used: So \'84wrapped around diffuse\'93 lighting will be applied even to the bark and make its general lighting and bump mapping "smoother".\
+{\listtext	\'95	}You may get translucency even on parts of the bark which can easily be fixed by editing the applied textures\'97or will be fixed by the script automatically.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b\fs24 \cf0 3.2.2. Pros
+\b0 \
+\pard\tx83\tx374\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li377\fi-378\ri-2320\pardirnatural
+\ls2\ilvl0\cf0 {\listtext	\'95	}Just a single draw call per tree instead of 2 (or 3 instead of 6 if you have real time shadows enabled)\cf7 \
+\ls2\ilvl0\cf0 {\listtext	\'95	}Billboarding and wind zone (directionals and radials) are fully supported\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b\fs24 \cf0 3.2.3. Recommended Use Case
+\b0 \
+Use this option on trees which do not not need "correct" and s\expnd0\expndtw0\kerning0
+ophisticated\kerning1\expnd0\expndtw0  lighting on the bark (like bushes where the leaves most likely hide most of the bark anyway) but which should be visible over a long viewing distance (billboarding).\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b\fs28 \cf0 3.3. Converting a tree into a mesh compatible with the foliage shaders
+\b0\fs24 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b\fs24 \cf0 3.3.1. Cons\
+\pard\tx83\tx374\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li377\fi-378\ri-2320\pardirnatural
+\ls3\ilvl0
+\b0 \cf0 {\listtext	\'95	}Meshes using the foliage shaders do not react to (radial) wind zones but only to global (directional) wind parameters setup using the "SetupAdvancedFoliageShader" script.\
+{\listtext	\'95	}The foliage shaders will give you slightly different but physically based lighting.\
+{\listtext	\'95	}If you select: "vertex colors" this will lead to inferior bending which even has to be set up manually.\
+{\listtext	\'95	}If you select: "vertex color and uv4" bending will be more or less the the same without any needs to tweak it \'96\'a0perfect!\
+{\listtext	\'95	}No more billboarding as the result will not be a tree anymore. These meshes should be culled early using layer culling.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b\fs24 \cf0 3.3.2. Pros\
+\pard\tx83\tx374\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li377\fi-378\ri-2320\pardirnatural
+\ls4\ilvl0
+\b0 \cf0 {\listtext	\'95	}Pretty fast rendering: Just a single draw call per "tree" instead of 2 (or 3 instead of 6 if you have real time shadows enabled). And it might get even less if you use the "Combine Children Afs" script!\
+{\listtext	\'95	}Touch Bending might be enabled.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\b\fs24 \cf0 3.3.3. Recommended Use Case
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+\cf0 Use this option on "trees" which do not have to be visible over a long viewing distance and use the "Combine Children Afs" script to group those \'84trees\'93 into clusters in order to reduce the number of draw calls even more: Just imagine a dense forest where you have e.g. 20 bushes in an area of 10 x 10 meters:\
+Instead of 20 (60) draw calls you will just get 1 (3).\
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b\fs28 \cf0 3.4. How to convert a tree\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\fs24 \cf2 First of all you should duplicate the tree\'92s prefab in the project tab.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+\cf0 Then drag the copy into your scene and apply the foliage tool to it by choosing "Component" --> \'84AFS\'93 \'97> \'93Mesh" --> "AFS Foliage Tool".\
+A custom editor will become visible in the inspector.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\fs24 \cf0 The script will ask you to save a new mesh asset first.\
+When done the script will detect that your mesh consists of 2 sub meshes (for the 2 materials: leaves and bark) it will prompt a proper message.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\fs24 \cf0 You will also get two foldouts giving you two different ways to covert the tree:\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320
+
+\b \cf0 3.4.1. Convert Tree into flattened Tree\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320
+
+\b\fs24 \cf0 	Mesh Processing\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\b0 \cf0 	Nothing to do here. The script simply flattens the sub meshes and copies all bending parameters.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs24 \cf0 	
+\b Texture Processing
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs24 \cf0 	
+\b Texture split\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\li561\fi-5\ri-2320\pardirnatural
+
+\b0 \cf0 	If your tree uses one of the most common texture setups the script can automatically fill the proper parts of the translucency map with black so the bark will be completely opaque.\
+	Otherwise you will have to edit the generated texture manually and fill those parts of the \cf8 red\cf0  color channel with black where the tree should be fully opaque.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs24 \cf0 		
+\b One by One
+\b0 \
+		bark on the left half / leafs on the right half\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs24 \cf0 		
+\b Two by One
+\b0 \
+		bark fills 2/3 of the texture atlas  / leafs the third on the right side of the texture atlas\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\b\fs24 \cf0 		Other
+\b0 \
+\pard\tx0\tx566\tx1113\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\li1139\fi-14\ri-2320\pardirnatural
+\cf0 If selected the script will not make any changes to the translucency channel (red). You will have to edit it manually and fill those parts where there shall not be any translucency with black.
+\f1 \cf9 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\f0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\li1113\fi4\ri-2320\pardirnatural
+
+\b\fs24 \cf2 Please note:
+\b0  If the original bark texture contains any alpha channel which is not purely white (which would be fully opaque) the bark will not show up correctly as it will be rendered using alpha cutoff.\
+Fix this by duplicating the original "diffuse" texture created by the tree creator and editing its alpha channel: Please set all parts where the is the bark texture to pure "white".\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+\cf0 \
+	
+\b Convert Tree\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\li561\fi-5\ri-2320\pardirnatural
+
+\b0 \cf0 Hitting this button will start the process.\
+When finished simply remove the script and create a new prefab.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320
+
+\b \cf0 3.4.2. Convert Tree for Foliage Shader\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320
+
+\b\fs24 \cf0 	Mesh Processing\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs24 \cf0 	
+\b Bending Parameters\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\li561\fi-5\ri-2320\pardirnatural
+
+\b0 \cf0 	Lets you choose between "Vertex Colors" and "Vertex Color And UV4":\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1124\tx1126\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\li1144\fi-21\ri-2320\pardirnatural
+
+\b\fs24 \cf0 Vertex Colors:
+\b0  Primary and secondary bending will both be stored in vertex color blue which gives you less control over bending but a smaller vertex count.\
+You will have to setup primary and secondary bending manually afterwards. \
+
+\b \cf2 Please note
+\b0 : Meshes which should be added using the terrain engine have to use this method.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1124\tx1126\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\li1144\fi-21\ri-2320\pardirnatural
+
+\b\fs24 \cf2 Please note
+\b0 : If you convert a tree and bake bending to vertex colors only you will loose some baked bending information and have to setup primary and secondary bending from scratch. However as trees usually contain very different values of vertex color red in their different parts like trunk and branches your tree will most likely break apart: Lower the vertex color red values to get around this. This will give you less variety but a stable tree.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1124\tx1126\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\li1144\fi-21\ri-2320\pardirnatural
+
+\b\fs24 \cf0 Vertex Colors And UV4:
+\b0  Primary and secondary bending will be stored in UV4. This will increase vertex count but all bending values are straight copied so you do not have to do anything after conversion.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li1116\fi26\ri-2320\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\b \cf0 	Generate UV2\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\li561\fi-5\ri-2320\pardirnatural
+
+\b0 \cf0 If checked UV2 will be generated (needed by light mapper).\
+In case you will use the "Combine Children Afs" script this lets you create UV2 too.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs24 \cf0 	
+\b Texture Processing
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs24 \cf0 	
+\b Texture split\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\li561\fi-5\ri-2320\pardirnatural
+
+\b0 \cf0 	If your tree uses one of the most common texture setups the script can automatically fill the proper parts of the translucency map with black so the bark will be completely opaque.\
+	Otherwise you will have to edit the generated texture manually and fill those parts of the \cf8 red\cf0  color channel with black where the tree should be fully opaque.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs24 \cf0 		
+\b One by One
+\b0 \
+		bark on the left half / leafs on the right half\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs24 \cf0 		
+\b Two by One
+\b0 \
+		bark fills 2/3 of the texture atlas  / leafs the third on the right side of the texture atlas\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\b\fs24 \cf0 		Other
+\b0 \
+\pard\tx0\tx566\tx1113\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\li1139\fi-14\ri-2320\pardirnatural
+\cf0 If selected the script will not make any changes to the translucency channel (red). You will have to edit it manually and fill those parts where there shall not be any translucency with black.
+\f1 \cf9 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\f0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\li1113\fi4\ri-2320\pardirnatural
+
+\b\fs24 \cf2 Please note:
+\b0  If the original bark texture contains any alpha channel which is not purely white (which would be fully opaque) the bark will not show up correctly as it will be rendered using alpha cutoff.\
+Fix this by duplicating the original "diffuse" texture created by the tree creator and editing its alpha channel: Please set all parts where the is the bark texture to pure "white".\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+\cf0 \
+	
+\b Convert Tree\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\li561\fi-5\ri-2320\pardirnatural
+
+\b0 \cf0 Hitting this button will start the process.\
+When finished simply remove the script and create a new prefab or setup primary and secondary bending.\
+}

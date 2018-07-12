@@ -1,0 +1,308 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1344\cocoasubrtf720
+{\fonttbl\f0\fswiss\fcharset0 ArialMT;\f1\fnil\fcharset0 Monaco;}
+{\colortbl;\red255\green255\blue255;\red217\green11\blue0;\red255\green39\blue18;\red0\green0\blue255;
+}
+\paperw11900\paperh16840\margl1440\margr1440\vieww13100\viewh16500\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\sl264\slmult1\pardirnatural
+
+\f0\b\fs48 \cf0 Advanced Foliage Shader v4 \'96 Touch bending
+\fs36 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\b0\fs24 \cf0 \
+
+\fs36 Please note: Touch bending is only supported on manually placed game objects and does not work on plants placed using the built in terrain engine.\
+
+\fs24 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\sl264\slmult1\pardirnatural
+
+\b\fs36 \cf0 Table of Content\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\sl264\slmult1\pardirnatural
+
+\fs24 \cf0 \
+1. Prepare the models\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\sl264\slmult1\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\fs24 \cf0 1.1. \uc0\u9660  shaped plants\
+1.2. \uc0\u9650  \u9632  shaped plants\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\sl264\slmult1\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\sl264\slmult1\pardirnatural
+
+\b\fs24 \cf0 2. Setting it all up\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\sl264\slmult1\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\fs24 \cf0 2.1. Setting up the player and enemies\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\sl264\slmult1\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\fs24 \cf0 2.2. Setting up the plants\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\sl264\slmult1\pardirnatural
+\cf0 2.2.1. Setup the materials and prefabs\
+2.2.2. Adding and setting up the script\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+\cf0 2.2.3. Avoiding Hiccups\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\sl264\slmult1\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\b\fs24 \cf0 3. FAQ\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\sl264\slmult1\pardirnatural
+
+\b0 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\b\fs48 \cf0 1. Prepare the models
+\b0\fs24 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\fs24 \cf0 Just set up your models like described in the Model and texture Guide by adding vertex colors.\
+Please note that vertex color red not only controls the wind animation phase but also influences the amount of bending on the different parts of the plant when touched. For this reason i would recommend not to use the full range from 0.0 \'96 1.0 on vertex color red but a rather reduced one e.g. 0.5 \'96 1.0. In fact the amount of touch bending is controlled by a combination of vertex color blue and vertex color red: touch bending amount = vertex color blue * 10.0 * ( 1.0 + vertex color red).\
+So use higher red values to e.g. strengthen touch bending on exposed parts of the plant.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\b\fs28 \cf0 1.1. \uc0\u9660  shaped plants
+\b0\fs24 \
+[narrow basis, wide crown, see e. g. "fern"]\
+Plants whose shape is defined by a narrow basis will work best with touch bending as the applied animation (which is a rotation around the plant\'92s pivot) should look pretty convincing right out of the box.\
+\
+
+\b\fs28 1.2. \uc0\u9650  \u9632  shaped plants
+\b0\fs24 \
+[wide basis, wide or narrow crown, see e. g. "grass"]\
+Plants whose shape is defined by a wide basis might need a bit more work, but as soon as the wind animation looks fine touch bending should do too.\cf2 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\b\fs48 \cf0 2. Setting it all up
+\b0\fs24 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\b\fs36 \cf0 2.1. Setting up the player and enemies\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\sl264\slmult1\pardirnatural
+
+\b\fs24 \cf0 \uc0\u9658 
+\b0  You have to attach the "touchBendingPlayerListener" script to each game object that shall interact with the plants.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\sl264\slmult1\pardirnatural
+
+\b\fs24 \cf0 Max speed
+\b0 \
+Make sure that its value always is higher than the maximum speed the related game object will ever reach.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\sl264\slmult1\pardirnatural
+
+\b\fs24 \cf0 Player_Damp Speed\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2315
+
+\b0 \cf0 The amount of touch bending is connected to the player\'92s speed as long as the player is inside the trigger in order to freeze touch bending when the player suddenly stops.\
+The Player_Damp Speed parameter lets you control the damping of the player\'92s speed passed to the touch bending animation in order to get at least some swing back animation although the player has suddenly stopped.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\sl264\slmult1\pardirnatural
+
+\b\fs24 \cf3 \uc0\u9658 
+\b0  
+\b Important:
+\b0  Make sure that all game objects also have a collider AND a rigid body attached.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+\cf3 Mark the rigid body as "is Kinematic" in case you do not need it for any other purpose.\cf0 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\b\fs36 \cf0 2.2. Setting up the plants\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\sl264\slmult1\pardirnatural
+
+\fs28 \cf0 2.2.1. Setup the materials and prefabs
+\b0\fs36 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\sl264\slmult1\pardirnatural
+
+\b\fs24 \cf0 \uc0\u9658 
+\b0  Create a new prefab and assign your plant\'92s mesh to it.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\sl264\slmult1\pardirnatural
+
+\b\fs24 \cf0 \uc0\u9658 
+\b0  Create a new material using the "AfsFoliageShader v4\'93. This material will be used to render the plant when not being touched.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\sl264\slmult1\pardirnatural
+
+\b\fs24 \cf0 \uc0\u9658 
+\b0  Duplicate the material and choose "AfsFoliageShader Touchbending v4" as shader for this material, which will be using during the touch bending animation. The regular and the touch bending shader of course should match.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\sl264\slmult1\pardirnatural
+
+\b\fs24 \cf0 \uc0\u9658 
+\b0  In case you want Unity to cull the plant at a certain distance in order to speed up rendering chose a proper layer (layer 8 and 9 are currently culled by the "SetupAdvancedFoliageShader" script).\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\sl264\slmult1\pardirnatural
+
+\b\fs24 \cf0 \uc0\u9658 
+\b0  Make sure that all plants have a simple collider attached which is marked as "isTrigger" and scale it properly.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\sl264\slmult1\pardirnatural
+
+\b\fs28 \cf0 2.2.2. Adding and setting up the script\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\sl264\slmult1\pardirnatural
+
+\fs24 \cf0 Start by adding the \'84touchBendingCollisionGS\'93 script to your prefab. Then set it up:
+\b\fs12 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\b0 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\b\fs24 \cf0 Regular material
+\b0 \
+Assign the material for the regular wind animation e.g. "AfsFoliageShader v4\'93.
+\fs12 \
+\
+
+\b\fs24 Touch bending material
+\b0 \
+Assign the material which should be used during the touch bending animation. Make sure that this material uses the "AfsFoliageShader Touchbending v4\'93 shader.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\b\fs24 \cf0 Sync Touch bending material\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\b0 \cf0 Whenever you make any changes to the original material this function easily let\'92s you sync the touch bending material to it. You only have to press the button once for each prefab as all prefabs share the same materials.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\b\fs24 \cf0 Bandabilty
+\b0 \
+Low values will give you only little bending whereas high values will raise the amplitude.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\b\fs24 \cf0 Disturbance\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\b0 \cf0 Amount of extra disturbance (like secondary wind bending) added to the plant while it is touched.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\b\fs24 \cf0 Duration
+\b0 \
+Duration of the touch bending animation.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\b\fs28 \cf0 2.2.3. Avoiding Hiccups
+\b0\fs24 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\fs24 \cf0 Entering Play Mode and touching the first plant you might get a very noticeable hiccup which is caused by the fact that the graphics driver \'84suddenly\'93 has to use the touch bending shader.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\i\fs24 \cf0 (From Unity Docs:) \expnd0\expndtw0\kerning0
+Usually graphics drivers do not actually prepare shaders until they are first needed. However when some object is first rendered with a previously unused shader, there can be a hiccup because the driver is compiling/optimizing the shader. This can be quite noticeable on mobile platforms.
+\i0\fs12 \kerning1\expnd0\expndtw0 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\fs24 \cf0 To get around this you can either use 
+\b void shader.WarmupAllShaders(); 
+\b0 or
+\b  
+\b0 place a dummy cube somewhere in you scene wich uses the touch bending material as default material.\
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2315\pardirnatural
+
+\b\fs48 \cf0 3. FAQ
+\b0\fs24 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2315
+
+\b \cf0 How do i find a correct value for the "Max speed" parameter?\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2315\pardirnatural
+
+\b0 \cf0 Simply add the "touchBendingPlayerListener" script to your player or game object and hit play.\
+Watch the "Player_speed" parameter in the inspector and raise "Max Speed" if "Player_speed" gets > 1.0.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2315
+
+\b \cf0 How can i handle teleporting or spawning of game objects?
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2315\pardirnatural
+\cf0 In case you use something like teleporting or a player spawns right within a trigger of a plant you will have to edit the "touchBendingPlayerListener" script in order to handle those cases in regard of your needs as both will probably blow up the player\'92s speed which is calculated from frame to frame by the "touchBendingPlayerListener" script:\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2315
+
+\f1 \cf0 line 30:\'a0Player_NewSpeed = (Player_Position - Player_OldPosition).magnitude / (Time.deltaTime) / (maxSpeed);
+\f0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2315\pardirnatural
+\cf0 Make sure that Player_NewSpeed is always in a range between 0.0 and 1.0.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2315\pardirnatural
+
+\b \cf0 Can I have different touch bending animations on different plants?
+\b0 \
+Yes. In case you need different touch bending animations like smooth swing back vs. high frequency shiver you could copy the "touchBendingCollision" script and implement your own easing equation (see: 
+\f1 \cf4 public\cf0  \cf4 float\cf0  Bounce(\cf4 float\cf0  x) \{\'85).\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2315\pardirnatural
+
+\f0 \cf0 You can use as many different scripts as you like within your scene.\
+}
