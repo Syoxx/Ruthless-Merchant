@@ -1,7 +1,6 @@
 ﻿//---------------------------------------------------------------
 // Authors: Peter Ehmler, Richard Brönnimann, 
 //---------------------------------------------------------------
-using System;
 using UnityEngine;
 
 namespace RuthlessMerchant
@@ -9,7 +8,6 @@ namespace RuthlessMerchant
     public abstract class Character : InteractiveObject
     {
         private DamageAbleObject healthSystem;
-        //private Vector3 velocity;
         private Vector3 moveVector;
         private CharacterController charController;
         private int stamina;
@@ -38,7 +36,6 @@ namespace RuthlessMerchant
         private Vector3 previousPosition;
         private float elapsedSecs;
         private float terrainCheckRadius;
-        private float colliderHeight;
 
         [Header("Character Attack Settings")]
         [SerializeField, Range(0, 1000), Tooltip("Base damage per attack")]
@@ -183,8 +180,7 @@ namespace RuthlessMerchant
             if (charCollider == null)
             {
                 charCollider = GetComponent<CapsuleCollider>();
-                terrainCheckRadius = charCollider.radius - 0.1f;
-                colliderHeight = charCollider.height;
+                terrainCheckRadius = charCollider.radius / 4;
             }            
 
             if (CompareTag("Player"))
@@ -299,7 +295,7 @@ namespace RuthlessMerchant
             {
                 // check the terrain angle in four directions player could move
                 preventClimbing = false;
-                Vector3 rayOriginInPlayer = new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z);
+                Vector3 rayOriginInPlayer = new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z);
                                 
                 Ray rayLeft     = new Ray(rayOriginInPlayer - transform.right * terrainCheckRadius, Vector3.down);
                 Ray rayRight    = new Ray(rayOriginInPlayer + transform.right * terrainCheckRadius, Vector3.down);
@@ -329,30 +325,38 @@ namespace RuthlessMerchant
                     gravity.y = -stickToGroundValue;
                     ApplyGravity(gravity);
                 }
-                previousPosition.x = transform.position.x;
-                previousPosition.y = transform.position.y;
-                previousPosition.z = transform.position.z;
+
+                if (isPlayer)
+                {
+                    previousPosition.x = transform.position.x;
+                    previousPosition.y = transform.position.y;
+                    previousPosition.z = transform.position.z;
+                }                
             }
             else
             {
                 if (rb != null)
                 {
-                    if ((!is_climbable_front && moveVector.z > 0.5f) || (!is_climbable_back && moveVector.z < -0.5f)
-                    || (!is_climbable_right && moveVector.x > 0.5f) || (!is_climbable_left && moveVector.x < -0.5f))
+                    if (isPlayer)
                     {
-                        rb.MovePosition(previousPosition);
-                    }
-                    else
-                    {
-                        previousPosition.x = transform.position.x;
-                        previousPosition.y = transform.position.y;
-                        previousPosition.z = transform.position.z;
-                    }
+                        if ((!is_climbable_front && moveVector.z > 0.5f) || (!is_climbable_back && moveVector.z < -0.5f)
+                                            || (!is_climbable_right && moveVector.x > 0.5f) || (!is_climbable_left && moveVector.x < -0.5f))
+                        {
+                            rb.MovePosition(previousPosition);
+                        }
+                        else
+                        {
+                            previousPosition.x = transform.position.x;
+                            previousPosition.y = transform.position.y;
+                            previousPosition.z = transform.position.z;
+                        }
+                    }                    
 
                     gravity += globalGravityScale * Vector3.up * Time.deltaTime * 2f;
                     ApplyGravity(gravity);
                 }
             }
+
         }
 
         /// <summary>
@@ -366,7 +370,7 @@ namespace RuthlessMerchant
             RaycastHit hitInfo;
             bool isClimbableAngle = true;
 
-            Physics.Raycast(ray, out hitInfo, 0.2f);
+            Physics.Raycast(ray, out hitInfo, 0.4f);
 
             if (hitInfo.collider != null)
             {
