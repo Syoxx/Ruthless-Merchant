@@ -364,7 +364,7 @@ namespace RuthlessMerchant
 
                 if (bookCanvas.activeSelf)
                 {
-                    bookCanvas.SetActive(false);
+                    CloseBook();
                 }
 
                 mapObject.SetActive(isUI_Inactive);
@@ -457,7 +457,7 @@ namespace RuthlessMerchant
 
             SendInteraction();
             ShowMap();
-            OpenBook();
+            BookControls();
         }
 
         void ControlModeAlchemist()
@@ -604,21 +604,15 @@ namespace RuthlessMerchant
         /// <summary>
         /// A simple function to open a book
         /// </summary>
-        private void OpenBook()
+        private void BookControls()
         {
             if (Input.GetKeyDown(KeyCode.J))
             {
-                bookCanvas.SetActive(true);
-                lastKeyPressed = KeyCode.J;
-                restrictMovement = !(bookCanvas.activeSelf == false);
-                restrictCamera = !(bookCanvas.activeSelf == false);
+                OpenBook(KeyCode.J);
             }
             if (Input.GetKeyDown(KeyCode.N))
             {
-                bookCanvas.SetActive(true);
-                lastKeyPressed = KeyCode.N;
-                restrictMovement = !(bookCanvas.activeSelf == false);
-                restrictCamera = !(bookCanvas.activeSelf == false);
+                OpenBook(KeyCode.N);
             }
             if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -626,8 +620,30 @@ namespace RuthlessMerchant
             }
             if (Input.GetKeyDown(KeyCode.I))
             {
+                OpenBook(KeyCode.I);
+            }
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                OpenBook(KeyCode.R);
+            }
+        }
+
+        private void OpenBook(KeyCode key)
+        {
+            if (mapObject.activeSelf)
+            {
+                mapObject.SetActive(false);
+            }
+
+            lastKeyPressed = key;
+
+            if (bookCanvas.activeSelf)
+            {
+                CloseBook();
+            }
+            else
+            {
                 bookCanvas.SetActive(true);
-                lastKeyPressed = KeyCode.I;
                 restrictMovement = !(bookCanvas.activeSelf == false);
                 restrictCamera = !(bookCanvas.activeSelf == false);
             }
@@ -675,7 +691,7 @@ namespace RuthlessMerchant
             lastKeyPressed = KeyCode.I;
             if (localAlchemist.Ingredient == null)
             {
-                OpenBook();
+                BookControls();
                 bookCanvas.SetActive(true);
                 restrictMovement = !(bookCanvas.activeSelf == false);
                 restrictCamera = !(bookCanvas.activeSelf == false);
