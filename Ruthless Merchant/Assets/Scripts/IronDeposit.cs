@@ -111,19 +111,18 @@ namespace RuthlessMerchant
 
         private Vector3 CalculateForce(bool isIron, int nrOfItem)
         {
-            //double spawnDegree = (360 / numberOfIrons) * nrOfItem;
-            //ironForce.x = (float)(maxSpawnDistance * Math.Cos(spawnDegree));
-            //if (ironForce.x < 0)
-            //    ironForce.x = ironForce.x * -1;
-            //ironForce.z = (float)(maxSpawnDistance * Math.Sin(spawnDegree));
-            //if (ironForce.z < 0)
-            //    ironForce.z = ironForce.z * -1;
             ironForce.x = 100f;
-            if (nrOfItem % 2 == 0)
-                ironForce.x = ironForce.x * -1;
             ironForce.z = 100f;
             ironForce.y = 1f;
+            ironForce = RotateForceVector(ironForce);
             return ironForce;
+        }
+
+        private Vector3 RotateForceVector(Vector3 inputVector)
+        {
+            float randomEuler = UnityEngine.Random.Range(0f, 360f);
+            Vector3 rotatedVector = Quaternion.Euler(0, 0, randomEuler) * inputVector;
+            return rotatedVector;
         }
         #endregion
     }
