@@ -111,7 +111,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1128155441318890}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.78, z: 0.5}
+  m_LocalPosition: {x: 0, y: 0.78, z: -0.049}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4893474255253490}
@@ -137,7 +137,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1726920853392978}
   m_LocalRotation: {x: -0, y: -0.7918156, z: -0, w: 0.6107603}
-  m_LocalPosition: {x: 39.28, y: 25.461, z: 229.19}
+  m_LocalPosition: {x: 44.7, y: 25.706, z: 230.95}
   m_LocalScale: {x: 0.22, y: 0.22, z: 0.22}
   m_Children:
   - {fileID: 4879695853813120}
@@ -162,8 +162,8 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
+  near clip plane: 0.01
+  far clip plane: 200
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -409,26 +409,21 @@ MonoBehaviour:
   baseAttackDelay: 2
   baseDefense: 10
   sneakSpeed: 2
-  walkSpeed: 3
+  walkSpeed: 4
   runSpeed: 7
-  stickToGroundValue: 15
-  maxJumpHeight: 30
+  stickToGroundValue: 10
+  maxJumpHeight: 25
   maxSlopeAngle: 40
-  CrouchHeight: 1.8
+  CrouchHeight: 2.06
   aimpointTexture: {fileID: 0}
   alchemyUiPrefab: {fileID: 1130014939077452, guid: e078c3a6ff729074da7b01b3cfec7794,
     type: 2}
-  workshopUiPrefab: {fileID: 0}
   recipeUiPrefab: {fileID: 1213390701520696, guid: c3881c4b3762cd34a85b93f25baa7db9,
     type: 2}
   mapObject: {fileID: 1304389160736404}
-  recipes: {fileID: 0}
-  _bookCanvas: {fileID: 0}
-  ItemUIPrefab: {fileID: 1003242521413218, guid: 1bc36308a3bc84d4a8de9805ef0a1e8f,
-    type: 2}
-  ItemsParent: {fileID: 0}
+  bookCanvas: {fileID: 0}
+  itemUIPrefab: {fileID: 0}
   MaxItemsPerPage: 4
-  _maxWeaponsPerPage: 0
 --- !u!124 &124634675891037248
 Behaviour:
   m_ObjectHideFlags: 1
@@ -445,10 +440,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 1.8
+  m_Radius: 0.61
+  m_Height: 2.06
   m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+  m_Center: {x: 0.00000006773255, y: -0.011136315, z: -0.00000006773255}
 --- !u!222 &222467364346239878
 CanvasRenderer:
   m_ObjectHideFlags: 1

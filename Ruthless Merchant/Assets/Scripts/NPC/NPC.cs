@@ -80,8 +80,6 @@ namespace RuthlessMerchant
             }
         }
 
-        public string ActionOutput;
-
         protected NavMeshAgent agent;
         protected int laneSelectionIndex = 0;
 
@@ -484,8 +482,6 @@ namespace RuthlessMerchant
 
                 currentAction = action;
                 currentAction.StartAction(this, other);
-
-                ActionOutput = currentAction.GetType().FullName;
             }
         }
 

@@ -11,7 +11,7 @@ namespace RuthlessMerchant
 
         public override void Start()
         {
-            
+            Physics.IgnoreLayerCollision(gameObject.layer, gameObject.layer);
         }
 
         public override void Update()
