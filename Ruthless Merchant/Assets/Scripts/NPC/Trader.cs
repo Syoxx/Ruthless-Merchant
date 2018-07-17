@@ -18,9 +18,6 @@ namespace RuthlessMerchant
 
         #endregion
 
-        [SerializeField]
-        GameObject tradePrefab;
-
         #region Influence Properties
 
         [Header("Influence Variables")]
@@ -162,12 +159,6 @@ namespace RuthlessMerchant
 
         #region MonoBehaviour cycle
 
-        void Awake()
-        {
-            // TODO: Delete this.
-            CurrentTrader = this;
-        }
-
         public override void Start()
         {
         }
@@ -187,8 +178,6 @@ namespace RuthlessMerchant
             realAndOfferedRatio   = new List<float>();
             wishedAndOfferedRatio = new List<float>();
 
-            ItemValue[] itemValue = trade.Item.ItemValue;
-
             IrritationTotal = irritationStart;
             SkepticismTotal = skepticismStart;
 
@@ -198,28 +187,27 @@ namespace RuthlessMerchant
             }
             else
             {
-                if (itemValue.Length == 1 && itemValue[0].Item.ItemType == ItemType.Other)
-                {
-                    float realPrice = itemValue[0].Count;
 
-                    upperLimitPercentTotal = upperLimitPerCent + ((upperLimitPerCent * influenceFraction) + (upperLimitPerCent * influenceIndividual) + (upperLimitPerCent * influenceWar) + (upperLimitPerCent * influenceNeighbours)) / 4;
-                    underLimitPercentTotal = underLimitPerCent + (-(underLimitPerCent * influenceFraction) - (underLimitPerCent * influenceIndividual) + (underLimitPerCent * influenceWar) + (underLimitPerCent * influenceNeighbours)) / 4;
+                float realPrice = trade.RealValue;
 
-                    upperLimitReal = (float)Math.Ceiling(realPrice * (1 + upperLimitPercentTotal));
-                    upperLimitBargain   = (float)Math.Ceiling(upperLimitReal * (1 + upperLimitBargainPerCent));
-                    underLimitReal      = (float)Math.Floor(realPrice * (1 - underLimitPercentTotal));
-                    wished.Add((float)Math.Floor((upperLimitReal + underLimitReal) / 2));
-                }
-                else
-                {
-                    Debug.LogError("Item Value not supported yet.");
-                }
+                upperLimitPercentTotal = upperLimitPerCent + ((upperLimitPerCent * influenceFraction) + (upperLimitPerCent * influenceIndividual) + (upperLimitPerCent * influenceWar) + (upperLimitPerCent * influenceNeighbours)) / 4;
+                underLimitPercentTotal = underLimitPerCent + (-(underLimitPerCent * influenceFraction) - (underLimitPerCent * influenceIndividual) + (underLimitPerCent * influenceWar) + (underLimitPerCent * influenceNeighbours)) / 4;
+
+                upperLimitReal = (float)Math.Ceiling(realPrice * (1 + upperLimitPercentTotal));
+                upperLimitBargain   = (float)Math.Ceiling(upperLimitReal * (1 + upperLimitBargainPerCent));
+                underLimitReal      = (float)Math.Floor(realPrice * (1 - underLimitPercentTotal));
+                wished.Add((float)Math.Floor((upperLimitReal + underLimitReal) / 2));
             }
         }
 
-        public void ReactToPlayerOffer(Trade trade)
+        /// <summary>
+        /// Main method of the Trader. Called every time the player has made an offer.
+        /// </summary>
+        public void ReactToPlayerOffer()
         {
-            realAndOfferedRatio.Add(lastItem(trade.PlayerOffers) / trade.Item.ItemValue[0].Count);
+            Trade trade = Trade.Singleton;
+
+            realAndOfferedRatio.Add(lastItem(trade.PlayerOffers) / trade.RealValue);
             wishedAndOfferedRatio.Add(lastItem(trade.PlayerOffers) / lastItem(wished));
             wished.Add((float)Math.Ceiling(upperLimitReal - ((upperLimitReal - lastItem(wished)) / lastItem(wishedAndOfferedRatio))));
 
@@ -242,9 +230,8 @@ namespace RuthlessMerchant
         }
 
         /// <summary>
-        /// Handles the first offer given by the player.
+        /// Handles the first offer made by the player.
         /// </summary>
-        /// <returns>True if the Trade</returns>
         void HandleFirstPlayerOffer()
         {
             Trade trade = Trade.Singleton;
@@ -269,6 +256,9 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// Handles all offers made by the player except the first one.
+        /// </summary>
         void HandleLaterPlayerOffers()
         {
             Trade trade = Trade.Singleton;
@@ -305,7 +295,7 @@ namespace RuthlessMerchant
                 irritationDelta = irritationDeltaModifier * realAndOfferedRatio[realAndOfferedRatio.Count - 1];
             }
 
-            if (trade.Item.ItemValue[0].Count < underLimitReal)
+            if (trade.RealValue < underLimitReal)
             {
                 skepticismDelta = 100;
             }
@@ -332,14 +322,18 @@ namespace RuthlessMerchant
         /// <param name="caller"></param>
         public override void Interact(GameObject caller)
         {
-            if (FindObjectOfType<Trade>() == null)
+            if (Trade.Singleton == null)
             {
-                //Main_SceneManager.LoadSceneAdditively("TradeScene");
-                //GameObject.Find("TradePlayerPrefab").transform.rotation = GameObject.Find("NewPlayerPrefab").transform.rotation;
-                UnityEngine.SceneManagement.SceneManager.LoadScene("TradeScene");
+                CurrentTrader = this;
+                Position = gameObject.transform.position;
+                Main_SceneManager.LoadSceneAdditively("TradeScene");
+                //UnityEngine.SceneManagement.SceneManager.LoadScene("TradeScene");
             }
         }
 
+        /// <summary>
+        /// Gets the last Item of a List<float>.
+        /// </summary>
         float lastItem(List<float> list, int beforeLast = 0, string round = "")
         {
             float result = list[list.Count - (1 + beforeLast)];

@@ -8,10 +8,13 @@ namespace RuthlessMerchant
 {
     public class Inventory : MonoBehaviour
     {
+        #region Fields #############################################################################################
+
         public static Inventory Singleton;
 
         private Item[] items;
         public InventorySlot[] inventorySlots;
+
         [SerializeField]
         private int maxSlotCount = 10;
 
@@ -19,49 +22,15 @@ namespace RuthlessMerchant
         private UnityEvent inventoryChanged;
 
         [System.NonSerialized]
-        public JumpToPaper BookLogic = null;
+        public PageLogic BookLogic = null;
 
         [System.NonSerialized]
         public GameObject ItemUIPrefab = null;
 
-        public UnityEvent InventoryChanged
-        {
-            get
-            {
-                return inventoryChanged;
-            }
-        }
+        #endregion
 
-        private void Awake()
-        {
-            inventorySlots = new InventorySlot[maxSlotCount];
-            inventoryChanged = new UnityEvent();
 
-            Singleton = this;
-        }
-
-        private void Start()
-        {
-            //Debugging
-            foreach(Item item in startinventory)
-            {
-                Add(item, 1, true);
-            }
-        }
-
-        /// <summary>
-        /// Primarily for Debugging. Outputs the Inventory in the Console.
-        /// </summary>
-        public void CallInventory()
-        {
-            for (int i = 0; i < inventorySlots.Length; i++)
-            {
-                if (inventorySlots[i].Item != null)
-                    Debug.Log(inventorySlots[i].Item.gameObject.name);
-                else
-                    Debug.Log("Empty");
-            }
-        }
+        #region Properties #########################################################################################
 
         public Item[] Items
         {
@@ -87,74 +56,40 @@ namespace RuthlessMerchant
             }
         }
 
-        /// <summary>
-        /// Adds one or multiple items to the inventory
-        /// </summary>
-        /// <param name="item">the item that will be added</param>
-        /// <param name="count">the amount of items to add</param>
-        /// <param name="sortAfterMethod">Set this to true, if Inventory should be sorted after adding the items</param>
-        /// <returns>Returns the number of items that couldn't be stored in the inventory. returns 0 if all items were added successfully</returns>
-        public int Add(Item item, int count, bool sortAfterMethod)
+        public UnityEvent InventoryChanged
         {
-            for (int i = 0; i < maxSlotCount; i++)
+            get
             {
-                if (inventorySlots[i].Count <= 0)
-                {
-                    if (count > item.MaxStackCount)
-                    {
-                        count -= item.MaxStackCount;
-                        inventorySlots[i].Count = item.MaxStackCount;
-                        inventorySlots[i].Item = item;
-                    }
-                    else
-                    {
-                        inventorySlots[i].Count += count;
-                        inventorySlots[i].Item = item;
-                        count = 0;
-                    }
-
-                    if (inventorySlots[i].DisplayData == null)
-                        inventorySlots[i].DisplayData = CreateDisplayData(inventorySlots[i]);
-                    else
-                        inventorySlots[i].DisplayData = UpdateDisplayData(inventorySlots[i]);
-                }
-                else if (inventorySlots[i].Item)
-                {
-                    if (inventorySlots[i].Item.ItemName == item.ItemName && inventorySlots[i].Count < item.MaxStackCount)
-                    {
-                        if (inventorySlots[i].Count + count > item.MaxStackCount)
-                        {
-                            count -= (item.MaxStackCount - inventorySlots[i].Count);
-                            inventorySlots[i].Count = item.MaxStackCount;
-                        }
-                        else
-                        {
-                            inventorySlots[i].Count += count;
-                            count = 0;
-                        }
-
-                        if (inventorySlots[i].DisplayData == null)
-                            inventorySlots[i].DisplayData = CreateDisplayData(inventorySlots[i]);
-                        else
-                            inventorySlots[i].DisplayData = UpdateDisplayData(inventorySlots[i]);
-                    }
-                }
-
-                if (count <= 0)
-                {
-                    if (sortAfterMethod)
-                    {
-                        SortInventory();
-                    }
-
-                    return count;
-                }
+                return inventoryChanged;
             }
-            if (sortAfterMethod)
+        }
+
+        #endregion
+
+
+        #region Structs ############################################################################################
+
+
+
+        #endregion
+
+
+        #region Private Functions ##################################################################################
+
+        private void Awake()
+        {
+            inventorySlots = new InventorySlot[maxSlotCount];
+            inventoryChanged = new UnityEvent();
+
+        }
+
+        private void Start()
+        {
+            //Debugging
+            foreach (Item item in startinventory)
             {
-                SortInventory();
+                Add(item, 1, true);
             }
-            return count;
         }
 
         /// <summary>
@@ -176,159 +111,10 @@ namespace RuthlessMerchant
         }
 
         /// <summary>
-        /// Returns how many of a specific Item is within the inventory. Returns 0 if you don't have the item
+        /// Creates a Inventory-Display for a specific Inventoryslot. This Function is only used if UpdateDisplayData couldn't find a InventoryItem
         /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
-        public int GetNumberOfItems(Item item)
-        {
-            int amount = 0;
-
-            for(int i = 0; i < maxSlotCount; i++)
-            {
-                if(inventorySlots[i].Item)
-                {
-                    if (inventorySlots[i].Item.ItemName == item.ItemName)
-                    {
-                        amount += inventorySlots[i].Count;
-                    }
-                }
-            }
-
-            return amount;
-        }
-
-        /// <summary>
-        /// Removes any Item from a specific Slot
-        /// </summary>
-        /// <param name="slot">the slot from which items will be removed</param>
-        /// <param name="count">the number of items to be removed. Removes all items if negative</param>
-        /// <param name="sortAfterMethod">Set this to true, if Inventory should be sorted after removing the items</param>
-        /// <returns>Returns the item that was stored at the slot</returns>
-        public Item Remove(int slot, int count, bool sortAfterMethod)
-        {
-            Item item = null;
-            if(count > 0)
-            {
-                inventorySlots[slot].Count -= count;
-                if (inventorySlots[slot].Count <= 0)
-                {
-                    item = inventorySlots[slot].Item;
-                    inventorySlots[slot].Count = 0;
-                    inventorySlots[slot].Item = null;
-
-                    if (inventorySlots[slot].DisplayData != null)
-                    {
-                        Destroy(inventorySlots[slot].DisplayData.gameObject);
-                        inventorySlots[slot].DisplayData = null;
-                    }
-                }
-            }
-            else if(count < 0)
-            {
-                item = inventorySlots[slot].Item;
-                inventorySlots[slot].Count = 0;
-                inventorySlots[slot].Item = null;
-
-                if (inventorySlots[slot].DisplayData != null)
-                {
-                    Destroy(inventorySlots[slot].DisplayData.gameObject);
-                    inventorySlots[slot].DisplayData = null;
-                }
-            }
-
-            if (sortAfterMethod)
-            {
-                SortInventory();
-            }
-
-            return item;
-        }
-
-        /// <summary>
-        /// Removes a specific Item from the inventory. doesn't remove the items if count is lower than amount of items
-        /// </summary>
-        /// <param name="item">the item which will be removed</param>
-        /// <param name="count">how many of that item should be removed</param>
-        /// <param name="sortAfterMethod">Set this to true, if Inventory should be sorted after removing the items</param>
-        /// <returns>returns true if there are more items in the inventory, than count.</returns>
-        public bool Remove(Item item, int count, bool sortAfterMethod)
-        {
-            //Searching for amount of Items
-            try
-            {
-                int foundItems = 0;
-                for (int i = 0; i < maxSlotCount; i++)
-                {
-                    if(inventorySlots[i].Item)
-                    {
-                        if (inventorySlots[i].Item.ItemName == item.ItemName)
-                        {
-                            foundItems += inventorySlots[i].Count;
-                        }
-                    }
-                }
-                if (foundItems < count)
-                {
-                    return false;
-                }
-            }
-            catch
-            {
-                throw new Exception("Error during counting of items");
-            }
-
-            //Removing Items
-            try
-            {
-                for (int i = 0; i < maxSlotCount; i++)
-                {
-                    if (inventorySlots[i].Item)
-                    {
-                        if (inventorySlots[i].Item.ItemName == item.ItemName)
-                        {
-                            inventorySlots[i].Count -= count;
-                            if (inventorySlots[i].Count <= 0)
-                            {
-                                inventorySlots[i].Item = null;
-                                count = -inventorySlots[i].Count;
-                                inventorySlots[i].Count = 0;
-
-                                if (inventorySlots[i].DisplayData != null)
-                                {
-                                    Destroy(inventorySlots[i].DisplayData.gameObject);
-                                    inventorySlots[i].DisplayData = null;
-                                }
-                            }
-                            else
-                            {
-                                inventorySlots[i].DisplayData = UpdateDisplayData(inventorySlots[i]);
-
-                                if (sortAfterMethod)
-                                {
-                                    SortInventory();
-                                }
-
-                                return true;
-                            }
-                        }
-                    }
-                }
-
-                if (sortAfterMethod)
-                {
-                    SortInventory();
-                }
-
-                return true;
-
-            }
-            catch
-            {
-                throw new Exception("Error during removing of items from inventory");
-            }
-        }
-
+        /// <param name="inventorySlot">inventoryslot the function will create</param>
+        /// <returns>returns the created display</returns>
         private InventoryItem CreateDisplayData(InventorySlot inventorySlot)
         {
             if (ItemUIPrefab == null)
@@ -336,7 +122,7 @@ namespace RuthlessMerchant
 
             Debug.LogWarning("Create Display Data");
 
-            Transform parent = BookLogic.InventoryPageList[BookLogic.PageForCurrentWeaponPlacement()].transform.Find("PNL_ZoneForItem");
+            Transform parent = BookLogic.InventoryPageList[BookLogic.PageForCurrentItemPlacement()].transform.Find("PNL_ZoneForItem");
             GameObject inventoryItem = Instantiate(ItemUIPrefab, parent) as GameObject;
             //inventoryItem.transform.SetParent(parent, false);
 
@@ -344,7 +130,11 @@ namespace RuthlessMerchant
 
             itemInfos.itemName.text = inventorySlot.Count + "x " + inventorySlot.Item.ItemName + " (" + inventorySlot.Item.ItemRarity + ")";
             itemInfos.itemDescription.text = inventorySlot.Item.ItemLore;
-            itemInfos.itemPrice.text = inventorySlot.Item.ItemValue[0].Count.ToString();
+            if (inventorySlot.Item.ItemValue != null)
+                if (inventorySlot.Item.ItemValue.Length > 0)
+                    itemInfos.itemPrice.text = inventorySlot.Item.ItemValue[0].Count.ToString();
+                else
+                    itemInfos.itemPrice.text = "0G";
 
             if (inventorySlot.Item.ItemSprite != null)
             {
@@ -354,18 +144,39 @@ namespace RuthlessMerchant
             return itemInfos;
         }
 
+        /// <summary>
+        /// Updates the Inventory-Display of a specific Inventoryslot
+        /// </summary>
+        /// <param name="inventorySlot">inventoryslot the function will update</param>
+        /// <returns>returns the created display</returns>
         private InventoryItem UpdateDisplayData(InventorySlot inventorySlot)
         {
             if (ItemUIPrefab == null)
                 return null;
 
             InventoryItem itemInfos = inventorySlot.DisplayData;
+            if (inventorySlot.Item == null && itemInfos != null)
+            {
+                Destroy(inventorySlot.DisplayData.gameObject);
+                inventorySlot.DisplayData = null;
+                return null;
+            }
+            if (inventorySlot.Item == null && itemInfos == null)
+            {
+                return null;
+            }
             if (itemInfos == null)
+            {
                 return CreateDisplayData(inventorySlot);
+            }
 
             itemInfos.itemName.text = inventorySlot.Count + "x " + inventorySlot.Item.ItemName + " (" + inventorySlot.Item.ItemRarity + ")";
             itemInfos.itemDescription.text = inventorySlot.Item.ItemLore;
-            itemInfos.itemPrice.text = inventorySlot.Item.ItemValue[0].Count + "G";
+            if (inventorySlot.Item.ItemValue != null)
+                if (inventorySlot.Item.ItemValue.Length > 0)
+                    itemInfos.itemPrice.text = inventorySlot.Item.ItemValue[0].Count + "G";
+                else
+                    itemInfos.itemPrice.text = "0G";
 
             if (inventorySlot.Item.ItemSprite != null)
             {
@@ -373,35 +184,6 @@ namespace RuthlessMerchant
             }
 
             return itemInfos;
-        }
-
-        /// <summary>
-        /// Interacts with Item within a specific Inventoryslot
-        /// </summary
-        public void Interact(int slot, GameObject caller, bool sortAfterMethod)
-        {
-            if(inventorySlots[slot].Count > 0 && slot >= 0 && slot < maxSlotCount)
-            {
-                inventorySlots[slot].Item.Interact(caller);
-            }
-        }
-
-        /// <summary>
-        /// Finds a specific Item within the inventory and interacts with it
-        /// </summary>
-        /// <returns>returns false if item is not in the inventory</returns>
-        public bool Interact(Item item, GameObject caller)
-        {
-            int slot = FindItem(item);
-            if(slot >= 0)
-            {
-                inventorySlots[slot].Item.Interact(caller);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
 
         /// <summary>
@@ -461,6 +243,10 @@ namespace RuthlessMerchant
                     }
                 }
             }
+            for (int i = 0; i < inventorySlots.Length; i++)
+            {
+                inventorySlots[i].DisplayData = UpdateDisplayData(inventorySlots[i]);
+            }
             inventoryChanged.Invoke();
         }
 
@@ -469,13 +255,257 @@ namespace RuthlessMerchant
         /// </summary>
         void SwapItemPositions(int firstIndex, int SecondIndex)
         {
-           /* InventorySlot buffer = new InventorySlot();
-            buffer.Item = inventorySlots[firstIndex].Item;
-            buffer.Count = inventorySlots[firstIndex].Count;*/
+            /* InventorySlot buffer = new InventorySlot();
+             buffer.Item = inventorySlots[firstIndex].Item;
+             buffer.Count = inventorySlots[firstIndex].Count;*/
 
             InventorySlot buffer = inventorySlots[firstIndex];
             inventorySlots[firstIndex] = inventorySlots[SecondIndex];
             inventorySlots[SecondIndex] = buffer;
         }
+
+        #endregion
+
+
+        #region Public Functions ##################################################################################
+
+        /// <summary>
+        /// Primarily for Debugging. Outputs the Inventory in the Console.
+        /// </summary>
+        public void CallInventory()
+        {
+            for (int i = 0; i < inventorySlots.Length; i++)
+            {
+                if (inventorySlots[i].Item != null)
+                    Debug.Log(inventorySlots[i].Item.gameObject.name);
+                else
+                    Debug.Log("Empty");
+            }
+        }
+
+        /// <summary>
+        /// Adds one or multiple items to the inventory
+        /// </summary>
+        /// <param name="item">the item that will be added</param>
+        /// <param name="count">the amount of items to add</param>
+        /// <param name="sortAfterMethod">Set this to true, if Inventory should be sorted after adding the items</param>
+        /// <returns>Returns the number of items that couldn't be stored in the inventory. returns 0 if all items were added successfully</returns>
+        public int Add(Item item, int count, bool sortAfterMethod)
+        {
+            for (int i = 0; i < maxSlotCount; i++)
+            {
+                if (inventorySlots[i].Count <= 0)
+                {
+                    if (count > item.MaxStackCount)
+                    {
+                        count -= item.MaxStackCount;
+                        inventorySlots[i].Count = item.MaxStackCount;
+                        inventorySlots[i].Item = item;
+                    }
+                    else
+                    {
+                        inventorySlots[i].Count += count;
+                        inventorySlots[i].Item = item;
+                        count = 0;
+                    }
+                }
+                else if (inventorySlots[i].Item)
+                {
+                    if (inventorySlots[i].Item.ItemName == item.ItemName && inventorySlots[i].Count < item.MaxStackCount)
+                    {
+                        if (inventorySlots[i].Count + count > item.MaxStackCount)
+                        {
+                            count -= (item.MaxStackCount - inventorySlots[i].Count);
+                            inventorySlots[i].Count = item.MaxStackCount;
+                        }
+                        else
+                        {
+                            inventorySlots[i].Count += count;
+                            count = 0;
+                        }
+                    }
+                }
+
+                if (count <= 0)
+                {
+                    if (sortAfterMethod)
+                    {
+                        SortInventory();
+                    }
+
+                    return count;
+                }
+            }
+            if (sortAfterMethod)
+            {
+                SortInventory();
+            }
+            return count;
+        }
+
+        /// <summary>
+        /// Returns how many of a specific Item is within the inventory. Returns 0 if you don't have the item
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public int GetNumberOfItems(Item item)
+        {
+            int amount = 0;
+
+            for (int i = 0; i < maxSlotCount; i++)
+            {
+                if (inventorySlots[i].Item)
+                {
+                    if (inventorySlots[i].Item.ItemName == item.ItemName)
+                    {
+                        amount += inventorySlots[i].Count;
+                    }
+                }
+            }
+
+            return amount;
+        }
+
+        /// <summary>
+        /// Removes any Item from a specific Slot
+        /// </summary>
+        /// <param name="slot">the slot from which items will be removed</param>
+        /// <param name="count">the number of items to be removed. Removes all items if negative</param>
+        /// <param name="sortAfterMethod">Set this to true, if Inventory should be sorted after removing the items</param>
+        /// <returns>Returns the item that was stored at the slot</returns>
+        public Item Remove(int slot, int count, bool sortAfterMethod)
+        {
+            Item item = null;
+            if (count > 0)
+            {
+                inventorySlots[slot].Count -= count;
+                if (inventorySlots[slot].Count <= 0)
+                {
+                    item = inventorySlots[slot].Item;
+                    inventorySlots[slot].Count = 0;
+                    inventorySlots[slot].Item = null;
+                }
+            }
+            else if (count < 0)
+            {
+                item = inventorySlots[slot].Item;
+                inventorySlots[slot].Count = 0;
+                inventorySlots[slot].Item = null;
+            }
+
+            if (sortAfterMethod)
+            {
+                SortInventory();
+            }
+
+            return item;
+        }
+
+        /// <summary>
+        /// Removes a specific Item from the inventory. doesn't remove the items if count is lower than amount of items
+        /// </summary>
+        /// <param name="item">the item which will be removed</param>
+        /// <param name="count">how many of that item should be removed</param>
+        /// <param name="sortAfterMethod">Set this to true, if Inventory should be sorted after removing the items</param>
+        /// <returns>returns true if there are more items in the inventory, than count.</returns>
+        public bool Remove(Item item, int count, bool sortAfterMethod)
+        {
+            //Searching for amount of Items
+            try
+            {
+                int foundItems = 0;
+                for (int i = 0; i < maxSlotCount; i++)
+                {
+                    if (inventorySlots[i].Item)
+                    {
+                        if (inventorySlots[i].Item.ItemName == item.ItemName)
+                        {
+                            foundItems += inventorySlots[i].Count;
+                        }
+                    }
+                }
+                if (foundItems < count)
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                throw new Exception("Error during counting of items");
+            }
+
+            //Removing Items
+            try
+            {
+                for (int i = 0; i < maxSlotCount; i++)
+                {
+                    if (inventorySlots[i].Item)
+                    {
+                        if (inventorySlots[i].Item.ItemName == item.ItemName)
+                        {
+                            inventorySlots[i].Count -= count;
+                            if (inventorySlots[i].Count <= 0)
+                            {
+                                inventorySlots[i].Item = null;
+                                count = -inventorySlots[i].Count;
+                                inventorySlots[i].Count = 0;
+                            }
+                            else
+                            {
+                                if (sortAfterMethod)
+                                {
+                                    SortInventory();
+                                }
+
+                                return true;
+                            }
+                        }
+                    }
+                }
+
+                if (sortAfterMethod)
+                {
+                    SortInventory();
+                }
+
+                return true;
+
+            }
+            catch
+            {
+                throw new Exception("Error during removing of items from inventory");
+            }
+        }
+
+        /// <summary>
+        /// Interacts with Item within a specific Inventoryslot
+        /// </summary
+        public void Interact(int slot, GameObject caller, bool sortAfterMethod)
+        {
+            if (inventorySlots[slot].Count > 0 && slot >= 0 && slot < maxSlotCount)
+            {
+                inventorySlots[slot].Item.Interact(caller);
+            }
+        }
+
+        /// <summary>
+        /// Finds a specific Item within the inventory and interacts with it
+        /// </summary>
+        /// <returns>returns false if item is not in the inventory</returns>
+        public bool Interact(Item item, GameObject caller)
+        {
+            int slot = FindItem(item);
+            if (slot >= 0)
+            {
+                inventorySlots[slot].Item.Interact(caller);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        #endregion
     }
 }

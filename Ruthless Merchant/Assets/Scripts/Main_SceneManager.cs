@@ -5,20 +5,39 @@ using UnityEngine.SceneManagement;
 
 public class Main_SceneManager : MonoBehaviour
 {
-    public Main_SceneManager Singleton;
+    public static Main_SceneManager Singleton;
+
+    static List<string> LoadedScenes;
+
+    public enum SceneToLoad
+    {
+        Islandtesting,
+        IslandtestingCode
+    }
+
+    [SerializeField]
+    public SceneToLoad sceneToLoad;
 
     private void Awake()
     {
         Singleton = this;
+        LoadedScenes = new List<string>();
     }
 
     void Start()
     {
-        LoadSceneAdditively("Isleandtesting");
+        LoadSceneAdditively(sceneToLoad.ToString());
     }
 
     public static void LoadSceneAdditively(string sceneName)
     {
+        LoadedScenes.Add(sceneName);
         SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
+    }
+
+    public static void UnLoadScene(string sceneName)
+    {
+        LoadedScenes.Remove(sceneName);
+        SceneManager.UnloadSceneAsync(sceneName);
     }
 }
