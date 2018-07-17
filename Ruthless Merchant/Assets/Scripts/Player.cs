@@ -40,8 +40,9 @@ namespace RuthlessMerchant
         private GameObject inventoryCanvas;
         private GameObject itemsContainer;
         private ControlMode controlMode = ControlMode.Move;
-
+        private Reputation reputation;
         int currenRecipe;
+        private Recipes recipes;
         GameObject smithCanvas;
         Smith localSmith;
 
@@ -70,19 +71,13 @@ namespace RuthlessMerchant
         [SerializeField, Tooltip("This is the UI Prefab that appears for each Item when accessing an Alchemyslot")]
         GameObject alchemyUiPrefab;
         
-        [SerializeField, Tooltip("This is the UI Prefab that appears for each Item when accessing the workbench.")]
-        private GameObject workshopUiPrefab;
-
         [SerializeField, Tooltip("The UI Prefab that appears for each recipe when accessing the Smith")]
         GameObject recipeUiPrefab;
 
         [Space(15)]
         
         [SerializeField, Tooltip("Drag Map_Canvas object here.")]
-        private GameObject mapObject;
-
-        [SerializeField, Tooltip("This is the Recipe Component placed on this object")]
-        private Recipes recipes;
+        private GameObject mapObject;        
 
         [Space(10)]
 
@@ -147,12 +142,26 @@ namespace RuthlessMerchant
             }
         }
 
+        public Reputation Reputation
+        {
+            get
+            {
+                if (reputation == null)
+                {
+                    reputation = GetComponent<Reputation>();
+                }
+                return reputation;
+            }
+        }
+
         public override void Start()
         {
             base.Start();
 
             smithCanvas = GameObject.Find("SmithCanvas");
             alchemyCanvas = GameObject.Find("AlchemyCanvas");
+            reputation = GetComponent<Reputation>();
+
             if(smithCanvas)
             {
                 smithCanvas.SetActive(false);
@@ -364,7 +373,7 @@ namespace RuthlessMerchant
 
                 if (bookCanvas.activeSelf)
                 {
-                    bookCanvas.SetActive(false);
+                    CloseBook();
                 }
 
                 mapObject.SetActive(isUI_Inactive);
@@ -457,7 +466,7 @@ namespace RuthlessMerchant
 
             SendInteraction();
             ShowMap();
-            OpenBook();
+            BookControls();
         }
 
         void ControlModeAlchemist()
@@ -604,21 +613,15 @@ namespace RuthlessMerchant
         /// <summary>
         /// A simple function to open a book
         /// </summary>
-        private void OpenBook()
+        private void BookControls()
         {
             if (Input.GetKeyDown(KeyCode.J))
             {
-                bookCanvas.SetActive(true);
-                lastKeyPressed = KeyCode.J;
-                restrictMovement = !(bookCanvas.activeSelf == false);
-                restrictCamera = !(bookCanvas.activeSelf == false);
+                OpenBook(KeyCode.J);
             }
             if (Input.GetKeyDown(KeyCode.N))
             {
-                bookCanvas.SetActive(true);
-                lastKeyPressed = KeyCode.N;
-                restrictMovement = !(bookCanvas.activeSelf == false);
-                restrictCamera = !(bookCanvas.activeSelf == false);
+                OpenBook(KeyCode.N);
             }
             if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -626,8 +629,30 @@ namespace RuthlessMerchant
             }
             if (Input.GetKeyDown(KeyCode.I))
             {
+                OpenBook(KeyCode.I);
+            }
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                OpenBook(KeyCode.R);
+            }
+        }
+
+        private void OpenBook(KeyCode key)
+        {
+            if (mapObject.activeSelf)
+            {
+                mapObject.SetActive(false);
+            }
+
+            lastKeyPressed = key;
+
+            if (bookCanvas.activeSelf)
+            {
+                CloseBook();
+            }
+            else
+            {
                 bookCanvas.SetActive(true);
-                lastKeyPressed = KeyCode.I;
                 restrictMovement = !(bookCanvas.activeSelf == false);
                 restrictCamera = !(bookCanvas.activeSelf == false);
             }
@@ -675,7 +700,7 @@ namespace RuthlessMerchant
             lastKeyPressed = KeyCode.I;
             if (localAlchemist.Ingredient == null)
             {
-                OpenBook();
+                BookControls();
                 bookCanvas.SetActive(true);
                 restrictMovement = !(bookCanvas.activeSelf == false);
                 restrictCamera = !(bookCanvas.activeSelf == false);

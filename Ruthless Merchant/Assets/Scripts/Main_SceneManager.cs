@@ -9,8 +9,14 @@ public class Main_SceneManager : MonoBehaviour
 
     static List<string> LoadedScenes;
 
+    public enum SceneToLoad
+    {
+        Islandtesting,
+        IslandtestingCode
+    }
+
     [SerializeField]
-    bool loadArtScene = false;
+    public SceneToLoad sceneToLoad;
 
     private void Awake()
     {
@@ -20,12 +26,7 @@ public class Main_SceneManager : MonoBehaviour
 
     void Start()
     {
-        LoadSceneAdditively("IslandtestingCode");
-
-        if (loadArtScene)
-        {
-            LoadSceneAdditively("Islandtesting");
-        }
+        LoadSceneAdditively(sceneToLoad.ToString());
     }
 
     public static void LoadSceneAdditively(string sceneName)
