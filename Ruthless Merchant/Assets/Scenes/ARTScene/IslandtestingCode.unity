@@ -113,7 +113,7 @@ NavMeshSettings:
     accuratePlacement: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: 4fc510c8cbba76742abc8900a5f49aa3, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 3bbeffd7e19ad1a49952c8eebcb8ff10, type: 2}
 --- !u!4 &2674461 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4693657817423062, guid: 7eedd3cecc6144e43b7bb60a6aae6234,
@@ -21989,7 +21989,6 @@ MonoBehaviour:
   hearDistance: 5
   healthRegPerSec: 0
   capValuePerSecond: 1
-  ActionOutput: 
   Reacting: 0
   fleeDistance: 5
   influenceFraction: 0
@@ -27060,110 +27059,9 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 114991098099390920, guid: 44a219676742c784c8cf187979537aa9,
         type: 2}
-      propertyPath: _bookCanvas
-      value: 
-      objectReference: {fileID: 603010073}
-    - target: {fileID: 20041294989328524, guid: 44a219676742c784c8cf187979537aa9,
-        type: 2}
-      propertyPath: near clip plane
-      value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 114991098099390920, guid: 44a219676742c784c8cf187979537aa9,
-        type: 2}
-      propertyPath: _maxWeaponsPerPage
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4893474255253490, guid: 44a219676742c784c8cf187979537aa9, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.22
-      objectReference: {fileID: 0}
-    - target: {fileID: 4893474255253490, guid: 44a219676742c784c8cf187979537aa9, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 0.22
-      objectReference: {fileID: 0}
-    - target: {fileID: 4893474255253490, guid: 44a219676742c784c8cf187979537aa9, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 0.22
-      objectReference: {fileID: 0}
-    - target: {fileID: 114991098099390920, guid: 44a219676742c784c8cf187979537aa9,
-        type: 2}
-      propertyPath: walkSpeed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114991098099390920, guid: 44a219676742c784c8cf187979537aa9,
-        type: 2}
-      propertyPath: runSpeed
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 114991098099390920, guid: 44a219676742c784c8cf187979537aa9,
-        type: 2}
-      propertyPath: ItemUIPrefab
-      value: 
-      objectReference: {fileID: 1788957934872482, guid: 43c57419776cc404fa67067da0d80d7c,
-        type: 2}
-    - target: {fileID: 20041294989328524, guid: 44a219676742c784c8cf187979537aa9,
-        type: 2}
-      propertyPath: far clip plane
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 54421328054781546, guid: 44a219676742c784c8cf187979537aa9,
-        type: 2}
-      propertyPath: m_IsKinematic
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 54421328054781546, guid: 44a219676742c784c8cf187979537aa9,
-        type: 2}
-      propertyPath: m_CollisionDetection
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 136442666538546486, guid: 44a219676742c784c8cf187979537aa9,
-        type: 2}
-      propertyPath: m_Height
-      value: 2.0661528
-      objectReference: {fileID: 0}
-    - target: {fileID: 136442666538546486, guid: 44a219676742c784c8cf187979537aa9,
-        type: 2}
-      propertyPath: m_Center.x
-      value: 0.00000006773255
-      objectReference: {fileID: 0}
-    - target: {fileID: 136442666538546486, guid: 44a219676742c784c8cf187979537aa9,
-        type: 2}
-      propertyPath: m_Center.y
-      value: -0.011136315
-      objectReference: {fileID: 0}
-    - target: {fileID: 136442666538546486, guid: 44a219676742c784c8cf187979537aa9,
-        type: 2}
-      propertyPath: m_Center.z
-      value: -0.00000006773255
-      objectReference: {fileID: 0}
-    - target: {fileID: 136442666538546486, guid: 44a219676742c784c8cf187979537aa9,
-        type: 2}
-      propertyPath: m_Radius
-      value: 0.61
-      objectReference: {fileID: 0}
-    - target: {fileID: 54421328054781546, guid: 44a219676742c784c8cf187979537aa9,
-        type: 2}
-      propertyPath: m_Mass
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 136442666538546486, guid: 44a219676742c784c8cf187979537aa9,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114991098099390920, guid: 44a219676742c784c8cf187979537aa9,
-        type: 2}
       propertyPath: bookCanvas
       value: 
       objectReference: {fileID: 603010073}
-    - target: {fileID: 4879695853813120, guid: 44a219676742c784c8cf187979537aa9, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4879695853813120, guid: 44a219676742c784c8cf187979537aa9, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: -0.049
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 44a219676742c784c8cf187979537aa9, type: 2}
   m_IsPrefabParent: 0

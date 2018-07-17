@@ -409,7 +409,7 @@ MonoBehaviour:
   baseAttackDelay: 2
   baseDefense: 10
   sneakSpeed: 2
-  walkSpeed: 4
+  walkSpeed: 5
   runSpeed: 7
   stickToGroundValue: 10
   maxJumpHeight: 25
@@ -422,7 +422,8 @@ MonoBehaviour:
     type: 2}
   mapObject: {fileID: 1304389160736404}
   bookCanvas: {fileID: 0}
-  itemUIPrefab: {fileID: 0}
+  itemUIPrefab: {fileID: 1788957934872482, guid: 43c57419776cc404fa67067da0d80d7c,
+    type: 2}
   MaxItemsPerPage: 4
 --- !u!124 &124634675891037248
 Behaviour:
@@ -441,7 +442,7 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.61
-  m_Height: 2.06
+  m_Height: 2.0661528
   m_Direction: 1
   m_Center: {x: 0.00000006773255, y: -0.011136315, z: -0.00000006773255}
 --- !u!222 &222467364346239878
