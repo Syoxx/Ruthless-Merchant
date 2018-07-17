@@ -8,6 +8,8 @@ namespace RuthlessMerchant
 {
     public class VRControllerTriggerHandler : MonoBehaviour
     {
+        #region
+
         public SteamVR_TrackedObject TrackedObject { get; private set; }
         public SteamVR_TrackedController TrackedController { get; private set; }
 
@@ -16,7 +18,7 @@ namespace RuthlessMerchant
 
         public event TriggerClickEventHandler TriggerClicked;
         public event TriggerUnclickEventHandler TriggerUnclicked;
-
+        
         /// <summary>
         /// If the controller's trigger is in a clicked state.
         /// </summary>
@@ -33,16 +35,28 @@ namespace RuthlessMerchant
         float prevTriggerPressed;
 
         SteamVR_Controller.Device device { get { return SteamVR_Controller.Input((int)TrackedObject.index); } }
+        #endregion
 
+
+        // DEBUGGING PURPOSES
         [SerializeField]
         bool debugLog;
 
+        /// <summary>
+        /// Awake 
+        /// </summary>
         void Awake()
         {
             TrackedObject = GetComponent<SteamVR_TrackedObject>();
             TrackedController = GetComponent<SteamVR_TrackedController>();
         }
 
+        /// <summary>
+        /// Start 
+        /// </summary>
+        /// <value>
+        /// 
+        /// </value>
         void Start()
         {
             prevTriggerPressed = 0;
@@ -81,6 +95,10 @@ namespace RuthlessMerchant
             prevTriggerPressed = TriggerPressAmount;
         }
 
+        //NOTE: Change description
+        /// <summary>
+        /// Sets a bool true if the fuckintrigger is clicked
+        /// </summary>
         protected virtual void OnTriggerClicked()
         {
             TriggerClick = true;
@@ -92,6 +110,10 @@ namespace RuthlessMerchant
                 TriggerClicked(this, EventArgs.Empty);
         }
 
+        //NOTE: Change description
+        /// <summary>
+        /// Sets the bool false again if trigger isn't clicked anymore
+        /// </summary>
         protected virtual void OnTriggerUnclicked()
         {
             TriggerClick = false;
