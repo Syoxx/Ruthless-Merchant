@@ -644,9 +644,7 @@ namespace RuthlessMerchant
                 mapObject.SetActive(false);
             }
 
-            lastKeyPressed = key;
-
-            if (bookCanvas.activeSelf)
+            if (bookCanvas.activeSelf && lastKeyPressed == key)
             {
                 CloseBook();
             }
@@ -656,6 +654,8 @@ namespace RuthlessMerchant
                 restrictMovement = !(bookCanvas.activeSelf == false);
                 restrictCamera = !(bookCanvas.activeSelf == false);
             }
+
+            lastKeyPressed = key;
         }
 
         private void CloseBook()

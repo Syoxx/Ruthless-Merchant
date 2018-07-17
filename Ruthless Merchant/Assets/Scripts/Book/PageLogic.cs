@@ -139,13 +139,13 @@ public class PageLogic : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.I) || Player.lastKeyPressed == KeyCode.I)
         {
             myBook.CurrentPaper = 10;
-            Player.lastKeyPressed = KeyCode.None;
+            //Player.lastKeyPressed = KeyCode.None;
         }
 
         if (Input.GetKeyDown(KeyCode.J) || Player.lastKeyPressed == KeyCode.J)
         {
             myBook.CurrentPaper = 7;
-            Player.lastKeyPressed = KeyCode.None;
+            //Player.lastKeyPressed = KeyCode.None;
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -162,13 +162,13 @@ public class PageLogic : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.N) || Player.lastKeyPressed == KeyCode.N)
         {
             myBook.CurrentPaper = 2;
-            Player.lastKeyPressed = KeyCode.None;
+            //Player.lastKeyPressed = KeyCode.None;
         }
 
         if (Input.GetKeyDown(KeyCode.R) || Player.lastKeyPressed == KeyCode.R)
         {
             myBook.CurrentPaper = 17;
-            Player.lastKeyPressed = KeyCode.None;
+            //Player.lastKeyPressed = KeyCode.None;
         }
     }
 
