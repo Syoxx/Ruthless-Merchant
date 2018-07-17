@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System;
 
 namespace RuthlessMerchant
 {
@@ -19,13 +18,12 @@ namespace RuthlessMerchant
         [Tooltip("Check to enable Rare Item Drop")]
         private bool allowRareItemDrop = false;
 
-        [SerializeField]
-        private float forceMultiplier = 1;
-
         [Header("Irons in Deposits")]
         [Tooltip("Number of Irons in Deposit will be Randomized between these to Variables")]
         [SerializeField]
-        private int minNrOfIron = 1, maxNrOfIron = 3;
+        private int minNrOfIron = 1;
+        [SerializeField]
+        private int maxNrOfIron = 3;
 
         [Header("Rare Items")]
         [SerializeField]
@@ -33,11 +31,24 @@ namespace RuthlessMerchant
         [Range(0, 100)]
         private float rareItemDropChance = 20;
 
+        [Header("Forces for Iron Spawn")]
+        [SerializeField]
+        [Range(50,100)]
+        [Tooltip("Force applied in X-Direction")]
+        private float xForce = 75f;
+        [SerializeField]
+        [Range(50, 100)]
+        [Tooltip("Force applied in Z-Direction")]
+        private float zForce = 75f;
+        [SerializeField]
+        [Range(100, 150)]
+        [Tooltip("Force Applied in Y-Direction")]
+        private float yForce = 125f;
 
         private int numberOfIrons;
         private Transform spawnPosition;
         private Vector3 ironForce;
-        private System.Random rnJesus;
+        private static System.Random rnJesus = new System.Random();
         #endregion
 
 
@@ -46,7 +57,6 @@ namespace RuthlessMerchant
         // Use this for initialization
         public override void Start()
         {
-            rnJesus = new System.Random();
             numberOfIrons = rnJesus.Next(minNrOfIron, maxNrOfIron);
             ironForce.x = 100f;
             ironForce.z = 100f;
@@ -93,7 +103,7 @@ namespace RuthlessMerchant
         {
             spawnPosition = this.transform;
             GameObject spawnedIron = Instantiate(itemPrefab,spawnPosition.position, spawnPosition.rotation);
-            spawnedIron.GetComponent<Rigidbody>().AddForce(CalculateForce(isIron, nrOfItem));
+            spawnedIron.GetComponent<Rigidbody>().AddForce(RotateForceVector(nrOfItem));
         }
 
         /// <summary>
@@ -106,58 +116,57 @@ namespace RuthlessMerchant
                 SpawnItem(rareItemPrefab, false, 1);
         }
 
-        private Vector3 CalculateForce(bool isIron, int nrOfItem)
+        /// <summary>
+        /// Randomizes the Force apllied to the Iron Items after spawning
+        /// </summary>
+        /// <param name="nrOfItem">The numbere of the item currently spawning, used to determin force vector</param>
+        /// <returns></returns>
+        private Vector3 RotateForceVector(int nrOfItem)
         {
-            ironForce = ironForce * forceMultiplier;
-            ironForce = RotateForceVector(ironForce, nrOfItem);
-            return ironForce;
-        }
-
-        private Vector3 RotateForceVector(Vector3 inputVector, int nrOfItem)
-        {
-            int randomEuler;
             Vector3 rotatedVector;
             Vector3 directionVector;
-            float xForce = 75f;
-            float zForce = 75f;
-            float yForce = 125f;
-            switch (nrOfItem)
+            int modOfItem = nrOfItem % 4;
+            int randomizedAngle;
+            switch (modOfItem)
             {
-                case 1:
-                    randomEuler = 0;
+                case 0:
                     rotatedVector.x = xForce;
                     rotatedVector.z = zForce;
                     rotatedVector.y = yForce;
                     directionVector = Vector3.right;
+                    randomizedAngle = rnJesus.Next(-45, 45);
                     break;
-                case 2:
-                    randomEuler = 90;
+                case 1:
                     rotatedVector.x = -xForce;
                     rotatedVector.z = zForce;
                     rotatedVector.y = yForce;
                     directionVector = Vector3.left;
+                    randomizedAngle = rnJesus.Next(-45, 45);
                     break;
-                case 3:
-                    randomEuler = 180;
+                case 2:
                     rotatedVector.x = xForce;
                     rotatedVector.z = -zForce;
                     rotatedVector.y = yForce;
+                    directionVector = Vector3.back;
+                    randomizedAngle = rnJesus.Next(45, 45);
                     break;
-                case 4:
-                    randomEuler = 270;
+                case 3:
                     rotatedVector.x = -xForce;
                     rotatedVector.z = -zForce;
                     rotatedVector.y = yForce;
+                    directionVector = new Vector3(-1,0,-1);
+                    randomizedAngle = rnJesus.Next(-45, 45);
                     break;
                 default:
-                    randomEuler = 360;
                     rotatedVector.x = xForce;
                     rotatedVector.z = zForce;
                     rotatedVector.y = yForce;
+                    directionVector = Vector3.right;
+                    randomizedAngle = rnJesus.Next(-45, 45);
                     break;
             }
-            rotatedVector = Quaternion.AngleAxis(45, Vector3.forward) * rotatedVector;
-            Debug.Log(rotatedVector);
+            Debug.Log("rnjesus: " + randomizedAngle);
+            rotatedVector = Quaternion.AngleAxis(randomizedAngle, directionVector) * rotatedVector;
             return rotatedVector;
         }
         #endregion
