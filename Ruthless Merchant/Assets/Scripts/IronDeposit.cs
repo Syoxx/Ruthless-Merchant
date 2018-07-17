@@ -16,23 +16,16 @@ namespace RuthlessMerchant
         private GameObject rareItemPrefab;
 
         [SerializeField]
-        [Tooltip("Maximum Distance allowed from Iron Deposit to allow Iron to spawn")]
-        [Range(0.2f, 5f)]
-        private float maxSpawnDistance;
-
-        [SerializeField]
         [Tooltip("Check to enable Rare Item Drop")]
         private bool allowRareItemDrop = false;
+
+        [SerializeField]
+        private float forceMultiplier = 1;
 
         [Header("Irons in Deposits")]
         [Tooltip("Number of Irons in Deposit will be Randomized between these to Variables")]
         [SerializeField]
         private int minNrOfIron = 1, maxNrOfIron = 3;
-
-        [Header("Random Spawn Position")]
-        [SerializeField]
-        [Tooltip("Nearest and Furstest Possible Spawn Location for Iron relative to the IronDeposit")]
-        private int ironSpawnRandomizerMin = 1, ironSpawnRandomizerMax = 5;
 
         [Header("Rare Items")]
         [SerializeField]
@@ -44,6 +37,7 @@ namespace RuthlessMerchant
         private int numberOfIrons;
         private Transform spawnPosition;
         private Vector3 ironForce;
+        private System.Random rnJesus;
         #endregion
 
 
@@ -52,7 +46,11 @@ namespace RuthlessMerchant
         // Use this for initialization
         public override void Start()
         {
-            numberOfIrons = UnityEngine.Random.Range(minNrOfIron, maxNrOfIron);
+            rnJesus = new System.Random();
+            numberOfIrons = rnJesus.Next(minNrOfIron, maxNrOfIron);
+            ironForce.x = 100f;
+            ironForce.z = 100f;
+            ironForce.y = 1f;
         }
 
         // Update is called once per frame
@@ -86,15 +84,14 @@ namespace RuthlessMerchant
         }
 
         /// <summary>
-        /// Spawns an Item at a Randomized Position near the GameObject
+        /// Spawns an Item at the current Position and adds a Force to it
         /// </summary>
-        /// <param name="spawnRandomizerMin"></param>
-        /// <param name="spawnRandomizerMax"></param>
-        /// <param name="itemPrefab"></param>
+        /// <param name="itemPrefab">prefab which is spawned</param>
+        /// <param name="isIron">if its an iron prefab</param>
+        /// <param name="nrOfItem">the number if items spawned</param>
         private void SpawnItem(GameObject itemPrefab, bool isIron, int nrOfItem)
         {
             spawnPosition = this.transform;
-            //spawnPosition.position += new Vector3(Random.Range(spawnRandomizerMin, spawnRandomizerMax), 0, Random.Range(spawnRandomizerMin, spawnRandomizerMax));
             GameObject spawnedIron = Instantiate(itemPrefab,spawnPosition.position, spawnPosition.rotation);
             spawnedIron.GetComponent<Rigidbody>().AddForce(CalculateForce(isIron, nrOfItem));
         }
@@ -104,24 +101,63 @@ namespace RuthlessMerchant
         /// </summary>
         private void DropRareItem()
         {
-            float randomRoll = UnityEngine.Random.Range(0f, 100f);
+            int randomRoll = rnJesus.Next(0, 100);
             if (randomRoll <= rareItemDropChance)
                 SpawnItem(rareItemPrefab, false, 1);
         }
 
         private Vector3 CalculateForce(bool isIron, int nrOfItem)
         {
-            ironForce.x = 100f;
-            ironForce.z = 100f;
-            ironForce.y = 1f;
-            ironForce = RotateForceVector(ironForce);
+            ironForce = ironForce * forceMultiplier;
+            ironForce = RotateForceVector(ironForce, nrOfItem);
             return ironForce;
         }
 
-        private Vector3 RotateForceVector(Vector3 inputVector)
+        private Vector3 RotateForceVector(Vector3 inputVector, int nrOfItem)
         {
-            float randomEuler = UnityEngine.Random.Range(0f, 360f);
-            Vector3 rotatedVector = Quaternion.Euler(0, 0, randomEuler) * inputVector;
+            int randomEuler;
+            Vector3 rotatedVector;
+            Vector3 directionVector;
+            float xForce = 75f;
+            float zForce = 75f;
+            float yForce = 125f;
+            switch (nrOfItem)
+            {
+                case 1:
+                    randomEuler = 0;
+                    rotatedVector.x = xForce;
+                    rotatedVector.z = zForce;
+                    rotatedVector.y = yForce;
+                    directionVector = Vector3.right;
+                    break;
+                case 2:
+                    randomEuler = 90;
+                    rotatedVector.x = -xForce;
+                    rotatedVector.z = zForce;
+                    rotatedVector.y = yForce;
+                    directionVector = Vector3.left;
+                    break;
+                case 3:
+                    randomEuler = 180;
+                    rotatedVector.x = xForce;
+                    rotatedVector.z = -zForce;
+                    rotatedVector.y = yForce;
+                    break;
+                case 4:
+                    randomEuler = 270;
+                    rotatedVector.x = -xForce;
+                    rotatedVector.z = -zForce;
+                    rotatedVector.y = yForce;
+                    break;
+                default:
+                    randomEuler = 360;
+                    rotatedVector.x = xForce;
+                    rotatedVector.z = zForce;
+                    rotatedVector.y = yForce;
+                    break;
+            }
+            rotatedVector = Quaternion.AngleAxis(45, Vector3.forward) * rotatedVector;
+            Debug.Log(rotatedVector);
             return rotatedVector;
         }
         #endregion
