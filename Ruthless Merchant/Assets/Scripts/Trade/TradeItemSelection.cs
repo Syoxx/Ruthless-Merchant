@@ -16,39 +16,41 @@ namespace RuthlessMerchant
         [SerializeField]
         Text price;
 
-        List<InventoryItem> listedItems;
+        List<SlotDisplay> listedItems;
 
         void Awake()
         {
-            listedItems = new List<InventoryItem>();
-            FindObjectOfType<BookPro>().CurrentPaper = 1;
+            listedItems = new List<SlotDisplay>();
             //FindObjectOfType<BookPro>().UpdatePages();
         }
 
         private void Start()
         {
-            FindObjectOfType<BookPro>().CurrentPaper = 1;
+            for(int x = 0; x < Inventory.Singleton.inventorySlots.Length; x++)
+            {
+
+            }
         }
 
-        public void AddItemToSellingList(InventoryItem inventoryItem)
+        public void AddItemToSellingList(SlotDisplay inventoryItem)
         {
             if (!addToPresent(inventoryItem))
             {
                 GameObject newObject = Instantiate(sellingItemPrefab, sellingItemParent);
                 newObject.name = "SellingItem";
 
-                InventoryItem newItem = newObject.GetComponent<InventoryItem>();
-                newItem.itemQuantity.text = "1x";
-                newItem.itemName.text = inventoryItem.itemName.text;
-                newItem.itemPrice.text = inventoryItem.itemPrice.text;
-                newItem.itemDescription.text = inventoryItem.itemDescription.text;
+                SlotDisplay newItem = newObject.GetComponent<SlotDisplay>();
+                newItem.ItemQuantity.text = "1x";
+                newItem.ItemName.text = inventoryItem.ItemName.text;
+                newItem.ItemPrice.text = inventoryItem.ItemPrice.text;
+                newItem.ItemDescription.text = inventoryItem.ItemDescription.text;
 
                 listedItems.Add(newItem);
             }
 
-            price.text = (int.Parse(price.text) + int.Parse(inventoryItem.itemPrice.text)).ToString();
+            price.text = (int.Parse(price.text) + int.Parse(inventoryItem.ItemPrice.text)).ToString();
 
-            int inventoryItemQuantity = int.Parse(inventoryItem.itemQuantity.text.Replace("x", "")) - 1;
+            int inventoryItemQuantity = int.Parse(inventoryItem.ItemQuantity.text.Replace("x", "")) - 1;
 
             if (inventoryItemQuantity < 1)
             {
@@ -57,17 +59,17 @@ namespace RuthlessMerchant
             }
             else
             {
-                inventoryItem.itemQuantity.text = inventoryItemQuantity.ToString() + "x";
+                inventoryItem.ItemQuantity.text = inventoryItemQuantity.ToString() + "x";
             }
         }
 
-        bool addToPresent(InventoryItem data)
+        bool addToPresent(SlotDisplay data)
         {
-            foreach (InventoryItem item in listedItems)
+            foreach (SlotDisplay item in listedItems)
             {
-                if (item.itemName.text == data.itemName.text && item.itemDescription.text == data.itemDescription.text)
+                if (item.ItemName.text == data.ItemName.text && item.ItemDescription.text == data.ItemDescription.text)
                 {
-                    item.itemQuantity.text = (int.Parse(item.itemQuantity.text.Replace("x", "")) + 1).ToString() + "x";
+                    item.ItemQuantity.text = (int.Parse(item.ItemQuantity.text.Replace("x", "")) + 1).ToString() + "x";
                     return true;
                 }
             }
@@ -94,7 +96,6 @@ namespace RuthlessMerchant
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             Player.RestrictCamera = true;
-            FindObjectOfType<BookPro>().CurrentPaper = 1;
         }
     }
 }

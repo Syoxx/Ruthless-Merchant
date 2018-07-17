@@ -10,6 +10,7 @@ public enum FlipMode
 }
 public class BookPro : MonoBehaviour
 {
+    public static BookPro Singleton;
     Canvas canvas;
     [SerializeField]
     RectTransform BookPanel;
@@ -32,6 +33,11 @@ public class BookPro : MonoBehaviour
     /// OnFlip invocation list, called when any page flipped
     /// </summary>
     public UnityEvent OnFlip;
+
+    private void Awake()
+    {
+        Singleton = this;
+    }
 
     /// <summary>
     /// The Current Shown paper (the paper its front shown in right part)

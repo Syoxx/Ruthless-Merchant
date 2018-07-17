@@ -91,7 +91,7 @@ public class PageLogic : MonoBehaviour
         int itemsAmount = 0;
         foreach (GameObject myObject in InventoryPageList)
         {
-            InventoryItem[] data = myObject.GetComponentsInChildren<InventoryItem>();
+            SlotDisplay[] data = myObject.GetComponentsInChildren<SlotDisplay>();
             if (data != null)
             {
                 itemsAmount += data.Length;

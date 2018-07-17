@@ -83,6 +83,8 @@ namespace RuthlessMerchant
 
         #region Private Fields
 
+        bool tradeStarted = false;
+
         List<List<GameObject>> weightsPlayer;
 
         List<List<GameObject>> weightsTrader;
@@ -122,56 +124,61 @@ namespace RuthlessMerchant
 
             TradeObjectsParent.transform.position = Trader.CurrentTrader.gameObject.transform.position;
             NeutralPositionY = weightsPlayerParent.transform.position.y;
-
-            enabled = false;
         }
 
         void Update()
         {
-            if (exit)
+            if (tradeStarted)
             {
-                exitTimer += Time.deltaTime;
-
-                if (exitTimer > 3)
+                if (exit)
                 {
-                    Cursor.visible = false;
-                    Main_SceneManager.UnLoadScene("TradeScene");
+                    exitTimer += Time.deltaTime;
+
+                    if (exitTimer > 3)
+                    {
+                        Cursor.visible = false;
+                        Main_SceneManager.UnLoadScene("TradeScene");
+                    }
+                }
+                else
+                {
+                    if (Input.GetAxis("Mouse ScrollWheel") != 0)
+                    {
+                        ModifyOffer();
+                    }
+
+                    else if (Input.GetMouseButtonDown(0))
+                    {
+                        HandlePlayerOffer();
+                    }
+
+                    else if (Input.GetKeyDown(KeyCode.E) && TraderOffers.Count > 0)
+                    {
+                        Accept();
+                    }
+
+                    #if UNITY_EDITOR
+                    else if (Input.GetKeyDown(KeyCode.Q))
+                    {
+                        Quit();
+                    }
+                    #else
+                    else if (Input.GetKeyDown(KeyCode.Escape))
+                    {
+                        Quit();
+                    }
+                    #endif
+                }
+
+                // TODO: Delete this
+                if (Input.GetKeyDown(KeyCode.R))
+                {
+                    UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
                 }
             }
-            else
+            else if (Input.GetKeyDown(KeyCode.Q))
             {
-                if (Input.GetAxis("Mouse ScrollWheel") != 0)
-                {
-                    ModifyOffer();
-                }
-
-                else if (Input.GetMouseButtonDown(0))
-                {
-                    HandlePlayerOffer();
-                }
-
-                else if (Input.GetKeyDown(KeyCode.E) && TraderOffers.Count > 0)
-                {
-                    Accept();
-                }
-
-                #if UNITY_EDITOR
-                else if (Input.GetKeyDown(KeyCode.Q))
-                {
-                    Quit();
-                }
-                #else
-                else if (Input.GetKeyDown(KeyCode.Escape))
-                {
-                    Quit();
-                }
-                #endif
-            }
-
-            // TODO: Delete this
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+                Quit();
             }
         }
 
@@ -193,7 +200,7 @@ namespace RuthlessMerchant
 
             UpdateWeights(weightsPlayer, nextPlayerOffer);
 
-            enabled = true;
+            tradeStarted = true;
         }
 
         /// <summary>

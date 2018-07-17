@@ -8,12 +8,11 @@ namespace RuthlessMerchant
 {
     public class Inventory : MonoBehaviour
     {
-        #region Fields #############################################################################################
+        #region Fields
 
         public static Inventory Singleton;
 
-        private Item[] items;
-        public InventorySlot[] inventorySlots;
+        public Slot[] inventorySlots;
 
         [SerializeField]
         private int maxSlotCount = 10;
@@ -30,21 +29,9 @@ namespace RuthlessMerchant
         #endregion
 
 
-        #region Properties #########################################################################################
+        #region Properties
 
-        public Item[] Items
-        {
-            get
-            {
-                return items;
-            }
-            set
-            {
-                items = value;
-            }
-        }
-
-        public InventorySlot[] InventorySlots
+        public Slot[] InventorySlots
         {
             get
             {
@@ -67,20 +54,25 @@ namespace RuthlessMerchant
         #endregion
 
 
-        #region Structs ############################################################################################
+        #region Structs
 
 
 
         #endregion
 
 
-        #region Private Functions ##################################################################################
+        #region Private Functions
 
         private void Awake()
         {
-            inventorySlots = new InventorySlot[maxSlotCount];
-            inventoryChanged = new UnityEvent();
+            Singleton = this;
 
+            inventorySlots = new Slot[maxSlotCount];
+
+            for (int x = 0; x < maxSlotCount; x++)
+                inventorySlots[x] = new Slot();
+
+            inventoryChanged = new UnityEvent();
         }
 
         private void Start()
@@ -115,30 +107,50 @@ namespace RuthlessMerchant
         /// </summary>
         /// <param name="inventorySlot">inventoryslot the function will create</param>
         /// <returns>returns the created display</returns>
-        private InventoryItem CreateDisplayData(InventorySlot inventorySlot)
+        private SlotDisplay CreateDisplayData(Slot inventorySlot, Slot externalSlot = null)
         {
             if (ItemUIPrefab == null)
                 return null;
-
-            Debug.LogWarning("Create Display Data");
 
             Transform parent = BookLogic.InventoryPageList[BookLogic.PageForCurrentItemPlacement()].transform.Find("PNL_ZoneForItem");
             GameObject inventoryItem = Instantiate(ItemUIPrefab, parent) as GameObject;
             //inventoryItem.transform.SetParent(parent, false);
 
-            InventoryItem itemInfos = inventoryItem.GetComponent<InventoryItem>();
+            SlotDisplay itemInfos = inventoryItem.GetComponent<SlotDisplay>();
 
-            itemInfos.itemName.text = inventorySlot.Count + "x " + inventorySlot.Item.ItemName + " (" + inventorySlot.Item.ItemRarity + ")";
-            itemInfos.itemDescription.text = inventorySlot.Item.ItemLore;
-            if (inventorySlot.Item.ItemValue != null)
-                if (inventorySlot.Item.ItemValue.Length > 0)
-                    itemInfos.itemPrice.text = inventorySlot.Item.ItemValue[0].Count.ToString();
-                else
-                    itemInfos.itemPrice.text = "0G";
+            itemInfos.Slot = inventorySlot;
+            itemInfos.ItemQuantity.text = inventorySlot.Count + "x";
 
-            if (inventorySlot.Item.ItemSprite != null)
+            if (externalSlot == null)
             {
-                itemInfos.ItemImage.sprite = inventorySlot.Item.ItemSprite;
+                itemInfos.ItemName.text = inventorySlot.Item.ItemName;
+                itemInfos.ItemRarity.text = "(" + inventorySlot.Item.ItemRarity + ")";
+                itemInfos.ItemDescription.text = inventorySlot.Item.ItemLore;
+
+                if (inventorySlot.Item.ItemValue != null)
+                {
+                    if (inventorySlot.Item.ItemValue.Length > 0)
+                        itemInfos.ItemPrice.text = inventorySlot.Item.ItemValue[0].Count + "G";
+                    else
+                        itemInfos.ItemPrice.text = "0G";
+                }
+
+                if (inventorySlot.Item.ItemSprite != null)
+                {
+                    itemInfos.ItemSprite.sprite = inventorySlot.Item.ItemSprite;
+                }
+            }
+            else
+            {
+                itemInfos.ItemName.text = externalSlot.DisplayData.ItemName.text;
+                itemInfos.ItemRarity.text = "(" + externalSlot.DisplayData.ItemRarity.text + ")";
+                itemInfos.ItemDescription.text = externalSlot.DisplayData.ItemDescription.text;
+                itemInfos.ItemPrice.text = externalSlot.DisplayData.ItemPrice.text;
+
+                if (externalSlot.DisplayData.ItemSprite != null)
+                {
+                    itemInfos.ItemSprite.sprite = externalSlot.DisplayData.ItemSprite.sprite;
+                }
             }
 
             return itemInfos;
@@ -149,12 +161,12 @@ namespace RuthlessMerchant
         /// </summary>
         /// <param name="inventorySlot">inventoryslot the function will update</param>
         /// <returns>returns the created display</returns>
-        private InventoryItem UpdateDisplayData(InventorySlot inventorySlot)
+        private SlotDisplay UpdateDisplayData(Slot inventorySlot, Slot externalSlot = null)
         {
             if (ItemUIPrefab == null)
                 return null;
 
-            InventoryItem itemInfos = inventorySlot.DisplayData;
+            SlotDisplay itemInfos = inventorySlot.DisplayData;
             if (inventorySlot.Item == null && itemInfos != null)
             {
                 Destroy(inventorySlot.DisplayData.gameObject);
@@ -170,17 +182,40 @@ namespace RuthlessMerchant
                 return CreateDisplayData(inventorySlot);
             }
 
-            itemInfos.itemName.text = inventorySlot.Count + "x " + inventorySlot.Item.ItemName + " (" + inventorySlot.Item.ItemRarity + ")";
-            itemInfos.itemDescription.text = inventorySlot.Item.ItemLore;
-            if (inventorySlot.Item.ItemValue != null)
-                if (inventorySlot.Item.ItemValue.Length > 0)
-                    itemInfos.itemPrice.text = inventorySlot.Item.ItemValue[0].Count + "G";
-                else
-                    itemInfos.itemPrice.text = "0G";
+            itemInfos.Slot = inventorySlot;
+            inventorySlot.DisplayData = itemInfos;
+            itemInfos.ItemQuantity.text = inventorySlot.Count + "x";
 
-            if (inventorySlot.Item.ItemSprite != null)
+            if (externalSlot == null)
             {
-                itemInfos.ItemImage.sprite = inventorySlot.Item.ItemSprite;
+                itemInfos.ItemName.text = inventorySlot.Item.ItemName;
+                itemInfos.ItemRarity.text = "(" + inventorySlot.Item.ItemRarity + ")";
+                itemInfos.ItemDescription.text = inventorySlot.Item.ItemLore;
+
+                if (inventorySlot.Item.ItemValue != null)
+                {
+                    if (inventorySlot.Item.ItemValue.Length > 0)
+                        itemInfos.ItemPrice.text = inventorySlot.Item.ItemValue[0].Count + "G";
+                    else
+                        itemInfos.ItemPrice.text = "0G";
+                }
+
+                if (inventorySlot.Item.ItemSprite != null)
+                {
+                    itemInfos.ItemSprite.sprite = inventorySlot.Item.ItemSprite;
+                }
+            }
+            else
+            {
+                itemInfos.ItemName.text = externalSlot.DisplayData.ItemName.text;
+                itemInfos.ItemRarity.text = externalSlot.DisplayData.ItemRarity.text;
+                itemInfos.ItemDescription.text = externalSlot.DisplayData.ItemDescription.text;
+                itemInfos.ItemPrice.text = externalSlot.DisplayData.ItemPrice.text;
+
+                if (externalSlot.DisplayData.ItemSprite != null)
+                {
+                    itemInfos.ItemSprite.sprite = externalSlot.DisplayData.ItemSprite.sprite;
+                }
             }
 
             return itemInfos;
@@ -259,7 +294,7 @@ namespace RuthlessMerchant
              buffer.Item = inventorySlots[firstIndex].Item;
              buffer.Count = inventorySlots[firstIndex].Count;*/
 
-            InventorySlot buffer = inventorySlots[firstIndex];
+            Slot buffer = inventorySlots[firstIndex];
             inventorySlots[firstIndex] = inventorySlots[SecondIndex];
             inventorySlots[SecondIndex] = buffer;
         }
@@ -267,7 +302,7 @@ namespace RuthlessMerchant
         #endregion
 
 
-        #region Public Functions ##################################################################################
+        #region Public Functions
 
         /// <summary>
         /// Primarily for Debugging. Outputs the Inventory in the Console.
@@ -300,14 +335,15 @@ namespace RuthlessMerchant
                     {
                         count -= item.MaxStackCount;
                         inventorySlots[i].Count = item.MaxStackCount;
-                        inventorySlots[i].Item = item;
                     }
                     else
                     {
                         inventorySlots[i].Count += count;
-                        inventorySlots[i].Item = item;
                         count = 0;
                     }
+
+                    inventorySlots[i].Item = item;
+                    inventorySlots[i].MaxStackCount = item.MaxStackCount;
                 }
                 else if (inventorySlots[i].Item)
                 {
@@ -325,6 +361,72 @@ namespace RuthlessMerchant
                         }
                     }
                 }
+
+                UpdateDisplayData(inventorySlots[i]);
+
+                if (count <= 0)
+                {
+                    if (sortAfterMethod)
+                    {
+                        SortInventory();
+                    }
+
+                    return count;
+                }
+            }
+            if (sortAfterMethod)
+            {
+                SortInventory();
+            }
+            return count;
+        }
+
+        /// <summary>
+        /// Adds one or multiple items to the inventory
+        /// </summary>
+        /// <param name="item">the item that will be added</param>
+        /// <param name="count">the amount of items to add</param>
+        /// <param name="sortAfterMethod">Set this to true, if Inventory should be sorted after adding the items</param>
+        /// <returns>Returns the number of items that couldn't be stored in the inventory. returns 0 if all items were added successfully</returns>
+        public int Add(Slot externalSlot, bool sortAfterMethod, int count = 1)
+        {
+            for (int i = 0; i < maxSlotCount; i++)
+            {
+                if (inventorySlots[i].Count <= 0)
+                {
+                    if (count > externalSlot.MaxStackCount)
+                    {
+                        count -= externalSlot.MaxStackCount;
+                        inventorySlots[i].Count = externalSlot.MaxStackCount;
+                    }
+                    else
+                    {
+                        inventorySlots[i].Count += count;
+                        count = 0;
+                    }
+
+                    inventorySlots[i].MaxStackCount = externalSlot.MaxStackCount;
+                }
+                else if (inventorySlots[i].DisplayData)
+                {
+                    if (inventorySlots[i].DisplayData.ItemName.text == externalSlot.DisplayData.ItemName.text 
+                        && inventorySlots[i].DisplayData.ItemRarity.text == externalSlot.DisplayData.ItemRarity.text
+                        && inventorySlots[i].Count < externalSlot.MaxStackCount)
+                    {
+                        if (inventorySlots[i].Count + count > externalSlot.MaxStackCount)
+                        {
+                            count -= (externalSlot.MaxStackCount - inventorySlots[i].Count);
+                            inventorySlots[i].Count = externalSlot.MaxStackCount;
+                        }
+                        else
+                        {
+                            inventorySlots[i].Count += count;
+                            count = 0;
+                        }
+                    }
+                }
+
+                UpdateDisplayData(inventorySlots[i], externalSlot);
 
                 if (count <= 0)
                 {

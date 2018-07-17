@@ -628,7 +628,7 @@ namespace RuthlessMerchant
             }
         }
 
-        private void OpenBook(KeyCode key)
+        public void OpenBook(KeyCode key)
         {
             if (mapObject.activeSelf)
             {
@@ -649,7 +649,7 @@ namespace RuthlessMerchant
             }
         }
 
-        private void CloseBook()
+        public void CloseBook()
         {
             bookCanvas.SetActive(bookCanvas.activeSelf == false);
             lastKeyPressed = KeyCode.Escape;
@@ -664,7 +664,7 @@ namespace RuthlessMerchant
                 for (int i = 0; i < inventory.InventorySlots.Length; i++)
                 {
                     if (inventory.inventorySlots[i].DisplayData)
-                        inventory.inventorySlots[i].DisplayData.itemButton.onClick.RemoveAllListeners();
+                        inventory.inventorySlots[i].DisplayData.ItemButton.onClick.RemoveAllListeners();
                 }
             }
         }
@@ -713,7 +713,7 @@ namespace RuthlessMerchant
                     if (inventory.inventorySlots[i].Item.ItemType == ItemType.Ingredient)
                     {
                         int value = i;
-                        inventory.inventorySlots[i].DisplayData.itemButton.onClick.AddListener(delegate { OnAlchemyButton(value); });
+                        inventory.inventorySlots[i].DisplayData.ItemButton.onClick.AddListener(delegate { OnAlchemyButton(value); });
                     }
                 }
             }
