@@ -154,6 +154,22 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// Use this method to check if your Prefab/GameObject etc. is correctly configured in Inspector 
+        /// </summary>
+        private void CheckForMissingObjects()
+        {
+            if (itemUIPrefab == null)
+            {
+                throw new Exception("ItemUIPrefab is missing in Player Inspector (../Prefabs/Book/ItemUIPrefab)");
+            }
+
+            if (bookCanvas == null)
+            {
+                throw new Exception("BookCanvas is missing in Player Inspector - just drag book canvas from the Scene");
+            }
+        }
+
         public override void Start()
         {
             base.Start();
@@ -245,6 +261,7 @@ namespace RuthlessMerchant
 
         public override void Update()
         {
+            CheckForMissingObjects();
             LookRotation();
             HandleInput();
             if(controlMode == ControlMode.Move)
