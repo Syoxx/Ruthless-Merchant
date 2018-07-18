@@ -9,14 +9,18 @@ namespace RuthlessMerchant
         [SerializeField]
         VRTriggerBox vrTradePlayer;
 
+        [SerializeField]
+        Hand hand1;
+
+        [SerializeField]
+        Hand hand2;
+
         int totalPlayerOffers = 0;
         float currentPlayerOffer = -1;
         float currentTraderOffer = -1;
 
         void Start()
         {
-            VRControllerHandler.Controller1.TrackedController.PadClicked += HandlePlayerOffer;
-
             weightsTrader = GetPresentWeights(weightsTraderParent);
 
             for (int x = 0; x < weightsTrader.Count; x++)
@@ -29,6 +33,14 @@ namespace RuthlessMerchant
 
             //TradeObjectsParent.transform.position = Trader.CurrentTrader.gameObject.transform.position;
             NeutralPositionY = weightsPlayerParent.transform.position.y;
+        }
+
+        private void Update()
+        {
+            if(hand1.controller.GetPressDown(Valve.VR.EVRButtonId.k_EButton_DPad_Up) || hand2.controller.GetPressDown(Valve.VR.EVRButtonId.k_EButton_DPad_Up))
+            {
+                HandlePlayerOffer();
+            }
         }
 
         public override void Initialize(int realValue)
@@ -124,7 +136,7 @@ namespace RuthlessMerchant
         /// <summary>
         /// Handles the player's offer.
         /// </summary>
-        void HandlePlayerOffer(object sender, ClickedEventArgs e)
+        void HandlePlayerOffer()
         {
             if (GetCurrentTraderOffer() != -1 && nextPlayerOffer == GetCurrentTraderOffer())
             {
