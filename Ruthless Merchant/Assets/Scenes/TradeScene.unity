@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
+  m_IndirectSpecularColor: {r: 0.1273174, g: 0.13414761, b: 0.12107885, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4184,22 +4184,22 @@ Prefab:
     - target: {fileID: 224765176653636026, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224893931260611604, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 12
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224781845004828414, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224781845004828414, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224781845004828414, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
@@ -4214,12 +4214,12 @@ Prefab:
     - target: {fileID: 224765176653636026, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224765176653636026, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224765176653636026, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
@@ -4234,12 +4234,12 @@ Prefab:
     - target: {fileID: 224893931260611604, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224893931260611604, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224893931260611604, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
@@ -9517,12 +9517,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RealValue: 0
-  PlayerOffers: []
-  TraderOffers: []
   weightsDeltaModifier: 30
   nextPlayerOffer: 0
-  defaultValue: 35
-  TradeObjectsParent: {fileID: 1185506952}
   tradeDialogue: {fileID: 193223856}
   valueText: {fileID: 1259693856}
   sliderIrritation: {fileID: 385735954}
@@ -9532,8 +9528,12 @@ MonoBehaviour:
   traderOffer: {fileID: 1535690847}
   nextPlayerOfferText: {fileID: 478846131}
   currentPlayerOfferText: {fileID: 24010827}
-  weightsPlayerParent: {fileID: 1972942410}
   weightsTraderParent: {fileID: 1361717966}
+  weightsPlayerParent: {fileID: 1972942410}
+  TradeObjectsParent: {fileID: 1185506952}
+  defaultValue: 35
+  PlayerOffers: []
+  TraderOffers: []
 --- !u!4 &1411813786
 Transform:
   m_ObjectHideFlags: 0
