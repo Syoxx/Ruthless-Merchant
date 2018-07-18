@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 namespace RuthlessMerchant
 {
@@ -15,10 +13,6 @@ namespace RuthlessMerchant
         [Tooltip("Place desired Prefab here")]
         private GameObject itemToSpawn;
 
-        [Header("Radius in which Items are spawned/checked")]
-        [SerializeField]
-        private int spawnRadius;
-
         [Header("Number of Items which are simultaneously spawned")]
         [SerializeField]
         private int maxNrOfItems;
@@ -28,25 +22,20 @@ namespace RuthlessMerchant
         private float respawnTime = 5;
 
         [SerializeField]
-        private List<GameObject> itemsInRadius;
-
-        [SerializeField]
         private GameObject[] spawnLocations;
 
         private Transform spawnPosition;
         private GameObject spawnedItem;
-        private bool isAccessable;
         private static System.Random rnJesus = new System.Random();
         private float currentTimer;
         private int currentlyActiveItems;
+        private List<GameObject> emptySpawners = new List<GameObject>();
         #endregion
 
         #region Gameplay Loop
         // Use this for initialization
         void Start() {
             currentTimer = respawnTime;
-            itemsInRadius = new List<GameObject>();
-            gameObject.GetComponent<SphereCollider>().radius = spawnRadius;
         }
 
         // Update is called once per frame
@@ -58,12 +47,6 @@ namespace RuthlessMerchant
             {
                 OnTimedEvent();
                 currentTimer = respawnTime;
-            }
-
-            foreach (GameObject item in itemsInRadius)
-            {
-                if (item == null)
-                    itemsInRadius.Remove(item);
             }
         }
 
@@ -77,6 +60,8 @@ namespace RuthlessMerchant
             {
                 if (item.GetComponent<ContainingItemInformation>().CheckContainingItem(itemToSpawn))
                     currentlyActiveItems++;
+                else
+                    emptySpawners.Add(item);
             }
 
             if (currentlyActiveItems < maxNrOfItems)
@@ -85,60 +70,30 @@ namespace RuthlessMerchant
 
                 for (int i = 0; i < nrOfItemsToSpawn; i++)
                 {
-                    SpawnItem();
+                    SpawnItem(emptySpawners);
                 }
             }
         }
 
-        private void SpawnItem()
+        private void SpawnItem(List<GameObject> eligableSpawners)
         {
-            spawnPosition = GetSpawnPosition();
+            GameObject[] eligableSpawnersArray = eligableSpawners.ToArray();
+            GameObject selectedSpawnLocation = GetSpawnLocation(eligableSpawnersArray);
+
+            spawnPosition = selectedSpawnLocation.transform;
             spawnedItem = Instantiate(itemToSpawn, spawnPosition.position, UnityEngine.Random.rotation);
-            isAccessable = CheckAccessibility(spawnedItem);
-
-            if (!isAccessable)
-            {
-                Destroy(spawnedItem);
-            }
         }
 
-        private Transform GetSpawnPosition()
+        public GameObject GetSpawnLocation(GameObject[] spawnArray)
         {
-            Transform newPosition;
-            int indexNewPos = rnJesus.Next(0, spawnLocations.Length);
-            if (spawnLocations[indexNewPos].GetComponent<ContainingItemInformation>().CheckContainingItem(itemToSpawn))
-                newPosition = spawnLocations[indexNewPos].transform;
-            return newPosition;
-        }
-
-        private bool CheckAccessibility(GameObject objectToCheck)
-        {
-            Vector3 raycastDirection = transform.position - objectToCheck.transform.position;
-            RaycastHit hitInfo;
-            Physics.Raycast(transform.position, raycastDirection, out hitInfo);
-            if (hitInfo.Equals(objectToCheck))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            int spawnLocationIdentifier = rnJesus.Next(0, spawnArray.Length);
+            return spawnArray[spawnLocationIdentifier];
         }
 
         private void OnTimedEvent()
         {
             Debug.Log("time Expired");
             CheckItemsInRadius();
-        }
-
-        private void OnTriggerStay(Collider other)
-        {
-            if (other.gameObject.tag == itemToSpawn.tag)
-            {
-                Debug.Log("item is inside collider");
-                itemsInRadius.Add(other.gameObject);
-            }
         }
 
         #endregion
