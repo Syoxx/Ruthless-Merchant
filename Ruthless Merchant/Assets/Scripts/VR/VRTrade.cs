@@ -39,6 +39,8 @@ namespace RuthlessMerchant
 
             //TradeObjectsParent.transform.position = Trader.CurrentTrader.gameObject.transform.position;
             NeutralPositionY = weightsPlayerParent.transform.position.y;
+
+            Initialize(defaultValue);
         }
 
         private void Update()

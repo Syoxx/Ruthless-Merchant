@@ -187,7 +187,6 @@ namespace RuthlessMerchant
             }
             else
             {
-
                 float realPrice = trade.RealValue;
 
                 upperLimitPercentTotal = upperLimitPerCent + ((upperLimitPerCent * influenceFraction) + (upperLimitPerCent * influenceIndividual) + (upperLimitPerCent * influenceWar) + (upperLimitPerCent * influenceNeighbours)) / 4;
@@ -327,13 +326,13 @@ namespace RuthlessMerchant
         /// <param name="caller"></param>
         public override void Interact(GameObject caller)
         {
-            //if (TradeAbstract.Singleton == null)
-            //{
-            //    CurrentTrader = this;
-            //    Position = gameObject.transform.position;
-            //    Main_SceneManager.LoadSceneAdditively("TradeScene");
-            //    //UnityEngine.SceneManagement.SceneManager.LoadScene("TradeScene");
-            //}
+            if (TradeAbstract.Singleton == null)
+            {
+                CurrentTrader = this;
+                Position = gameObject.transform.position;
+                Main_SceneManager.LoadSceneAdditively("TradeScene");
+                //UnityEngine.SceneManagement.SceneManager.LoadScene("TradeScene");
+            }
         }
 
         /// <summary>
