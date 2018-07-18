@@ -11,6 +11,11 @@ namespace RuthlessMerchant
         [ReadOnly]
         List<VRSceneItem> items;
 
+        void Start()
+        {
+            items = new List<VRSceneItem>();
+        }
+
         void OnTriggerEnter(Collider other)
         {
             Debug.Log(other.gameObject.name + " entered " + gameObject.name + " TriggerBox.");

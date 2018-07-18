@@ -5,20 +5,12 @@ namespace RuthlessMerchant
 {
     public class VRTrade : TradeAbstract
     {
+        [SerializeField]
         VRTriggerBox vrTradePlayer;
-        VRTriggerBox vrTradeTrader;
 
         int totalPlayerOffers = 0;
         float currentPlayerOffer = -1;
         float currentTraderOffer = -1;
-
-        protected override void Awake()
-        {
-            base.Awake();
-
-            vrTradePlayer = weightsPlayerParent.GetComponent<VRTriggerBox>();
-            vrTradeTrader = weightsTraderParent.GetComponent<VRTriggerBox>();
-        }
 
         private void Start()
         {
@@ -63,7 +55,7 @@ namespace RuthlessMerchant
 
         public override void ModifyOffer()
         {
-            float playerTraderOfferDelta = (vrTradePlayer.TotalWeight / (float)vrTradeTrader.TotalWeight);
+            float playerTraderOfferDelta = (vrTradePlayer.TotalWeight / currentTraderOffer);
 
             if (playerTraderOfferDelta > 0.75f)
                 playerTraderOfferDelta = 0.75f;
