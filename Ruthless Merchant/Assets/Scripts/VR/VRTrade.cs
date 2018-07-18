@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using Valve.VR.InteractionSystem;
 
 namespace RuthlessMerchant
 {
@@ -11,6 +12,12 @@ namespace RuthlessMerchant
         int totalPlayerOffers = 0;
         float currentPlayerOffer = -1;
         float currentTraderOffer = -1;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            VRControllerHandler.Controller1.TrackedController.PadClicked += HandlePlayerOffer;
+        }
 
         void Start()
         {
@@ -26,14 +33,6 @@ namespace RuthlessMerchant
 
             TradeObjectsParent.transform.position = Trader.CurrentTrader.gameObject.transform.position;
             NeutralPositionY = weightsPlayerParent.transform.position.y;
-        }
-
-        void Update()
-        {
-            if(Input.GetButtonDown("9"))
-            {
-                HandlePlayerOffer();
-            }
         }
 
         public override void Initialize(int realValue)
@@ -129,7 +128,7 @@ namespace RuthlessMerchant
         /// <summary>
         /// Handles the player's offer.
         /// </summary>
-        void HandlePlayerOffer()
+        void HandlePlayerOffer(object sender, ClickedEventArgs e)
         {
             if (GetCurrentTraderOffer() != -1 && nextPlayerOffer == GetCurrentTraderOffer())
             {

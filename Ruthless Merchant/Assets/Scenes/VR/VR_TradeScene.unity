@@ -5844,6 +5844,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1655334144}
   - component: {fileID: 1655334145}
+  - component: {fileID: 1655334146}
   m_Layer: 26
   m_Name: Hand2
   m_TagString: Untagged
@@ -5893,6 +5894,19 @@ MonoBehaviour:
   controllerPrefab: {fileID: 168468, guid: 3f39fc63a93686e4a8e9168ee73f24d9, type: 2}
   showDebugText: 0
   spewDebugText: 0
+--- !u!114 &1655334146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1655334143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d37c2cf88f7c59f4c8cf5d3812568143, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: -1
+  origin: {fileID: 0}
 --- !u!1001 &1717189491
 Prefab:
   m_ObjectHideFlags: 0
@@ -6960,6 +6974,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2076155208}
   - component: {fileID: 2076155209}
+  - component: {fileID: 2076155210}
   m_Layer: 26
   m_Name: Hand1
   m_TagString: Untagged
@@ -7009,6 +7024,19 @@ MonoBehaviour:
   controllerPrefab: {fileID: 168468, guid: 3f39fc63a93686e4a8e9168ee73f24d9, type: 2}
   showDebugText: 0
   spewDebugText: 0
+--- !u!114 &2076155210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2076155207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d37c2cf88f7c59f4c8cf5d3812568143, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: -1
+  origin: {fileID: 0}
 --- !u!1 &2087295683
 GameObject:
   m_ObjectHideFlags: 0

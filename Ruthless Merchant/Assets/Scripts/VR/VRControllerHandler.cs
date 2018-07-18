@@ -6,9 +6,10 @@ using Valve.VR;
 
 namespace RuthlessMerchant
 {
-    public class VRControllerTriggerHandler : MonoBehaviour
+    public class VRControllerHandler : MonoBehaviour
     {
-        #region
+        public static VRControllerHandler Controller1;
+        public static VRControllerHandler Controller2;
 
         public SteamVR_TrackedObject TrackedObject { get; private set; }
         public SteamVR_TrackedController TrackedController { get; private set; }
@@ -35,8 +36,6 @@ namespace RuthlessMerchant
         float prevTriggerPressed;
 
         SteamVR_Controller.Device device { get { return SteamVR_Controller.Input((int)TrackedObject.index); } }
-        #endregion
-
 
         // DEBUGGING PURPOSES
         [SerializeField]
@@ -49,6 +48,11 @@ namespace RuthlessMerchant
         {
             TrackedObject = GetComponent<SteamVR_TrackedObject>();
             TrackedController = GetComponent<SteamVR_TrackedController>();
+
+            if (name == "Hand1")
+                Controller1 = this;
+            else if (name == "Hand2")
+                Controller2 = this;
         }
 
         /// <summary>
