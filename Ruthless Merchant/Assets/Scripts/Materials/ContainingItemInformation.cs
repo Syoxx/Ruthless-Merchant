@@ -22,15 +22,22 @@ namespace RuthlessMerchant
 
         public bool CheckContainingItem(GameObject otherGameObject)
         {
-            if (containingGameObject.tag == otherGameObject.tag)
+            if (containingGameObject == null)
+                return false;
+            else if (containingGameObject.tag == otherGameObject.tag)
                 return true;
             else
                 return false;
         }
 
-        private void OnTriggerStay(Collider other)
+        public void OnTriggerEnter(Collider other)
         {
             containingGameObject = other.gameObject;
+        }
+
+        public void OnTriggerExit(Collider other)
+        {
+            containingGameObject = null;
         }
     }
 }
