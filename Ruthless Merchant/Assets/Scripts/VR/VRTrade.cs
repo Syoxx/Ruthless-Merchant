@@ -13,25 +13,21 @@ namespace RuthlessMerchant
         float currentPlayerOffer = -1;
         float currentTraderOffer = -1;
 
-        protected override void Awake()
-        {
-            base.Awake();
-            VRControllerHandler.Controller1.TrackedController.PadClicked += HandlePlayerOffer;
-        }
-
         void Start()
         {
+            VRControllerHandler.Controller1.TrackedController.PadClicked += HandlePlayerOffer;
+
             weightsTrader = GetPresentWeights(weightsTraderParent);
 
-            for (int x = 0; x < weightsPlayer.Count; x++)
+            for (int x = 0; x < weightsTrader.Count; x++)
             {
-                for (int y = 0; y < weightsPlayer[x].Count; y++)
+                for (int y = 0; y < weightsTrader[x].Count; y++)
                 {
                     weightsTrader[x][y].SetActive(false);
                 }
             }
 
-            TradeObjectsParent.transform.position = Trader.CurrentTrader.gameObject.transform.position;
+            //TradeObjectsParent.transform.position = Trader.CurrentTrader.gameObject.transform.position;
             NeutralPositionY = weightsPlayerParent.transform.position.y;
         }
 

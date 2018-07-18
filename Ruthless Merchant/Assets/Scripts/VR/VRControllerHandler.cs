@@ -49,10 +49,15 @@ namespace RuthlessMerchant
             TrackedObject = GetComponent<SteamVR_TrackedObject>();
             TrackedController = GetComponent<SteamVR_TrackedController>();
 
-            if (name == "Hand1")
+            if (gameObject.name == "Controller (left)")
                 Controller1 = this;
-            else if (name == "Hand2")
+            else if (gameObject.name == "Controller (right)")
                 Controller2 = this;
+            else
+            {
+                
+                Debug.LogError("aaa");
+            }
         }
 
         /// <summary>
