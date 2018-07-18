@@ -63,7 +63,6 @@ public class PageLogic : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("cur" + myBook.CurrentPaper);
         BookControlling();
         HighlightBookmarkButtons();
         CurrentActivePage();
