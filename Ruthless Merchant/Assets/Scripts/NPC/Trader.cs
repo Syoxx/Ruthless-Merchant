@@ -327,13 +327,13 @@ namespace RuthlessMerchant
         /// <param name="caller"></param>
         public override void Interact(GameObject caller)
         {
-            if (TradeAbstract.Singleton == null)
-            {
-                CurrentTrader = this;
-                Position = gameObject.transform.position;
-                Main_SceneManager.LoadSceneAdditively("TradeScene");
-                //UnityEngine.SceneManagement.SceneManager.LoadScene("TradeScene");
-            }
+            //if (TradeAbstract.Singleton == null)
+            //{
+            //    CurrentTrader = this;
+            //    Position = gameObject.transform.position;
+            //    Main_SceneManager.LoadSceneAdditively("TradeScene");
+            //    //UnityEngine.SceneManagement.SceneManager.LoadScene("TradeScene");
+            //}
         }
 
         /// <summary>

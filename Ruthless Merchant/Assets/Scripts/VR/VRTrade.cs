@@ -19,6 +19,12 @@ namespace RuthlessMerchant
         float currentPlayerOffer = -1;
         float currentTraderOffer = -1;
 
+        protected override void Awake()
+        {
+            base.Awake();
+            Trader.CurrentTrader = FindObjectOfType<Trader>();
+        }
+
         void Start()
         {
             weightsTrader = GetPresentWeights(weightsTraderParent);
@@ -37,8 +43,9 @@ namespace RuthlessMerchant
 
         private void Update()
         {
-            if(hand1.controller.GetPressDown(Valve.VR.EVRButtonId.k_EButton_DPad_Up) || hand2.controller.GetPressDown(Valve.VR.EVRButtonId.k_EButton_DPad_Up))
+            if(hand1.controller.GetHairTriggerDown())
             {
+                Debug.Log("gehtr");
                 HandlePlayerOffer();
             }
         }

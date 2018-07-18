@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5490,6 +5490,7 @@ GameObject:
   - component: {fileID: 2026225891}
   - component: {fileID: 2026225890}
   - component: {fileID: 2026225889}
+  - component: {fileID: 2026225893}
   m_Layer: 0
   m_Name: Trader
   m_TagString: Untagged
@@ -5565,6 +5566,64 @@ Transform:
   m_Father: {fileID: 821744239}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2026225893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2026225888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8ac38b87d4ad424b8f93b65b17e51b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  faction: 0
+  baseDamagePerAtk: 75
+  baseAttackDelay: 2
+  baseDefense: 10
+  sneakSpeed: 2
+  walkSpeed: 3
+  runSpeed: 6
+  stickToGroundValue: 0
+  maxJumpHeight: 0
+  maxSlopeAngle: 0
+  rotationSpeed: 8
+  fov: 45
+  viewDistance: 10
+  hearDistance: 5
+  healthRegPerSec: 0
+  capValuePerSecond: 1
+  ActionOutput: 
+  Reacting: 0
+  fleeDistance: 5
+  influenceFraction: 0
+  influenceIndividual: 0
+  influenceWar: 0
+  influenceNeighbours: 0
+  upperLimitPerCent: 0.25
+  underLimitPerCent: 0.35
+  upperLimitBargainPerCent: 0
+  upperLimitPercentTotal: 0
+  underLimitPercentTotal: 0
+  wished: []
+  upperLimitReal: 0
+  upperLimitBargain: 0
+  underLimitReal: 0
+  realAndOfferedRatio: []
+  wishedAndOfferedRatio: []
+  continueTrade: 1
+  SkepticismTotal: 0
+  SkepticismLimit: 100
+  skepticismStart: 0
+  skepticismStartLimit: 80
+  skepticismDelta: 0
+  skepticismDeltaModifier: 0
+  IrritationTotal: 0
+  IrritationLimit: 100
+  irritationStart: 0
+  irritationStartLimit: 80
+  irritationDelta: 0
+  irritationDeltaModifier: 8.7
 --- !u!1 &2043327569
 GameObject:
   m_ObjectHideFlags: 0
