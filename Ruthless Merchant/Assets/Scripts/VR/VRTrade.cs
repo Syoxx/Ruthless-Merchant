@@ -15,6 +15,8 @@ namespace RuthlessMerchant
         [SerializeField]
         Hand hand2;
 
+        public Transform WeightContent;
+
         int totalPlayerOffers = 0;
         float currentPlayerOffer = -1;
         float currentTraderOffer = -1;
@@ -45,9 +47,8 @@ namespace RuthlessMerchant
 
         private void Update()
         {
-            if(hand1.controller.GetHairTriggerDown())
+            if (Input.GetKeyDown(KeyCode.E) || hand1.controller.GetHairTriggerDown())
             {
-                Debug.Log("gehtr");
                 HandlePlayerOffer();
             }
         }
@@ -61,8 +62,6 @@ namespace RuthlessMerchant
             nextPlayerOffer = RealValue; ;
             nextPlayerOfferText.text = nextPlayerOffer.ToString();
             nextPlayerOfferText.fontStyle = FontStyle.Italic;
-
-            UpdateWeights(weightsPlayer, nextPlayerOffer);
         }
 
         /// <summary>
@@ -83,19 +82,7 @@ namespace RuthlessMerchant
             nextPlayerOfferText.fontStyle = FontStyle.Italic;
             nextPlayerOfferText.text = nextPlayerOffer.ToString();
 
-            if (currentTraderOffer != -1)
-            {
-                float playerTraderOfferDelta = (vrTradePlayer.TotalWeight / currentTraderOffer);
-
-                if (playerTraderOfferDelta > 0.75f)
-                    playerTraderOfferDelta = 0.75f;
-
-                else if (playerTraderOfferDelta < -0.75f)
-                    playerTraderOfferDelta = -0.75f;
-
-                weightsPlayerParent.transform.position += new Vector3(0, -weightsPlayerParent.transform.position.y + playerTraderOfferDelta - playerTraderOfferDelta, 0);
-                weightsTraderParent.transform.position += new Vector3(0, -weightsTraderParent.transform.position.y + playerTraderOfferDelta + playerTraderOfferDelta, 0);
-            }
+            UpdateWeights(weightsTrader, (int)currentTraderOffer);
         }
 
         public override float GetCurrentPlayerOffer()

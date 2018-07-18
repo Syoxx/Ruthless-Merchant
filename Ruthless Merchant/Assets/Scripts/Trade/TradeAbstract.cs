@@ -52,11 +52,9 @@ namespace RuthlessMerchant
         [SerializeField]
         protected Text currentPlayerOfferText;
 
-        [SerializeField]
-        protected Transform weightsTraderParent;
+        public Transform weightsTraderParent;
 
-        [SerializeField]
-        protected Transform weightsPlayerParent;
+        public Transform weightsPlayerParent;
 
         [SerializeField]
         protected GameObject TradeObjectsParent;
@@ -153,7 +151,7 @@ namespace RuthlessMerchant
 
             if (GetCurrentPlayerOffer() != -1)
             {
-                float playerTraderOfferDelta = ((float)nextPlayerOffer / (int)GetCurrentTraderOffer() - 1) / weightsDeltaModifier;
+                float playerTraderOfferDelta = ((float)nextPlayerOffer - (int)GetCurrentTraderOffer() - 1) / weightsDeltaModifier;
 
                 if (playerTraderOfferDelta > 0.75f)
                     playerTraderOfferDelta = 0.75f;
