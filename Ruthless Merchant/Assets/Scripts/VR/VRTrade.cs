@@ -12,7 +12,7 @@ namespace RuthlessMerchant
         float currentPlayerOffer = -1;
         float currentTraderOffer = -1;
 
-        private void Start()
+        void Start()
         {
             weightsTrader = GetPresentWeights(weightsTraderParent);
 
@@ -26,6 +26,14 @@ namespace RuthlessMerchant
 
             TradeObjectsParent.transform.position = Trader.CurrentTrader.gameObject.transform.position;
             NeutralPositionY = weightsPlayerParent.transform.position.y;
+        }
+
+        void Update()
+        {
+            if(Input.GetButtonDown("9"))
+            {
+                HandlePlayerOffer();
+            }
         }
 
         public override void Initialize(int realValue)
@@ -55,16 +63,23 @@ namespace RuthlessMerchant
 
         public override void ModifyOffer()
         {
-            float playerTraderOfferDelta = (vrTradePlayer.TotalWeight / currentTraderOffer);
+            nextPlayerOffer = vrTradePlayer.TotalWeight;
+            nextPlayerOfferText.fontStyle = FontStyle.Italic;
+            nextPlayerOfferText.text = nextPlayerOffer.ToString();
 
-            if (playerTraderOfferDelta > 0.75f)
-                playerTraderOfferDelta = 0.75f;
+            if (currentTraderOffer != -1)
+            {
+                float playerTraderOfferDelta = (vrTradePlayer.TotalWeight / currentTraderOffer);
 
-            else if (playerTraderOfferDelta < -0.75f)
-                playerTraderOfferDelta = -0.75f;
+                if (playerTraderOfferDelta > 0.75f)
+                    playerTraderOfferDelta = 0.75f;
 
-            weightsPlayerParent.transform.position += new Vector3(0, -weightsPlayerParent.transform.position.y + playerTraderOfferDelta - playerTraderOfferDelta, 0);
-            weightsTraderParent.transform.position += new Vector3(0, -weightsTraderParent.transform.position.y + playerTraderOfferDelta + playerTraderOfferDelta, 0);
+                else if (playerTraderOfferDelta < -0.75f)
+                    playerTraderOfferDelta = -0.75f;
+
+                weightsPlayerParent.transform.position += new Vector3(0, -weightsPlayerParent.transform.position.y + playerTraderOfferDelta - playerTraderOfferDelta, 0);
+                weightsTraderParent.transform.position += new Vector3(0, -weightsTraderParent.transform.position.y + playerTraderOfferDelta + playerTraderOfferDelta, 0);
+            }
         }
 
         public override float GetCurrentPlayerOffer()
