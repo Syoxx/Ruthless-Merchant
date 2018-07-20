@@ -69,10 +69,19 @@ namespace RuthlessMerchant
         [Tooltip("Player speed while holding shift.")]
         protected float runSpeed = 6;
 
+        //[SerializeField]
+        //[Range(0, 1000)]
+        //[Tooltip("Constant downward force, used instead of gravity when on the ground.")]
+        //private float stickToGroundValue;
+
         [SerializeField]
-        [Range(0, 1000)]
-        [Tooltip("Constant downward force, used instead of gravity when on the ground.")]
-        private float stickToGroundValue;
+        [Range(0, 10)]
+        [Tooltip("Length of raycast to check if player is grounded")]
+        private float groundCheckDistance = 0.1f;
+
+        [SerializeField]
+        [Tooltip("Layermask that is detected as ground.")]
+        private LayerMask layerMask;
 
         [SerializeField]
         [Range(0, 1000)]
@@ -272,11 +281,11 @@ namespace RuthlessMerchant
 
         public void Jump()
         {
-            if (grounded)
+            if (CheckCharGrounded())
             {
                 if (elapsedSecs <= 0)
                 {
-                    grounded = false;
+                    //grounded = false;
                     gravity = Vector3.zero;
                     rb.AddForce(Vector3.up * 0.1f * maxJumpHeight, ForceMode.VelocityChange);
                     elapsedSecs = 1f;
@@ -286,6 +295,8 @@ namespace RuthlessMerchant
 
         protected virtual void FixedUpdate()
         {
+            grounded = CheckCharGrounded();
+
             if (elapsedSecs >= 0)
             {
                 elapsedSecs -= Time.deltaTime;
@@ -317,32 +328,16 @@ namespace RuthlessMerchant
         private void LateUpdate()
         {
             // Set gravity and prevent player climbing walls
-            if (grounded && !preventClimbing)
-            {
-                if (rb != null)
-                {
-                    gravity = Vector3.zero;
-                    gravity.y = -stickToGroundValue;
-                    ApplyGravity(gravity);
-                }
-
+            if (grounded)
+            {   
                 if (isPlayer)
                 {
-                    previousPosition.x = transform.position.x;
-                    previousPosition.y = transform.position.y;
-                    previousPosition.z = transform.position.z;
-                }                
-            }
-            else
-            {
-                if (rb != null)
-                {
-                    if (isPlayer)
+                    if (preventClimbing)
                     {
                         if ((!is_climbable_front && moveVector.z > 0.5f) || (!is_climbable_back && moveVector.z < -0.5f)
                                             || (!is_climbable_right && moveVector.x > 0.5f) || (!is_climbable_left && moveVector.x < -0.5f))
                         {
-                            rb.MovePosition(previousPosition);
+                            rb.transform.position = previousPosition;
                         }
                         else
                         {
@@ -350,8 +345,22 @@ namespace RuthlessMerchant
                             previousPosition.y = transform.position.y;
                             previousPosition.z = transform.position.z;
                         }
-                    }                    
+                    }
+                    else
+                    {
+                        previousPosition.x = transform.position.x;
+                        previousPosition.y = transform.position.y;
+                        previousPosition.z = transform.position.z;
+                    }
 
+                }
+                gravity = Vector3.zero;
+                ApplyGravity(gravity);
+            }
+            else
+            {
+                if (rb != null)
+                {
                     gravity += globalGravityScale * Vector3.up * Time.deltaTime * 2f;
                     ApplyGravity(gravity);
                 }
@@ -415,26 +424,11 @@ namespace RuthlessMerchant
         public void Grounding(bool _grounded)
         {
             grounded = _grounded;
-
         }
 
-        private void OnCollisionStay(Collision collision)
+        private bool CheckCharGrounded()
         {
-            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Terrain"))
-            {
-                if (!preventClimbing)
-                {
-                    grounded = true;
-                }
-            }
-        }
-
-        private void OnCollisionExit(Collision collision)
-        {
-            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Terrain"))
-            {
-                grounded = false;
-            }
+            return Physics.Raycast(transform.position, Vector3.down, groundCheckDistance, layerMask);
         }
     }
 }
