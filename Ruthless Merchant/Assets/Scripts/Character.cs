@@ -69,15 +69,10 @@ namespace RuthlessMerchant
         [Tooltip("Player speed while holding shift.")]
         protected float runSpeed = 6;
 
-        //[SerializeField]
-        //[Range(0, 1000)]
-        //[Tooltip("Constant downward force, used instead of gravity when on the ground.")]
-        //private float stickToGroundValue;
-
         [SerializeField]
-        [Range(0, 10)]
+        [Range(0, 5)]
         [Tooltip("Length of raycast to check if player is grounded")]
-        private float groundCheckDistance = 0.1f;
+        private float groundCheckDistance = 0.25f;
 
         [SerializeField]
         [Tooltip("Layermask that is detected as ground.")]
@@ -184,6 +179,7 @@ namespace RuthlessMerchant
             {
                 rb = GetComponent<Rigidbody>();
                 rb.useGravity = false;
+                rb.maxDepenetrationVelocity = 1f;
             }
 
             if (charCollider == null)
@@ -233,7 +229,7 @@ namespace RuthlessMerchant
             if (velocity != Vector2.zero && !isPlayer)
             { transform.rotation = Quaternion.LookRotation(velocity); }
 
-            moveVector = Vector3.zero;
+            //moveVector = Vector3.zero;
             rb.velocity = new Vector3(0f, rb.velocity.y, 0f);
 
             moveVector.y = 0;
@@ -247,6 +243,7 @@ namespace RuthlessMerchant
 
 
             transform.Translate(moveVector * speed * Time.fixedDeltaTime, Space.Self);
+            moveVector = Vector3.zero;
         }
 
         public void Rotate()
@@ -337,7 +334,7 @@ namespace RuthlessMerchant
                         if ((!is_climbable_front && moveVector.z > 0.5f) || (!is_climbable_back && moveVector.z < -0.5f)
                                             || (!is_climbable_right && moveVector.x > 0.5f) || (!is_climbable_left && moveVector.x < -0.5f))
                         {
-                            rb.transform.position = previousPosition;
+                            //rb.transform.position = previousPosition;
                         }
                         else
                         {
@@ -354,8 +351,12 @@ namespace RuthlessMerchant
                     }
 
                 }
-                gravity = Vector3.zero;
-                ApplyGravity(gravity);
+                if (rb != null)
+                {
+                    //gravity = Vector3.zero;
+                    gravity.y = -1f;
+                    ApplyGravity(gravity);
+                }
             }
             else
             {
@@ -397,10 +398,23 @@ namespace RuthlessMerchant
             return isClimbableAngle;
         }
 
-        public void CalculateVelocity()
-        {
-            throw new System.NotImplementedException();
-        }
+        //private void OnCollisionEnter(Collision collision)
+        //{
+        //    if (collision.gameObject.layer == LayerMask.NameToLayer("Terrain"))
+        //    {
+        //        //grounded = true;
+        //        gravity = Vector3.zero;
+        //        Debug.Log("collision with terrain layer");
+        //    }
+        //}
+
+        //private void OnCollisionExit(Collision collision)
+        //{
+        //    if (collision.gameObject.layer == LayerMask.NameToLayer("Terrain"))
+        //    {
+        //        grounded = false;
+        //    }
+        //}
 
         public void ChangeGear()
         {
@@ -414,9 +428,17 @@ namespace RuthlessMerchant
 
         public void ApplyGravity(Vector3 gravity)
         {
-            if (gravity.y > 0)
+            // prevent player drifting upwards
+            if (rb.velocity.y > 0 && moveVector == Vector3.zero && grounded)
             {
-                gravity.y = 0;
+                Debug.Log("testing condition");
+
+                gravity.y = -1f;
+
+            }
+            else if (rb.velocity.y < 0 && grounded)
+            {
+                //Vector3 rbCorrection = new Vector3(0, 0, 0);
             }
             rb.AddForce(gravity, ForceMode.Acceleration);
         }
@@ -425,7 +447,14 @@ namespace RuthlessMerchant
         {
             grounded = _grounded;
         }
-
+        
+        /// <summary>
+        /// Used to check if character is on the ground
+        /// </summary>
+        /// <returns>
+        /// returns true if detects collision with relevant layer within the CheckDistance 
+        /// (layerMask defines which layers are detected)
+        /// </returns>
         private bool CheckCharGrounded()
         {
             return Physics.Raycast(transform.position, Vector3.down, groundCheckDistance, layerMask);
