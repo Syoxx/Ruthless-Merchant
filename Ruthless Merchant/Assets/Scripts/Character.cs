@@ -179,7 +179,7 @@ namespace RuthlessMerchant
             {
                 rb = GetComponent<Rigidbody>();
                 rb.useGravity = false;
-                rb.maxDepenetrationVelocity = 1f;
+                rb.maxDepenetrationVelocity = 10f;
             }
 
             if (charCollider == null)
@@ -243,7 +243,7 @@ namespace RuthlessMerchant
 
 
             transform.Translate(moveVector * speed * Time.fixedDeltaTime, Space.Self);
-            moveVector = Vector3.zero;
+            //moveVector = Vector3.zero;
         }
 
         public void Rotate()
@@ -334,7 +334,7 @@ namespace RuthlessMerchant
                         if ((!is_climbable_front && moveVector.z > 0.5f) || (!is_climbable_back && moveVector.z < -0.5f)
                                             || (!is_climbable_right && moveVector.x > 0.5f) || (!is_climbable_left && moveVector.x < -0.5f))
                         {
-                            //rb.transform.position = previousPosition;
+                            rb.transform.position = previousPosition;
                         }
                         else
                         {
@@ -353,9 +353,18 @@ namespace RuthlessMerchant
                 }
                 if (rb != null)
                 {
-                    //gravity = Vector3.zero;
-                    gravity.y = -1f;
+                    gravity = Vector3.zero;
+                    
+                    if (moveVector == Vector3.zero && rb.velocity.y < 2f)
+                    {
+                        rb.velocity = new Vector3(0, 0, 0);
+                    }
+                    else
+                    {
+                        gravity.y = -0.1f;
+                    }
                     ApplyGravity(gravity);
+
                 }
             }
             else
