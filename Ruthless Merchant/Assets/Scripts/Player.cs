@@ -228,6 +228,7 @@ namespace RuthlessMerchant
                 isGameFocused = false;
             }
 
+            OpenBook(KeyCode.N);
             //inventory.InventoryChanged.AddListener(PopulateInventoryPanel);
         }
 
@@ -643,10 +644,9 @@ namespace RuthlessMerchant
             {
                 mapObject.SetActive(false);
             }
+                        
 
-            lastKeyPressed = key;
-
-            if (bookCanvas.activeSelf)
+            if (lastKeyPressed == key)
             {
                 CloseBook();
             }
