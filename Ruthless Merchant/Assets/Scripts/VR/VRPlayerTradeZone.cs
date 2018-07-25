@@ -4,12 +4,13 @@ using UnityEngine;
 
 namespace RuthlessMerchant
 {
-    public class VRTriggerBox : MonoBehaviour
+    public class VRPlayerTradeZone : MonoBehaviour
     {
-        public static VRTriggerBox Singleton;
+        public static VRPlayerTradeZone Singleton;
 
         public int TotalWeight = 0;
 
+        [System.NonSerialized]
         public bool UpdateWeight = false;
 
         void Awake()
@@ -22,8 +23,8 @@ namespace RuthlessMerchant
             if(UpdateWeight)
             {
                 UpdateTotalWeight();
+                TradeAbstract.Singleton.ModifyOffer();
                 UpdateWeight = false;
-                Debug.Log("Updated!");
             }
         }
 
@@ -37,9 +38,7 @@ namespace RuthlessMerchant
                 {
                     TotalWeight += item.Item.Value;
                 }
-            }
-
-            TradeAbstract.Singleton.ModifyOffer();
+            }            
         }
     }
 }

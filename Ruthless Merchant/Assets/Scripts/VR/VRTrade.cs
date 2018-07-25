@@ -7,7 +7,7 @@ namespace RuthlessMerchant
     public class VRTrade : TradeAbstract
     {
         [SerializeField]
-        VRTriggerBox vrTradePlayer;
+        VRPlayerTradeZone vrTradePlayer;
 
         [SerializeField]
         Hand hand1;
@@ -39,18 +39,8 @@ namespace RuthlessMerchant
                 }
             }
 
-            //TradeObjectsParent.transform.position = Trader.CurrentTrader.gameObject.transform.position;
             NeutralPositionY = PlayerZone.transform.position.y;
-
             Initialize(defaultValue);
-        }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.E) || hand1.controller.GetHairTriggerDown())
-            {
-                HandlePlayerOffer();
-            }
         }
 
         public override void Initialize(int realValue)
@@ -62,6 +52,14 @@ namespace RuthlessMerchant
             nextPlayerOffer = RealValue; ;
             nextPlayerOfferText.text = nextPlayerOffer.ToString();
             nextPlayerOfferText.fontStyle = FontStyle.Italic;
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.E) || hand1 != null && hand1.controller.GetHairTriggerDown())
+            {
+                HandlePlayerOffer();
+            }
         }
 
         /// <summary>

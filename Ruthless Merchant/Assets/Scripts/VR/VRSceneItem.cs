@@ -8,8 +8,6 @@ namespace RuthlessMerchant
     {
         public VRItem Item;
 
-        public Transform WeightParent;
-
         public List<GameObject> Collisions;
 
         [SerializeField]
@@ -18,6 +16,10 @@ namespace RuthlessMerchant
         [SerializeField]
         int value;
 
+        /// <summary>
+        /// True if the VRSceneItem has been checked for contact with the ground in the current frame. 
+        /// Used for internal recursive purposes in the TouchesGround Method.
+        /// </summary>
         public bool CheckedGndTouch = false;
 
         void Awake()
@@ -30,17 +32,22 @@ namespace RuthlessMerchant
         private void OnCollisionEnter(Collision collision)
         {
             Collisions.Add(collision.gameObject);
-            VRTriggerBox.Singleton.UpdateWeight = true;
+            VRPlayerTradeZone.Singleton.UpdateWeight = true;
             Debug.LogWarning("ADDED " + collision.gameObject.name + " in " + gameObject.name);
         }
 
         private void OnCollisionExit(Collision collision)
         {
             Collisions.Remove(collision.gameObject);
-            VRTriggerBox.Singleton.UpdateWeight = true;
+            VRPlayerTradeZone.Singleton.UpdateWeight = true;
             Debug.LogWarning("REMOVED " + collision.gameObject.name + " from " + gameObject.name);
         }
 
+        /// <summary>
+        /// If the VRScene Item is touching the ground.
+        /// </summary>
+        /// <param name="first">Must be true when called, used for internal recursive purposes.</param>
+        /// <returns></returns>
         public bool TouchesGround(bool first = false)
         {
             if (first)
