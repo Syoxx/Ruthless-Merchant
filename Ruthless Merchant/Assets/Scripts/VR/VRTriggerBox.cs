@@ -33,7 +33,7 @@ namespace RuthlessMerchant
 
             foreach (VRSceneItem item in FindObjectsOfType<VRSceneItem>())
             {
-                if (item.TouchesGround())
+                if (item.TouchesGround(true))
                 {
                     TotalWeight += item.Item.Value;
                 }

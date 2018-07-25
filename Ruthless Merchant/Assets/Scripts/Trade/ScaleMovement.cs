@@ -36,7 +36,7 @@ namespace RuthlessMerchant
 
             foreach (VRSceneItem VRItem in VRItems)
             {
-                if (VRItem.TouchesGround())
+                if (VRItem.TouchesGround(true))
                 {
                     //VRItem.GetComponent<Rigidbody>().useGravity = false;
                     //VRItem.GetComponent<Rigidbody>().isKinematic = true;
@@ -58,7 +58,7 @@ namespace RuthlessMerchant
 
                 foreach (VRSceneItem VRItem in VRItems)
                 {
-                    if (VRItem.TouchesGround())
+                    if (VRItem.TouchesGround(true))
                     {
                         VRItem.transform.position += delta;
                         VRItem.GetComponent<Rigidbody>().useGravity = true;
@@ -80,7 +80,7 @@ namespace RuthlessMerchant
 
                 foreach (VRSceneItem VRItem in VRItems)
                 {
-                    if (VRItem.TouchesGround())
+                    if (VRItem.TouchesGround(true))
                     {
                         VRItem.transform.position += delta * Time.deltaTime;
                     }

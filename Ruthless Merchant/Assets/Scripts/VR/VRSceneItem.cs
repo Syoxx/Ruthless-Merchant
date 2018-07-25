@@ -18,7 +18,7 @@ namespace RuthlessMerchant
         [SerializeField]
         int value;
 
-        bool touchesGround = false;
+        public bool CheckedGndTouch = false;
 
         void Awake()
         {
@@ -31,7 +31,7 @@ namespace RuthlessMerchant
         {
             Collisions.Add(collision.gameObject);
             VRTriggerBox.Singleton.UpdateWeight = true;
-            Debug.LogWarning("ADDED" + collision.gameObject.name + " in " + gameObject.name);
+            Debug.LogWarning("ADDED " + collision.gameObject.name + " in " + gameObject.name);
         }
 
         private void OnCollisionExit(Collision collision)
@@ -41,8 +41,16 @@ namespace RuthlessMerchant
             Debug.LogWarning("REMOVED " + collision.gameObject.name + " from " + gameObject.name);
         }
 
-        public bool TouchesGround()
+        public bool TouchesGround(bool first = false)
         {
+            if (first)
+            {
+                foreach (VRSceneItem allItem in FindObjectsOfType<VRSceneItem>())
+                {
+                    allItem.CheckedGndTouch = false;
+                }
+            }
+
             foreach (GameObject collision in Collisions)
             {
                 if (collision.name.Contains("TradeZone"))
@@ -51,11 +59,13 @@ namespace RuthlessMerchant
                 }
             }
 
+            CheckedGndTouch = true;
+
             foreach (GameObject collision in Collisions)
             {
                 VRSceneItem item = collision.GetComponent<VRSceneItem>();
 
-                if (item != null && item.TouchesGround())
+                if (item != null && !item.CheckedGndTouch && item.TouchesGround())
                 {
                     return true;
                 }
