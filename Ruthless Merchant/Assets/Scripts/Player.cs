@@ -86,7 +86,7 @@ namespace RuthlessMerchant
         private GameObject bookCanvas;
 
         [SerializeField, Tooltip("Drag 'InventoryItem' Prefab here.")]
-        private GameObject itemUIPrefab;
+        private GameObject itemInventory;
         private PageLogic bookLogic;
         #endregion
 
@@ -159,9 +159,9 @@ namespace RuthlessMerchant
         /// </summary>
         private void CheckForMissingObjects()
         {
-            if (itemUIPrefab == null)
+            if (itemInventory == null)
             {
-                throw new Exception("ItemUIPrefab is missing in Player Inspector (../Prefabs/Book/ItemUIPrefab)");
+                throw new Exception("Item Inventory Prefab is missing in Player Inspector. This prefab if placed in (../Prefabs/Book/Item Inventory)");
             }
 
             if (bookCanvas == null)
@@ -173,7 +173,6 @@ namespace RuthlessMerchant
         public override void Start()
         {
             base.Start();
-
             smithCanvas = GameObject.Find("SmithCanvas");
             alchemyCanvas = GameObject.Find("AlchemyCanvas");
             reputation = GetComponent<Reputation>();
@@ -211,7 +210,7 @@ namespace RuthlessMerchant
             bookLogic.GeneratePages();
             
             inventory.BookLogic = bookLogic;
-            inventory.ItemUIPrefab = itemUIPrefab;
+            inventory.ItemUIPrefab = itemInventory;
 
             playerLookAngle = transform.localRotation;
 
@@ -271,6 +270,7 @@ namespace RuthlessMerchant
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
             }
+            base.Update();
         }
 
         /// <summary>
@@ -513,25 +513,8 @@ namespace RuthlessMerchant
             localWorkbench.BreakdownItem(inventory.inventorySlots[itemSlot].Item, Inventory, recipes);
             PopulateWorkbenchPanel();
         }
+     
 
-        private void OnCollisionStay(Collision collision)
-        {
-            
-            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Terrain"))
-            {
-                base.Grounding(true);
-            }
-        }
-
-        private void OnCollisionExit(Collision collision)
-        {
-            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Terrain"))
-            {
-                base.Grounding(false);
-            }
-        }
-
-      
        public void SendInteraction()
        {
            if (Input.GetKeyDown(KeyCode.E))
