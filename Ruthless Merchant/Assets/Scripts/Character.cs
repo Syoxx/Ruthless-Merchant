@@ -257,12 +257,12 @@ namespace RuthlessMerchant
         public override void Update()
         {
             elapsedAttackTime += Time.deltaTime;
-
+            
             if (elapsedSecs > 0)
             {
                 elapsedSecs -= Time.deltaTime;
             }
-            else if (justJumped == true)
+            else /*if (justJumped == true && grounded)*/
             {
                 justJumped = false;
             }
@@ -372,11 +372,16 @@ namespace RuthlessMerchant
             }
 
             // adjust y position
-            if (rayHit.point.y != 0 && !(justJumped) && grounded)
+            if (rayHit.point.y != 0)
             {
                 float offset = rayHit.point.y + yPositionOffset;
-                rb.transform.position = new Vector3(rb.transform.position.x, offset, rb.transform.position.z);
+
+                if (!(justJumped) && grounded)
+                {
+                    rb.transform.position = new Vector3(rb.transform.position.x, offset, rb.transform.position.z);
+                }
             }
+            
         }
 
         /// <summary>
