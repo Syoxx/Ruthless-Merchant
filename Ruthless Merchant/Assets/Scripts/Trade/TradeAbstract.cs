@@ -162,21 +162,23 @@ namespace RuthlessMerchant
                 Vector3 playerDelta = new Vector3(0, -weightsPlayerParent.position.y + NeutralPositionY - playerTraderOfferDelta, 0);
                 Vector3 traderDelta = new Vector3(0, -weightsTraderParent.position.y + NeutralPositionY + playerTraderOfferDelta, 0);
 
-                weightsPlayerParent.position += playerDelta;
-                weightsTraderParent.position += traderDelta;
+                //weightsPlayerParent.position += playerDelta;
+                //weightsTraderParent.position += traderDelta;
 
-                VRSceneItem[] VRItems = FindObjectsOfType<VRSceneItem>();
+                ScaleMovement[] scaleMovements = FindObjectsOfType<ScaleMovement>();
 
-                foreach(VRSceneItem VRItem in VRItems)
+                foreach(ScaleMovement scale in scaleMovements)
                 {
-                    if(VRItem.WeightParent == weightsPlayerParent)
+                    if(scale.scaleType == ScaleMovement.ScaleType.Player)
                     {
-                        VRItem.transform.position += playerDelta;
+                        scale.TargetPosition = (weightsPlayerParent.position + playerDelta).y;
+                        scale.enabled = true;
                     }
 
-                    else if (VRItem.WeightParent == weightsTraderParent)
+                    else if (scale.scaleType == ScaleMovement.ScaleType.Trader)
                     {
-                        VRItem.transform.position += traderDelta;
+                        scale.TargetPosition = (weightsTraderParent.position + traderDelta).y;
+                        scale.enabled = true;
                     }
                 }
             }
