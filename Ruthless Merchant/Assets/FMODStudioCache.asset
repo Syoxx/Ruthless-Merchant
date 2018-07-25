@@ -21,13 +21,48 @@ MonoBehaviour:
   - {fileID: 114419294121198992}
   - {fileID: 114527229904610756}
   - {fileID: 114693610080131010}
-  - {fileID: 114200063836006910}
   - {fileID: 114042143865065690}
   - {fileID: 114538332485827990}
+  - {fileID: 114819872767566328}
+  - {fileID: 114863672348768824}
+  - {fileID: 114562197616862150}
+  - {fileID: 114495061260976658}
+  - {fileID: 114594229765728616}
+  - {fileID: 114714506214496760}
   MasterBankRef: {fileID: 114505932210258138}
   StringsBankRef: {fileID: 114374980988136622}
-  stringsBankWriteTime: 636670113633686558
+  stringsBankWriteTime: 636681117693206132
   cacheVersion: 2
+--- !u!114 &114021286779005176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Carpet
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114026608659418286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Gravel
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114042143865065690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,6 +101,21 @@ MonoBehaviour:
   Max: 1
   Default: 0
 --- !u!114 &114141204070862474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Carpet
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114173455892269914
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -136,6 +186,21 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114295050576587014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Grass
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114324722823259794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,6 +213,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Grass
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114361772051745752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Wood
   Min: 0
   Max: 1
   Default: 0
@@ -179,11 +259,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: D:\Ruthless Merchant\FMOD Repository\FMOD-RuthlessMerchant\RuthlessMerchant\Build\Desktop\Master
     Bank.strings.bank
-  lastModified: 636670113633686558
+  lastModified: 636681117693206132
   LoadResult: 0
   FileSizes:
   - Name: Desktop
-    Value: 1120
+    Value: 1350
   Exists: 1
 --- !u!114 &114419294121198992
 MonoBehaviour:
@@ -207,6 +287,21 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 500
+--- !u!114 &114426897780954564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Gravel
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114437904602868906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,6 +332,28 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114495061260976658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Ambience/Wind General
+  guid: 59c477eb59d4f64ea8c78fa1c397aa32
+  Banks:
+  - {fileID: 114870106142810870}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 44987
 --- !u!114 &114505932210258138
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,7 +367,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: D:\Ruthless Merchant\FMOD Repository\FMOD-RuthlessMerchant\RuthlessMerchant\Build\Desktop\Master
     Bank.bank
-  lastModified: 636670113633666414
+  lastModified: 636681117693156345
   LoadResult: 0
   FileSizes:
   - Name: Desktop
@@ -278,6 +395,21 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 143
+--- !u!114 &114529837431802160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Grass
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114538332485827990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -345,6 +477,28 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114562197616862150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Ambience/Atmo Camp
+  guid: 38018d108ff56b44b41c74cde9ae3bb4
+  Banks:
+  - {fileID: 114870106142810870}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &114567960235736872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -375,6 +529,28 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114594229765728616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Ambience/Atmo Tundra
+  guid: 5a3ee3a0352c7247a0bb717c7ba405b8
+  Banks:
+  - {fileID: 114870106142810870}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 250544
 --- !u!114 &114626990863318588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -387,11 +563,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Path: D:\Ruthless Merchant\FMOD Repository\FMOD-RuthlessMerchant\RuthlessMerchant\Build\Desktop\SFX.bank
-  lastModified: 636670113634555899
+  lastModified: 636681117714820177
   LoadResult: 0
   FileSizes:
   - Name: Desktop
-    Value: 911392
+    Value: 917408
   Exists: 1
 --- !u!114 &114627976116780882
 MonoBehaviour:
@@ -405,6 +581,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Wood
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114630913900967422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: FloorMaterial
   Min: 0
   Max: 1
   Default: 0
@@ -430,6 +621,28 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 5
   Length: 60000
+--- !u!114 &114714506214496760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Ambience/Atmo Forest
+  guid: 88296bd309e4434caf9d005aaa838bd5
+  Banks:
+  - {fileID: 114870106142810870}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 120820
 --- !u!114 &114742560672789862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -445,6 +658,55 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114819872767566328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Characters/BlendAllSteps
+  guid: 9b62e98f9694ba45b58d6495f62a6466
+  Banks:
+  - {fileID: 114626990863318588}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 114529837431802160}
+  - {fileID: 114886326643457890}
+  - {fileID: 114173455892269914}
+  - {fileID: 114426897780954564}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 501
+--- !u!114 &114863672348768824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Characters/SeparatedAllSteps
+  guid: b0dfb2eec4e62d4b951857d0fe70add7
+  Banks:
+  - {fileID: 114626990863318588}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 114630913900967422}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &114870106142810870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -457,11 +719,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Path: D:\Ruthless Merchant\FMOD Repository\FMOD-RuthlessMerchant\RuthlessMerchant\Build\Desktop\Ambience.bank
-  lastModified: 636670113633896265
+  lastModified: 636681117706153424
   LoadResult: 0
   FileSizes:
   - Name: Desktop
-    Value: 119136
+    Value: 6734496
   Exists: 1
 --- !u!114 &114873633472102620
 MonoBehaviour:
@@ -475,12 +737,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Path: D:\Ruthless Merchant\FMOD Repository\FMOD-RuthlessMerchant\RuthlessMerchant\Build\Desktop\Music.bank
-  lastModified: 636670113634256061
+  lastModified: 636681117711331449
   LoadResult: 0
   FileSizes:
   - Name: Desktop
     Value: 915776
   Exists: 1
+--- !u!114 &114886326643457890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Wood
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114898851602985038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: FloorMaterial
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114994405217940756
 MonoBehaviour:
   m_ObjectHideFlags: 0
