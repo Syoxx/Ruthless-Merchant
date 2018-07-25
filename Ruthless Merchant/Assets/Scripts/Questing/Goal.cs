@@ -6,7 +6,7 @@ public class Goal : MonoBehaviour {
 
     [SerializeField]
     protected string Description; //{ get; set; }
-    [SerializeField]
+    //[SerializeField]
     protected int RequiredAmount; //{ get; set; }
     [SerializeField]
     protected List<Transform> Waypoints;
