@@ -31,6 +31,7 @@ public class PageLogic : MonoBehaviour
     private Button btn_Journal, btn_Inventory, btn_Recipes, btn_Menu;
 
     private bool flipToTheLeft;
+    private bool couritineIsFinished;
 
 
 
@@ -57,6 +58,7 @@ public class PageLogic : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        couritineIsFinished = true;
         myBook = GetComponent<BookPro>();
         flipEffect = GetComponent<AutoFlip>();
     }
@@ -279,13 +281,14 @@ public class PageLogic : MonoBehaviour
             if (flippedPages < n)
             {
                 yield return new WaitForSeconds(flipEffect.PageFlipTime);
-
-                StartCoroutine(FlipPageDelayed(n));
+                couritineIsFinished = false;
+                StartCoroutine(FlipPageDelayed(n));               
             }
             else
             {
                 flippedPages = 0;
                 flipEffect.PageFlipTime = 1f;
+                couritineIsFinished = true;
             }
         }
         else
@@ -297,18 +300,18 @@ public class PageLogic : MonoBehaviour
             {
                 yield return new WaitForSeconds(flipEffect.PageFlipTime);
 
-                StartCoroutine(FlipPageDelayed(n));
+                couritineIsFinished = false;
+                StartCoroutine(FlipPageDelayed(n));               
             }
             else
             {
                 flippedPages = 0;
                 flipEffect.PageFlipTime = 1f;
+                couritineIsFinished = true;
             }
         }
        
     }
-
-
     /*
      *
      *Book - Control Functions for the Button and more
@@ -316,34 +319,49 @@ public class PageLogic : MonoBehaviour
      */
     public void OpenInventory()
     {
-        int neededPage = 10;
-        CheckPageLocation(neededPage);
+        if (couritineIsFinished)
+        {
+            int neededPage = 10;
+            CheckPageLocation(neededPage);
+        }
 
     }
 
     public void OpenJournal()
     {
-        int neededPage = 7;
-        CheckPageLocation(neededPage);
+        if (couritineIsFinished)
+        {
+            int neededPage = 7;
+            CheckPageLocation(neededPage);
+        }
 
     }
 
     public void OpenRecipes()
     {
-        int neededPage = 17;
-        CheckPageLocation(neededPage);
+        if (couritineIsFinished)
+        {
+            int neededPage = 17;
+            CheckPageLocation(neededPage);
+        }
     }
 
     public void OpenMenu()
     {
-        int neededPage = 19;
-        CheckPageLocation(neededPage);
+        if (couritineIsFinished)
+        {
+            int neededPage = 19;
+            CheckPageLocation(neededPage);
+        }
     }
 
     public void OpenNotices()
     {
-        int neededPage = 2;
-        CheckPageLocation(neededPage);
+        if (couritineIsFinished)
+        {
+            int neededPage = 2;
+            CheckPageLocation(neededPage);
+        }
     }
 
     private void CheckPageLocation(int neededPage)
@@ -355,10 +373,11 @@ public class PageLogic : MonoBehaviour
             timesToFlip = timesToFlip * -1;
             SwitchToCertainPages(timesToFlip);
         }
-        else
+        else if (timesToFlip > 0)
         {
             flipToTheLeft = true;
             SwitchToCertainPages(timesToFlip);
+            
         }
     }
 }
