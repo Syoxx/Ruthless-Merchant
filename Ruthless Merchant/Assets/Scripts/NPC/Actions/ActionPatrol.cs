@@ -9,9 +9,9 @@ namespace RuthlessMerchant
 {
     public class ActionPatrol : ActionMove
     {
-        private Fighter fighter;
+        private Hero hero;
 
-        public ActionPatrol()
+        public ActionPatrol() : base(ActionPriority.Low)
         {
 
         }
@@ -23,31 +23,31 @@ namespace RuthlessMerchant
 
         public override void StartAction(NPC parent, GameObject other)
         {
-            if (parent is Fighter)
+            if (parent is Hero)
             {
-                fighter = parent as Fighter;
+                hero = parent as Hero;
 
-                if (fighter.PatrolPoints != null && fighter.PatrolPoints.Length > 0)
+                if (hero.PatrolPoints != null && hero.PatrolPoints.Length > 0)
                 {
                     float minDistance = float.MaxValue;
-                    int nearestIndex = fighter.Waypoints.Count;
-                    for (int i = 0; i < fighter.PatrolPoints.Length; i++)
+                    int nearestIndex = hero.Waypoints.Count;
+                    for (int i = 0; i < hero.PatrolPoints.Length; i++)
                     {
-                        float distance = Vector3.Distance(fighter.transform.position, fighter.PatrolPoints[i].GetPosition());
+                        float distance = Vector3.Distance(hero.transform.position, hero.PatrolPoints[i].GetPosition());
                         if (distance < minDistance)
                         {
                             minDistance = distance;
-                            nearestIndex = fighter.Waypoints.Count;
+                            nearestIndex = hero.Waypoints.Count;
                         }
-                        fighter.Waypoints.Add(fighter.PatrolPoints[i]);
+                        hero.Waypoints.Add(hero.PatrolPoints[i]);
                     }
 
-                    fighter.ChangeSpeed(NPC.SpeedType.Walk);
+                    hero.ChangeSpeed(NPC.SpeedType.Walk);
                     ActionMove moveAction = new ActionMove();
-                    fighter.SetCurrentAction(moveAction, null, true);
+                    hero.SetCurrentAction(moveAction, null, true);
                     moveAction.WaypointIndex = nearestIndex;
                 }
-                base.StartAction(fighter, other);
+                base.StartAction(hero, other);
             }
             else
             {
@@ -59,18 +59,18 @@ namespace RuthlessMerchant
         {
             if (executeEnd)
             {
-                if (fighter != null)
+                if (hero != null)
                 {
-                    for (int i = 0; i < fighter.PatrolPoints.Length; i++)
+                    for (int i = 0; i < hero.PatrolPoints.Length; i++)
                     {
-                        fighter.Waypoints.Remove(fighter.PatrolPoints[i]);
+                        hero.Waypoints.Remove(hero.PatrolPoints[i]);
                     }
 
-                    if (fighter.CurrentAction != null && fighter.CurrentAction is ActionMove)
-                        ((ActionMove)fighter.CurrentAction).WaypointIndex = 0;
+                    if (hero.CurrentAction != null && hero.CurrentAction is ActionMove)
+                        ((ActionMove)hero.CurrentAction).WaypointIndex = 0;
 
-                    if (fighter.CurrentAction == null)
-                        fighter.SetCurrentAction(new ActionIdle(), null);
+                    if (hero.CurrentAction == null)
+                        hero.SetCurrentAction(new ActionIdle(), null);
                 }
             }
             base.EndAction(executeEnd);
