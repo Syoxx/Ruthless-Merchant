@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using RuthlessMerchant;
+using UnityEngine;
 
 public class TeleportManager : MonoBehaviour {
 
@@ -11,6 +12,7 @@ public class TeleportManager : MonoBehaviour {
 
     #region Private Fields
     private Rigidbody rb;
+    private Player playerScript;
     private Vector3 positionOfDestination;
     #endregion
 
@@ -18,6 +20,7 @@ public class TeleportManager : MonoBehaviour {
     private void Start()
     {
         rb = GetComponentInParent<Rigidbody>();
+        playerScript = GetComponentInParent<Player>();
     }
 
     /// <summary>
@@ -25,8 +28,8 @@ public class TeleportManager : MonoBehaviour {
     /// </summary>
     public void Teleport()
     {
+        playerScript.Grounding(false);
         positionOfDestination = teleportDestination.transform.position;
         rb.transform.position = positionOfDestination;
-
     }
 }
