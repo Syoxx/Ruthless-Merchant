@@ -616,6 +616,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WeightParent: {fileID: 0}
+  Collisions: []
   itemName: SuperCube
   value: 20
 --- !u!65 &155792979
@@ -782,7 +783,7 @@ GameObject:
   - component: {fileID: 252355076}
   - component: {fileID: 252355075}
   m_Layer: 0
-  m_Name: Ground
+  m_Name: GroundTradeZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -867,7 +868,7 @@ GameObject:
   - component: {fileID: 253102371}
   - component: {fileID: 253102370}
   m_Layer: 0
-  m_Name: Wall
+  m_Name: WallTradeZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -952,7 +953,7 @@ GameObject:
   - component: {fileID: 254706390}
   - component: {fileID: 254706389}
   m_Layer: 0
-  m_Name: Wall
+  m_Name: WallTradeZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1166,6 +1167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WeightParent: {fileID: 0}
+  Collisions: []
   itemName: SuperCube
   value: 20
 --- !u!65 &279422741
@@ -1665,6 +1667,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WeightParent: {fileID: 0}
+  Collisions: []
   itemName: SuperCube
   value: 20
 --- !u!65 &416708612
@@ -1836,6 +1839,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WeightParent: {fileID: 0}
+  Collisions: []
   itemName: SuperCube
   value: 20
 --- !u!65 &441309831
@@ -2587,59 +2591,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &571527330
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 571527331}
-  - component: {fileID: 571527333}
-  - component: {fileID: 571527332}
-  m_Layer: 0
-  m_Name: ExitTrigger
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &571527331
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 571527330}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1058094754}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &571527332
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 571527330}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8d75771ea9430a47ac9d5638db0324f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!65 &571527333
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 571527330}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.05, y: 1.75, z: 1.05}
-  m_Center: {x: 0, y: 0.68, z: 0}
 --- !u!1 &589793435
 GameObject:
   m_ObjectHideFlags: 0
@@ -2849,6 +2800,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WeightParent: {fileID: 0}
+  Collisions: []
   itemName: SuperCube
   value: 20
 --- !u!65 &594148379
@@ -3334,6 +3286,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WeightParent: {fileID: 0}
+  Collisions: []
   itemName: SuperCube
   value: 20
 --- !u!65 &760833387
@@ -3419,7 +3372,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RealValue: 0
-  weightsDeltaModifier: 30
+  weightsDeltaModifier: 75
   nextPlayerOffer: 0
   tradeDialogue: {fileID: 2043327571}
   valueText: {fileID: 2110729513}
@@ -3473,7 +3426,7 @@ MonoBehaviour:
   yFriction: 0.95
   ySpeedThreshold: 0.01
   yDeltaThreshold: 0.0025
-  ySpeed: 0
+  YSpeed: 0
 --- !u!1 &827700325
 GameObject:
   m_ObjectHideFlags: 0
@@ -4120,7 +4073,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1058094754}
-  - component: {fileID: 1058094753}
   - component: {fileID: 1058094752}
   m_Layer: 0
   m_Name: TriggerBox
@@ -4141,18 +4093,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TotalWeight: 0
---- !u!65 &1058094753
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1058094751}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 0.36, z: 1}
-  m_Center: {x: 0, y: 0.15, z: 0}
+  UpdateWeight: 0
 --- !u!4 &1058094754
 Transform:
   m_ObjectHideFlags: 0
@@ -4168,7 +4109,6 @@ Transform:
   - {fileID: 254706388}
   - {fileID: 253102369}
   - {fileID: 252355074}
-  - {fileID: 571527331}
   m_Father: {fileID: 1531034767}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5176,7 +5116,7 @@ GameObject:
   - component: {fileID: 1497006361}
   - component: {fileID: 1497006360}
   m_Layer: 0
-  m_Name: Wall
+  m_Name: WallTradeZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5257,39 +5197,13 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1512187903}
-  - component: {fileID: 1512187902}
-  - component: {fileID: 1512187901}
   m_Layer: 0
-  m_Name: InventoryTriggerBox
+  m_Name: Inventory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1512187901
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1512187900}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57110d9b32e1f41488f9001f2282fd3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TotalWeight: 0
---- !u!65 &1512187902
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1512187900}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 0.5, z: 1}
-  m_Center: {x: 0, y: 0.25, z: 0}
 --- !u!4 &1512187903
 Transform:
   m_ObjectHideFlags: 0
@@ -5974,6 +5888,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WeightParent: {fileID: 0}
+  Collisions: []
   itemName: SuperCube
   value: 20
 --- !u!65 &1876757661
@@ -6042,7 +5957,7 @@ GameObject:
   - component: {fileID: 1877588331}
   - component: {fileID: 1877588330}
   m_Layer: 0
-  m_Name: Wall
+  m_Name: WallTradeZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6189,6 +6104,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WeightParent: {fileID: 0}
+  Collisions: []
   itemName: SuperCube
   value: 20
 --- !u!65 &1899952076

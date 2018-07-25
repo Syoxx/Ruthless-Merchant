@@ -26,7 +26,7 @@ namespace RuthlessMerchant
         float yDeltaThreshold = 0.02f;
 
         [SerializeField, ReadOnly]
-        float ySpeed = 0;
+        public float YSpeed = 0;
 
         VRSceneItem[] VRItems;
 
@@ -36,31 +36,29 @@ namespace RuthlessMerchant
 
             foreach (VRSceneItem VRItem in VRItems)
             {
-                if (VRItem.WeightParent == transform)
+                if (VRItem.TouchesGround())
                 {
-                    VRItem.GetComponent<Rigidbody>().useGravity = false;
-                    VRItem.GetComponent<Rigidbody>().isKinematic = true;
+                    //VRItem.GetComponent<Rigidbody>().useGravity = false;
+                    //VRItem.GetComponent<Rigidbody>().isKinematic = true;
                 }
             }
 
-            ySpeed = 0;
+            YSpeed = 0;
         }
 
         void Update()
         {
             Vector3 delta;
 
-            if (Math.Sqrt(Math.Pow(TargetPositionPlayer - TradeAbstract.Singleton.PlayerZone.transform.position.y, 2)) < yDeltaThreshold && Math.Sqrt(Math.Pow(ySpeed, 2)) < ySpeedThreshold)
-            {
-                Vector3 temp = TradeAbstract.Singleton.PlayerZone.transform.position;
-                TradeAbstract.Singleton.PlayerZone.transform.position += new Vector3(0, -TradeAbstract.Singleton.PlayerZone.transform.position.y + TargetPositionPlayer, 0);
-                TradeAbstract.Singleton.TraderZone.transform.position += new Vector3(0, -TradeAbstract.Singleton.TraderZone.transform.position.y + TargetPositionTrader, 0);
+            float targetDelta = TargetPositionPlayer - TradeAbstract.Singleton.PlayerZone.transform.position.y;
 
-                delta = new Vector3(0, TradeAbstract.Singleton.PlayerZone.transform.position.y - temp.y, 0);
+            if (Math.Sqrt(Math.Pow(targetDelta, 2)) < yDeltaThreshold && Math.Sqrt(Math.Pow(YSpeed, 2)) < ySpeedThreshold)
+            {
+                delta = new Vector3(0, targetDelta, 0);
 
                 foreach (VRSceneItem VRItem in VRItems)
                 {
-                    if (VRItem.WeightParent == TradeAbstract.Singleton.PlayerZone.transform)
+                    if (VRItem.TouchesGround())
                     {
                         VRItem.transform.position += delta;
                         VRItem.GetComponent<Rigidbody>().useGravity = true;
@@ -68,25 +66,28 @@ namespace RuthlessMerchant
                     }
                 }
 
+                TradeAbstract.Singleton.PlayerZone.transform.position += delta;
+                TradeAbstract.Singleton.TraderZone.transform.position += delta;
+
                 enabled = false;
             }
             else
             {
-                ySpeed += (TargetPositionPlayer - TradeAbstract.Singleton.PlayerZone.transform.position.y) * SpeedModifier;
-                ySpeed *= yFriction;
+                YSpeed += (TargetPositionPlayer - TradeAbstract.Singleton.PlayerZone.transform.position.y) * SpeedModifier;
+                YSpeed *= yFriction;
 
-                delta = new Vector3(0, ySpeed, 0);
-
-                TradeAbstract.Singleton.PlayerZone.transform.position += delta * Time.deltaTime;
-                TradeAbstract.Singleton.TraderZone.transform.position -= delta * Time.deltaTime;
+                delta = new Vector3(0, YSpeed, 0);
 
                 foreach (VRSceneItem VRItem in VRItems)
                 {
-                    if (VRItem.WeightParent == TradeAbstract.Singleton.PlayerZone.transform)
+                    if (VRItem.TouchesGround())
                     {
                         VRItem.transform.position += delta * Time.deltaTime;
                     }
                 }
+
+                TradeAbstract.Singleton.PlayerZone.transform.position += delta * Time.deltaTime;
+                TradeAbstract.Singleton.TraderZone.transform.position -= delta * Time.deltaTime;
             }
         }
     }

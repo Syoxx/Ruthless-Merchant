@@ -16,7 +16,7 @@ namespace RuthlessMerchant
 
         #region Serialized Fields
 
-        [SerializeField, Range(1, 50)]
+        [SerializeField]
         protected float weightsDeltaModifier;
 
         #if UNITY_EDITOR
@@ -142,15 +142,15 @@ namespace RuthlessMerchant
         /// <param name="offer">The offer to be represented.</param>
         protected void UpdateWeights(List<List<GameObject>> weights, int offer)
         {
-            int[] targetWeights = GetTargetWeights(offer);
-
-            UpdateWeight(weights, targetWeights, 0);
-            UpdateWeight(weights, targetWeights, 1);
-            UpdateWeight(weights, targetWeights, 2);
-            UpdateWeight(weights, targetWeights, 3);
-
             if (GetCurrentPlayerOffer() != -1)
             {
+                int[] targetWeights = GetTargetWeights(offer);
+
+                UpdateWeight(weights, targetWeights, 0);
+                UpdateWeight(weights, targetWeights, 1);
+                UpdateWeight(weights, targetWeights, 2);
+                UpdateWeight(weights, targetWeights, 3);
+
                 float playerTraderOfferDelta = ((float)nextPlayerOffer - (int)GetCurrentTraderOffer() - 1) / weightsDeltaModifier;
 
                 if (playerTraderOfferDelta > 0.75f)
@@ -169,6 +169,7 @@ namespace RuthlessMerchant
 
                 foreach(ScaleMovement scale in scaleMovements)
                 {
+                    scale.YSpeed = 0;
                     scale.TargetPositionPlayer = (PlayerZone.position + playerDelta).y;
                     scale.TargetPositionTrader = (TraderZone.position + traderDelta).y;
                     scale.enabled = true;

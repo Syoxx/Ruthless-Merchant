@@ -6,54 +6,38 @@ namespace RuthlessMerchant
 {
     public class VRTriggerBox : MonoBehaviour
     {
+        public static VRTriggerBox Singleton;
+
         public int TotalWeight = 0;
 
-        [ReadOnly]
-        List<VRSceneItem> items;
+        public bool UpdateWeight = false;
 
-        void Start()
+        void Awake()
         {
-            items = new List<VRSceneItem>();
+            Singleton = this;
         }
 
-        void OnTriggerEnter(Collider other)
+        void LateUpdate()
         {
-            Debug.Log(other.gameObject.name + " entered " + gameObject.name + " TriggerBox.");
-            VRSceneItem item = other.GetComponent<VRSceneItem>();
-
-            if (item != null)
+            if(UpdateWeight)
             {
-                item.WeightParent = TradeAbstract.Singleton.PlayerZone;
-                items.Add(item);
+                UpdateTotalWeight();
+                UpdateWeight = false;
+                Debug.Log("Updated!");
             }
-
-            UpdateTotalWeight();
-        }
-
-        public void TriggerExit(Collider other)
-        {
-            Debug.Log(other.gameObject.name + " quitted " + gameObject.name + " TriggerBox.");
-            VRSceneItem item = other.GetComponent<VRSceneItem>();
-
-            if (item != null)
-            {
-                item.WeightParent = null;
-                items.Remove(item);
-            }
-
-            UpdateTotalWeight();
         }
 
         void UpdateTotalWeight()
         {
-            int result = 0;
+            TotalWeight = 0;
 
-            foreach(VRSceneItem item in items)
+            foreach (VRSceneItem item in FindObjectsOfType<VRSceneItem>())
             {
-                result += item.Item.Value;
+                if (item.TouchesGround())
+                {
+                    TotalWeight += item.Item.Value;
+                }
             }
-
-            TotalWeight = result;
 
             TradeAbstract.Singleton.ModifyOffer();
         }
