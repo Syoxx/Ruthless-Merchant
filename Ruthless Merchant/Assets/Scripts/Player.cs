@@ -271,6 +271,7 @@ namespace RuthlessMerchant
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
             }
+            base.Update();
         }
 
         /// <summary>
