@@ -101,7 +101,7 @@ NavMeshSettings:
     agentTypeID: 0
     agentRadius: 0.25
     agentHeight: 2
-    agentSlope: 22.9
+    agentSlope: 42
     agentClimb: 0.75
     ledgeDropHeight: 1
     maxJumpAcrossDistance: 0.7
@@ -113,7 +113,7 @@ NavMeshSettings:
     accuratePlacement: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: b62f2784a94293d4bb9464903cdbdae8, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 3bbeffd7e19ad1a49952c8eebcb8ff10, type: 2}
 --- !u!4 &2674461 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4693657817423062, guid: 7eedd3cecc6144e43b7bb60a6aae6234,
@@ -2499,12 +2499,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 3
+  heroRespawnTime: 30
   isLaneSplitter: 1
   outpostsToFreidenker:
   - {fileID: 206821764}
   - {fileID: 1743170373}
   outpostsToImperialist:
-  - {fileID: 465008957}
+  - {fileID: 465008955}
+  ImperialstHeroPrefab: {fileID: 1087380834860738, guid: fa53f908d0d1b9547bee726aefe54547,
+    type: 2}
+  FreidenkerHeroPrefab: {fileID: 1483694749223856, guid: 549751579c4c97b4dbd108b759209f77,
+    type: 2}
 --- !u!135 &127768076
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3199,11 +3204,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 0
+  heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
   - {fileID: 1147232090}
   outpostsToImperialist:
   - {fileID: 1824281274}
+  ImperialstHeroPrefab: {fileID: 1087380834860738, guid: fa53f908d0d1b9547bee726aefe54547,
+    type: 2}
+  FreidenkerHeroPrefab: {fileID: 1483694749223856, guid: 549751579c4c97b4dbd108b759209f77,
+    type: 2}
 --- !u!135 &176804282
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3531,6 +3541,16 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 40.551178
       objectReference: {fileID: 0}
+    - target: {fileID: 64416362464448306, guid: b75b00f6b84bce2428ed4bd7a6d974e9,
+        type: 2}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 64416362464448306, guid: b75b00f6b84bce2428ed4bd7a6d974e9,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b75b00f6b84bce2428ed4bd7a6d974e9, type: 2}
   m_IsPrefabParent: 0
@@ -3582,12 +3602,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 3
+  heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
   - {fileID: 718740327}
   outpostsToImperialist:
   - {fileID: 127768075}
   - {fileID: 353419443}
+  ImperialstHeroPrefab: {fileID: 1087380834860738, guid: fa53f908d0d1b9547bee726aefe54547,
+    type: 2}
+  FreidenkerHeroPrefab: {fileID: 1483694749223856, guid: 549751579c4c97b4dbd108b759209f77,
+    type: 2}
 --- !u!135 &206821765
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -6134,12 +6159,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 3
+  heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
   - {fileID: 1824281274}
   - {fileID: 206821764}
   outpostsToImperialist:
-  - {fileID: 465008957}
+  - {fileID: 465008955}
+  ImperialstHeroPrefab: {fileID: 1087380834860738, guid: fa53f908d0d1b9547bee726aefe54547,
+    type: 2}
+  FreidenkerHeroPrefab: {fileID: 1483694749223856, guid: 549751579c4c97b4dbd108b759209f77,
+    type: 2}
 --- !u!135 &353419444
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -7018,11 +7048,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 3
+  heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
   - {fileID: 1385670709}
   outpostsToImperialist:
   - {fileID: 1433637721}
+  ImperialstHeroPrefab: {fileID: 1087380834860738, guid: fa53f908d0d1b9547bee726aefe54547,
+    type: 2}
+  FreidenkerHeroPrefab: {fileID: 1483694749223856, guid: 549751579c4c97b4dbd108b759209f77,
+    type: 2}
 --- !u!135 &413411909
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -7550,7 +7585,8 @@ GameObject:
   m_Component:
   - component: {fileID: 465008954}
   - component: {fileID: 465008958}
-  - component: {fileID: 465008957}
+  - component: {fileID: 465008955}
+  - component: {fileID: 465008956}
   m_Layer: 0
   m_Name: CityI
   m_TagString: Untagged
@@ -7576,7 +7612,7 @@ Transform:
   m_Father: {fileID: 2020871391}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &465008957
+--- !u!114 &465008955
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -7584,16 +7620,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 465008953}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 684fed5cdd54e944c933f33b6eb585ec, type: 3}
+  m_Script: {fileID: 11500000, guid: 5a680daa3f5438f40a7f31fac1e55767, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 3
+  heroRespawnTime: 30
   isLaneSplitter: 0
-  outpostsToFreidenker:
+  outpostsToFreidenker: []
+  outpostsToImperialist:
   - {fileID: 353419443}
   - {fileID: 127768075}
   - {fileID: 1433637721}
-  outpostsToImperialist: []
+  ImperialstHeroPrefab: {fileID: 0}
+  FreidenkerHeroPrefab: {fileID: 0}
+  HeroPrefab: {fileID: 4134551698474174, guid: fa53f908d0d1b9547bee726aefe54547, type: 2}
+--- !u!114 &465008956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 465008953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aab33bd80a80f674c9cc112f8bf6e93a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!135 &465008958
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -7604,7 +7655,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.5
+  m_Radius: 3
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &465976348
 Prefab:
@@ -11276,12 +11327,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 0
+  heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
   - {fileID: 1449072390}
   - {fileID: 1147232090}
   outpostsToImperialist:
   - {fileID: 206821764}
+  ImperialstHeroPrefab: {fileID: 1087380834860738, guid: fa53f908d0d1b9547bee726aefe54547,
+    type: 2}
+  FreidenkerHeroPrefab: {fileID: 1483694749223856, guid: 549751579c4c97b4dbd108b759209f77,
+    type: 2}
 --- !u!135 &718740328
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -12411,7 +12467,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 768512492}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 207.23949, y: -241.82932, z: 275.97864}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -16694,11 +16750,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 0
+  heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
   - {fileID: 1449072390}
   outpostsToImperialist:
   - {fileID: 1743170373}
+  ImperialstHeroPrefab: {fileID: 1087380834860738, guid: fa53f908d0d1b9547bee726aefe54547,
+    type: 2}
+  FreidenkerHeroPrefab: {fileID: 1483694749223856, guid: 549751579c4c97b4dbd108b759209f77,
+    type: 2}
 --- !u!135 &961630649
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -18297,7 +18358,7 @@ MonoBehaviour:
   intervall: 100
   count: 6
   nextOutpost: {fileID: 127768075}
-  laneSelectionIndex: 0
+  laneSelectionIndex: 1
   faction: 3
 --- !u!114 &1026001600
 MonoBehaviour:
@@ -20933,12 +20994,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 0
+  heroRespawnTime: 30
   isLaneSplitter: 1
   outpostsToFreidenker:
   - {fileID: 1604447087}
   outpostsToImperialist:
   - {fileID: 176804281}
   - {fileID: 718740327}
+  ImperialstHeroPrefab: {fileID: 1087380834860738, guid: fa53f908d0d1b9547bee726aefe54547,
+    type: 2}
+  FreidenkerHeroPrefab: {fileID: 1483694749223856, guid: 549751579c4c97b4dbd108b759209f77,
+    type: 2}
 --- !u!4 &1147232091
 Transform:
   m_ObjectHideFlags: 0
@@ -21565,7 +21631,6 @@ MonoBehaviour:
   hearDistance: 5
   healthRegPerSec: 0
   capValuePerSecond: 1
-  ActionOutput: 
   Reacting: 0
   fleeDistance: 5
   influenceFraction: 0
@@ -25292,11 +25357,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 0
+  heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
   - {fileID: 1706047207}
   outpostsToImperialist:
   - {fileID: 413411908}
+  ImperialstHeroPrefab: {fileID: 1087380834860738, guid: fa53f908d0d1b9547bee726aefe54547,
+    type: 2}
+  FreidenkerHeroPrefab: {fileID: 1483694749223856, guid: 549751579c4c97b4dbd108b759209f77,
+    type: 2}
 --- !u!135 &1385670710
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -26259,11 +26329,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 3
+  heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
   - {fileID: 413411908}
   outpostsToImperialist:
-  - {fileID: 465008957}
+  - {fileID: 465008955}
+  ImperialstHeroPrefab: {fileID: 1087380834860738, guid: fa53f908d0d1b9547bee726aefe54547,
+    type: 2}
+  FreidenkerHeroPrefab: {fileID: 1483694749223856, guid: 549751579c4c97b4dbd108b759209f77,
+    type: 2}
 --- !u!135 &1433637722
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -26504,12 +26579,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 0
+  heroRespawnTime: 30
   isLaneSplitter: 1
   outpostsToFreidenker:
   - {fileID: 1604447087}
   outpostsToImperialist:
   - {fileID: 718740327}
   - {fileID: 961630648}
+  ImperialstHeroPrefab: {fileID: 1087380834860738, guid: fa53f908d0d1b9547bee726aefe54547,
+    type: 2}
+  FreidenkerHeroPrefab: {fileID: 1483694749223856, guid: 549751579c4c97b4dbd108b759209f77,
+    type: 2}
 --- !u!135 &1449072391
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -26667,6 +26747,12 @@ Prefab:
       propertyPath: m_LocalPosition.z
       value: -0.049
       objectReference: {fileID: 0}
+    - target: {fileID: 114991098099390920, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: itemUIPrefab
+      value: 
+      objectReference: {fileID: 1945718349876518, guid: 32a5b0bcd68386a429f30e72d78509e9,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 44a219676742c784c8cf187979537aa9, type: 2}
   m_IsPrefabParent: 0
@@ -29397,10 +29483,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1604447086}
   - component: {fileID: 1604447088}
+  - component: {fileID: 1604447089}
   - component: {fileID: 1604447087}
+  - component: {fileID: 1604447090}
   m_Layer: 0
   m_Name: CityF
-  m_TagString: Untagged
+  m_TagString: CaptureTrigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29431,16 +29519,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 1604447085}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 684fed5cdd54e944c933f33b6eb585ec, type: 3}
+  m_Script: {fileID: 11500000, guid: 5a680daa3f5438f40a7f31fac1e55767, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 0
+  heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker: []
   outpostsToImperialist:
   - {fileID: 1147232090}
   - {fileID: 1449072390}
   - {fileID: 1706047207}
+  ImperialstHeroPrefab: {fileID: 0}
+  FreidenkerHeroPrefab: {fileID: 0}
+  HeroPrefab: {fileID: 4313464328723756, guid: 549751579c4c97b4dbd108b759209f77, type: 2}
 --- !u!135 &1604447088
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -29451,8 +29543,30 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.5
+  m_Radius: 3
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1604447089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1604447085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aab33bd80a80f674c9cc112f8bf6e93a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1604447090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1604447085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aab33bd80a80f674c9cc112f8bf6e93a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1607112092
 Prefab:
   m_ObjectHideFlags: 0
@@ -30771,11 +30885,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 0
+  heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
   - {fileID: 1604447087}
   outpostsToImperialist:
   - {fileID: 1385670709}
+  ImperialstHeroPrefab: {fileID: 1087380834860738, guid: fa53f908d0d1b9547bee726aefe54547,
+    type: 2}
+  FreidenkerHeroPrefab: {fileID: 1483694749223856, guid: 549751579c4c97b4dbd108b759209f77,
+    type: 2}
 --- !u!135 &1706047208
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -31370,11 +31489,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 3
+  heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
   - {fileID: 961630648}
   outpostsToImperialist:
   - {fileID: 127768075}
+  ImperialstHeroPrefab: {fileID: 1087380834860738, guid: fa53f908d0d1b9547bee726aefe54547,
+    type: 2}
+  FreidenkerHeroPrefab: {fileID: 1483694749223856, guid: 549751579c4c97b4dbd108b759209f77,
+    type: 2}
 --- !u!135 &1743170374
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -32727,11 +32851,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 3
+  heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
   - {fileID: 176804281}
   outpostsToImperialist:
   - {fileID: 353419443}
+  ImperialstHeroPrefab: {fileID: 1483694749223856, guid: 549751579c4c97b4dbd108b759209f77,
+    type: 2}
+  FreidenkerHeroPrefab: {fileID: 1087380834860738, guid: fa53f908d0d1b9547bee726aefe54547,
+    type: 2}
 --- !u!135 &1824281275
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -37172,6 +37301,50 @@ Prefab:
     - target: {fileID: 100000, guid: d2b79dd2029a0874fb449e4b4765a65f, type: 3}
       propertyPath: m_Name
       value: CityImperialist
+      objectReference: {fileID: 0}
+    - target: {fileID: 6400000, guid: d2b79dd2029a0874fb449e4b4765a65f, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6400002, guid: d2b79dd2029a0874fb449e4b4765a65f, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6400004, guid: d2b79dd2029a0874fb449e4b4765a65f, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6400006, guid: d2b79dd2029a0874fb449e4b4765a65f, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6400008, guid: d2b79dd2029a0874fb449e4b4765a65f, type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6400000, guid: d2b79dd2029a0874fb449e4b4765a65f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6400002, guid: d2b79dd2029a0874fb449e4b4765a65f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6400004, guid: d2b79dd2029a0874fb449e4b4765a65f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6400006, guid: d2b79dd2029a0874fb449e4b4765a65f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6400008, guid: d2b79dd2029a0874fb449e4b4765a65f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: d2b79dd2029a0874fb449e4b4765a65f, type: 3}
+      propertyPath: m_TagString
+      value: CaptureTrigger
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d2b79dd2029a0874fb449e4b4765a65f, type: 3}
