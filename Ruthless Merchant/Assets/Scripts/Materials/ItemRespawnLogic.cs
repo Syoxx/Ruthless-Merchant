@@ -54,7 +54,7 @@ namespace RuthlessMerchant
 
         #region Methods
 
-        private void CheckItemsInRadius()
+        private void CheckItemsInSpawners()
         {
             foreach (var item in spawnLocations)
             {
@@ -93,7 +93,7 @@ namespace RuthlessMerchant
         private void OnTimedEvent()
         {
             Debug.Log("time Expired");
-            CheckItemsInRadius();
+            CheckItemsInSpawners();
         }
 
         #endregion
