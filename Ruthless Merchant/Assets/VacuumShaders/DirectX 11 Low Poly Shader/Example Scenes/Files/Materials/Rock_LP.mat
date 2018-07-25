@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Rock_LP
+  m_Shader: {fileID: 4800000, guid: 22c0784a4c40f07449b6fd72ae9e31fe, type: 3}
+  m_ShaderKeywords: V_LP_LIGHT_ON
+  m_LightmapFlags: 5
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 2800000, guid: 047414cbd2e318e41a7d1557a27d36c5, type: 3}
+        m_Scale: {x: 9, y: 9}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap2:
+        m_Texture: {fileID: 2800000, guid: 42c12cb55ddd98245a0b2c96121c8a5a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DisplaceTex_1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DisplaceTex_2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: ee70abda80c0e9d40b7eea01cc96d9b8, type: 3}
+        m_Scale: {x: 9, y: 9}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex2:
+        m_Texture: {fileID: 2800000, guid: d0692a948ca573d4cb0b93ffb1c8a033, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _PixelTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SecondTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BUMP_LABEL: 0
+    - _DisplaceAmplitude: 0.5
+    - _DisplaceBlendType: 1
+    - _DisplaceDirection: 45
+    - _DisplaceFrequency: 0.2
+    - _DisplaceNoiseCoef: -0.5
+    - _DisplaceScriptSynchronize: 0
+    - _DisplaceSpeed: 1
+    - _DisplaceStrength: 1
+    - _DisplaceType: 0
+    - _Dsiplace_LABEL: 0
+    - _FORWARD_RENDERING_LABEL: 0
+    - _LowPolyLightID: 1
+    - _Opacity: 1
+    - _PAPERCRAFT_LABEL: 0
+    - _PIXEL_LABEL: 0
+    - _PaperCrat: 0
+    - _PixelTex_AlphaOffset: 0
+    - _PixelTex_BlendType: 0
+    - _PixelTextureID: 0
+    - _REFLECTION_LABEL: 0
+    - _RENDERING_MODE_LABEL: 0
+    - _SHADER_TYPE_LABEL: 0
+    - _SPECULAR_LABEL: 0
+    - _SamplingType: 0
+    - _SecondTex_AlphaOffset: 0
+    - _SecondTex_BlendType: 0
+    - _SecondTextureID: 0
+    - _VERTEX_LABEL: 0
+    - _V_WIRE_FixedSize: 0
+    - _V_WIRE_Size: 0.5
+    - _VertexColor: 0
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _DisplaceTex_1_Scroll: {r: 0, g: 0, b: 0, a: 0}
+    - _DisplaceTex_2_Scroll: {r: 0, g: 0, b: 0, a: 0}
+    - _MainTex_Scroll: {r: 0, g: 0, b: 0, a: 0}
+    - _PixelTex_Scroll: {r: 0, g: 0, b: 0, a: 0}
+    - _SecondTex_Scroll: {r: 0, g: 0, b: 0, a: 0}
+    - _V_WIRE_Color: {r: 0, g: 0, b: 0, a: 1}
