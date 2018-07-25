@@ -159,8 +159,26 @@ namespace RuthlessMerchant
                 else if (playerTraderOfferDelta < -0.75f)
                     playerTraderOfferDelta = -0.75f;
 
-                weightsPlayerParent.position += new Vector3(0, -weightsPlayerParent.position.y + NeutralPositionY - playerTraderOfferDelta, 0);
-                weightsTraderParent.position += new Vector3(0, -weightsTraderParent.position.y + NeutralPositionY + playerTraderOfferDelta, 0);
+                Vector3 playerDelta = new Vector3(0, -weightsPlayerParent.position.y + NeutralPositionY - playerTraderOfferDelta, 0);
+                Vector3 traderDelta = new Vector3(0, -weightsTraderParent.position.y + NeutralPositionY + playerTraderOfferDelta, 0);
+
+                weightsPlayerParent.position += playerDelta;
+                weightsTraderParent.position += traderDelta;
+
+                VRSceneItem[] VRItems = FindObjectsOfType<VRSceneItem>();
+
+                foreach(VRSceneItem VRItem in VRItems)
+                {
+                    if(VRItem.WeightParent == weightsPlayerParent)
+                    {
+                        VRItem.transform.position += playerDelta;
+                    }
+
+                    else if (VRItem.WeightParent == weightsTraderParent)
+                    {
+                        VRItem.transform.position += traderDelta;
+                    }
+                }
             }
         }
 

@@ -5,6 +5,8 @@ using UnityEngine;
 public class VRSceneItem : MonoBehaviour
 {
     public VRItem Item;
+
+    public Transform WeightParent;
     
     [SerializeField]
     string itemName;

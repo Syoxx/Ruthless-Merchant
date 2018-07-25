@@ -21,8 +21,8 @@ namespace RuthlessMerchant
             Debug.Log(other.gameObject.name + " entered " + gameObject.name + " TriggerBox.");
             VRSceneItem item = other.GetComponent<VRSceneItem>();
 
-            if (other.gameObject.GetComponent<VRSceneItem>() != null)
-                other.gameObject.transform.parent = TradeAbstract.Singleton.weightsPlayerParent;
+            if (item != null)
+                item.WeightParent = TradeAbstract.Singleton.weightsPlayerParent;
 
             if (item != null)
             {
@@ -37,8 +37,8 @@ namespace RuthlessMerchant
             Debug.Log(other.gameObject.name + " quitted " + gameObject.name + " TriggerBox.");
             VRSceneItem item = other.GetComponent<VRSceneItem>();
 
-            if (other.gameObject.GetComponent<VRSceneItem>() != null)
-                other.gameObject.transform.parent = FindObjectOfType<VRTrade>().WeightContent;
+            if (item != null)
+                item.WeightParent = FindObjectOfType<VRTrade>().WeightContent;
 
             if (item != null)
             {
