@@ -3399,6 +3399,7 @@ GameObject:
   m_Component:
   - component: {fileID: 821744239}
   - component: {fileID: 821744238}
+  - component: {fileID: 821744240}
   m_Layer: 0
   m_Name: Trade
   m_TagString: Untagged
@@ -3429,8 +3430,8 @@ MonoBehaviour:
   traderOffer: {fileID: 1750194355}
   nextPlayerOfferText: {fileID: 827700327}
   currentPlayerOfferText: {fileID: 446969456}
-  weightsTraderParent: {fileID: 1221922793}
-  weightsPlayerParent: {fileID: 1531034767}
+  TraderZone: {fileID: 1221922793}
+  PlayerZone: {fileID: 1531034767}
   TradeObjectsParent: {fileID: 821744237}
   defaultValue: 35
   vrTradePlayer: {fileID: 1058094752}
@@ -3455,6 +3456,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &821744240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 821744237}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80f8251b8e359a84ba6c4b7e383219bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetPositionPlayer: 0
+  TargetPositionTrader: 0
+  SpeedModifier: 0.4
+  yFriction: 0.95
+  ySpeedThreshold: 0.01
+  yDeltaThreshold: 0.0025
+  ySpeed: 0
 --- !u!1 &827700325
 GameObject:
   m_ObjectHideFlags: 0
@@ -4467,7 +4486,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1221922793}
-  - component: {fileID: 1221922794}
   m_Layer: 0
   m_Name: TradeZoneTrader
   m_TagString: Untagged
@@ -4494,24 +4512,6 @@ Transform:
   m_Father: {fileID: 821744239}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!114 &1221922794
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1221922792}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80f8251b8e359a84ba6c4b7e383219bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scaleType: 1
-  TargetPosition: 0
-  SpeedModifier: 0.4
-  yFriction: 0.95
-  ySpeedThreshold: 0.075
-  yDeltaThreshold: 0.02
-  ySpeed: 0
 --- !u!1001 &1280077185
 Prefab:
   m_ObjectHideFlags: 0
@@ -5317,7 +5317,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1531034767}
-  - component: {fileID: 1531034768}
   m_Layer: 0
   m_Name: TradeZonePlayer
   m_TagString: Untagged
@@ -5340,24 +5339,6 @@ Transform:
   m_Father: {fileID: 821744239}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!114 &1531034768
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1531034766}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80f8251b8e359a84ba6c4b7e383219bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scaleType: 0
-  TargetPosition: 0
-  SpeedModifier: 0.4
-  yFriction: 0.95
-  ySpeedThreshold: 0.075
-  yDeltaThreshold: 0.02
-  ySpeed: 0
 --- !u!1001 &1576505813
 Prefab:
   m_ObjectHideFlags: 0

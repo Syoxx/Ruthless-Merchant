@@ -42,8 +42,8 @@ namespace RuthlessMerchant
 
         private void Start()
         {
-            weightsPlayer = GetPresentWeights(weightsPlayerParent);
-            weightsTrader = GetPresentWeights(weightsTraderParent);
+            weightsPlayer = GetPresentWeights(PlayerZone);
+            weightsTrader = GetPresentWeights(TraderZone);
 
             for (int x = 0; x < weightsPlayer.Count; x++)
             {
@@ -55,7 +55,7 @@ namespace RuthlessMerchant
             }
 
             TradeObjectsParent.transform.position = Trader.CurrentTrader.gameObject.transform.position;
-            NeutralPositionY = weightsPlayerParent.transform.position.y;
+            NeutralPositionY = PlayerZone.transform.position.y;
 
             enabled = false;
         }

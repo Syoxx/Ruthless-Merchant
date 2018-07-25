@@ -52,9 +52,9 @@ namespace RuthlessMerchant
         [SerializeField]
         protected Text currentPlayerOfferText;
 
-        public Transform weightsTraderParent;
+        public Transform TraderZone;
 
-        public Transform weightsPlayerParent;
+        public Transform PlayerZone;
 
         [SerializeField]
         protected GameObject TradeObjectsParent;
@@ -159,8 +159,8 @@ namespace RuthlessMerchant
                 else if (playerTraderOfferDelta < -0.75f)
                     playerTraderOfferDelta = -0.75f;
 
-                Vector3 playerDelta = new Vector3(0, -weightsPlayerParent.position.y + NeutralPositionY - playerTraderOfferDelta, 0);
-                Vector3 traderDelta = new Vector3(0, -weightsTraderParent.position.y + NeutralPositionY + playerTraderOfferDelta, 0);
+                Vector3 playerDelta = new Vector3(0, -PlayerZone.position.y + NeutralPositionY - playerTraderOfferDelta, 0);
+                Vector3 traderDelta = new Vector3(0, -TraderZone.position.y + NeutralPositionY + playerTraderOfferDelta, 0);
 
                 //weightsPlayerParent.position += playerDelta;
                 //weightsTraderParent.position += traderDelta;
@@ -169,17 +169,9 @@ namespace RuthlessMerchant
 
                 foreach(ScaleMovement scale in scaleMovements)
                 {
-                    if(scale.scaleType == ScaleMovement.ScaleType.Player)
-                    {
-                        scale.TargetPosition = (weightsPlayerParent.position + playerDelta).y;
-                        scale.enabled = true;
-                    }
-
-                    else if (scale.scaleType == ScaleMovement.ScaleType.Trader)
-                    {
-                        scale.TargetPosition = (weightsTraderParent.position + traderDelta).y;
-                        scale.enabled = true;
-                    }
+                    scale.TargetPositionPlayer = (PlayerZone.position + playerDelta).y;
+                    scale.TargetPositionTrader = (TraderZone.position + traderDelta).y;
+                    scale.enabled = true;
                 }
             }
         }

@@ -7,18 +7,12 @@ namespace RuthlessMerchant
 {
     public class ScaleMovement : MonoBehaviour
     {
-        public ScaleType scaleType;
-
-        public enum ScaleType
-        {
-            Player,
-            Trader
-        }
-
         #if UNITY_EDITOR
         [ReadOnly]
         #endif
-        public float TargetPosition;
+        public float TargetPositionPlayer; 
+
+        public float TargetPositionTrader;
 
         public float SpeedModifier = 0.4f;
 
@@ -40,15 +34,12 @@ namespace RuthlessMerchant
         {
             VRItems = FindObjectsOfType<VRSceneItem>();
 
-            if (scaleType == ScaleType.Player)
+            foreach (VRSceneItem VRItem in VRItems)
             {
-                foreach (VRSceneItem VRItem in VRItems)
+                if (VRItem.WeightParent == transform)
                 {
-                    if (VRItem.WeightParent == transform)
-                    {
-                        VRItem.GetComponent<Rigidbody>().useGravity = false;
-                        VRItem.GetComponent<Rigidbody>().isKinematic = true;
-                    }
+                    VRItem.GetComponent<Rigidbody>().useGravity = false;
+                    VRItem.GetComponent<Rigidbody>().isKinematic = true;
                 }
             }
 
@@ -59,23 +50,21 @@ namespace RuthlessMerchant
         {
             Vector3 delta;
 
-            if (Math.Sqrt(Math.Pow(TargetPosition - transform.position.y, 2)) < yDeltaThreshold && Math.Sqrt(Math.Pow(ySpeed, 2)) < ySpeedThreshold)
+            if (Math.Sqrt(Math.Pow(TargetPositionPlayer - TradeAbstract.Singleton.PlayerZone.transform.position.y, 2)) < yDeltaThreshold && Math.Sqrt(Math.Pow(ySpeed, 2)) < ySpeedThreshold)
             {
-                Vector3 temp = transform.position;
-                transform.position += new Vector3(0, -transform.position.y + TargetPosition, 0);
+                Vector3 temp = TradeAbstract.Singleton.PlayerZone.transform.position;
+                TradeAbstract.Singleton.PlayerZone.transform.position += new Vector3(0, -TradeAbstract.Singleton.PlayerZone.transform.position.y + TargetPositionPlayer, 0);
+                TradeAbstract.Singleton.TraderZone.transform.position += new Vector3(0, -TradeAbstract.Singleton.TraderZone.transform.position.y + TargetPositionTrader, 0);
 
-                delta = new Vector3(0, transform.position.y - temp.y, 0);
+                delta = new Vector3(0, TradeAbstract.Singleton.PlayerZone.transform.position.y - temp.y, 0);
 
-                if (scaleType == ScaleType.Player)
+                foreach (VRSceneItem VRItem in VRItems)
                 {
-                    foreach (VRSceneItem VRItem in VRItems)
+                    if (VRItem.WeightParent == TradeAbstract.Singleton.PlayerZone.transform)
                     {
-                        if (VRItem.WeightParent == transform)
-                        {
-                            VRItem.transform.position += delta;
-                            VRItem.GetComponent<Rigidbody>().useGravity = true;
-                            VRItem.GetComponent<Rigidbody>().isKinematic = false;
-                        }
+                        VRItem.transform.position += delta;
+                        VRItem.GetComponent<Rigidbody>().useGravity = true;
+                        VRItem.GetComponent<Rigidbody>().isKinematic = false;
                     }
                 }
 
@@ -83,21 +72,19 @@ namespace RuthlessMerchant
             }
             else
             {
-                ySpeed += (TargetPosition - transform.position.y) * SpeedModifier;
+                ySpeed += (TargetPositionPlayer - TradeAbstract.Singleton.PlayerZone.transform.position.y) * SpeedModifier;
                 ySpeed *= yFriction;
 
                 delta = new Vector3(0, ySpeed, 0);
 
-                transform.position += delta * Time.deltaTime;
+                TradeAbstract.Singleton.PlayerZone.transform.position += delta * Time.deltaTime;
+                TradeAbstract.Singleton.TraderZone.transform.position -= delta * Time.deltaTime;
 
-                if (scaleType == ScaleType.Player)
+                foreach (VRSceneItem VRItem in VRItems)
                 {
-                    foreach (VRSceneItem VRItem in VRItems)
+                    if (VRItem.WeightParent == TradeAbstract.Singleton.PlayerZone.transform)
                     {
-                        if (VRItem.WeightParent == transform)
-                        {
-                            VRItem.transform.position += delta * Time.deltaTime;
-                        }
+                        VRItem.transform.position += delta * Time.deltaTime;
                     }
                 }
             }

@@ -21,18 +21,9 @@ namespace RuthlessMerchant
             Debug.Log(other.gameObject.name + " entered " + gameObject.name + " TriggerBox.");
             VRSceneItem item = other.GetComponent<VRSceneItem>();
 
-            ScaleMovement[] scaleMovements = FindObjectsOfType<ScaleMovement>();
-
             if (item != null)
             {
-                foreach (ScaleMovement scale in scaleMovements)
-                {
-                    if (scale.scaleType == ScaleMovement.ScaleType.Player)
-                    {
-                        item.WeightParent = scale.transform;
-                    }
-                }
-
+                item.WeightParent = TradeAbstract.Singleton.PlayerZone;
                 items.Add(item);
             }
 
@@ -43,8 +34,6 @@ namespace RuthlessMerchant
         {
             Debug.Log(other.gameObject.name + " quitted " + gameObject.name + " TriggerBox.");
             VRSceneItem item = other.GetComponent<VRSceneItem>();
-
-            ScaleMovement[] scaleMovements = FindObjectsOfType<ScaleMovement>();
 
             if (item != null)
             {
