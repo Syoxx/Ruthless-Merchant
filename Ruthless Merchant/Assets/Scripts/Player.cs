@@ -173,7 +173,6 @@ namespace RuthlessMerchant
         public override void Start()
         {
             base.Start();
-
             smithCanvas = GameObject.Find("SmithCanvas");
             alchemyCanvas = GameObject.Find("AlchemyCanvas");
             reputation = GetComponent<Reputation>();
