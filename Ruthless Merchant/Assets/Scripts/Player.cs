@@ -88,6 +88,7 @@ namespace RuthlessMerchant
         [SerializeField, Tooltip("Drag 'InventoryItem' Prefab here.")]
         private GameObject itemInventory;
         private PageLogic bookLogic;
+        private KeyCode currentBookSection;
         #endregion
 
         #region Public Fields
@@ -228,6 +229,7 @@ namespace RuthlessMerchant
                 isGameFocused = false;
             }
 
+            OpenBook(KeyCode.N);
             //inventory.InventoryChanged.AddListener(PopulateInventoryPanel);
         }
 
@@ -392,6 +394,10 @@ namespace RuthlessMerchant
                 {
                     CloseBook();
                 }
+
+                //TODO: check which posts player has unlocked / bought
+                // pass an array with ids of trading posts that should be displayed
+                //UpdateMapCanvas();
 
                 mapObject.SetActive(isUI_Inactive);
                 restrictMovement = isUI_Inactive;
@@ -644,9 +650,7 @@ namespace RuthlessMerchant
                 mapObject.SetActive(false);
             }
 
-            lastKeyPressed = key;
-
-            if (bookCanvas.activeSelf)
+            if (currentBookSection == key)
             {
                 CloseBook();
             }
@@ -655,11 +659,13 @@ namespace RuthlessMerchant
                 bookCanvas.SetActive(true);
                 restrictMovement = !(bookCanvas.activeSelf == false);
                 restrictCamera = !(bookCanvas.activeSelf == false);
+                currentBookSection = key;
             }
         }
 
         private void CloseBook()
         {
+            currentBookSection = KeyCode.None;
             bookCanvas.SetActive(bookCanvas.activeSelf == false);
             lastKeyPressed = KeyCode.Escape;
             restrictMovement = !(bookCanvas.activeSelf == false);
