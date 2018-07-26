@@ -52,6 +52,7 @@ namespace RuthlessMerchant
         {
             if (other.CompareTag("CaptureTrigger"))
             {
+                Debug.Log("Enter: " + CurrentAction == null ? "null" : CurrentAction.ToString());
                 if (CurrentAction == null || CurrentAction is ActionMove || CurrentAction is ActionIdle)
                 {
                     CaptureTrigger trigger = other.GetComponent<CaptureTrigger>();
