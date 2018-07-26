@@ -178,6 +178,7 @@ GameObject:
   - component: {fileID: 223012305344510070}
   - component: {fileID: 114436683052491040}
   - component: {fileID: 114114750574848260}
+  - component: {fileID: 114695997755737990}
   m_Layer: 9
   m_Name: Map_Canvas
   m_TagString: Untagged
@@ -3556,7 +3557,7 @@ MonoBehaviour:
   teleportDestination: {fileID: 0}
 --- !u!114 &114695997755737990
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1211950337581666}
@@ -4746,6 +4747,7 @@ MonoBehaviour:
   recipeUiPrefab: {fileID: 1213390701520696, guid: c3881c4b3762cd34a85b93f25baa7db9,
     type: 2}
   mapObject: {fileID: 1211950337581666}
+  TradingPostParent: {fileID: 0}
   bookCanvas: {fileID: 0}
   itemInventory: {fileID: 1788957934872482, guid: 43c57419776cc404fa67067da0d80d7c,
     type: 2}

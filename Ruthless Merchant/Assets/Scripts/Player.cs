@@ -78,7 +78,10 @@ namespace RuthlessMerchant
         [Space(15)]
         
         [SerializeField, Tooltip("Drag Map_Canvas object here.")]
-        private GameObject mapObject;        
+        private GameObject mapObject;
+
+        [SerializeField, Tooltip("Trading post prefab (.../Prefabs/Trading/TradingPosts)")]
+        private GameObject TradingPostParent;
 
         [Space(10)]
 
@@ -773,6 +776,14 @@ namespace RuthlessMerchant
                         newPanel.GetComponentInChildren<Text>().text = inventory.inventorySlots[i].Item.ItemName;
                     }
             }
+        }
+
+        public void OutpostInteraction(int OutpostIndex)
+        {
+            // TODO: option to unlock fast travel point
+            // requires: outpost receives interaction
+            // if this outpost has no trade point yet:
+            // show confirmation dialogue, restrict movement until OnClick or Esc pressed
         }
 
         public void Craft()
