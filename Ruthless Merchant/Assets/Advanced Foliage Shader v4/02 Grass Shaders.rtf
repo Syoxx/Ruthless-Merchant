@@ -1,0 +1,207 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1344\cocoasubrtf720
+{\fonttbl\f0\fswiss\fcharset0 ArialMT;\f1\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;\red255\green39\blue18;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww14200\viewh16500\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\sl264\slmult1\pardirnatural
+
+\f0\b\fs48 \cf0 AFS Grass Shaders
+\fs36 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\pardirnatural
+
+\b0 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\sl264\slmult1\pardirnatural
+\cf0 The grass shaders will let you place procedurally animated grass on your terrain (using the built in terrain engine) or any arbitrary mesh.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural
+\cf0 Use these shaders on rather small and simple geometry which more or less consists of only some upright oriented planes like common grass or smaller flowers.
+\fs24 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\pardirnatural
+\cf0 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\sl264\slmult1\pardirnatural
+
+\b\fs36 \cf0 Table of Content\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\sl264\slmult1\pardirnatural
+
+\fs24 \cf0 \
+1. The Grass shaders\
+
+\fs12 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\sl264\slmult1\pardirnatural
+
+\b0\fs24 \cf0 1.1. AfsGrassShader v4\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\pardeftab720\ri-2316
+\cf0 1.2. AfsGrassShader Terrain v4\
+1.3. Approximated Translucency
+\b \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\sl264\slmult1\pardirnatural
+\cf0 \
+2. Adding Grass\
+
+\fs12 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\pardirnatural
+
+\b0\fs24 \cf0 2.1. Adding Grass using the terrain engine\
+2.2. Adding manually placed Grass objects
+\b \
+
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\sl264\slmult1\pardirnatural
+
+\b\fs36 \cf0 1. The Grass Shaders
+\fs48 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\sl264\slmult1\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\pardirnatural
+
+\fs24 \cf0 The advanced foliage shader package ships with 2 dedicated grass shaders\'97both giving you advanced bending according to the wind direction and strength defined in the \'84Setup Advanced Foliage Shader\'93 script.\
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\pardirnatural
+
+\b\fs28 \cf0 1.1. AfsGrassShader v4.shader
+\b0\fs24 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\sl264\slmult1\pardirnatural
+
+\b\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\pardirnatural
+
+\i\b0\fs24 \cf0 (AFS/Grass Shader v4)
+\i0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\sl264\slmult1\pardirnatural
+
+\b\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\pardirnatural
+
+\b0\fs24 \cf0 This shader is written for manually placed grass objects and needs the \'84Combine Children AFS\'93 script applied to a parent object of your grass prefabs to give you correct direct and ambient lighting as the  \'84Combine Children AFS\'93 script will bake the underlaying ground\'92s normal to the meshes and add some noise or variation to the coloring.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural
+
+\fs8 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\pardeftab720\ri-2316
+
+\fs24 \cf0 Manually placed grass will receive and cast real time shadows \'96 unless you turn it of in the mesh renderer component or the \'84Combine Children AFS\'93 settings.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\f1\b \cf2 Please note: 
+\f0\b0 Lighting\'97especially ambient lighting based on the skybox\'97will not look 100% accurately in edit mode. So simply hit \'84play\'93 to see the final lighting on the combined mesh.\cf0 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\b \cf0 Shader Inputs\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li559\fi2\ri-2333\pardirnatural
+
+\b\fs24 \cf0 Base (RGB) Alpha (A)
+\b0 \
+Main diffuse texture (RGB) transparency (A)\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\sl264\slmult1\pardirnatural
+\cf0 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\pardeftab720\ri-2316
+
+\b\fs28 \cf0 1.2. AfsGrassShader Terrain v4
+\fs24 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\sl264\slmult1\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\pardeftab720\ri-2316
+
+\i\b0\fs24 \cf0 (hidden shader)
+\i0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\sl264\slmult1\pardirnatural
+
+\b\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\pardeftab720\ri-2316
+
+\b0\fs24 \cf0 This shader replaces the built in \'84waving grass\'93 shader of the terrain engine and allows you to make both manually placed grass and grass placed using the terrain engine perfectly match.\
+Grass placed within the terrain engine will receive real time shadows but not cast any.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\sl264\slmult1\pardirnatural
+
+\b\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\pardeftab720\ri-2316
+
+\b0\fs24 \cf0 Wind for both grass shaders is controlled by the \'84Setup Advanced Foliage Shader\'93 script. Wind settings (except for the \'84Grass Tint\'93) made in the terrain engine inspector will be ignored.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\sl264\slmult1\pardirnatural
+
+\b\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\pardeftab720\ri-2316
+
+\b0\fs24 \cf0 Use \'84Healthy and \'84Dry\'93 Color\'93 just like you are used to but please note that adjusting the alpha values of these colors will influence bending.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\b \cf0 Shader Inputs\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li559\fi2\ri-2333\pardirnatural
+
+\b\fs24 \cf0 Base (RGB) Alpha (A)
+\b0 \
+Main diffuse texture (RGB) transparency (A)\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\sl264\slmult1\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\pardeftab720\ri-2316
+
+\b\fs28 \cf0 1.3. Approximated Translucency
+\fs24 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\sl264\slmult1\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\pardeftab720\ri-2316
+
+\b0\fs24 \cf0 Both grass shaders support approximated translucency which is calculated per vertex based on the view direction (only) and the position and brightness of your \'84sun\'93.\
+So in order to use this feature you have to assign a directional light as sun in the \'84Setup Advanced Foliage Shader\'93 script \'97> \'84Lighting settings\'93. If assigned you may activate approximated translucency by checking the corresponding checkbox in the inspector of the \'84Setup Advanced Foliage Shader\'93 script \'97> \'84Lighting settings\'93.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\sl264\slmult1\pardirnatural
+
+\b\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\pardeftab720\ri-2316
+
+\b0\fs24 \cf0 The translucency color is taken from the "Combined Normal/Translucency/Smoothness map" which you have to assign in the "Setup Advanced Foliage Shader" script \'97> "Terrain Vegetation Settings\'93.\
+Its main function is to store atlased normals, translucency (as simple mask) and smoothness for all foliage placed within the terrain engine. But as all these values are not needed on grass you can simply paint a "true" rgb translucency map for all grass objects. This will let you add completely different translucency colors even on a single object (like a flower: green leaves but red blossom) and not just a single color.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\sl264\slmult1\pardirnatural
+
+\b\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\pardeftab720\ri-2316
+
+\fs24 \cf2 Important:
+\b0  As you should mark "ByPass SRGB Sampling" in the import settings of this texture sampled translucency will look different in gamma and linear color space. You have to adjust the texture manually.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\sl264\slmult1\pardirnatural
+
+\b\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\pardeftab720\ri-2316
+
+\b0\fs24 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\sl264\slmult1\pardirnatural
+
+\b\fs36 \cf0 2. Adding Grass\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\sl264\slmult1\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\pardirnatural
+
+\b\fs24 \cf0 2.1. Adding Grass using the terrain engine\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\sl264\slmult1\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\sl264\slmult1\pardirnatural
+
+\b0\fs24 \cf0 Add your grass meshes to the terrain by choosing \'84Paint Details -> Edit Details -> Add Detail Mesh\'93 in the terrain inspector. Assign the mesh or prefab and make sure you choose \'84Grass\'93 as \'84Render Mode\'93. Then simply start painting.
+\b \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\pardirnatural
+\cf0 \
+2.2. Adding manually placed Grass objects\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\sl264\slmult1\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx11470\ri-2316\pardirnatural
+
+\b0\fs24 \cf0 You may simply drag your grass prefabs to your scene, place, rotate and scale them or use the free 
+\f1 "Geometry Brush AFS" tool: a very nice and handy tool that will help you to manually place any game object onto any terrain or geometry \'96 originally posted by Matt McDonald, Owner, Chief Creative Officer and President of Heavy Water, {\field{\*\fldinst{HYPERLINK "http://www.heavyh2o.com/"}}{\fldrslt www.heavyh2o.com}}, but optimized for the use with the advanced terrain shaders.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2306\sl264\slmult1\pardirnatural
+
+\f0 \cf0 You will find it in the folder: "Scripts [free Addons]".}
