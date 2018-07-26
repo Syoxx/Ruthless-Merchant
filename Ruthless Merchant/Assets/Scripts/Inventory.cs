@@ -351,10 +351,12 @@ namespace RuthlessMerchant
         public int GetNumberOfItems(Item item)
         {
             int amount = 0;
+            if (item == null || inventorySlots != null)
+                return 0;
 
             for (int i = 0; i < maxSlotCount; i++)
             {
-                if (inventorySlots[i].Item)
+                if (i < inventorySlots.Length && inventorySlots[i].Item)
                 {
                     if (inventorySlots[i].Item.ItemName == item.ItemName)
                     {
