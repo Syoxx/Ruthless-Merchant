@@ -3,6 +3,7 @@
 //
 //---------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ namespace RuthlessMerchant
     public class CaptureTrigger : MonoBehaviour
     {
         [SerializeField, Tooltip("Owner of outpost on gamestart")]
-        private Faction owner = Faction.None;
+        protected Faction owner = Faction.None;
         private float captureValue = 0;
 
         private Hero hero;
@@ -21,15 +22,27 @@ namespace RuthlessMerchant
         private Renderer flagRenderer;
         private Renderer mapMarkerRenderer;
 
+        private float elapsedTime;
+        [SerializeField, Tooltip("Indicates the time that is required for a hero to spawn.")]
+        private float heroRespawnTime = 30.0f;
+
         [SerializeField, Tooltip("Indicates whether an army has to split between different lanes")]
         private bool isLaneSplitter = false;
 
         [SerializeField, Tooltip("Indicates the possible next outpost in the direction to the Freidenker city (first item is the default outpost, all other items are optional items for lane splitting or defending)")]
-        private CaptureTrigger[] outpostsToFreidenker;
+        protected CaptureTrigger[] outpostsToFreidenker;
 
         [SerializeField, Tooltip("Indicates the possible next outpost in the direction to the Imperialist city (first item is the default outpost, all other items are optional items for lane splitting or defending)")]
-        private CaptureTrigger[] outpostsToImperialist;
+        protected CaptureTrigger[] outpostsToImperialist;
 
+        [SerializeField]
+        private GameObject ImperialstHeroPrefab = null;
+        [SerializeField]
+        private GameObject FreidenkerHeroPrefab = null;
+
+        private bool isHeroAway = false;
+
+        public event EventHandler OnHeroRemoved;
         public float CaptureValue
         {
             get
@@ -78,9 +91,11 @@ namespace RuthlessMerchant
             {
                 hero = value;
                 if (hero != null)
-                    owner = hero.Faction;
-                else
-                    owner = Faction.None;
+                {
+                    hero.Outpost = this;
+                    hero.AddNewWaypoint(new Waypoint(transform, true, 0), true);
+                    hero.SetCurrentAction(new ActionMove(ActionNPC.ActionPriority.Medium), null, true);
+                }
             }
         }
 
@@ -113,8 +128,16 @@ namespace RuthlessMerchant
             }
         }
 
+        public bool IsHeroAway
+        {
+            get
+            {
+                return isHeroAway;
+            }
+        }
+
         // Use this for initialization
-        void Start()
+        protected virtual void Start()
         {
             capturingUnits = new Dictionary<Faction, int>();
             capturingUnitsList = new List<NPC>();
@@ -123,14 +146,29 @@ namespace RuthlessMerchant
             else if (owner == Faction.Imperialisten)
                 captureValue = 100;
 
+            if (outpostsToFreidenker != null && outpostsToFreidenker.Length > 0 && !(outpostsToFreidenker[0] is CityTrigger))
+            {
+                outpostsToFreidenker[0].OnHeroRemoved += CaptureTriggerF_OnHeroRemoved;
+                if (isLaneSplitter && outpostsToFreidenker.Length > 1 && outpostsToFreidenker[1] != null)
+                    OutpostsToFreidenker[1].OnHeroRemoved += CaptureTriggerF_OnHeroRemoved;
+            }
 
+            if (outpostsToImperialist != null && outpostsToImperialist.Length > 0 && !(outpostsToImperialist[0] is CityTrigger))
+            {
+                outpostsToImperialist[0].OnHeroRemoved += CaptureTriggerI_OnHeroRemoved;
+                if (isLaneSplitter && outpostsToImperialist.Length > 1 && outpostsToImperialist[1] != null)
+                    outpostsToImperialist[1].OnHeroRemoved += CaptureTriggerI_OnHeroRemoved;
+            }
+
+            //Color mapmarker
             Transform mapMarker = transform.Find("MapMarker");
-            if(mapMarker != null)
+            if (mapMarker != null)
             {
                 mapMarkerRenderer = mapMarker.GetComponent<Renderer>();
                 UpdateRendererColor(mapMarkerRenderer);
             }
 
+            //Color Flag
             Transform parentFlag = transform.Find("Flag");
             if (parentFlag != null)
             {
@@ -142,12 +180,109 @@ namespace RuthlessMerchant
                     UpdateRendererColor(flagRenderer);
                 }
             }
+
+            //Spawn Hero
+            SpawnHero();
+        }
+
+        private void SpawnHero()
+        {
+            if (hero == null)
+            {
+                if (owner == Faction.Freidenker)
+                {
+                    GameObject gobj = Instantiate(FreidenkerHeroPrefab, transform);
+                    Hero = gobj.GetComponent<Hero>();
+                }
+                else if (owner == Faction.Imperialisten)
+                {
+                    GameObject gobj = Instantiate(ImperialstHeroPrefab, transform);
+                    Hero = gobj.GetComponent<Hero>();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Outpost in direction to Freidenker lost it's hero
+        /// </summary>
+        /// <param name="sender">Outpost</param>
+        /// <param name="e"></param>
+        protected virtual void CaptureTriggerF_OnHeroRemoved(object sender, EventArgs e)
+        {
+            if (sender != null && sender is CaptureTrigger)
+            {
+                CaptureTrigger outpost = sender as CaptureTrigger;
+                if (outpost.Owner == owner)
+                {
+                    if (owner == Faction.Imperialisten)
+                    {
+                        if (Hero != null && outpost.Hero == null)
+                        {
+                            outpost.Hero = hero;
+                            Hero = null;
+
+                            if (OnHeroRemoved != null)
+                                OnHeroRemoved.Invoke(this, EventArgs.Empty);
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Outpost in direction to Imperialists lost it's hero
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected virtual void CaptureTriggerI_OnHeroRemoved(object sender, EventArgs e)
+        {
+            if (sender != null && sender is CaptureTrigger)
+            {
+                CaptureTrigger outpost = sender as CaptureTrigger;
+                if (outpost.Owner == owner)
+                {
+                    if (owner == Faction.Freidenker)
+                    {
+                        if (Hero != null && outpost.hero == null)
+                        {
+                            outpost.Hero = hero;
+                            Hero = null;
+
+                            if (OnHeroRemoved != null)
+                                OnHeroRemoved.Invoke(this, EventArgs.Empty);
+                        }
+                    }
+                }
+            }
         }
 
         // Update is called once per frame
-        void Update()
+        protected virtual void Update()
         {
-            if (hero == null && capturingUnits != null)
+            Capture();
+            HeroAllocTimer();
+        }
+
+        private void HeroAllocTimer()
+        {
+            if (hero == null)
+            {
+                elapsedTime += Time.deltaTime;
+                if (elapsedTime >= heroRespawnTime)
+                {
+                    if (OnHeroRemoved != null)
+                        OnHeroRemoved.Invoke(this, EventArgs.Empty);
+                }
+            }
+            else
+            {
+                elapsedTime = 0.0f;
+            }
+        }
+
+        private void Capture()
+        {
+            if ((hero == null || isHeroAway) && capturingUnits != null)
             {
                 //int freidenkerCount = capturingUnits.ContainsKey(Faction.Freidenker) ? capturingUnits[Faction.Freidenker] : 0;
                 //int imperialistenCount = capturingUnits.ContainsKey(Faction.Imperialisten) ? capturingUnits[Faction.Imperialisten] : 0;
@@ -155,16 +290,16 @@ namespace RuthlessMerchant
 
                 float capValue = 0;
                 for (int i = 0; i < capturingUnitsList.Count; i++)
-                {                   
-                    if(capturingUnitsList[i].Faction == Faction.Freidenker)
+                {
+                    if (capturingUnitsList[i].Faction == Faction.Freidenker)
                     {
                         capValue -= capturingUnitsList[i].CapValuePerSecond * Time.deltaTime;
                     }
-                    else if(capturingUnitsList[i].Faction == Faction.Imperialisten)
+                    else if (capturingUnitsList[i].Faction == Faction.Imperialisten)
                     {
                         capValue += capturingUnitsList[i].CapValuePerSecond * Time.deltaTime;
                     }
-                    else if(capturingUnitsList[i].Faction == Faction.Monster)
+                    else if (capturingUnitsList[i].Faction == Faction.Monster)
                     {
                         if (captureValue < 0)
                             capValue += capturingUnitsList[i].CapValuePerSecond * Time.deltaTime;
@@ -224,12 +359,22 @@ namespace RuthlessMerchant
         {
             if (other.CompareTag("NPC"))
             {
-                NPC npc = other.GetComponent<NPC>();
-                if (!capturingUnits.ContainsKey(npc.Faction))
-                    capturingUnits.Add(npc.Faction, 0);
+                if (other.transform.GetComponent<Hero>() != null)
+                {
+                    if (hero != null && other.transform == hero.transform)
+                    {
+                        isHeroAway = false;
+                    }
+                }
+                else if (capturingUnits != null)
+                {
+                    NPC npc = other.GetComponent<NPC>();
+                    if (!capturingUnits.ContainsKey(npc.Faction))
+                        capturingUnits.Add(npc.Faction, 0);
 
-                capturingUnitsList.Add(npc);
-                capturingUnits[npc.Faction]++;
+                    capturingUnitsList.Add(npc);
+                    capturingUnits[npc.Faction]++;
+                }
             }
         }
 
@@ -237,14 +382,24 @@ namespace RuthlessMerchant
         {
             if (other.CompareTag("NPC"))
             {
-                NPC npc = other.GetComponent<NPC>();
-                if (capturingUnits.ContainsKey(npc.Faction))
+                if (hero == null || other.transform == hero.transform)
                 {
-                    capturingUnits[npc.Faction]--;
-                    if (capturingUnits[npc.Faction] <= 0)
-                        capturingUnits.Remove(npc.Faction);
+                    isHeroAway = true;
+                }
+            }
+            else if (capturingUnits != null)
+            {
+                if (other.CompareTag("NPC"))
+                {
+                    NPC npc = other.GetComponent<NPC>();
+                    if (capturingUnits.ContainsKey(npc.Faction))
+                    {
+                        capturingUnits[npc.Faction]--;
+                        if (capturingUnits[npc.Faction] <= 0)
+                            capturingUnits.Remove(npc.Faction);
 
-                    capturingUnitsList.Remove(npc);
+                        capturingUnitsList.Remove(npc);
+                    }
                 }
             }
         }

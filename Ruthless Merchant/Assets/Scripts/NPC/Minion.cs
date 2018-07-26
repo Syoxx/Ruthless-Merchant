@@ -119,7 +119,7 @@ namespace RuthlessMerchant
                     }
                 }
 
-                if (possibleTriggers.Count > 0)
+                if(possibleTriggers.Count > 0)
                 {
                     int selectedPath = Random.Range(0, possibleTriggers.Count);
                     AddNewWaypoint(new Waypoint(possibleTriggers[selectedPath].transform, true, 0));

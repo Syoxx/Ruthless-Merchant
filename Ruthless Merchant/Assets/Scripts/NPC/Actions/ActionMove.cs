@@ -47,6 +47,7 @@ namespace RuthlessMerchant
         {
             base.StartAction(parent, other);
             agent = parent.GetComponent<NavMeshAgent>();
+            agent.SetDestination(parent.Waypoints[0].GetPosition());
         }
 
         public override void Update(float deltaTime)
@@ -83,6 +84,7 @@ namespace RuthlessMerchant
             {
                 waypointIndex = 0;
                 parent.CurrentWaypoint = null;
+                parent.SetCurrentAction(new ActionIdle(), null, true);
                 return;
             }
 
