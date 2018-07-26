@@ -173,7 +173,6 @@ namespace RuthlessMerchant
         public override void Start()
         {
             base.Start();
-
             smithCanvas = GameObject.Find("SmithCanvas");
             alchemyCanvas = GameObject.Find("AlchemyCanvas");
             reputation = GetComponent<Reputation>();
@@ -271,6 +270,7 @@ namespace RuthlessMerchant
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
             }
+            base.Update();
         }
 
         /// <summary>
@@ -513,25 +513,8 @@ namespace RuthlessMerchant
             localWorkbench.BreakdownItem(inventory.inventorySlots[itemSlot].Item, Inventory, recipes);
             PopulateWorkbenchPanel();
         }
+     
 
-        private void OnCollisionStay(Collision collision)
-        {
-            
-            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Terrain"))
-            {
-                base.Grounding(true);
-            }
-        }
-
-        private void OnCollisionExit(Collision collision)
-        {
-            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Terrain"))
-            {
-                base.Grounding(false);
-            }
-        }
-
-      
        public void SendInteraction()
        {
            if (Input.GetKeyDown(KeyCode.E))
