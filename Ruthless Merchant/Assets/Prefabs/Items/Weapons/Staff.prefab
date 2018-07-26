@@ -22,6 +22,8 @@ GameObject:
   - component: {fileID: 33857365191614350}
   - component: {fileID: 23176955241951242}
   - component: {fileID: 64452916142770532}
+  - component: {fileID: 114791467242395208}
+  - component: {fileID: 114144005309738694}
   m_Layer: 0
   m_Name: Staff
   m_TagString: Untagged
@@ -98,3 +100,38 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: f697dc34c6a534e418252efb4d00a0f8, type: 3}
+--- !u!114 &114144005309738694
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1866673125733078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da849d998660b964aa1c71df0912cb55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  faction: 0
+  ItemName: 
+  ItemValue: []
+  ItemWeight: 0
+  ItemLore: 
+  ItemSprite: {fileID: 0}
+  ItemType: 0
+  ItemRarity: 0
+  MaxStackCount: 20
+  weaponType: 0
+  Damage: 0
+  DefencePower: 0
+  AttackSpeed: 0
+--- !u!114 &114791467242395208
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1866673125733078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1a2859bd3c9f7b41843846d87b72e3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
