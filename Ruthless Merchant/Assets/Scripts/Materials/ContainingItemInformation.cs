@@ -24,7 +24,6 @@ namespace RuthlessMerchant
         // Update is called once per frame
         void Update()
         {
-
         }
 
         #endregion
@@ -48,7 +47,6 @@ namespace RuthlessMerchant
         {
             if (other.gameObject.tag == itemToSpawn.tag)
             {
-                Debug.Log("Item entering Trigger Zone: " + other.gameObject.name);
                 containingGameObject = other.gameObject;
             }
         }
@@ -57,17 +55,7 @@ namespace RuthlessMerchant
         {
             if (other.gameObject.tag == itemToSpawn.tag)
             {
-                Debug.Log("Item leaving Trigger zone: " + other.gameObject.name);
                 containingGameObject = null;
-            }
-        }
-
-        public void OnTriggerStay(Collider other)
-        {
-            if (other.gameObject.tag == itemToSpawn.tag)
-            {
-                Debug.Log("Item is in Trigger Zone: " + other.gameObject.name);
-                containingGameObject = other.gameObject;
             }
         }
         #endregion

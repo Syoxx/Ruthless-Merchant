@@ -56,6 +56,8 @@ namespace RuthlessMerchant
 
         private void CheckItemsInSpawners()
         {
+            currentlyActiveItems = 0;
+            emptySpawners.Clear();
             foreach (var item in spawnLocations)
             {
                 if (item.GetComponent<ContainingItemInformation>().CheckContainingItem(itemToSpawn))
@@ -70,18 +72,20 @@ namespace RuthlessMerchant
 
                 for (int i = 0; i < nrOfItemsToSpawn; i++)
                 {
-                    SpawnItem(emptySpawners);
+                    emptySpawners = SpawnItem(emptySpawners);
                 }
             }
         }
 
-        private void SpawnItem(List<GameObject> eligableSpawners)
+        private List<GameObject> SpawnItem(List<GameObject> eligableSpawners)
         {
             GameObject[] eligableSpawnersArray = eligableSpawners.ToArray();
             GameObject selectedSpawnLocation = GetSpawnLocation(eligableSpawnersArray);
+            eligableSpawners.Remove(selectedSpawnLocation);
 
             spawnPosition = selectedSpawnLocation.transform;
             spawnedItem = Instantiate(itemToSpawn, spawnPosition.position, UnityEngine.Random.rotation);
+            return eligableSpawners;
         }
 
         public GameObject GetSpawnLocation(GameObject[] spawnArray)
