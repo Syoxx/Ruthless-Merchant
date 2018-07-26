@@ -31,6 +31,9 @@ public class Main_SceneManager : MonoBehaviour
 
     public static void LoadSceneAdditively(string sceneName)
     {
+        if (LoadedScenes == null)
+            LoadedScenes = new List<string>();
+
         LoadedScenes.Add(sceneName);
         SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
     }
