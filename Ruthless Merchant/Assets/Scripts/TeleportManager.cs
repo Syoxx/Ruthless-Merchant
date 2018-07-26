@@ -31,6 +31,5 @@ public class TeleportManager : MonoBehaviour {
         playerScript.Grounding(false);
         positionOfDestination = teleportDestination.transform.position;
         rb.transform.position = positionOfDestination;
-
     }
 }

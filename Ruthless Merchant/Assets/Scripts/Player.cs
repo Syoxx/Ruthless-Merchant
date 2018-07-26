@@ -652,6 +652,7 @@ namespace RuthlessMerchant
             {
                 mapObject.SetActive(false);
             }
+                        
 
             if (currentBookSection == key)
             {

@@ -1,0 +1,606 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1344\cocoasubrtf720
+{\fonttbl\f0\fswiss\fcharset0 ArialMT;\f1\fswiss\fcharset0 Helvetica;\f2\fnil\fcharset0 Monaco;
+}
+{\colortbl;\red255\green255\blue255;\red0\green45\blue153;\red0\green128\blue0;\red255\green39\blue18;
+\red217\green11\blue0;\red0\green0\blue255;\red204\green0\blue203;\red102\green0\blue141;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww14300\viewh16500\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\sl264\slmult1\pardirnatural
+
+\f0\b\fs48 \cf0 Setting up the "SetupAdvancedFoliageShader" script
+\fs36 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b0\fs24 \cf0 \
+
+\fs36 This script passes all needed parameters to the shaders.\
+It must be part of any scene you would like to use the shaders in.\
+As it is a rather simple example of how to set up all parameters you most probably will tweak it to your needs or even replace it with your own script.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\sl264\slmult1\pardirnatural
+
+\b \cf0 Table of Content\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\sl264\slmult1\pardirnatural
+
+\fs24 \cf0 \
+1. Settings\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\sl264\slmult1\pardirnatural
+
+\fs24 \cf0 1.1. Lighting Settings\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\sl264\slmult1\pardirnatural
+
+\fs24 \cf0 1.2. Wind Settings\
+1.2.1. General Wind Settings\
+1.2.2. Wind Settings for Foliage Shaders\
+1.2.3. Wind Settings for Grass Shaders\
+1.2.4. Wind Multipliers for Tree Creator Shaders\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\sl264\slmult1\pardirnatural
+
+\fs24 \cf0 1.3. Rain Settings\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\sl264\slmult1\pardirnatural
+
+\fs24 \cf0 1.4. Terrain Detail Vegetation Settings\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+\cf0 1.4.1. Sync Settings to Terrain\
+1.4.2. Terrain Detail Vegetation Settings\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\sl264\slmult1\pardirnatural
+
+\fs24 \cf0 1.5. Tree and Billboard Render Settings\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+\cf0 1.5.1. Tree and Billboard Render Settings\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\sl264\slmult1\pardirnatural
+
+\fs24 \cf0 1.6. Fog Settings\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\sl264\slmult1\pardirnatural
+
+\fs24 \cf0 1.7. Layer Culling Settings\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\sl264\slmult1\pardirnatural
+
+\fs24 \cf0 1.8. Special Render Settings
+\b \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+\cf0 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b0 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b\fs48 \cf0 1. Settings
+\b0\fs24 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs36 \cf0 1.1. Lighting Settings\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b0\fs24 \cf0 This foldout lets you control the ambient lighting settings used by all shaders provided with the package.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b \cf0 General Lighting Settings
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\fi585\ri-2316\pardirnatural
+
+\b\fs24 \cf0 Sun
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li572\fi13\ri-2316\pardirnatural
+\cf0 Assign the primary directional light of your scene to this slot. This light will be taken as reference when it comes to approximated translucency e.g. in the grass shaders.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b \cf0 Grass Lighting Settings
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\fi585\ri-2316\pardirnatural
+
+\b\fs24 \cf0 Approximate translucency on Grass
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li572\fi13\ri-2316\pardirnatural
+\cf0 Lets you enable or disable approximated translucency in the grass shaders.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li572\fi13\ri-2316\pardirnatural
+\cf2 See: 02 Grass Shaders.rtf for details.\cf0 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b \cf0 Foliage specular Lighting Settings\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs24 \cf0 As the foliage shaders support pretty sharp specular reflections (both direct and indirect) specular highlights might cause very heavy flickering on small or high frequency details like the nettles provided with the package. In order to get around this i have added 2 more features: The first one is texture based\'97prefiltering the roughness texture: See \'84TexturePostprocessor AFS\'93 for details.\
+But as we also might have plants whose geometry is rather small a texture based approach doesn\'92t help us here. So i also added a 2nd feature which lets the shaders fade out all specular lighting according to the distance to the camera:\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\fi585\ri-2316\pardirnatural
+
+\b\fs24 \cf0 Specular Range
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li572\fi13\ri-2316\pardirnatural
+\cf0 Max distance to the camera in which specular lighting will effect any mesh using the foliage shaders.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\fi585\ri-2316\pardirnatural
+
+\b\fs24 \cf0 Specular fade length
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li572\fi13\ri-2316\pardirnatural
+\cf0 Distance over which specular lighting will be faded out.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+\cf0 \
+In fact the shaders will fade the smoothness towards 0 within the given distance.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b \cf0 Tree Lighting Settings\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\fi585\ri-2316\pardirnatural
+
+\b\fs24 \cf0 Lighting Fade Length
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li572\fi13\ri-2316\pardirnatural
+\cf0 Fade length for translucency, point and spot lights as well as real time shadows on mesh trees.\
+As billboards do not support any of the lighting features mentioned above these might be faded in on mesh trees (leaves only) to make the transition between mesh tree and billboard more smooth.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b\fs36 \cf0 1.2. Wind Settings\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b0\fs24 \cf0 All shaders\'97except from the tree shaders\'97need custom wind parameters as the are neither effected by unity\'92s built in wind zones nor the wind settings of the terrain engine.
+\b \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs28 \cf0 1.2.1. General Wind Settings\cf3 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b\fs24 \cf0 Wind Direction (xyz) and Strength (w)
+\b0 \
+xyz define the wind direction\
+w defines the wind strength\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b\fs24 \cf0 Sync Wind Direction to Rotation
+\b0 \
+If checked xyz of the parameter mentioned above will be overwritten so the wind direction matches the given rotation of the transform the script is attached to. You will see a light green arrow in the scene view pointing towards the actual wind direction.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b\fs24 \cf0 Wind Frequency
+\b0 \
+Frequency the wind changes over time.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b \cf4 Please note:
+\b0  Do not change this value at runtime as wind frequency it changed automatically according the the wind strength.\cf0 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b\fs28 \cf0 1.2.2. Wind Settings for Foliage Shaders
+\b0\fs24 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b\fs24 \cf0 Wave Size Foliage
+\b0 \
+The shader adds some variation to the bending taking the vertex position in world space and the "Wave Size Foliage" parameter into account. So smaller wave sizes will add more variety to a given area but also lead to slightly different amounts of bending on each vertex even of a single mesh. This might cause some strange distortion of your models \'96 especially large models.\
+For this reason you should set the "Wave Size" to at least 2 or even 3 times the bounding box size of the largest model.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b\fs24 \cf0 Leaf Turbulence
+\b0 \
+Factor the original frequency of the secondary bending gets multiplied with. It determines the max frequency leaves might bend in when effected by strong winds.\cf4 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\sl264\slmult1\pardirnatural
+\cf4 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b\fs28 \cf0 1.2.3. Wind Settings for Grass Shaders\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs24 \cf0 The wind animation on all meshes using the grass shaders consists of two parts: one low frequent wind animation following the given general wind direction, strength and frequency (main wind, see below) and a rather high frequent animation (wind jitter) which adds some more interesting details to the base animation.
+\b\fs28 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b\fs24 \cf0 Main Wind Strength
+\b0 \
+Factor to make the bending of the grass fit the bending of the foliage.\
+Effects both: grass placed manually and grass placed within the terrain engine.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b\fs24 \cf0 Wind Jitter Wave Size
+\b0 \
+The higher the value the more variety you will get. It effects both: grass placed manually and grass placed within the terrain engine.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b \cf4 Please note:
+\b0  Values above 1.0 might add distortion even to each single grass mesh. So please use this with care.\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b\fs24 \cf0 Wind Jitter Frequency
+\b0 \
+Wind jitter frequency determines the frequency of the second wind animation. \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b\fs24 \cf0 Wind Jitter Amplitude
+\b0 \
+Determines the amplitude of the second wind animation.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\sl264\slmult1\pardirnatural
+\cf4 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b\fs28 \cf0 1.2.4. Wind Multilpliers for Tree Creator Shaders\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b0\fs24 \cf0 In case you want to mix speed tree trees with tree creator trees you will probably come across the problem that speed trees react much more picky to the wind applied using a built in wind zone. So you can use the following parameters to adjust wind bending of all trees using the tree creator shaders.
+\fs28 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b\fs24 \cf0 Primary Bending
+\b0 \
+Multiplier for primary bending\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b\fs24 \cf0 Secondary Bending
+\b0 \
+Multiplier for secondary bending\
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b\fs36 \cf0 1.3. Rain Settings
+\b0\fs24 \cf5 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b\fs24 \cf0 Rain Amount\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b0 \cf0 The advanced foliage shaders will let have physically based wetness which is driven by the rain amount.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b \cf4 Please note:
+\b0  Although it might look quite handy to use this feature to enhance the reflectivity and boost the specular highlights of your plants i would always recommend to adjust their textures instead as rain does not come for free.\
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b\fs36 \cf0 1.4. Terrain Detail Vegetation Settings\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b\fs28 \cf0 1.4.1. Sync Settings to Terrain\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\fi585\ri-2316\pardirnatural
+
+\b\fs24 \cf0 Automatically sync with Terrain\
+
+\b0 If checked the script will automatically grab the needed values from the terrain assigned in:\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\fi585\ri-2316\pardirnatural
+
+\b\fs24 \cf0 Specify Terrain
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li572\fi13\ri-2316\pardirnatural
+\cf0 The terrain the script will grab the needed values from.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\fi585\ri-2316\pardirnatural
+
+\b\fs24 \cf0 Billboard Start
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li572\fi13\ri-2316\pardirnatural
+\cf0 Make it fit your terrain settings: "Billboard Start".\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\fi585\ri-2316\pardirnatural
+
+\b\fs24 \cf0 Grass Fadeout Length
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li572\fi13\ri-2316\pardirnatural
+\cf0 Make it fit your terrain settings: "Detail Distance".\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\fi585\ri-2316\pardirnatural
+
+\b\fs24 \cf0 Grass Waving Tint
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li572\fi13\ri-2316\pardirnatural
+\cf0 Color that will be applied to the manually placed grass using the "no trans" shader.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b\fs28 \cf0 1.4.2. Terrain Detail Vegetation Settings\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b0\fs24 \cf0 In case you place any "detail meshes" onto your terrain and use the "AfsFoliageShader Terrain v4" shader you will have to setup this part of the script.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\f1\b \cf4 Please note: 
+\b0 The shader will be loaded by default and overwrite the built in "vertexLit" shader unless you remove it from your project.
+\f0 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\fi585\ri-2316\pardirnatural
+
+\b\fs24 \cf0 Alpha Cut Off\
+
+\b0 Cut off value for all models placed as "detail mesh" using the built in terrain engine.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\fi585\ri-2316\pardirnatural
+
+\b\fs24 \cf0 Translucency Color
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li572\fi13\ri-2316\pardirnatural
+\cf0 Translucency Color for all models placed as "detail mesh" using the built in terrain engine.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\fi585\ri-2316\pardirnatural
+
+\b\fs24 \cf0 Translucency View Dependency
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li572\fi13\ri-2316\pardirnatural
+\cf0 Translucency view dependency for all models placed as "detail mesh" using the built in terrain engine.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\fi585\ri-2316\pardirnatural
+
+\b\fs24 \cf0 Specular Reflectivity
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li572\fi13\ri-2316\pardirnatural
+\cf0 Please have a look at the "Foliage Shaders" documentation for further details.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\fi585\ri-2316\pardirnatural
+
+\b\fs24 \cf0 Combined Normal/Translucency/Smoothness Map
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li572\fi13\ri-2316\pardirnatural
+\cf0 Assign the combined texture atlas containing the normal, translucency and smoothness maps.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\sl264\slmult1\pardirnatural
+
+\b\fs24 \cf4 Please note:
+\b0  If you want to make changes to these values at runtime you will have to edit the script.\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li572\fi13\ri-2316\pardirnatural
+\cf0 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b\fs36 \cf0 1.5. Tree and Billboard Render Settings\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b\fs28 \cf0 1.5.1. Tree and Billboard Render Settings\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx574\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li560\fi23\ri-2316\pardirnatural
+
+\b\fs24 \cf0 Tint Color\
+
+\b0 Usually tree are simply tinted with black if you set the \'84color variation\'93 > 0 while painting trees.\
+You may replace this color by any one you like using this color field.\
+\pard\tx566\tx574\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li560\fi23\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx574\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li560\fi23\ri-2316\pardirnatural
+
+\b\fs24 \cf0 Align Billboards to Camera\
+
+\b0 If unchecked you will get back the "always upright oriented" billboards. All enhanced fading features for mesh trees (wind, shadows, light) still will be present.\
+\pard\tx566\tx574\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li560\fi23\ri-2316\sl264\slmult1\pardirnatural
+
+\b \cf4 Please note:
+\b0  Using perspectively aligned billboards might look pretty strange within the editor as the script has to pass some parameters from the "current" camera to the shader. In order to give you a correct preview in the "game view" the script will only look for a camera tagged as "MainCamera". All other cameras will be ignored. So if you need a second camera (e. g. for rendering reflections) you will have to update the shader parameters according to the second camera before rendering. Look for the block:\
+\pard\tx566\tx574\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\li560\fi23\ri-2316
+
+\f2 \cf6 Shader\cf0 .SetGlobalVector(\cf7 "_AfsBillboardCameraForward"\cf0 , \cf6 Vector4\cf0 ( CameraForward.x, CameraForward.y, CameraForward.z, \cf7 1\cf0 ));\
+\pard\tx566\tx574\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li560\fi23\ri-2316\sl264\slmult1\pardirnatural
+
+\f0 \cf4 to find out how to set up the needed parameters correctly.\
+\pard\tx566\tx574\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li560\fi23\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx574\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li560\fi23\ri-2316\sl264\slmult1\pardirnatural
+
+\b\fs24 \cf0 	Angle Limit\
+\pard\tx566\tx574\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li560\fi23\ri-2316\pardirnatural
+
+\b0 \cf0 	Defines the angle (when viewed from above) the billboard shader will fade to the "classical" upright oriented billboards in order to reduce distortion artifacts. The standard value is "30".\
+\pard\tx566\tx574\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li560\fi23\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx574\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li560\fi23\ri-2316\pardirnatural
+
+\b\fs24 \cf0 Billboard Fadeout Length\
+
+\b0 Instead of simply culling the billboards beyond the "Tree distance" specified in the terrain settings you may define a length over which the billboards will be smoothly faded out.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b\fs36 \cf0 1.6. Fog Settings\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2316
+
+\b\fs24 \cf0 Disable Fog in all AFS Shaders using the forward path.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2316
+
+\b0 \cf0 Check this if your Camera is set to "deferred" and you use fog as an image effect to prevent foliage from receiving fog twice.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs24 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b\fs36 \cf0 1.7. Layer Culling Settings\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2316
+
+\fs24 \cf0 Layer Culling will help you to enormously optimize performance:\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2316
+
+\f1\fs24 \cf8 "Normally Camera skips rendering of objects that are further away than farClipPlane. You can set up some Layers to use smaller culling distances using layerCullDistances. This is very useful to cull small objects early on, if you put them into appropriate layers."\
+\'96\'96 http://docs.unity3d.com/Documentation/ScriptReference/Camera-layerCullDistances.html
+\f0 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2316
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+\cf0 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2316
+
+\b\fs24 \cf0 Enable Layer Culling\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2316
+
+\b0 \cf0 If checked Camera Layer Culling is enabled. Changes will only be performed "On Start". 
+\f2 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\f0\fs12 \cf0 \
+\pard\tx0\tx536\tx556\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li580\fi-19\ri-2316\pardirnatural
+
+\b\fs24 \cf0 	Small Detail Distance\
+
+\b0 	Distance at which all game objects placed on layer 8 will be culled. Changes will only be performed "On Start".\
+	Make sure all objects that should be culled at this distance are put to \'84User Layer 8\'93. \
+
+\fs12 \
+
+\b\fs24 	Medium Detail Distance\
+
+\b0 	Distance at which all game objects placed on layer 9 will be culled. Changes will only be performed "On Start".\
+	Make sure all objects that should be culled at this distance are put to \'84User Layer 9\'93.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2316
+\cf0 Using Layer Culling is especially important on manually placed grass as it will fade out according to the detail distance but unlike grass placed using the terrain engine it will not be culled or skipped! Even if it is not visible any more all vertices will be sent to the gpu and processed unless you put all grass objects into a special layer and enable layer culling for this.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs24 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b\fs36 \cf0 1.8. Special Render Settings\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2316\pardirnatural
+
+\fs24 \cf0 Next to passing the custom settings the script will also configure the "AfsGrassShader v4" shader:\
+In edit mode it tells the shader to use the model\'92s rotation to simulate ground lighting.\
+In play mode, when ground normals have been baked into the meshes, the script makes the shaders using those to lit the models.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2316
+
+\b \cf0 All Grass Objects Combined
+\f2\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2316\pardirnatural
+
+\f0 \cf0 If you have all grass objects combined statically you can tick this check box so lighting will be correct even in the editor.\
+}

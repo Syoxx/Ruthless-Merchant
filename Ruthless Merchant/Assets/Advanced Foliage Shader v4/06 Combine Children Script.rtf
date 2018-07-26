@@ -1,0 +1,404 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1344\cocoasubrtf720
+{\fonttbl\f0\fswiss\fcharset0 ArialMT;\f1\fnil\fcharset0 Monaco;}
+{\colortbl;\red255\green255\blue255;\red255\green39\blue18;\red14\green14\blue14;\red255\green83\blue8;
+\red217\green11\blue0;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww18900\viewh16500\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\sl264\slmult1\pardirnatural
+
+\f0\b\fs48 \cf0 Combine Children AFS Script
+\fs36 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b0\fs24 \cf0 \
+
+\fs36 This script will bake all needed information needed by the grass shader into the meshes and/or simply combine all child objects saving you a lot of draw calls and overhead.\
+It also bakes variation into meshes using the foliage shaders so it improves rendering speed and visual fidelity.\
+
+\fs24 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\sl264\slmult1\pardirnatural
+
+\b\fs36 \cf0 Table of Content\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\sl264\slmult1\pardirnatural
+
+\fs24 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+\cf0 1. CombineChildrenAFS Script\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\fs24 \cf0 1.1. Parameters\
+1.2. Clusters\
+1.3. Realign Objects\
+1.4. Combine statically\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b\fs24 \cf0 2. FAQ\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b0 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b\fs48 \cf0 1. CombineChildrenAFS Script
+\b0\fs24 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\sl264\slmult1\pardirnatural
+
+\b\fs12 \cf2 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320
+
+\b0\fs24 \cf3 The "\cf0 AfsGrassShader v4\'93 shader needs the information about the normal of the underlaying geometry or terrain.\
+For this reason you have to use the "CombineChildrenAFS Script" which will bake the ground normal to the meshes of the models using this shaders.\
+\cf3 As the script also combines all meshes it speeds up rendering: It drops a lot of overhead as there will only be one single game object left and makes sure that all children will be rendered in just one draw call.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\sl264\slmult1\pardirnatural
+
+\b\fs12 \cf2 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\sl264\slmult1\pardirnatural
+
+\fs24 \cf2 Important:
+\b0  If you want to place vegetation \'96 be it grass or anything else \'96 on top of arbitrary geometry that geometry must have a collider attached. Otherwise the script will not be able to calculate the ground normal.\
+
+\b Important:
+\b0  Now you can place objects using the grass shader and objects using the foliage shader as child object under the same script! If the script detects several materials it will create several child objects: one per material.\
+
+\b Important:
+\b0  If you want to use the CombineChildren script none of the child objects must be marked as \'84static\'93.\cf4 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320
+\cf3 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b\fs36 \cf0 1.1. Parameters
+\b0\fs24 \cf3 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\sl264\slmult1\pardirnatural
+
+\b\fs12 \cf2 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\fs24 \cf0 Max Ground Distance\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b0 \cf0 Max distance in which the script looks for any collider to sample the ground normal from.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\sl264\slmult1\pardirnatural
+
+\b\fs12 \cf2 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\fs24 \cf0 Underlaying Terrain\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b0 \cf0 If you place the objects of the cluster (all or just a few of them) on top of a terrain you will have to assign the according terrain in order to make lighting fit 100% the terrain lighting.\
+Doing so will force the script to sample the ground normal not using the normal detected by ray casting whenever the terrain is hit. It will use the normal sampled from the given terrain using the "GetInterpolatedNormal" function instead. Only this will make objects using the "Advanced Grass Shader" blend seamlessly with grass placed within the terrain engine.\
+In case all objects of the cluster are placed on top of arbitrary geometry you do not have to assign any terrain.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b \cf0 Grass Shader Settings\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320
+
+\b\fs24 \cf0 	Healthy Color\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li573\fi-574\ri-2320\pardirnatural
+
+\b0 \cf0 	If you use the advanced grass shader you can bake healthy and dry colors to the meshes just like you know from the terrain engine.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320
+
+\b\fs24 \cf0 	Dry Color\
+\pard\tx0\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li562\fi-563\ri-2320\pardirnatural
+
+\b0 \cf0 	If you use the advanced grass shader you can bake healthy and dry colors to the meshes just like you know from the terrain engine.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320
+
+\b\fs24 \cf0 	Noise Spread\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li569\fi-15\ri-2320\pardirnatural
+
+\b0 \cf0 	This controls the blending between healthy and dry color. Larger values will give you more variety on smaller clusters.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320
+
+\b \cf0 Foliage Shader Settings\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320
+
+\b\fs24 \cf0 	Random Brightness\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li553\fi1\ri-2320\pardirnatural
+
+\b0 \cf0 Max. amount of random brightness that will be added to each child object. Lets you create a bit more variety in shading.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320
+
+\b\fs24 \cf0 	Random Pulse\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li560\fi1\ri-2320\pardirnatural
+
+\b0 \cf0 Max. amount of random pulse value that will be added to each child object. Lets you create a bit more variety as far as the secondary bending is concerned.\cf5 \
+\cf0 In case you use UV4 it will also add variation to primary bending per child object.
+\fs12 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320
+
+\b\fs24 \cf0 	Random Bending\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li560\fi1\ri-2320\pardirnatural
+
+\b0 \cf0 Max. amount of random bending value that will be added to each child object.\
+Think of it as if it was some kind of stiffness: So random bending set to 1.0 might cause some plants to not bend at all.
+\fs12 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320
+
+\b\fs24 \cf0 	Random Fluttering\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\b0 \cf0 	Max. amount of random fluttering value that will be added to each child object.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320
+
+\b\fs24 \cf0 	Noise Spread\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\li554\fi11\ri-2320\pardirnatural
+
+\b0 \cf0 	This controls the variation of all random values. Larger values will give you more variety on smaller clusters.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320
+
+\b\fs24 \cf0 	Bake Scale\
+\pard\tx566\tx568\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\li562\fi6\ri-2320\pardirnatural
+
+\b0 \cf0 If scale is baked to the combined mesh larger instances will get more bending whereas smaller instances will get less.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\b \cf0 Cast Shadows
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+\cf0 Shall the combined mesh cast shadows?\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b\fs24 \cf0 Destroy Children\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b0 \cf0 Shall Child objects be destroyed? Usually yes as they do not have any colliders attached. All that we need is the mesh!\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\sl264\slmult1\pardirnatural
+
+\b \cf2 Important:
+\b0  If checked all children will be destroyed when you hit "Combine statically". You wont be able to edit them any more.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b\fs24 \cf0 Use Lightprobes\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b0 \cf0 Check this if you want to use lightprobes on the combined mesh.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\sl264\slmult1\pardirnatural
+
+\b \cf2 Please note:
+\b0  There will be only one (most likely lerped) lightprobe applied to the whole combined mesh.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320
+
+\b\fs24 \cf0 Debug sampled Ground Normals
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+\cf0 Check this if you would like to see which normal is baked to which object.\
+Red lines will show the sampled normal by ray casting, green lines will show the range in which the scripts searches for a collider.\
+If you have assigned a terrain to the script and the mesh collides with this terrain you will see blue colored normals next to the red ones showing the normals sampled from the terrain using the "GetInterpolatedNormal" function.
+\f1 \
+
+\f0 If no collider is found within the given range a standard vector.up is displayed (and applied). This will be colored in yellow.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\b \cf0 Realign Ground Max Distance\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b0 \cf0 Max distance in which the script looks for any collider in case you use the "Realign Objects" function.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320
+
+\b\fs24 \cf0 Force Realignment
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+\cf0 If checked the script will search for the nearest collider looking from above the current object's position when using the "Realign Objects" function even if it is already aligned perfectly.\
+Use this in case you want to make your objects being aligned to a collider which is above the collider they are currently attached to.\
+If you want to make your objects being attached to a collider below the current one simply deactivate the upper collider when using the "Realign Objects" script.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320
+
+\b\fs24 \cf0 Realignment Objects
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+\cf0 See: 1.3 for details.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320
+
+\b\fs24 \cf0 Combine statically
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+\cf0 See: 1.4 for details.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320
+
+\b\fs24 \cf0 Create unique UV2 (needed by lightmapper)
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+\cf0 Check this if you want to bake lightmaps for your plants. UV2 will only be generated if you hit \'84combine statically\'93.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320
+
+\b\fs24 \cf0 Has been statically combined
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+\cf0 Will be checked by the script automatically if you combine the children statically. The script will still be present but not do anything on startup if checked.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b\fs36 \cf0 1.2. Clusters
+\b0\fs24 \
+When talking about "creating small clusters" it is important that you keep in mind that all afs shaders use the forward pass even if your camera is set to "deferred lighting": They have use forward lighting as deferred lighting does not support translucency.\
+So all vertices and faces of the cluster may have to be rendered multiple times \'96 depending on the number of lights \'96 no matter if they are visible or not.\
+You have to find the right balance between fill rate and the number of draw calls: If you have a very dense vegetation it might be better to have smaller clusters so none visible clusters will be completely culled whereas when you have only a few objects per cluster the wasted calculation on invisible triangles might cost less than invoking another draw call.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\sl264\slmult1\pardirnatural
+
+\b \cf2 Please note:
+\b0  Lightprobes!!!!! \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b\fs36 \cf0 1.3. Realign objects\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b0\fs24 \cf0 If you apply any changes to your terrain or the underlaying geometry you can automatically realign all objects according to those changes.
+\b\fs36 \
+
+\b0\fs24 In order to do so choose "Realign Objects" from the "gear-wheel" dropdown in the upper right corner of the script or use the button at the bottom of the custom editor.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\sl264\slmult1\pardirnatural
+
+\b \cf2 Please note:
+\b0  You will probably have several colliders layered on top of each other in your scene \'96 like a terrain and some geometry above.\
+This might lead to problems when realigning the objects: They could change from being aligned to the first to being aligned to the second collider if  the "Realign Ground Max Distance" is too big. Adjust this parameters or simply deactivate those colliders which you do not want to check against when using the "Realign Objects" script.
+\b\fs36 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+\cf0 \
+1.4. Combine statically\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b0\fs24 \cf0 When done with your work on the scene you can combine all submeshes statically so they will not be combined at start anymore.\
+In order to do so choose "combine now" from the "gear-wheel" dropdown in the upper right corner of the script or use the button at the bottom of the custom editor.\
+Mark the game object as "static" afterwards in order to enable static batching. \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\sl264\slmult1\pardirnatural
+
+\b \cf2 Important:
+\b0  If "Destroy Children\'93 is checked all child objects will also be destroyed when choosing "combine now".\
+
+\b Important: 
+\b0 You will not see baked vertex colors (like dry and healthy colors) unless you hit "play" or mark "All Grass objects combined" in the setup script, as the shader does not take those into account in edit mode.\
+
+\b Important: 
+\b0 In order to make GI work on the combined mesh you have to combine it statically.\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+\cf0 Make sure you have chosen an appropriate layer in order to take advantage of early culling.\
+If you have statically combined all objects using the advanced grass shader you may check "All Grass Objects Combined" in the "Setup Advanced Foliage Shader" script, This will make the grass shader always render as it does in play mode.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\sl264\slmult1\pardirnatural
+
+\b \cf2 Important:
+\b0  Plants which have touch bending attached may NOT be combined. Use static batching on those to speed up rendering.\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+\cf0 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b\fs48 \cf0 2. FAQ\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b0\fs24 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320
+
+\b \cf0 2.1. Lighting of grass or plants seems to be wrong. They are too bright or to dark. What can I do?\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\b0 \cf0 Reason for this will probably be the "wrong" sampled ground normal. Depending on your scene and settings the "CombineChildrenAFS" Script might not find what you consider the right ground normal but a normal from any collider above or below your ground.\
+The script assumes that your grass or plant prefabs intersect with the ground and that their pivots are just a little bit below or above the ground.\
+It looks for any collider within the "Ground Max Distance".\
+\
+Start checking the sampled normals by activating "Debug Normals" in the script settings.\
+If the normals do not look correct you might:\
+- reposition your grass or plant objects\
+- adjust the "Ground Max Distance" parameter of the script\
+Make sure that your "ground" has a collider attached.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320
+
+\b \cf0 2.2. Some of my grass or plant objects disappear in play mode. What is wrong?\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\b0 \cf0 If you use the "CombineChildrenAFS" Script make sure that all child objects and the parent are NOT marked as static.\
+If you use unity 4 there might be animation components attached to the prefabs for unity 4 ignores some import settings made in unity 3 - like "Animations: do not import".\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320
+\cf0 So in case any prefab has an animation component attached please remove it.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320
+
+\b \cf0 2.3. Whenever i hit "play" grass gets black. What is wrong?\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\b0 \cf0 Make sure that the "CombineChildrenAFS" Script it attached and enabled on the parent object of your grass instances as whenever you enter the playmode the shader changes lighting and assumes that the ground normals are baked into the regular mesh \'96 which is done by the "CombineChildrenAFS" Script.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\b \cf0 2.4 I have combined grass statically but i do not see any dry and healthy colors. What is wrong?\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\sl264\slmult1\pardirnatural
+
+\b0 \cf0 You will not see baked vertex colors (like dry and healthy colors) unless you hit "play" or mark "All Grass objects combined" in the setup script, as the shader does not take those into account in edit mode.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2320\pardirnatural
+
+\b \cf0 2.5 I get errors in the console. What is wrong?
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\sl264\slmult1\pardirnatural
+\cf0 If the console throws an error like this:\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\sl264\slmult1\pardirnatural
+\cf2 Not allowed to call GetTriangles() on mesh 'Combined Mesh (root: scene)'\cf0 \
+you have most likely marked one of the objects that should get combine as \'84static\'93.\
+Please make sure that none of the children is marked as \'84static\'93.\
+}
