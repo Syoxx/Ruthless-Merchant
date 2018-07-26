@@ -30,6 +30,10 @@ public class MapSystem : MonoBehaviour {
                 MapButtons.Add(MapElement.GetChild(1).GetComponent<Button>());
                 //Debug.Log(mapElement.name);
             }
+            else if (MapElement.GetChild(0).GetComponent<Button>() != null) // incase buttons are not at the expected index in MapElement
+            {
+                MapButtons.Add(MapElement.GetChild(0).GetComponent<Button>());
+            }
         }
 
         for (int buttonIndex = 0; buttonIndex < MapButtons.Count; buttonIndex++)
@@ -38,9 +42,11 @@ public class MapSystem : MonoBehaviour {
         }
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
+	// Updates map elements
+	public void RefreshMapCanvas ()
+    {
+		// iterate through array
+        // if != null, activate button at the index given 
 	}
     #endregion
 }

@@ -41,6 +41,7 @@ namespace RuthlessMerchant
         private GameObject itemsContainer;
         private ControlMode controlMode = ControlMode.Move;
         private Reputation reputation;
+        private MapSystem mapLogic;
         int currenRecipe;
         private Recipes recipes;
         GameObject smithCanvas;
@@ -209,6 +210,8 @@ namespace RuthlessMerchant
             //BookLogic instantiate
             bookLogic = new PageLogic();
             bookLogic.GeneratePages();
+
+            mapLogic = mapObject.GetComponent<MapSystem>();
             
             inventory.BookLogic = bookLogic;
             inventory.ItemUIPrefab = itemInventory;
@@ -397,7 +400,7 @@ namespace RuthlessMerchant
 
                 //TODO: check which posts player has unlocked / bought
                 // pass an array with ids of trading posts that should be displayed
-                //UpdateMapCanvas();
+                mapLogic.RefreshMapCanvas();
 
                 mapObject.SetActive(isUI_Inactive);
                 restrictMovement = isUI_Inactive;
