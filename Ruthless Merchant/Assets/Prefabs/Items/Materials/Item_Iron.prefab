@@ -23,9 +23,12 @@ GameObject:
   - component: {fileID: 23238552295522254}
   - component: {fileID: 114749802264329584}
   - component: {fileID: 114684370248330746}
-  m_Layer: 0
+  - component: {fileID: 114629202396818172}
+  - component: {fileID: 65052012081064950}
+  - component: {fileID: 54246244520040734}
+  m_Layer: 13
   m_Name: Item_Iron
-  m_TagString: Untagged
+  m_TagString: Iron
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -85,6 +88,44 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1012216513785564}
   m_Mesh: {fileID: 4300000, guid: 1463f7ccb0a881d498c99fa90bd6e6a7, type: 3}
+--- !u!54 &54246244520040734
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1012216513785564}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &65052012081064950
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1012216513785564}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.26577777, y: 0.08549807, z: 0.058994245}
+  m_Center: {x: -0.000000014901161, y: 0.008522302, z: 0.034637924}
+--- !u!114 &114629202396818172
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1012216513785564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e614d419f3c56c745bca2731e8a6dba5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114684370248330746
 MonoBehaviour:
   m_ObjectHideFlags: 1
