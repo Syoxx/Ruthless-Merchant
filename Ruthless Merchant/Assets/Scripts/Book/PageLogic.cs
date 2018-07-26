@@ -195,7 +195,7 @@ public class PageLogic : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R) || Player.lastKeyPressed == KeyCode.R)
         {
-            myBook.CurrentPaper = 17;
+            myBook.CurrentPaper = 16;
             Player.lastKeyPressed = KeyCode.None;
         }
     }
@@ -341,7 +341,7 @@ public class PageLogic : MonoBehaviour
     {
         if (couritineIsFinished)
         {
-            int neededPage = 17;
+            int neededPage = 16;
             CheckPageLocation(neededPage);
         }
     }

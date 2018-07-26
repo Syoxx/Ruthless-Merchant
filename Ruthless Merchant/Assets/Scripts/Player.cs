@@ -88,6 +88,7 @@ namespace RuthlessMerchant
         [SerializeField, Tooltip("Drag 'InventoryItem' Prefab here.")]
         private GameObject itemInventory;
         private PageLogic bookLogic;
+        private KeyCode currentBookSection;
         #endregion
 
         #region Public Fields
@@ -646,7 +647,7 @@ namespace RuthlessMerchant
             }
                         
 
-            if (lastKeyPressed == key)
+            if (currentBookSection == key)
             {
                 CloseBook();
             }
@@ -655,11 +656,13 @@ namespace RuthlessMerchant
                 bookCanvas.SetActive(true);
                 restrictMovement = !(bookCanvas.activeSelf == false);
                 restrictCamera = !(bookCanvas.activeSelf == false);
+                currentBookSection = key;
             }
         }
 
         private void CloseBook()
         {
+            currentBookSection = KeyCode.None;
             bookCanvas.SetActive(bookCanvas.activeSelf == false);
             lastKeyPressed = KeyCode.Escape;
             restrictMovement = !(bookCanvas.activeSelf == false);
