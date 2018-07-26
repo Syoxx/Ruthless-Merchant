@@ -96,7 +96,6 @@ namespace RuthlessMerchant
 
         private void OnTimedEvent()
         {
-            Debug.Log("time Expired");
             CheckItemsInSpawners();
         }
 
