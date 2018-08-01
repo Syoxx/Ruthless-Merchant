@@ -82,7 +82,7 @@ namespace RuthlessMerchant
 
         public void ConfirmTradeItems()
         {
-            Trade.Singleton.Initialize(int.Parse(price.text));
+            TradeAbstract.Singleton.Initialize(int.Parse(price.text));
             GameObject.Find("UICanvas").SetActive(false);
             Player.RestrictCamera = false;
         }
