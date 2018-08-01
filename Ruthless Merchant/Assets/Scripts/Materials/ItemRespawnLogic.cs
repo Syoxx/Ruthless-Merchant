@@ -24,6 +24,9 @@ namespace RuthlessMerchant
         [SerializeField]
         private GameObject[] spawnLocations;
 
+        [SerializeField]
+        private float quatX, quatY, quatZ, quatW;
+
         private Transform spawnPosition;
         private GameObject spawnedItem;
         private static System.Random rnJesus = new System.Random();
@@ -84,7 +87,7 @@ namespace RuthlessMerchant
             eligableSpawners.Remove(selectedSpawnLocation);
 
             spawnPosition = selectedSpawnLocation.transform;
-            spawnedItem = Instantiate(itemToSpawn, spawnPosition.position, UnityEngine.Random.rotation);
+            spawnedItem = Instantiate(itemToSpawn, spawnPosition.position, new Quaternion(quatX, quatY, quatZ, quatW)); // UnityEngine.Random.rotation);
             return eligableSpawners;
         }
 
