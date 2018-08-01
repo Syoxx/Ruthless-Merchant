@@ -11,6 +11,7 @@ namespace RuthlessMerchant
 
         public override void Start()
         {
+
         }
 
         public override void Update()
