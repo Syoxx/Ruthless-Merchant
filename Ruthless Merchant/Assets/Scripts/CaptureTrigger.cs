@@ -136,6 +136,14 @@ namespace RuthlessMerchant
             }
         }
 
+        public bool IsUnderAttack
+        {
+            get
+            {
+                return capturingUnits.Count > 1;
+            }
+        }
+
         // Use this for initialization
         protected virtual void Start()
         {
@@ -191,12 +199,12 @@ namespace RuthlessMerchant
             {
                 if (owner == Faction.Freidenker)
                 {
-                    GameObject gobj = Instantiate(FreidenkerHeroPrefab, transform);
+                    GameObject gobj = Instantiate(FreidenkerHeroPrefab, transform.position, Quaternion.identity, transform);
                     Hero = gobj.GetComponent<Hero>();
                 }
                 else if (owner == Faction.Imperialisten)
                 {
-                    GameObject gobj = Instantiate(ImperialstHeroPrefab, transform);
+                    GameObject gobj = Instantiate(ImperialstHeroPrefab, transform.position, Quaternion.identity, transform);
                     Hero = gobj.GetComponent<Hero>();
                 }
             }
@@ -291,20 +299,23 @@ namespace RuthlessMerchant
                 float capValue = 0;
                 for (int i = 0; i < capturingUnitsList.Count; i++)
                 {
-                    if (capturingUnitsList[i].Faction == Faction.Freidenker)
+                    if (capturingUnitsList[i] != null)
                     {
-                        capValue -= capturingUnitsList[i].CapValuePerSecond * Time.deltaTime;
-                    }
-                    else if (capturingUnitsList[i].Faction == Faction.Imperialisten)
-                    {
-                        capValue += capturingUnitsList[i].CapValuePerSecond * Time.deltaTime;
-                    }
-                    else if (capturingUnitsList[i].Faction == Faction.Monster)
-                    {
-                        if (captureValue < 0)
-                            capValue += capturingUnitsList[i].CapValuePerSecond * Time.deltaTime;
-                        else if (captureValue > 0)
+                        if (capturingUnitsList[i].Faction == Faction.Freidenker)
+                        {
                             capValue -= capturingUnitsList[i].CapValuePerSecond * Time.deltaTime;
+                        }
+                        else if (capturingUnitsList[i].Faction == Faction.Imperialisten)
+                        {
+                            capValue += capturingUnitsList[i].CapValuePerSecond * Time.deltaTime;
+                        }
+                        else if (capturingUnitsList[i].Faction == Faction.Monster)
+                        {
+                            if (captureValue < 0)
+                                capValue += capturingUnitsList[i].CapValuePerSecond * Time.deltaTime;
+                            else if (captureValue > 0)
+                                capValue -= capturingUnitsList[i].CapValuePerSecond * Time.deltaTime;
+                        }
                     }
                 }
 
@@ -355,6 +366,30 @@ namespace RuthlessMerchant
             }
         }
 
+
+        public Transform GetClosestAttacker(NPC npc)
+        {
+            float minDistance = float.MaxValue;
+            Transform closestEnemey = null;
+            for (int i = 0; i < capturingUnitsList.Count; i++)
+            {
+                if (capturingUnitsList[i] != null)
+                {
+                    if (capturingUnitsList[i].Faction != npc.Faction)
+                    {
+                        float tempDist = Vector3.Distance(capturingUnitsList[i].transform.position, transform.position);
+                        if (tempDist < minDistance)
+                        {
+                            minDistance = tempDist;
+                            closestEnemey = capturingUnitsList[i].transform;
+                        }
+                    }
+                }
+            }
+
+            return transform;
+        }
+
         public void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("NPC"))
@@ -386,19 +421,20 @@ namespace RuthlessMerchant
                 {
                     isHeroAway = true;
                 }
-            }
-            else if (capturingUnits != null)
-            {
-                if (other.CompareTag("NPC"))
-                {
-                    NPC npc = other.GetComponent<NPC>();
-                    if (capturingUnits.ContainsKey(npc.Faction))
-                    {
-                        capturingUnits[npc.Faction]--;
-                        if (capturingUnits[npc.Faction] <= 0)
-                            capturingUnits.Remove(npc.Faction);
 
-                        capturingUnitsList.Remove(npc);
+                if (hero == null || other.transform != hero.transform)
+                {
+                    if (capturingUnits != null)
+                    {
+                        NPC npc = other.GetComponent<NPC>();
+                        if (capturingUnits.ContainsKey(npc.Faction))
+                        {
+                            capturingUnits[npc.Faction]--;
+                            if (capturingUnits[npc.Faction] <= 0)
+                                capturingUnits.Remove(npc.Faction);
+
+                            capturingUnitsList.Remove(npc);
+                        }
                     }
                 }
             }
