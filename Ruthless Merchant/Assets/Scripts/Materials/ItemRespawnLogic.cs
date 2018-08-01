@@ -41,14 +41,18 @@ namespace RuthlessMerchant
             currentTimer = respawnTime;
         }
 
-        // Update is called once per frame
+        /// <summary>
+        /// Counts up a Timer if a GameObject or more should be spawned
+        /// initiates the spawning algorithm after threshhold is reached and resets the timer afterwards
+        /// </summary>
         void Update()
         {
-            currentTimer -= Time.deltaTime;
+            if (CheckItemsInSpawners() > 0)
+                currentTimer -= Time.deltaTime;
 
             if (currentTimer <= 0.0f)
             {
-                OnTimedEvent();
+                InitiateSpawn();
                 currentTimer = respawnTime;
             }
         }
@@ -57,7 +61,12 @@ namespace RuthlessMerchant
 
         #region Methods
 
-        private void CheckItemsInSpawners()
+        /// <summary>
+        /// Checks all spawn locations if they contain a spawned GamneObject
+        /// resets all used global fields at the start to get current status
+        /// </summary>
+        /// <returns>the number of items which should be spawned</returns>
+        private int CheckItemsInSpawners()
         {
             currentlyActiveItems = 0;
             emptySpawners.Clear();
@@ -69,17 +78,30 @@ namespace RuthlessMerchant
                     emptySpawners.Add(item);
             }
 
-            if (currentlyActiveItems < maxNrOfItems)
-            {
-                int nrOfItemsToSpawn = maxNrOfItems - currentlyActiveItems;
+            int nrOfItemsToSpawn = maxNrOfItems - currentlyActiveItems;
 
-                for (int i = 0; i < nrOfItemsToSpawn; i++)
-                {
-                    emptySpawners = SpawnItem(emptySpawners);
-                }
+            return nrOfItemsToSpawn;
+        }
+
+        /// <summary>
+        /// Initiates the Spawning of Items when the Timer reached its threshhold
+        /// gets the number of items to spawn and spawns the desired number of items
+        /// </summary>
+        private void InitiateSpawn()
+        {
+            int nrOfItemsToSpawn = CheckItemsInSpawners();
+
+            for (int i = 0; i < nrOfItemsToSpawn; i++)
+            {
+                emptySpawners = SpawnItem(emptySpawners);
             }
         }
 
+        /// <summary>
+        /// Instantiates a GameObject at an eligable Location
+        /// </summary>
+        /// <param name="eligableSpawners">a List of eligable Spawnlocations</param>
+        /// <returns>a modified version of the passed List, without the used spawn location to prevent multiple uses of the same location</returns>
         private List<GameObject> SpawnItem(List<GameObject> eligableSpawners)
         {
             GameObject[] eligableSpawnersArray = eligableSpawners.ToArray();
@@ -87,19 +109,19 @@ namespace RuthlessMerchant
             eligableSpawners.Remove(selectedSpawnLocation);
 
             spawnPosition = selectedSpawnLocation.transform;
-            spawnedItem = Instantiate(itemToSpawn, spawnPosition.position, new Quaternion(quatX, quatY, quatZ, quatW)); // UnityEngine.Random.rotation);
+            spawnedItem = Instantiate(itemToSpawn, spawnPosition.position, new Quaternion(quatX, quatY, quatZ, quatW));
             return eligableSpawners;
         }
 
+        /// <summary>
+        /// returns a random Spawn Location
+        /// </summary>
+        /// <param name="spawnArray">an array of all eligable spawn locations</param>
+        /// <returns>returns the randomly chosen spawn location GameObject</returns>
         public GameObject GetSpawnLocation(GameObject[] spawnArray)
         {
             int spawnLocationIdentifier = rnJesus.Next(0, spawnArray.Length);
             return spawnArray[spawnLocationIdentifier];
-        }
-
-        private void OnTimedEvent()
-        {
-            CheckItemsInSpawners();
         }
 
         #endregion
