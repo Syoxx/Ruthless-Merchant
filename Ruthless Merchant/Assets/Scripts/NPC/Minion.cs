@@ -20,6 +20,7 @@ namespace RuthlessMerchant
 
         public override void Update()
         {
+            base.Update();
             if (CurrentAction == null || (CurrentAction is ActionIdle && !(CurrentAction is ActionCapture)))
             {
                 CaptureTrigger trigger = currentTrigger;
@@ -40,8 +41,6 @@ namespace RuthlessMerchant
                     }
                 }
             }
-
-            base.Update();
         }
 
         /// <summary>
@@ -52,7 +51,6 @@ namespace RuthlessMerchant
         {
             if (other.CompareTag("CaptureTrigger"))
             {
-                Debug.Log("Enter: " + CurrentAction == null ? "null" : CurrentAction.ToString());
                 if (CurrentAction == null || CurrentAction is ActionMove || CurrentAction is ActionIdle)
                 {
                     CaptureTrigger trigger = other.GetComponent<CaptureTrigger>();
@@ -60,8 +58,16 @@ namespace RuthlessMerchant
                     {
                         if (trigger.Owner != faction)
                         {
-                            currentTrigger = trigger;
-                            SetCurrentAction(new ActionCapture(ActionNPC.ActionPriority.Medium), trigger.gameObject, false, false);
+                            if (trigger.Hero == null)
+                            {
+                                currentTrigger = trigger;
+                                SetCurrentAction(new ActionCapture(ActionNPC.ActionPriority.Medium), trigger.gameObject, false, false);
+                            }
+                            else
+                            {
+                                currentTrigger = trigger;
+                                SetCurrentAction(new ActionHunt(ActionNPC.ActionPriority.High), trigger.Hero.gameObject, true, true);
+                            }
                         }
                         else
                         {
@@ -120,7 +126,7 @@ namespace RuthlessMerchant
                     }
                 }
 
-                if(possibleTriggers.Count > 0)
+                if (possibleTriggers.Count > 0)
                 {
                     int selectedPath = Random.Range(0, possibleTriggers.Count);
                     AddNewWaypoint(new Waypoint(possibleTriggers[selectedPath].transform, true, 0));
