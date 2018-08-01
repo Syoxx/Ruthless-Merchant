@@ -40,17 +40,27 @@ namespace RuthlessMerchant
 
         public override void Update()
         {
-            if(Outpost != null)
+            if (Outpost != null)
             {
-                if (Outpost.IsHeroAway && quest.Equals(default(QuestItem)) && (Waypoints.Count == 0 || waypoints[0].Transform != Outpost.transform))
+                if (quest.Equals(default(QuestItem)) &&
+                    (Outpost.IsHeroAway || Outpost.Owner != faction) &&
+                    (Waypoints.Count == 0 || waypoints[0].Transform != Outpost.transform))
                 {
                     AddNewWaypoint(new Waypoint(Outpost.transform, true, 0), true);
                     SetCurrentAction(new ActionMove(ActionNPC.ActionPriority.Medium), null, true);
                 }
                 else if (!Outpost.IsHeroAway)
                 {
-                    if(CurrentAction is ActionIdle || CurrentAction == null)
-                        SetCurrentAction(new ActionWander(), null);
+                    if (Outpost.IsUnderAttack)
+                    {
+                        Transform target = Outpost.GetClosestAttacker(this);
+                        SetCurrentAction(new ActionHunt(ActionNPC.ActionPriority.High), target.gameObject, false, true);
+                    }
+                    else
+                    {
+                        if (CurrentAction is ActionIdle || CurrentAction == null)
+                            SetCurrentAction(new ActionWander(), null);
+                    }
                 }
             }
 
