@@ -3138,12 +3138,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 3
+  heroRespawnTime: 30
   isLaneSplitter: 1
   outpostsToFreidenker:
   - {fileID: 206821764}
   - {fileID: 1743170373}
   outpostsToImperialist:
   - {fileID: 465008957}
+  ImperialstHeroPrefab: {fileID: 0}
+  FreidenkerHeroPrefab: {fileID: 0}
 --- !u!135 &127768076
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3911,11 +3914,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 0
+  heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
   - {fileID: 1147232090}
   outpostsToImperialist:
   - {fileID: 1824281274}
+  ImperialstHeroPrefab: {fileID: 0}
+  FreidenkerHeroPrefab: {fileID: 0}
 --- !u!135 &176804282
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -4409,12 +4415,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 3
+  heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
   - {fileID: 718740327}
   outpostsToImperialist:
   - {fileID: 127768075}
   - {fileID: 353419443}
+  ImperialstHeroPrefab: {fileID: 0}
+  FreidenkerHeroPrefab: {fileID: 0}
 --- !u!135 &206821765
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -7431,12 +7440,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 3
+  heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
   - {fileID: 1824281274}
   - {fileID: 206821764}
   outpostsToImperialist:
   - {fileID: 465008957}
+  ImperialstHeroPrefab: {fileID: 0}
+  FreidenkerHeroPrefab: {fileID: 0}
 --- !u!135 &353419444
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -8887,11 +8899,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 3
+  heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
   - {fileID: 1385670709}
   outpostsToImperialist:
   - {fileID: 1433637721}
+  ImperialstHeroPrefab: {fileID: 0}
+  FreidenkerHeroPrefab: {fileID: 0}
 --- !u!135 &413411909
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -10027,12 +10042,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 3
+  heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
   - {fileID: 353419443}
   - {fileID: 127768075}
   - {fileID: 1433637721}
   outpostsToImperialist: []
+  ImperialstHeroPrefab: {fileID: 0}
+  FreidenkerHeroPrefab: {fileID: 0}
 --- !u!135 &465008958
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -14272,96 +14290,251 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 114658927364323504, guid: 44a219676742c784c8cf187979537aa9,
-        type: 2}
-      propertyPath: teleportDestination
-      value: 
-      objectReference: {fileID: 542168789}
-    - target: {fileID: 114483412977527656, guid: 44a219676742c784c8cf187979537aa9,
-        type: 2}
-      propertyPath: teleportDestination
-      value: 
-      objectReference: {fileID: 2088180693}
-    - target: {fileID: 114695799724708516, guid: 44a219676742c784c8cf187979537aa9,
-        type: 2}
-      propertyPath: teleportDestination
-      value: 
-      objectReference: {fileID: 1224852004}
-    - target: {fileID: 114997259706108028, guid: 44a219676742c784c8cf187979537aa9,
-        type: 2}
-      propertyPath: teleportDestination
-      value: 
-      objectReference: {fileID: 2025461517}
-    - target: {fileID: 114494528676423912, guid: 44a219676742c784c8cf187979537aa9,
-        type: 2}
-      propertyPath: teleportDestination
-      value: 
-      objectReference: {fileID: 1837159851}
-    - target: {fileID: 114764116781012628, guid: 44a219676742c784c8cf187979537aa9,
-        type: 2}
-      propertyPath: teleportDestination
-      value: 
-      objectReference: {fileID: 575108682}
-    - target: {fileID: 114235577758558322, guid: 44a219676742c784c8cf187979537aa9,
-        type: 2}
-      propertyPath: teleportDestination
-      value: 
-      objectReference: {fileID: 847153449}
-    - target: {fileID: 114019639767217124, guid: 44a219676742c784c8cf187979537aa9,
-        type: 2}
-      propertyPath: teleportDestination
-      value: 
-      objectReference: {fileID: 602547855}
-    - target: {fileID: 114364750421465294, guid: 44a219676742c784c8cf187979537aa9,
-        type: 2}
-      propertyPath: teleportDestination
-      value: 
-      objectReference: {fileID: 1681772596}
-    - target: {fileID: 114928692306405088, guid: 44a219676742c784c8cf187979537aa9,
-        type: 2}
-      propertyPath: teleportDestination
-      value: 
-      objectReference: {fileID: 1499304914}
-    - target: {fileID: 114035646600286720, guid: 44a219676742c784c8cf187979537aa9,
-        type: 2}
-      propertyPath: teleportDestination
-      value: 
-      objectReference: {fileID: 1271140745}
-    - target: {fileID: 114680725599344682, guid: 44a219676742c784c8cf187979537aa9,
-        type: 2}
-      propertyPath: teleportDestination
-      value: 
-      objectReference: {fileID: 425910341}
-    - target: {fileID: 114819580440152494, guid: 44a219676742c784c8cf187979537aa9,
-        type: 2}
-      propertyPath: teleportDestination
-      value: 
-      objectReference: {fileID: 760101654}
-    - target: {fileID: 114208823193171224, guid: 44a219676742c784c8cf187979537aa9,
-        type: 2}
-      propertyPath: teleportDestination
-      value: 
-      objectReference: {fileID: 981918387}
-    - target: {fileID: 114187638765201552, guid: 44a219676742c784c8cf187979537aa9,
-        type: 2}
-      propertyPath: teleportDestination
-      value: 
-      objectReference: {fileID: 2025461517}
-    - target: {fileID: 114893136051896660, guid: 44a219676742c784c8cf187979537aa9,
-        type: 2}
-      propertyPath: teleportDestination
-      value: 
-      objectReference: {fileID: 1160425596}
     - target: {fileID: 114991098099390920, guid: 44a219676742c784c8cf187979537aa9,
         type: 2}
       propertyPath: bookCanvas
       value: 
       objectReference: {fileID: 603010073}
-    - target: {fileID: 114991098099390920, guid: 44a219676742c784c8cf187979537aa9,
+    - target: {fileID: 114893136051896660, guid: 44a219676742c784c8cf187979537aa9,
         type: 2}
-      propertyPath: cursorTexture
+      propertyPath: teleportDestination
       value: 
-      objectReference: {fileID: 2800000, guid: fd39639b3633abc449747baaccf7beae, type: 3}
+      objectReference: {fileID: 1160425596}
+    - target: {fileID: 114187638765201552, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: teleportDestination
+      value: 
+      objectReference: {fileID: 2025461517}
+    - target: {fileID: 114208823193171224, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: teleportDestination
+      value: 
+      objectReference: {fileID: 981918387}
+    - target: {fileID: 114819580440152494, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: teleportDestination
+      value: 
+      objectReference: {fileID: 760101654}
+    - target: {fileID: 114680725599344682, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: teleportDestination
+      value: 
+      objectReference: {fileID: 425910341}
+    - target: {fileID: 114035646600286720, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: teleportDestination
+      value: 
+      objectReference: {fileID: 1271140745}
+    - target: {fileID: 114928692306405088, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: teleportDestination
+      value: 
+      objectReference: {fileID: 1499304914}
+    - target: {fileID: 114364750421465294, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: teleportDestination
+      value: 
+      objectReference: {fileID: 1681772596}
+    - target: {fileID: 114019639767217124, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: teleportDestination
+      value: 
+      objectReference: {fileID: 602547855}
+    - target: {fileID: 114235577758558322, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: teleportDestination
+      value: 
+      objectReference: {fileID: 847153449}
+    - target: {fileID: 114764116781012628, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: teleportDestination
+      value: 
+      objectReference: {fileID: 575108682}
+    - target: {fileID: 114494528676423912, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: teleportDestination
+      value: 
+      objectReference: {fileID: 1837159851}
+    - target: {fileID: 114997259706108028, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: teleportDestination
+      value: 
+      objectReference: {fileID: 2025461517}
+    - target: {fileID: 114695799724708516, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: teleportDestination
+      value: 
+      objectReference: {fileID: 1224852004}
+    - target: {fileID: 114483412977527656, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: teleportDestination
+      value: 
+      objectReference: {fileID: 2088180693}
+    - target: {fileID: 114658927364323504, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: teleportDestination
+      value: 
+      objectReference: {fileID: 542168789}
+    - target: {fileID: 114920295475348026, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114920295475348026, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114770646397656906, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114770646397656906, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114873551741401970, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114873551741401970, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114532463365629674, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114532463365629674, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114261560857912176, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114261560857912176, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114112197249118788, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114112197249118788, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114222805681525424, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114222805681525424, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114340234212845548, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114340234212845548, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114725396809877852, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114725396809877852, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114340431352376954, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114340431352376954, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114649395348231498, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114649395348231498, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114151989523706080, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114151989523706080, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114774139109868904, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114774139109868904, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114381327664303354, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114381327664303354, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114711243324718386, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114711243324718386, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114394365886004160, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114394365886004160, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 44a219676742c784c8cf187979537aa9, type: 2}
   m_IsPrefabParent: 0
@@ -15652,12 +15825,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 0
+  heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
   - {fileID: 1449072390}
   - {fileID: 1147232090}
   outpostsToImperialist:
   - {fileID: 206821764}
+  ImperialstHeroPrefab: {fileID: 0}
+  FreidenkerHeroPrefab: {fileID: 0}
 --- !u!135 &718740328
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -22271,11 +22447,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 0
+  heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
   - {fileID: 1449072390}
   outpostsToImperialist:
   - {fileID: 1743170373}
+  ImperialstHeroPrefab: {fileID: 0}
+  FreidenkerHeroPrefab: {fileID: 0}
 --- !u!135 &961630649
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -28489,12 +28668,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 0
+  heroRespawnTime: 30
   isLaneSplitter: 1
   outpostsToFreidenker:
   - {fileID: 1604447087}
   outpostsToImperialist:
   - {fileID: 176804281}
   - {fileID: 718740327}
+  ImperialstHeroPrefab: {fileID: 0}
+  FreidenkerHeroPrefab: {fileID: 0}
 --- !u!4 &1147232091
 Transform:
   m_ObjectHideFlags: 0
@@ -34308,11 +34490,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 0
+  heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
   - {fileID: 1706047207}
   outpostsToImperialist:
   - {fileID: 413411908}
+  ImperialstHeroPrefab: {fileID: 0}
+  FreidenkerHeroPrefab: {fileID: 0}
 --- !u!135 &1385670710
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -35387,11 +35572,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 3
+  heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
   - {fileID: 413411908}
   outpostsToImperialist:
   - {fileID: 465008957}
+  ImperialstHeroPrefab: {fileID: 0}
+  FreidenkerHeroPrefab: {fileID: 0}
 --- !u!135 &1433637722
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -35632,12 +35820,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 0
+  heroRespawnTime: 30
   isLaneSplitter: 1
   outpostsToFreidenker:
   - {fileID: 1604447087}
   outpostsToImperialist:
   - {fileID: 718740327}
   - {fileID: 961630648}
+  ImperialstHeroPrefab: {fileID: 0}
+  FreidenkerHeroPrefab: {fileID: 0}
 --- !u!135 &1449072391
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -39243,12 +39434,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 0
+  heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker: []
   outpostsToImperialist:
   - {fileID: 1147232090}
   - {fileID: 1449072390}
   - {fileID: 1706047207}
+  ImperialstHeroPrefab: {fileID: 0}
+  FreidenkerHeroPrefab: {fileID: 0}
 --- !u!135 &1604447088
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -41010,11 +41204,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 0
+  heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
   - {fileID: 1604447087}
   outpostsToImperialist:
   - {fileID: 1385670709}
+  ImperialstHeroPrefab: {fileID: 0}
+  FreidenkerHeroPrefab: {fileID: 0}
 --- !u!135 &1706047208
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -41908,11 +42105,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 3
+  heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
   - {fileID: 961630648}
   outpostsToImperialist:
   - {fileID: 127768075}
+  ImperialstHeroPrefab: {fileID: 0}
+  FreidenkerHeroPrefab: {fileID: 0}
 --- !u!135 &1743170374
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -44479,11 +44679,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 3
+  heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
   - {fileID: 176804281}
   outpostsToImperialist:
   - {fileID: 353419443}
+  ImperialstHeroPrefab: {fileID: 0}
+  FreidenkerHeroPrefab: {fileID: 0}
 --- !u!135 &1824281275
 SphereCollider:
   m_ObjectHideFlags: 0
