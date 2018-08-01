@@ -52,12 +52,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a64ad5f0f78bb44ebea5048a2f1c23d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemToSpawn: {fileID: 1531244868073720, guid: 782ec7aecfe99034da1031c1d8f8d871,
-    type: 2}
+  itemToSpawn: {fileID: 0}
   maxNrOfItems: 1
   respawnTime: 5
   spawnLocations:
   - {fileID: 0}
+  quatX: 0
+  quatY: -90
+  quatZ: -90
+  quatW: 0
 --- !u!135 &135200797578148664
 SphereCollider:
   m_ObjectHideFlags: 1
