@@ -43,8 +43,8 @@ namespace RuthlessMerchant
 
         public override void Update()
         {
-            base.Update();
             SetCurrentAction(new ActionIdle(ActionNPC.ActionPriority.None), null);
+            base.Update();
         }
 
         private void HealthSystem_OnHealthChanged(object sender, DamageAbleObject.HealthArgs e)
