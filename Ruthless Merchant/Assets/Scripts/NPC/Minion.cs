@@ -58,7 +58,7 @@ namespace RuthlessMerchant
                     {
                         if (trigger.Owner != faction)
                         {
-                            if (trigger.Hero == null)
+                            if (trigger.Hero == null || trigger.IsHeroAway)
                             {
                                 currentTrigger = trigger;
                                 SetCurrentAction(new ActionCapture(ActionNPC.ActionPriority.Medium), trigger.gameObject, false, false);
