@@ -78,8 +78,8 @@ namespace RuthlessMerchant
         [SerializeField, Tooltip("The UI Prefab that appears for each recipe when accessing the Smith")]
         GameObject recipeUiPrefab;
 
-        [SerializeField, Tooltip("'TempUpgradeCanvas' in /Prefabs/TradingPoint/")]
-        private GameObject outpostUpgradeCanvas;
+        [SerializeField, Tooltip("'TempUpgradeDialogue' in /Prefabs/TradingPoint/")]
+        private GameObject outpostUpgradeDialogue;
 
         [Space(15)]
 
@@ -596,7 +596,7 @@ namespace RuthlessMerchant
                     isOutpostDialogActive = false;
                     restrictCamera = false;
                     restrictMovement = false;
-                    outpostUpgradeCanvas.SetActive(false);
+                    outpostUpgradeDialogue.SetActive(false);
                     controlMode = ControlMode.Move;
                 }
             }
@@ -775,7 +775,7 @@ namespace RuthlessMerchant
             if (unlockedTravelPoints[outpostToUpgrade] == false)
             {
                 isOutpostDialogActive = true;
-                outpostUpgradeCanvas.SetActive(true);
+                outpostUpgradeDialogue.SetActive(true);
                 restrictCamera = true;
                 restrictMovement = true;
             }
@@ -854,12 +854,12 @@ namespace RuthlessMerchant
 
         public void CloseTradingPointDialog()
         {
-            if (outpostUpgradeCanvas.activeSelf)
+            if (outpostUpgradeDialogue.activeSelf)
             {
                 isOutpostDialogActive = false;
                 restrictCamera = false;
                 restrictMovement = false;
-                outpostUpgradeCanvas.SetActive(false);
+                outpostUpgradeDialogue.SetActive(false);
                 controlMode = ControlMode.Move;
             }
         }
