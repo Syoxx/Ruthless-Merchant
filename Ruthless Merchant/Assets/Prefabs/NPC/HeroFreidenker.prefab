@@ -66,7 +66,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4020236520070794
 Transform:
   m_ObjectHideFlags: 1
@@ -205,7 +205,10 @@ MonoBehaviour:
   sneakSpeed: 2
   walkSpeed: 5
   runSpeed: 10
-  stickToGroundValue: 0
+  groundCheckDistance: 0.25
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
   maxJumpHeight: 0
   maxSlopeAngle: 0
   rotationSpeed: 8
@@ -232,8 +235,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97914d5b6dd26014dab9a2e600e6950a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
-  maxHealth: 100
+  health: 900
+  maxHealth: 900
 --- !u!135 &135117054429084178
 SphereCollider:
   m_ObjectHideFlags: 1

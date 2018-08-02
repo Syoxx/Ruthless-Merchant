@@ -70,6 +70,7 @@ namespace RuthlessMerchant
             else
             {
                 parent.SetCurrentAction(new ActionIdle(), null, true);
+                parent.ResetTarget();
             }
         }
     }

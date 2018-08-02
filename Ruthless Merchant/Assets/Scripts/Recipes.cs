@@ -222,9 +222,11 @@ namespace RuthlessMerchant
             {
                 GameObject comPanel = Instantiate(componentPanelPrefab, newPanel.transform);
                 comPanel.transform.SetSiblingIndex(0);
-                comPanel.transform.GetChild(0).GetComponent<TMP_Text>().text = recipes[recipeIndex].ListOfMaterials[i].Item.ItemName;
-                comPanel.transform.GetChild(1).GetComponent<Image>().sprite = recipes[recipeIndex].ListOfMaterials[i].Item.ItemSprite;
-
+                if (recipes[recipeIndex].ListOfMaterials[i].Item != null)
+                {
+                    comPanel.transform.GetChild(0).GetComponent<TMP_Text>().text = recipes[recipeIndex].ListOfMaterials[i].Item.ItemName;
+                    comPanel.transform.GetChild(1).GetComponent<Image>().sprite = recipes[recipeIndex].ListOfMaterials[i].Item.ItemSprite;
+                }
                 counts.Add(new ItemCount(comPanel.transform.GetChild(2).GetComponent<TMP_Text>(), recipes[recipeIndex].ListOfMaterials[i].Item, recipes[recipeIndex].ListOfMaterials[i].Count));
                 counts[counts.Count - 1].Textfield.text = Player.Singleton.Inventory.GetNumberOfItems(counts[counts.Count - 1].ItemToCount).ToString() + "/" + counts[counts.Count - 1].Count;
             }
