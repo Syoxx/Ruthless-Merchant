@@ -80,7 +80,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1708446563689984
 GameObject:
   m_ObjectHideFlags: 1
@@ -365,8 +365,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114991098099390920, guid: 44a219676742c784c8cf187979537aa9,
-          type: 2}
+      - m_Target: {fileID: 0}
         m_MethodName: CloseTradingPointDialog
         m_Mode: 1
         m_Arguments:
@@ -526,8 +525,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114991098099390920, guid: 44a219676742c784c8cf187979537aa9,
-          type: 2}
+      - m_Target: {fileID: 0}
         m_MethodName: BuyTradingPoint
         m_Mode: 1
         m_Arguments:
