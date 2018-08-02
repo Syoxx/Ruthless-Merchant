@@ -19,17 +19,6 @@ namespace RuthlessMerchant
         [Range(1, 100)]
         protected float attackDistance = 1.5f;
 
-        [Header("Patrol settings")]
-        [SerializeField]
-        private bool patrolActive;
-        public string[] PossiblePatrolPaths;
-        public Waypoint[] PatrolPoints;
-
-        public bool PaartolActive
-        {
-            get { return patrolActive; }
-        }
-
         public float HuntDistance
         {
             get
@@ -50,28 +39,12 @@ namespace RuthlessMerchant
         {
             base.Start();
             HealthSystem.OnHealthChanged += HealthSystem_OnHealthChanged;
-
-            if (patrolActive)
-            {
-                patrolActive = false;
-                if (PossiblePatrolPaths != null && PossiblePatrolPaths.Length > 0)
-                    PatrolPoints = new List<Waypoint>(GetRandomPath(PossiblePatrolPaths, false, 3)).ToArray();
-
-                SetCurrentAction(new ActionPatrol(ActionNPC.ActionPriority.Low), null);
-            }
         }
 
         public override void Update()
         {
+            SetCurrentAction(new ActionIdle(ActionNPC.ActionPriority.None), null);
             base.Update();
-            if (CurrentAction == null || !Reacting)
-            {
-                SetCurrentAction(new ActionPatrol(ActionNPC.ActionPriority.Low), null);
-            }
-            else
-            {
-                SetCurrentAction(new ActionIdle(), null);
-            }
         }
 
         private void HealthSystem_OnHealthChanged(object sender, DamageAbleObject.HealthArgs e)

@@ -36,7 +36,7 @@ namespace RuthlessMerchant
             }
             set
             {
-                if (value >= 0 &&  ((parent.Waypoints.Count > 0 && value < parent.Waypoints.Count) || (parent.Waypoints.Count == 0 && value <= parent.Waypoints.Count)))
+                if (value >= 0 && ((parent.Waypoints.Count > 0 && value < parent.Waypoints.Count) || (parent.Waypoints.Count == 0 && value <= parent.Waypoints.Count)))
                     waypointIndex = value;
                 else
                     throw new ArgumentOutOfRangeException();
@@ -46,7 +46,14 @@ namespace RuthlessMerchant
         public override void StartAction(NPC parent, GameObject other)
         {
             base.StartAction(parent, other);
+
+            if (other != null)
+                parent.AddNewWaypoint(new Waypoint(other.transform, true, 0), true);
+
             agent = parent.GetComponent<NavMeshAgent>();
+
+            if (parent.Waypoints.Count > 0)
+                agent.SetDestination(parent.Waypoints[0].GetPosition());
         }
 
         public override void Update(float deltaTime)
@@ -83,6 +90,7 @@ namespace RuthlessMerchant
             {
                 waypointIndex = 0;
                 parent.CurrentWaypoint = null;
+                parent.SetCurrentAction(new ActionIdle(), null, true);
                 return;
             }
 

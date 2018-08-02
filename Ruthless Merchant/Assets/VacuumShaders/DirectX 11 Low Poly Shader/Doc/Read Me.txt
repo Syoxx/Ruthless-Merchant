@@ -1,0 +1,18 @@
+DirectX 11 Low Poly Shader requires device with Geometry Shader support and proper compilation target.
+
+Compilation target can be changed in:
+VacuumShaders\DirectX 11 Low Poly Shader\Shaders\cginc\Platform.cginc file
+
+On line 7 is defined default compilation target - #pragma target 5.0
+Depending on your device above line can be on of the following:
+#pragma target 5.0
+#pragma target 4.6
+#pragma target 4.0
+
+
+After changing compilation target:
+1) Save file
+2) Reimport shaders (right click on 'VacuumShaders\DirectX 11 Low Poly Shader\Shaders' folder and choose Reimport)
+
+
+Run Tester example scene for checking Geometry Shader supporting compilation target(s).

@@ -1,0 +1,660 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
+{\fonttbl\f0\fswiss\fcharset0 ArialMT;\f1\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;\red0\green45\blue153;\red255\green39\blue18;\red133\green0\blue175;
+}
+\paperw11900\paperh16840\margl1440\margr1440\vieww20460\viewh19540\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f0\b\fs48 \cf0 Introduction\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b0\fs36 \cf0 Welcome to the advanced foliage shaders v4 and thanks a lot for purchasing this package.\
+It was built to improve the visual impact of almost all vegetation within your project while speeding up rendering at the same time.\
+For these reasons it does not only offer advanced lighting functions, fully controllable procedural wind animations and features such as touch bending but also scripts which will combine hundreds of single plants and game objects to just a single mesh (at runtime or within the editor) or set up layer based culling.\
+\
+This introduction gives you a brief overview of the basic features and will point you towards other files of the documentation which provide in depth information.\
+\
+
+\b Table of Content\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs24 \cf0 \
+1. The shader family\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b0\fs8 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\pardirnatural\partightenfactor0
+
+\fs24 \cf0 1.1. Advanced Grass Shaders\
+1.2. Advanced Foliage Shaders\
+1.3. Advanced Tree Shaders\
+\
+
+\b 2. Lighting Features and Annotations\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b0\fs8 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\pardirnatural\partightenfactor0
+
+\fs24 \cf0 2.1. Ambient Lighting
+\b \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b0 \cf0 2.2. Linear Lighting\
+2.3. Light Mapping\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+\cf0 2.4. Special texture import settings\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b \cf0 \
+3. Basic Requirements\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b0\fs8 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\pardirnatural\partightenfactor0
+
+\fs24 \cf0 3.1. Models and Textures
+\b \
+
+\b0 3.2. Scripts\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b \cf0 \
+4. Compatibility\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b0\fs8 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\pardirnatural\partightenfactor0
+
+\fs24 \cf0 4.1. AFS and other Packages\
+4.1.2. AFS and the Custom Tree Importer\
+4.2. Fog\
+\
+
+\b 5. Optimizing the shaders\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b0\fs8 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\pardirnatural\partightenfactor0
+
+\fs24 \cf0 5.1. Fog
+\b \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f1\b0 \cf0 5.2. AfsGrassShader
+\f0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b \cf0 6. The Documentation\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b0\fs8 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\pardirnatural\partightenfactor0
+
+\fs24 \cf0 Where do You find the information you need?\
+This section will tell you.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b \cf0 7. Useful Resources\
+\
+8. Change Log\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b0\fs36 \cf0 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b\fs48 \cf0 1. The Shader Family\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b0\fs36 \cf0 The package ships with a huge amount of shaders\'96which can be divided into 3 groups covering more or less the whole range of vegetation you will have in your scene.
+\b\fs48 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs24 \cf0 	\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs28 \cf0 1.1. Advanced Grass Shaders\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b0\fs8 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs24 \cf0 The advanced grass shaders are suitable for rather small and simple geometry which more or less consists of only some upright oriented planes like used by common grass or smaller flowers.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs8 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs24 \cf0 They do not light the geometry according to the mesh\'92s\'92 normals but pick up lighting from the underlaying ground in order to overcome the inaccuracy of shadow maps and make those plants truly grounded.\
+For this reason the grass shaders only need single sided geometry.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs8 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs24 \cf0 You might already know all this from the built in grass shaders of the terrain engine.\
+But the advanced grass shaders will let you place nicely lit and procedurally animated grass not only on top of your terrain (using the built in terrain engine) but also any arbitrary mesh. \
+So if you have a ruined house and want some grass to grow on the second floor or if the detail resolution of your terrain does not allow you to have some grass placed exactly where you want, you can simply place some grass meshes manually as regular game objects.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs8 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs24 \cf0 Next to this the advanced grass shaders (both: for the terrain engine and manually placed grass) will give you much nicer and more distinguished bending and approximated translucency.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs8 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs24 \cf2 See: \'8402 Grass Shaders.rtf\'93 for further details.\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs28 \cf0 1.2. Advanced Foliage Shaders\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b0\fs8 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs24 \cf0 Like the grass shaders the foliage shaders can be used on plants placed using the built in terrain engine or manually added game objects.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs8 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs24 \cf0 Compared to all other shaders these are the most advanced ones as they fully support all physically based lighting, physically based wetness features and touch bending.\
+Use those shaders on more complex meshes and plants like flowers, ferns or bushes.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs8 \cf2 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs24 \cf2 See: \'8403 Foliage Shaders.rtf\'93 for further details.\cf0 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b\fs28 \cf0 1.3. Advanced Tree Shaders\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b0\fs8 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs24 \cf0 The Afs tree shaders have been written to match the built in tree creator\'92s and terrain engine\'92s needs as there is just no other way to get trees rendered fast but using the built in terrain engine and its support for billboarded trees.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs8 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs24 \cf0 They focus on making the transition between mesh instances and billboards as smooth as possible in order to allow you to lower the billboard distance and save a vast amount of draw calls.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs8 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs24 \cf0 The tree shaders use a heavily tweaked but still standard specular/gloss based direct lighting to stay compatible with the tree creator and already authored assets but support skybox, gradient or color based diffuse ambient lighting.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs8 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs24 \cf0 Smooth transitions between mesh and billboard instances also need camera aligned billboards which are covered by the shaders and scripts.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs8 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs24 \cf0 In case you have rather big manually modeled plants fitting the needs of the foliage shaders you may add those as "trees" within the terrain engine and fully benefit from built in billboarding using the "AfsSimpleTree" shader.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs8 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs24 \cf2 See: \'8404 Tree and Billboard Shaders.rtf\'93 for further details.
+\fs36 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b\fs48 \cf0 2. Lighting Features and Annotations\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs28 \cf0 2.1. Ambient Lighting\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b0\fs8 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs24 \cf0 AFS supports unity 5\'92s new ambient lighting (even on billboards) which will give you a much more lively shading than legacy ambient lighting (which used to be a single color) and also supports built ambient specular reflections\'97at least as far as the foliage shaders are concerned.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2326\partightenfactor0
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b\fs28 \cf0 2.2. Linear Color Space
+\fs48 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b0\fs8 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs24 \cf0 Using the linear color space is like a key to physically based rendering.\
+Please make sure that your project uses the linear color space as otherwise billboards and deferred rendered bark will look corrupted.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b\fs28 \cf0 2.3. Light Mapping
+\fs48 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b0\fs8 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs24 \cf0 Light mapping is supported by the grass and the foliage shaders.\
+The tree shaders do not support light mapping as they use the 2nd uv set to store bending values\'97however trees placed within the terrain engine will pick up a single color value from the terrain\'92s light map.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs8 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs24 \cf0 The grass and foliage shaders support all light mapping modes which are:\
+- Non Directional\
+- Directional\
+- Directional Specular\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs8 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs24 \cf0 If you want to use light maps on manually placed plants which are/get combined using the \'84Combine Children AFS\'93 script you have to combine those statically before baking the light maps. Please make sure that \'84Create unique UV2\'93 is checked so that the combined mesh will have unique second UVs for all triangles. Doing so will allow you to even light map single sided grass.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2326\partightenfactor0
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b\fs28 \cf0 2.4. Special texture import settings
+\b0\fs24 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs8 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs24 \cf3 All textures which are not diffuse albedo textures have to bypass the sRGB sampling!\
+I really can not overemphasize how important this point is\'97as i stepped into this trap myself several times ;-)\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+\cf0 The foliage shaders commonly use some combined \'84normal, translucency, roughness/smoothness\'93 textures. Those textures have to bypass the sRGB sampling under any circumstance: Just select the texture in the \'84Project\'93 tab, set \'84Texture Type\'93 to \'84Advanced\'93 and check \'84Bypass sRGB Sampling\'93 in the inspector.\
+The tree shaders use even 2 of those combined textures: Normal map(GA) Spec(R) and Trans(RGB) Gloss(A): Both should bypass sRGB sampling as well.\
+So in case you get some strange bump mapping or lighting (especially noticeable if the transitions between billboards and mesh trees do not look smooth) this is probably caused by the fact that the combined textures do not bypass sRGB sampling.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+\cf0 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b\fs48 \cf0 3. Basic Requirements\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs28 \cf0 3.1. Models and Textures
+\fs48 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b0\fs8 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs24 \cf0 Before you can use your own models with the advanced foliage shaders you have to make sure that your geometry and textures fit the requirements. Please have a look at the "AFS Model and Texture Guide" to find out more (.pdf).\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b\fs28 \cf0 3.2. Scripts
+\fs48 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b0\fs8 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs24 \cf0 You always have to add the "Setup Advanced Foliage Shader\'93 script to your scene as it controls a lot of the parameters of the shaders like wind and rain.\
+Further features like touch bending uses their own additionally scripts.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs36 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b\fs48 \cf0 4. Compatibility\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs28 \cf0 4.1. AFS and other packages
+\fs48 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b0\fs8 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f1\fs24 \cf0 The advanced foliage shaders should be compatible with almost all other packages\'97however and as it overwrites some built in shaders\'97 there may be some conflicts with packages that do the same.\
+Built in shaders that get overwritten by AFS are:\
+- WavingGrass.shader\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f0 \cf0 - VertexLit.shader
+\f1 \
+- BillboardTree.shader\
+Please make sure that no other package overwrites these shaders as well (like e.g. Skyshop).\
+\
+AFS also adds some custom shader passes to the built in "Camera-DepthNormalTexture" shader to make depth based image effects work correctly.\
+So it ships with a modified version which is located at: "Advanced Foliage Shader v4" -> "Resources" -> "Camera-DepthNormalTexture".\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural\partightenfactor0
+
+\f0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural\partightenfactor0
+
+\b\fs24 \cf3 Please note:
+\b0  You must not move the shader as it relies on several includes.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural\partightenfactor0
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural\partightenfactor0
+
+\b\fs24 \cf3 Please note:
+\b0  Make sure that your project does not contain any other 
+\f1 "Camera-DepthNormalTexture" shader as this might overwrite the one that ships with AFS. In case you use a package with also needs to modify this shader you will have to manually merge both.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\pardirnatural\partightenfactor0
+
+\f0\b\fs28 \cf0 4.1.1. AFS and the Custom Tree Importer\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b0\fs8 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f1\fs24 \cf0 The AFS Tree Shaders are prepared to work with trees imported using the "custom tree importer" and may even support tumbling. In order to enable tumbling you have to edit the follwing shaders manually:\
+- Resources/Camera-DepthNormalTexture.shader\
+- AfsTreeCreatorBarkDeferredOptimized.shader\
+- AfsTreeCreatorBarkOptimized.shader\
+- AfsTreeCreatorLeavesOptimized.shader\
+\
+Please find and comment:\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+\cf2 #define XLEAFBENDING\cf0 \
+Then uncomment:\cf4 \
+\cf2 //#define LEAFTUMBLING\cf4 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f0\b\fs28 \cf0 4.2. Fog
+\fs48 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b0\fs8 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs24 \cf0 When using deferred shading fog is not supported within the shaders\'97but has to be added as image effect.\
+However: Most AFS Shaders are forward only\'97even if your camera is set to render in deferred. And as those shaders use the "transparent cut out" and not "transparent" render queue which makes them write to the z-buffer they would receive fog twice: first from the shader itself and second from the image effect.\
+So if your camera is set to deferred please make sure that you have checked: "Disable fog in all AFS shaders using the forward path" in the "Setup Advanced Foliage Shader" script \'97> "Fog Settings".\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural\partightenfactor0
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural\partightenfactor0
+
+\b\fs24 \cf3 Please note:
+\b0  Fog added as image effect will not show up in the "Scene view" window. You have to switch to game view.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+\cf4 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b\fs48 \cf0 5. Optimizing the shaders\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b0\fs8 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f1\fs24 \cf0 All shaders have been written to be as flexible as suitable so that most use cases can simply be adjusted using the \'84Setup Foliage Shader\'93 script. For this reason the shaders have to handle e.g. fog in forward and deferred rendering.\
+Especially if your are working on a project that shall be delivered as webplayer this flexibility might really cause some trouble as it will increase the size of the built due to the fact that all shaders will be compiled multiple times.\
+Optimize the shaders for the final built by editing the #pragma multi_compile directives.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b \cf0 5.1. Fog
+\b0 \
+All shaders that always uses forward rendering like the AfsFoliage or the AfsTreeCreatorLeavesOptimized shader have to deal with the fact that you might add fog as image effect if your camera is set to "deferred".\
+So in this case we have to disable fog in the shader itself\'97otherwise leaves would receive fog twice.\
+Right now i use some hacky way to do so which makes the shader to be compiled into 2 version which you most likely do not need in your final built.\
+\
+Get rid of this and disable fog in the shader by commenting:\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+\cf2 #pragma shader_feature _AFS_DEFERRED\cf0 \
+Next tell the shader to not add fog by adding "nofog" to the first #pragma directive e.g.:\
+\cf2 #pragma surface surf TreeLeaf vertex:AfsTreeVertLeaf nolightmap fullforwardshadows addshadow nofog\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b \cf0 5.2. AfsGrassShader\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b0 \cf0 The Afs Grass Shader handles lighting for non combined (usually editor) and combined grass (in playmode when using the "Combine Children Afs" script) which leads to two different variants.\
+Get rid of the editor variant by replacing:\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f0 \cf2 #pragma multi_compile IN_EDITMODE IN_PLAYMODE\cf0 \
+with:\
+\cf2 #define IN_PLAYMODE\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+\cf0 Another variant is created for the support of approximated translucency.\
+If you want to use it replace:\cf2 \
+#pragma shader_feature _AFS_GRASS_APPROXTRANS\
+\cf0 with:\cf2 \
+#define _AFS_GRASS_APPROXTRANS\
+\cf0 If you do not use approximated translucency simply comment:\cf2 \
+#pragma shader_feature _AFS_GRASS_APPROXTRANS\
+\cf0 This should be done in both grass shaders.\cf2 \
+\
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b\fs48 \cf0 6. The Documentation\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b0\fs8 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs24 \cf0 Over the time the advanced foliage shader package has grown from just a bunch of shaders to a bundle of shaders, scripts and custom editors.\
+So it might be a bit difficult to get along with all its components and even with its documentation as i have splited it up into several parts:\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b \cf0 AFS Model and Texture Guide.pdf
+\b0 \
+This will give you a brief overview on how to prepare your models and create textures fitting the needs of the shaders.\
+\
+
+\b 01 Getting started.rtf\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f1\b0 \cf0 Contains a step by step instruction on how to create your first scene using the grass and basic foliage shaders.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f0\b \cf0 02 Grass Shaders.rtf\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f1\b0 \cf0 In depth information about all the grass shaders.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f0\b \cf0 03 Foliage Shaders.rtf\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f1\b0 \cf0 In depth information about all foliage shaders.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f0\b \cf0 04 Tree and Billboard Shaders.rtf\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f1\b0 \cf0 In depth information about all tree and billboard shaders and the "tree reposition feature".\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b \cf0 05 SetupAdvancedFoliageShader Script.rtf
+\b0 \
+It contains all information about setting up the "Setup Advanced Foliage Shader" script which is needed in every scene to make the shaders work correctly.\
+\
+
+\b 06 Combine Children Script.rtf
+\b0 \
+It contains all information about using the 
+\f0 "CombineChildrenAFS" script that will allow you to combine your plants placed as single game objects to speed up and even enhance rendering.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b \cf0 07 TouchBending.rtf\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f1\b0 \cf0 As one might think this is the place to look for anything related to touch bending.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f0\b \cf0 08 AfsFoliageTool.rtf\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f1\b0 \cf0 Here you find all information on how to adjust bending right within unity or how to convert a tree made with the built in tree creator to be compatible with the "Foliage" shaders.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f0\b \cf0 09 AfsTexture Postprocessor.rtf\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b0 \cf0 Learn how to use the AfsTexture Postprocessor 
+\f1 to prefilter your roughness/smoothness textures in order to reduce specular aliasing artifacts.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f0\b\fs48 \cf0 7. Useful Resources\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f1\fs24 \cf0 Simply paint your plants on top of the terrain or any arbitrary geometry
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2326\partightenfactor0
+\cf0 Make sure you give the free "Geometry Brush AFS" tool a try: a very nice and handy tool that will help you to manually place any game object onto any terrain or geometry \'96 originally posted by Matt McDonald, Owner, Chief Creative Officer and President of Heavy Water, {\field{\*\fldinst{HYPERLINK "http://www.heavyh2o.com/"}}{\fldrslt www.heavyh2o.com}}, but optimized for the use with the advanced terrain shaders.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2306\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f0 \cf0 You will find it in the folder: "Scripts [free Addons]".
+\f1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f0\b \cf0 Select parent script\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f1\b0 \cf0 Especially when using the "combineChildrenAFS" script this should be something you really will love:\
+http://forum.unity3d.com/threads/94683-Select-Parent-tools\
+Simply hit "p" and the parent object will be selected.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f0\b\fs48 \cf0 8. Change Log\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f1\b0\fs24 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b \cf0 Naming changed\
+\'96 Simple Tree Shader: 
+\b0 Shader that lets you place meshes prepared to be used with the foliage shader as trees within the terrain engine. No converting needed.
+\b \
+\'96 Flattened Tree: 
+\b0 Option of the "Foliage Tool" that lets you merge sub meshes of trees created using the built in tree creator to speed up rendering.
+\f0\b\fs48 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f1\b0\fs24 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f0\b \cf0 Shaders renamed\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f1\b0 \cf0 \'96 In order to make them easier to be find i have renamed the shaders.\
+Names from the previous version followed the naming convention introduced by the "Beast" light mapper which has been skipped in unity 5.\
+You will have to reassign the new shaders manually, sorry.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f0\b \cf0 Grass shaders
+\b0 \
+\'96 New bending added giving you much more variety and following the given wind direction.\
+\'96 Approximated translucency added (wip).\
+\'96 Vertex Lighting has been dropped.
+\f1 \
+\
+
+\f0\b Foliage shaders
+\b0 \
+\'96 Lighting has changes to unity\'92s built in pbs lighting but still supports wrapped around diffuse and translucency.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural\partightenfactor0
+\cf0 \'96 A lot of different shader variants have been removed: Now almost one size fits all. The shaders might be a tiny bit more expensive but they are much more flexible and easier to use.\
+\pard\pardeftab720\ri-2321\partightenfactor0
+\cf0 \expnd0\expndtw0\kerning0
+\'96 Advanced bending added which gives you full control over primary and secondary bending (using UV4)\kerning1\expnd0\expndtw0 . Legacy bending (vertex colors only) is still supported (and needed if you want to place foliage using the terrain engine).\
+\'96 The main wind animation has moved from the setup script to the shaders which makes it a bit more expensive but will give you much more variety.\
+\'96 Leaf Turbulence added. Now stronger winds might move leaves faster.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+\cf0 \'96 All touch bending shaders are now unified (no more GS or LS shaders and scripts).\
+\'96 Ground lighting features are currently not supported.\
+\'96 Vertex Lighting has been dropped.\
+\'96 Dedicated deferred shaders added (wip).\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2326\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f1 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2312\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f0\b \cf0 Tree shaders
+\f1\b0 \expnd0\expndtw0\kerning0
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2312\partightenfactor0
+\cf0 \'96 Advanced bending added which prevents most distortion artifacts you get from the built in shaders.\
+\'96 Option to use Xtra bending added.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2312\partightenfactor0
+
+\f0 \cf0 \kerning1\expnd0\expndtw0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2312\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b \cf0 Billboards
+\f1\b0 \expnd0\expndtw0\kerning0
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2312\partightenfactor0
+\cf0 \'96 Support for skybox, gradient and color based lighting.\
+\'96 Billboards textures will not contain any translucency as it can\'92t be calculated correctly (view depended\'85). So translucency is faded in/out.\
+\'96 Fancy features from the last release for unity 4.x \'96 like shadows casted by billboards or fading shadows had to be skipped as unity 5 has completely changed the way how the z-Buffer and the shadow caster pass are handled.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2312\partightenfactor0
+
+\b \cf0 \
+Foliage tool\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2312\partightenfactor0
+
+\b0 \cf0 \'96 Improved integration and interface.\
+\'96 Bake primary and secondary bending to UV4 (needed by the new foliage shader bending option).\
+\'96 Convert tree creator trees to be compatible with the foliage shader while keeping all bending information.\
+\
+All other scripts (SetupAdvancedFoliageShader, RepositionTreesAFS) have been updated to work with unity 5.\
+Real time shaded billboards are not supported at the moment.
+\f0 \kerning1\expnd0\expndtw0 \
+}

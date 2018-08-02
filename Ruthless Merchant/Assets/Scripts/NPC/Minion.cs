@@ -20,6 +20,7 @@ namespace RuthlessMerchant
 
         public override void Update()
         {
+            base.Update();
             if (CurrentAction == null || (CurrentAction is ActionIdle && !(CurrentAction is ActionCapture)))
             {
                 CaptureTrigger trigger = currentTrigger;
@@ -40,8 +41,6 @@ namespace RuthlessMerchant
                     }
                 }
             }
-
-            base.Update();
         }
 
         /// <summary>
@@ -59,8 +58,16 @@ namespace RuthlessMerchant
                     {
                         if (trigger.Owner != faction)
                         {
-                            currentTrigger = trigger;
-                            SetCurrentAction(new ActionCapture(ActionNPC.ActionPriority.Medium), trigger.gameObject, false, false);
+                            if (trigger.Hero == null || trigger.IsHeroAway)
+                            {
+                                currentTrigger = trigger;
+                                SetCurrentAction(new ActionCapture(ActionNPC.ActionPriority.Medium), trigger.gameObject, false, false);
+                            }
+                            else
+                            {
+                                currentTrigger = trigger;
+                                SetCurrentAction(new ActionHunt(ActionNPC.ActionPriority.High), trigger.Hero.gameObject, true, true);
+                            }
                         }
                         else
                         {
