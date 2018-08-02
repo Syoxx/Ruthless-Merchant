@@ -797,9 +797,12 @@ namespace RuthlessMerchant
 
         public void OnAlchemyButton(int itemSlot)
         {
-            localAlchemist.AddItem((Ingredient)Inventory.inventorySlots[itemSlot].Item);
-            Inventory.Remove(itemSlot, 1, true);
-            CloseBook();
+            if(Inventory.inventorySlots[itemSlot].Item.ItemType == ItemType.Ingredient)
+            {
+                localAlchemist.AddItem((Ingredient)Inventory.inventorySlots[itemSlot].Item);
+                Inventory.Remove(itemSlot, 1, true);
+                CloseBook();
+            }
         }
 
 

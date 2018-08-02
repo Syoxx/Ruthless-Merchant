@@ -110,6 +110,13 @@ namespace RuthlessMerchant
             return -1;
         }
 
+        private void SortDisplayPanel(int inventorySlot)
+        {
+            int pageForItem = inventorySlot / Player.Singleton.MaxItemsPerPage;
+            inventorySlots[inventorySlot].DisplayData.transform.parent = BookLogic.InventoryPageList[pageForItem].transform.GetChild(0);
+            inventorySlots[inventorySlot].DisplayData.transform.SetAsLastSibling();
+        }
+
         /// <summary>
         /// Creates a Inventory-Display for a specific Inventoryslot. This Function is only used if UpdateDisplayData couldn't find a InventoryItem
         /// </summary>
@@ -246,6 +253,8 @@ namespace RuthlessMerchant
             for (int i = 0; i < inventorySlots.Length; i++)
             {
                 inventorySlots[i].DisplayData = UpdateDisplayData(inventorySlots[i]);
+                if(inventorySlots[i].DisplayData)
+                    SortDisplayPanel(i);
             }
             inventoryChanged.Invoke();
         }
@@ -351,7 +360,7 @@ namespace RuthlessMerchant
         public int GetNumberOfItems(Item item)
         {
             int amount = 0;
-            if (item == null || inventorySlots != null)
+            if (item == null || inventorySlots == null)
                 return 0;
 
             for (int i = 0; i < maxSlotCount; i++)
