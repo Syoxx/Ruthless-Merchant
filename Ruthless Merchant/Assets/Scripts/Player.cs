@@ -673,7 +673,7 @@ namespace RuthlessMerchant
             for (int i = 0; i < recipes.Panels.Count; i++)
             {
                 int num = i;
-                recipes.Panels[num].Button.onClick.RemoveAllListeners();
+                    recipes.Panels[num].Button.onClick.RemoveAllListeners();
                 recipes.Panels[num].Button.onClick.AddListener(delegate { localSmith.TryCraft(inventory, recipes.Panels[num].Recipe, recipes); });
             }
             {
@@ -788,9 +788,12 @@ namespace RuthlessMerchant
 
         public void OnAlchemyButton(int itemSlot)
         {
-            localAlchemist.AddItem((Ingredient)Inventory.inventorySlots[itemSlot].Item);
-            Inventory.Remove(itemSlot, 1, true);
-            CloseBook();
+            if(Inventory.inventorySlots[itemSlot].Item.ItemType == ItemType.Ingredient)
+            {
+                localAlchemist.AddItem((Ingredient)Inventory.inventorySlots[itemSlot].Item);
+                Inventory.Remove(itemSlot, 1, true);
+                CloseBook();
+            }
         }
 
 
