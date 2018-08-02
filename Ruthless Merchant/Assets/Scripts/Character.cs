@@ -244,8 +244,33 @@ namespace RuthlessMerchant
                 moveVector.Normalize();
             }
 
+            if (isPlayer) //Prevent penetration of terrain obstacles
+            {
+                Ray forwardRay = new Ray(new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z),
+                                transform.TransformDirection(moveVector));
+                RaycastHit forwardRayHit;
 
-            transform.Translate(moveVector * speed * Time.fixedDeltaTime, Space.Self);
+                if (Physics.Raycast(forwardRay, out forwardRayHit, 0.1f))
+                {
+                    if (forwardRayHit.collider.gameObject.layer == 14)
+                    {
+                        // player does not move into obstacles of layer 14
+                    }
+                    else
+                    {
+                        transform.Translate(moveVector * speed * Time.fixedDeltaTime, Space.Self);
+                    }
+                }
+                else
+                {
+                    transform.Translate(moveVector * speed * Time.fixedDeltaTime, Space.Self);
+                }
+            }
+            else
+            {
+                transform.Translate(moveVector * speed * Time.fixedDeltaTime, Space.Self);
+            }
+
             moveVector = Vector3.zero;
         }
 
