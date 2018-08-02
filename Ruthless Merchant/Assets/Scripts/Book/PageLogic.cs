@@ -345,7 +345,7 @@ public class PageLogic : MonoBehaviour
     {
         if (couritineIsFinished)
         {
-            int neededPage = 16;
+            int neededPage = 17;
             CheckPageLocation(neededPage);
         }
     }
