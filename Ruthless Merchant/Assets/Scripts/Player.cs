@@ -227,6 +227,8 @@ namespace RuthlessMerchant
                 isGameFocused = false;
             }
 
+            Physics.IgnoreLayerCollision(9, 13);
+
             OpenBook(KeyCode.N);
             //inventory.InventoryChanged.AddListener(PopulateInventoryPanel);
         }
@@ -407,22 +409,7 @@ namespace RuthlessMerchant
                 }
             }
         }
-
-
-        // TODO: check with benny z. if this can be removed
-        private void UpdateCanvas(int currentRecipe)
-        {
-            Transform canv = smithCanvas.transform.GetChild(0);
-            foreach (Transform child in canv.transform)
-            {
-                Destroy(child.gameObject);
-            }
-            for (int i = 0; i < recipes.GetRecipes()[currenRecipe].ListOfMaterials.Count; i++)
-            {
-                GameObject newPanel = Instantiate(recipeUiPrefab, canv);
-                newPanel.GetComponentInChildren<Text>().text = recipes.GetRecipes()[currenRecipe].ListOfMaterials[i].Item.ItemName + "\n" + recipes.GetRecipes()[currenRecipe].ListOfMaterials[i].Count;
-            }
-        }
+        
 
         #region Book and map
 
@@ -481,7 +468,6 @@ namespace RuthlessMerchant
                 mapObject.SetActive(false);
             }
 
-
             if (currentBookSection == key)
             {
                 CloseBook();
@@ -497,6 +483,11 @@ namespace RuthlessMerchant
 
         private void CloseBook()
         {
+            if (mapObject.activeSelf)
+            {
+                mapObject.SetActive(false);
+            }
+
             currentBookSection = KeyCode.None;
             bookCanvas.SetActive(bookCanvas.activeSelf == false);
             lastKeyPressed = KeyCode.Escape;
