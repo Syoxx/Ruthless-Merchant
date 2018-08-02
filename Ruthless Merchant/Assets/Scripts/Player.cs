@@ -682,7 +682,7 @@ namespace RuthlessMerchant
             for (int i = 0; i < recipes.Panels.Count; i++)
             {
                 int num = i;
-                recipes.Panels[num].Button.onClick.RemoveAllListeners();
+                    recipes.Panels[num].Button.onClick.RemoveAllListeners();
                 recipes.Panels[num].Button.onClick.AddListener(delegate { localSmith.TryCraft(inventory, recipes.Panels[num].Recipe, recipes); });
             }
             {
