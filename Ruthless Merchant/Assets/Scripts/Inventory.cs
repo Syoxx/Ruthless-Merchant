@@ -286,7 +286,7 @@ namespace RuthlessMerchant
             for (int i = 0; i < inventorySlots.Length; i++)
             {
                 if (inventorySlots[i].Item != null)
-                    Debug.Log(inventorySlots[i].Item.gameObject.name);
+                    Debug.Log(inventorySlots[i].Item.ItemName);
                 else
                     Debug.Log("Empty");
             }
