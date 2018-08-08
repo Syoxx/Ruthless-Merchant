@@ -84,10 +84,29 @@ namespace RuthlessMerchant
             potion.CreatePotion(atk, def, speed, hp);
             potion.ItemName = itemName;
             potion.ItemType = ItemType.ConsumAble;
+            potion.ItemRarity = Rarity(atk, def, speed, hp);
 
             Player p = caller.GetComponent<Player>();
             p.Inventory.Add(potion.DeepCopy(), 1, true);
             Destroy(potion.gameObject);
+        }
+
+        /// <summary>
+        /// Sets the rarity of the potion, depending on the total power
+        /// </summary>
+        private ItemRarity Rarity(int atk, int def, int speed, int hp)
+        {
+            int totalPower = Mathf.Abs(atk) + Mathf.Abs(def) + Mathf.Abs(speed) + Mathf.Abs(hp);
+
+            if (totalPower >= 3)
+            {
+                return ItemRarity.Selten;
+            }
+            if (totalPower >= 2)
+            {
+                return ItemRarity.Ungewöhnlich;
+            }
+            return ItemRarity.Üblich;
         }
 
         /// <summary>
