@@ -10,8 +10,8 @@ namespace RuthlessMerchant
 {
     public class Minion : Warrior
     {
-        private CaptureTrigger currentTrigger = null;
-        private CaptureTrigger lastTrigger = null;
+        private CaptureTrigger currentOutpost = null;
+        private CaptureTrigger lastOutpost = null;
 
         public override void Start()
         {
@@ -23,20 +23,20 @@ namespace RuthlessMerchant
             base.Update();
             if (CurrentAction == null || (CurrentAction is ActionIdle && !(CurrentAction is ActionCapture)))
             {
-                CaptureTrigger trigger = currentTrigger;
-                if (currentTrigger == null)
-                    trigger = lastTrigger;
+                CaptureTrigger outpost = currentOutpost;
+                if (currentOutpost == null)
+                    outpost = lastOutpost;
 
-                if (trigger != null)
+                if (outpost != null)
                 {
-                    if (trigger.Owner == faction)
+                    if (outpost.Owner == faction)
                     {
                         ChangeSpeed(SpeedType.Walk);
-                        SelectNextOutpost(trigger);
+                        SelectNextOutpost(outpost);
                     }
                     else
                     {
-                        AddNewWaypoint(new Waypoint(trigger.transform, true, 0));
+                        AddNewWaypoint(new Waypoint(outpost.Target, true, 0));
                         SetCurrentAction(new ActionMove(), null);
                     }
                 }
@@ -53,25 +53,25 @@ namespace RuthlessMerchant
             {
                 if (CurrentAction == null || CurrentAction is ActionMove || CurrentAction is ActionIdle)
                 {
-                    CaptureTrigger trigger = other.GetComponent<CaptureTrigger>();
-                    if (trigger != null)
+                    CaptureTrigger outpost = other.GetComponent<CaptureTrigger>();
+                    if (outpost != null)
                     {
-                        if (trigger.Owner != faction)
+                        if (outpost.Owner != faction)
                         {
-                            if (trigger.Hero == null || trigger.IsHeroAway)
+                            if (outpost.Hero == null || outpost.IsHeroAway)
                             {
-                                currentTrigger = trigger;
-                                SetCurrentAction(new ActionCapture(ActionNPC.ActionPriority.Medium), trigger.gameObject, false, false);
+                                currentOutpost = outpost;
+                                SetCurrentAction(new ActionCapture(ActionNPC.ActionPriority.Medium), outpost.gameObject, false, false);
                             }
                             else
                             {
-                                currentTrigger = trigger;
-                                SetCurrentAction(new ActionHunt(ActionNPC.ActionPriority.High), trigger.Hero.gameObject, true, true);
+                                currentOutpost = outpost;
+                                SetCurrentAction(new ActionHunt(ActionNPC.ActionPriority.High), outpost.Hero.gameObject, true, true);
                             }
                         }
                         else
                         {
-                            SelectNextOutpost(trigger);
+                            SelectNextOutpost(outpost);
                         }
                     }
                 }
@@ -81,46 +81,46 @@ namespace RuthlessMerchant
         /// <summary>
         /// Chooses the next outpost to goto
         /// </summary>
-        /// <param name="trigger">Current outpost</param>
-        private void SelectNextOutpost(CaptureTrigger trigger)
+        /// <param name="outpost">Current outpost</param>
+        private void SelectNextOutpost(CaptureTrigger outpost)
         {
-            if (trigger != null)
+            if (outpost != null)
             {
                 List<CaptureTrigger> possibleTriggers = new List<CaptureTrigger>();
                 if (Faction == Faction.Freidenker)
                 {
-                    if (trigger.OutpostsToImperialist != null && trigger.OutpostsToImperialist.Length > 0)
+                    if (outpost.OutpostsToImperialist != null && outpost.OutpostsToImperialist.Length > 0)
                     {
-                        if (trigger.IsLaneSplitter && laneSelectionIndex < trigger.OutpostsToImperialist.Length)
+                        if (outpost.IsLaneSplitter && laneSelectionIndex < outpost.OutpostsToImperialist.Length)
                         {
-                            possibleTriggers.Add(trigger.OutpostsToImperialist[laneSelectionIndex]);
+                            possibleTriggers.Add(outpost.OutpostsToImperialist[laneSelectionIndex]);
                         }
                         else
                         {
-                            possibleTriggers.Add(trigger.OutpostsToImperialist[0]);
-                            for (int i = 1; i < trigger.OutpostsToImperialist.Length; i++)
+                            possibleTriggers.Add(outpost.OutpostsToImperialist[0]);
+                            for (int i = 1; i < outpost.OutpostsToImperialist.Length; i++)
                             {
-                                if (trigger.OutpostsToImperialist[i].Owner != Faction.Freidenker)
-                                    possibleTriggers.Add(trigger.OutpostsToImperialist[i]);
+                                if (outpost.OutpostsToImperialist[i].Owner != Faction.Freidenker)
+                                    possibleTriggers.Add(outpost.OutpostsToImperialist[i]);
                             }
                         }
                     }
                 }
                 else if (Faction == Faction.Imperialisten)
                 {
-                    if (trigger.OutpostsToFreidenker != null && trigger.OutpostsToFreidenker.Length > 0)
+                    if (outpost.OutpostsToFreidenker != null && outpost.OutpostsToFreidenker.Length > 0)
                     {
-                        if (trigger.IsLaneSplitter && laneSelectionIndex < trigger.OutpostsToFreidenker.Length)
+                        if (outpost.IsLaneSplitter && laneSelectionIndex < outpost.OutpostsToFreidenker.Length)
                         {
-                            possibleTriggers.Add(trigger.OutpostsToFreidenker[laneSelectionIndex]);
+                            possibleTriggers.Add(outpost.OutpostsToFreidenker[laneSelectionIndex]);
                         }
                         else
                         {
-                            possibleTriggers.Add(trigger.OutpostsToFreidenker[0]);
-                            for (int i = 1; i < trigger.OutpostsToFreidenker.Length; i++)
+                            possibleTriggers.Add(outpost.OutpostsToFreidenker[0]);
+                            for (int i = 1; i < outpost.OutpostsToFreidenker.Length; i++)
                             {
-                                if (trigger.OutpostsToFreidenker[i].Owner != Faction.Imperialisten)
-                                    possibleTriggers.Add(trigger.OutpostsToFreidenker[i]);
+                                if (outpost.OutpostsToFreidenker[i].Owner != Faction.Imperialisten)
+                                    possibleTriggers.Add(outpost.OutpostsToFreidenker[i]);
                             }
                         }
                     }
@@ -129,9 +129,9 @@ namespace RuthlessMerchant
                 if (possibleTriggers.Count > 0)
                 {
                     int selectedPath = Random.Range(0, possibleTriggers.Count);
-                    AddNewWaypoint(new Waypoint(possibleTriggers[selectedPath].transform, true, 0));
+                    AddNewWaypoint(new Waypoint(possibleTriggers[selectedPath].Target, true, 0));
                     SetCurrentAction(new ActionMove(), null);
-                    lastTrigger = possibleTriggers[selectedPath];
+                    lastOutpost = possibleTriggers[selectedPath];
                 }
             }
         }
