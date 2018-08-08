@@ -40,6 +40,7 @@ namespace RuthlessMerchant
         [SerializeField]
         private GameObject FreidenkerHeroPrefab = null;
 
+        private Transform target;
         private bool isHeroAway = false;
 
         public event EventHandler OnHeroRemoved;
@@ -144,6 +145,20 @@ namespace RuthlessMerchant
             }
         }
 
+        public Transform Target
+        {
+            get
+            {
+                if(target == null)
+                {
+                    target = transform.Find("Target");
+                    if (target == null)
+                        Debug.Log("Target NULL!");
+                }
+                return target;
+            }
+        }
+
         // Use this for initialization
         protected virtual void Start()
         {
@@ -154,6 +169,7 @@ namespace RuthlessMerchant
             else if (owner == Faction.Imperialisten)
                 captureValue = 100;
 
+            target = transform.Find("Target");
             if (outpostsToFreidenker != null && outpostsToFreidenker.Length > 0 && !(outpostsToFreidenker[0] is CityTrigger))
             {
                 outpostsToFreidenker[0].OnHeroRemoved += CaptureTriggerF_OnHeroRemoved;
@@ -199,12 +215,12 @@ namespace RuthlessMerchant
             {
                 if (owner == Faction.Freidenker)
                 {
-                    GameObject gobj = Instantiate(FreidenkerHeroPrefab, transform.position, Quaternion.identity, transform);
+                    GameObject gobj = Instantiate(FreidenkerHeroPrefab, Target.position, Quaternion.identity, transform);
                     Hero = gobj.GetComponent<Hero>();
                 }
                 else if (owner == Faction.Imperialisten)
                 {
-                    GameObject gobj = Instantiate(ImperialstHeroPrefab, transform.position, Quaternion.identity, transform);
+                    GameObject gobj = Instantiate(ImperialstHeroPrefab, Target.position, Quaternion.identity, transform);
                     Hero = gobj.GetComponent<Hero>();
                 }
             }
