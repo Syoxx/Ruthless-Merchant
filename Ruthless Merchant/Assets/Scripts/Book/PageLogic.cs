@@ -67,7 +67,6 @@ public class PageLogic : MonoBehaviour
 
     void Update()
     {
-        BookControlling();
         HighlightBookmarkButtons();
         CurrentActivePage();
     }
@@ -143,61 +142,6 @@ public class PageLogic : MonoBehaviour
             maxWeaponsPerPage = 1;
         return (CountWeaponsInInventory() /
                 maxWeaponsPerPage);
-    }
-
-    /// <summary>
-    /// BookControlling for pages flip
-    /// </summary>
-    private void BookControlling()
-    {
-        //Mouse Control - Flip effect with LMB/RMB
-        //
-        //TODO
-        //Currently turned off due of the missing navigation with W/A/S/D. Just uncomment it when navigation is done
-        //
-        //
-
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    flipEffect.FlipRightPage();
-        //}
-        //if (Input.GetMouseButtonDown(1))
-        //{
-        //    flipEffect.FlipLeftPage();
-        //}
-
-
-        //Buttons Control to jump to certain points
-
-        //if (Input.GetKeyDown(KeyCode.I) || Player.lastKeyPressed == KeyCode.I)
-        //{
-        //    GoToPage(KeyCode.I);
-        //}
-
-        //if (Input.GetKeyDown(KeyCode.J) || Player.lastKeyPressed == KeyCode.J)
-        //{
-        //    GoToPage(KeyCode.J);
-        //}
-
-        ////if (Input.GetKeyDown(KeyCode.Escape))
-        ////{
-        ////    bookItSelf.SetActive(bookItSelf.activeSelf == false);
-        ////}
-
-        //if (Player.lastKeyPressed == KeyCode.Escape)
-        //{
-        //    GoToPage(KeyCode.Escape);
-        //}
-
-        //if (Input.GetKeyDown(KeyCode.N) || Player.lastKeyPressed == KeyCode.N)
-        //{
-        //    GoToPage(KeyCode.N);
-        //}
-
-        //if (Input.GetKeyDown(KeyCode.R) || Player.lastKeyPressed == KeyCode.R)
-        //{
-        //    GoToPage(KeyCode.R);
-        //}
     }
 
     public void GoToPage(KeyCode key)
