@@ -413,6 +413,8 @@ namespace RuthlessMerchant
         /// <returns>Returns true if the object is covered by an obstacle</returns>
         private bool IsObjectBehindObstacle(GameObject gameObject)
         {
+            return false;
+            /*
             Vector3 direction = gameObject.transform.position - transform.position;
             direction.Normalize();
 
@@ -421,7 +423,7 @@ namespace RuthlessMerchant
             if (hit)
                 hit = hitInfo.collider.gameObject == gameObject;
 
-            return !hit;
+            return !hit;*/
         }
 
         /// <summary>
