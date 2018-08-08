@@ -100,66 +100,66 @@ namespace RuthlessMerchant
         /// <returns>final name as string</returns>
         string PotionName(int atk, int def, int speed, int hp)
         {
-            string name = "potion of";
+            string name = "Potion";
 
             if (atk != 0)
             {
                 name += GetPowerAsString(atk);
                 if (atk > 0)
                 {
-                    name += " strength";
+                    name += " STR";
                 }
                 else
                 {
-                    name += " weakness";
+                    name += " WEAK";
                 }
             }
             if (def != 0)
             {
                 if (atk != 0)
                 {
-                    name += " and";
+                    name += " &";
                 }
                 name += GetPowerAsString(def);
                 if (def > 0)
                 {
-                    name += " defense";
+                    name += " DEF";
                 }
                 else
                 {
-                    name += " fragility";
+                    name += " FRAG";
                 }
             }
             if (speed != 0)
             {
                 if (atk != 0 || def != 0)
                 {
-                    name += " and";
+                    name += " &";
                 }
                 name += GetPowerAsString(speed);
                 if (speed > 0)
                 {
-                    name += " speed";
+                    name += " SPED";
                 }
                 else
                 {
-                    name += " sloth";
+                    name += " SLOW";
                 }
             }
             if (hp != 0)
             {
                 if (atk != 0 || def != 0 || speed != 0)
                 {
-                    name += " and";
+                    name += " &";
                 }
                 name += GetPowerAsString(hp);
                 if (hp > 0)
                 {
-                    name += " health";
+                    name += " HEAL";
                 }
                 else
                 {
-                    name += " poison";
+                    name += " HURT";
                 }
             }
             return name;
@@ -174,12 +174,12 @@ namespace RuthlessMerchant
         {
             if(Mathf.Abs(power) >2)
             {
-                return " supreme";
+                return " 3x";
             }
 
             else if (Mathf.Abs(power) > 1)
             {
-                return " great";
+                return " 2x";
             }
             return "";
         }
