@@ -196,6 +196,10 @@ namespace RuthlessMerchant
         {
             recipePanels = new List<RecipePanel>();
             counts = new List<ItemCount>();
+            if(!book)
+            {
+                book = GameObject.Find("Book").GetComponent<BookPro>();
+            }
             recipePages = FindPanels();
         }
 
