@@ -47,10 +47,11 @@ namespace RuthlessMerchant
         {
             base.StartAction(parent, other);
 
+            if(agent == null)
+                agent = parent.GetComponent<NavMeshAgent>();
+
             if (other != null)
                 parent.AddNewWaypoint(new Waypoint(other.transform, true, 0), true);
-
-            agent = parent.GetComponent<NavMeshAgent>();
 
             if (parent.Waypoints.Count > 0)
                 agent.SetDestination(parent.Waypoints[0].GetPosition());
