@@ -44,9 +44,9 @@ namespace RuthlessMerchant
             {
                 if (quest.Equals(default(QuestItem)) &&
                     (Outpost.IsHeroAway || Outpost.Owner != faction) &&
-                    (Waypoints.Count == 0 || waypoints[0].Transform != Outpost.transform))
+                    (Waypoints.Count == 0 || waypoints[0].Transform != Outpost.Target))
                 {
-                    AddNewWaypoint(new Waypoint(Outpost.transform, true, 0), true);
+                    AddNewWaypoint(new Waypoint(Outpost.Target, true, 0), true);
                     SetCurrentAction(new ActionMove(ActionNPC.ActionPriority.Medium), null, true);
                 }
                 else if (!Outpost.IsHeroAway)

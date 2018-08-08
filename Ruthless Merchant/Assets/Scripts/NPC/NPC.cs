@@ -648,7 +648,7 @@ namespace RuthlessMerchant
             if (path != null)
             {
                 this.laneSelectionIndex = laneSelectionIndex;
-                Waypoint waypoint = new Waypoint(path.transform, removeOnWaypointReached, waitTime);
+                Waypoint waypoint = new Waypoint(path.Target, removeOnWaypointReached, waitTime);
                 AddNewWaypoint(waypoint, true);
                 return waypoint;
             }
