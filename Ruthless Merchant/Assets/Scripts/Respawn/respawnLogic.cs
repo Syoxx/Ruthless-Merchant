@@ -40,7 +40,7 @@ namespace RuthlessMerchant
         public void InitiateRespawn()
         {
             respawnPoint = GetRespawnPoint();
-            CrossFadeAlphaWithCallback(fadeImage, 255, 2f, delegate
+            CrossFadeAlphaWithCallback(fadeImage, 1, 2f, delegate
             {
                 transform.position = respawnPoint.transform.position;
             });
