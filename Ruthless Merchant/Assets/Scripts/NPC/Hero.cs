@@ -3,13 +3,16 @@
 //
 //---------------------------------------------------------------
 
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace RuthlessMerchant
 {
     public class Hero : Warrior
     {
-        private QuestItem Quest;
+        private QuestItem quest;
+
+        public CaptureTrigger Outpost;
 
         [Header("Patrol settings")]
         [SerializeField]
@@ -24,14 +27,44 @@ namespace RuthlessMerchant
 
         public override void Start()
         {
+            if (patrolActive)
+            {
+                patrolActive = false;
+                if (PossiblePatrolPaths != null && PossiblePatrolPaths.Length > 0)
+                    PatrolPoints = new List<Waypoint>(GetRandomPath(PossiblePatrolPaths, false, 3)).ToArray();
+
+                SetCurrentAction(new ActionPatrol(ActionNPC.ActionPriority.Low), null);
+            }
             base.Start();
         }
 
         public override void Update()
         {
+            if (Outpost != null)
+            {
+                if (quest.Equals(default(QuestItem)) &&
+                    (Outpost.IsHeroAway || Outpost.Owner != faction) &&
+                    (Waypoints.Count == 0 || waypoints[0].Transform != Outpost.Target))
+                {
+                    AddNewWaypoint(new Waypoint(Outpost.Target, true, 0), true);
+                    SetCurrentAction(new ActionMove(ActionNPC.ActionPriority.Medium), null, true);
+                }
+                else if (!Outpost.IsHeroAway)
+                {
+                    if (Outpost.IsUnderAttack)
+                    {
+                        Transform target = Outpost.GetClosestAttacker(this);
+                        SetCurrentAction(new ActionHunt(ActionNPC.ActionPriority.High), target.gameObject, false, true);
+                    }
+                    else
+                    {
+                        if (CurrentAction is ActionIdle || CurrentAction == null)
+                            SetCurrentAction(new ActionWander(), null);
+                    }
+                }
+            }
+
             base.Update();
         }
-
-
     }
 }

@@ -21,6 +21,8 @@ namespace RuthlessMerchant
         private static float globalGravityScale = -9.81f;
         private float groundedSkin = 0.05f;
         private bool grounded;
+        private bool justJumped;
+        private RaycastHit rayHit;
         bool is_climbable_left;
         bool is_climbable_right;
         bool is_climbable_front;
@@ -34,6 +36,7 @@ namespace RuthlessMerchant
         private bool isPlayer;
         private bool preventClimbing = false;
         private Vector3 previousPosition;
+        private float yPositionOffset;
         private float elapsedSecs;
         private float terrainCheckRadius;
 
@@ -186,7 +189,8 @@ namespace RuthlessMerchant
             {
                 charCollider = GetComponent<CapsuleCollider>();
                 terrainCheckRadius = charCollider.radius / 4;
-            }            
+                yPositionOffset = (charCollider.height / 2) * transform.localScale.y;
+            }
 
             if (CompareTag("Player"))
             {
@@ -228,8 +232,7 @@ namespace RuthlessMerchant
         {
             if (velocity != Vector2.zero && !isPlayer)
             { transform.rotation = Quaternion.LookRotation(velocity); }
-
-            //moveVector = Vector3.zero;
+            
             rb.velocity = new Vector3(0f, rb.velocity.y, 0f);
 
             moveVector.y = 0;
@@ -241,9 +244,34 @@ namespace RuthlessMerchant
                 moveVector.Normalize();
             }
 
+            if (isPlayer) //Prevent penetration of terrain obstacles
+            {
+                Ray forwardRay = new Ray(new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z),
+                                transform.TransformDirection(moveVector));
+                RaycastHit forwardRayHit;
 
-            transform.Translate(moveVector * speed * Time.fixedDeltaTime, Space.Self);
-            //moveVector = Vector3.zero;
+                if (Physics.Raycast(forwardRay, out forwardRayHit, 0.1f))
+                {
+                    if (forwardRayHit.collider.gameObject.layer == 14)
+                    {
+                        // player does not move into obstacles of layer 14
+                    }
+                    else
+                    {
+                        transform.Translate(moveVector * speed * Time.fixedDeltaTime, Space.Self);
+                    }
+                }
+                else
+                {
+                    transform.Translate(moveVector * speed * Time.fixedDeltaTime, Space.Self);
+                }
+            }
+            else
+            {
+                transform.Translate(moveVector * speed * Time.fixedDeltaTime, Space.Self);
+            }
+
+            moveVector = Vector3.zero;
         }
 
         public void Rotate()
@@ -254,6 +282,15 @@ namespace RuthlessMerchant
         public override void Update()
         {
             elapsedAttackTime += Time.deltaTime;
+            
+            if (elapsedSecs > 0)
+            {
+                elapsedSecs -= Time.deltaTime;
+            }
+            else /*if (justJumped == true && grounded)*/
+            {
+                justJumped = false;
+            }
         }
 
         public void Consume()
@@ -278,38 +315,32 @@ namespace RuthlessMerchant
 
         public void Jump()
         {
-            if (CheckCharGrounded())
+            if (grounded)
             {
-                if (elapsedSecs <= 0)
-                {
-                    //grounded = false;
-                    gravity = Vector3.zero;
-                    rb.AddForce(Vector3.up * 0.1f * maxJumpHeight, ForceMode.VelocityChange);
-                    elapsedSecs = 1f;
-                }
+                grounded = false;
+                justJumped = true;
+                gravity = Vector3.zero;
+                rb.AddForce(Vector3.up * 0.1f * maxJumpHeight, ForceMode.VelocityChange);
+                elapsedSecs = 0.4f;
             }
         }
 
         protected virtual void FixedUpdate()
         {
-            grounded = CheckCharGrounded();
 
-            if (elapsedSecs >= 0)
-            {
-                elapsedSecs -= Time.deltaTime;
-            }
+            rayHit = CheckCharGrounded(rayHit);
 
             if (isPlayer)
             {
                 // check the terrain angle in four directions player could move
                 preventClimbing = false;
                 Vector3 rayOriginInPlayer = new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z);
-                                
-                Ray rayLeft     = new Ray(rayOriginInPlayer - transform.right * terrainCheckRadius, Vector3.down);
-                Ray rayRight    = new Ray(rayOriginInPlayer + transform.right * terrainCheckRadius, Vector3.down);
-                Ray rayFront    = new Ray(rayOriginInPlayer + transform.forward * terrainCheckRadius, Vector3.down);
-                Ray rayBack     = new Ray(rayOriginInPlayer - transform.forward * terrainCheckRadius, Vector3.down);
-                
+
+                Ray rayLeft = new Ray(rayOriginInPlayer - transform.right * terrainCheckRadius, Vector3.down);
+                Ray rayRight = new Ray(rayOriginInPlayer + transform.right * terrainCheckRadius, Vector3.down);
+                Ray rayFront = new Ray(rayOriginInPlayer + transform.forward * terrainCheckRadius, Vector3.down);
+                Ray rayBack = new Ray(rayOriginInPlayer - transform.forward * terrainCheckRadius, Vector3.down);
+
                 is_climbable_left = CheckGroundAngle(rayLeft);
                 is_climbable_right = CheckGroundAngle(rayRight);
                 is_climbable_front = CheckGroundAngle(rayFront);
@@ -319,29 +350,21 @@ namespace RuthlessMerchant
                 {
                     preventClimbing = true;
                 }
-            }            
+            }
         }
 
         private void LateUpdate()
         {
             // Set gravity and prevent player climbing walls
-            if (grounded)
-            {   
-                if (isPlayer)
+
+            if (isPlayer)
+            {
+                if (preventClimbing)
                 {
-                    if (preventClimbing)
+                    if ((!is_climbable_front && moveVector.z > 0.5f) || (!is_climbable_back && moveVector.z < -0.5f)
+                                        || (!is_climbable_right && moveVector.x > 0.5f) || (!is_climbable_left && moveVector.x < -0.5f))
                     {
-                        if ((!is_climbable_front && moveVector.z > 0.5f) || (!is_climbable_back && moveVector.z < -0.5f)
-                                            || (!is_climbable_right && moveVector.x > 0.5f) || (!is_climbable_left && moveVector.x < -0.5f))
-                        {
-                            rb.transform.position = previousPosition;
-                        }
-                        else
-                        {
-                            previousPosition.x = transform.position.x;
-                            previousPosition.y = transform.position.y;
-                            previousPosition.z = transform.position.z;
-                        }
+                        rb.transform.position = previousPosition;
                     }
                     else
                     {
@@ -349,33 +372,41 @@ namespace RuthlessMerchant
                         previousPosition.y = transform.position.y;
                         previousPosition.z = transform.position.z;
                     }
-
                 }
-                if (rb != null)
+                else
+                {
+                    previousPosition.x = transform.position.x;
+                    previousPosition.y = transform.position.y;
+                    previousPosition.z = transform.position.z;
+                }
+
+            }
+
+            // gravity for all characters
+            if (rb != null)
+            {
+                if (grounded)
                 {
                     gravity = Vector3.zero;
-                    
-                    if (moveVector == Vector3.zero && rb.velocity.y < 2f)
-                    {
-                        rb.velocity = new Vector3(0, 0, 0);
-                    }
-                    else
-                    {
-                        gravity.y = -0.1f;
-                    }
-                    ApplyGravity(gravity);
-
                 }
-            }
-            else
-            {
-                if (rb != null)
+                else
                 {
                     gravity += globalGravityScale * Vector3.up * Time.deltaTime * 2f;
-                    ApplyGravity(gravity);
                 }
+                ApplyGravity(gravity);
             }
 
+            // adjust y position
+            if (rayHit.point.y != 0)
+            {
+                float offset = rayHit.point.y + yPositionOffset;
+
+                if (!(justJumped) && grounded)
+                {
+                    rb.transform.position = new Vector3(rb.transform.position.x, offset, rb.transform.position.z);
+                }
+            }
+            
         }
 
         /// <summary>
@@ -402,7 +433,7 @@ namespace RuthlessMerchant
                         isClimbableAngle = false;
                     }
                 }
-            }          
+            }
 
             return isClimbableAngle;
         }
@@ -437,18 +468,6 @@ namespace RuthlessMerchant
 
         public void ApplyGravity(Vector3 gravity)
         {
-            // prevent player drifting upwards
-            if (rb.velocity.y > 0 && moveVector == Vector3.zero && grounded)
-            {
-                Debug.Log("testing condition");
-
-                gravity.y = -1f;
-
-            }
-            else if (rb.velocity.y < 0 && grounded)
-            {
-                //Vector3 rbCorrection = new Vector3(0, 0, 0);
-            }
             rb.AddForce(gravity, ForceMode.Acceleration);
         }
 
@@ -456,7 +475,7 @@ namespace RuthlessMerchant
         {
             grounded = _grounded;
         }
-        
+
         /// <summary>
         /// Used to check if character is on the ground
         /// </summary>
@@ -464,9 +483,10 @@ namespace RuthlessMerchant
         /// returns true if detects collision with relevant layer within the CheckDistance 
         /// (layerMask defines which layers are detected)
         /// </returns>
-        private bool CheckCharGrounded()
+        private RaycastHit CheckCharGrounded(RaycastHit hitInfo)
         {
-            return Physics.Raycast(transform.position, Vector3.down, groundCheckDistance, layerMask);
+            grounded = Physics.Raycast(transform.position, Vector3.down, out hitInfo, groundCheckDistance, layerMask);
+            return hitInfo;
         }
     }
 }

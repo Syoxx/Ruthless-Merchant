@@ -165,21 +165,21 @@ namespace RuthlessMerchant
 
         public override void Start()
         {
-            possibleHearedObjects = new List<AudioSource>();
+            //possibleHearedObjects = new List<AudioSource>();
             possibleSeenObjects = new List<GameObject>();
             noticedGameObjects = new List<GameObject>();
 
-            if(waypoints == null)
+            if (waypoints == null)
                 waypoints = new List<Waypoint>();
 
-            GameObject hearObject = transform.GetChild(0).gameObject;
+            //GameObject hearObject = transform.GetChild(0).gameObject;
             GameObject seeObject = transform.GetChild(1).gameObject;
 
             SphereCollider seeCollider = seeObject.GetComponent<SphereCollider>();
             seeCollider.radius = viewDistance;
 
-            SphereCollider hearCollider = hearObject.GetComponent<SphereCollider>();
-            hearCollider.radius = hearDistance;
+            //SphereCollider hearCollider = hearObject.GetComponent<SphereCollider>();
+            //hearCollider.radius = hearDistance;
 
             agent = GetComponent<NavMeshAgent>();
             agent.autoBraking = false;
@@ -194,10 +194,10 @@ namespace RuthlessMerchant
         {
             base.Update();
             Recognize();
-            Hear();
+            //Hear();
             Regeneration();
 
-            if(currentAction != null)
+            if (currentAction != null)
                 currentAction.Update(Time.deltaTime);
 
             CheckReactionState();
@@ -207,7 +207,7 @@ namespace RuthlessMerchant
                 ChangeSpeed(SpeedType.Walk);
             }
 
-            if(agent.remainingDistance <= agent.baseOffset || agent.remainingDistance <= agent.stoppingDistance)
+            if (agent.remainingDistance <= agent.baseOffset || agent.remainingDistance <= agent.stoppingDistance)
             {
                 agent.isStopped = true;
             }
@@ -221,10 +221,10 @@ namespace RuthlessMerchant
 
         private void Regeneration()
         {
-            if(healthRegPerSec > 0)
+            if (healthRegPerSec > 0)
             {
                 healthRegValue += healthRegPerSec * Time.deltaTime;
-                if(healthRegValue > 1.0f)
+                if (healthRegValue > 1.0f)
                 {
                     int addValue = (int)Math.Floor(healthRegValue);
                     healthRegValue -= addValue;
@@ -265,7 +265,7 @@ namespace RuthlessMerchant
             }
             else if (currentItemTarget != null)
                 React(currentItemTarget);
-            else if(!(currentAction is ActionIdle))
+            else if (!(currentAction is ActionIdle))
                 SetCurrentAction(new ActionIdle(), null);
         }
 
@@ -294,7 +294,7 @@ namespace RuthlessMerchant
         /// <summary>
         /// Check all gameobjects in hearrange to see if they are recognized
         /// </summary>
-        private void Hear()
+        /*private void Hear()
         {
             for (int i = 0; i < possibleHearedObjects.Count; i++)
             {
@@ -320,7 +320,7 @@ namespace RuthlessMerchant
                     }
                 }
             }
-        }
+        }*/
 
         /// <summary>
         /// Check all gameobjects in viewrange to see if they are in sight
@@ -329,7 +329,7 @@ namespace RuthlessMerchant
         {
             for (int i = 0; i < possibleSeenObjects.Count; i++)
             {
-                if(possibleSeenObjects[i] == null)
+                if (possibleSeenObjects[i] == null)
                 {
                     possibleSeenObjects.RemoveAt(i);
                     i--;
@@ -337,44 +337,72 @@ namespace RuthlessMerchant
                 }
 
                 Vector3 targetDir = possibleSeenObjects[i].transform.position - transform.position;
-                float angle = Vector3.Angle(targetDir, transform.forward);            
-                bool alreadyNoticed = noticedGameObjects.Contains(possibleSeenObjects[i]);
+                float angle = Vector3.Angle(targetDir, transform.forward);
+
+
 
                 if (angle < fov && !IsObjectBehindObstacle(possibleSeenObjects[i]))
                 {
-                    if (!alreadyNoticed)
+                    if (currentReactTarget != null && currentReactTarget == possibleSeenObjects[i])
                     {
-                        noticedGameObjects.Add(possibleSeenObjects[i]);
+                        elapsedLostTime = 0.0f;
+                        reactionState = reactionState.SetFlag(TargetState.Lost);
+                        reactionState = reactionState.RemoveFlag(TargetState.InView);
+                    }
+                    else
+                    {
                         FindReactionTarget(possibleSeenObjects[i]);
-                        if(currentReactTarget != null && currentReactTarget.gameObject == possibleSeenObjects[i])
+                        if (currentReactTarget != null && currentReactTarget.gameObject == possibleSeenObjects[i])
                         {
                             reactionState = reactionState.SetFlag(TargetState.InView);
                             reactionState = reactionState.RemoveFlag(TargetState.Lost);
                             elapsedLostTime = 0.0f;
-                        }
 
-                        //TODO: check components and add event args!
-                        if (OnCharacterNoticed != null)
-                            OnCharacterNoticed.Invoke(this, null);
-
-                        if (OnItemNoticed != null)
-                            OnItemNoticed.Invoke(this, null);
-                    }
-                }
-                else
-                {
-                    if (alreadyNoticed)
-                    {
-                        noticedGameObjects.Remove(possibleSeenObjects[i]);
-                        if (currentReactTarget != null && currentReactTarget.gameObject == possibleSeenObjects[i])
-                        {
-                            elapsedLostTime = 0.0f;
-                            reactionState = reactionState.SetFlag(TargetState.Lost);
-                            reactionState = reactionState.RemoveFlag(TargetState.InView);
-
+                            if (OnCharacterNoticed != null)
+                                OnCharacterNoticed.Invoke(this, null);
                         }
                     }
                 }
+
+                /* bool alreadyNoticed = noticedGameObjects.Contains(possibleSeenObjects[i]);
+
+
+
+             if (angle < fov && !IsObjectBehindObstacle(possibleSeenObjects[i]))
+             {
+                 if (!alreadyNoticed)
+                 {
+                     noticedGameObjects.Add(possibleSeenObjects[i]);
+                     FindReactionTarget(possibleSeenObjects[i]);
+                     if(currentReactTarget != null && currentReactTarget.gameObject == possibleSeenObjects[i])
+                     {
+                         reactionState = reactionState.SetFlag(TargetState.InView);
+                         reactionState = reactionState.RemoveFlag(TargetState.Lost);
+                         elapsedLostTime = 0.0f;
+                     }
+
+                     //TODO: check components and add event args!
+                     if (OnCharacterNoticed != null)
+                         OnCharacterNoticed.Invoke(this, null);
+
+                     //if (OnItemNoticed != null)
+                     //    OnItemNoticed.Invoke(this, null);
+                 }
+             }
+             else
+             {
+                 if (alreadyNoticed)
+                 {
+                     noticedGameObjects.Remove(possibleSeenObjects[i]);
+                     if (currentReactTarget != null && currentReactTarget.gameObject == possibleSeenObjects[i])
+                     {
+                         elapsedLostTime = 0.0f;
+                         reactionState = reactionState.SetFlag(TargetState.Lost);
+                         reactionState = reactionState.RemoveFlag(TargetState.InView);
+
+                     }
+                 }
+             }*/
             }
         }
 
@@ -485,6 +513,13 @@ namespace RuthlessMerchant
             }
         }
 
+
+        public void ResetTarget()
+        {
+            currentReactTarget = null;
+            reactionState = TargetState.None;
+            Reacting = false;
+        }
         /// <summary>
         /// Rotate towards a given position
         /// </summary>
@@ -613,7 +648,7 @@ namespace RuthlessMerchant
             if (path != null)
             {
                 this.laneSelectionIndex = laneSelectionIndex;
-                Waypoint waypoint = new Waypoint(path.transform, removeOnWaypointReached, waitTime);
+                Waypoint waypoint = new Waypoint(path.Target, removeOnWaypointReached, waitTime);
                 AddNewWaypoint(waypoint, true);
                 return waypoint;
             }

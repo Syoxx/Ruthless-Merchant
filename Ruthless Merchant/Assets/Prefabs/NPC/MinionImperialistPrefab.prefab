@@ -44,7 +44,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1675400970968520
 GameObject:
   m_ObjectHideFlags: 0
@@ -218,7 +218,10 @@ MonoBehaviour:
   sneakSpeed: 2
   walkSpeed: 5
   runSpeed: 10
-  stickToGroundValue: 0
+  groundCheckDistance: 0.25
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
   maxJumpHeight: 0
   maxSlopeAngle: 0
   rotationSpeed: 8
@@ -227,13 +230,9 @@ MonoBehaviour:
   hearDistance: 5
   healthRegPerSec: 0
   capValuePerSecond: 1
-  ActionOutput: 
   Reacting: 0
   huntDistance: 5
   attackDistance: 1.5
-  patrolActive: 0
-  PossiblePatrolPaths: []
-  PatrolPoints: []
 --- !u!135 &135126293822941604
 SphereCollider:
   m_ObjectHideFlags: 1
