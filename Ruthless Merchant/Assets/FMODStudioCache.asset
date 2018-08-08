@@ -11,34 +11,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
   m_Name: FMODStudioCache
   m_EditorClassIdentifier: 
-  EditorBanks:
-  - {fileID: 114290084834033768}
-  - {fileID: 114753522001780476}
-  - {fileID: 114108205766307950}
-  - {fileID: 114543294964326806}
-  - {fileID: 114622364344735952}
-  - {fileID: 114194525444702780}
-  EditorEvents:
-  - {fileID: 114770314876264746}
-  - {fileID: 114907598212578768}
-  - {fileID: 114826300860782566}
-  - {fileID: 114963268611953778}
-  - {fileID: 114498215697295548}
-  - {fileID: 114124970918096756}
-  - {fileID: 114690207411287312}
-  - {fileID: 114526434438361028}
-  - {fileID: 114412861736460100}
-  - {fileID: 114385166649541832}
-  - {fileID: 114397668825695444}
-  - {fileID: 114620355842861388}
-  - {fileID: 114411066098032448}
-  - {fileID: 114953092769496578}
-  - {fileID: 114804085966426806}
-  - {fileID: 114002952086866484}
-  - {fileID: 114547734061368198}
-  MasterBankRef: {fileID: 114753522001780476}
-  StringsBankRef: {fileID: 114290084834033768}
-  stringsBankWriteTime: 636688394219601454
+  EditorBanks: []
+  EditorEvents: []
+  MasterBankRef: {fileID: 0}
+  StringsBankRef: {fileID: 0}
+  stringsBankWriteTime: 0
   cacheVersion: 2
 --- !u!114 &114002952086866484
 MonoBehaviour:
@@ -119,13 +96,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Path: D:\Ruthless Merchant\FMOD Repository\FMOD-RuthlessMerchant\RuthlessMerchant\Build\Desktop\Environment.bank
-  lastModified: 636688394220468193
+  lastModified: 636693244078744106
   LoadResult: 0
   FileSizes:
   - Name: Desktop
     Value: 1211712
   Exists: 1
 --- !u!114 &114115683737832498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Carpet
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114119597395493316
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -159,13 +151,28 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 0
   Parameters:
-  - {fileID: 114939251711873586}
-  - {fileID: 114609889409321174}
-  - {fileID: 114655340946395026}
-  - {fileID: 114093946112495882}
+  - {fileID: 114510890013270926}
+  - {fileID: 114168686889529866}
+  - {fileID: 114119597395493316}
+  - {fileID: 114839210603794984}
   MinDistance: 1
   MaxDistance: 20
   Length: 501
+--- !u!114 &114168686889529866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Wood
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114194525444702780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,7 +185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Path: D:\Ruthless Merchant\FMOD Repository\FMOD-RuthlessMerchant\RuthlessMerchant\Build\Desktop\Ambience.bank
-  lastModified: 636688394220218470
+  lastModified: 636693244078374318
   LoadResult: 0
   FileSizes:
   - Name: Desktop
@@ -242,7 +249,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: D:\Ruthless Merchant\FMOD Repository\FMOD-RuthlessMerchant\RuthlessMerchant\Build\Desktop\Master
     Bank.strings.bank
-  lastModified: 636688394219601454
+  lastModified: 636693244077764766
   LoadResult: 0
   FileSizes:
   - Name: Desktop
@@ -373,6 +380,21 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114510890013270926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Grass
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114526434438361028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -407,7 +429,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Path: D:\Ruthless Merchant\FMOD Repository\FMOD-RuthlessMerchant\RuthlessMerchant\Build\Desktop\SFX.bank
-  lastModified: 636688394221277747
+  lastModified: 636693244102754661
   LoadResult: 0
   FileSizes:
   - Name: Desktop
@@ -499,12 +521,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Path: D:\Ruthless Merchant\FMOD Repository\FMOD-RuthlessMerchant\RuthlessMerchant\Build\Desktop\Music.bank
-  lastModified: 636688394220848067
+  lastModified: 636693244102127428
   LoadResult: 0
   FileSizes:
   - Name: Desktop
     Value: 915776
   Exists: 1
+--- !u!114 &114639922457854502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: FloorMaterial
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114655340946395026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -554,7 +591,7 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 1
   Parameters:
-  - {fileID: 114044303687567616}
+  - {fileID: 114639922457854502}
   MinDistance: 1
   MaxDistance: 20
   Length: 0
@@ -586,7 +623,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: D:\Ruthless Merchant\FMOD Repository\FMOD-RuthlessMerchant\RuthlessMerchant\Build\Desktop\Master
     Bank.bank
-  lastModified: 636688394219601454
+  lastModified: 636693244077764766
   LoadResult: 0
   FileSizes:
   - Name: Desktop
@@ -673,6 +710,21 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 11937
+--- !u!114 &114839210603794984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Gravel
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114907598212578768
 MonoBehaviour:
   m_ObjectHideFlags: 0
