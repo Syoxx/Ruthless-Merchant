@@ -113,7 +113,7 @@ namespace RuthlessMerchant
         private void SortDisplayPanel(int inventorySlot)
         {
             int pageForItem = inventorySlot / Player.Singleton.MaxItemsPerPage;
-            inventorySlots[inventorySlot].DisplayData.transform.parent = BookLogic.InventoryPageList[pageForItem].transform.GetChild(0);
+            inventorySlots[inventorySlot].DisplayData.transform.SetParent(BookLogic.InventoryPageList[pageForItem].transform.GetChild(0), false);
             inventorySlots[inventorySlot].DisplayData.transform.SetAsLastSibling();
         }
 
