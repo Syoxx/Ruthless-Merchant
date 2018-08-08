@@ -35,6 +35,7 @@ namespace RuthlessMerchant
         {
             collectionGoal = other.GetComponent<CollectionGoal>();
             collectionGoal.FillList(CollectablesInTrigger);
+
         }
     }
     [System.Serializable]

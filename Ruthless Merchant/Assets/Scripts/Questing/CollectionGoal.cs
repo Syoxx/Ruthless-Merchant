@@ -10,7 +10,7 @@ namespace RuthlessMerchant {
         private int CollectableID;
         private int QuestZoneID;
 
-        private List<Collectables> collectables;
+        public List<Collectables> collectables;
         private List<Material> FoundMaterials;
 
         public CollectionGoal(/*int collectableID,*/ string description, bool completed, /*int currentAmount, int requiredAmount,*/ List<Transform> waypoints/*, int questZoneID*/)
