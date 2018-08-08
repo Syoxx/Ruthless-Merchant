@@ -206,7 +206,7 @@ namespace RuthlessMerchant
             //BookLogic instantiate
             if(!bookLogic)
             {
-                bookLogic = new PageLogic();
+                bookLogic = GameObject.Find("Book").GetComponent<PageLogic>();
             }
             bookLogic.GeneratePages();
             inventory.BookLogic = bookLogic;
