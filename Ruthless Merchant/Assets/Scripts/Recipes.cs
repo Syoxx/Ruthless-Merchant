@@ -196,7 +196,7 @@ namespace RuthlessMerchant
         {
             recipePanels = new List<RecipePanel>();
             counts = new List<ItemCount>();
-            //recipePages = GameObject.FindGameObjectsWithTag("Book_Recipe");
+            recipePages = GameObject.FindGameObjectsWithTag("Book_Recipes");
         }
 
         private void Start()
@@ -221,7 +221,15 @@ namespace RuthlessMerchant
             {
                 return null;
             }
-            GameObject newPanel = Instantiate(recipePanelPrefab, recipeCanvas.transform);
+
+            Transform currentPageParent = transform;
+            int currentPage = recipeIndex / maxRecipesPerPage;
+            if(currentPage < recipePages.Length)
+            {
+                currentPageParent = recipePages[currentPage].transform.GetChild(0);
+            }
+
+            GameObject newPanel = Instantiate(recipePanelPrefab, currentPageParent);
 
             newPanel.transform.GetChild(1).GetChild(0).GetComponent<TMP_Text>().text = recipes[recipeIndex].Result.ItemName;
             newPanel.transform.GetChild(1).GetChild(1).GetComponent<Image>().sprite = recipes[recipeIndex].Result.ItemSprite;
