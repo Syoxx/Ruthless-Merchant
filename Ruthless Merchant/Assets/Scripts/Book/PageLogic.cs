@@ -168,39 +168,62 @@ public class PageLogic : MonoBehaviour
 
 
         //Buttons Control to jump to certain points
-        if (Input.GetKeyDown(KeyCode.I) || Player.lastKeyPressed == KeyCode.I)
-        {
-            myBook.CurrentPaper = 10;
-            Player.lastKeyPressed = KeyCode.None;
-        }
 
-        if (Input.GetKeyDown(KeyCode.J) || Player.lastKeyPressed == KeyCode.J)
-        {
-            myBook.CurrentPaper = 7;
-            Player.lastKeyPressed = KeyCode.None;
-        }
+        //if (Input.GetKeyDown(KeyCode.I) || Player.lastKeyPressed == KeyCode.I)
+        //{
+        //    GoToPage(KeyCode.I);
+        //}
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            bookItSelf.SetActive(bookItSelf.activeSelf == false);
-        }
+        //if (Input.GetKeyDown(KeyCode.J) || Player.lastKeyPressed == KeyCode.J)
+        //{
+        //    GoToPage(KeyCode.J);
+        //}
 
-        if (Player.lastKeyPressed == KeyCode.Escape)
-        {
-            myBook.CurrentPaper = 19;
-            Player.lastKeyPressed = KeyCode.None;
-        }
+        ////if (Input.GetKeyDown(KeyCode.Escape))
+        ////{
+        ////    bookItSelf.SetActive(bookItSelf.activeSelf == false);
+        ////}
 
-        if (Input.GetKeyDown(KeyCode.N) || Player.lastKeyPressed == KeyCode.N)
-        {
-            myBook.CurrentPaper = 2;
-            Player.lastKeyPressed = KeyCode.None;
-        }
+        //if (Player.lastKeyPressed == KeyCode.Escape)
+        //{
+        //    GoToPage(KeyCode.Escape);
+        //}
 
-        if (Input.GetKeyDown(KeyCode.R) || Player.lastKeyPressed == KeyCode.R)
+        //if (Input.GetKeyDown(KeyCode.N) || Player.lastKeyPressed == KeyCode.N)
+        //{
+        //    GoToPage(KeyCode.N);
+        //}
+
+        //if (Input.GetKeyDown(KeyCode.R) || Player.lastKeyPressed == KeyCode.R)
+        //{
+        //    GoToPage(KeyCode.R);
+        //}
+    }
+
+    public void GoToPage(KeyCode key)
+    {
+        switch(key)
         {
-            myBook.CurrentPaper = 17;
-            Player.lastKeyPressed = KeyCode.None;
+            case KeyCode.I:
+                myBook.CurrentPaper = 10;
+                Player.lastKeyPressed = KeyCode.None;
+                break;
+            case KeyCode.J:
+                myBook.CurrentPaper = 7;
+                Player.lastKeyPressed = KeyCode.None;
+                break;
+            case KeyCode.N:
+                myBook.CurrentPaper = 2;
+                Player.lastKeyPressed = KeyCode.None;
+                break;
+            case KeyCode.R:
+                myBook.CurrentPaper = 17;
+                Player.lastKeyPressed = KeyCode.None;
+                break;
+            case KeyCode.Escape:
+                myBook.CurrentPaper = 19;
+                Player.lastKeyPressed = KeyCode.None;
+                break;
         }
     }
 
