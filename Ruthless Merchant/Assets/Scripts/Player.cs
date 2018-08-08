@@ -661,6 +661,7 @@ namespace RuthlessMerchant
                 lastKeyPressed = KeyCode.R;
                 restrictMovement = !(bookCanvas.activeSelf == false);
                 restrictCamera = !(bookCanvas.activeSelf == false);
+                bookLogic.GoToPage(KeyCode.R);
             }
         }
 
@@ -674,6 +675,7 @@ namespace RuthlessMerchant
                 bookCanvas.SetActive(true);
                 restrictMovement = !(bookCanvas.activeSelf == false);
                 restrictCamera = !(bookCanvas.activeSelf == false);
+                bookLogic.GoToPage(KeyCode.I);
 
                 SetAlchemyItemButtons();
             }
@@ -712,6 +714,7 @@ namespace RuthlessMerchant
             restrictMovement = true;
             restrictCamera = true;
             localWorkbench = workbench;
+            bookLogic.GoToPage(KeyCode.I);
         }
 
         void CreateAlchemyCanvas()
