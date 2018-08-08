@@ -11,8 +11,8 @@ namespace RuthlessMerchant
 
         public int maxRecipesPerPage;
 
-        [SerializeField, Tooltip("The panel in the book in which the recipes will be displayed (currently named RecipeCanvas). It isn't required but the panel should have a vertical layout group component")]
-        GameObject recipeCanvas;
+        [SerializeField, Tooltip("The book-object with the BookPro Script")]
+        BookPro book;
 
         [SerializeField, Tooltip("The Prefab that will be used for displaying the recipes")]
         GameObject recipePanelPrefab;
@@ -196,7 +196,33 @@ namespace RuthlessMerchant
         {
             recipePanels = new List<RecipePanel>();
             counts = new List<ItemCount>();
-            recipePages = GameObject.FindGameObjectsWithTag("Book_Recipes");
+            recipePages = FindPanels();
+        }
+
+        /// <summary>
+        /// finds all pages in the book that have the "Book_Recipes" tag.
+        /// </summary>
+        /// <returns>returns an array of all pages with the tag. the pages who come first are also the first in the array.</returns>
+        private GameObject[] FindPanels()
+        {
+            if(!book)
+            {
+                throw new System.NullReferenceException("Please add the bookprefab to book-property");
+            }
+            List<GameObject> panels = new List<GameObject>();
+            for(int i = 0; i < book.papers.Length; i++)
+            {
+                if(book.papers[i].Front.tag == "Book_Recipes")
+                {
+                    panels.Add(book.papers[i].Front);
+                }
+                if (book.papers[i].Back.tag == "Book_Recipes")
+                {
+                    panels.Add(book.papers[i].Back);
+                }
+            }
+
+            return panels.ToArray();
         }
 
         private void Start()
@@ -217,6 +243,10 @@ namespace RuthlessMerchant
         /// <param name="recipeIndex">the index of the recipe in the recipes-list. returns null if index is out of range</param>
         private GameObject AddRecipePanel(int recipeIndex)
         {
+            if(!recipePanelPrefab)
+            {
+                throw new System.NullReferenceException("No recipePanelPrefab found");
+            }
             if (recipeIndex >= recipes.Count || recipeIndex < 0)
             {
                 return null;

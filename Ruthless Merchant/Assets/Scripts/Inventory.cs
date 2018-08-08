@@ -125,7 +125,7 @@ namespace RuthlessMerchant
         private InventoryItem CreateDisplayData(InventorySlot inventorySlot)
         {
             if (ItemUIPrefab == null)
-                return null;
+                throw new System.NullReferenceException("no ItemUIPrefab found");
 
             Debug.LogWarning("Create Display Data");
 
@@ -159,7 +159,7 @@ namespace RuthlessMerchant
         private InventoryItem UpdateDisplayData(InventorySlot inventorySlot)
         {
             if (ItemUIPrefab == null)
-                return null;
+                throw new System.NullReferenceException("no ItemUIPrefab found");
 
             InventoryItem itemInfos = inventorySlot.DisplayData;
             if (inventorySlot.Item == null && itemInfos != null)
