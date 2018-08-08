@@ -40,6 +40,8 @@ public class PageLogic : MonoBehaviour
     //Collecting pages
     [HideInInspector] public List<GameObject> InventoryPageList = new List<GameObject>();
 
+    [HideInInspector] public List<GameObject> RecipePageList = new List<GameObject>();
+
     [HideInInspector] public List<GameObject> PageList = new List<GameObject>();
 
     private enum BookSection
@@ -74,6 +76,8 @@ public class PageLogic : MonoBehaviour
     {
         InventoryPageList = GameObject.FindGameObjectsWithTag("Book_Inventory")
             .OrderBy(inventoryPage => inventoryPage.name).ToList();
+        //RecipePageList = GameObject.FindGameObjectsWithTag("Book_Recipe")
+        //    .OrderBy(inventoryPage => inventoryPage.name).ToList();
         PageList = PageList.OrderBy(child => child.name).ToList();
     }
 
