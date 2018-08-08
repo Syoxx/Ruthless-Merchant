@@ -96,7 +96,7 @@ namespace RuthlessMerchant
         [SerializeField, Tooltip("Drag 'InventoryItem' Prefab here.")]
         private GameObject itemInventory;
 
-        [SerializeField]
+        [SerializeField, Tooltip("The Booklogic attached to the Book-Object")]
         private PageLogic bookLogic;
         private KeyCode currentBookSection;
         #endregion
