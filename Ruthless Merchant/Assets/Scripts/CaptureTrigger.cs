@@ -141,7 +141,10 @@ namespace RuthlessMerchant
         {
             get
             {
-                return capturingUnits.Count > 1;
+                if (capturingUnits != null)
+                    return capturingUnits.Count > 1;
+                else
+                    return false;
             }
         }
 
