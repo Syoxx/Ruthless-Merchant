@@ -1,6 +1,7 @@
 ﻿//---------------------------------------------------------------
 // Authors: Peter Ehmler, Richard Brönnimann, 
 //---------------------------------------------------------------
+using System;
 using UnityEngine;
 
 namespace RuthlessMerchant
@@ -50,9 +51,14 @@ namespace RuthlessMerchant
         [SerializeField, Range(0, 1000), Tooltip("Base defense value")]
         protected int baseDefense = 10;
 
+        [SerializeField, Range(0, 50.0f), Tooltip("Health Regneration per second")]
+        private float healthRegPerSec = 0;
+        private float healthRegValue = 0.0f;
+
         private float elapsedAttackTime = 2;
         private Weapon weapon;
         private Weapon shield;
+        private Potion potion;
 
         public Weapon Weapon
         {
@@ -67,6 +73,29 @@ namespace RuthlessMerchant
             get
             {
                 return shield;
+            }
+        }
+
+        public Potion Potion
+        {
+            get
+            {
+                return potion;
+            }
+
+            set
+            {
+                potion = value;
+                if (potion != null)
+                {
+                    if (HealthSystem != null)
+                    {
+                        int diff = Convert.ToInt32(HealthSystem.MaxHealth * potion.Health) - HealthSystem.Health;
+                        HealthSystem.MaxHealth = Convert.ToInt32(HealthSystem.MaxHealth * potion.Health);
+                        HealthSystem.ChangeHealth(diff, this);
+                    }
+                    healthRegPerSec += potion.Regeneration;
+                }
             }
         }
 
@@ -299,8 +328,8 @@ namespace RuthlessMerchant
 
         public override void Update()
         {
-            elapsedAttackTime += Time.deltaTime;
-            
+            elapsedAttackTime += Time.deltaTime;      
+
             if (elapsedSecs > 0)
             {
                 elapsedSecs -= Time.deltaTime;
@@ -308,6 +337,20 @@ namespace RuthlessMerchant
             else /*if (justJumped == true && grounded)*/
             {
                 justJumped = false;
+            }
+        }
+
+        protected void Regeneration()
+        {
+            if (healthRegPerSec != 0)
+            {
+                healthRegValue += healthRegPerSec * Time.deltaTime;
+                if (Math.Abs(healthRegValue) > 1.0f)
+                {
+                    int addValue = (int)Math.Floor(healthRegValue);
+                    healthRegValue -= addValue;
+                    HealthSystem.ChangeHealth(addValue, this);
+                }
             }
         }
 
@@ -509,34 +552,43 @@ namespace RuthlessMerchant
 
         public float GetAttackDelay()
         {
-            if (weapon != null)
+            if (weapon != null && potion != null)
+                return baseAttackDelay / (weapon.AttackSpeed * potion.AttackSpeed);
+            else if (weapon != null)
                 return baseAttackDelay / weapon.AttackSpeed;
+            else if(potion != null)
+                return baseAttackDelay / potion.AttackSpeed;
 
             return baseAttackDelay;
         }
 
         public int GetDamage()
         {
-            if (weapon != null && shield != null)
-                return baseDamagePerAtk + weapon.Damage + shield.Damage;
-            else if (weapon != null)
-                return baseDamagePerAtk + weapon.Damage;
-            else if (shield != null)
-                return baseDamagePerAtk + shield.Damage;
+            int damage = baseDamagePerAtk;
 
-            return baseDamagePerAtk;
+            if (weapon != null)
+                damage += weapon.Damage;
+
+            if (shield != null)
+                damage += shield.Damage;
+
+            return damage;
         }
 
         public int GetDefense()
         {
-            if (weapon != null && shield != null)
-                return baseDefense + weapon.DefencePower + shield.DefencePower;
-            else if (shield != null)
-                return baseDefense + shield.DefencePower;
-            else if (weapon != null)
-                return baseDefense + weapon.DefencePower;
+            int defense = baseDefense;
 
-            return baseDefense;
+            if (weapon != null)
+                defense += weapon.DefencePower;
+
+            if (shield != null)
+                defense += shield.DefencePower;
+
+            if (potion != null)
+                defense += potion.DefenseValue;
+
+            return defense;
         }
     }
 }
