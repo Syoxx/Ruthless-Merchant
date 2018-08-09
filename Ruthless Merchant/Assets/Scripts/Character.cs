@@ -51,6 +51,24 @@ namespace RuthlessMerchant
         protected int baseDefense = 10;
 
         private float elapsedAttackTime = 2;
+        private Weapon weapon;
+        private Item shield;
+
+        public Weapon Weapon
+        {
+            get
+            {
+                return weapon;
+            }
+        }
+
+        public Item Shield
+        {
+            get
+            {
+                return shield;
+            }
+        }
 
         public bool IsPlayer
         {
@@ -216,11 +234,11 @@ namespace RuthlessMerchant
 
         public void Attack(Character character)
         {
-            if (elapsedAttackTime >= baseAttackDelay)
+            if (elapsedAttackTime >= GetAttackDelay())
             {
                 elapsedAttackTime = 0f;
 
-                int damage = baseDamagePerAtk - baseDefense;
+                int damage = GetDamage() - character.GetDefense();
                 if (damage <= 0)
                     damage = 1;
 
@@ -487,6 +505,27 @@ namespace RuthlessMerchant
         {
             grounded = Physics.Raycast(transform.position, Vector3.down, out hitInfo, groundCheckDistance, layerMask);
             return hitInfo;
+        }
+
+        public float GetAttackDelay()
+        {
+            if (weapon != null)
+                return baseAttackDelay / weapon.AttackSpeed;
+
+            return baseAttackDelay;
+        }
+
+        public int GetDamage()
+        {
+            if(weapon != null)
+                return baseDamagePerAtk + weapon.Damage;
+
+            return baseDamagePerAtk;
+        }
+
+        public int GetDefense()
+        {
+            return baseDefense;
         }
     }
 }
