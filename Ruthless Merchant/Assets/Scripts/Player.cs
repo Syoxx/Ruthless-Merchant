@@ -95,6 +95,8 @@ namespace RuthlessMerchant
 
         [SerializeField, Tooltip("Drag 'InventoryItem' Prefab here.")]
         private GameObject itemInventory;
+
+        [SerializeField, Tooltip("The Booklogic attached to the Book-Object")]
         private PageLogic bookLogic;
         private KeyCode currentBookSection;
         #endregion
@@ -202,13 +204,16 @@ namespace RuthlessMerchant
             crouchDelta = playerHeight - CrouchHeight;
 
             //BookLogic instantiate
-            bookLogic = new PageLogic();
+            if(!bookLogic)
+            {
+                bookLogic = GameObject.Find("Book").GetComponent<PageLogic>();
+            }
             bookLogic.GeneratePages();
+            inventory.BookLogic = bookLogic;
 
             mapLogic = mapObject.GetComponent<MapSystem>();
             mapLogic.Start();
 
-            inventory.BookLogic = bookLogic;
             inventory.ItemUIPrefab = itemInventory;
 
             playerLookAngle = transform.localRotation;
@@ -309,7 +314,7 @@ namespace RuthlessMerchant
         public override void Update()
         {
             LookRotation();
-            HandleInput();
+            ControleModeMove();
             if (controlMode == ControlMode.Move)
                 FocusCursor();
             else
@@ -361,23 +366,6 @@ namespace RuthlessMerchant
                 return Mathf.Max(angle, 360 + min);
             }
             return Mathf.Min(angle, max);
-        }
-
-
-        /// <summary>
-        /// Checks for input to control the player character.
-        /// </summary>
-        public void HandleInput()
-        {
-            switch (controlMode)
-            {
-                case ControlMode.Move:
-                    ControleModeMove();
-                    break;
-                case ControlMode.AlchemySlot:
-                    ControlModeAlchemist();
-                    break;
-            }
         }
 
         /// <summary>
@@ -449,7 +437,7 @@ namespace RuthlessMerchant
             }
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                CloseBook();
+                OpenBook(KeyCode.Escape);
             }
             if (Input.GetKeyDown(KeyCode.I))
             {
@@ -468,7 +456,7 @@ namespace RuthlessMerchant
                 mapObject.SetActive(false);
             }
 
-            if (currentBookSection == key)
+            if (currentBookSection == key || (bookCanvas.activeSelf && key == KeyCode.Escape))
             {
                 CloseBook();
             }
@@ -478,6 +466,7 @@ namespace RuthlessMerchant
                 restrictMovement = !(bookCanvas.activeSelf == false);
                 restrictCamera = !(bookCanvas.activeSelf == false);
                 currentBookSection = key;
+                bookLogic.GoToPage(key);
             }
         }
 
@@ -490,7 +479,7 @@ namespace RuthlessMerchant
 
             currentBookSection = KeyCode.None;
             bookCanvas.SetActive(bookCanvas.activeSelf == false);
-            lastKeyPressed = KeyCode.Escape;
+            //lastKeyPressed = KeyCode.Escape;
             restrictMovement = !(bookCanvas.activeSelf == false);
             restrictCamera = !(bookCanvas.activeSelf == false);
             if (!bookCanvas.activeSelf && recipes != null)
@@ -598,15 +587,6 @@ namespace RuthlessMerchant
             
         }
 
-        void ControlModeAlchemist()
-        {
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                alchemyCanvas.SetActive(false);
-                controlMode = ControlMode.Move;
-            }
-        }
-
         public void SendInteraction()
         {
             if (Input.GetKeyDown(KeyCode.E))
@@ -681,6 +661,7 @@ namespace RuthlessMerchant
                 lastKeyPressed = KeyCode.R;
                 restrictMovement = !(bookCanvas.activeSelf == false);
                 restrictCamera = !(bookCanvas.activeSelf == false);
+                bookLogic.GoToPage(KeyCode.R);
             }
         }
 
@@ -694,6 +675,7 @@ namespace RuthlessMerchant
                 bookCanvas.SetActive(true);
                 restrictMovement = !(bookCanvas.activeSelf == false);
                 restrictCamera = !(bookCanvas.activeSelf == false);
+                bookLogic.GoToPage(KeyCode.I);
 
                 SetAlchemyItemButtons();
             }
@@ -732,6 +714,7 @@ namespace RuthlessMerchant
             restrictMovement = true;
             restrictCamera = true;
             localWorkbench = workbench;
+            bookLogic.GoToPage(KeyCode.I);
         }
 
         void CreateAlchemyCanvas()

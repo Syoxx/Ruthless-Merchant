@@ -12,10 +12,6 @@ namespace RuthlessMerchant
 {
     public abstract class NPC : Character
     {
-        /* TODO
-         * Some stop acting
-         */
-
         public static int MaxNPCCountPerFaction = 30;
         public static Dictionary<Faction, int> NPCCount = new Dictionary<Faction, int>()
         {
@@ -84,13 +80,11 @@ namespace RuthlessMerchant
         protected int laneSelectionIndex = 0;
 
         private List<GameObject> possibleSeenObjects;
-        private List<AudioSource> possibleHearedObjects;
 
         private List<GameObject> noticedGameObjects;
 
         public event EventHandler OnCharacterNoticed;
         public event EventHandler OnItemNoticed;
-        public event EventHandler OnHeardSomething;
 
         private ActionNPC currentAction;
 
@@ -172,14 +166,10 @@ namespace RuthlessMerchant
             if (waypoints == null)
                 waypoints = new List<Waypoint>();
 
-            //GameObject hearObject = transform.GetChild(0).gameObject;
             GameObject seeObject = transform.GetChild(1).gameObject;
 
             SphereCollider seeCollider = seeObject.GetComponent<SphereCollider>();
             seeCollider.radius = viewDistance;
-
-            //SphereCollider hearCollider = hearObject.GetComponent<SphereCollider>();
-            //hearCollider.radius = hearDistance;
 
             agent = GetComponent<NavMeshAgent>();
             agent.autoBraking = false;
@@ -194,7 +184,6 @@ namespace RuthlessMerchant
         {
             base.Update();
             Recognize();
-            //Hear();
             Regeneration();
 
             if (currentAction != null)
@@ -292,37 +281,6 @@ namespace RuthlessMerchant
         }
 
         /// <summary>
-        /// Check all gameobjects in hearrange to see if they are recognized
-        /// </summary>
-        /*private void Hear()
-        {
-            for (int i = 0; i < possibleHearedObjects.Count; i++)
-            {
-                bool alreadyNoticed = noticedGameObjects.Contains(possibleHearedObjects[i].gameObject);
-                if(Vector3.Distance(possibleHearedObjects[i].gameObject.transform.position, transform.position) 
-                    < possibleHearedObjects[i].maxDistance && possibleHearedObjects[i].isPlaying)
-                {
-                    if (!alreadyNoticed)
-                    {
-                        noticedGameObjects.Add(possibleHearedObjects[i].gameObject);
-                        FindReactionTarget(possibleHearedObjects[i].gameObject);
-                        if (OnHeardSomething != null)
-                            OnHeardSomething.Invoke(this, null);
-                    }
-                }
-                else
-                {
-                    if (alreadyNoticed)
-                    {
-                        noticedGameObjects.Remove(possibleHearedObjects[i].gameObject);
-                        if (currentReactTarget.gameObject == possibleHearedObjects[i].gameObject)
-                            currentReactTarget = null;
-                    }
-                }
-            }
-        }*/
-
-        /// <summary>
         /// Check all gameobjects in viewrange to see if they are in sight
         /// </summary>
         private void Recognize()
@@ -338,8 +296,6 @@ namespace RuthlessMerchant
 
                 Vector3 targetDir = possibleSeenObjects[i].transform.position - transform.position;
                 float angle = Vector3.Angle(targetDir, transform.forward);
-
-
 
                 if (angle < fov && !IsObjectBehindObstacle(possibleSeenObjects[i]))
                 {
@@ -363,46 +319,6 @@ namespace RuthlessMerchant
                         }
                     }
                 }
-
-                /* bool alreadyNoticed = noticedGameObjects.Contains(possibleSeenObjects[i]);
-
-
-
-             if (angle < fov && !IsObjectBehindObstacle(possibleSeenObjects[i]))
-             {
-                 if (!alreadyNoticed)
-                 {
-                     noticedGameObjects.Add(possibleSeenObjects[i]);
-                     FindReactionTarget(possibleSeenObjects[i]);
-                     if(currentReactTarget != null && currentReactTarget.gameObject == possibleSeenObjects[i])
-                     {
-                         reactionState = reactionState.SetFlag(TargetState.InView);
-                         reactionState = reactionState.RemoveFlag(TargetState.Lost);
-                         elapsedLostTime = 0.0f;
-                     }
-
-                     //TODO: check components and add event args!
-                     if (OnCharacterNoticed != null)
-                         OnCharacterNoticed.Invoke(this, null);
-
-                     //if (OnItemNoticed != null)
-                     //    OnItemNoticed.Invoke(this, null);
-                 }
-             }
-             else
-             {
-                 if (alreadyNoticed)
-                 {
-                     noticedGameObjects.Remove(possibleSeenObjects[i]);
-                     if (currentReactTarget != null && currentReactTarget.gameObject == possibleSeenObjects[i])
-                     {
-                         elapsedLostTime = 0.0f;
-                         reactionState = reactionState.SetFlag(TargetState.Lost);
-                         reactionState = reactionState.RemoveFlag(TargetState.InView);
-
-                     }
-                 }
-             }*/
             }
         }
 
@@ -413,15 +329,16 @@ namespace RuthlessMerchant
         /// <returns>Returns true if the object is covered by an obstacle</returns>
         private bool IsObjectBehindObstacle(GameObject gameObject)
         {
-            Vector3 direction = gameObject.transform.position - transform.position;
-            direction.Normalize();
+            /*  Vector3 direction = gameObject.transform.position - transform.position;
+              direction.Normalize();
 
-            RaycastHit hitInfo;
-            bool hit = Physics.Raycast(transform.position, direction, out hitInfo, viewDistance);
-            if (hit)
-                hit = hitInfo.collider.gameObject == gameObject;
+              RaycastHit hitInfo;
+              bool hit = Physics.Raycast(transform.position, direction, out hitInfo, viewDistance);
+              if (hit)
+                  hit = hitInfo.collider.gameObject == gameObject;
 
-            return !hit;
+              return !hit;*/
+            return false;
         }
 
         /// <summary>
@@ -688,24 +605,6 @@ namespace RuthlessMerchant
         public virtual void ChangeFaction(Faction newFaction)
         {
             faction = newFaction;
-        }
-
-        /// <summary>
-        /// A given object entered the hear area
-        /// </summary>
-        /// <param name="audioSource">Audiosource of entered gameobject</param>
-        public void OnEnterHearArea(AudioSource audioSource)
-        {
-            possibleHearedObjects.Add(audioSource);
-        }
-
-        /// <summary>
-        /// A given object left the hear area
-        /// </summary>
-        /// <param name="audioSource">Audiosource of the left gameobject</param>
-        public void OnExitHearArea(AudioSource audioSource)
-        {
-            possibleHearedObjects.Remove(audioSource);
         }
 
         /// <summary>
