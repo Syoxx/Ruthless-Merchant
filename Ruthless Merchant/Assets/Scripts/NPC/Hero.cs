@@ -58,8 +58,8 @@ namespace RuthlessMerchant
                     }
                     else
                     {
-                        //if (CurrentAction is ActionIdle || CurrentAction == null)
-                            //SetCurrentAction(new ActionWander(), null);
+                        if (CurrentAction is ActionIdle || CurrentAction == null)
+                            SetCurrentAction(new ActionWander(), null);
                     }
                 }
             }
