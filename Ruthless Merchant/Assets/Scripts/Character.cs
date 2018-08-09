@@ -52,7 +52,7 @@ namespace RuthlessMerchant
 
         private float elapsedAttackTime = 2;
         private Weapon weapon;
-        private Item shield;
+        private Weapon shield;
 
         public Weapon Weapon
         {
@@ -62,7 +62,7 @@ namespace RuthlessMerchant
             }
         }
 
-        public Item Shield
+        public Weapon Shield
         {
             get
             {
@@ -518,14 +518,14 @@ namespace RuthlessMerchant
         public int GetDamage()
         {
             if(weapon != null)
-                return baseDamagePerAtk + weapon.Damage;
+                return baseDamagePerAtk + weapon.Damage + shield.Damage;
 
             return baseDamagePerAtk;
         }
 
         public int GetDefense()
         {
-            return baseDefense;
+            return baseDefense + weapon.DefencePower + shield.DefencePower;
         }
     }
 }
