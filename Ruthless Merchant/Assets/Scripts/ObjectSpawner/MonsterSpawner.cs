@@ -49,7 +49,6 @@ namespace RuthlessMerchant
         /// <returns></returns>
         public GameObject[] CheckActiveMonsters(GameObject[] monsterArray)
         {
-            monsterArray = null;
             monsterArray = GameObject.FindGameObjectsWithTag(monsterTag);
             return monsterArray;
         }
@@ -62,24 +61,24 @@ namespace RuthlessMerchant
         /// <param name="spawnlocationList"></param>
         public void InitiateSpawn(GameObject[] monsterArray, List<GameObject> spawnlocationList)
         {
-            if (monsterArray == null)
+            if (monsterArray.Length == 0)
             {
                 GameObject spawnLocation = GetSpawnLocation(spawnlocationList);
-                spawnedMonster = Instantiate(monsterPrefab, spawnLocation.transform);
-                spawnedMonster.GetComponent<Monster>().usedSpawnLocation = spawnLocation;
+                spawnedMonster = Instantiate(monsterPrefab, spawnLocation.transform.position, new Quaternion());
+                spawnedMonster.GetComponent<TempMonster>().usedSpawnLocation = spawnLocation;
             }
 
             else
             {
                 for (int i = 0; i < monsterArray.Length; i++)
                 {
-                    usedSpawnLocation = monsterArray[i].GetComponent<Monster>().usedSpawnLocation;
+                    usedSpawnLocation = monsterArray[i].GetComponent<TempMonster>().usedSpawnLocation;
                     if (spawnlocationList.Contains(usedSpawnLocation))
                         spawnlocationList.Remove(usedSpawnLocation);
                 }
                 GameObject spawnLocation = GetSpawnLocation(spawnlocationList);
-                spawnedMonster = Instantiate(monsterPrefab, spawnLocation.transform);
-                spawnedMonster.GetComponent<Monster>().usedSpawnLocation = spawnLocation;
+                spawnedMonster = Instantiate(monsterPrefab, spawnLocation.transform.position, new Quaternion());
+                spawnedMonster.GetComponent<TempMonster>().usedSpawnLocation = spawnLocation;
             }
         }
 
@@ -91,7 +90,11 @@ namespace RuthlessMerchant
         public GameObject GetSpawnLocation(List<GameObject> eligableSpawns)
         {
             GameObject[] eligableSpawnsArray = eligableSpawns.ToArray();
-            int randomSpawn = rnJesus.Next(0, eligableSpawnsArray.Length);
+            int randomSpawn;
+            if (eligableSpawnsArray.Length > 1)
+                randomSpawn = rnJesus.Next(0, eligableSpawnsArray.Length);
+            else
+                randomSpawn = 0;
             return eligableSpawnsArray[randomSpawn];
         }
         #endregion
