@@ -96,7 +96,7 @@ namespace RuthlessMerchant
         [SerializeField, Tooltip("Drag 'InventoryItem' Prefab here.")]
         private GameObject itemInventory;
 
-        [SerializeField]
+        [SerializeField, Tooltip("The Booklogic attached to the Book-Object")]
         private PageLogic bookLogic;
         private KeyCode currentBookSection;
         #endregion
@@ -206,7 +206,7 @@ namespace RuthlessMerchant
             //BookLogic instantiate
             if(!bookLogic)
             {
-                bookLogic = new PageLogic();
+                bookLogic = GameObject.Find("Book").GetComponent<PageLogic>();
             }
             bookLogic.GeneratePages();
             inventory.BookLogic = bookLogic;
@@ -661,6 +661,7 @@ namespace RuthlessMerchant
                 lastKeyPressed = KeyCode.R;
                 restrictMovement = !(bookCanvas.activeSelf == false);
                 restrictCamera = !(bookCanvas.activeSelf == false);
+                bookLogic.GoToPage(KeyCode.R);
             }
         }
 
@@ -674,6 +675,7 @@ namespace RuthlessMerchant
                 bookCanvas.SetActive(true);
                 restrictMovement = !(bookCanvas.activeSelf == false);
                 restrictCamera = !(bookCanvas.activeSelf == false);
+                bookLogic.GoToPage(KeyCode.I);
 
                 SetAlchemyItemButtons();
             }
@@ -712,6 +714,7 @@ namespace RuthlessMerchant
             restrictMovement = true;
             restrictCamera = true;
             localWorkbench = workbench;
+            bookLogic.GoToPage(KeyCode.I);
         }
 
         void CreateAlchemyCanvas()
