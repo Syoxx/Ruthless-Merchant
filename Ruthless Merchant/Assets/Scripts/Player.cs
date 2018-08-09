@@ -623,6 +623,9 @@ namespace RuthlessMerchant
                                 {
                                     targetItem.DestroyInteractivObject();
                                     //PopulateInventoryPanel();
+
+                                    //Play Item-PickupSound
+                                    FMODUnity.RuntimeManager.PlayOneShot("event:/SFX/ItemPickup", this.transform.position);
                                 }
                             }
                         }
@@ -649,6 +652,7 @@ namespace RuthlessMerchant
 
         public void EnterSmith(Smith smith)
         {
+
             localSmith = smith;
             for (int i = 0; i < recipes.Panels.Count; i++)
             {
