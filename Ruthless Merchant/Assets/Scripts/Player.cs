@@ -782,7 +782,8 @@ namespace RuthlessMerchant
 
         public void OnWorkbenchButton(int itemslot)
         {
-            localWorkbench.BreakdownItem(inventory.inventorySlots[itemSlot].Item, Inventory, recipes);
+            localWorkbench.BreakdownItem(inventory.inventorySlots[itemslot].Item, Inventory, recipes);
+            PopulateWorkbenchPanel();
         }
 
         private void PopulateWorkbenchPanel()
@@ -796,6 +797,7 @@ namespace RuthlessMerchant
                 else if (inventory.inventorySlots[itemIndex].Item.ItemType == ItemType.Weapon)
                 {
                     int item = itemIndex;
+                    inventory.inventorySlots[itemIndex].DisplayData.itemButton.onClick.RemoveAllListeners();
                     inventory.inventorySlots[itemIndex].DisplayData.itemButton.onClick.AddListener(delegate{ OnWorkbenchButton(item); });
                 }
             }
