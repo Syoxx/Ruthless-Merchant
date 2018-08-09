@@ -1,23 +1,63 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 namespace RuthlessMerchant
 {
     public class Potion : Item
     {
-        [Header("Potion Effects (Nur zum testen!")]
-        [SerializeField] private int attackSpeedBuff;
-        [SerializeField] private int defensiveBuff;
-        [SerializeField] private int movementSpeedBuff;
-        [SerializeField] private int healthBuff;
+        private float attackSpeed;
+        private int defenseValue;
+        private float movementSpeed;
+        private float healthValue;
+        private int regenerationValue;
 
-        public void CreatePotion(int attackSpeed, int defense, int movement, int health)
+        public float AttackSpeed
         {
-            attackSpeedBuff = attackSpeed;
-            defensiveBuff = defense;
-            movementSpeedBuff = movement;
-            healthBuff = health;
+            get
+            {
+                return attackSpeed;
+            }
+        }
+
+        public int DefenseValue
+        {
+            get
+            {
+                return Convert.ToInt32(defenseValue);
+            }
+        }
+
+        public int MovementSpeed
+        {
+            get
+            {
+                return Convert.ToInt32(movementSpeed);
+            }
+        }
+
+        public float Health
+        {
+            get
+            {
+                return healthValue;
+            }
+        }
+
+        public float Regeneration
+        {
+            get
+            {
+                return regenerationValue;
+            }
+        }
+
+        public void CreatePotion(float attackSpeed, int defense, float movement, float health, int reg)
+        {
+            this.attackSpeed = attackSpeed;
+            this.defenseValue = defense;
+            this.movementSpeed = movement;
+            this.healthValue = health;
+            this.regenerationValue = reg;
         }
 
         public override void Start()
