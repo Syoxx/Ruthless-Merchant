@@ -6,7 +6,7 @@ namespace RuthlessMerchant
 {
     public class MonsterSpawner : MonoBehaviour
     {
-
+        #region Fields
         [SerializeField]
         [Tooltip("Tag of the Monsters")]
         private string monsterTag;
@@ -28,21 +28,25 @@ namespace RuthlessMerchant
         private GameObject usedSpawnLocation;
         private System.Random rnJesus = new System.Random();
         private GameObject spawnedMonster;
+        #endregion
 
-        // Use this for initialization
-        void Start()
-        {
-
-        }
-
+        #region MonoBehavior Loop
         // Update is called once per frame
+        //Checks if the desired Number of Monsters are active, Initiates Spawn if not
         void Update()
         {
             activeMonsters = CheckActiveMonsters(activeMonsters);
             if (activeMonsters.Length < maxActiveMonsters || activeMonsters == null)
                 InitiateSpawn(activeMonsters, SpawnLocations);
         }
+        #endregion
 
+        #region Methods
+        /// <summary>
+        /// Checks for all active Monsters
+        /// </summary>
+        /// <param name="monsterArray"></param>
+        /// <returns></returns>
         public GameObject[] CheckActiveMonsters(GameObject[] monsterArray)
         {
             monsterArray = null;
@@ -50,6 +54,12 @@ namespace RuthlessMerchant
             return monsterArray;
         }
 
+        /// <summary>
+        /// Initiates the Spawn of new Monsters
+        /// Checks where the active Monsters where spawned and spawns a monster at an unused spawn location
+        /// </summary>
+        /// <param name="monsterArray"></param>
+        /// <param name="spawnlocationList"></param>
         public void InitiateSpawn(GameObject[] monsterArray, List<GameObject> spawnlocationList)
         {
             if (monsterArray == null)
@@ -73,11 +83,17 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// chooses a random spawn Location for a new Monster
+        /// </summary>
+        /// <param name="eligableSpawns"></param>
+        /// <returns></returns>
         public GameObject GetSpawnLocation(List<GameObject> eligableSpawns)
         {
             GameObject[] eligableSpawnsArray = eligableSpawns.ToArray();
             int randomSpawn = rnJesus.Next(0, eligableSpawnsArray.Length);
             return eligableSpawnsArray[randomSpawn];
         }
+        #endregion
     }
 }
