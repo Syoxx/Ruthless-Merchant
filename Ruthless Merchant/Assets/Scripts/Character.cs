@@ -517,15 +517,26 @@ namespace RuthlessMerchant
 
         public int GetDamage()
         {
-            if(weapon != null)
+            if (weapon != null && shield != null)
                 return baseDamagePerAtk + weapon.Damage + shield.Damage;
+            else if (weapon != null)
+                return baseDamagePerAtk + weapon.Damage;
+            else if (shield != null)
+                return baseDamagePerAtk + shield.Damage;
 
             return baseDamagePerAtk;
         }
 
         public int GetDefense()
         {
-            return baseDefense + weapon.DefencePower + shield.DefencePower;
+            if (weapon != null && shield != null)
+                return baseDefense + weapon.DefencePower + shield.DefencePower;
+            else if (shield != null)
+                return baseDefense + shield.DefencePower;
+            else if (weapon != null)
+                return baseDefense + weapon.DefencePower;
+
+            return baseDefense;
         }
     }
 }
