@@ -18,10 +18,14 @@ namespace RuthlessMerchant
         [SerializeField]
         private Image fadeImage;
 
+        [SerializeField]
+        private float fadeTime = 2f;
+
         private float shortestDistance;
         private GameObject nearestRespawnPoint;
         private GameObject respawnPoint;
         private GameObject FadeCanvas;
+        private bool fadingDone;
 
         private void Start()
         {
@@ -40,13 +44,13 @@ namespace RuthlessMerchant
         public void InitiateRespawn()
         {
             respawnPoint = GetRespawnPoint();
-            CrossFadeAlphaWithCallback(fadeImage, 1, 2f, delegate
+            CrossFadeAlphaWithCallback(fadeImage, 1f, fadeTime, delegate
             {
                 transform.position = respawnPoint.transform.position;
-            });
-            CrossFadeAlphaWithCallback(fadeImage, 0, 2f, delegate
-            {
-                Debug.Log("done fading");
+                CrossFadeAlphaWithCallback(fadeImage, 0f, fadeTime, delegate
+                {
+                    Debug.Log("Done fading");
+                });
             });
         }
 
