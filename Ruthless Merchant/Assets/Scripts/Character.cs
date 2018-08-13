@@ -258,17 +258,17 @@ namespace RuthlessMerchant
                     }
                     else
                     {
-                        transform.Translate(moveVector * speed * Time.fixedDeltaTime, Space.Self);
+                        transform.Translate(moveVector * speed * Time.deltaTime, Space.Self);
                     }
                 }
                 else
                 {
-                    transform.Translate(moveVector * speed * Time.fixedDeltaTime, Space.Self);
+                    transform.Translate(moveVector * speed * Time.deltaTime, Space.Self);
                 }
             }
             else
             {
-                transform.Translate(moveVector * speed * Time.fixedDeltaTime, Space.Self);
+                transform.Translate(moveVector * speed * Time.deltaTime, Space.Self);
             }
 
             moveVector = Vector3.zero;
