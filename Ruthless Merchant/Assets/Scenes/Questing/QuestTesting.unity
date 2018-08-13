@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -347,7 +347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f43bb49fa7f16d640bd049a2ccbeead2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wood: {fileID: 114887516679605566, guid: c791c00511275d949a7dd8c7e3694f8f, type: 2}
+  wood: {fileID: 114890186361641712, guid: c791c00511275d949a7dd8c7e3694f8f, type: 2}
   iron: {fileID: 114887516679605566, guid: 7eedd3cecc6144e43b7bb60a6aae6234, type: 2}
   speed: 3
 --- !u!65 &1404331841
@@ -500,8 +500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CollectablesInTrigger:
-  - material: {fileID: 114887516679605566, guid: c791c00511275d949a7dd8c7e3694f8f,
-      type: 2}
+  - material: {fileID: 0}
     requiredAmount: 1
     currentAmount: 0
     completed: 0
@@ -589,6 +588,7 @@ GameObject:
   - component: {fileID: 1794858505}
   - component: {fileID: 1794858504}
   - component: {fileID: 1794858508}
+  - component: {fileID: 1794858509}
   m_Layer: 0
   m_Name: Trigger
   m_TagString: Untagged
@@ -657,7 +657,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1794858503}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.5, z: 12.4}
+  m_LocalPosition: {x: 0, y: 2.3, z: 12.4}
   m_LocalScale: {x: 12.684465, y: 12.684476, z: 12.684476}
   m_Children: []
   m_Father: {fileID: 0}
@@ -675,8 +675,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CollectablesInTrigger:
-  - material: {fileID: 114887516679605566, guid: c791c00511275d949a7dd8c7e3694f8f,
-      type: 2}
+  - material: {fileID: 0}
     requiredAmount: 4
     currentAmount: 0
     completed: 0
@@ -685,6 +684,21 @@ MonoBehaviour:
     requiredAmount: 5
     currentAmount: 0
     completed: 0
+--- !u!114 &1794858509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1794858503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f462c9e539e7404292253dd40b6b396, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collectionGoals:
+  - {fileID: 114349788482241556, guid: e66d91a9d6ddc484586fae45ac0132bd, type: 2}
+  - {fileID: 114784792181519616, guid: 7075205700538cf448f3731aa8c8e400, type: 2}
+  - {fileID: 114074842662290290, guid: 570f40b92daba0c4c9fe8bafb93379aa, type: 2}
 --- !u!1 &1827833558
 GameObject:
   m_ObjectHideFlags: 0
