@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33328061410461424}
   - component: {fileID: 23703661227428750}
   - component: {fileID: 136102951948902102}
-  - component: {fileID: 114119610954336906}
+  - component: {fileID: 114681836474395286}
   m_Layer: 0
   m_Name: Monster
   m_TagString: Monster
@@ -85,7 +85,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1308167026621010}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &114119610954336906
+--- !u!114 &114681836474395286
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -93,31 +93,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1308167026621010}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff0085c303a9bfe4081be885cd0bd45e, type: 3}
+  m_Script: {fileID: 11500000, guid: 90fe57e001f91b7488517f193d697d16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  faction: 0
-  baseDamagePerAtk: 75
-  baseAttackDelay: 2
-  baseDefense: 10
-  sneakSpeed: 2
-  walkSpeed: 3
-  runSpeed: 6
-  groundCheckDistance: 0.25
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 0
-  maxJumpHeight: 0
-  maxSlopeAngle: 0
-  rotationSpeed: 8
-  fov: 45
-  viewDistance: 10
-  hearDistance: 5
-  healthRegPerSec: 0
-  capValuePerSecond: 1
-  Reacting: 0
-  huntDistance: 5
-  attackDistance: 1.5
   usedSpawnLocation: {fileID: 0}
 --- !u!136 &136102951948902102
 CapsuleCollider:
