@@ -38,6 +38,7 @@ namespace RuthlessMerchant
         {
             if (fadeImage == null)
                 fadeImage = GameObject.FindGameObjectWithTag("FadeImage").GetComponent<Image>();
+            respawnPosition = transform.position;
         }
 
         /// <summary>
@@ -64,14 +65,22 @@ namespace RuthlessMerchant
         /// </summary>
         public void InitiateRespawn()
         {
-            CrossFadeAlphaWithCallback(fadeImage, 1f, fadeTime, delegate
+            fadeImage.FadingWithCallback(1f, fadeTime, delegate
             {
                 transform.position = respawnPosition;
-                CrossFadeAlphaWithCallback(fadeImage, 0f, fadeTime, delegate
+                fadeImage.FadingWithCallback(0f, 2f, delegate
                 {
                     Debug.Log("Done fading");
                 });
             });
+            //CrossFadeAlphaWithCallback(fadeImage, 1f, fadeTime, delegate
+            //{
+            //    transform.position = respawnPosition;
+            //    CrossFadeAlphaWithCallback(fadeImage, 0f, fadeTime, delegate
+            //    {
+            //        Debug.Log("Done fading");
+            //    });
+            //});
         }
 
         /// <summary>
