@@ -22,7 +22,8 @@ namespace RuthlessMerchant
         private float respawnTime = 5;
 
         [SerializeField]
-        private GameObject[] spawnLocations;
+        [Tooltip("Tag of the Spawn Locations associated with the Item")]
+        private string spawnLocationsTag;
 
         [SerializeField]
         private float quatX, quatY, quatZ, quatW;
@@ -33,12 +34,17 @@ namespace RuthlessMerchant
         private float currentTimer;
         private int currentlyActiveItems;
         private List<GameObject> emptySpawners = new List<GameObject>();
+        private GameObject[] spawnLocations;
         #endregion
 
         #region Gameplay Loop
-        // Use this for initialization
+        /// <summary>
+        /// sets the current Timer to th respawn Time to initiate the Spawning of the first items at the start
+        /// Gets all SpawnLocations associated with the Item by predefined Tag
+        /// </summary>
         void Start() {
             currentTimer = respawnTime;
+            spawnLocations = GameObject.FindGameObjectsWithTag(spawnLocationsTag);
         }
 
         /// <summary>
