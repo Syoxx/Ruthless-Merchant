@@ -135,6 +135,7 @@ namespace RuthlessMerchant
                 if (exitTimer > 3)
                 {
                     Cursor.visible = false;
+                    InventoryItem.Behaviour = InventoryItem.ItemBehaviour.None;
                     Main_SceneManager.UnLoadScene("TradeScene");
                 }
             }

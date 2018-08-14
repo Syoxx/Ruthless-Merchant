@@ -491,7 +491,7 @@ namespace RuthlessMerchant
                 for (int i = 0; i < inventory.InventorySlots.Length; i++)
                 {
                     if (inventory.inventorySlots[i].DisplayData)
-                        inventory.inventorySlots[i].DisplayData.itemButton.onClick.RemoveAllListeners();
+                        inventory.inventorySlots[i].DisplayData.ItemButton.onClick.RemoveAllListeners();
                 }
             }
         }
@@ -608,7 +608,7 @@ namespace RuthlessMerchant
                         if (targetItem != null)
                         {
                             // Picking up items and gear
-                            if (targetItem.ItemType == ItemType.Weapon || targetItem.ItemType == ItemType.Ingredient || targetItem.ItemType == ItemType.CraftingMaterial || targetItem.ItemType == ItemType.ConsumAble)
+                            if (targetItem.ItemInfo.ItemType == ItemType.Weapon || targetItem.ItemInfo.ItemType == ItemType.Ingredient || targetItem.ItemInfo.ItemType == ItemType.CraftingMaterial || targetItem.ItemInfo.ItemType == ItemType.ConsumAble)
                             {
                                 Item clonedItem = targetItem.DeepCopy();
 
@@ -691,10 +691,10 @@ namespace RuthlessMerchant
             {
                 if (inventory.inventorySlots[i].DisplayData)
                 {
-                    if (inventory.inventorySlots[i].Item.ItemType == ItemType.Ingredient)
+                    if (inventory.inventorySlots[i].ItemInfo.ItemType == ItemType.Ingredient)
                     {
                         int value = i;
-                        inventory.inventorySlots[i].DisplayData.itemButton.onClick.AddListener(delegate { OnAlchemyButton(value); });
+                        inventory.inventorySlots[i].DisplayData.ItemButton.onClick.AddListener(delegate { OnAlchemyButton(value); });
                     }
                 }
             }
@@ -726,14 +726,14 @@ namespace RuthlessMerchant
             for (int i = 0; i < inventory.inventorySlots.Length; i++)
             {
                 if (inventory.inventorySlots[i].Item)
-                    if (inventory.inventorySlots[i].Item.ItemType == ItemType.Ingredient)
+                    if (inventory.inventorySlots[i].ItemInfo.ItemType == ItemType.Ingredient)
                     {
                         Button newPanel = Instantiate(alchemyUiPrefab, alchemyCanvas.transform).GetComponent<Button>();
 
                         int panel = i;
                         newPanel.onClick.AddListener(delegate { OnAlchemyButton(panel); });
 
-                        newPanel.GetComponentInChildren<Text>().text = inventory.inventorySlots[i].Item.ItemName;
+                        newPanel.GetComponentInChildren<Text>().text = inventory.inventorySlots[i].ItemInfo.ItemName;
                     }
             }
         }
@@ -771,7 +771,7 @@ namespace RuthlessMerchant
 
         public void OnAlchemyButton(int itemSlot)
         {
-            if(Inventory.inventorySlots[itemSlot].Item.ItemType == ItemType.Ingredient)
+            if(Inventory.inventorySlots[itemSlot].ItemInfo.ItemType == ItemType.Ingredient)
             {
                 localAlchemist.AddItem((Ingredient)Inventory.inventorySlots[itemSlot].Item);
                 Inventory.Remove(itemSlot, 1, true);
@@ -794,11 +794,11 @@ namespace RuthlessMerchant
                 {
                     continue;
                 }
-                else if (inventory.inventorySlots[itemIndex].Item.ItemType == ItemType.Weapon)
+                else if (inventory.inventorySlots[itemIndex].ItemInfo.ItemType == ItemType.Weapon)
                 {
                     int item = itemIndex;
-                    inventory.inventorySlots[itemIndex].DisplayData.itemButton.onClick.RemoveAllListeners();
-                    inventory.inventorySlots[itemIndex].DisplayData.itemButton.onClick.AddListener(delegate{ OnWorkbenchButton(item); });
+                    inventory.inventorySlots[itemIndex].DisplayData.ItemButton.onClick.RemoveAllListeners();
+                    inventory.inventorySlots[itemIndex].DisplayData.ItemButton.onClick.AddListener(delegate{ OnWorkbenchButton(item); });
                 }
             }
         }

@@ -9,20 +9,7 @@ namespace RuthlessMerchant
     [RequireComponent(typeof(UniqueIDGenerator))]
     public abstract class Item : InteractiveWorldObject
     {
-        public string ItemName;
-
-        public ItemValue[] ItemValue;
-
-        public int ItemWeight;
-
-        [TextArea]
-        public string ItemLore;
-
-        public Sprite ItemSprite;
-
-        public ItemType ItemType;
-
-        public ItemRarity ItemRarity;
+        public ItemInfo ItemInfo;
 
         /// <summary>
         /// Creates deep copy of current item
@@ -33,9 +20,6 @@ namespace RuthlessMerchant
             Item otherItem = (Item)this.MemberwiseClone();
             return otherItem;
         }
-
-        [SerializeField, Range(1,100)]
-        public int MaxStackCount = 20;
 
         public override void Interact(GameObject caller)
         {
