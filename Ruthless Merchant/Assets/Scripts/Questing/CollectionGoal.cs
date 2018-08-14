@@ -19,14 +19,10 @@ namespace RuthlessMerchant {
         public List<Collectables> collectables;
         private List<Material> FoundMaterials;
 
-        public CollectionGoal(/*int collectableID,*/ string description, bool completed, /*int currentAmount, int requiredAmount,*/ List<Transform> waypoints/*, int questZoneID*/)
+        public CollectionGoal(string description, bool completed, List<Transform> waypoints)
         {
-            //CollectableID = collectableID;
-            //QuestZoneID = questZoneID;
             Description = description;
             Completed = completed;
-            //CurrentAmount = currentAmount;
-            //RequiredAmount = requiredAmount;
             Waypoints = waypoints;
         }
 
@@ -51,11 +47,14 @@ namespace RuthlessMerchant {
         {
             collectables = new List<Collectables>();
             hero = GetComponent<Hero>();
-            Materials = GameObject.FindGameObjectsWithTag("Iron");
+            //Materials = GameObject.FindGameObjectsWithTag("Iron");
+            Debug.Log("descr: "+Description);
             //CalcRequiredAmount();
         }
         private void Update()
         {
+            if(Materials != null)
+            Debug.Log("Count: "+Materials.Length);
             //Debug.Log(Materials.Length + " check");
             if (collectables.Count > 0)
             {
@@ -92,11 +91,17 @@ namespace RuthlessMerchant {
         {
             collectables = Collectables;
             Completed = false;
+            
+             Materials = GameObject.FindGameObjectsWithTag(collectables[0].material.ItemName);
         }
         void EvaluateCollectables(int index)
         {
             if (collectables[index].currentAmount >= collectables[index].requiredAmount)
+            {
                 collectables[index].completed = true;
+                if(index < collectables.Count)
+                    Materials = GameObject.FindGameObjectsWithTag(collectables[index+1].material.ItemName);
+            }
             
         }
         bool EvaluateGoal()
@@ -114,18 +119,18 @@ namespace RuthlessMerchant {
         public void CalcNextWaypoint()
         {
 
-            float distance = Vector3.Distance(this.gameObject.transform.position, Materials[0].transform.position);
-            for (int i = 0; i < Materials.Length; i++)
-            {
-                if (Vector3.Distance(this.gameObject.transform.position, Materials[i].transform.position) <= distance)
-                {
-                    distance = Vector3.Distance(this.gameObject.transform.position, Materials[i].transform.position);
-                    //hero.AddNewWaypoint(new Waypoint(Materials[i].transform, true, 0), true);
-                    Debug.Log(Materials[i].transform);
-                    if (!(hero.CurrentAction is ActionAttack))
-                        Hero.SetCurrentAction(new ActionCollect(this, ActionNPC.ActionPriority.Medium), Materials[i], true, true);
-                }
-            }
+            //float distance = Vector3.Distance(this.gameObject.transform.position, Materials[0].transform.position);
+            //for (int i = 0; i < Materials.Length; i++)
+            //{
+            //    if (Vector3.Distance(this.gameObject.transform.position, Materials[i].transform.position) <= distance)
+            //    {
+            //        distance = Vector3.Distance(this.gameObject.transform.position, Materials[i].transform.position);
+            //        //hero.AddNewWaypoint(new Waypoint(Materials[i].transform, true, 0), true);
+            //        Debug.Log(Materials[i].transform);
+            //        if (!(hero.CurrentAction is ActionAttack))
+            //            Hero.SetCurrentAction(new ActionCollect(this, ActionNPC.ActionPriority.Medium), Materials[i], true, true);
+            //    }
+            //}
 
 
         }
