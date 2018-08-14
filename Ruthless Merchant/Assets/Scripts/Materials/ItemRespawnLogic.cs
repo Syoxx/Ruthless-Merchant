@@ -40,7 +40,7 @@ namespace RuthlessMerchant
         #region Gameplay Loop
         /// <summary>
         /// sets the current Timer to th respawn Time to initiate the Spawning of the first items at the start
-        /// Gets all SpawnLocations associated with the Item
+        /// Gets all SpawnLocations associated with the Item by predefined Tag
         /// </summary>
         void Start() {
             currentTimer = respawnTime;
