@@ -27,6 +27,7 @@ GameObject:
   - component: {fileID: 114187545759806596}
   - component: {fileID: 95488183987627458}
   - component: {fileID: 64861148800783866}
+  - component: {fileID: 136718828050340690}
   m_Layer: 0
   m_Name: HeroImperialist
   m_TagString: NPC
@@ -295,6 +296,19 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!136 &136718828050340690
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1087380834860738}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.14224577
+  m_Height: 0.47345912
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.23696259, z: 0}
 --- !u!195 &195856920759928182
 NavMeshAgent:
   m_ObjectHideFlags: 1
