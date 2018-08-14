@@ -38,6 +38,7 @@ namespace RuthlessMerchant
         {
             if (fadeImage == null)
                 fadeImage = GameObject.FindGameObjectWithTag("FadeImage").GetComponent<Image>();
+            respawnPosition = transform.position;
         }
 
         /// <summary>
