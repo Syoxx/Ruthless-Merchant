@@ -1,14 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 
 namespace RuthlessMerchant {
     public class CollectionGoal : Goal {
 
+        Hero hero;
+
         [SerializeField]
         private int CollectableID;
         private int QuestZoneID;
+
+        private GameObject[] Materials;
+        
 
         public List<Collectables> collectables;
         private List<Material> FoundMaterials;
@@ -24,6 +30,18 @@ namespace RuthlessMerchant {
             Waypoints = waypoints;
         }
 
+        public Hero Hero
+        {
+            get
+            {
+                if (hero == null)
+                {
+                    hero = GetComponent<Hero>();
+                }
+                return hero;
+            }
+        }
+
         public override void Initialize()
         {
             base.Initialize();
@@ -32,11 +50,17 @@ namespace RuthlessMerchant {
         private void Start()
         {
             collectables = new List<Collectables>();
+            hero = GetComponent<Hero>();
+            Materials = GameObject.FindGameObjectsWithTag("Iron");
             //CalcRequiredAmount();
         }
         private void Update()
         {
-
+            //Debug.Log(Materials.Length + " check");
+            if (collectables.Count > 0)
+            {
+                //CalculateDistances();
+            }
         }
         //Dont need a requiredAmount
         public void CalcRequiredAmount()
@@ -85,6 +109,25 @@ namespace RuthlessMerchant {
                 }
             }
             return true;
+        }
+
+        public void CalcNextWaypoint()
+        {
+
+            float distance = Vector3.Distance(this.gameObject.transform.position, Materials[0].transform.position);
+            for (int i = 0; i < Materials.Length; i++)
+            {
+                if (Vector3.Distance(this.gameObject.transform.position, Materials[i].transform.position) <= distance)
+                {
+                    distance = Vector3.Distance(this.gameObject.transform.position, Materials[i].transform.position);
+                    //hero.AddNewWaypoint(new Waypoint(Materials[i].transform, true, 0), true);
+                    Debug.Log(Materials[i].transform);
+                    if (!(hero.CurrentAction is ActionAttack))
+                        Hero.SetCurrentAction(new ActionCollect(this, ActionNPC.ActionPriority.Medium), Materials[i], true, true);
+                }
+            }
+
+
         }
     }
 }

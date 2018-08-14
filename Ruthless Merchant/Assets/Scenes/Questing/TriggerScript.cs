@@ -8,7 +8,7 @@ namespace RuthlessMerchant
     {
         //[System.Serializable]
         [SerializeField]
-        List<Collectables> CollectablesInTrigger;
+        public List<Collectables> CollectablesInTrigger;
 
         CollectionGoal collectionGoal;
         
@@ -33,8 +33,9 @@ namespace RuthlessMerchant
 
         private void OnTriggerEnter(Collider other)
         {
-            collectionGoal = other.GetComponent<CollectionGoal>();
-            collectionGoal.FillList(CollectablesInTrigger);
+            //collectionGoal = other.GetComponent<CollectionGoal>();
+            //collectionGoal.FillList(CollectablesInTrigger);
+            Debug.Log(other.gameObject);
 
         }
     }
