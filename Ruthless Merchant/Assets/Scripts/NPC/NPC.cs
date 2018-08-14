@@ -61,9 +61,6 @@ namespace RuthlessMerchant
         protected int hearDistance = 5;
 
         [Header("NPC Settings")]
-        [SerializeField, Range(0, 50.0f), Tooltip("Health Regneration per second")]
-        private float healthRegPerSec = 0;
-        private float healthRegValue = 0.0f;
 
         [SerializeField, Range(0, 100), Tooltip("Capturing value per second")]
         protected int capValuePerSecond = 1;
@@ -184,7 +181,6 @@ namespace RuthlessMerchant
         {
             base.Update();
             Recognize();
-            Regeneration();
 
             if (currentAction != null)
                 currentAction.Update(Time.deltaTime);
@@ -206,20 +202,6 @@ namespace RuthlessMerchant
         {
             NPCCount[faction]--;
             base.DestroyInteractivObject();
-        }
-
-        private void Regeneration()
-        {
-            if (healthRegPerSec > 0)
-            {
-                healthRegValue += healthRegPerSec * Time.deltaTime;
-                if (healthRegValue > 1.0f)
-                {
-                    int addValue = (int)Math.Floor(healthRegValue);
-                    healthRegValue -= addValue;
-                    HealthSystem.ChangeHealth(addValue, this);
-                }
-            }
         }
 
         private void CheckReactionState()
