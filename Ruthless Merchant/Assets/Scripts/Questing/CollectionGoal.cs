@@ -118,21 +118,26 @@ namespace RuthlessMerchant {
 
         public void CalcNextWaypoint()
         {
+            GameObject gobj = null;
+            float distance = float.MaxValue;
+            for (int i = 0; i < Materials.Length; i++)
+            {
+                if (Materials[i] != null)
+                {
+                    float newDistance = Vector3.Distance(gameObject.transform.position, Materials[i].transform.position);
+                    if (newDistance < distance)
+                    {
+                        distance = newDistance;
+                        gobj = Materials[i];
+                    }
+                }
+            }
 
-            //float distance = Vector3.Distance(this.gameObject.transform.position, Materials[0].transform.position);
-            //for (int i = 0; i < Materials.Length; i++)
-            //{
-            //    if (Vector3.Distance(this.gameObject.transform.position, Materials[i].transform.position) <= distance)
-            //    {
-            //        distance = Vector3.Distance(this.gameObject.transform.position, Materials[i].transform.position);
-            //        //hero.AddNewWaypoint(new Waypoint(Materials[i].transform, true, 0), true);
-            //        Debug.Log(Materials[i].transform);
-            //        if (!(hero.CurrentAction is ActionAttack))
-            //            Hero.SetCurrentAction(new ActionCollect(this, ActionNPC.ActionPriority.Medium), Materials[i], true, true);
-            //    }
-            //}
-
-
+            if (gobj != null)
+            {
+                if (!(hero.CurrentAction is ActionAttack))
+                    Hero.SetCurrentAction(new ActionCollect(this, ActionNPC.ActionPriority.Medium), gobj, true, true);
+            }
         }
     }
 }
