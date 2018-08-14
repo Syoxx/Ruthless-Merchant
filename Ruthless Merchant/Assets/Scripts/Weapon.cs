@@ -9,10 +9,42 @@ namespace RuthlessMerchant
 
         [Header("Weapon Parameters")]
         [SerializeField] private WeaponType weaponType;
-        [SerializeField] private int Damage;
+        [SerializeField] private int damage;
 
-        [SerializeField] private int DefencePower;
-        [SerializeField] private int AttackSpeed;
+        [SerializeField] private int defencePower;
+        [SerializeField] private float attackSpeed;
+
+        public WeaponType WeaponType
+        {
+            get
+            {
+                return weaponType;
+            }
+        }
+
+        public int Damage
+        {
+            get
+            {
+                return damage;
+            }
+        }
+
+        public int DefencePower
+        {
+            get
+            {
+                return defencePower;
+            }
+        }
+
+        public float AttackSpeed
+        {
+            get
+            {
+                return attackSpeed;
+            }
+        }
 
         public override void Start()
         {
