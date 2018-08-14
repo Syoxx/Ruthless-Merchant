@@ -55,11 +55,12 @@ GameObject:
   - component: {fileID: 4309514655187322}
   - component: {fileID: 33255920852281442}
   - component: {fileID: 23710162328286600}
-  - component: {fileID: 136696868536393580}
   - component: {fileID: 114222506467152632}
   - component: {fileID: 195511312523666984}
   - component: {fileID: 54370812445118140}
   - component: {fileID: 114411893206948016}
+  - component: {fileID: 95318976423089332}
+  - component: {fileID: 64193572581843390}
   m_Layer: 0
   m_Name: MinionFreidenkerPrefab
   m_TagString: NPC
@@ -74,8 +75,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1925128174930270}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.69441175, y: -0.138, z: -1.0413264}
-  m_LocalScale: {x: 0.22, y: 0.22, z: 0.22}
+  m_LocalPosition: {x: 35.952, y: 25.097, z: 229.931}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 4482228883502264}
   - {fileID: 4366813690804970}
@@ -149,7 +150,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1925128174930270}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 4300000, guid: c1c56c91f7c9d2f46b9eaee0c174c005, type: 3}
 --- !u!54 &54370812445118140
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -165,6 +166,38 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!64 &64193572581843390
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1925128174930270}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300000, guid: c1c56c91f7c9d2f46b9eaee0c174c005, type: 3}
+--- !u!95 &95318976423089332
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1925128174930270}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: c1c56c91f7c9d2f46b9eaee0c174c005, type: 3}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114095647207001076
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -204,6 +237,7 @@ MonoBehaviour:
   baseDamagePerAtk: 75
   baseAttackDelay: 2
   baseDefense: 10
+  healthRegPerSec: 0
   sneakSpeed: 2
   walkSpeed: 5
   runSpeed: 10
@@ -217,7 +251,6 @@ MonoBehaviour:
   fov: 90
   viewDistance: 10
   hearDistance: 5
-  healthRegPerSec: 0
   capValuePerSecond: 1
   Reacting: 0
   huntDistance: 5
@@ -256,19 +289,6 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!136 &136696868536393580
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1925128174930270}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!195 &195511312523666984
 NavMeshAgent:
