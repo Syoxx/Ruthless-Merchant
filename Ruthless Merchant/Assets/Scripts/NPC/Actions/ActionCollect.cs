@@ -23,7 +23,6 @@ namespace RuthlessMerchant
                 Debug.Log("other: " + other);
                 goal.CollectableFound(other.GetComponent<Material>());
                 GameObject.Destroy(other);
-                goal.CalcNextWaypoint();
             }
             base.Update(deltaTime);
         }
@@ -32,7 +31,7 @@ namespace RuthlessMerchant
         {
             if(executeEnd)
             {
-                //
+                goal.CalcNextWaypoint();
             }
             base.EndAction(executeEnd);
         }
