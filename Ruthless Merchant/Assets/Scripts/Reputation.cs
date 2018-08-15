@@ -13,6 +13,11 @@ public class Reputation : MonoBehaviour {
     [SerializeField, Tooltip("Player standing with the Imperialisten faction")]
     [Range(0, 1)]
     private float imperalistenStanding;
+
+    [SerializeField, Tooltip("Maximum Reputation")]
+    private float maxReputation;
+
+    private bool freidenkerMaxAchieved, imperialistenMaxAchieved;
     #endregion
 
     #region properties
@@ -41,6 +46,22 @@ public class Reputation : MonoBehaviour {
             freidenkerStanding = value;
         }
     }
+
+    public bool FreidenkerMaxAchieved
+    {
+        get
+        {
+            return freidenkerMaxAchieved;
+        }
+    }
+
+    public bool ImperialistenMaxAchieved
+    {
+        get
+        {
+            return imperialistenMaxAchieved;
+        }
+    }
     #endregion
 
     #region methods
@@ -48,8 +69,18 @@ public class Reputation : MonoBehaviour {
     {
         FreidenkerStanding = 0f;
         ImperalistenStanding = 0f;
+        freidenkerMaxAchieved = false;
+        imperialistenMaxAchieved = false;
     }
-    
+
+    private void Update()
+    {
+        if (freidenkerStanding >= maxReputation)
+            freidenkerMaxAchieved = true;
+        if (imperalistenStanding >= maxReputation)
+            imperialistenMaxAchieved = true;
+    }
+
 
     /// <summary>
     /// This method allows faction standings to be modified
