@@ -8,7 +8,7 @@ public class MonsterLogic : MonoBehaviour
 {
 
     private Vector3 startPosition;
-    private Vector3 endPosition;
+    private Vector3 guardPosition;
     private bool tradeIsDone;
     private bool guardsDead;
     private bool haveReachedGuards;
@@ -27,7 +27,8 @@ public class MonsterLogic : MonoBehaviour
     void Start()
     {
         startPosition = transform.position;
-        endPosition = destination.transform.position;
+        guardPosition = destination.transform.position;
+
         playerCollider = Player.GetComponent<Collider>();
         triggerZoneCollider = triggerZone.GetComponent<Collider>();
     }
@@ -37,19 +38,23 @@ public class MonsterLogic : MonoBehaviour
         float distanceToGuard = Vector3.Distance(transform.position, destination.transform.position);
         float distanceToPlayer = Vector3.Distance(transform.position, Player.transform.position);
 
+        //If trading is done, Monster will start to hunt his targets down
         if (tradeIsDone)
         {
+            //If Monster is not close enough, he will move towards the guards
             if (distanceToGuard >= 6 && !haveReachedGuards)
             {
                 transform.position = Vector3.MoveTowards(transform.position, destination.transform.position, step);            
             }
-
+            
+            // 2 Guards = 2 Attacks (1 hit to kill)
             else if (attackCounter < 2)
             {
                 haveReachedGuards = true;
                 Attack();
             }
 
+            // 2 hits = dead
             if (attackCounter == 2)
             {
                 guardsDead = true;
@@ -61,19 +66,20 @@ public class MonsterLogic : MonoBehaviour
             { 
                 transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, step);
             }
+
+            //if close = attack
             else
             {
                 Attack();
-            }
-
-            if (attackCounter >= 3)
-            {
                 PlayerIsDead();
             }
+
         }
 
+        //Player trying to leave the zone, he is dead
         if (playerCollider.bounds.Intersects(triggerZoneCollider.bounds))
         {
+            Attack();
             PlayerIsDead();
         }
     }
@@ -83,7 +89,6 @@ public class MonsterLogic : MonoBehaviour
         //Animation
         //2 Attacks = Guards dead
         attackCounter = attackCounter + 1;
-        Debug.Log(attackCounter);
     }
 
     private void PlayerIsDead()
