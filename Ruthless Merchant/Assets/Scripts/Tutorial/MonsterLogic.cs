@@ -13,10 +13,14 @@ public class MonsterLogic : MonoBehaviour
     private bool guardsDead;
     private bool haveReachedGuards;
 
+    private Collider playerCollider, triggerZoneCollider;
+
     private int attackCounter = 0;
 
     [SerializeField] private GameObject destination;
     [SerializeField] private GameObject Player;
+    [SerializeField] private GameObject triggerZone;
+
 
     [SerializeField] private float speed;
 
@@ -24,6 +28,8 @@ public class MonsterLogic : MonoBehaviour
     {
         startPosition = transform.position;
         endPosition = destination.transform.position;
+        playerCollider = Player.GetComponent<Collider>();
+        triggerZoneCollider = triggerZone.GetComponent<Collider>();
     }
     void Update()
     {
@@ -64,6 +70,11 @@ public class MonsterLogic : MonoBehaviour
             {
                 PlayerIsDead();
             }
+        }
+
+        if (playerCollider.bounds.Intersects(triggerZoneCollider.bounds))
+        {
+            PlayerIsDead();
         }
     }
 
