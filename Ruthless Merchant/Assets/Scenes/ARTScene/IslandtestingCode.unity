@@ -30461,7 +30461,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1176954912}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8ac38b87d4ad424b8f93b65b17e51b1, type: 3}
+  m_Script: {fileID: 11500000, guid: 656d57c1ecdbd0c4c85af53bd2e44281, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   faction: 0
@@ -30470,9 +30470,9 @@ MonoBehaviour:
   baseDefense: 10
   healthRegPerSec: 0
   sneakSpeed: 2
-  walkSpeed: 2
-  runSpeed: 4
-  groundCheckDistance: 0.1
+  walkSpeed: 3
+  runSpeed: 6
+  groundCheckDistance: 0.25
   layerMask:
     serializedVersion: 2
     m_Bits: 0
@@ -30491,7 +30491,7 @@ MonoBehaviour:
   influenceNeighbours: 0
   upperLimitPerCent: 0.25
   underLimitPerCent: 0.35
-  upperLimitBargainPerCent: 0.5
+  upperLimitBargainPerCent: 0
   upperLimitPercentTotal: 0
   underLimitPercentTotal: 0
   wished: []
@@ -30502,17 +30502,16 @@ MonoBehaviour:
   wishedAndOfferedRatio: []
   continueTrade: 1
   SkepticismTotal: 0
-  SkepticismLimit: 100
-  skepticismStart: 0
-  skepticismStartLimit: 80
+  SkepticismLimit: 0
+  skepticismStartLimit: 0
   skepticismDelta: 0
-  skepticismDeltaModifier: 20
+  skepticismDeltaModifier: 0
   IrritationTotal: 0
-  IrritationLimit: 100
-  irritationStart: 0
-  irritationStartLimit: 80
+  IrritationLimit: 0
+  irritationStartLimit: 0
   irritationDelta: 0
-  irritationDeltaModifier: 20
+  irritationDeltaModifier: 0
+  psychoCooldown: 1
 --- !u!136 &1176954914
 CapsuleCollider:
   m_ObjectHideFlags: 0

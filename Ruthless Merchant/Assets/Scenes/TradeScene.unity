@@ -9458,17 +9458,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1411813784}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dde694d547dd3094e86bbb20d3be4a92, type: 3}
+  m_Script: {fileID: 11500000, guid: 0e74a850373db2f47891ca1e490047cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   RealValue: 0
-  PlayerOffers: []
-  TraderOffers: []
-  ItemsToSell: []
-  weightsDeltaModifier: 30
+  weightsDeltaModifier: 5
   nextPlayerOffer: 0
-  defaultValue: 35
-  TradeObjectsParent: {fileID: 1185506952}
   tradeDialogue: {fileID: 193223856}
   valueText: {fileID: 1259693856}
   sliderIrritation: {fileID: 385735954}
@@ -9478,8 +9473,13 @@ MonoBehaviour:
   traderOffer: {fileID: 1535690847}
   nextPlayerOfferText: {fileID: 478846131}
   currentPlayerOfferText: {fileID: 24010827}
-  weightsPlayerParent: {fileID: 1972942410}
-  weightsTraderParent: {fileID: 1361717966}
+  TraderZone: {fileID: 1361717966}
+  PlayerZone: {fileID: 1972942410}
+  TradeObjectsParent: {fileID: 1185506952}
+  defaultValue: 35
+  ItemsToSell: []
+  PlayerOffers: []
+  TraderOffers: []
 --- !u!4 &1411813786
 Transform:
   m_ObjectHideFlags: 0

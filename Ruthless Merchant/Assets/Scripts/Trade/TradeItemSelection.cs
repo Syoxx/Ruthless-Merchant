@@ -111,8 +111,8 @@ namespace RuthlessMerchant
 
             if (totalPrice > 0)
             {
-                Trade.Singleton.Initialize(totalPrice);
-                Trade.Singleton.ItemsToSell = listedItems;
+                TradeAbstract.Singleton.Initialize(totalPrice);
+                TradeAbstract.Singleton.ItemsToSell = listedItems;
                 Player.RestrictCamera = false;
                 GameObject.Find("UICanvas").SetActive(false);
                 Player.Singleton.StartTrading();

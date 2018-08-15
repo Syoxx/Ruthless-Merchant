@@ -117,13 +117,13 @@ namespace RuthlessMerchant
         public float SkepticismTotal;
 
         [SerializeField, Range(0, 100)]
-        public float SkepticismLimit;
+        public float SkepticismLimit = 100;
 
         //[SerializeField, Range(0, 100)]
         //float skepticismStart;
 
         [SerializeField, Range(0, 100)]
-        float skepticismStartLimit;
+        float skepticismStartLimit = 80;
 
         #if UNITY_EDITOR
         [ReadOnly]
@@ -138,13 +138,13 @@ namespace RuthlessMerchant
         public float IrritationTotal;
 
         [SerializeField, Range(0, 100)]
-        public float IrritationLimit;
+        public float IrritationLimit = 100;
 
         //[SerializeField, Range(0, 100)]
         //float irritationStart;
 
         [SerializeField, Range(0, 100)]
-        float irritationStartLimit;
+        float irritationStartLimit = 80;
 
         #if UNITY_EDITOR
         [ReadOnly]
@@ -158,11 +158,11 @@ namespace RuthlessMerchant
         [SerializeField, Range(0, 2), Tooltip("Abbau pro Sekunde (Skepsis / Genervtheit)")]
         float psychoCooldown = 1;
 
+        #endregion
+
         float timer = 0;
 
         float timerLimit = 1;
-
-        #endregion
 
         #region MonoBehaviour cycle
 
@@ -200,7 +200,7 @@ namespace RuthlessMerchant
         /// <summary>
         /// Sets the initial trading variables.
         /// </summary>
-        public void Initialize(Trade trade)
+        public void Initialize(TradeAbstract trade)
         {
             wished                = new List<float>();
             realAndOfferedRatio   = new List<float>();
@@ -210,7 +210,6 @@ namespace RuthlessMerchant
             {
                 trade.Abort();
             }
-
             else
             {
                 float realPrice = trade.RealValue;
@@ -230,15 +229,15 @@ namespace RuthlessMerchant
         /// </summary>
         public void ReactToPlayerOffer()
         {
-            Trade trade = Trade.Singleton;
+            TradeAbstract trade = TradeAbstract.Singleton;
 
-            realAndOfferedRatio.Add(lastItem(trade.PlayerOffers) / trade.RealValue);
-            wishedAndOfferedRatio.Add(lastItem(trade.PlayerOffers) / lastItem(wished));
+            realAndOfferedRatio.Add(trade.GetCurrentPlayerOffer() / trade.RealValue);
+            wishedAndOfferedRatio.Add(trade.GetCurrentPlayerOffer() / lastItem(wished));
             wished.Add((float)Math.Ceiling(upperLimitReal - ((upperLimitReal - lastItem(wished)) / lastItem(wishedAndOfferedRatio))));
 
             if (UpdatePsychology())
             {
-                if (trade.PlayerOffers.Count == 1)
+                if (trade.GetCurrentPlayerOffer() == 1)
                 {
                     HandleFirstPlayerOffer();
                 }
@@ -259,24 +258,26 @@ namespace RuthlessMerchant
         /// </summary>
         void HandleFirstPlayerOffer()
         {
-            Trade trade = Trade.Singleton;
+            TradeAbstract trade = TradeAbstract.Singleton;
 
-            if (trade.PlayerOffers[0] > upperLimitBargain)
+            float currentPlayerOffer = trade.GetCurrentPlayerOffer();
+
+            if (currentPlayerOffer > upperLimitBargain)
             {
                 // Trader refuses and doesn't want to bargain with the offered price.
-                trade.TraderOffers.Add(0);
+                trade.UpdateCurrentTraderOffer(0);
             }
             else
             {
-                if(trade.PlayerOffers[0] < wished[0])
+                if(currentPlayerOffer < wished[0])
                 {
-                    // Trader accepts.
-                    trade.TraderOffers.Add(trade.PlayerOffers[0]);
+                    // Trader accepts
+                    trade.UpdateCurrentTraderOffer(currentPlayerOffer);
                 }
                 else
                 {
                     // Trader makes first counteroffer.
-                    trade.TraderOffers.Add(underLimitReal + (wished[0] - underLimitReal) / wishedAndOfferedRatio[0]);
+                    trade.UpdateCurrentTraderOffer(underLimitReal + (wished[0] - underLimitReal) / wishedAndOfferedRatio[0]);
                 }
             }
         }
@@ -286,7 +287,10 @@ namespace RuthlessMerchant
         /// </summary>
         void HandleLaterPlayerOffers()
         {
-            Trade trade = Trade.Singleton;
+            TradeAbstract trade = TradeAbstract.Singleton;
+
+            float currentPlayerOffer = trade.GetCurrentPlayerOffer();
+            float currentTraderOffer = trade.GetCurrentTraderOffer();
 
             if (!continueTrade)
             {
@@ -294,13 +298,13 @@ namespace RuthlessMerchant
                 return;
             }
 
-            if (lastItem(trade.PlayerOffers) <= lastItem(wished, 1))
+            if (currentPlayerOffer <= lastItem(wished, 1))
             {
-                trade.TraderOffers.Add(lastItem(trade.PlayerOffers));
+                trade.UpdateCurrentTraderOffer(currentPlayerOffer);
             }
             else
             {
-                trade.TraderOffers.Add(lastItem(trade.TraderOffers, 0, "DOWN") + (lastItem(wished,1) - lastItem(trade.TraderOffers, 0, "DOWN")) / lastItem(wishedAndOfferedRatio));
+                trade.UpdateCurrentTraderOffer((float)(Math.Floor(currentTraderOffer) + (lastItem(wished, 1) - Math.Floor(currentTraderOffer)) / lastItem(wishedAndOfferedRatio)));
             }
         }
 
@@ -309,7 +313,7 @@ namespace RuthlessMerchant
         /// </summary>
         bool UpdatePsychology()
         {
-            Trade trade = Trade.Singleton;
+            TradeAbstract trade = TradeAbstract.Singleton;
 
             if (realAndOfferedRatio[realAndOfferedRatio.Count - 1] < 1)
             {
@@ -347,7 +351,7 @@ namespace RuthlessMerchant
         /// <param name="caller"></param>
         public override void Interact(GameObject caller)
         {
-            if (Trade.Singleton == null)
+            if (TradeAbstract.Singleton == null)
             {
                 CurrentTrader = this;
                 Position = gameObject.transform.position;
@@ -360,21 +364,9 @@ namespace RuthlessMerchant
         /// <summary>
         /// Gets the last Item of a List<float>.
         /// </summary>
-        float lastItem(List<float> list, int beforeLast = 0, string round = "")
+        float lastItem(List<float> list, int beforeLast = 0)
         {
-            float result = list[list.Count - (1 + beforeLast)];
-
-            switch (round)
-            {
-                case "UP":
-                    return (float)Math.Ceiling(result);
-
-                case "DOWN":
-                    return (float)Math.Floor(result);
-
-                default:
-                    return result;
-            }
+            return list[list.Count - (1 + beforeLast)];
         }
     }
 }
