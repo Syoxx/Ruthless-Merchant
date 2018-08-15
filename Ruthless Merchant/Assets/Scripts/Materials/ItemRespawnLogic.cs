@@ -44,7 +44,7 @@ namespace RuthlessMerchant
         /// Gets all SpawnLocations associated with the Item by predefined Tag
         /// </summary>
         void Start() {
-            currentTimer = respawnTime;
+            currentTimer = 0; //RespawnTime statt 0 (Gregor von Frankenberg)
             spawnLocations = GameObject.FindGameObjectsWithTag(spawnLocationsTag);
             maxNrOfItems = spawnLocations.Length - nrOfEmptyLocations;
         }
