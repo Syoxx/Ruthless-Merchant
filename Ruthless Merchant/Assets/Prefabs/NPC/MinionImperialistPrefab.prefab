@@ -55,11 +55,13 @@ GameObject:
   - component: {fileID: 4340868536325928}
   - component: {fileID: 33459590841804250}
   - component: {fileID: 23309900491862426}
-  - component: {fileID: 136386692617615082}
   - component: {fileID: 114175194979572260}
   - component: {fileID: 195557199078588430}
   - component: {fileID: 54625557163662760}
   - component: {fileID: 114718778091211164}
+  - component: {fileID: 95407560417571868}
+  - component: {fileID: 64848697008923906}
+  - component: {fileID: 136583219772098350}
   m_Layer: 0
   m_Name: MinionImperialistPrefab
   m_TagString: NPC
@@ -74,8 +76,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1675400970968520}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 197.51898, y: 25.995422, z: 143.03612}
-  m_LocalScale: {x: 0.22, y: 0.22, z: 0.22}
+  m_LocalPosition: {x: 36.273, y: 25.079, z: 229.98}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4523198383581264}
   - {fileID: 4553530576427708}
@@ -149,7 +151,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1675400970968520}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 4300000, guid: 8301f6bea0c83fe4dba3aabdc62793a5, type: 3}
 --- !u!54 &54625557163662760
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -165,6 +167,38 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!64 &64848697008923906
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1675400970968520}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300000, guid: 8301f6bea0c83fe4dba3aabdc62793a5, type: 3}
+--- !u!95 &95407560417571868
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1675400970968520}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d8e5ed875bc2b20418a90157d9bd772a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114175194979572260
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -215,6 +249,7 @@ MonoBehaviour:
   baseDamagePerAtk: 75
   baseAttackDelay: 2
   baseDefense: 10
+  healthRegPerSec: 0
   sneakSpeed: 2
   walkSpeed: 5
   runSpeed: 10
@@ -228,7 +263,6 @@ MonoBehaviour:
   fov: 90
   viewDistance: 10
   hearDistance: 5
-  healthRegPerSec: 0
   capValuePerSecond: 1
   Reacting: 0
   huntDistance: 5
@@ -257,7 +291,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!136 &136386692617615082
+--- !u!136 &136583219772098350
 CapsuleCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -266,10 +300,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
+  m_Radius: 0.14224577
+  m_Height: 0.47345912
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.23696259, z: 0}
 --- !u!195 &195557199078588430
 NavMeshAgent:
   m_ObjectHideFlags: 1
