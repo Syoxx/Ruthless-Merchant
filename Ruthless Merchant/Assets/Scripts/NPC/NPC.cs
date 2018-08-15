@@ -595,6 +595,9 @@ namespace RuthlessMerchant
         /// <param name="other">Collider of gameobject</param>
         public void OnEnterViewArea(Collider other)
         {
+            if (possibleSeenObjects == null)
+                possibleSeenObjects = new List<GameObject>();
+            
             possibleSeenObjects.Add(other.gameObject);
         }
 
@@ -604,6 +607,9 @@ namespace RuthlessMerchant
         /// <param name="other">Collider of gameobject</param>
         public void OnExitViewArea(Collider other)
         {
+            if (possibleSeenObjects == null)
+                possibleSeenObjects = new List<GameObject>();
+
             possibleSeenObjects.Remove(other.gameObject);
         }
         #endregion
