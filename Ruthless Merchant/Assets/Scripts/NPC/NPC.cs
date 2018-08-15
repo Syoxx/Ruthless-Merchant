@@ -163,7 +163,7 @@ namespace RuthlessMerchant
             if (waypoints == null)
                 waypoints = new List<Waypoint>();
 
-            GameObject seeObject = transform.GetChild(1).gameObject;
+            GameObject seeObject = transform.GetChild(4).gameObject;
 
             SphereCollider seeCollider = seeObject.GetComponent<SphereCollider>();
             seeCollider.radius = viewDistance;
