@@ -301,6 +301,49 @@ namespace RuthlessMerchant
             {
                 rb.velocity = Vector3.right * rb.velocity.x / 2 + Vector3.up * rb.velocity.y + Vector3.forward * rb.velocity.z / 2;
             }
+
+            //if (velocity != Vector2.zero && !isPlayer)
+            //{ transform.rotation = Quaternion.LookRotation(velocity); }
+
+            //rb.velocity = new Vector3(0f, rb.velocity.y, 0f);
+
+            //moveVector.y = 0;
+            //moveVector.x = velocity.x;
+            //moveVector.z = velocity.y;
+
+            //if (moveVector.sqrMagnitude > 1)
+            //{
+            //    moveVector.Normalize();
+            //}
+
+            //if (isPlayer) //Prevent penetration of terrain obstacles
+            //{
+            //    Ray forwardRay = new Ray(new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z),
+            //                    transform.TransformDirection(moveVector));
+            //    RaycastHit forwardRayHit;
+
+            //    if (Physics.Raycast(forwardRay, out forwardRayHit, 0.1f))
+            //    {
+            //        if (forwardRayHit.collider.gameObject.layer == 14)
+            //        {
+            //            // player does not move into obstacles of layer 14
+            //        }
+            //        else
+            //        {
+            //            transform.Translate(moveVector * speed * Time.deltaTime, Space.Self);
+            //        }
+            //    }
+            //    else
+            //    {
+            //        transform.Translate(moveVector * speed * Time.deltaTime, Space.Self);
+            //    }
+            //}
+            //else
+            //{
+            //    transform.Translate(moveVector * speed * Time.deltaTime, Space.Self);
+            //}
+
+            //moveVector = Vector3.zero;
         }
 
         public void Rotate()
@@ -368,6 +411,11 @@ namespace RuthlessMerchant
                 rb.AddForce(Vector3.up * 0.1f * maxJumpHeight, ForceMode.VelocityChange);
                 elapsedSecs = 0.4f;
             }
+        }
+
+        protected virtual void FixedUpdate()
+        {
+
         }
 
         /// <summary>
