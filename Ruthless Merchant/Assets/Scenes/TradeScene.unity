@@ -7579,74 +7579,13 @@ GameObject:
   - component: {fileID: 1210171743}
   - component: {fileID: 1210171742}
   - component: {fileID: 1210171741}
-  - component: {fileID: 1210171740}
   m_Layer: 11
-  m_Name: Trader
+  m_Name: TraderCapsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1210171740
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1210171739}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8ac38b87d4ad424b8f93b65b17e51b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  faction: 0
-  baseDamagePerAtk: 75
-  baseAttackDelay: 2
-  baseDefense: 10
-  healthRegPerSec: 0
-  sneakSpeed: 2
-  walkSpeed: 2
-  runSpeed: 4
-  groundCheckDistance: 0.25
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 0
-  maxJumpHeight: 0
-  maxSlopeAngle: 0
-  rotationSpeed: 8
-  fov: 45
-  viewDistance: 10
-  hearDistance: 5
-  capValuePerSecond: 1
-  Reacting: 0
-  fleeDistance: 5
-  influenceFraction: 0
-  influenceIndividual: 0
-  influenceWar: 0
-  influenceNeighbours: 0
-  upperLimitPerCent: 0.25
-  underLimitPerCent: 0.35
-  upperLimitBargainPerCent: 9999
-  upperLimitPercentTotal: 0
-  underLimitPercentTotal: 0
-  wished: []
-  upperLimitReal: 0
-  upperLimitBargain: 0
-  underLimitReal: 0
-  realAndOfferedRatio: []
-  wishedAndOfferedRatio: []
-  continueTrade: 1
-  SkepticismTotal: 0
-  SkepticismLimit: 100
-  skepticismStart: 0
-  skepticismStartLimit: 80
-  skepticismDelta: 0
-  skepticismDeltaModifier: 20
-  IrritationTotal: 0
-  IrritationLimit: 100
-  irritationStart: 0
-  irritationStartLimit: 80
-  irritationDelta: 0
-  irritationDeltaModifier: 25
 --- !u!136 &1210171741
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -9547,15 +9486,15 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1411813784}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.35, y: -0.22, z: 0}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: -0.22, z: 0.35}
   m_LocalScale: {x: 0.22, y: 0.22, z: 0.22}
   m_Children:
   - {fileID: 1972942410}
   - {fileID: 1361717966}
   m_Father: {fileID: 1185506953}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1001 &1471691046
 Prefab:
   m_ObjectHideFlags: 0

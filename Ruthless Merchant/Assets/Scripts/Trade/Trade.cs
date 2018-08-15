@@ -125,6 +125,14 @@ namespace RuthlessMerchant
             TradeObjectsParent.transform.position = Trader.CurrentTrader.gameObject.transform.position;
             NeutralPositionY = weightsPlayerParent.transform.position.y;
 
+            Vector3 prevRotation = TradeObjectsParent.transform.rotation.eulerAngles;
+            TradeObjectsParent.transform.LookAt(Player.Singleton.transform);
+
+            Vector3 rotation = TradeObjectsParent.transform.rotation.eulerAngles;
+            TradeObjectsParent.transform.Rotate(-rotation.x, 0, -rotation.z);
+
+            UpdateUI();
+
             enabled = false;
         }
 
@@ -139,6 +147,7 @@ namespace RuthlessMerchant
                     Cursor.visible = false;
                     InventoryItem.Behaviour = InventoryItem.ItemBehaviour.None;
                     Main_SceneManager.UnLoadScene("TradeScene");
+                    Trader.CurrentTrader = null;
                 }
             }
             else

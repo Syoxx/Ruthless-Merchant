@@ -28,6 +28,9 @@ namespace RuthlessMerchant
             Singleton = this;
             listedItems = new List<InventoryItem>();
             InventoryItem.MoveItem += OnItemMoved;
+
+            if (price == null)
+                price = GameObject.Find("TotalPrice").GetComponent<Text>();
         }
 
         public void OnItemMoved(InventoryItem item)
@@ -113,6 +116,7 @@ namespace RuthlessMerchant
                 Player.RestrictCamera = false;
                 GameObject.Find("UICanvas").SetActive(false);
                 Player.Singleton.StartTrading();
+                InventoryItem.MoveItem -= OnItemMoved;
             }
         }
 

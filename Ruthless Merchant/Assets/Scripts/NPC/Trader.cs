@@ -119,8 +119,8 @@ namespace RuthlessMerchant
         [SerializeField, Range(0, 100)]
         public float SkepticismLimit;
 
-        [SerializeField, Range(0, 100)]
-        float skepticismStart;
+        //[SerializeField, Range(0, 100)]
+        //float skepticismStart;
 
         [SerializeField, Range(0, 100)]
         float skepticismStartLimit;
@@ -140,8 +140,8 @@ namespace RuthlessMerchant
         [SerializeField, Range(0, 100)]
         public float IrritationLimit;
 
-        [SerializeField, Range(0, 100)]
-        float irritationStart;
+        //[SerializeField, Range(0, 100)]
+        //float irritationStart;
 
         [SerializeField, Range(0, 100)]
         float irritationStartLimit;
@@ -155,6 +155,13 @@ namespace RuthlessMerchant
         [SerializeField, Range(0, 100), Tooltip("Genervt plus Grundwert")]
         float irritationDeltaModifier;
 
+        [SerializeField, Range(0, 2), Tooltip("Abbau pro Sekunde (Skepsis / Genervtheit)")]
+        float psychoCooldown = 1;
+
+        float timer = 0;
+
+        float timerLimit = 1;
+
         #endregion
 
         #region MonoBehaviour cycle
@@ -165,6 +172,27 @@ namespace RuthlessMerchant
 
         public override void Update()
         {
+            if (CurrentTrader != this)
+            {
+                timer += Time.deltaTime;
+
+                if (timer >= timerLimit)
+                {
+                    timer = 0;
+
+                    if (SkepticismTotal > 0)
+                        SkepticismTotal -= 1;
+
+                    if (SkepticismTotal < 0)
+                        SkepticismTotal = 0;
+
+                    if (IrritationTotal > 0)
+                        IrritationTotal -= 1;
+
+                    if (IrritationTotal < 0)
+                        IrritationTotal = 0;
+                }
+            }
         }
 
         #endregion
@@ -178,16 +206,13 @@ namespace RuthlessMerchant
             realAndOfferedRatio   = new List<float>();
             wishedAndOfferedRatio = new List<float>();
 
-            IrritationTotal = irritationStart;
-            SkepticismTotal = skepticismStart;
-
             if (IrritationTotal >= irritationStartLimit || SkepticismTotal >= skepticismStartLimit)
             {
                 trade.Abort();
             }
+
             else
             {
-
                 float realPrice = trade.RealValue;
 
                 upperLimitPercentTotal = upperLimitPerCent + ((upperLimitPerCent * influenceFraction) + (upperLimitPerCent * influenceIndividual) + (upperLimitPerCent * influenceWar) + (upperLimitPerCent * influenceNeighbours)) / 4;
