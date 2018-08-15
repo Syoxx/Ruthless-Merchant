@@ -16,6 +16,9 @@ public class VRMenuScript : MonoBehaviour
     [SerializeField]
     private float rayDistance = 3;
 
+    [SerializeField, Tooltip("Time used to Fade")]
+    private float fadeTime = 2f;
+
     [SerializeField, Tooltip("Image used for fading")]
     Image fadeImage;
 
@@ -64,28 +67,34 @@ public class VRMenuScript : MonoBehaviour
 
     private void Continue()
     {
-        Debug.Log("Continue");
         lightContinue.enabled = true;
 
     }
     private void startGame()
     {
-        fadeImage.FadingWithCallback(1f, 2f, delegate
-        {
-            SceneManager.LoadScene(gamePlayScene);
-        });
         lightStartGame.enabled = true;
+        if (Input.GetMouseButtonDown(0))
+        {
+            fadeImage.FadingWithCallback(1f, fadeTime, delegate
+            {
+                SceneManager.LoadScene(gamePlayScene);
+            });
+        }
     }
 
     private void QuitGame()
     {
-        Application.Quit();
-        Debug.Log("QuitGame");
+        if (Input.GetMouseButtonDown(0))
+        {
+            fadeImage.FadingWithCallback(1f, fadeTime, delegate
+            {
+                Application.Quit();
+            });
+        }
     }
 
     private void Options()
     {
         lightOptions.enabled = true;
-        Debug.Log("Options");
     }
 }
