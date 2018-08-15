@@ -35,7 +35,7 @@ namespace RuthlessMerchant
         {
             //collectionGoal = other.GetComponent<CollectionGoal>();
             //collectionGoal.FillList(CollectablesInTrigger);
-            Debug.Log(other.gameObject);
+            //Debug.Log(other.gameObject);
 
         }
     }
@@ -55,6 +55,11 @@ namespace RuthlessMerchant
             requiredAmount = RequiredAmount;
             currentAmount = CurrentAmount;
             completed = Completed;
+        }
+
+        public Collectables Clone()
+        {
+            return new Collectables(material, requiredAmount, currentAmount, completed);
         }
     }
 }

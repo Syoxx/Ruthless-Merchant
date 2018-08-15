@@ -26,11 +26,13 @@ namespace RuthlessMerchant
                 {
                     //Collect
                     goal.CollectableFound(other.GetComponent<Material>());
+                    //Debug.Log("Found: " + other.GetComponent<Material>());
                     UnityEngine.GameObject.DestroyImmediate(other);
 
                     //Set new goal and Action
                     parent.SetCurrentAction(new ActionIdle(), null, true, true);
-                    goal.CalcNextWaypoint();
+                    if(!goal.Completed)
+                        goal.CalcNextWaypoint();
                 }
             }
             base.Update(deltaTime);

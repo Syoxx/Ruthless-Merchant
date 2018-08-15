@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class Goal : MonoBehaviour {
 
+
+    [SerializeField]
+    protected string QuestTitle;
     [SerializeField]
     protected string Description; //{ get; set; }
     //[SerializeField]
     protected int RequiredAmount; //{ get; set; }
-    [SerializeField]
-    protected List<Transform> Waypoints;
+    //[SerializeField]
+    //protected List<Transform> Waypoints;
 
     public bool Completed; //{ get; set; }
     protected int CurrentAmount; //{ get; set; }

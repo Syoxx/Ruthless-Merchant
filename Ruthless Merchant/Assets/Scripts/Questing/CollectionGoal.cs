@@ -19,11 +19,11 @@ namespace RuthlessMerchant {
         public List<Collectables> collectables;
         private List<Material> FoundMaterials;
 
-        public CollectionGoal(string description, bool completed, List<Transform> waypoints)
+        public CollectionGoal(string description, bool completed, string questTitle)
         {
+            QuestTitle = questTitle;
             Description = description;
             Completed = completed;
-            Waypoints = waypoints;
         }
 
         public Hero Hero
@@ -47,21 +47,12 @@ namespace RuthlessMerchant {
         {
             collectables = new List<Collectables>();
             hero = GetComponent<Hero>();
-            //Materials = GameObject.FindGameObjectsWithTag("Iron");
-            Debug.Log("descr: "+Description);
-            //CalcRequiredAmount();
         }
         private void Update()
         {
-            if(Materials != null)
-            Debug.Log("Count: "+Materials.Length);
-            //Debug.Log(Materials.Length + " check");
-            if (collectables.Count > 0)
-            {
-                //CalculateDistances();
-            }
+
         }
-        //Dont need a requiredAmount
+
         public void CalcRequiredAmount()
         {
             for (int i = 0; i < collectables.Count; i++)
@@ -71,23 +62,21 @@ namespace RuthlessMerchant {
         }
         public void CollectableFound(Material foundMaterial)
         {
-            //Possible solution is also just to increment the current amount, depending on if its necessary to keep track of the amount of the specific materials or not
             for (int i = 0; i < collectables.Count; i++)
             {
-                if (collectables[i].material == foundMaterial)
+                if (collectables[i].material.ItemName == foundMaterial.ItemName)
                 {
                     collectables[i].currentAmount++;
                     EvaluateCollectables(i);
 
-                    //CurrentAmount++;
                     break;
                 }                
             }
             Completed = EvaluateGoal();
-            //CurrentAmount++;
-            //Evaluate();
+
         }
-        public void FillList(/*Material material, int requiredAmount, int index*/List<Collectables> Collectables)
+
+        public void FillList(List<Collectables> Collectables)
         {
             collectables = Collectables;
             Completed = false;
@@ -113,6 +102,7 @@ namespace RuthlessMerchant {
                     return false;
                 }
             }
+            Materials = new GameObject[Materials.Length];
             return true;
         }
 
@@ -133,8 +123,9 @@ namespace RuthlessMerchant {
                 }
             }
 
-            if (gobj != null)
+            if (gobj != null && hero != null)
             {
+
                 if (!(hero.CurrentAction is ActionAttack))
                     Hero.SetCurrentAction(new ActionCollect(this, ActionNPC.ActionPriority.Medium), gobj, true, true);
             }

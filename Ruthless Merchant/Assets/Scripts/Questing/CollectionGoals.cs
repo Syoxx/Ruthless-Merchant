@@ -7,6 +7,8 @@ namespace RuthlessMerchant {
 
         [SerializeField]
         private List<CollectionGoal> collectionGoals;
+        private List<CollectionGoal> CollectionGoalClones = new List<CollectionGoal>();
+
         CollectionGoal collectionGoal;
 
         public CollectionGoal CollectionGoal
@@ -24,6 +26,7 @@ namespace RuthlessMerchant {
         private void Start()
         {
             collectionGoal = GetComponent<CollectionGoal>();
+            
         }
 
         private void OnTriggerStay(Collider other)
@@ -34,7 +37,13 @@ namespace RuthlessMerchant {
 
                 if (Input.GetKeyDown(KeyCode.Alpha1))
                 {
-                    collectionGoal.FillList(collectionGoals[0].collectables);
+                    List<Collectables> tempCollectables = new List<Collectables>();
+                    for (int i = 0; i < collectionGoals[0].collectables.Count; i++)
+                    {
+                        tempCollectables.Add(collectionGoals[0].collectables[i].Clone());
+                    }
+                    
+                    collectionGoal.FillList(tempCollectables);
                     collectionGoal.CalcNextWaypoint();
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha2))
@@ -49,18 +58,7 @@ namespace RuthlessMerchant {
         }
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
 
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-
-            }
         }
 
     }
