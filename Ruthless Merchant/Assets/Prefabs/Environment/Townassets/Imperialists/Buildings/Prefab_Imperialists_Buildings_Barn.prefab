@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33058592199751268}
   - component: {fileID: 23302845355216000}
   - component: {fileID: 95496933244155916}
+  - component: {fileID: 64370161093950338}
   m_Layer: 0
   m_Name: Prefab_Imperialists_Buildings_Barn
   m_TagString: Untagged
@@ -83,6 +84,20 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1433208721161444}
+  m_Mesh: {fileID: 4300000, guid: f5981f952e5abbe4aadf7a9c2767e7ec, type: 3}
+--- !u!64 &64370161093950338
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1433208721161444}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: f5981f952e5abbe4aadf7a9c2767e7ec, type: 3}
 --- !u!95 &95496933244155916
 Animator:

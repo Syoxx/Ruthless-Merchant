@@ -22,12 +22,13 @@ GameObject:
   - component: {fileID: 33164835422778158}
   - component: {fileID: 23922692466185382}
   - component: {fileID: 95430297099938912}
+  - component: {fileID: 64646069877518476}
   m_Layer: 0
   m_Name: Prefab_Imperialists_Buildings_House_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4794479171983522
 Transform:
@@ -83,6 +84,20 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1295902731879718}
+  m_Mesh: {fileID: 4300000, guid: b189b56354d381d40a6f850c06cfdb6e, type: 3}
+--- !u!64 &64646069877518476
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1295902731879718}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: b189b56354d381d40a6f850c06cfdb6e, type: 3}
 --- !u!95 &95430297099938912
 Animator:
