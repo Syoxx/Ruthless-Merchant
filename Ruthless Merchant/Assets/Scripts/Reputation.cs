@@ -47,6 +47,14 @@ public class Reputation : MonoBehaviour {
         }
     }
 
+    public float MaxReputation
+    {
+        get
+        {
+            return maxReputation;
+        }
+    }
+
     public bool FreidenkerMaxAchieved
     {
         get
