@@ -47,7 +47,7 @@ namespace RuthlessMerchant
             }
 
             float distance = Vector3.Distance(other.transform.position, parent.transform.position);
-            if (distance <= agent.baseOffset)
+            if (distance <= agent.stoppingDistance)
             {
                 agent.isStopped = true;
                 parent.Waypoints.Clear();

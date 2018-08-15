@@ -170,6 +170,8 @@ namespace RuthlessMerchant
 
             agent = GetComponent<NavMeshAgent>();
             agent.autoBraking = false;
+            if (agent.stoppingDistance == 0)
+                agent.stoppingDistance = 1;
 
             ChangeSpeed(SpeedType.Walk);
 
@@ -192,7 +194,7 @@ namespace RuthlessMerchant
                 ChangeSpeed(SpeedType.Walk);
             }
 
-            if (agent.remainingDistance <= agent.baseOffset || agent.remainingDistance <= agent.stoppingDistance)
+            if (agent.remainingDistance <= agent.stoppingDistance)
             {
                 agent.isStopped = true;
             }
