@@ -9,8 +9,10 @@ namespace RuthlessMerchant
     {
         #region Fields #############################################################################################
 
-        [SerializeField, Tooltip("The panel in the book in which the recipes will be displayed (currently named RecipeCanvas). It isn't required but the panel should have a vertical layout group component")]
-        GameObject recipeCanvas;
+        public int maxRecipesPerPage;
+
+        [SerializeField, Tooltip("The book-object with the BookPro Script")]
+        BookPro book;
 
         [SerializeField, Tooltip("The Prefab that will be used for displaying the recipes")]
         GameObject recipePanelPrefab;
@@ -24,6 +26,8 @@ namespace RuthlessMerchant
         List<RecipePanel> recipePanels;
 
         List<ItemCount> counts;
+
+        GameObject[] recipePages;
 
         #endregion
 
@@ -119,6 +123,23 @@ namespace RuthlessMerchant
                 this.materials = materials;
                 this.unlocked = autoUnlocked;
             }
+
+            /// <summary>
+            /// Unlocks the recipe.
+            /// </summary>
+            /// <returns>returns false if recipe was already unlocked</returns>
+            public bool Unlock()
+            {
+                if(unlocked)
+                {
+                    return false;
+                }
+                else
+                {
+                    unlocked = true;
+                    return true;
+                }
+            }
         }
 
         struct ItemCount
@@ -175,6 +196,37 @@ namespace RuthlessMerchant
         {
             recipePanels = new List<RecipePanel>();
             counts = new List<ItemCount>();
+            if(!book)
+            {
+                book = GameObject.Find("Book").GetComponent<BookPro>();
+            }
+            recipePages = FindPanels();
+        }
+
+        /// <summary>
+        /// finds all pages in the book that have the "Book_Recipes" tag.
+        /// </summary>
+        /// <returns>returns an array of all pages with the tag. the pages who come first are also the first in the array.</returns>
+        private GameObject[] FindPanels()
+        {
+            if(!book)
+            {
+                throw new System.NullReferenceException("Please add the bookprefab to book-property");
+            }
+            List<GameObject> panels = new List<GameObject>();
+            for(int i = 0; i < book.papers.Length; i++)
+            {
+                if(book.papers[i].Front.tag == "Book_Recipes")
+                {
+                    panels.Add(book.papers[i].Front);
+                }
+                if (book.papers[i].Back.tag == "Book_Recipes")
+                {
+                    panels.Add(book.papers[i].Back);
+                }
+            }
+
+            return panels.ToArray();
         }
 
         private void Start()
@@ -189,30 +241,29 @@ namespace RuthlessMerchant
             Player.Singleton.Inventory.InventoryChanged.AddListener(UpdateCounts);
         }
 
-        #endregion
-
-
-        #region Public Functions ##################################################################################
-
-        /// <summary>
-        /// Returns all the recipes listed in this class
-        /// </summary>
-        public List<Recipe> GetRecipes()
-        {
-            return recipes;
-        }
-
         /// <summary>
         /// Adds a recipepanel with all its materials and the result
         /// </summary>
         /// <param name="recipeIndex">the index of the recipe in the recipes-list. returns null if index is out of range</param>
-        public GameObject AddRecipePanel(int recipeIndex)
+        private GameObject AddRecipePanel(int recipeIndex)
         {
+            if(!recipePanelPrefab)
+            {
+                throw new System.NullReferenceException("No recipePanelPrefab found");
+            }
             if (recipeIndex >= recipes.Count || recipeIndex < 0)
             {
                 return null;
             }
-            GameObject newPanel = Instantiate(recipePanelPrefab, recipeCanvas.transform);
+
+            Transform currentPageParent = transform;
+            int currentPage = recipeIndex / maxRecipesPerPage;
+            if(currentPage < recipePages.Length)
+            {
+                currentPageParent = recipePages[currentPage].transform.GetChild(0);
+            }
+
+            GameObject newPanel = Instantiate(recipePanelPrefab, currentPageParent);
 
             newPanel.transform.GetChild(1).GetChild(0).GetComponent<TMP_Text>().text = recipes[recipeIndex].Result.ItemName;
             newPanel.transform.GetChild(1).GetChild(1).GetComponent<Image>().sprite = recipes[recipeIndex].Result.ItemSprite;
@@ -233,6 +284,33 @@ namespace RuthlessMerchant
 
             UpdateCounts();
             return newPanel;
+        }
+
+        #endregion
+
+
+        #region Public Functions ##################################################################################
+
+        /// <summary>
+        /// Returns all the recipes listed in this class
+        /// </summary>
+        public List<Recipe> GetRecipes()
+        {
+            return recipes;
+        }
+
+        /// <summary>
+        /// Unlocks a recipe and adds a recipe-panel to the book
+        /// </summary>
+        /// <param name="recipeIndex">index of the activated recipe</param>
+        /// <returns>returns the created panel-gameobject</returns>
+        public GameObject ActivateRecipe(int recipeIndex)
+        {
+            if (recipes[recipeIndex].Unlock())
+            {
+                return AddRecipePanel(recipeIndex);
+            }
+            else return null;
         }
 
         /// <summary>

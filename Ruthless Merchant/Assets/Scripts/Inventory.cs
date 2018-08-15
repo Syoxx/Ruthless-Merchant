@@ -110,6 +110,13 @@ namespace RuthlessMerchant
             return -1;
         }
 
+        private void SortDisplayPanel(int inventorySlot)
+        {
+            int pageForItem = inventorySlot / Player.Singleton.MaxItemsPerPage;
+            inventorySlots[inventorySlot].DisplayData.transform.SetParent(BookLogic.InventoryPageList[pageForItem].transform.GetChild(0), false);
+            inventorySlots[inventorySlot].DisplayData.transform.SetAsLastSibling();
+        }
+
         /// <summary>
         /// Creates a Inventory-Display for a specific Inventoryslot. This Function is only used if UpdateDisplayData couldn't find a InventoryItem
         /// </summary>
@@ -118,7 +125,7 @@ namespace RuthlessMerchant
         private InventoryItem CreateDisplayData(InventorySlot inventorySlot)
         {
             if (ItemUIPrefab == null)
-                return null;
+                throw new System.NullReferenceException("no ItemUIPrefab found");
 
             Debug.LogWarning("Create Display Data");
 
@@ -128,7 +135,19 @@ namespace RuthlessMerchant
 
             InventoryItem itemInfos = inventoryItem.GetComponent<InventoryItem>();
 
-            itemInfos.itemName.text = inventorySlot.Count + "x " + inventorySlot.Item.ItemName + " (" + inventorySlot.Item.ItemRarity + ")";
+            itemInfos.itemName.text = inventorySlot.Count + "x " + inventorySlot.Item.ItemName;
+            switch(inventorySlot.Item.ItemRarity)
+            {
+                case ItemRarity.Üblich:
+                    itemInfos.itemName.color = new Color(0,0,0);
+                    break;
+                case ItemRarity.Ungewöhnlich:
+                    itemInfos.itemName.color = new Color(0, 0.2f, 1);
+                    break;
+                case ItemRarity.Selten:
+                    itemInfos.itemName.color = new Color(0.7f, 0, 1);
+                    break;
+            }
             itemInfos.itemDescription.text = inventorySlot.Item.ItemLore;
             if (inventorySlot.Item.ItemValue != null)
                 if (inventorySlot.Item.ItemValue.Length > 0)
@@ -152,7 +171,7 @@ namespace RuthlessMerchant
         private InventoryItem UpdateDisplayData(InventorySlot inventorySlot)
         {
             if (ItemUIPrefab == null)
-                return null;
+                throw new System.NullReferenceException("no ItemUIPrefab found");
 
             InventoryItem itemInfos = inventorySlot.DisplayData;
             if (inventorySlot.Item == null && itemInfos != null)
@@ -170,7 +189,7 @@ namespace RuthlessMerchant
                 return CreateDisplayData(inventorySlot);
             }
 
-            itemInfos.itemName.text = inventorySlot.Count + "x " + inventorySlot.Item.ItemName + " (" + inventorySlot.Item.ItemRarity + ")";
+            itemInfos.itemName.text = inventorySlot.Count + "x " + inventorySlot.Item.ItemName;
             itemInfos.itemDescription.text = inventorySlot.Item.ItemLore;
             if (inventorySlot.Item.ItemValue != null)
                 if (inventorySlot.Item.ItemValue.Length > 0)
@@ -246,6 +265,8 @@ namespace RuthlessMerchant
             for (int i = 0; i < inventorySlots.Length; i++)
             {
                 inventorySlots[i].DisplayData = UpdateDisplayData(inventorySlots[i]);
+                if(inventorySlots[i].DisplayData)
+                    SortDisplayPanel(i);
             }
             inventoryChanged.Invoke();
         }
@@ -277,7 +298,7 @@ namespace RuthlessMerchant
             for (int i = 0; i < inventorySlots.Length; i++)
             {
                 if (inventorySlots[i].Item != null)
-                    Debug.Log(inventorySlots[i].Item.gameObject.name);
+                    Debug.Log(inventorySlots[i].Item.ItemName);
                 else
                     Debug.Log("Empty");
             }
@@ -351,7 +372,7 @@ namespace RuthlessMerchant
         public int GetNumberOfItems(Item item)
         {
             int amount = 0;
-            if (item == null || inventorySlots != null)
+            if (item == null || inventorySlots == null)
                 return 0;
 
             for (int i = 0; i < maxSlotCount; i++)

@@ -16,6 +16,9 @@ QualitySettings:
     shadowDistance: 15
     shadowCascade2Split: .333333343
     shadowCascade4Split: {x: .0666666701, y: .200000003, z: .466666669}
+    shadowNearPlaneOffset: 2
+    shadowCascade2Split: 0.33333334
+    shadowCascade4Split: {x: 0.06666667, y: 0.2, z: 0.46666667}
     blendWeights: 1
     textureQuality: 1
     anisotropicTextures: 0
@@ -28,6 +31,8 @@ QualitySettings:
     lodBias: .300000012
     maximumLODLevel: 0
     particleRaycastBudget: 4
+    asyncUploadTimeSlice: 2
+    asyncUploadBufferSize: 4
     excludedTargetPlatforms: []
   - serializedVersion: 2
     name: Fast
@@ -39,6 +44,9 @@ QualitySettings:
     shadowDistance: 20
     shadowCascade2Split: .333333343
     shadowCascade4Split: {x: .0666666701, y: .200000003, z: .466666669}
+    shadowNearPlaneOffset: 2
+    shadowCascade2Split: 0.33333334
+    shadowCascade4Split: {x: 0.06666667, y: 0.2, z: 0.46666667}
     blendWeights: 2
     textureQuality: 0
     anisotropicTextures: 0
@@ -51,6 +59,8 @@ QualitySettings:
     lodBias: .400000006
     maximumLODLevel: 0
     particleRaycastBudget: 16
+    asyncUploadTimeSlice: 2
+    asyncUploadBufferSize: 4
     excludedTargetPlatforms: []
   - serializedVersion: 2
     name: Simple
@@ -62,6 +72,9 @@ QualitySettings:
     shadowDistance: 20
     shadowCascade2Split: .333333343
     shadowCascade4Split: {x: .0666666701, y: .200000003, z: .466666669}
+    shadowNearPlaneOffset: 2
+    shadowCascade2Split: 0.33333334
+    shadowCascade4Split: {x: 0.06666667, y: 0.2, z: 0.46666667}
     blendWeights: 2
     textureQuality: 0
     anisotropicTextures: 1
@@ -74,6 +87,11 @@ QualitySettings:
     lodBias: .699999988
     maximumLODLevel: 0
     particleRaycastBudget: 64
+    lodBias: 0.7
+    maximumLODLevel: 0
+    particleRaycastBudget: 64
+    asyncUploadTimeSlice: 2
+    asyncUploadBufferSize: 4
     excludedTargetPlatforms: []
   - serializedVersion: 2
     name: Good
@@ -85,6 +103,9 @@ QualitySettings:
     shadowDistance: 40
     shadowCascade2Split: .333333343
     shadowCascade4Split: {x: .0666666701, y: .200000003, z: .466666669}
+    shadowNearPlaneOffset: 2
+    shadowCascade2Split: 0.33333334
+    shadowCascade4Split: {x: 0.06666667, y: 0.2, z: 0.46666667}
     blendWeights: 2
     textureQuality: 0
     anisotropicTextures: 1
@@ -97,6 +118,8 @@ QualitySettings:
     lodBias: 1
     maximumLODLevel: 0
     particleRaycastBudget: 256
+    asyncUploadTimeSlice: 2
+    asyncUploadBufferSize: 4
     excludedTargetPlatforms: []
   - serializedVersion: 2
     name: Beautiful
@@ -108,6 +131,9 @@ QualitySettings:
     shadowDistance: 70
     shadowCascade2Split: .333333343
     shadowCascade4Split: {x: .0666666701, y: .200000003, z: .466666669}
+    shadowNearPlaneOffset: 2
+    shadowCascade2Split: 0.33333334
+    shadowCascade4Split: {x: 0.06666667, y: 0.2, z: 0.46666667}
     blendWeights: 4
     textureQuality: 0
     anisotropicTextures: 2
@@ -120,6 +146,8 @@ QualitySettings:
     lodBias: 1.5
     maximumLODLevel: 0
     particleRaycastBudget: 1024
+    asyncUploadTimeSlice: 2
+    asyncUploadBufferSize: 4
     excludedTargetPlatforms: []
   - serializedVersion: 2
     name: Fantastic
@@ -131,6 +159,9 @@ QualitySettings:
     shadowDistance: 150
     shadowCascade2Split: .333333343
     shadowCascade4Split: {x: .0666666701, y: .199999988, z: .466666639}
+    shadowNearPlaneOffset: 2
+    shadowCascade2Split: 0.33333334
+    shadowCascade4Split: {x: 0.06666667, y: 0.2, z: 0.46666667}
     blendWeights: 4
     textureQuality: 0
     anisotropicTextures: 2
@@ -148,6 +179,14 @@ QualitySettings:
     Android: 0
     BlackBerry: 0
     Standalone: 0
+    asyncUploadTimeSlice: 2
+    asyncUploadBufferSize: 4
+    excludedTargetPlatforms: []
+  m_PerPlatformDefaultQuality:
+    Android: 0
+    Samsung TV: 0
+    Standalone: 0
+    Tizen: 0
     WP8: 0
     Web: 0
     WebGL: 0

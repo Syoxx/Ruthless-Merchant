@@ -40,6 +40,8 @@ public class PageLogic : MonoBehaviour
     //Collecting pages
     [HideInInspector] public List<GameObject> InventoryPageList = new List<GameObject>();
 
+    [HideInInspector] public List<GameObject> RecipePageList = new List<GameObject>();
+
     [HideInInspector] public List<GameObject> PageList = new List<GameObject>();
 
     private enum BookSection
@@ -65,7 +67,6 @@ public class PageLogic : MonoBehaviour
 
     void Update()
     {
-        BookControlling();
         HighlightBookmarkButtons();
         CurrentActivePage();
     }
@@ -74,6 +75,8 @@ public class PageLogic : MonoBehaviour
     {
         InventoryPageList = GameObject.FindGameObjectsWithTag("Book_Inventory")
             .OrderBy(inventoryPage => inventoryPage.name).ToList();
+        //RecipePageList = GameObject.FindGameObjectsWithTag("Book_Recipe")
+        //    .OrderBy(inventoryPage => inventoryPage.name).ToList();
         PageList = PageList.OrderBy(child => child.name).ToList();
     }
 
@@ -141,62 +144,30 @@ public class PageLogic : MonoBehaviour
                 maxWeaponsPerPage);
     }
 
-    /// <summary>
-    /// BookControlling for pages flip
-    /// </summary>
-    private void BookControlling()
+    public void GoToPage(KeyCode key)
     {
-        //Mouse Control - Flip effect with LMB/RMB
-        //
-        //TODO
-        //Currently turned off due of the missing navigation with W/A/S/D. Just uncomment it when navigation is done
-        //
-        //
-
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    flipEffect.FlipRightPage();
-        //}
-        //if (Input.GetMouseButtonDown(1))
-        //{
-        //    flipEffect.FlipLeftPage();
-        //}
-
-
-        //Buttons Control to jump to certain points
-        if (Input.GetKeyDown(KeyCode.I) || Player.lastKeyPressed == KeyCode.I)
+        switch(key)
         {
-            myBook.CurrentPaper = 10;
-            Player.lastKeyPressed = KeyCode.None;
-        }
-
-        if (Input.GetKeyDown(KeyCode.J) || Player.lastKeyPressed == KeyCode.J)
-        {
-            myBook.CurrentPaper = 7;
-            Player.lastKeyPressed = KeyCode.None;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            bookItSelf.SetActive(bookItSelf.activeSelf == false);
-        }
-
-        if (Player.lastKeyPressed == KeyCode.Escape)
-        {
-            myBook.CurrentPaper = 19;
-            Player.lastKeyPressed = KeyCode.None;
-        }
-
-        if (Input.GetKeyDown(KeyCode.N) || Player.lastKeyPressed == KeyCode.N)
-        {
-            myBook.CurrentPaper = 2;
-            Player.lastKeyPressed = KeyCode.None;
-        }
-
-        if (Input.GetKeyDown(KeyCode.R) || Player.lastKeyPressed == KeyCode.R)
-        {
-            myBook.CurrentPaper = 17;
-            Player.lastKeyPressed = KeyCode.None;
+            case KeyCode.I:
+                myBook.CurrentPaper = 10;
+                Player.lastKeyPressed = KeyCode.None;
+                break;
+            case KeyCode.J:
+                myBook.CurrentPaper = 7;
+                Player.lastKeyPressed = KeyCode.None;
+                break;
+            case KeyCode.N:
+                myBook.CurrentPaper = 2;
+                Player.lastKeyPressed = KeyCode.None;
+                break;
+            case KeyCode.R:
+                myBook.CurrentPaper = 17;
+                Player.lastKeyPressed = KeyCode.None;
+                break;
+            case KeyCode.Escape:
+                myBook.CurrentPaper = 19;
+                Player.lastKeyPressed = KeyCode.None;
+                break;
         }
     }
 
