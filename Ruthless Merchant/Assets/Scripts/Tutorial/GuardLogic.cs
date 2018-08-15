@@ -11,7 +11,6 @@ public class GuardLogic : MonoBehaviour
     private Collider monsterColider, triggerZoneCollider;
 	// Use this for initialization
 	void Start () {
-
 	    monsterColider = Monster.GetComponent<Collider>();
 	    triggerZoneCollider = Triggerzone.GetComponent<Collider>();
 	}
@@ -24,5 +23,6 @@ public class GuardLogic : MonoBehaviour
     private void Dead()
     {
        //Plays Death Animation
+       Destroy(gameObject);
     }
 }

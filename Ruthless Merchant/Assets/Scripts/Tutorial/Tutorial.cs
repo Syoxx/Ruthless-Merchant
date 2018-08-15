@@ -8,6 +8,10 @@ namespace RuthlessMerchant
     {
      [SerializeField]
      private Item ironSword;
+
+     public GameObject teleportCaveUp;
+        public Collider playerCollider, teleportUpCollider;
+    
 	// Hardcoded Stuff
 	void Start ()
 	{
