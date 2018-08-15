@@ -328,7 +328,7 @@ namespace RuthlessMerchant
                 Position = gameObject.transform.position;
                 InventoryItem.Behaviour = InventoryItem.ItemBehaviour.Move;
                 Main_SceneManager.LoadSceneAdditively("TradeScene");
-                //UnityEngine.SceneManagement.SceneManager.LoadScene("TradeScene");
+                Player.Singleton.EnterTrading();
             }
         }
 

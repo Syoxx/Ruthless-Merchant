@@ -6505,7 +6505,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1037841338}
   m_OnClick:
     m_PersistentCalls:
@@ -9525,6 +9525,7 @@ MonoBehaviour:
   RealValue: 0
   PlayerOffers: []
   TraderOffers: []
+  ItemsToSell: []
   weightsDeltaModifier: 30
   nextPlayerOffer: 0
   defaultValue: 35
@@ -12010,6 +12011,7 @@ MonoBehaviour:
   sellingItemPrefab: {fileID: 1788957934872482, guid: 43c57419776cc404fa67067da0d80d7c,
     type: 2}
   price: {fileID: 1014098595}
+  StartTradingButton: {fileID: 1037841337}
 --- !u!114 &1778768760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12425,7 +12427,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 100
   m_TargetDisplay: 0
 --- !u!224 &1847388669
 RectTransform:

@@ -62,7 +62,7 @@ namespace RuthlessMerchant
                     }
                     else
                     {
-                        Debug.Log(Inventory.Singleton.Add(Slot.ItemInfo, 1, true));
+                        TradeItemSelection.Singleton.RemoveItemFromSellingList(this);
                     }
 
                     break;

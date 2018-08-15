@@ -468,6 +468,7 @@ namespace RuthlessMerchant
                     item = inventorySlots[slot].Item;
                     inventorySlots[slot].Count = 0;
                     inventorySlots[slot].Item = null;
+                    InventorySlots[slot].ItemInfo = new ItemInfo();
                 }
             }
             else if (count < 0)
@@ -475,6 +476,7 @@ namespace RuthlessMerchant
                 item = inventorySlots[slot].Item;
                 inventorySlots[slot].Count = 0;
                 inventorySlots[slot].Item = null;
+                InventorySlots[slot].ItemInfo = new ItemInfo();
             }
 
             if (sortAfterMethod)
@@ -531,6 +533,7 @@ namespace RuthlessMerchant
                             if (inventorySlots[i].Count <= 0)
                             {
                                 inventorySlots[i].Item = null;
+                                InventorySlots[i].ItemInfo = new ItemInfo();
                                 count = -inventorySlots[i].Count;
                                 inventorySlots[i].Count = 0;
                             }
@@ -576,7 +579,7 @@ namespace RuthlessMerchant
                 int foundItems = 0;
                 for (int i = 0; i < maxSlotCount; i++)
                 {
-                    if (inventorySlots[i].Item)
+                    if (inventorySlots[i].ItemInfo.ItemName != null)
                     {
                         if (inventorySlots[i].ItemInfo.ItemName == item.ItemName.text)
                         {
@@ -599,7 +602,7 @@ namespace RuthlessMerchant
             {
                 for (int i = 0; i < maxSlotCount; i++)
                 {
-                    if (inventorySlots[i].Item)
+                    if (inventorySlots[i].ItemInfo.ItemName != null)
                     {
                         if (inventorySlots[i].ItemInfo.ItemName == item.ItemName.text)
                         {
@@ -609,6 +612,7 @@ namespace RuthlessMerchant
                                 inventorySlots[i].Item = null;
                                 count = -inventorySlots[i].Count;
                                 inventorySlots[i].Count = 0;
+                                InventorySlots[i].ItemInfo = new ItemInfo();
                             }
                             else
                             {

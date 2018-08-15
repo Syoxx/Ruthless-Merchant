@@ -26,6 +26,8 @@ namespace RuthlessMerchant
         #endif
         public List<float> TraderOffers;
 
+        public List<InventoryItem> ItemsToSell;
+
         #endregion
 
         #region Serialized Fields

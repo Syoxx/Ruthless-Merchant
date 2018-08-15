@@ -6,7 +6,9 @@ using UnityEngine.UI;
 namespace RuthlessMerchant
 {
     public class TradeItemSelection : MonoBehaviour
-    { 
+    {
+        public static TradeItemSelection Singleton;
+
         [SerializeField]
         Transform sellingItemParent;
 
@@ -16,10 +18,14 @@ namespace RuthlessMerchant
         [SerializeField]
         Text price;
 
+        [SerializeField]
+        Button StartTradingButton;
+
         List<InventoryItem> listedItems;
 
         void Awake()
         {
+            Singleton = this;
             listedItems = new List<InventoryItem>();
             InventoryItem.MoveItem += OnItemMoved;
         }
@@ -49,18 +55,7 @@ namespace RuthlessMerchant
                 listedItems.Add(newItem);
             }
 
-            price.text = (int.Parse(price.text.Replace("G", "")) + int.Parse(inventoryItem.ItemPrice.text.Replace("G", ""))).ToString();
-
-            //int inventoryItemQuantity = int.Parse(inventoryItem.ItemQuantity.text.Replace("x", "")) - 1;
-
-            //if (inventoryItemQuantity < 1)
-            //{
-            //    Destroy(inventoryItem.gameObject);
-            //}
-            //else
-            //{
-            //    inventoryItem.ItemQuantity.text = inventoryItemQuantity.ToString() + "x";
-            //}
+            UpdatePrice();
         }
 
         bool addToPresent(InventoryItem data)
@@ -77,16 +72,48 @@ namespace RuthlessMerchant
             return false;
         }
 
-        public void RemoveItemFromSellingList()
+        public void RemoveItemFromSellingList(InventoryItem item)
         {
+            Inventory.Singleton.Add(item.Slot.ItemInfo, 1, true);
 
+            int newQuantity = int.Parse(item.ItemQuantity.text.Replace("x", "")) - 1;
+            item.ItemQuantity.text = newQuantity.ToString() + "x";
+
+            if (newQuantity <= 0)
+            {
+                listedItems.Remove(item);
+                Destroy(item.gameObject);
+            }
+
+            UpdatePrice();
+        }
+
+        void UpdatePrice()
+        {
+            float totalPrice = 0;
+
+            foreach(InventoryItem item in listedItems)
+            {
+                totalPrice += int.Parse(item.ItemPrice.text.Replace("G","")) * int.Parse(item.ItemQuantity.text.Replace("x", ""));
+            }
+
+            price.text = totalPrice.ToString() + "G";
+
+            StartTradingButton.interactable = totalPrice > 0;
         }
 
         public void ConfirmTradeItems()
         {
-            Trade.Singleton.Initialize(int.Parse(price.text));
-            GameObject.Find("UICanvas").SetActive(false);
-            Player.RestrictCamera = false;
+            int totalPrice = int.Parse(price.text.Replace("G", ""));
+
+            if (totalPrice > 0)
+            {
+                Trade.Singleton.Initialize(totalPrice);
+                Trade.Singleton.ItemsToSell = listedItems;
+                Player.RestrictCamera = false;
+                GameObject.Find("UICanvas").SetActive(false);
+                Player.Singleton.StartTrading();
+            }
         }
 
         private void LateUpdate()
