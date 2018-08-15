@@ -60,7 +60,6 @@ GameObject:
   - component: {fileID: 54370812445118140}
   - component: {fileID: 114411893206948016}
   - component: {fileID: 95318976423089332}
-  - component: {fileID: 64193572581843390}
   - component: {fileID: 136655882360103526}
   m_Layer: 0
   m_Name: MinionFreidenkerPrefab
@@ -76,7 +75,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1925128174930270}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 35.952, y: 25.097, z: 229.931}
+  m_LocalPosition: {x: 47.095642, y: 25.1814, z: 232.9865}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 4482228883502264}
@@ -167,20 +166,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!64 &64193572581843390
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1925128174930270}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: c1c56c91f7c9d2f46b9eaee0c174c005, type: 3}
 --- !u!95 &95318976423089332
 Animator:
   serializedVersion: 3
@@ -312,7 +297,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1925128174930270}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.03
   m_Speed: 3.5
   m_Acceleration: 10000
   avoidancePriority: 50
@@ -321,7 +306,7 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
   m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 1
+  m_Height: 0.1
+  m_BaseOffset: 0
   m_WalkableMask: 9
   m_ObstacleAvoidanceType: 4
