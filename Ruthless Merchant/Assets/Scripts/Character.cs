@@ -301,49 +301,6 @@ namespace RuthlessMerchant
             {
                 rb.velocity = Vector3.right * rb.velocity.x / 2 + Vector3.up * rb.velocity.y + Vector3.forward * rb.velocity.z / 2;
             }
-
-            //if (velocity != Vector2.zero && !isPlayer)
-            //{ transform.rotation = Quaternion.LookRotation(velocity); }
-
-            //rb.velocity = new Vector3(0f, rb.velocity.y, 0f);
-
-            //moveVector.y = 0;
-            //moveVector.x = velocity.x;
-            //moveVector.z = velocity.y;
-
-            //if (moveVector.sqrMagnitude > 1)
-            //{
-            //    moveVector.Normalize();
-            //}
-
-            //if (isPlayer) //Prevent penetration of terrain obstacles
-            //{
-            //    Ray forwardRay = new Ray(new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z),
-            //                    transform.TransformDirection(moveVector));
-            //    RaycastHit forwardRayHit;
-
-            //    if (Physics.Raycast(forwardRay, out forwardRayHit, 0.1f))
-            //    {
-            //        if (forwardRayHit.collider.gameObject.layer == 14)
-            //        {
-            //            // player does not move into obstacles of layer 14
-            //        }
-            //        else
-            //        {
-            //            transform.Translate(moveVector * speed * Time.deltaTime, Space.Self);
-            //        }
-            //    }
-            //    else
-            //    {
-            //        transform.Translate(moveVector * speed * Time.deltaTime, Space.Self);
-            //    }
-            //}
-            //else
-            //{
-            //    transform.Translate(moveVector * speed * Time.deltaTime, Space.Self);
-            //}
-
-            //moveVector = Vector3.zero;
         }
 
         public void Rotate()
@@ -413,90 +370,6 @@ namespace RuthlessMerchant
             }
         }
 
-        protected virtual void FixedUpdate()
-        {
-
-            //rayHit = CheckCharGrounded(rayHit);
-
-            //if (isPlayer)
-            //{
-            //    // check the terrain angle in four directions player could move
-            //    preventClimbing = false;
-            //    Vector3 rayOriginInPlayer = new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z);
-
-            //    Ray rayLeft = new Ray(rayOriginInPlayer - transform.right * terrainCheckRadius, Vector3.down);
-            //    Ray rayRight = new Ray(rayOriginInPlayer + transform.right * terrainCheckRadius, Vector3.down);
-            //    Ray rayFront = new Ray(rayOriginInPlayer + transform.forward * terrainCheckRadius, Vector3.down);
-            //    Ray rayBack = new Ray(rayOriginInPlayer - transform.forward * terrainCheckRadius, Vector3.down);
-
-            //    is_climbable_left = CheckGroundAngle(rayLeft);
-            //    is_climbable_right = CheckGroundAngle(rayRight);
-            //    is_climbable_front = CheckGroundAngle(rayFront);
-            //    is_climbable_back = CheckGroundAngle(rayBack);
-
-            //    if (!is_climbable_left || !is_climbable_right || !is_climbable_front || !is_climbable_back)
-            //    {
-            //        preventClimbing = true;
-            //    }
-            //}
-        }
-
-        private void LateUpdate()
-        {
-            // Set gravity and prevent player climbing walls
-
-            //if (isPlayer)
-            //{
-            //    if (preventClimbing)
-            //    {
-            //        if ((!is_climbable_front && moveVector.z > 0.5f) || (!is_climbable_back && moveVector.z < -0.5f)
-            //                            || (!is_climbable_right && moveVector.x > 0.5f) || (!is_climbable_left && moveVector.x < -0.5f))
-            //        {
-            //            rb.transform.position = previousPosition;
-            //        }
-            //        else
-            //        {
-            //            previousPosition.x = transform.position.x;
-            //            previousPosition.y = transform.position.y;
-            //            previousPosition.z = transform.position.z;
-            //        }
-            //    }
-            //    else
-            //    {
-            //        previousPosition.x = transform.position.x;
-            //        previousPosition.y = transform.position.y;
-            //        previousPosition.z = transform.position.z;
-            //    }
-
-            //}
-
-            //// gravity for all characters
-            //if (rb != null)
-            //{
-            //    if (grounded)
-            //    {
-            //        gravity = Vector3.zero;
-            //    }
-            //    else
-            //    {
-            //        gravity += globalGravityScale * Vector3.up * Time.deltaTime * 2f;
-            //    }
-            //    ApplyGravity(gravity);
-            //}
-
-            //// adjust y position
-            //if (rayHit.point.y != 0)
-            //{
-            //    float offset = rayHit.point.y + yPositionOffset;
-
-            //    if (!(justJumped) && grounded)
-            //    {
-            //        rb.transform.position = new Vector3(rb.transform.position.x, offset, rb.transform.position.z);
-            //    }
-            //}
-            
-        }
-
         /// <summary>
         /// Use raycast to check angle of ground beneath character.
         /// </summary>
@@ -525,24 +398,6 @@ namespace RuthlessMerchant
 
             return isClimbableAngle;
         }
-
-        //private void OnCollisionEnter(Collision collision)
-        //{
-        //    if (collision.gameObject.layer == LayerMask.NameToLayer("Terrain"))
-        //    {
-        //        //grounded = true;
-        //        gravity = Vector3.zero;
-        //        Debug.Log("collision with terrain layer");
-        //    }
-        //}
-
-        //private void OnCollisionExit(Collision collision)
-        //{
-        //    if (collision.gameObject.layer == LayerMask.NameToLayer("Terrain"))
-        //    {
-        //        grounded = false;
-        //    }
-        //}
 
         public void ChangeGear()
         {
