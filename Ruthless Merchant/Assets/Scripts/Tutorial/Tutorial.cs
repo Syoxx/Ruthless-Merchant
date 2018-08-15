@@ -10,22 +10,24 @@ namespace RuthlessMerchant
      private Item ironSword;
 
      public GameObject teleportCaveUp;
-        public Collider playerCollider, teleportUpCollider;
+     private Collider playerCollider, teleportUpCollider;
     
 	// Hardcoded Stuff
 	void Start ()
 	{
+	    playerCollider.GetComponent<Collider>();
+	    teleportUpCollider = teleportCaveUp.GetComponent<Collider>();
 
 	    Player.Singleton.Inventory.Add(ironSword, 5, true);
-	    //MovementForMonster() 
-	    //FightFunction() for 2 Minions vs Monster
-	    //DeathFunction() for 2 Minions
-	    //HuntFunction() for Monster
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+
+	    if (playerCollider.bounds.Intersects(teleportUpCollider.bounds))
+	    {
+
+	    }
 	}
 }
 
