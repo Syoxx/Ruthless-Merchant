@@ -144,25 +144,27 @@ namespace RuthlessMerchant
         /// <param name="offer">The offer to be represented.</param>
         protected void UpdateWeights(List<List<GameObject>> weights, int offer)
         {
+            int[] targetWeights = GetTargetWeights(offer);
+
+            UpdateWeight(weights, targetWeights, 0);
+            UpdateWeight(weights, targetWeights, 1);
+            UpdateWeight(weights, targetWeights, 2);
+            UpdateWeight(weights, targetWeights, 3);
+
             if (GetCurrentPlayerOffer() != -1)
             {
-                int[] targetWeights = GetTargetWeights(offer);
+                float playerTraderOfferDelta = ((float)nextPlayerOffer - (int)GetCurrentTraderOffer() + ((float)nextPlayerOffer / (int)GetCurrentTraderOffer() - 1)) / 2 / weightsDeltaModifier;
 
-                UpdateWeight(weights, targetWeights, 0);
-                UpdateWeight(weights, targetWeights, 1);
-                UpdateWeight(weights, targetWeights, 2);
-                UpdateWeight(weights, targetWeights, 3);
+                if (playerTraderOfferDelta > 0.6f)
+                    playerTraderOfferDelta = 0.6f;
 
-                float playerTraderOfferDelta = ((float)nextPlayerOffer - (int)GetCurrentTraderOffer() - 1) / weightsDeltaModifier;
-
-                if (playerTraderOfferDelta > 0.75f)
-                    playerTraderOfferDelta = 0.75f;
-
-                else if (playerTraderOfferDelta < -0.75f)
-                    playerTraderOfferDelta = -0.75f;
+                else if (playerTraderOfferDelta < -0.6f)
+                    playerTraderOfferDelta = -0.6f;
 
                 Vector3 playerDelta = new Vector3(0, -PlayerZone.position.y + NeutralPositionY - playerTraderOfferDelta, 0);
                 Vector3 traderDelta = new Vector3(0, -TraderZone.position.y + NeutralPositionY + playerTraderOfferDelta, 0);
+
+                Debug.Log(playerTraderOfferDelta);
 
                 // Trade?
                 if (gameObject.GetComponent<Trade>() != null)

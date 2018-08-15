@@ -132,7 +132,7 @@ namespace RuthlessMerchant
         float skepticismDelta;
 
         [SerializeField, Range(0, 100), Tooltip("Skepsis plus Grundwert")]
-        float skepticismDeltaModifier;
+        float skepticismDeltaModifier = 15;
 
         [SerializeField, Range(0, 100)]
         public float IrritationTotal;
@@ -153,7 +153,7 @@ namespace RuthlessMerchant
         float irritationDelta;
 
         [SerializeField, Range(0, 100), Tooltip("Genervt plus Grundwert")]
-        float irritationDeltaModifier;
+        float irritationDeltaModifier = 20;
 
         [SerializeField, Range(0, 2), Tooltip("Abbau pro Sekunde (Skepsis / Genervtheit)")]
         float psychoCooldown = 1;
@@ -315,22 +315,20 @@ namespace RuthlessMerchant
         {
             TradeAbstract trade = TradeAbstract.Singleton;
 
-            if (realAndOfferedRatio[realAndOfferedRatio.Count - 1] < 1)
-            {
-                irritationDelta = irritationDeltaModifier;
-            }
-            else
-            {
-                irritationDelta = irritationDeltaModifier * realAndOfferedRatio[realAndOfferedRatio.Count - 1];
-            }
-
-            if (trade.RealValue < underLimitReal)
+            if (trade.GetCurrentPlayerOffer() < underLimitReal)
             {
                 skepticismDelta = 100;
             }
             else
             {
                 skepticismDelta = skepticismDeltaModifier / realAndOfferedRatio[realAndOfferedRatio.Count - 1];
+            }
+
+            irritationDelta = realAndOfferedRatio[realAndOfferedRatio.Count - 1] * irritationDeltaModifier;
+
+            if (irritationDelta < irritationDeltaModifier)
+            {
+                irritationDelta = irritationDeltaModifier;
             }
 
             IrritationTotal += irritationDelta;

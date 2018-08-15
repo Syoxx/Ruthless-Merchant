@@ -23,6 +23,8 @@ namespace RuthlessMerchant
 
         #region Private Fields
 
+        bool initialized = false;
+
         float exitTimer = 0;
 
         bool exit = false;
@@ -57,7 +59,15 @@ namespace RuthlessMerchant
             TradeObjectsParent.transform.position = Trader.CurrentTrader.gameObject.transform.position;
             NeutralPositionY = PlayerZone.transform.position.y;
 
-            enabled = false;
+            Vector3 prevRotation = TradeObjectsParent.transform.rotation.eulerAngles;
+            TradeObjectsParent.transform.LookAt(Player.Singleton.transform);
+
+            Vector3 rotation = TradeObjectsParent.transform.rotation.eulerAngles;
+            TradeObjectsParent.transform.Rotate(-rotation.x, 0, -rotation.z);
+
+            UpdateUI();
+
+            initialized = false;
         }
 
         void Update()
@@ -74,28 +84,31 @@ namespace RuthlessMerchant
             }
             else
             {
-                if (Input.GetAxis("Mouse ScrollWheel") != 0)
+                if (initialized)
                 {
-                    ModifyOffer();
-                }
+                    if (Input.GetAxis("Mouse ScrollWheel") != 0)
+                    {
+                        ModifyOffer();
+                    }
 
-                else if (Input.GetMouseButtonDown(0))
-                {
-                    HandlePlayerOffer();
-                }
+                    else if (Input.GetMouseButtonDown(0))
+                    {
+                        HandlePlayerOffer();
+                    }
 
-                else if (Input.GetKeyDown(KeyCode.E) && TraderOffers.Count > 0)
-                {
-                    Accept();
+                    else if (Input.GetKeyDown(KeyCode.E) && TraderOffers.Count > 0)
+                    {
+                        Accept();
+                    }
                 }
 
                 #if UNITY_EDITOR
-                else if (Input.GetKeyDown(KeyCode.Q))
+                else if (Input.GetKeyDown(KeyCode.Q) || Vector3.Distance(TradeObjectsParent.transform.position, Player.Singleton.transform.position) > 5)
                 {
                     Quit();
                 }
                 #else
-                else if (Input.GetKeyDown(KeyCode.Escape))
+                else if (Input.GetKeyDown(KeyCode.Escape) || Vector3.Distance(TradeObjectsParent.transform.position, Player.Singleton.transform.position) > 5)
                 {
                     Quit();
                 }
@@ -127,7 +140,7 @@ namespace RuthlessMerchant
 
             UpdateWeights(weightsPlayer, nextPlayerOffer);
 
-            enabled = true;
+            initialized = true;
         }
 
         /// <summary>
