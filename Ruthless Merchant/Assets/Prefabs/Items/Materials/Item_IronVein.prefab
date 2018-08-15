@@ -25,8 +25,8 @@ GameObject:
   - component: {fileID: 54683707140556908}
   - component: {fileID: 114639822246301650}
   - component: {fileID: 114107331400412594}
-  - component: {fileID: 64083340202592330}
   - component: {fileID: 114336738226053766}
+  - component: {fileID: 65386519577525734}
   m_Layer: 13
   m_Name: Item_IronVein
   m_TagString: World
@@ -104,8 +104,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!64 &64083340202592330
-MeshCollider:
+--- !u!65 &65386519577525734
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -113,11 +113,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: 97256c28b73f2ca43b70cdf460ac26f3, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.23566413, y: 0.27007872, z: 0.2643829}
+  m_Center: {x: 0.010096699, y: -0.010601341, z: 0.05141218}
 --- !u!95 &95663614345774478
 Animator:
   serializedVersion: 3
