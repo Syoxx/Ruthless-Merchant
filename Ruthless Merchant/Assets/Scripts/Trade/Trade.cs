@@ -5,16 +5,9 @@ using UnityEngine.UI;
 
 namespace RuthlessMerchant
 {
-    public class Trade : MonoBehaviour
+    public class Trade : TradeAbstract
     {
-        public static Trade Singleton;
-
         #region Public Fields
-
-        #if UNITY_EDITOR
-        [ReadOnly]
-        #endif
-        public int RealValue;
 
         #if UNITY_EDITOR
         [ReadOnly]
@@ -26,80 +19,17 @@ namespace RuthlessMerchant
         #endif
         public List<float> TraderOffers;
 
-        #endregion
+        public delegate void ItemsSoldHandler(List<InventoryItem> item);
 
-        #region Serialized Fields
-
-        [SerializeField, Range(1, 50)]
-        float weightsDeltaModifier;
-
-        #if UNITY_EDITOR
-        [ReadOnly]
-        #endif
-        [SerializeField]
-        int nextPlayerOffer;
-
-        // TODO: Delete this.
-        [SerializeField]
-        int defaultValue = 35;
-
-        [SerializeField]
-        GameObject TradeObjectsParent;
-
-        [SerializeField]
-        Text tradeDialogue;
-
-        [SerializeField]
-        Text valueText;
-
-        [SerializeField]
-        Slider sliderIrritation;
-
-        [SerializeField]
-        Text sliderIrritationNumber;
-
-        [SerializeField]
-        Slider sliderSkepticism;
-
-        [SerializeField]
-        Text sliderSkepticismNumber;
-
-        [SerializeField]
-        Text traderOffer;
-
-        [SerializeField]
-        Text nextPlayerOfferText;
-
-        [SerializeField]
-        Text currentPlayerOfferText;
-
-        [SerializeField]
-        Transform weightsPlayerParent;
-
-        [SerializeField]
-        Transform weightsTraderParent;
-
-        #endregion
-
-        #region Private Fields
-
-        List<List<GameObject>> weightsPlayer;
-
-        List<List<GameObject>> weightsTrader;
-
-        float NeutralPositionY;
-
-        float exitTimer = 0;
-
-        bool exit = false;
+        public static event ItemsSoldHandler ItemsSold;
 
         #endregion
 
         #region MonoBehaviour Life Cycle
 
-        void Awake()
+        protected override void Awake()
         {
-            Singleton = this;
+            base.Awake();
             PlayerOffers = new List<float>();
             TraderOffers = new List<float>();
             weightsPlayer = new List<List<GameObject>>();
@@ -108,8 +38,8 @@ namespace RuthlessMerchant
 
         private void Start()
         {
-            weightsPlayer = GetPresentWeights(weightsPlayerParent);
-            weightsTrader = GetPresentWeights(weightsTraderParent);
+            weightsPlayer = GetPresentWeights(PlayerZone);
+            weightsTrader = GetPresentWeights(TraderZone);
 
             for (int x = 0; x < weightsPlayer.Count; x++)
             {
@@ -121,47 +51,62 @@ namespace RuthlessMerchant
             }
 
             TradeObjectsParent.transform.position = Trader.CurrentTrader.gameObject.transform.position;
-            NeutralPositionY = weightsPlayerParent.transform.position.y;
+            NeutralPositionY = PlayerZone.transform.position.y;
 
-            enabled = false;
+            Vector3 prevRotation = TradeObjectsParent.transform.rotation.eulerAngles;
+            TradeObjectsParent.transform.LookAt(Player.Singleton.transform);
+
+            Vector3 rotation = TradeObjectsParent.transform.rotation.eulerAngles;
+            TradeObjectsParent.transform.Rotate(-rotation.x, 0, -rotation.z);
+
+            UpdateUI();
+
+            initialized = false;
         }
 
         void Update()
         {
-            if (exit)
+            if (Exit)
             {
                 exitTimer += Time.deltaTime;
 
                 if (exitTimer > 3)
                 {
                     Cursor.visible = false;
+                    Singleton = null;
+                    Player.Singleton.AllowTradingMovement();
+                    Trader.CurrentTrader.GoToPreviousPosition();
+                    Trader.CurrentTrader = null;
                     Main_SceneManager.UnLoadScene("TradeScene");
                 }
             }
             else
             {
-                if (Input.GetAxis("Mouse ScrollWheel") != 0)
+                if (initialized)
                 {
-                    ModifyOffer();
-                }
+                    if (Input.GetAxis("Mouse ScrollWheel") != 0)
+                    {
+                        ModifyOffer();
+                    }
 
-                else if (Input.GetMouseButtonDown(0))
-                {
-                    HandlePlayerOffer();
-                }
+                    else if (Input.GetMouseButtonDown(0))
+                    {
+                        HandlePlayerOffer();
+                    }
 
-                else if (Input.GetKeyDown(KeyCode.E) && TraderOffers.Count > 0)
-                {
-                    Accept();
+                    else if (Input.GetKeyDown(KeyCode.E) && TraderOffers.Count > 0)
+                    {
+                        Accept();
+                    }
                 }
 
                 #if UNITY_EDITOR
-                else if (Input.GetKeyDown(KeyCode.Q))
+                if (Input.GetKeyDown(KeyCode.Q) || Vector3.Distance(TradeObjectsParent.transform.position, Player.Singleton.transform.position) > 5)
                 {
                     Quit();
                 }
                 #else
-                else if (Input.GetKeyDown(KeyCode.Escape))
+                if (Input.GetKeyDown(KeyCode.Escape) || Vector3.Distance(TradeObjectsParent.transform.position, Player.Singleton.transform.position) > 5)
                 {
                     Quit();
                 }
@@ -181,7 +126,7 @@ namespace RuthlessMerchant
         /// Initializes the trade.
         /// </summary>
         /// <param name="realValue">The RealValue of the trade.</param>
-        public void Initialize(int realValue)
+        public override void Initialize(int realValue)
         {
             Cursor.visible = true;
             SetItemValue(realValue);
@@ -193,7 +138,7 @@ namespace RuthlessMerchant
 
             UpdateWeights(weightsPlayer, nextPlayerOffer);
 
-            enabled = true;
+            initialized = true;
         }
 
         /// <summary>
@@ -208,10 +153,30 @@ namespace RuthlessMerchant
             valueText.text = realValue.ToString();
         }
 
+        public override float GetCurrentPlayerOffer()
+        {
+            return lastItem(PlayerOffers);
+        }
+
+        public override int GetPlayerOffersCount()
+        {
+            return PlayerOffers.Count;
+        }
+
+        public override float GetCurrentTraderOffer()
+        {
+            return lastItem(TraderOffers);
+        }
+
+        public override void UpdateCurrentTraderOffer(float offer)
+        {
+            TraderOffers.Add(offer);
+        }
+
         /// <summary>
         /// Modifies nextPlayerOffer and its representation by weights in the scene.
         /// </summary>
-        void ModifyOffer()
+        public override void ModifyOffer()
         {
             float wheelAxis = Input.GetAxis("Mouse ScrollWheel");
 
@@ -270,7 +235,7 @@ namespace RuthlessMerchant
 
             PlayerOffers.Add(nextPlayerOffer);
 
-            tradeDialogue.text = "";
+            TradeDialogue.text = "";
             Trader.CurrentTrader.ReactToPlayerOffer();
 
             if (TraderOffers.Count > 0)
@@ -305,145 +270,58 @@ namespace RuthlessMerchant
         /// <summary>
         /// Called when the player accepts the trader's offer.
         /// </summary>
-        void Accept()
+        protected override void Accept()
         {
-            tradeDialogue.text = "You and Dormammu have a blood-sealing pact. He wishes you a good day and rides off into the sunset.";
-            exit = true;
+            TradeDialogue.text = "You and Dormammu have a blood-sealing pact. He wishes you a good day and rides off into the sunset.";
+            Exit = true;
+
+            if(GetCurrentTraderOffer() >= RealValue)
+                Tutorial.Singleton.Monolog(5);
+            else
+                Tutorial.Singleton.Monolog(6);
+
+            ItemsSold(ItemsToSell);
         }
 
         /// <summary>
         /// Called when the trader doesn't want to trade anymore.
         /// </summary>
-        public void Abort()
+        public override void Abort()
         {
-            tradeDialogue.text = "Dormammu tells you to fuck off and rides off with his galaxy-eating unicorn.";
-            exit = true;
+            TradeDialogue.text = "Dormammu tells you to fuck off and rides off with his galaxy-eating unicorn.";
+            Exit = true;
+
+            foreach (InventoryItem item in ItemsToSell)
+            {
+                Inventory.Singleton.Add(item.Slot.ItemInfo, int.Parse(item.ItemQuantity.text.Replace("x", "")), true);
+            }
         }
 
         /// <summary>
         /// Called when the player quits the trade.
         /// </summary>
-        public void Quit()
+        public override void Quit()
         {
-            tradeDialogue.text = "U quitted coz u a lil chicken.";
-            exit = true;
-        }
+            TradeDialogue.text = "U quitted coz u a lil chicken.";
+            Player.RestrictCamera = false;
+            Cursor.visible = false;
+            Exit = true;
 
-        /// <summary>
-        /// Updates the weight representation in the scene.
-        /// </summary>
-        /// <param name="weights">The weight group to be updated (either weightsPlayer or weightsTrader).</param>
-        /// <param name="offer">The offer to be represented.</param>
-        void UpdateWeights(List<List<GameObject>> weights, int offer)
-        {
-            int[] targetWeights = GetTargetWeights(offer);
-
-            UpdateWeight(weights, targetWeights, 0);
-            UpdateWeight(weights, targetWeights, 1);
-            UpdateWeight(weights, targetWeights, 2);
-            UpdateWeight(weights, targetWeights, 3);
-
-            if (TraderOffers.Count > 0)
+            foreach(InventoryItem item in ItemsToSell)
             {
-                float playerTraderOfferDelta = ((float)nextPlayerOffer / (int)(float)TraderOffers[TraderOffers.Count - 1] - 1) / weightsDeltaModifier;
-
-                if (playerTraderOfferDelta > 0.75f)
-                    playerTraderOfferDelta = 0.75f;
-
-                else if (playerTraderOfferDelta < -0.75f)
-                    playerTraderOfferDelta = -0.75f;
-
-                weightsPlayerParent.position += new Vector3(0, -weightsPlayerParent.position.y + NeutralPositionY - playerTraderOfferDelta, 0);
-                weightsTraderParent.position += new Vector3(0, -weightsTraderParent.position.y + NeutralPositionY + playerTraderOfferDelta, 0);
+                Inventory.Singleton.Add(item.Slot.ItemInfo, int.Parse(item.ItemQuantity.text.Replace("x","")), true);
             }
         }
 
         /// <summary>
-        /// Updates a single weight group in the scene.
+        /// Gets the last Item of a List<float>.
         /// </summary>
-        /// <param name="weights">The weight group to be updated.</param>
-        /// <param name="targetWeights">The array of all target weight groups.</param>
-        /// <param name="weightIndex">The array index that specifies the weight group</param>
-        void UpdateWeight(List<List<GameObject>> weights, int[] targetWeights, int weightIndex)
+        float lastItem(List<float> list, int beforeLast = 0)
         {
-            for (int x = weights[weightIndex].Count - 1; x >= targetWeights[weightIndex]; x--)
-            {
-                weights[weightIndex][x].SetActive(false);
-            }
+            if (list.Count == 0)
+                return -1;
 
-            for (int x = 0; x < targetWeights[weightIndex]; x++)
-            {
-                weights[weightIndex][x].SetActive(true);
-            }
-        }
-
-        /// <summary>
-        /// Gets the weight children of a specified weightParent in the scene.
-        /// </summary>
-        /// <param name="weightsParent">The weightsParent in which to look for weights.</param>
-        /// <returns>A list with four GameObject Lists. Each List includes a weight group.</returns>
-        List<List<GameObject>> GetPresentWeights(Transform weightsParent)
-        {
-            List<GameObject> weights1 = new List<GameObject>();
-            List<GameObject> weights5 = new List<GameObject>();
-            List<GameObject> weights10 = new List<GameObject>();
-            List<GameObject> weights50 = new List<GameObject>();
-
-            UniqueIDGenerator[] weights = weightsParent.GetComponentsInChildren<UniqueIDGenerator>(true);
-
-            foreach(UniqueIDGenerator weight in weights)
-            {
-                if (weight.name == "Weight1")
-                {
-                    weights1.Add(weight.gameObject);
-                }
-
-                else if (weight.name == "Weight5")
-                {
-                    weights5.Add(weight.gameObject);
-                }
-
-                else if (weight.name == "Weight10")
-                {
-                    weights10.Add(weight.gameObject);
-                }
-
-                else if (weight.name == "Weight50")
-                {
-                    weights50.Add(weight.gameObject);
-                }
-            }
-
-            List<List<GameObject>> result = new List<List<GameObject>>
-            {
-                weights1,
-                weights5,
-                weights10,
-                weights50
-            };
-
-            return result;
-        }
-
-        /// <summary>
-        /// Calculates how an offer should be represented in weights.
-        /// </summary>
-        /// <param name="offer">The amount and type of weights the offer would be represented with.</param>
-        /// <returns>An array with four integers, every one of them describes how many weights in their weight group should be present.</returns>
-        int[] GetTargetWeights(int offer)
-        {
-            int w50 = (int)((float)offer / 50f);
-            int w10 = (int)((float)(offer - w50 * 50) / 10f);
-            int w5 = (int)((float)(offer - w50 * 50 - w10 * 10) / 5f);
-            int w1 = offer - w50 * 50 - w10 * 10 - w5 * 5;
-
-            return new int[]
-            {
-                w1,
-                w5,
-                w10,
-                w50
-            };
+            return list[list.Count - (1 + beforeLast)];
         }
     }
 }

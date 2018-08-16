@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 23463549431059886}
   - component: {fileID: 114169887121186186}
   - component: {fileID: 114642557639673330}
-  - component: {fileID: 64351054802404924}
+  - component: {fileID: 65235372697994222}
   m_Layer: 0
   m_Name: Item_Vipershroom
   m_TagString: Untagged
@@ -86,8 +86,8 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1076060117859488}
   m_Mesh: {fileID: 4300000, guid: 0ff087ebdd5f45d498738c7ef3f4a63d, type: 3}
---- !u!64 &64351054802404924
-MeshCollider:
+--- !u!65 &65235372697994222
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -95,11 +95,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: 0ff087ebdd5f45d498738c7ef3f4a63d, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.113735005, y: 0.10414091, z: 0.10473499}
+  m_Center: {x: 0.000000018626451, y: 0.000000003725291, z: 0}
 --- !u!114 &114169887121186186
 MonoBehaviour:
   m_ObjectHideFlags: 1

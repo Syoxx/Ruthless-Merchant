@@ -8,6 +8,8 @@ namespace RuthlessMerchant
 {
     public class Tutorial : MonoBehaviour
     {
+        public static Tutorial Singleton;
+        public bool isTutorial;
 
         [SerializeField]
         [Tooltip("Drag IronSword Prefab there")]
@@ -74,6 +76,8 @@ namespace RuthlessMerchant
         // Hardcoded Stuff
         void Start()
         {
+            isTutorial = true;
+            Singleton = this;
             textMesh = textMesh.GetComponent<TextMeshProUGUI>();
             playerCollider = PlayerObject.GetComponent<Collider>();
             teleportUpCollider = teleportCaveUp.GetComponent<Collider>();

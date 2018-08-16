@@ -1,16 +1,35 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using RuthlessMerchant;
 
 public class VRMenuScript : MonoBehaviour
 {
-    public Light lightContinue, lightStartGame, lightOptions;
-    public float rayDistance = 3;
+    [SerializeField, Tooltip("Name of the Scene which should be loaded to start the game")]
+    private string gamePlayScene = "main";
+
+    [SerializeField]
+    private Light lightContinue, lightStartGame, lightOptions;
+
+    [SerializeField]
+    private float rayDistance = 3;
+
+    [SerializeField, Tooltip("Time used to Fade")]
+    private float fadeTime = 2f;
+
+    [SerializeField, Tooltip("Image used for fading")]
+    Image fadeImage;
+
     private Camera playerAttachedCamera;
+
     // Use this for initialization
     void Start()
     {
         playerAttachedCamera = GetComponentInChildren<Camera>();
+        if (fadeImage == null)
+            fadeImage = GameObject.FindGameObjectWithTag("FadeImage").GetComponent<Image>();
     }
 
     // Update is called once per frame
@@ -48,24 +67,34 @@ public class VRMenuScript : MonoBehaviour
 
     private void Continue()
     {
-        Debug.Log("Continue");
         lightContinue.enabled = true;
 
     }
     private void startGame()
     {
-        Debug.Log("StartedGame");
         lightStartGame.enabled = true;
+        if (Input.GetMouseButtonDown(0))
+        {
+            fadeImage.FadingWithCallback(1f, fadeTime, delegate
+            {
+                SceneManager.LoadScene(gamePlayScene);
+            });
+        }
     }
 
     private void QuitGame()
     {
-        Debug.Log("QuitGame");
+        if (Input.GetMouseButtonDown(0))
+        {
+            fadeImage.FadingWithCallback(1f, fadeTime, delegate
+            {
+                Application.Quit();
+            });
+        }
     }
 
     private void Options()
     {
         lightOptions.enabled = true;
-        Debug.Log("Options");
     }
 }

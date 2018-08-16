@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 namespace RuthlessMerchant
@@ -20,7 +21,8 @@ namespace RuthlessMerchant
         private List<NPC> capturingUnitsList;
 
         private Renderer flagRenderer;
-        private Renderer mapMarkerRenderer;
+        [SerializeField, Tooltip("Text of mapmarker to make ownership visable on the map")]
+        private TextMeshProUGUI mapMarkerRenderer;
 
         private float elapsedTime;
         [SerializeField, Tooltip("Indicates the time that is required for a hero to spawn.")]
@@ -94,7 +96,7 @@ namespace RuthlessMerchant
                 if (hero != null)
                 {
                     hero.Outpost = this;
-                    hero.AddNewWaypoint(new Waypoint(transform, true, 0), true);
+                    hero.AddNewWaypoint(new Waypoint(Target, true, 0), true);
                     hero.SetCurrentAction(new ActionMove(ActionNPC.ActionPriority.Medium), null, true);
                 }
             }
@@ -116,8 +118,11 @@ namespace RuthlessMerchant
                 if (hero != null && hero.Faction != owner)
                     hero = null;
 
-                UpdateRendererColor(flagRenderer);
-                UpdateRendererColor(mapMarkerRenderer);
+                if(flagRenderer != null)
+                    flagRenderer.material.color = GetFactionColor();
+
+                if (mapMarkerRenderer != null)
+                    mapMarkerRenderer.color = GetFactionColor();
             }
         }
 
@@ -187,14 +192,6 @@ namespace RuthlessMerchant
                     outpostsToImperialist[1].OnHeroRemoved += CaptureTriggerI_OnHeroRemoved;
             }
 
-            //Color mapmarker
-            Transform mapMarker = transform.Find("MapMarker");
-            if (mapMarker != null)
-            {
-                mapMarkerRenderer = mapMarker.GetComponent<Renderer>();
-                UpdateRendererColor(mapMarkerRenderer);
-            }
-
             //Color Flag
             Transform parentFlag = transform.Find("Flag");
             if (parentFlag != null)
@@ -204,9 +201,13 @@ namespace RuthlessMerchant
                 if (obj != null && obj.CompareTag("Flag"))
                 {
                     flagRenderer = obj.GetComponent<Renderer>();
-                    UpdateRendererColor(flagRenderer);
+                    if (flagRenderer != null)
+                        flagRenderer.material.color = GetFactionColor();
                 }
             }
+
+            if (mapMarkerRenderer != null)
+                mapMarkerRenderer.color = GetFactionColor();
 
             //Spawn Hero
             SpawnHero();
@@ -368,23 +369,16 @@ namespace RuthlessMerchant
                     Owner = Faction.Neutral;
             }
         }
-
-        /// <summary>
-        /// Updates the color of the Outpost flag to visualize the owner of the outpost
-        /// </summary>
-        private void UpdateRendererColor(Renderer renderer)
+        
+        private Color GetFactionColor()
         {
-            if (renderer != null)
-            {
-                if (owner == Faction.Freidenker)
-                    renderer.material.color = Color.green;
-                else if (owner == Faction.Imperialisten)
-                    renderer.material.color = Color.red;
-                else
-                    renderer.material.color = Color.gray;
-            }
+            if (owner == Faction.Freidenker)
+                return new Color(94.0f / 255.0f, 125.0f / 255.0f, 142.0f / 255.0f);
+            else if (owner == Faction.Imperialisten)
+                return new Color(175.0f / 255.0f, 33.0f / 255.0f, 32.0f / 255.0f);
+            else
+                return Color.white;
         }
-
 
         public Transform GetClosestAttacker(NPC npc)
         {
