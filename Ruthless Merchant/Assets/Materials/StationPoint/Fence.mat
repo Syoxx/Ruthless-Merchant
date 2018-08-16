@@ -6,10 +6,10 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Cavern_Crystals_Blue
-  m_Shader: {fileID: 4800000, guid: 1895f1cc44fff7b49980dff627dfae0a, type: 3}
-  m_ShaderKeywords: _EMISSION
-  m_LightmapFlags: 1
+  m_Name: Fence
+  m_Shader: {fileID: 4800000, guid: 61a44e161820fa4459aedb8ced74528e, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -35,11 +35,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 2800000, guid: a43b2b99f0395374d9c0231bc00c16b9, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: a43b2b99f0395374d9c0231bc00c16b9, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -47,39 +47,48 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
-        m_Texture: {fileID: 2800000, guid: a43b2b99f0395374d9c0231bc00c16b9, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Texture:
+    - _SelectEffectNoiseTexture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Texture:
+        m_Texture: {fileID: 2800000, guid: 323acd44a66131845b127990a1592940, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _AmbientLight: 1.6
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _EmissionMultiplier: 2
     - _GlossMapScale: 1
-    - _Glossiness: 0.706
+    - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _Metallic: 0.309
+    - _Metallic: 0
     - _Mode: 0
-    - _OcclusionStrength: 0.495
+    - _OcclusionStrength: 1
+    - _Outline: 0
     - _Parallax: 0.02
-    - _PosterizeEffect: 0.18
-    - _ShineSize: 0.84
-    - _Shiny: 0.706
+    - _PosterizeRange: 0.296
+    - _Posterizer: 0.619
+    - _SelectEffect: 0
+    - _SelectEffectSize: 0.8007979
+    - _SelectEffectStrength: 2
+    - _ShadowSize: 1.11
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _TexturePower: 1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.2783019, g: 0.94148403, b: 1, a: 1}
-    - _EmissionColor: {r: 0.15073529, g: 0.4421908, b: 0.5, a: 1}
-    - _ShineColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _SelectColor: {r: 0, g: 1, b: 0, a: 1}
