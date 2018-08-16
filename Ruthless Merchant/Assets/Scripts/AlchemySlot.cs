@@ -59,6 +59,9 @@ namespace RuthlessMerchant
         public void AddItem(Ingredient ingredient)
         {
             _ingredient = ingredient;
+
+            //Sound - AlchemyItems
+            FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Player/Alchemy Items", GameObject.FindGameObjectWithTag("Player").transform.position);
         }
 
         /// <summary>
@@ -70,6 +73,9 @@ namespace RuthlessMerchant
             Item item = _ingredient.DeepCopy();
             inventory.Add(item, 1, true);
             _ingredient = null;
+
+            //Sound - AlchemyItems
+            FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Player/Alchemy Items", GameObject.FindGameObjectWithTag("Player").transform.position);
         }
 
         public void ClearItem()

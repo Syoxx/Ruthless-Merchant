@@ -410,14 +410,23 @@ namespace RuthlessMerchant
         {
             if (Input.GetKeyDown(KeyCode.M) && !isOutpostDialogActive)
             {
-                //Sound - Open/Close Book
-                FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Player/Book/Open Book", GameObject.FindGameObjectWithTag("Player").transform.position);
-
                 bool isUI_Inactive = (mapObject.activeSelf == false);
 
                 if (bookCanvas.activeSelf)
                 {
                     CloseBook();
+                }
+
+                //Sound
+                if (mapObject.activeSelf == false)
+                {
+                    //Sound - Open Book
+                    FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Player/Book/Open Book", GameObject.FindGameObjectWithTag("Player").transform.position);
+                }
+                else
+                {
+                    //Sound - Close Book
+                    FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Player/Book/CloseBook", GameObject.FindGameObjectWithTag("Player").transform.position);
                 }
 
                 //TODO: check which posts player has unlocked / bought
@@ -459,9 +468,6 @@ namespace RuthlessMerchant
 
         private void OpenBook(KeyCode key)
         {
-            //Sound - Open/Close Book
-            FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Player/Book/Open Book", GameObject.FindGameObjectWithTag("Player").transform.position);
-
             if (mapObject.activeSelf)
             {
                 mapObject.SetActive(false);
@@ -470,9 +476,15 @@ namespace RuthlessMerchant
             if (currentBookSection == key || (bookCanvas.activeSelf && key == KeyCode.Escape))
             {
                 CloseBook();
+
+                //Sound - Close Book
+                FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Player/Book/CloseBook", GameObject.FindGameObjectWithTag("Player").transform.position);
             }
             else if (!isOutpostDialogActive)
             {
+                //Sound - Open Book
+                FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Player/Book/Open Book", GameObject.FindGameObjectWithTag("Player").transform.position);
+
                 bookCanvas.SetActive(true);
                 restrictMovement = !(bookCanvas.activeSelf == false);
                 restrictCamera = !(bookCanvas.activeSelf == false);
@@ -483,9 +495,6 @@ namespace RuthlessMerchant
 
         private void CloseBook()
         {
-            //Sound - Open/Close Book
-            FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Player/Book/Open Book", GameObject.FindGameObjectWithTag("Player").transform.position);
-
             if (mapObject.activeSelf)
             {
                 mapObject.SetActive(false);
