@@ -21,8 +21,6 @@ GameObject:
   - component: {fileID: 4138588647330894}
   - component: {fileID: 33040322448417894}
   - component: {fileID: 23487316504013758}
-  - component: {fileID: 64969127590991052}
-  - component: {fileID: 114982249299369772}
   m_Layer: 0
   m_Name: Item_Anvil
   m_TagString: Untagged
@@ -37,8 +35,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1984146901016370}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 39.468, y: 25.212, z: 233.11}
-  m_LocalScale: {x: 1.5261489, y: 1.526149, z: 1.526149}
+  m_LocalPosition: {x: 0.23908496, y: 0.16014367, z: 0.099558674}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -85,49 +83,3 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1984146901016370}
   m_Mesh: {fileID: 4300000, guid: 25047cb69f8a9bb4aa284179938df897, type: 3}
---- !u!64 &64969127590991052
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1984146901016370}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: 25047cb69f8a9bb4aa284179938df897, type: 3}
---- !u!114 &114982249299369772
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1984146901016370}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81f1e45ebcb59a845ab73522764077fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  faction: 0
-  baseDamagePerAtk: 75
-  baseAttackDelay: 2
-  baseDefense: 10
-  healthRegPerSec: 0
-  sneakSpeed: 2
-  walkSpeed: 3
-  runSpeed: 6
-  groundCheckDistance: 0.25
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 0
-  maxJumpHeight: 0
-  maxSlopeAngle: 0
-  rotationSpeed: 8
-  fov: 45
-  viewDistance: 10
-  hearDistance: 5
-  capValuePerSecond: 1
-  Reacting: 0
-  fleeDistance: 5

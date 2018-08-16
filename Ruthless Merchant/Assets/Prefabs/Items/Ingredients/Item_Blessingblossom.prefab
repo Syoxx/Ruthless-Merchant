@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 23706539190245792}
   - component: {fileID: 114876029548951942}
   - component: {fileID: 114006182187182412}
-  - component: {fileID: 64075491226345222}
+  - component: {fileID: 65906251629399190}
   m_Layer: 0
   m_Name: Item_Blessingblossom
   m_TagString: Untagged
@@ -86,8 +86,8 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1817298565585132}
   m_Mesh: {fileID: 4300000, guid: da30487866d9ddd4f80b7dc8dc54fa4a, type: 3}
---- !u!64 &64075491226345222
-MeshCollider:
+--- !u!65 &65906251629399190
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -95,11 +95,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: da30487866d9ddd4f80b7dc8dc54fa4a, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.09273943, y: 0.11090456, z: 0.09812123}
+  m_Center: {x: -0.0015032869, y: 0.031536177, z: 0.046670225}
 --- !u!114 &114006182187182412
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 95719966836500256}
   - component: {fileID: 114205060440787664}
   - component: {fileID: 114888308271271922}
-  - component: {fileID: 64247083476858562}
+  - component: {fileID: 65580797973544504}
   m_Layer: 0
   m_Name: Item_NastyThornling
   m_TagString: Untagged
@@ -88,8 +88,8 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1896410965067150}
   m_Mesh: {fileID: 4300000, guid: 935809417967c0a4aaa40d642d98eeff, type: 3}
---- !u!64 &64247083476858562
-MeshCollider:
+--- !u!65 &65580797973544504
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -97,11 +97,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: 935809417967c0a4aaa40d642d98eeff, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.0818333, y: 0.07004967, z: 0.13595733}
+  m_Center: {x: 0.000000018626451, y: -0.011510581, z: 0.06422338}
 --- !u!95 &95719966836500256
 Animator:
   serializedVersion: 3
