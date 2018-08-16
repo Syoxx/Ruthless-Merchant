@@ -39,7 +39,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1235842568192292}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 38.081833, y: 25.119, z: 229.04381}
+  m_LocalPosition: {x: 113.56409, y: 25.943, z: 231.9137}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -60,7 +60,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: ec470d97ef60a994d945d375293e1b65, type: 3}
+  - {fileID: 2100000, guid: 66729a7e0f1c82c46a02bafeed58b6f2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -126,15 +126,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction: 0
-  ItemName: Lightstone
-  ItemValue:
-  - Count: 1
-  ItemWeight: 1
-  ItemLore: A piece of lightstone. Its shiny.
-  ItemSprite: {fileID: 21300000, guid: 35adf43a63efca1429bd27dab3208396, type: 3}
-  ItemType: 3
-  ItemRarity: 0
-  MaxStackCount: 20
+  ItemInfo:
+    ItemName: 
+    ItemValue: []
+    ItemWeight: 0
+    ItemLore: 
+    ItemSprite: {fileID: 0}
+    ItemType: 0
+    ItemRarity: 0
+    maxStackCount: 0
   materialsType: 4
 --- !u!114 &114714816632149668
 MonoBehaviour:
