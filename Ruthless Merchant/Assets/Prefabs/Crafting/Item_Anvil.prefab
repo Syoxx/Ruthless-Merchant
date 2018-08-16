@@ -114,17 +114,20 @@ MonoBehaviour:
   baseDamagePerAtk: 75
   baseAttackDelay: 2
   baseDefense: 10
+  healthRegPerSec: 0
   sneakSpeed: 2
   walkSpeed: 3
   runSpeed: 6
-  stickToGroundValue: 0
+  groundCheckDistance: 0.25
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
   maxJumpHeight: 0
   maxSlopeAngle: 0
   rotationSpeed: 8
   fov: 45
   viewDistance: 10
   hearDistance: 5
-  healthRegPerSec: 0
   capValuePerSecond: 1
   Reacting: 0
   fleeDistance: 5
