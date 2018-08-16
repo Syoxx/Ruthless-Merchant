@@ -45,29 +45,10 @@ namespace RuthlessMerchant
         [SerializeField, Tooltip("Assign a Trader that was placed in the outpost")]
         private Trader assignedTrader = null;
 
-        private List<InventoryItem> availableItems = new List<InventoryItem>();
-
         [SerializeField, Tooltip("Add all Prefabs of weapons, shields and potions here!")]
         private GameObject[] PrefabsUpgradeItems = null;
 
-        private Dictionary<string, ItemContainer> items = new Dictionary<string, ItemContainer>();
-
-        public class ItemContainer
-        {
-            public int Count;
-            public Item Item;
-
-            public ItemContainer(Item item, int count)
-            {
-                Item = item;
-                Count = count;
-            }
-
-            public ItemContainer(ItemContainer itemContainer)
-            {
-                Count += itemContainer.Count;
-            }
-        }
+        private Dictionary<string, ItemContainer> availableItems = new Dictionary<string, ItemContainer>();
 
         private Transform target;
         private bool isHeroAway = false;
@@ -194,7 +175,7 @@ namespace RuthlessMerchant
             }
         }
 
-        public List<InventoryItem> AvailableItems
+        public Dictionary<string, ItemContainer> AvailableItems
         {
             get
             {
@@ -258,25 +239,27 @@ namespace RuthlessMerchant
                 for (int i = 0; i < e.Items.Count; i++)
                 {
                     InventorySlot slot = e.Items[i].Slot;
+
+                    //Get item count
                     int count = 0;
                     if (!int.TryParse(e.Items[i].ItemQuantity.text.Replace("x", ""), out count))
                         count = 1;
 
+                    //
                     for (int j = 0; j < PrefabsUpgradeItems.Length; j++)
                     {
                         Weapon weapon = PrefabsUpgradeItems[j].GetComponent<Weapon>();
                         if(weapon.name == slot.ItemInfo.ItemName)
                         {
-                            if (!items.ContainsKey(weapon.name))
-                                items.Add(weapon.name, new ItemContainer(weapon, count));
+                            if (!availableItems.ContainsKey(weapon.name))
+                                availableItems.Add(weapon.name, new ItemContainer(weapon, count));
                             else
-                                items.Add(weapon.name, new ItemContainer(items[weapon.name]));
+                                availableItems.Add(weapon.name, new ItemContainer(availableItems[weapon.name]));
                         }
                     }
                 }
 
                 Debug.Log("New Items received");
-                availableItems.AddRange(e.Items);
             }
         }
 

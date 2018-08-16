@@ -73,14 +73,17 @@ namespace RuthlessMerchant
                         {
 
                             //TODO pickup item from outpost
-                            for (int i = 0; i < outpost.AvailableItems.Count; i++)
+                            foreach (KeyValuePair<string, ItemContainer> itemPair in outpost.AvailableItems)
                             {
-                                InventorySlot slot = outpost.AvailableItems[i].Slot;
+                                if (weapon != null && shield != null && potion != null)
+                                    break;
+
+                                ItemContainer slot = itemPair.Value;
                                 if (slot.Count > 0)
                                 {
                                     if (slot.Item is Weapon)
                                     {
-                                        bool isShield = slot.ItemInfo.ItemName.Contains("shield");
+                                        bool isShield = itemPair.Key.Contains("shield");
                                         if (weapon != null && !isShield)
                                         {
                                             weapon = (Weapon)slot.Item;
