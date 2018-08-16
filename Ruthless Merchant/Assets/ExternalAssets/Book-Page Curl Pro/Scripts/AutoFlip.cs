@@ -29,6 +29,9 @@ public class AutoFlip : MonoBehaviour
         if (ControledBook.CurrentPaper >= ControledBook.papers.Length) return;
         isPageFlipping = true;
         PageFlipper.FlipPage(ControledBook, PageFlipTime, FlipMode.RightToLeft, ()=> { isPageFlipping = false; });
+
+        //Sound - Flip Page
+        FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Player/Book/Flipping Page", GameObject.FindGameObjectWithTag("Player").transform.position);
     }
     public void FlipLeftPage()
     {
@@ -36,6 +39,9 @@ public class AutoFlip : MonoBehaviour
         if (ControledBook.CurrentPaper <= 0) return;
         isPageFlipping = true;
         PageFlipper.FlipPage(ControledBook, PageFlipTime, FlipMode.LeftToRight, () => { isPageFlipping = false; });
+
+        //Sound - Flip Page
+        FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Player/Book/Flipping Page", GameObject.FindGameObjectWithTag("Player").transform.position);
     }
     public void StartFlipping()
     {

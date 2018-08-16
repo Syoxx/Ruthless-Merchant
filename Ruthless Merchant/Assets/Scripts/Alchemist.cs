@@ -93,6 +93,9 @@ namespace RuthlessMerchant
             Player p = caller.GetComponent<Player>();
             p.Inventory.Add(potion.DeepCopy(), 1, true);
             Destroy(potion.gameObject);
+
+            //Potion Pickup sound
+            FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Player/Pickup potion", GameObject.FindGameObjectWithTag("Player").transform.position);
         }
 
         /// <summary>

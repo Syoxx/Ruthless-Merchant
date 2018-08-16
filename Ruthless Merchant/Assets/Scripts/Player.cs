@@ -620,6 +620,16 @@ namespace RuthlessMerchant
                             {
                                 Item clonedItem = targetItem.DeepCopy();
 
+                                //Sound - Item pickup
+                                if (targetItem.ItemType == ItemType.Weapon)
+                                {
+                                    FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Player/Sheathing sword", this.transform.position);
+                                }
+                                else
+                                {
+                                    FMODUnity.RuntimeManager.PlayOneShot("event:/SFX/ItemPickup", this.transform.position);
+                                }
+
                                 // Returns 0 if item was added to inventory
                                 int UnsuccessfulPickup = inventory.Add(clonedItem, 1, true);
 
