@@ -46,6 +46,29 @@ namespace RuthlessMerchant
         private Trader assignedTrader = null;
 
         private List<InventoryItem> availableItems = new List<InventoryItem>();
+
+        [SerializeField, Tooltip("Add all Prefabs of weapons, shields and potions here!")]
+        private GameObject[] PrefabsUpgradeItems = null;
+
+        private Dictionary<string, ItemContainer> items = new Dictionary<string, ItemContainer>();
+
+        public class ItemContainer
+        {
+            public int Count;
+            public Item Item;
+
+            public ItemContainer(Item item, int count)
+            {
+                Item = item;
+                Count = count;
+            }
+
+            public ItemContainer(ItemContainer itemContainer)
+            {
+                Count += itemContainer.Count;
+            }
+        }
+
         private Transform target;
         private bool isHeroAway = false;
 
@@ -232,6 +255,26 @@ namespace RuthlessMerchant
             Debug.Log("ItemsSlod event triggered");
             if (e.Trader == assignedTrader)
             {
+                for (int i = 0; i < e.Items.Count; i++)
+                {
+                    InventorySlot slot = e.Items[i].Slot;
+                    int count = 0;
+                    if (!int.TryParse(e.Items[i].ItemQuantity.text.Replace("x", ""), out count))
+                        count = 1;
+
+                    for (int j = 0; j < PrefabsUpgradeItems.Length; j++)
+                    {
+                        Weapon weapon = PrefabsUpgradeItems[j].GetComponent<Weapon>();
+                        if(weapon.name == slot.ItemInfo.ItemName)
+                        {
+                            if (!items.ContainsKey(weapon.name))
+                                items.Add(weapon.name, new ItemContainer(weapon, count));
+                            else
+                                items.Add(weapon.name, new ItemContainer(items[weapon.name]));
+                        }
+                    }
+                }
+
                 Debug.Log("New Items received");
                 availableItems.AddRange(e.Items);
             }
