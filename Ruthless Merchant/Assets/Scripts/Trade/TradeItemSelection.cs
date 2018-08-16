@@ -33,6 +33,22 @@ namespace RuthlessMerchant
                 price = GameObject.Find("TotalPrice").GetComponent<Text>();
         }
 
+        private void Start()
+        {
+            if (!Trader.CurrentTrader.WantsToStartTrading())
+            {
+                TradeAbstract.Singleton.TradeDialogue.text = "Nu-uh I'm not trading with ya.";
+                TradeAbstract.Singleton.Exit = true;
+                Player.RestrictCamera = false;
+                Trader.CurrentTrader = null;
+                GameObject.Find("UICanvas").SetActive(false);
+            }
+            else
+            {
+                Player.Singleton.EnterTrading();
+            }
+        }
+
         public void OnItemMoved(InventoryItem item)
         {
             Debug.Log("Moving " + item.ItemName.text + " !");

@@ -373,7 +373,7 @@ namespace RuthlessMerchant
         /// </summary>
         private void FocusCursor()
         {
-            if ((!restrictCamera) && restrictMovement)
+            if ((!restrictCamera) && restrictMovement && TradeAbstract.Singleton == null)
             {
                 // This prevents movement being disabled while restrictCamera is not on
                 restrictMovement = false;

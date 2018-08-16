@@ -25,16 +25,6 @@ namespace RuthlessMerchant
 
         #endregion
 
-        #region Private Fields
-
-        bool initialized = false;
-
-        float exitTimer = 0;
-
-        bool exit = false;
-
-        #endregion
-
         #region MonoBehaviour Life Cycle
 
         protected override void Awake()
@@ -76,13 +66,14 @@ namespace RuthlessMerchant
 
         void Update()
         {
-            if (exit)
+            if (Exit)
             {
                 exitTimer += Time.deltaTime;
 
                 if (exitTimer > 3)
                 {
                     Cursor.visible = false;
+                    Singleton = null;
                     Main_SceneManager.UnLoadScene("TradeScene");
                 }
             }
@@ -107,12 +98,12 @@ namespace RuthlessMerchant
                 }
 
                 #if UNITY_EDITOR
-                else if (Input.GetKeyDown(KeyCode.Q) || Vector3.Distance(TradeObjectsParent.transform.position, Player.Singleton.transform.position) > 5)
+                if (Input.GetKeyDown(KeyCode.Q) || Vector3.Distance(TradeObjectsParent.transform.position, Player.Singleton.transform.position) > 5)
                 {
                     Quit();
                 }
                 #else
-                else if (Input.GetKeyDown(KeyCode.Escape) || Vector3.Distance(TradeObjectsParent.transform.position, Player.Singleton.transform.position) > 5)
+                if (Input.GetKeyDown(KeyCode.Escape) || Vector3.Distance(TradeObjectsParent.transform.position, Player.Singleton.transform.position) > 5)
                 {
                     Quit();
                 }
@@ -241,7 +232,7 @@ namespace RuthlessMerchant
 
             PlayerOffers.Add(nextPlayerOffer);
 
-            tradeDialogue.text = "";
+            TradeDialogue.text = "";
             Trader.CurrentTrader.ReactToPlayerOffer();
 
             if (TraderOffers.Count > 0)
@@ -278,8 +269,8 @@ namespace RuthlessMerchant
         /// </summary>
         protected override void Accept()
         {
-            tradeDialogue.text = "You and Dormammu have a blood-sealing pact. He wishes you a good day and rides off into the sunset.";
-            exit = true;
+            TradeDialogue.text = "You and Dormammu have a blood-sealing pact. He wishes you a good day and rides off into the sunset.";
+            Exit = true;
 
             ItemsSold(ItemsToSell);
         }
@@ -289,8 +280,8 @@ namespace RuthlessMerchant
         /// </summary>
         public override void Abort()
         {
-            tradeDialogue.text = "Dormammu tells you to fuck off and rides off with his galaxy-eating unicorn.";
-            exit = true;
+            TradeDialogue.text = "Dormammu tells you to fuck off and rides off with his galaxy-eating unicorn.";
+            Exit = true;
 
             foreach (InventoryItem item in ItemsToSell)
             {
@@ -303,8 +294,8 @@ namespace RuthlessMerchant
         /// </summary>
         public override void Quit()
         {
-            tradeDialogue.text = "U quitted coz u a lil chicken.";
-            exit = true;
+            TradeDialogue.text = "U quitted coz u a lil chicken.";
+            Exit = true;
 
             foreach(InventoryItem item in ItemsToSell)
             {

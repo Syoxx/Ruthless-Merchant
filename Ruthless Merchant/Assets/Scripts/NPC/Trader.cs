@@ -45,7 +45,7 @@ namespace RuthlessMerchant
         float underLimitPerCent = 0.35f;
 
         [SerializeField, Tooltip("Feilschfaktor Obergrenze")]
-        float upperLimitBargainPerCent;
+        float upperLimitBargainPerCent = 10000;
 
         #if UNITY_EDITOR
         [ReadOnly]
@@ -206,11 +206,7 @@ namespace RuthlessMerchant
             realAndOfferedRatio   = new List<float>();
             wishedAndOfferedRatio = new List<float>();
 
-            if (IrritationTotal >= irritationStartLimit || SkepticismTotal >= skepticismStartLimit)
-            {
-                trade.Abort();
-            }
-            else
+            if (WantsToStartTrading())
             {
                 float realPrice = trade.RealValue;
 
@@ -218,10 +214,22 @@ namespace RuthlessMerchant
                 underLimitPercentTotal = underLimitPerCent + (-(underLimitPerCent * influenceFraction) - (underLimitPerCent * influenceIndividual) + (underLimitPerCent * influenceWar) + (underLimitPerCent * influenceNeighbours)) / 4;
 
                 upperLimitReal = (float)Math.Ceiling(realPrice * (1 + upperLimitPercentTotal));
-                upperLimitBargain   = (float)Math.Ceiling(upperLimitReal * (1 + upperLimitBargainPerCent));
-                underLimitReal      = (float)Math.Floor(realPrice * (1 - underLimitPercentTotal));
+                upperLimitBargain = (float)Math.Ceiling(upperLimitReal * (1 + upperLimitBargainPerCent));
+                underLimitReal = (float)Math.Floor(realPrice * (1 - underLimitPercentTotal));
                 wished.Add((float)Math.Floor((upperLimitReal + underLimitReal) / 2));
             }
+            else
+            {
+                trade.Abort();
+            }
+        }
+
+        public bool WantsToStartTrading()
+        {
+            if (IrritationTotal >= irritationStartLimit || SkepticismTotal >= skepticismStartLimit)
+                return false;
+
+            return true;
         }
 
         /// <summary>
@@ -336,6 +344,8 @@ namespace RuthlessMerchant
 
             if (IrritationTotal >= IrritationLimit || SkepticismTotal >= SkepticismLimit)
             {
+                IrritationTotal = IrritationLimit;
+                SkepticismTotal = SkepticismLimit;
                 trade.Abort();
                 return false;
             }
@@ -355,7 +365,6 @@ namespace RuthlessMerchant
                 Position = gameObject.transform.position;
                 InventoryItem.Behaviour = InventoryItem.ItemBehaviour.Move;
                 Main_SceneManager.LoadSceneAdditively("TradeScene");
-                Player.Singleton.EnterTrading();
             }
         }
 
