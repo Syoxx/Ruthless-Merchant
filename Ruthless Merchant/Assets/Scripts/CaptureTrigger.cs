@@ -244,7 +244,7 @@ namespace RuthlessMerchant
                 {
                     if (owner == Faction.Imperialisten)
                     {
-                        if (Hero != null && outpost.Hero == null)
+                        if (Hero != null && !IsHeroAway && outpost.Hero == null)
                         {
                             outpost.Hero = hero;
                             Hero = null;
