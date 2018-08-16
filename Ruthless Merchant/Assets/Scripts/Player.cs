@@ -786,7 +786,7 @@ namespace RuthlessMerchant
 
         public void OnWorkbenchButton(int itemslot)
         {
-            localWorkbench.BreakdownItem(inventory.inventorySlots[itemSlot].Item, Inventory, recipes);
+            localWorkbench.BreakdownItem(inventory.inventorySlots[itemslot].Item, Inventory, recipes);
             PopulateWorkbenchPanel();
         }
 
@@ -800,15 +800,10 @@ namespace RuthlessMerchant
                 }
                 else if (inventory.inventorySlots[itemIndex].Item.ItemType == ItemType.Weapon)
                 {
-                    GameObject panelPrefab = inventory.inventorySlots[itemIndex].DisplayData.gameObject;
-                    if (panelPrefab.GetComponent<Button>() != null)
-                    {
-                        itemSlot = itemIndex;
-                        panelPrefab.GetComponent<Button>().onClick.RemoveAllListeners();
-                        panelPrefab.GetComponent<Button>().onClick.AddListener(() => OnWorkbenchButton(itemSlot));
-                    }
+                    int item = itemIndex;
+                    inventory.inventorySlots[itemIndex].DisplayData.itemButton.onClick.RemoveAllListeners();
+                    inventory.inventorySlots[itemIndex].DisplayData.itemButton.onClick.AddListener(delegate{ OnWorkbenchButton(item); });
                 }
-                else continue;
             }
         }
 

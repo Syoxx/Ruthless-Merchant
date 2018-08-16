@@ -135,7 +135,19 @@ namespace RuthlessMerchant
 
             InventoryItem itemInfos = inventoryItem.GetComponent<InventoryItem>();
 
-            itemInfos.itemName.text = inventorySlot.Count + "x " + inventorySlot.Item.ItemName + " (" + inventorySlot.Item.ItemRarity + ")";
+            itemInfos.itemName.text = inventorySlot.Count + "x " + inventorySlot.Item.ItemName;
+            switch(inventorySlot.Item.ItemRarity)
+            {
+                case ItemRarity.Üblich:
+                    itemInfos.itemName.color = new Color(0,0,0);
+                    break;
+                case ItemRarity.Ungewöhnlich:
+                    itemInfos.itemName.color = new Color(0, 0.2f, 1);
+                    break;
+                case ItemRarity.Selten:
+                    itemInfos.itemName.color = new Color(0.7f, 0, 1);
+                    break;
+            }
             itemInfos.itemDescription.text = inventorySlot.Item.ItemLore;
             if (inventorySlot.Item.ItemValue != null)
                 if (inventorySlot.Item.ItemValue.Length > 0)
@@ -177,7 +189,7 @@ namespace RuthlessMerchant
                 return CreateDisplayData(inventorySlot);
             }
 
-            itemInfos.itemName.text = inventorySlot.Count + "x " + inventorySlot.Item.ItemName + " (" + inventorySlot.Item.ItemRarity + ")";
+            itemInfos.itemName.text = inventorySlot.Count + "x " + inventorySlot.Item.ItemName;
             itemInfos.itemDescription.text = inventorySlot.Item.ItemLore;
             if (inventorySlot.Item.ItemValue != null)
                 if (inventorySlot.Item.ItemValue.Length > 0)
