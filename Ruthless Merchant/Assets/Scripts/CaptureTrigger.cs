@@ -96,7 +96,7 @@ namespace RuthlessMerchant
                 if (hero != null)
                 {
                     hero.Outpost = this;
-                    hero.AddNewWaypoint(new Waypoint(transform, true, 0), true);
+                    hero.AddNewWaypoint(new Waypoint(Target, true, 0), true);
                     hero.SetCurrentAction(new ActionMove(ActionNPC.ActionPriority.Medium), null, true);
                 }
             }

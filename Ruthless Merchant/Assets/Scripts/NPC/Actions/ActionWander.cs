@@ -28,7 +28,7 @@ namespace RuthlessMerchant
                 NavMeshPath path = new NavMeshPath();
                 if (agent.CalculatePath(wanderTarget, path) && path.status == UnityEngine.AI.NavMeshPathStatus.PathComplete)
                 {
-                    parent.AddNewWaypoint(new Waypoint(parent.transform.position + wanderTarget, true, Random.Range(2, 5)), true);
+                    parent.AddNewWaypoint(new Waypoint(wanderTarget, true, Random.Range(1, 4)), true);
                     break;
                 }
             }
