@@ -19,9 +19,19 @@ namespace RuthlessMerchant
         #endif
         public List<float> TraderOffers;
 
-        public delegate void ItemsSoldHandler(List<InventoryItem> item);
+        public static event EventHandler<TradeArgs> ItemsSold;
 
-        public static event ItemsSoldHandler ItemsSold;
+        public class TradeArgs : EventArgs
+        {
+            public List<InventoryItem> Items;
+            public Trader Trader;
+
+            public TradeArgs(List<InventoryItem> items, Trader trader)
+            {
+                Items = items;
+                Trader = trader;
+            }
+        }
 
         #endregion
 
@@ -281,7 +291,8 @@ namespace RuthlessMerchant
             tradeDialogue.text = "You and Dormammu have a blood-sealing pact. He wishes you a good day and rides off into the sunset.";
             exit = true;
 
-            ItemsSold(ItemsToSell);
+            if (ItemsSold != null)
+                ItemsSold.Invoke(this, new TradeArgs(ItemsToSell, Trader.CurrentTrader));
         }
 
         /// <summary>
