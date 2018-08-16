@@ -21,10 +21,10 @@ GameObject:
   - component: {fileID: 4520579765471532}
   - component: {fileID: 33802605513514218}
   - component: {fileID: 23245977813900768}
-  - component: {fileID: 64656755492450634}
   - component: {fileID: 114714816632149668}
   - component: {fileID: 114412076440990828}
   - component: {fileID: 54108315406387292}
+  - component: {fileID: 65308738099142236}
   m_Layer: 0
   m_Name: Item_Lighstone
   m_TagString: Untagged
@@ -39,7 +39,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1235842568192292}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 44.82086, y: 25.092985, z: 230.9604}
+  m_LocalPosition: {x: 38.081833, y: 25.119, z: 229.04381}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -102,8 +102,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!64 &64656755492450634
-MeshCollider:
+--- !u!65 &65308738099142236
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -111,11 +111,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: ec470d97ef60a994d945d375293e1b65, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.1, y: 0.11, z: 0.1983041}
+  m_Center: {x: -0.01012839, y: -0.0046480233, z: 0.001589198}
 --- !u!114 &114412076440990828
 MonoBehaviour:
   m_ObjectHideFlags: 1

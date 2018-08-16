@@ -10,7 +10,7 @@ namespace RuthlessMerchant
     public class ActionAttack : ActionNPC
     {
         private Character character;
-        private Fighter fighter;
+        private Fighter parentFighter;
 
         public ActionAttack(ActionPriority priority) : base(priority)
         {
@@ -41,7 +41,7 @@ namespace RuthlessMerchant
         public override void StartAction(NPC parent, GameObject other)
         {
             parent.Waypoints.Clear();
-            fighter = parent as Fighter;
+            parentFighter = parent as Fighter;
             base.StartAction(parent, other);
             if (other != null)
                 character = other.GetComponent<Character>();
@@ -60,7 +60,7 @@ namespace RuthlessMerchant
                 {
                     parent.RotateToNextTarget(character.transform.position, false);
                     float distance = Vector3.Distance(character.transform.position, parent.transform.position);
-                    if (distance <= fighter.AttackDistance)
+                    if (distance <= parentFighter.AttackDistance)
                     {
                         parent.Reacting = true;
                         parent.Attack(character);
