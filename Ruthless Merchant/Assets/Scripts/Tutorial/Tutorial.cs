@@ -74,10 +74,15 @@ namespace RuthlessMerchant
             "'Let’s go. It’s business hour.'"                                                                                                                                                                                                                       //14 After Smith
         };
         // Hardcoded Stuff
+
+        private void Awake()
+        {
+            Singleton = this;
+        }
+
         void Start()
         {
             isTutorial = true;
-            Singleton = this;
             textMesh = textMesh.GetComponent<TextMeshProUGUI>();
             playerCollider = PlayerObject.GetComponent<Collider>();
             teleportUpCollider = teleportCaveUp.GetComponent<Collider>();
