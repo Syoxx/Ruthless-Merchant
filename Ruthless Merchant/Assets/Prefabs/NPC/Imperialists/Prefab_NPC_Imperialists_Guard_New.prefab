@@ -808,6 +808,7 @@ GameObject:
   - component: {fileID: 114964805266507156}
   - component: {fileID: 195429260383978880}
   - component: {fileID: 54213946702984684}
+  - component: {fileID: 114983586896088574}
   m_Layer: 15
   m_Name: Prefab_NPC_Imperialists_Guard_New
   m_TagString: NPC
@@ -3882,6 +3883,19 @@ MonoBehaviour:
   huntDistance: 5
   attackDistance: 1.5
   outpost: {fileID: 0}
+--- !u!114 &114983586896088574
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1518369309256216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a80e47992104adc43b6b73ead38204d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stepSpeed: 0.4
+  Steps: event:/Characters/Steps/StepsGrass
 --- !u!135 &135079227358108142
 SphereCollider:
   m_ObjectHideFlags: 1

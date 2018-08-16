@@ -28,7 +28,6 @@ public class Triggerzone : MonoBehaviour
         //Debug.Log(playbackState.ToString());
         if(other.gameObject.tag == "Player" && !startupdone)
         {
-            Debug.Log(other + " entered the trigger " + areaTrigger.name + " for the first time");
             FMODUnity.RuntimeManager.AttachInstanceToGameObject(soundevent, other.transform, other.GetComponent<Rigidbody>());
             soundevent.start();
             startupdone = true;
@@ -45,8 +44,6 @@ public class Triggerzone : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            Debug.Log("Player left trigger area" + this.gameObject.name);
-            //soundevent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
             StartCoroutine(doFadeout());
         }
     }
@@ -77,7 +74,6 @@ public class Triggerzone : MonoBehaviour
     {
         if (_other.gameObject.tag == "Player" && playbackState.ToString() != "PLAYING")
         {
-            Debug.Log("Player entered trigger area" + this.gameObject.name);
             if (is3Dimensional)
             {
                 //Debug.Log("3D Event fired");

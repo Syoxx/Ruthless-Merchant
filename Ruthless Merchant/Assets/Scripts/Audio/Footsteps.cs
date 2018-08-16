@@ -50,7 +50,7 @@ namespace RuthlessMerchant
         {
             if (playerismoving == true && isGrounded)
             {
-                Debug.Log("Stepsound playing");
+                //Debug.Log("Stepsound playing");
                 FMODUnity.RuntimeManager.PlayOneShot(Steps, movingCharacter.GetComponent<Transform>().position);
             }
         }
@@ -61,6 +61,7 @@ namespace RuthlessMerchant
             stepSound = FMODUnity.RuntimeManager.CreateInstance(Steps);
             initialStepSpeed = stepSpeed;
             characterRb = movingCharacter.GetComponent<Rigidbody>();
+
         }
 
         void Update()
@@ -69,16 +70,15 @@ namespace RuthlessMerchant
 
             if (gameObject.tag == "Player")
             {
+                if (characterRb.velocity.x > 0.05f || characterRb.velocity.y > 0.05f || characterRb.velocity.z > 0.05f)
+                {
+                    playerismoving = true;
+                }
+                else if (characterRb.velocity.x <= 0.05f || characterRb.velocity.y <= 0.05f)
+                {
+                    playerismoving = false;
+                }
                 checkMovementStatus();
-            }
-
-            if( characterRb.velocity.x > 0.05f || characterRb.velocity.y > 0.05f || characterRb.velocity.z > 0.05f)
-            {
-                playerismoving = true;
-            }
-            else if (characterRb.velocity.x <= 0.05f || characterRb.velocity.y <= 0.05f)
-            {
-                playerismoving = false;
             }
 
         }
@@ -90,7 +90,7 @@ namespace RuthlessMerchant
         {
             if (Input.GetKey(KeyCode.LeftControl) && !isCtrlPressed)
             {
-                Debug.Log("Player crouches");
+                //Debug.Log("Player crouches");
                 isCtrlPressed = true;
                 CancelInvoke("CallFootsteps");
                 stepSpeed = stepSpeed * 1.5f;
@@ -105,7 +105,7 @@ namespace RuthlessMerchant
             }
             if (Input.GetKey(KeyCode.LeftShift) && !isShiftPressed)
             {
-                Debug.Log("Player sprints");
+                //Debug.Log("Player sprints");
                 isShiftPressed = true;
                 CancelInvoke("CallFootsteps");
                 stepSpeed = stepSpeed / 1.3f;
