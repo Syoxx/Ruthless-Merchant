@@ -37,11 +37,15 @@ namespace RuthlessMerchant
         [SerializeField, Tooltip("Indicates the possible next outpost in the direction to the Imperialist city (first item is the default outpost, all other items are optional items for lane splitting or defending)")]
         protected CaptureTrigger[] outpostsToImperialist;
 
-        [SerializeField]
-        private GameObject ImperialstHeroPrefab = null;
-        [SerializeField]
-        private GameObject FreidenkerHeroPrefab = null;
+        [SerializeField, Tooltip("Hero prefab for imperialist faction that should be spawned at game start")]
+        private GameObject imperialstHeroPrefab = null;
+        [SerializeField, Tooltip("Hero prefab for freeminds faction that should be spawned at game start")]
+        private GameObject freidenkerHeroPrefab = null;
 
+        [SerializeField, Tooltip("Assign a Trader that was placed in the outpost")]
+        private Trader assignedTrader = null;
+
+        private List<InventoryItem> availableItems = new List<InventoryItem>();
         private Transform target;
         private bool isHeroAway = false;
 
@@ -167,6 +171,14 @@ namespace RuthlessMerchant
             }
         }
 
+        public List<InventoryItem> AvailableItems
+        {
+            get
+            {
+                return availableItems;
+            }
+        }
+
         // Use this for initialization
         protected virtual void Start()
         {
@@ -209,8 +221,20 @@ namespace RuthlessMerchant
             if (mapMarkerRenderer != null)
                 mapMarkerRenderer.color = GetFactionColor();
 
+            Trade.ItemsSold += Trade_ItemsSold;
+
             //Spawn Hero
             SpawnHero();
+        }
+
+        private void Trade_ItemsSold(object sender, Trade.TradeArgs e)
+        {
+            Debug.Log("ItemsSlod event triggered");
+            if (e.Trader == assignedTrader)
+            {
+                Debug.Log("New Items received");
+                availableItems.AddRange(e.Items);
+            }
         }
 
         private void SpawnHero()
@@ -219,12 +243,12 @@ namespace RuthlessMerchant
             {
                 if (owner == Faction.Freidenker)
                 {
-                    GameObject gobj = Instantiate(FreidenkerHeroPrefab, Target.position, Quaternion.identity, transform);
+                    GameObject gobj = Instantiate(freidenkerHeroPrefab, Target.position, Quaternion.identity, transform);
                     Hero = gobj.GetComponent<Hero>();
                 }
                 else if (owner == Faction.Imperialisten)
                 {
-                    GameObject gobj = Instantiate(ImperialstHeroPrefab, Target.position, Quaternion.identity, transform);
+                    GameObject gobj = Instantiate(imperialstHeroPrefab, Target.position, Quaternion.identity, transform);
                     Hero = gobj.GetComponent<Hero>();
                 }
             }
