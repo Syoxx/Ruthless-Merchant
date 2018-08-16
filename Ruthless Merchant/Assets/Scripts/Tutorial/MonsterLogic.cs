@@ -6,73 +6,56 @@ using UnityEngine.SceneManagement;
 
 public class MonsterLogic : MonoBehaviour
 {
-
+    //Positions for "MoveToward" function
     private Vector3 startPosition;
-    private Vector3 guardPosition;
+    private Vector3 traderPosition;
+
+    //Check bool to start the movement of Monster
     private bool tradeIsDone;
+
+    //Check if guards are dead -> hunt player
     private bool guardsDead;
+
+    //If Guards are reached - monster should kill them
     private bool haveReachedGuards;
 
+    //Collider for triggerzone of a player -> he can't leave -> he will die
     private Collider playerCollider, triggerZoneCollider;
 
+    //Hardcoded integer -> needed to count attacks. 2 Attacks = Guard dead. 3rd Attack = Player dead
     private int attackCounter = 0;
 
-    [SerializeField] private GameObject destination;
-    [SerializeField] private GameObject Player;
-    [SerializeField] private GameObject triggerZone;
+
+    [SerializeField] private GameObject traderObject;
+    [SerializeField] private GameObject playerObject;
+    [SerializeField] private GameObject triggerZoneObject;
 
 
+
+    //Speed for Monster
     [SerializeField] private float speed;
 
     void Start()
     {
+        tradeIsDone = true;
+        //Getting the positions and colliders of needed object
         startPosition = transform.position;
-        guardPosition = destination.transform.position;
+        traderPosition = traderObject.transform.position;
 
-        playerCollider = Player.GetComponent<Collider>();
-        triggerZoneCollider = triggerZone.GetComponent<Collider>();
+        playerCollider = playerObject.GetComponent<Collider>();
+        triggerZoneCollider = triggerZoneObject.GetComponent<Collider>();
     }
     void Update()
     {
         float step = speed * Time.deltaTime;
-        float distanceToGuard = Vector3.Distance(transform.position, destination.transform.position);
-        float distanceToPlayer = Vector3.Distance(transform.position, Player.transform.position);
+        float distanceToGuard = Vector3.Distance(transform.position, traderObject.transform.position);
+        float distanceToPlayer = Vector3.Distance(transform.position, playerObject.transform.position);
+        
 
         //If trading is done, Monster will start to hunt his targets down
         if (tradeIsDone)
         {
-            //If Monster is not close enough, he will move towards the guards
-            if (distanceToGuard >= 6 && !haveReachedGuards)
-            {
-                transform.position = Vector3.MoveTowards(transform.position, destination.transform.position, step);            
-            }
-            
-            // 2 Guards = 2 Attacks (1 hit to kill)
-            else if (attackCounter < 2)
-            {
-                haveReachedGuards = true;
-                Attack();
-            }
-
-            // 2 hits = dead
-            if (attackCounter == 2)
-            {
-                guardsDead = true;
-            }
-
-            // Hardcoded. If Monster has attacked twice = Guards are dead.
-            // Monster trying to reach Player
-            if(distanceToPlayer >= 6 && guardsDead)
-            { 
-                transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, step);
-            }
-
-            //if close = attack
-            else
-            {
-                Attack();
-                PlayerIsDead();
-            }
+            MonsterHunt(step, distanceToGuard, distanceToPlayer);
 
         }
 
@@ -84,15 +67,55 @@ public class MonsterLogic : MonoBehaviour
         }
     }
 
+    private void MonsterHunt(float step, float distanceToGuard, float distanceToPlayer)
+    {
+        //If Monster is not close enough, he will move towards the guards
+        if (distanceToGuard >= 1 && !haveReachedGuards)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, traderObject.transform.position, step);
+        }
+
+        // 2 Guards = 2 Attacks (1 hit to kill)
+        else if (attackCounter < 2)
+        {
+            haveReachedGuards = true;
+            Attack();
+
+        }
+
+        // 2 hits = dead
+        if (attackCounter == 2)
+        {
+            guardsDead = true;
+        }
+
+        // Hardcoded. If Monster has attacked twice = Guards are dead.
+        // Monster trying to reach Player
+        if (distanceToPlayer >= 1 && guardsDead)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, playerObject.transform.position, step);
+        }
+
+        //if close = attack
+        else if (distanceToPlayer <= 1 && guardsDead)
+        {
+            Attack();
+            PlayerIsDead();
+        }
+    }
+
     private void Attack()
     {
         //Animation
         //2 Attacks = Guards dead
+        
         attackCounter = attackCounter + 1;
+        Debug.Log(attackCounter);
+        
     }
 
     private void PlayerIsDead()
-    {
+    {   
         SceneManager.LoadScene("Islandtesting");
     }
 }
