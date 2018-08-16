@@ -616,7 +616,7 @@ namespace RuthlessMerchant
                         if (targetItem != null)
                         {
                             // Picking up items and gear
-                            if (targetItem.ItemInfo.ItemType == ItemType.Weapon || targetItem.ItemInfo.ItemType == ItemType.Ingredient || targetItem.ItemInfo.ItemType == ItemType.CraftingMaterial || targetItem.ItemInfo.ItemType == ItemType.ConsumAble)
+                            if (targetItem.ItemInfo.ItemType == ItemType.Weapon || targetItem.ItemInfo.ItemType == ItemType.Ingredient || targetItem.ItemInfo.ItemType == ItemType.CraftingMaterial || targetItem.ItemInfo.ItemType == ItemType.ConsumAble || targetItem.ItemInfo.ItemType == ItemType.Other)
                             {
                                 Item clonedItem = targetItem.DeepCopy();
 
@@ -629,7 +629,7 @@ namespace RuthlessMerchant
                                 }
                                 else
                                 {
-                                    targetItem.DestroyInteractivObject();
+                                    targetItem.DestroyInteractiveObject();
                                     //PopulateInventoryPanel();
                                 }
                             }

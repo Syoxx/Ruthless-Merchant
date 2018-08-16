@@ -110,16 +110,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction: 2
-  ItemName: Iron Cap
-  ItemValue:
-  - Count: 1
-  ItemWeight: 1
-  ItemLore: "A silvery mushroom with an enormously hard and rough surface. Only after
-    cooking one can even think about eating it.\r\n"
-  ItemSprite: {fileID: 21300000, guid: b26f78e23d62db84a81f7cffee831f08, type: 3}
-  ItemType: 0
-  ItemRarity: 0
-  MaxStackCount: 20
+  ItemInfo:
+    ItemName: Ironcap
+    ItemValue:
+    - Count: 3
+    ItemWeight: 1
+    ItemLore: A silvery mushroom with an enormously hard and rough surface. Only after
+      cooking one can even think about eating it.
+    ItemSprite: {fileID: 21300000, guid: b26f78e23d62db84a81f7cffee831f08, type: 3}
+    ItemType: 0
+    ItemRarity: 0
+    maxStackCount: 20
   ingredientType: 2
   attackSpeedBuff: 0
   healthBuff: 0

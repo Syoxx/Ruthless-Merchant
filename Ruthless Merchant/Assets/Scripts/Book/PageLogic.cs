@@ -161,7 +161,7 @@ public class PageLogic : MonoBehaviour
                 Player.lastKeyPressed = KeyCode.None;
                 break;
             case KeyCode.R:
-                myBook.CurrentPaper = 17;
+                myBook.CurrentPaper = 16;
                 Player.lastKeyPressed = KeyCode.None;
                 break;
             case KeyCode.Escape:
@@ -331,6 +331,15 @@ public class PageLogic : MonoBehaviour
         if (couritineIsFinished)
         {
             int neededPage = 2;
+            CheckPageLocation(neededPage);
+        }
+    }
+
+    public void OpenSettings()
+    {
+        if (couritineIsFinished)
+        {
+            int neededPage = 20;
             CheckPageLocation(neededPage);
         }
     }

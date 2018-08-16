@@ -182,28 +182,35 @@ namespace RuthlessMerchant
         public override void Update()
         {
             base.Update();
-            Recognize();
-
-            if (currentAction != null)
-                currentAction.Update(Time.deltaTime);
-
-            CheckReactionState();
-
-            if (!Reacting)
+            if (!isDying)
             {
-                ChangeSpeed(SpeedType.Walk);
+                Recognize();
+
+                if (currentAction != null)
+                    currentAction.Update(Time.deltaTime);
+
+                CheckReactionState();
+
+                if (!Reacting)
+                {
+                    ChangeSpeed(SpeedType.Walk);
+                }
+
+                if (agent.remainingDistance <= agent.stoppingDistance)
+                {
+                    agent.isStopped = true;
+                }
             }
-
-            if (agent.remainingDistance <= agent.stoppingDistance)
+            else
             {
-                agent.isStopped = true;
+                SetCurrentAction(null, null, true, true);
             }
         }
 
-        public override void DestroyInteractivObject()
+        public override void DestroyInteractiveObject(float delay = 0)
         {
             NPCCount[faction]--;
-            base.DestroyInteractivObject();
+            base.DestroyInteractiveObject(delay);
         }
 
         private void CheckReactionState()
@@ -404,13 +411,14 @@ namespace RuthlessMerchant
         /// <param name="other">Gameobject which might be useful for the action start</param>
         public void SetCurrentAction(ActionNPC action, GameObject other, bool force = false, bool executeEnd = true)
         {
-            if (force || currentAction == null || currentAction.Priority <= action.Priority)
+            if ((!isDying && (force || currentAction == null || currentAction.Priority <= action.Priority)) || (isDying && action == null))
             {
                 if (currentAction != null)
                     currentAction.EndAction(executeEnd);
 
                 currentAction = action;
-                currentAction.StartAction(this, other);
+                if(currentAction != null)
+                    currentAction.StartAction(this, other);
             }
         }
 
