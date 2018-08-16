@@ -37,7 +37,6 @@ public class MonsterLogic : MonoBehaviour
 
     void Start()
     {
-        tradeIsDone = true;
         //Getting the positions and colliders of needed object
         startPosition = transform.position;
         traderPosition = traderObject.transform.position;
@@ -109,14 +108,32 @@ public class MonsterLogic : MonoBehaviour
     {
         //Animation
         //2 Attacks = Guards dead
-        
-        attackCounter = attackCounter + 1;
+        AttackCoroutine(delegate
+        {
+            float currentTime = 0;
+            float Timer = 1f;
+            while (currentTime < Timer)
+            {
+                currentTime += Time.deltaTime;
+            }
+        });
         Debug.Log(attackCounter);
-        
     }
 
     private void PlayerIsDead()
     {   
-        SceneManager.LoadScene("Islandtesting");
+        SceneManager.LoadScene("Main");
+    }
+
+    private void AttackCoroutine(System.Action action)
+    {
+        AttackCoroutineWithCallback(action);
+    }
+
+    private IEnumerator AttackCoroutineWithCallback(System.Action action)
+    {
+        attackCounter++;
+        yield return null;
+        action.Invoke();
     }
 }
