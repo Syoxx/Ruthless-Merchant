@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -153,7 +154,17 @@ namespace RuthlessMerchant
 
             if (GetCurrentPlayerOffer() != -1)
             {
-                float playerTraderOfferDelta = ((float)nextPlayerOffer - (int)GetCurrentTraderOffer() + ((float)nextPlayerOffer / (int)GetCurrentTraderOffer() - 1)) / 2 / weightsDeltaModifier;
+                float playerTraderOfferDelta = ((float)nextPlayerOffer - (int)GetCurrentTraderOffer());
+                float ratioDelta = (float)nextPlayerOffer / (int)GetCurrentTraderOffer() - 1;
+
+                if (ratioDelta != Double.NaN)
+                {
+                    playerTraderOfferDelta = (playerTraderOfferDelta + ratioDelta) / 2 / weightsDeltaModifier;
+                }
+                else
+                {
+                    playerTraderOfferDelta /= weightsDeltaModifier;
+                }
 
                 if (playerTraderOfferDelta > 0.6f)
                     playerTraderOfferDelta = 0.6f;
