@@ -24,11 +24,11 @@ namespace RuthlessMerchant
             parent.ChangeSpeed(NPC.SpeedType.Walk);
             for (int i = 0; i < 10; i++)
             {
-                Vector3 wanderTarget = parent.transform.position + new Vector3(Random.Range(-2.0f, 2.0f), 0, Random.Range(-2.0f, 2.0f));
+                Vector3 wanderTarget = parent.transform.position + new Vector3(Random.Range(-1.5f, 1.5f), 0, Random.Range(-1.5f, 1.5f));
                 NavMeshPath path = new NavMeshPath();
-                if (agent.CalculatePath(wanderTarget, path) && path.status == UnityEngine.AI.NavMeshPathStatus.PathComplete)
+                if (agent.CalculatePath(wanderTarget, path) && path.status == NavMeshPathStatus.PathComplete)
                 {
-                    parent.AddNewWaypoint(new Waypoint(parent.transform.position + wanderTarget, true, Random.Range(2, 5)), true);
+                    parent.AddNewWaypoint(new Waypoint(wanderTarget, true, Random.Range(1, 3)), true);
                     break;
                 }
             }

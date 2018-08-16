@@ -274,11 +274,11 @@ MonoBehaviour:
     lineCount: 0
     pageCount: 0
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -422,11 +422,11 @@ MonoBehaviour:
     lineCount: 0
     pageCount: 0
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -548,11 +548,11 @@ MonoBehaviour:
     lineCount: 0
     pageCount: 0
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -579,13 +579,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemLocation: 0
   ItemImage: {fileID: 114845786072527564}
-  itemQuantity: {fileID: 114213672321893758}
-  itemName: {fileID: 114447542412285390}
-  itemRarity: {fileID: 114658561128307152}
-  itemDescription: {fileID: 114368597177608800}
-  itemPrice: {fileID: 114814719712741500}
-  itemWeight: {fileID: 0}
-  itemButton: {fileID: 114774909555536340}
+  ItemQuantity: {fileID: 114213672321893758}
+  ItemName: {fileID: 114447542412285390}
+  ItemRarity: {fileID: 114658561128307152}
+  ItemDescription: {fileID: 114368597177608800}
+  ItemPrice: {fileID: 114814719712741500}
+  ItemWeight: {fileID: 0}
+  ItemButton: {fileID: 114774909555536340}
 --- !u!114 &114658561128307152
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -681,11 +681,11 @@ MonoBehaviour:
     lineCount: 0
     pageCount: 0
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -751,12 +751,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: AddItemToSellingList
-        m_Mode: 2
+      - m_Target: {fileID: 114470688378738668}
+        m_MethodName: OnButtonClick
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 114470688378738668}
-          m_ObjectArgumentAssemblyTypeName: InventoryItem, Assembly-CSharp
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
