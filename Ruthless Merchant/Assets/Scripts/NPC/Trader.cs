@@ -204,7 +204,7 @@ namespace RuthlessMerchant
                             Main_SceneManager.LoadSceneAdditively("TradeScene");
                             Player.Singleton.EnterTrading();
                             movingToPosition = false;
-                            Tutorial.Singleton.Monolog(1);
+                            Tutorial.Monolog(1);
                         }
                     }
                 }
@@ -337,13 +337,13 @@ namespace RuthlessMerchant
                 {
                     // Trader accepts
                     trade.UpdateCurrentTraderOffer(currentPlayerOffer);
-                    Tutorial.Singleton.Monolog(4);
+                    Tutorial.Monolog(4);
                 }
                 else
                 {
                     // Trader makes first counteroffer.
                     trade.UpdateCurrentTraderOffer(underLimitReal + (wished[0] - underLimitReal) / wishedAndOfferedRatio[0]);
-                    Tutorial.Singleton.Monolog(3);
+                    Tutorial.Monolog(3);
                 }
             }
         }
@@ -406,7 +406,7 @@ namespace RuthlessMerchant
                 IrritationTotal = IrritationLimit;
                 trade.Abort();
                 Debug.Log("Trader has surpassed his psycho limits.");
-                Tutorial.Singleton.Monolog(7);
+                Tutorial.Monolog(7);
                 return false;
             }
 
@@ -415,7 +415,7 @@ namespace RuthlessMerchant
                 SkepticismTotal = SkepticismLimit;
                 trade.Abort();
                 Debug.Log("Trader has surpassed his psycho limits.");
-                Tutorial.Singleton.Monolog(8);
+                Tutorial.Monolog(8);
                 return false;
             }
 

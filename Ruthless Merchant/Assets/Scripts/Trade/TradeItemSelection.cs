@@ -117,7 +117,7 @@ namespace RuthlessMerchant
                 GameObject.Find("UICanvas").SetActive(false);
                 Player.Singleton.AllowTradingMovement();
                 InventoryItem.MoveItem -= OnItemMoved;
-                Tutorial.Singleton.Monolog(2);
+                Tutorial.Monolog(2);
             }
         }
 

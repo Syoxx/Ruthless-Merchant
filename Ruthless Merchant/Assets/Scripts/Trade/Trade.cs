@@ -77,6 +77,12 @@ namespace RuthlessMerchant
                     Player.Singleton.AllowTradingMovement();
                     Trader.CurrentTrader.GoToPreviousPosition();
                     Trader.CurrentTrader = null;
+
+                    MonsterLogic monsterLogic = FindObjectOfType<MonsterLogic>();
+
+                    if (monsterLogic != null)
+                        monsterLogic.TradeIsDone = true;
+
                     Main_SceneManager.UnLoadScene("TradeScene");
                 }
             }
@@ -276,9 +282,9 @@ namespace RuthlessMerchant
             Exit = true;
 
             if(GetCurrentTraderOffer() >= RealValue)
-                Tutorial.Singleton.Monolog(5);
+                Tutorial.Monolog(5);
             else
-                Tutorial.Singleton.Monolog(6);
+                Tutorial.Monolog(6);
 
             ItemsSold(ItemsToSell);
         }

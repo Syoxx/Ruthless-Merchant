@@ -100,9 +100,10 @@ namespace RuthlessMerchant
             Teleports();
         } 
 
-        public void Monolog(int speechIndex)
+        public static void Monolog(int speechIndex)
         {
-            textMesh.text = MonologSpeech[speechIndex];
+            if(Singleton != null)
+                Singleton.textMesh.text = Singleton.MonologSpeech[speechIndex];
         }
 
         public void OpenSmithDoor()
