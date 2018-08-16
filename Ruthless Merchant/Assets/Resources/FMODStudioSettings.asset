@@ -13,13 +13,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HasSourceProject: 0
   HasPlatforms: 0
-  sourceProjectPath: D:\Ruthless Merchant\FMOD Repository\FMOD-RuthlessMerchant\RuthlessMerchant\RuthlessMerchant.fspro
-  SourceProjectPathUnformatted: D:\Ruthless Merchant\FMOD Repository\FMOD-RuthlessMerchant\RuthlessMerchant\RuthlessMerchant.fspro
-<<<<<<< (Audio)Soundintegration
-  SourceBankPathUnformatted: Assets\StreamingAssets
-=======
+  sourceProjectPath: 
+  SourceProjectPathUnformatted: 
   SourceBankPathUnformatted: Assets\StreamingAssets\Desktop
->>>>>>> local
   AutomaticEventLoading: 1
   AutomaticSampleLoading: 0
   ImportType: 0
@@ -47,9 +43,7 @@ MonoBehaviour:
     Value: 1
   - Platform: 2
     Value: 0
-  BankDirectorySettings:
-  - Platform: 2
-    Value: Desktop
+  BankDirectorySettings: []
   VirtualChannelSettings:
   - Platform: 1
     Value: 1024
@@ -61,5 +55,9 @@ MonoBehaviour:
   - Platform: 2
     Value: 32
   Plugins: []
-  MasterBank: 
-  Banks: []
+  MasterBank: Master Bank
+  Banks:
+  - Ambience
+  - Environment
+  - SFX
+  - Music

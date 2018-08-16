@@ -15,7 +15,7 @@ namespace RuthlessMerchant
         private float initialStepSpeed;
         private string soundToPlay;
         private bool playerismoving;
-        private bool isGrounded;
+        private bool isGrounded, justJumped;
         private bool isCtrlPressed;
         private bool isShiftPressed;
         private FMOD.Studio.EventInstance stepSound;
@@ -24,6 +24,25 @@ namespace RuthlessMerchant
 
         [SerializeField, Tooltip("Enter the Gameobject of this character")]
         public GameObject movingCharacter;
+
+        public bool IsGrounded
+        {
+            get { return isGrounded;  }
+            set
+            {
+                isGrounded = value;
+                if(isGrounded && !justJumped)
+                {
+                    FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Steps/GroundLanding", GetComponent<Transform>().position);
+                    justJumped = true;
+                    Debug.Log("Landed");
+                }
+                if (!isGrounded)
+                {
+                    justJumped = false;
+                }
+            }
+        }
 
 
         void CallFootsteps()
@@ -44,7 +63,7 @@ namespace RuthlessMerchant
 
         void Update()
         {
-            isGrounded = movingCharacter.GetComponent<Player>().IsGrounded;
+            IsGrounded = movingCharacter.GetComponent<Player>().IsGrounded;
 
             if(gameObject.tag == "Player")
             {
@@ -70,6 +89,7 @@ namespace RuthlessMerchant
         {
             if (Input.GetKey(KeyCode.LeftControl) && !isCtrlPressed)
             {
+                Debug.Log("Player crouches");
                 isCtrlPressed = true;
                 CancelInvoke("CallFootsteps");
                 stepSpeed = stepSpeed * 1.5f;
@@ -84,6 +104,7 @@ namespace RuthlessMerchant
             }
             if (Input.GetKey(KeyCode.LeftShift) && !isShiftPressed)
             {
+                Debug.Log("Player sprints");
                 isShiftPressed = true;
                 CancelInvoke("CallFootsteps");
                 stepSpeed = stepSpeed / 1.3f;
