@@ -155,14 +155,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f1b6d10c64b8064da2e4bc0add27cb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  faction: 0
+  faction: 4
   ItemInfo:
     ItemName: 
-    ItemValue: []
-    ItemWeight: 0
-    ItemLore: 
-    ItemSprite: {fileID: 0}
-    ItemType: 0
+    ItemValue:
+    - Count: 6
+    ItemWeight: 1
+    ItemLore: Simple pile of wood. Found almost everywhere.
+    ItemSprite: {fileID: 21300000, guid: fb272db21306ed04abb38487cf8231ea, type: 3}
+    ItemType: 3
     ItemRarity: 0
-    maxStackCount: 0
+    maxStackCount: 20
   materialsType: 0

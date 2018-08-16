@@ -137,16 +137,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f1b6d10c64b8064da2e4bc0add27cb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  faction: 0
+  faction: 4
   ItemInfo:
-    ItemName: 
-    ItemValue: []
-    ItemWeight: 0
-    ItemLore: 
-    ItemSprite: {fileID: 0}
-    ItemType: 0
+    ItemName: Iron
+    ItemValue:
+    - Count: 8
+    ItemWeight: 1
+    ItemLore: Iron found in the mountains. Some think it was created by the Ancestors.
+    ItemSprite: {fileID: 21300000, guid: fa066e296b6c40b4fb79e4fc7cff094e, type: 3}
+    ItemType: 3
     ItemRarity: 0
-    maxStackCount: 0
+    maxStackCount: 20
   materialsType: 1
 --- !u!114 &114749802264329584
 MonoBehaviour:
