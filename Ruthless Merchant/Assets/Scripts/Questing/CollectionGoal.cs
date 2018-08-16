@@ -64,7 +64,7 @@ namespace RuthlessMerchant {
         {
             for (int i = 0; i < collectables.Count; i++)
             {
-                if (collectables[i].material.ItemName == foundMaterial.ItemName)
+                if (collectables[i].material.ItemInfo.ItemName == foundMaterial.ItemInfo.ItemName)
                 {
                     collectables[i].currentAmount++;
                     EvaluateCollectables(i);
@@ -81,7 +81,7 @@ namespace RuthlessMerchant {
             collectables = Collectables;
             Completed = false;
             
-             Materials = GameObject.FindGameObjectsWithTag(collectables[0].material.ItemName);
+             Materials = GameObject.FindGameObjectsWithTag(collectables[0].material.ItemInfo.ItemName);
         }
         void EvaluateCollectables(int index)
         {
@@ -89,7 +89,7 @@ namespace RuthlessMerchant {
             {
                 collectables[index].completed = true;
                 if(index < collectables.Count)
-                    Materials = GameObject.FindGameObjectsWithTag(collectables[index+1].material.ItemName);
+                    Materials = GameObject.FindGameObjectsWithTag(collectables[index+1].material.ItemInfo.ItemName);
             }
             
         }
