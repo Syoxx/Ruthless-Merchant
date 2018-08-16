@@ -1206,48 +1206,6 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 221802357}
---- !u!1 &243383695
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 243383697}
-  - component: {fileID: 243383696}
-  m_Layer: 0
-  m_Name: Inventory
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &243383696
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 243383695}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10f3b86602e35eb4cb4bc42772cb7571, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxSlotCount: 4
-  startinventory: []
---- !u!4 &243383697
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 243383695}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &267940786
 GameObject:
   m_ObjectHideFlags: 0
@@ -4124,12 +4082,12 @@ Prefab:
     - target: {fileID: 224605925442676280, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 176.15
       objectReference: {fileID: 0}
     - target: {fileID: 224605925442676280, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -44.8
       objectReference: {fileID: 0}
     - target: {fileID: 224605925442676280, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
@@ -4149,7 +4107,7 @@ Prefab:
     - target: {fileID: 224605925442676280, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224605925442676280, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
@@ -4159,7 +4117,7 @@ Prefab:
     - target: {fileID: 224605925442676280, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224605925442676280, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
@@ -4254,7 +4212,7 @@ Prefab:
     - target: {fileID: 224179642711637092, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 224781845004828414, guid: 43c57419776cc404fa67067da0d80d7c,
         type: 2}
@@ -4289,6 +4247,46 @@ Prefab:
         type: 2}
       propertyPath: itemLocation
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114368597177608800, guid: 43c57419776cc404fa67067da0d80d7c,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114368597177608800, guid: 43c57419776cc404fa67067da0d80d7c,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114213672321893758, guid: 43c57419776cc404fa67067da0d80d7c,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114213672321893758, guid: 43c57419776cc404fa67067da0d80d7c,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114447542412285390, guid: 43c57419776cc404fa67067da0d80d7c,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114447542412285390, guid: 43c57419776cc404fa67067da0d80d7c,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114658561128307152, guid: 43c57419776cc404fa67067da0d80d7c,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114658561128307152, guid: 43c57419776cc404fa67067da0d80d7c,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 43c57419776cc404fa67067da0d80d7c, type: 2}
@@ -5429,7 +5427,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bookItSelf: {fileID: 0}
+  btn_Notice: {fileID: 0}
+  btn_Journal: {fileID: 0}
+  btn_Inventory: {fileID: 0}
+  btn_Recipes: {fileID: 0}
+  btn_Menu: {fileID: 0}
   InventoryPageList: []
+  RecipePageList: []
   PageList: []
 --- !u!114 &909938524
 MonoBehaviour:
@@ -6501,7 +6505,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1037841338}
   m_OnClick:
     m_PersistentCalls:
@@ -7562,7 +7566,7 @@ Transform:
   - {fileID: 1411813786}
   - {fileID: 1210171744}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1210171739
 GameObject:
@@ -7575,72 +7579,13 @@ GameObject:
   - component: {fileID: 1210171743}
   - component: {fileID: 1210171742}
   - component: {fileID: 1210171741}
-  - component: {fileID: 1210171740}
   m_Layer: 11
-  m_Name: Trader
+  m_Name: TraderCapsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1210171740
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1210171739}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8ac38b87d4ad424b8f93b65b17e51b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  faction: 0
-  baseDamagePerAtk: 75
-  baseAttackDelay: 2
-  baseDefense: 10
-  sneakSpeed: 2
-  walkSpeed: 2
-  runSpeed: 4
-  stickToGroundValue: 0
-  maxJumpHeight: 0
-  maxSlopeAngle: 0
-  rotationSpeed: 8
-  fov: 45
-  viewDistance: 10
-  hearDistance: 5
-  healthRegPerSec: 0
-  capValuePerSecond: 1
-  ActionOutput: 
-  Reacting: 0
-  fleeDistance: 5
-  influenceFraction: 0
-  influenceIndividual: 0
-  influenceWar: 0
-  influenceNeighbours: 0
-  upperLimitPerCent: 0.25
-  underLimitPerCent: 0.35
-  upperLimitBargainPerCent: 9999
-  upperLimitPercentTotal: 0
-  underLimitPercentTotal: 0
-  wished: []
-  upperLimitReal: 0
-  upperLimitBargain: 0
-  underLimitReal: 0
-  realAndOfferedRatio: []
-  wishedAndOfferedRatio: []
-  continueTrade: 1
-  SkepticismTotal: 0
-  SkepticismLimit: 100
-  skepticismStart: 0
-  skepticismStartLimit: 80
-  skepticismDelta: 0
-  skepticismDeltaModifier: 20
-  IrritationTotal: 0
-  IrritationLimit: 100
-  irritationStart: 0
-  irritationStartLimit: 80
-  irritationDelta: 0
-  irritationDeltaModifier: 25
 --- !u!136 &1210171741
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -8331,7 +8276,7 @@ RectTransform:
   - {fileID: 1161895267}
   - {fileID: 2067553549}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -9513,16 +9458,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1411813784}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dde694d547dd3094e86bbb20d3be4a92, type: 3}
+  m_Script: {fileID: 11500000, guid: 0e74a850373db2f47891ca1e490047cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   RealValue: 0
-  PlayerOffers: []
-  TraderOffers: []
-  weightsDeltaModifier: 30
+  weightsDeltaModifier: 250
   nextPlayerOffer: 0
-  defaultValue: 35
-  TradeObjectsParent: {fileID: 1185506952}
   tradeDialogue: {fileID: 193223856}
   valueText: {fileID: 1259693856}
   sliderIrritation: {fileID: 385735954}
@@ -9532,23 +9473,28 @@ MonoBehaviour:
   traderOffer: {fileID: 1535690847}
   nextPlayerOfferText: {fileID: 478846131}
   currentPlayerOfferText: {fileID: 24010827}
-  weightsPlayerParent: {fileID: 1972942410}
-  weightsTraderParent: {fileID: 1361717966}
+  TraderZone: {fileID: 1361717966}
+  PlayerZone: {fileID: 1972942410}
+  TradeObjectsParent: {fileID: 1185506952}
+  defaultValue: 35
+  ItemsToSell: []
+  PlayerOffers: []
+  TraderOffers: []
 --- !u!4 &1411813786
 Transform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1411813784}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.35, y: -0.22, z: 0}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: -0.22, z: 0.35}
   m_LocalScale: {x: 0.22, y: 0.22, z: 0.22}
   m_Children:
   - {fileID: 1972942410}
   - {fileID: 1361717966}
   m_Father: {fileID: 1185506953}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1001 &1471691046
 Prefab:
   m_ObjectHideFlags: 0
@@ -11301,7 +11247,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1699357751
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12004,6 +11950,7 @@ MonoBehaviour:
   sellingItemPrefab: {fileID: 1788957934872482, guid: 43c57419776cc404fa67067da0d80d7c,
     type: 2}
   price: {fileID: 1014098595}
+  StartTradingButton: {fileID: 1037841337}
 --- !u!114 &1778768760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12419,7 +12366,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 100
   m_TargetDisplay: 0
 --- !u!224 &1847388669
 RectTransform:
@@ -12435,7 +12382,7 @@ RectTransform:
   - {fileID: 1699357751}
   - {fileID: 1778768758}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

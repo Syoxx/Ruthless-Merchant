@@ -37,9 +37,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1817298565585132}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 36.295307, y: 25.071754, z: 230.38649}
-  m_LocalScale: {x: 2.057359, y: 2.057359, z: 2.057359}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -81.51066, y: -28.781862, z: -66.089645}
+  m_LocalScale: {x: 2.0573592, y: 2.0573616, z: 2.0573616}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -59,7 +59,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 525b6332892958f46bc9a7facfdb2719, type: 2}
+  - {fileID: 2100000, guid: bed8858e79f8dbf4881e4002400c93a8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -110,16 +110,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction: 2
-  ItemName: Blessing Blossom
-  ItemValue:
-  - Count: 1
-  ItemWeight: 1
-  ItemLore: "This golden-white flower only grows in clear weather and it is then usually
-    harvested in large quantities.\r\n"
-  ItemSprite: {fileID: 21300000, guid: 99eeb06f1b39b1a4bbb807df1a530da5, type: 3}
-  ItemType: 0
-  ItemRarity: 0
-  MaxStackCount: 20
+  ItemInfo:
+    ItemName: 
+    ItemValue: []
+    ItemWeight: 0
+    ItemLore: 
+    ItemSprite: {fileID: 0}
+    ItemType: 0
+    ItemRarity: 0
+    maxStackCount: 0
   ingredientType: 6
   attackSpeedBuff: 0
   healthBuff: 5
