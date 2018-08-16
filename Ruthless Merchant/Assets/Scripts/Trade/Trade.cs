@@ -19,6 +19,10 @@ namespace RuthlessMerchant
         #endif
         public List<float> TraderOffers;
 
+        public delegate void ItemsSoldHandler(List<InventoryItem> item);
+
+        public static event ItemsSoldHandler ItemsSold;
+
         #endregion
 
         #region Private Fields
@@ -276,6 +280,8 @@ namespace RuthlessMerchant
         {
             tradeDialogue.text = "You and Dormammu have a blood-sealing pact. He wishes you a good day and rides off into the sunset.";
             exit = true;
+
+            ItemsSold(ItemsToSell);
         }
 
         /// <summary>
@@ -285,6 +291,11 @@ namespace RuthlessMerchant
         {
             tradeDialogue.text = "Dormammu tells you to fuck off and rides off with his galaxy-eating unicorn.";
             exit = true;
+
+            foreach (InventoryItem item in ItemsToSell)
+            {
+                Inventory.Singleton.Add(item.Slot.ItemInfo, int.Parse(item.ItemQuantity.text.Replace("x", "")), true);
+            }
         }
 
         /// <summary>
@@ -294,6 +305,11 @@ namespace RuthlessMerchant
         {
             tradeDialogue.text = "U quitted coz u a lil chicken.";
             exit = true;
+
+            foreach(InventoryItem item in ItemsToSell)
+            {
+                Inventory.Singleton.Add(item.Slot.ItemInfo, int.Parse(item.ItemQuantity.text.Replace("x","")), true);
+            }
         }
 
         /// <summary>
