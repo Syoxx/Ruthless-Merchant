@@ -8,6 +8,7 @@ namespace RuthlessMerchant {
         [SerializeField]
         private List<CollectionGoal> collectionGoals;
         private List<CollectionGoal> CollectionGoalClones = new List<CollectionGoal>();
+        private bool questingEnabled;
 
         CollectionGoal collectionGoal;
 
@@ -23,6 +24,7 @@ namespace RuthlessMerchant {
             }
         }
 
+
         private void Start()
         {
             collectionGoal = GetComponent<CollectionGoal>();
@@ -34,6 +36,13 @@ namespace RuthlessMerchant {
             if (other.gameObject.CompareTag("NPC"))
             {
                 collectionGoal = other.gameObject.GetComponent<CollectionGoal>();
+
+
+
+
+
+
+
 
                 if (Input.GetKeyDown(KeyCode.Alpha1))
                 {
@@ -56,10 +65,27 @@ namespace RuthlessMerchant {
                 }
             }
         }
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.CompareTag("Player"))
+                questingEnabled = true;
+        }
         private void Update()
         {
 
         }
-
+        public void AssignQuest(int index)
+        {
+            if (questingEnabled)
+            {
+                List<Collectables> tempCollectables = new List<Collectables>();
+                for (int i = 0; i < collectionGoals[index].collectables.Count; i++)
+                {
+                    tempCollectables.Add(collectionGoals[index].collectables[i].Clone());
+                }
+                collectionGoal.FillList(tempCollectables);
+                collectionGoal.CalcNextWaypoint();
+            }
+        }
     }
 }
