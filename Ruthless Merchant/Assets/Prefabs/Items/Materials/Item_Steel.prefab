@@ -111,16 +111,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f1b6d10c64b8064da2e4bc0add27cb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  faction: 0
-  ItemName: Steel
-  ItemValue:
-  - Count: 1
-  ItemWeight: 1
-  ItemLore: A piece of steel.
-  ItemSprite: {fileID: 21300000, guid: d9bd3364ff2618342bf2da0bb89bf19a, type: 3}
-  ItemType: 3
-  ItemRarity: 0
-  MaxStackCount: 20
+  faction: 4
+  ItemInfo:
+    ItemName: Steel
+    ItemValue:
+    - Count: 18
+    ItemWeight: 1
+    ItemLore: Special metal that can be used to forge stronger weapons.
+    ItemSprite: {fileID: 21300000, guid: d9bd3364ff2618342bf2da0bb89bf19a, type: 3}
+    ItemType: 3
+    ItemRarity: 1
+    maxStackCount: 20
   materialsType: 2
 --- !u!114 &114792276441560306
 MonoBehaviour:
