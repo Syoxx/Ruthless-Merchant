@@ -260,7 +260,7 @@ namespace RuthlessMerchant
         private void HealthSystem_OnDeath(object sender, System.EventArgs e)
         {
             isDying = true;
-            DestroyInteractivObject(5.0f);
+            DestroyInteractiveObject(5.0f);
         }
 
         public void Attack(Character character)

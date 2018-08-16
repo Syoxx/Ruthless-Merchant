@@ -629,7 +629,7 @@ namespace RuthlessMerchant
                                 }
                                 else
                                 {
-                                    targetItem.DestroyInteractivObject();
+                                    targetItem.DestroyInteractiveObject();
                                     //PopulateInventoryPanel();
                                 }
                             }
