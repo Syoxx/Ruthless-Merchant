@@ -733,9 +733,10 @@ namespace RuthlessMerchant
             bookLogic.GoToPage(KeyCode.I);
         }
 
-        public void StartTrading()
+        public void AllowTradingMovement()
         {
             restrictCamera = false;
+            restrictMovement = false;
             bookCanvas.SetActive(false);
         }
 

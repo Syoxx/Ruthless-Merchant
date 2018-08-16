@@ -164,6 +164,13 @@ namespace RuthlessMerchant
 
         float timerLimit = 1;
 
+        bool movingToPosition = false;
+
+        Vector3 startPosition;
+        Vector3 tradePosition;
+
+        float lerpT = 0;
+
         #region MonoBehaviour cycle
 
         public override void Start()
@@ -171,6 +178,55 @@ namespace RuthlessMerchant
         }
 
         public override void Update()
+        {
+            UpdatePlacement();
+            UpdatePsychoCoolff();
+        }
+
+        #endregion
+
+        void UpdatePlacement()
+        {
+            if (movingToPosition)
+            {
+                if (tradePosition == Vector3.zero)
+                {
+                    Vector3 movement = (transform.position - Player.Singleton.transform.position).normalized;
+
+                    transform.position += Time.deltaTime * new Vector3(movement.x, 0, movement.z);
+
+                    if (Vector3.Distance(transform.position, Player.Singleton.transform.position) > 0.7f)
+                    {
+                        if (TradeAbstract.Singleton == null)
+                        {
+                            Position = gameObject.transform.position;
+                            InventoryItem.Behaviour = InventoryItem.ItemBehaviour.Move;
+                            Main_SceneManager.LoadSceneAdditively("TradeScene");
+                            Player.Singleton.EnterTrading();
+                            movingToPosition = false;
+                        }
+                    }
+                }
+                else
+                {
+                    lerpT += Time.deltaTime;
+
+                    if (lerpT > 1)
+                    {
+                        movingToPosition = false;
+                        transform.position = Vector3.Lerp(tradePosition, startPosition, 1);
+                        tradePosition = Vector3.zero;
+                        lerpT = 0;
+                    }
+                    else
+                    {
+                        transform.position = Vector3.Lerp(tradePosition, startPosition, lerpT);
+                    }
+                }
+            }
+        }
+
+        void UpdatePsychoCoolff()
         {
             if (CurrentTrader != this)
             {
@@ -194,8 +250,6 @@ namespace RuthlessMerchant
                 }
             }
         }
-
-        #endregion
 
         /// <summary>
         /// Sets the initial trading variables.
@@ -221,6 +275,7 @@ namespace RuthlessMerchant
             else
             {
                 trade.Abort();
+                Debug.Log("Trader does not want to start Trading!");
             }
         }
 
@@ -302,6 +357,7 @@ namespace RuthlessMerchant
 
             if (!continueTrade)
             {
+                Debug.Log("Trader does not want to continue Trade!");
                 trade.Abort();
                 return;
             }
@@ -347,6 +403,7 @@ namespace RuthlessMerchant
                 IrritationTotal = IrritationLimit;
                 SkepticismTotal = SkepticismLimit;
                 trade.Abort();
+                Debug.Log("Trader has surpassed his psycho limits.");
                 return false;
             }
 
@@ -359,13 +416,28 @@ namespace RuthlessMerchant
         /// <param name="caller"></param>
         public override void Interact(GameObject caller)
         {
-            if (TradeAbstract.Singleton == null)
+            if (!WantsToStartTrading())
             {
-                CurrentTrader = this;
-                Position = gameObject.transform.position;
-                InventoryItem.Behaviour = InventoryItem.ItemBehaviour.Move;
-                Main_SceneManager.LoadSceneAdditively("TradeScene");
+                //TradeAbstract.Singleton.TradeDialogue.text = "Nu-uh I'm not trading with ya.";
+                //TradeAbstract.Singleton.Exit = true;
+                //Player.RestrictCamera = false;
+                //CurrentTrader = null;
+                //GameObject.Find("UICanvas").SetActive(false);
+
+                Debug.Log("Trader is pissed, doesn't want to trade with you.");
             }
+            else
+            {
+                movingToPosition = true;
+                startPosition = transform.position;
+                CurrentTrader = this;
+            }
+        }
+
+        public void GoToPreviousPosition()
+        {
+            movingToPosition = true;
+            tradePosition = transform.position;
         }
 
         /// <summary>

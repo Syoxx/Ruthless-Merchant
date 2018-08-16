@@ -172,11 +172,11 @@ namespace RuthlessMerchant
                     playerTraderOfferDelta /= weightsDeltaModifier;
                 }
 
-                if (playerTraderOfferDelta > 0.6f)
-                    playerTraderOfferDelta = 0.6f;
+                if (playerTraderOfferDelta > 0.2f)
+                    playerTraderOfferDelta = 0.2f;
 
-                else if (playerTraderOfferDelta < -0.6f)
-                    playerTraderOfferDelta = -0.6f;
+                else if (playerTraderOfferDelta < -0.2f)
+                    playerTraderOfferDelta = -0.2f;
 
                 if(GetCurrentTraderOffer() == 0)
                     playerTraderOfferDelta = 0;

@@ -74,6 +74,9 @@ namespace RuthlessMerchant
                 {
                     Cursor.visible = false;
                     Singleton = null;
+                    Player.Singleton.AllowTradingMovement();
+                    Trader.CurrentTrader.GoToPreviousPosition();
+                    Trader.CurrentTrader = null;
                     Main_SceneManager.UnLoadScene("TradeScene");
                 }
             }
@@ -295,6 +298,8 @@ namespace RuthlessMerchant
         public override void Quit()
         {
             TradeDialogue.text = "U quitted coz u a lil chicken.";
+            Player.RestrictCamera = false;
+            Cursor.visible = false;
             Exit = true;
 
             foreach(InventoryItem item in ItemsToSell)
