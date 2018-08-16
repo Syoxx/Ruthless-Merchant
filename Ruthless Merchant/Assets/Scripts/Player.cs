@@ -165,6 +165,11 @@ namespace RuthlessMerchant
             }
         }
         
+        public bool HasJumped
+        {
+            get { return hasJumped; }
+            set { hasJumped = value; }
+        }
 
         public override void Start()
         {
