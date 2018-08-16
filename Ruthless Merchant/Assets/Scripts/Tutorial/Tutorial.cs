@@ -8,20 +8,44 @@ namespace RuthlessMerchant
 {
     public class Tutorial : MonoBehaviour
     {
-        [SerializeField] private Item ironSword;
-        [SerializeField] private GameObject teleportCaveUp;
-        [SerializeField] private GameObject caveEnter;
-        [SerializeField] private GameObject PlayerObject;
-        [SerializeField] private GameObject exitOutOfCaveObject;
-        [SerializeField] private GameObject smithEnterObject;
-        [SerializeField] private GameObject smithExit;
-        [SerializeField] private TextMeshProUGUI textMesh;
+
+        [SerializeField]
+        [Tooltip("Drag IronSword Prefab there")]
+        private Item ironSword;
+        [SerializeField]
+        [Tooltip("Drag teleportCaveUp from Tutorial there")]
+        private GameObject teleportCaveUp;
+        [SerializeField]
+        [Tooltip("Drag Enter from Tutorial there")]
+        private GameObject caveEnter;
+        [SerializeField]
+        [Tooltip("Drag Player there")]
+        private GameObject PlayerObject;
+        [SerializeField]
+        [Tooltip("Drag ExitOutOfCave from Tutorial there")]
+        private GameObject exitOutOfCaveObject;
+        [SerializeField]
+        [Tooltip("Drag SmithTeleport from Tutorial there")]
+        private GameObject smithEnterObject;
+        [SerializeField]
+        [Tooltip("Drag SmithExit from Tutorial there")]
+        private GameObject smithExit;
+        [SerializeField]
+        [Tooltip("Drag Textmesh from Tutorial/Subtitle there")]
+        private TextMeshProUGUI textMesh;
+
         private Collider playerCollider, teleportUpCollider, exitOutOfCaveCollider;
-        [SerializeField] private Image myFade;
+        [SerializeField]
+        [Tooltip("Drag FadeImage there")]
+        private Image myFade;
 
         //Dialogue Trigger Zones
-        [SerializeField] private GameObject dialogueZone11;
-        [SerializeField] private GameObject TutorialObject;
+        [SerializeField]
+        [Tooltip("Drag 10_TriggerZone from Tutorial there")]
+        private GameObject dialogueZone10;
+        [SerializeField]
+        [Tooltip("Drag Tutorial there")]
+        private GameObject TutorialObject;
 
         //Dialogue colliders
         private Collider dialogueZone11Collider;
@@ -56,7 +80,7 @@ namespace RuthlessMerchant
             exitOutOfCaveCollider = exitOutOfCaveObject.GetComponent<Collider>();
 
             // Dialogues
-            dialogueZone11Collider = dialogueZone11.GetComponent<Collider>();
+            dialogueZone11Collider = dialogueZone10.GetComponent<Collider>();
 
 
             Player.Singleton.Inventory.Add(ironSword, 5, true);

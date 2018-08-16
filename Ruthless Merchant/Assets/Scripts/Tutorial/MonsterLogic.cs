@@ -26,13 +26,20 @@ public class MonsterLogic : MonoBehaviour
     private int attackCounter = 0;
 
 
-    [SerializeField] private GameObject traderObject;
-    [SerializeField] private GameObject playerObject;
-    [SerializeField] private GameObject triggerZoneObject;
+    [SerializeField]
+    [Tooltip("Drag Trader from Tutorial there")]
+    private GameObject traderObject;
+    [SerializeField]
+    [Tooltip("Drag Player there")]
+    private GameObject playerObject;
+    [SerializeField]
+    [Tooltip("Drag DeathTriggerZone from Tutorial there")]
+    private GameObject triggerZoneObject;
 
 
 
     //Speed for Monster
+    [Tooltip("Adjust speed of the Monster")]
     [SerializeField] private float speed;
 
     void Start()
@@ -61,7 +68,6 @@ public class MonsterLogic : MonoBehaviour
         //Player trying to leave the zone, he is dead
         if (playerCollider.bounds.Intersects(triggerZoneCollider.bounds))
         {
-            Attack();
             PlayerIsDead();
         }
     }
@@ -108,32 +114,13 @@ public class MonsterLogic : MonoBehaviour
     {
         //Animation
         //2 Attacks = Guards dead
-        AttackCoroutine(delegate
-        {
-            float currentTime = 0;
-            float Timer = 1f;
-            while (currentTime < Timer)
-            {
-                currentTime += Time.deltaTime;
-            }
-        });
+        //
+        attackCounter = attackCounter + 1;
         Debug.Log(attackCounter);
     }
 
     private void PlayerIsDead()
     {   
         SceneManager.LoadScene("Main");
-    }
-
-    private void AttackCoroutine(System.Action action)
-    {
-        AttackCoroutineWithCallback(action);
-    }
-
-    private IEnumerator AttackCoroutineWithCallback(System.Action action)
-    {
-        attackCounter++;
-        yield return null;
-        action.Invoke();
     }
 }
