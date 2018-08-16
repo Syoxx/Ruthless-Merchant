@@ -410,6 +410,9 @@ namespace RuthlessMerchant
         {
             if (Input.GetKeyDown(KeyCode.M) && !isOutpostDialogActive)
             {
+                //Sound - Open/Close Book
+                FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Player/Book/Open Book", GameObject.FindGameObjectWithTag("Player").transform.position);
+
                 bool isUI_Inactive = (mapObject.activeSelf == false);
 
                 if (bookCanvas.activeSelf)
