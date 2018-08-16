@@ -417,7 +417,8 @@ namespace RuthlessMerchant
                     currentAction.EndAction(executeEnd);
 
                 currentAction = action;
-                currentAction.StartAction(this, other);
+                if(currentAction != null)
+                    currentAction.StartAction(this, other);
             }
         }
 
