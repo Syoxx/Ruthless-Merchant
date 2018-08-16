@@ -31,6 +31,10 @@ namespace RuthlessMerchant {
                         Debug.Log("Added " + recipes.GetRecipes()[i].ListOfMaterials[j].Item);
                     }
                     inventory.Remove(BreakableItem, 1, true);
+
+                    //Sound - hammer
+                    FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Player/Forging/hammer", GameObject.FindGameObjectWithTag("Player").transform.position);
+
                     break;
                 }         
             }

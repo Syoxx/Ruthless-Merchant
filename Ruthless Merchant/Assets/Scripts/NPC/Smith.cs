@@ -67,6 +67,10 @@ namespace RuthlessMerchant
                     inventory.Remove(recipes.GetRecipes()[index].ListOfMaterials[i].Item, recipes.GetRecipes()[index].ListOfMaterials[i].Count, false);
                 }
                 inventory.Add(recipes.GetRecipes()[index].Result, 1, true);
+
+                //Sound - OpenForge
+                FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Player/Forging/OpenForge", GameObject.FindGameObjectWithTag("Player").transform.position);
+
                 return true;
             }
             return false;
