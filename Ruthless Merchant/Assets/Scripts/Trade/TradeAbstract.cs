@@ -172,6 +172,9 @@ namespace RuthlessMerchant
                 else if (playerTraderOfferDelta < -0.6f)
                     playerTraderOfferDelta = -0.6f;
 
+                if(GetCurrentTraderOffer() == 0)
+                    playerTraderOfferDelta = 0;
+
                 Vector3 playerDelta = new Vector3(0, -PlayerZone.position.y + NeutralPositionY - playerTraderOfferDelta, 0);
                 Vector3 traderDelta = new Vector3(0, -TraderZone.position.y + NeutralPositionY + playerTraderOfferDelta, 0);
 

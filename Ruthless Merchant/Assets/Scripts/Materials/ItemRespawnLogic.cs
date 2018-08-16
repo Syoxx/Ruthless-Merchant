@@ -13,9 +13,9 @@ namespace RuthlessMerchant
         [Tooltip("Place desired Prefab here")]
         private GameObject itemToSpawn;
 
-        [Header("Number of Items which are simultaneously spawned")]
+        [Header("Number of Locations which should be empty")]
         [SerializeField]
-        private int maxNrOfItems;
+        private int nrOfEmptyLocations = 10;
 
         [Header("Time between Respawns in Seconds")]
         [SerializeField]
@@ -35,6 +35,7 @@ namespace RuthlessMerchant
         private int currentlyActiveItems;
         private List<GameObject> emptySpawners = new List<GameObject>();
         private GameObject[] spawnLocations;
+        private int maxNrOfItems;
         #endregion
 
         #region Gameplay Loop
@@ -43,8 +44,9 @@ namespace RuthlessMerchant
         /// Gets all SpawnLocations associated with the Item by predefined Tag
         /// </summary>
         void Start() {
-            currentTimer = respawnTime;
+            currentTimer = 0; //RespawnTime statt 0 (Gregor von Frankenberg)
             spawnLocations = GameObject.FindGameObjectsWithTag(spawnLocationsTag);
+            maxNrOfItems = spawnLocations.Length - nrOfEmptyLocations;
         }
 
         /// <summary>
