@@ -207,10 +207,10 @@ namespace RuthlessMerchant
             }
         }
 
-        public override void DestroyInteractivObject()
+        public override void DestroyInteractiveObject(float delay = 0)
         {
             NPCCount[faction]--;
-            base.DestroyInteractivObject();
+            base.DestroyInteractiveObject(delay);
         }
 
         private void CheckReactionState()
