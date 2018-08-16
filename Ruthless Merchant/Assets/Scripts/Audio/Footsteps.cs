@@ -37,7 +37,6 @@ namespace RuthlessMerchant
                 {
                     //FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Steps/GroundLanding", GetComponent<Transform>().position);
                     justJumped = true;
-                    Debug.Log("Landed");
                 }
                 if (!isGrounded)
                 {
@@ -73,11 +72,11 @@ namespace RuthlessMerchant
                 checkMovementStatus();
             }
 
-            if( characterRb.velocity.x > 0.1f || characterRb.velocity.y > 0.1f || characterRb.velocity.z > 0.1f)
+            if( characterRb.velocity.x > 0.05f || characterRb.velocity.y > 0.05f || characterRb.velocity.z > 0.05f)
             {
                 playerismoving = true;
             }
-            else if (characterRb.velocity.x <= 0.1f || characterRb.velocity.y <= 0.1f)
+            else if (characterRb.velocity.x <= 0.05f || characterRb.velocity.y <= 0.05f)
             {
                 playerismoving = false;
             }
