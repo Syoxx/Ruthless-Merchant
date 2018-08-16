@@ -60,6 +60,7 @@ namespace RuthlessMerchant {
                 RequiredAmount += collectables[i].requiredAmount;
             }
         }
+
         public void CollectableFound(Material foundMaterial)
         {
             for (int i = 0; i < collectables.Count; i++)
@@ -83,16 +84,18 @@ namespace RuthlessMerchant {
             
              Materials = GameObject.FindGameObjectsWithTag(collectables[0].material.ItemName);
         }
+
         void EvaluateCollectables(int index)
         {
             if (collectables[index].currentAmount >= collectables[index].requiredAmount)
             {
                 collectables[index].completed = true;
-                if(index < collectables.Count)
+                if(index+1 < collectables.Count)
                     Materials = GameObject.FindGameObjectsWithTag(collectables[index+1].material.ItemName);
             }
             
         }
+
         bool EvaluateGoal()
         {
             for (int i = 0; i < collectables.Count; i++)
@@ -125,7 +128,6 @@ namespace RuthlessMerchant {
 
             if (gobj != null && hero != null)
             {
-
                 if (!(hero.CurrentAction is ActionAttack))
                     Hero.SetCurrentAction(new ActionCollect(this, ActionNPC.ActionPriority.Medium), gobj, true, true);
             }
