@@ -156,6 +156,11 @@ namespace RuthlessMerchant
             }
         }
 
+        public bool JustJumped
+        {
+            get { return justJumped; }
+        }
+
         public StaminaController StaminaController
         {
             get
