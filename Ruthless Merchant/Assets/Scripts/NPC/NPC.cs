@@ -12,7 +12,7 @@ namespace RuthlessMerchant
 {
     public abstract class NPC : Character
     {
-        public static int MaxNPCCountPerFaction = 30;
+        public static int MaxNPCCountPerFaction = 100;
         public static Dictionary<Faction, int> NPCCount = new Dictionary<Faction, int>()
         {
             { Faction.Freidenker, 0 },

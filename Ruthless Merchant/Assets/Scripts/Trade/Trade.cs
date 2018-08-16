@@ -19,9 +19,19 @@ namespace RuthlessMerchant
         #endif
         public List<float> TraderOffers;
 
-        public delegate void ItemsSoldHandler(List<InventoryItem> item);
+        public static event EventHandler<TradeArgs> ItemsSold;
 
-        public static event ItemsSoldHandler ItemsSold;
+        public class TradeArgs : EventArgs
+        {
+            public List<InventoryItem> Items;
+            public Trader Trader;
+
+            public TradeArgs(List<InventoryItem> items, Trader trader)
+            {
+                Items = items;
+                Trader = trader;
+            }
+        }
 
         #endregion
 
@@ -286,7 +296,8 @@ namespace RuthlessMerchant
             else
                 Tutorial.Monolog(6);
 
-            ItemsSold(ItemsToSell);
+            if (ItemsSold != null)
+                ItemsSold.Invoke(this, new TradeArgs(ItemsToSell, Trader.CurrentTrader));
         }
 
         /// <summary>

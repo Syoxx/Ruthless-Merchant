@@ -57,9 +57,9 @@ namespace RuthlessMerchant
         private float healthRegValue = 0.0f;
 
         private float elapsedAttackTime = 2;
-        private Weapon weapon;
-        private Weapon shield;
-        private Potion potion;
+        protected Weapon weapon;
+        protected Weapon shield;
+        protected Potion potion;
 
         public Weapon Weapon
         {
