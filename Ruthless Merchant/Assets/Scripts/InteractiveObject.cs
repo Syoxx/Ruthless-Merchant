@@ -67,7 +67,7 @@ namespace RuthlessMerchant
             }
         }
 
-        public virtual void DestroyInteractivObject(float delay = 0)
+        public virtual void DestroyInteractiveObject(float delay = 0)
         {
             Destroy(gameObject, delay);
         }
