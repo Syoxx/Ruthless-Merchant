@@ -11,6 +11,7 @@ namespace RuthlessMerchant
     public class Hero : Warrior
     {
         private QuestItem quest;
+        public int Level = 1;
 
         public CaptureTrigger Outpost;
 

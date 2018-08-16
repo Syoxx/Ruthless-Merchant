@@ -61,9 +61,6 @@ namespace RuthlessMerchant
         protected int hearDistance = 5;
 
         [Header("NPC Settings")]
-        [SerializeField, Range(0, 50.0f), Tooltip("Health Regneration per second")]
-        private float healthRegPerSec = 0;
-        private float healthRegValue = 0.0f;
 
         [SerializeField, Range(0, 100), Tooltip("Capturing value per second")]
         protected int capValuePerSecond = 1;
@@ -166,13 +163,15 @@ namespace RuthlessMerchant
             if (waypoints == null)
                 waypoints = new List<Waypoint>();
 
-            GameObject seeObject = transform.GetChild(1).gameObject;
+            GameObject seeObject = transform.GetChild(4).gameObject;
 
             SphereCollider seeCollider = seeObject.GetComponent<SphereCollider>();
             seeCollider.radius = viewDistance;
 
             agent = GetComponent<NavMeshAgent>();
             agent.autoBraking = false;
+            if (agent.stoppingDistance == 0)
+                agent.stoppingDistance = 1;
 
             ChangeSpeed(SpeedType.Walk);
 
@@ -184,7 +183,6 @@ namespace RuthlessMerchant
         {
             base.Update();
             Recognize();
-            Regeneration();
 
             if (currentAction != null)
                 currentAction.Update(Time.deltaTime);
@@ -196,7 +194,7 @@ namespace RuthlessMerchant
                 ChangeSpeed(SpeedType.Walk);
             }
 
-            if (agent.remainingDistance <= agent.baseOffset || agent.remainingDistance <= agent.stoppingDistance)
+            if (agent.remainingDistance <= agent.stoppingDistance)
             {
                 agent.isStopped = true;
             }
@@ -206,20 +204,6 @@ namespace RuthlessMerchant
         {
             NPCCount[faction]--;
             base.DestroyInteractivObject();
-        }
-
-        private void Regeneration()
-        {
-            if (healthRegPerSec > 0)
-            {
-                healthRegValue += healthRegPerSec * Time.deltaTime;
-                if (healthRegValue > 1.0f)
-                {
-                    int addValue = (int)Math.Floor(healthRegValue);
-                    healthRegValue -= addValue;
-                    HealthSystem.ChangeHealth(addValue, this);
-                }
-            }
         }
 
         private void CheckReactionState()
@@ -613,6 +597,9 @@ namespace RuthlessMerchant
         /// <param name="other">Collider of gameobject</param>
         public void OnEnterViewArea(Collider other)
         {
+            if (possibleSeenObjects == null)
+                possibleSeenObjects = new List<GameObject>();
+            
             possibleSeenObjects.Add(other.gameObject);
         }
 
@@ -622,6 +609,9 @@ namespace RuthlessMerchant
         /// <param name="other">Collider of gameobject</param>
         public void OnExitViewArea(Collider other)
         {
+            if (possibleSeenObjects == null)
+                possibleSeenObjects = new List<GameObject>();
+
             possibleSeenObjects.Remove(other.gameObject);
         }
         #endregion

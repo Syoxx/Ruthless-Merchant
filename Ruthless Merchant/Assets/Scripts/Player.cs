@@ -548,12 +548,20 @@ namespace RuthlessMerchant
                     gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
                 }
 
-                horizontal = Input.GetAxis("Horizontal");
-                vertical = Input.GetAxis("Vertical");
+                if (Input.GetKey(KeyCode.W))
+                    vertical = 1;
+                else if (Input.GetKey(KeyCode.S))
+                    vertical = -1;
+                if (Input.GetKey(KeyCode.D))
+                    horizontal = 1;
+                else if (Input.GetKey(KeyCode.A))
+                    horizontal = -1;
+                //horizontal = Input.GetAxis("Horizontal");
+                //vertical = Input.GetAxis("Vertical");
             }
             else
             {
-                gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+                //gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
             }
 
             InputVector = new Vector2(horizontal, vertical);

@@ -4,35 +4,50 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Path1
-  - NpcRecTrigger
-  - World
-  - NPC
-  - Item
-  - InteractiveObject
-  - Teleport
-  - Path2
-  - CaptureTrigger
-  - Path3
-  - Book_Inventory
-  - Book_FrontCover
-  - Book_Title
-  - Book_Notice
-  - Book_Journal
-  - Book_Recipes
-  - Book_Menu
-  - Book_BackCover
-  - Flag
-  - Weight
-  - Weenie_environment
-  - Iron
-  - MenuObject
+  - ground
+  - Crate
+  - Enemy
+  - Wall
+  - Obstacle
+  - Bullet
+  - BombPickup
+  - ExplosionFX
+  - HealthBar
   - Rendering
-  - FadeCanvas
+  - Book_Recipes
   - RespawnPoint
   - RespawnTrigger
+  - Book_Journal
+  - Book_BackCover
+  - Book_Inventory
+  - Book_Notice
+  - Book_Menu
+  - Book_FrontCover
+  - Weenie_environment
+  - Book_Title
+  - NPC
+  - Iron
   - Steel
   - Wood
+  - NpcRecTrigger
+  - World
+  - CaptureTrigger
+  - Flag
+  - Item
+  - FadeCanvas
+  - FadeImage
+  - SpawnLocationWood
+  - SpawnLocationIron
+  - SpawnLocationCreakyTuber
+  - SpawnLocationBlessingblossom
+  - SpawnLocationWindfern
+  - SpawnLocationVipershroom
+  - SpawnLocationBrightstone
+  - SpawnLocationGravemoss
+  - SpawnLocationNastyThornling
+  - SpawnLocationAncientChunk
+  - SpawnLocationSwordgrass
+  - SpawnLocationIronCap
   layers:
   - Default
   - TransparentFX
@@ -42,8 +57,15 @@ TagManager:
   - UI
   - 
   - 
-  - PostProcessing
+  - Bombs
   - Player
+  - Enemies
+  - Pickups
+  - Ground
+  - Lightmap Test Unity
+  - Lightmap Test SF
+  - NPC
+  - NPCSee
   - Terrain
   - Trade
   - NoRenderingEditorOnly
@@ -63,10 +85,22 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Default
+    uniqueID: 3363470833
+    locked: 0
+  - name: Background
+    uniqueID: 1535931219
+    locked: 0
+  - name: Character
+    uniqueID: 2511236001
+    locked: 0
+  - name: Foreground
+    uniqueID: 1024582385
+    locked: 0
+  - name: UI
+    uniqueID: 149272721
     locked: 0

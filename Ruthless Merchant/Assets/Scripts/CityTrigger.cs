@@ -7,8 +7,19 @@ namespace RuthlessMerchant
     {
         private ObjectSpawner spawner;
 
+       
+        [Header("Hero spawn settings")]
         [SerializeField]
         private Transform HeroPrefab;
+
+        [SerializeField, Range(1, 100)]
+        private int startLevel = 1;
+
+        [SerializeField, Range(1, 100)]
+        private int maxLevel = 10;
+
+        private int spawnedHeros = 0;
+        private int currentLevel = 1;
 
         protected override void Start()
         {
@@ -48,6 +59,23 @@ namespace RuthlessMerchant
                     Transform newHero = spawner.ForceSpawn(HeroPrefab);
                     Hero heroScript = newHero.GetComponent<Hero>();
                     outpost.Hero = heroScript;
+                    heroScript.Level = currentLevel;
+                    TryIncreaseLevel();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Tries to increase the spawn level of heros
+        /// </summary>
+        private void TryIncreaseLevel()
+        {
+            if (currentLevel < maxLevel)
+            {
+                if (++spawnedHeros == currentLevel)
+                {
+                    currentLevel++;
+                    spawnedHeros = 0;
                 }
             }
         }

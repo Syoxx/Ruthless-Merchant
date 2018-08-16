@@ -8,8 +8,7 @@ namespace RuthlessMerchant
     {
         #region Fields ##################################################################
 
-        AlchemySlot[] alchemySlots;
-
+        private AlchemySlot[] alchemySlots;
         #endregion
 
 
@@ -32,43 +31,48 @@ namespace RuthlessMerchant
 
         public override void Interact(GameObject caller)
         {
-            int atk = 0;
+            float atk = 0;
             int def = 0;
-            int speed = 0;
-            int hp = 0;
+            float speed = 0;
+            float hp = 0;
+            int reg = 0;
+
+            int atkCount = 0;
+            int defCount = 0;
+            int speedCount = 0;
+            int hpCount = 0;
 
             bool hasItem = false;
             for(int i = 0; i < alchemySlots.Length; i++)
             {
                 if(alchemySlots[i].Ingredient)
                 {
-                    switch(alchemySlots[i].Ingredient.IngredientType)
-                    {
-                        case IngredientType.Schwertgras:
-                            atk++;
-                            break;
-                        case IngredientType.Stichelpilz:
-                            atk--;
-                            break;
-                        case IngredientType.SteinernderRuestling:
-                            def++;
-                            break;
-                        case IngredientType.GemeinerDornling:
-                            def--;
-                            break;
-                        case IngredientType.Windfarn:
-                            speed++;
-                            break;
-                        case IngredientType.KnarzigeKnolle:
-                            speed--;
-                            break;
-                        case IngredientType.Segensblüte:
-                            hp++;
-                            break;
-                        case IngredientType.Grabesmoos:
-                            hp--;
-                            break;
-                    }
+                    atk += alchemySlots[i].Ingredient.AttackSpeedBuff;
+                    def += alchemySlots[i].Ingredient.DefenseBuff;
+                    hp += alchemySlots[i].Ingredient.HealthBuff;
+                    speed += alchemySlots[i].Ingredient.MovementBuff;
+                    reg += alchemySlots[i].Ingredient.RegenerationBuff;
+
+                    if (alchemySlots[i].Ingredient.AttackSpeedBuff > 0)
+                        atkCount++;
+                    else if(alchemySlots[i].Ingredient.AttackSpeedBuff < 0)
+                        atkCount--;
+
+                    if (alchemySlots[i].Ingredient.HealthBuff > 0)
+                        hpCount++;
+                    else if (alchemySlots[i].Ingredient.HealthBuff < 0)
+                        hpCount--;
+
+                    if (alchemySlots[i].Ingredient.MovementBuff > 0)
+                        speedCount++;
+                    else if (alchemySlots[i].Ingredient.MovementBuff < 0)
+                        speedCount--;
+
+                    if (alchemySlots[i].Ingredient.DefenseBuff > 0)
+                        defCount++;
+                    else if (alchemySlots[i].Ingredient.DefenseBuff < 0)
+                        defCount--;
+
                     hasItem = true;
                     alchemySlots[i].ClearItem();
                 }
@@ -78,13 +82,13 @@ namespace RuthlessMerchant
                 return;
             }
 
-            string itemName = PotionName(atk, def, speed, hp);
+            string itemName = PotionName(atkCount, defCount, speedCount, hpCount);
 
             Potion potion = new GameObject(itemName).AddComponent<Potion>();
-            potion.CreatePotion(atk, def, speed, hp);
+            potion.CreatePotion(atk, def, speed, hp, reg);
             potion.ItemName = itemName;
             potion.ItemType = ItemType.ConsumAble;
-            potion.ItemRarity = Rarity(atk, def, speed, hp);
+            potion.ItemRarity = Rarity(atkCount, defCount, speedCount, hpCount);
 
             Player p = caller.GetComponent<Player>();
             p.Inventory.Add(potion.DeepCopy(), 1, true);
