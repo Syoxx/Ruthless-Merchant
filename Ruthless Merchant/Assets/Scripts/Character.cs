@@ -23,6 +23,7 @@ namespace RuthlessMerchant
         private float groundedSkin = 0.05f;
         private bool grounded;
         private bool justJumped;
+        protected bool isDying = false;
         private RaycastHit rayHit;
         bool is_climbable_left;
         bool is_climbable_right;
@@ -258,7 +259,8 @@ namespace RuthlessMerchant
 
         private void HealthSystem_OnDeath(object sender, System.EventArgs e)
         {
-            DestroyInteractivObject();
+            isDying = true;
+            DestroyInteractivObject(5.0f);
         }
 
         public void Attack(Character character)

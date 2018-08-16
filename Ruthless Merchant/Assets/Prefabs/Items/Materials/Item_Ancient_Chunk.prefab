@@ -136,14 +136,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f1b6d10c64b8064da2e4bc0add27cb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  faction: 0
-  ItemName: Ancient Chunk
-  ItemValue:
-  - Count: 1
-  ItemWeight: 1
-  ItemLore: An ancient chunk of stone
-  ItemSprite: {fileID: 0}
-  ItemType: 3
-  ItemRarity: 0
-  MaxStackCount: 20
+  faction: 4
+  ItemInfo:
+    ItemName: Ancient Chunk
+    ItemValue:
+    - Count: 42
+    ItemWeight: 3
+    ItemLore: Heavy chunk of molten metal and stone. No one knows where those things
+      come from.
+    ItemSprite: {fileID: 0}
+    ItemType: 3
+    ItemRarity: 2
+    maxStackCount: 20
   materialsType: 7
