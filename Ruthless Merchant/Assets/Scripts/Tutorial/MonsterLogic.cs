@@ -102,6 +102,7 @@ public class MonsterLogic : MonoBehaviour
             Attack();
             PlayerIsDead();
         }
+
     }
 
     private void Attack()

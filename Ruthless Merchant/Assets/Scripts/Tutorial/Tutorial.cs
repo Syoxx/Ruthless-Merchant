@@ -19,6 +19,13 @@ namespace RuthlessMerchant
         private Collider playerCollider, teleportUpCollider, exitOutOfCaveCollider;
         [SerializeField] private Image myFade;
 
+        //Dialogue Trigger Zones
+        [SerializeField] private GameObject dialogueZone11;
+        [SerializeField] private GameObject TutorialObject;
+
+        //Dialogue colliders
+        private Collider dialogueZone11Collider;
+
 
         //Text Monolog
         private int speechCounter;
@@ -37,8 +44,8 @@ namespace RuthlessMerchant
             "'There was only one way out. I had to jump …'",                                                                                                                                                                                                        //10 Enter Cave
             "'… and landed in a structure underneath. There were some obstacles, but nothing to worry about. The exit couldn’t be far away'",                                                                                                                       //11 Bottom Cave
             "'Weird. I prefer dreaming about the future, not the past. Well, it looks like I am not the only one taking a nap. Let’s give my smith some work'",                                                                                                     //12 Waking Up
-            "'A capable man. I only have to bring him materials and he would craft whatever weapon I need'",                                                                                                                                                        //13 At Smith
-            "Let’s go. It’s business hour"                                                                                                                                                                                                                          //14 After Smith
+            "'A capable man. I only have to bring him materials and i would craft whatever weapon I need'",                                                                                                                                                         //13 At Smith
+            "'Let’s go. It’s business hour.'"                                                                                                                                                                                                                       //14 After Smith
         };
         // Hardcoded Stuff
         void Start()
@@ -47,6 +54,11 @@ namespace RuthlessMerchant
             playerCollider = PlayerObject.GetComponent<Collider>();
             teleportUpCollider = teleportCaveUp.GetComponent<Collider>();
             exitOutOfCaveCollider = exitOutOfCaveObject.GetComponent<Collider>();
+
+            // Dialogues
+            dialogueZone11Collider = dialogueZone11.GetComponent<Collider>();
+
+
             Player.Singleton.Inventory.Add(ironSword, 5, true);
 
             myFade.FadingWithCallback(1, 0.001f, delegate {Monolog(0); myFade.FadingWithCallback(0, 3, delegate { Debug.Log("Done fading"); });
@@ -58,16 +70,17 @@ namespace RuthlessMerchant
         void Update()
         {
             Teleports();
-        }
+        } 
 
-        private void Monolog(int speechIndex)
+        public void Monolog(int speechIndex)
         {
-            textMesh.text = MonologSpeech[speechCounter];
+            textMesh.text = MonologSpeech[speechIndex];
         }
 
         public void OpenSmithDoor()
         {
             smithExit.SetActive(false);
+            Monolog(14);
         }
         private void Teleports()
         {
@@ -79,6 +92,8 @@ namespace RuthlessMerchant
                         caveEnter.transform.position.z);
                     myFade.FadingWithCallback(0, 1, delegate { Debug.Log("Done fading"); });
                 });
+
+                Monolog(11);
             }
 
             if (playerCollider.bounds.Intersects(exitOutOfCaveCollider.bounds))
@@ -89,6 +104,26 @@ namespace RuthlessMerchant
                         smithEnterObject.transform.position.y, smithEnterObject.transform.position.z);
                     myFade.FadingWithCallback(0, 1, delegate { Debug.Log("Done fading"); });
                 });
+
+                Monolog(12);
+            }
+        }
+
+        void OnTriggerEnter(Collider other)
+        {
+            
+            if (other.gameObject.name == "10_TriggerZone")
+            {   
+               Monolog(10);
+            }
+            if (other.gameObject.name == "13_TriggerZone")
+            {
+                Monolog(13);
+                Destroy(other.gameObject);
+            }
+            if (other.gameObject.name == "TriggerCancelTutorial")
+            {
+                TutorialObject.SetActive(false);
             }
         }
     }
