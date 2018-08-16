@@ -3,6 +3,7 @@
 //---------------------------------------------------------------
 using System;
 using UnityEngine;
+using System.Collections;
 
 namespace RuthlessMerchant
 {
@@ -258,10 +259,15 @@ namespace RuthlessMerchant
 
         private void HealthSystem_OnDeath(object sender, System.EventArgs e)
         {
+            if(!isPlayer)
+                DyingCoroutine(delegate
+                {
+                    Destroy(this.gameObject);
+                });
             DestroyInteractivObject();
         }
 
-        public void Attack(Character character)
+        public bool Attack(Character character)
         {
             if (elapsedAttackTime >= GetAttackDelay())
             {
@@ -272,7 +278,11 @@ namespace RuthlessMerchant
                     damage = 1;
 
                 character.HealthSystem.ChangeHealth(-damage, this);
+
+                return true;
             }
+
+            return false;
         }
 
         public void Move(Vector2 velocity, float speed)
@@ -519,6 +529,22 @@ namespace RuthlessMerchant
                 defense += potion.DefenseValue;
 
             return defense;
+        }
+
+        private void DyingCoroutine(System.Action action)
+        {
+            StartCoroutine(DyingCoroutineWithCallback(action));
+        }
+
+        private IEnumerator DyingCoroutineWithCallback(System.Action action)
+        {
+            float timer = 0;
+            float deathAnimationTime = 2f;
+            GetComponent<Animator>().SetBool("IsDying", true);
+            while (timer < deathAnimationTime)
+                timer += Time.deltaTime;
+            action.Invoke();
+            yield return null;
         }
     }
 }

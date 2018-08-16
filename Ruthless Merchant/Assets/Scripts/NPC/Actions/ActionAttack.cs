@@ -31,6 +31,8 @@ namespace RuthlessMerchant
 
         public override void EndAction(bool executeEnd = true)
         {
+            parent.GetComponent<Animator>().SetBool("IsAttacking", false);
+            parent.GetComponent<Animator>().SetBool("IsInFight", false);
             if (executeEnd)
             {
                 parent.Reacting = false;
@@ -41,6 +43,7 @@ namespace RuthlessMerchant
         public override void StartAction(NPC parent, GameObject other)
         {
             parent.Waypoints.Clear();
+            parent.GetComponent<Animator>().SetBool("IsAttacking", true);
             parentFighter = parent as Fighter;
             base.StartAction(parent, other);
             if (other != null)
@@ -64,6 +67,9 @@ namespace RuthlessMerchant
                     {
                         parent.Reacting = true;
                         parent.Attack(character);
+
+                        if (parent.Attack(character))
+                            parent.GetComponent<Animator>().SetBool("IsInFight", true);
                     }
                 }
             }

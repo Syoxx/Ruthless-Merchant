@@ -47,6 +47,8 @@ namespace RuthlessMerchant
         {
             base.StartAction(parent, other);
 
+            parent.GetComponent<Animator>().SetBool("IsWalking", true);
+
             if(agent == null)
                 agent = parent.GetComponent<NavMeshAgent>();
 
@@ -75,6 +77,7 @@ namespace RuthlessMerchant
 
         public override void EndAction(bool executeEnd = true)
         {
+            parent.GetComponent<Animator>().SetBool("IsWalking", false);
             if (executeEnd)
             {
                 agent.isStopped = true;
