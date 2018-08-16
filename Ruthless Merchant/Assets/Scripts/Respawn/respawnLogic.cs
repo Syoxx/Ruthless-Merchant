@@ -28,16 +28,17 @@ namespace RuthlessMerchant
         private float shortestDistance;
         private GameObject nearestRespawnPoint;
         private GameObject respawnPoint;
-        private GameObject FadeCanvas;
         private bool fadingDone;
         private Vector3 respawnPosition;
 
         /// <summary>
-        /// gets the FadeCanvas at the Start
+        /// gets the Fade Image at the Start
         /// </summary>
         private void Start()
         {
-            FadeCanvas = GameObject.FindGameObjectWithTag("FadeCanvas");
+            if (fadeImage == null)
+                fadeImage = GameObject.FindGameObjectWithTag("FadeImage").GetComponent<Image>();
+            respawnPosition = transform.position;
         }
 
         /// <summary>
@@ -64,14 +65,22 @@ namespace RuthlessMerchant
         /// </summary>
         public void InitiateRespawn()
         {
-            CrossFadeAlphaWithCallback(fadeImage, 1f, fadeTime, delegate
+            fadeImage.FadingWithCallback(1f, fadeTime, delegate
             {
                 transform.position = respawnPosition;
-                CrossFadeAlphaWithCallback(fadeImage, 0f, fadeTime, delegate
+                fadeImage.FadingWithCallback(0f, 2f, delegate
                 {
                     Debug.Log("Done fading");
                 });
             });
+            //CrossFadeAlphaWithCallback(fadeImage, 1f, fadeTime, delegate
+            //{
+            //    transform.position = respawnPosition;
+            //    CrossFadeAlphaWithCallback(fadeImage, 0f, fadeTime, delegate
+            //    {
+            //        Debug.Log("Done fading");
+            //    });
+            //});
         }
 
         /// <summary>

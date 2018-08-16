@@ -59,7 +59,7 @@ namespace RuthlessMerchant
 
         public override void Update(float deltaTime)
         {
-            if (!agent.pathPending && agent.remainingDistance < agent.baseOffset)
+            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
             {
                 agent.isStopped = true;
                 agent.velocity = Vector3.zero;
