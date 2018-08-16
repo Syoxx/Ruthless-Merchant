@@ -171,10 +171,15 @@ namespace RuthlessMerchant
 
         float lerpT = 0;
 
+        [SerializeField]
+        bool startTradeImmediately;
+
         #region MonoBehaviour cycle
 
         public override void Start()
         {
+            if(Tutorial.Singleton != null && startTradeImmediately)
+                Interact(null);
         }
 
         public override void Update()
