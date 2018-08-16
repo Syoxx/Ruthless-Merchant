@@ -84,12 +84,12 @@ namespace RuthlessMerchant
                                     if (slot.Item is Weapon)
                                     {
                                         bool isShield = itemPair.Key.Contains("shield");
-                                        if (weapon != null && !isShield)
+                                        if (weapon == null && !isShield)
                                         {
                                             weapon = (Weapon)slot.Item;
                                             slot.Count--;
                                         }
-                                        else if (shield != null && isShield)
+                                        else if (shield == null && isShield)
                                         {
                                             shield = (Weapon)slot.Item;
                                             slot.Count--;
@@ -97,7 +97,7 @@ namespace RuthlessMerchant
                                     }
                                     else if (slot.Item is Potion)
                                     {
-                                        if (potion != null)
+                                        if (potion == null)
                                         {
                                             potion = (Potion)slot.Item;
                                             slot.Count--;

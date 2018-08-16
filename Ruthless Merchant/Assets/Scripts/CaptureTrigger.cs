@@ -249,12 +249,12 @@ namespace RuthlessMerchant
                     for (int j = 0; j < PrefabsUpgradeItems.Length; j++)
                     {
                         Weapon weapon = PrefabsUpgradeItems[j].GetComponent<Weapon>();
-                        if(weapon.name == slot.ItemInfo.ItemName)
+                        if(weapon.ItemInfo.ItemName == slot.ItemInfo.ItemName)
                         {
-                            if (!availableItems.ContainsKey(weapon.name))
-                                availableItems.Add(weapon.name, new ItemContainer(weapon, count));
+                            if (!availableItems.ContainsKey(weapon.ItemInfo.ItemName))
+                                availableItems.Add(weapon.ItemInfo.ItemName, new ItemContainer(weapon, count));
                             else
-                                availableItems.Add(weapon.name, new ItemContainer(availableItems[weapon.name]));
+                                availableItems.Add(weapon.ItemInfo.ItemName, new ItemContainer(availableItems[weapon.name]));
                         }
                     }
                 }
