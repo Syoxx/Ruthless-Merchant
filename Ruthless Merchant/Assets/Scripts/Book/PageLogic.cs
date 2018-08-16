@@ -169,6 +169,8 @@ public class PageLogic : MonoBehaviour
                 Player.lastKeyPressed = KeyCode.None;
                 break;
         }
+
+        FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Player/Book/Open Book", GameObject.FindGameObjectWithTag("Player").transform.position);
     }
 
     /// <summary>

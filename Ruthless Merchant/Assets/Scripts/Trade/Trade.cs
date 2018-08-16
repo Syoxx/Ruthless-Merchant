@@ -309,6 +309,9 @@ namespace RuthlessMerchant
         {
             tradeDialogue.text = "You and Dormammu have a blood-sealing pact. He wishes you a good day and rides off into the sunset.";
             exit = true;
+
+            //Sound - coins
+            FMODUnity.RuntimeManager.PlayOneShot("event:/SFX/Coins", GameObject.FindGameObjectWithTag("Player").transform.position);
         }
 
         /// <summary>
