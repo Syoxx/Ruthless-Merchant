@@ -109,6 +109,8 @@ namespace RuthlessMerchant
         {
             if(Singleton != null)
                 Singleton.textMesh.text = Singleton.MonologSpeech[speechIndex];
+
+            Debug.Log("Monolog " + speechIndex);
         }
 
         public void OpenSmithDoor()
