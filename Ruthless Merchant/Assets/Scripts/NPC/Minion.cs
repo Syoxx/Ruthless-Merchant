@@ -71,8 +71,6 @@ namespace RuthlessMerchant
                         }
                         else
                         {
-
-                            //TODO pickup item from outpost
                             foreach (KeyValuePair<string, ItemContainer> itemPair in outpost.AvailableItems)
                             {
                                 if (weapon != null && shield != null && potion != null)
