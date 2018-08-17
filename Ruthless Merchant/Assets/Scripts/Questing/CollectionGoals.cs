@@ -72,6 +72,13 @@ namespace RuthlessMerchant
         }
         private void OnTriggerExit(Collider other)
         {
+            if (other.gameObject.CompareTag("Player"))
+            {   
+                questingEnabled = false;
+                if (collectionGoal)
+                    collectionGoal.DisableButton();
+
+            }
             //questingEnabled = false;
         }
         private void Update()
@@ -80,6 +87,7 @@ namespace RuthlessMerchant
         }
         public void AssignQuest(int index)
         {
+
             Debug.Log("goes in");
             if (collectionGoal != null && questingEnabled)
             {
@@ -89,9 +97,25 @@ namespace RuthlessMerchant
                     {
                         tempCollectables.Add(collectionGoals[index].collectables[i].Clone());
                     }
-                    collectionGoal.FillList(tempCollectables);
-                    collectionGoal.CalcNextWaypoint();
-                
+                if (index == 0)
+                {
+                    Button button = quest1Prefab.GetComponentInChildren<Button>();
+                    QuestButton questButton = button.GetComponent<QuestButton>();
+                    collectionGoal.FillList(tempCollectables, questButton);
+                }
+                if(index == 1)
+                {
+                    Button button = quest2Prefab.GetComponentInChildren<Button>();
+                    QuestButton questButton = button.GetComponent<QuestButton>();
+                    collectionGoal.FillList(tempCollectables, questButton);
+                }
+                if (index == 2)
+                {
+                    Button button = quest3Prefab.GetComponentInChildren<Button>();
+                    QuestButton questButton = button.GetComponent<QuestButton>();
+                    collectionGoal.FillList(tempCollectables, questButton);
+                }
+                collectionGoal.CalcNextWaypoint();                
             }
         }
 

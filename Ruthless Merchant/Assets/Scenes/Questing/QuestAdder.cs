@@ -38,7 +38,7 @@ namespace RuthlessMerchant
                 //collectionGoals.FillList(collectables);
 
                 collectionGoal = collision.gameObject.GetComponent<CollectionGoal>();
-                collectionGoal.FillList(collectables);
+                //collectionGoal.FillList(collectables);
             }
         }
     }
