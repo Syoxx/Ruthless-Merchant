@@ -276,6 +276,7 @@ namespace RuthlessMerchant
                 if (damage <= 0)
                     damage = 1;
 
+                FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Minions/NPC swords", this.gameObject.transform.position);
                 character.HealthSystem.ChangeHealth(-damage, this);
             }
         }
