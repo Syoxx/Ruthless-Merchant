@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 namespace RuthlessMerchant
 {
@@ -9,7 +10,7 @@ namespace RuthlessMerchant
     {
         #region Fields #############################################################################################
 
-
+        [SerializeField] private UnityEvent onSuccesfullSmithing;
 
         #endregion
 
@@ -67,6 +68,7 @@ namespace RuthlessMerchant
                     inventory.Remove(recipes.GetRecipes()[index].ListOfMaterials[i].Item, recipes.GetRecipes()[index].ListOfMaterials[i].Count, false);
                 }
                 inventory.Add(recipes.GetRecipes()[index].Result, 1, true);
+                onSuccesfullSmithing.Invoke();
                 return true;
             }
             return false;

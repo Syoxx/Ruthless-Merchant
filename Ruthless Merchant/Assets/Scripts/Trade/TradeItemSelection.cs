@@ -51,6 +51,7 @@ namespace RuthlessMerchant
                 newItem.ItemName.text = inventoryItem.ItemName.text;
                 newItem.ItemPrice.text = inventoryItem.ItemPrice.text;
                 newItem.ItemDescription.text = inventoryItem.ItemDescription.text;
+                newItem.ItemImage.sprite = inventoryItem.ItemImage.sprite;
                 newItem.Location = InventoryItem.UILocation.ExternList;
 
                 newItem.Slot.ItemInfo = inventoryItem.Slot.ItemInfo;
@@ -115,8 +116,9 @@ namespace RuthlessMerchant
                 TradeAbstract.Singleton.ItemsToSell = listedItems;
                 Player.RestrictCamera = false;
                 GameObject.Find("UICanvas").SetActive(false);
-                Player.Singleton.StartTrading();
+                Player.Singleton.AllowTradingMovement();
                 InventoryItem.MoveItem -= OnItemMoved;
+                Tutorial.Monolog(2);
             }
         }
 

@@ -373,7 +373,7 @@ namespace RuthlessMerchant
         /// </summary>
         private void FocusCursor()
         {
-            if ((!restrictCamera) && restrictMovement)
+            if ((!restrictCamera) && restrictMovement && TradeAbstract.Singleton == null)
             {
                 // This prevents movement being disabled while restrictCamera is not on
                 restrictMovement = false;
@@ -616,7 +616,7 @@ namespace RuthlessMerchant
                         if (targetItem != null)
                         {
                             // Picking up items and gear
-                            if (targetItem.ItemInfo.ItemType == ItemType.Weapon || targetItem.ItemInfo.ItemType == ItemType.Ingredient || targetItem.ItemInfo.ItemType == ItemType.CraftingMaterial || targetItem.ItemInfo.ItemType == ItemType.ConsumAble)
+                            if (targetItem.ItemInfo.ItemType == ItemType.Weapon || targetItem.ItemInfo.ItemType == ItemType.Ingredient || targetItem.ItemInfo.ItemType == ItemType.CraftingMaterial || targetItem.ItemInfo.ItemType == ItemType.ConsumAble || targetItem.ItemInfo.ItemType == ItemType.Other)
                             {
                                 Item clonedItem = targetItem.DeepCopy();
 
@@ -733,9 +733,10 @@ namespace RuthlessMerchant
             bookLogic.GoToPage(KeyCode.I);
         }
 
-        public void StartTrading()
+        public void AllowTradingMovement()
         {
             restrictCamera = false;
+            restrictMovement = false;
             bookCanvas.SetActive(false);
         }
 
