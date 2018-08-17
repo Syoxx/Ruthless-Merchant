@@ -210,7 +210,8 @@ namespace RuthlessMerchant
                 if (healthSystem == null)
                 {
                     healthSystem = GetComponent<DamageAbleObject>();
-                    healthSystem.OnDeath += HealthSystem_OnDeath;
+                    if(healthSystem != null)
+                        healthSystem.OnDeath += HealthSystem_OnDeath;
                 }
 
                 return healthSystem;
