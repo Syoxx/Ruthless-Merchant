@@ -28,7 +28,7 @@ GameObject:
   - component: {fileID: 65811263377372576}
   m_Layer: 0
   m_Name: Item_Wood
-  m_TagString: Untagged
+  m_TagString: Wood
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -40,7 +40,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1531244868073720}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 38.07638, y: 25.08716, z: 228.93227}
+  m_LocalPosition: {x: 48.00359, y: 25.279156, z: 222.99768}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -61,7 +61,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 35a5e0957f6fc7146aed315f20d45885, type: 3}
+  - {fileID: 2100000, guid: efb9dddc3db4de748baa52182975028e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -87,7 +87,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1531244868073720}
-  m_Mesh: {fileID: 4300000, guid: 35a5e0957f6fc7146aed315f20d45885, type: 3}
+  m_Mesh: {fileID: 4300000, guid: cc2447a83bdd0f44f93a322af2ba11f0, type: 3}
 --- !u!54 &54229407800691826
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -155,14 +155,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f1b6d10c64b8064da2e4bc0add27cb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  faction: 0
-  ItemName: Wood
-  ItemValue:
-  - Count: 1
-  ItemWeight: 0
-  ItemLore: A piece of wood
-  ItemSprite: {fileID: 21300000, guid: fb272db21306ed04abb38487cf8231ea, type: 3}
-  ItemType: 3
-  ItemRarity: 0
-  MaxStackCount: 20
+  faction: 4
+  ItemInfo:
+    ItemName: Wood
+    ItemValue:
+    - Count: 6
+    ItemWeight: 1
+    ItemLore: Simple pile of wood. Found almost everywhere.
+    ItemSprite: {fileID: 21300000, guid: fb272db21306ed04abb38487cf8231ea, type: 3}
+    ItemType: 3
+    ItemRarity: 0
+    maxStackCount: 20
   materialsType: 0

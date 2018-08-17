@@ -1363,7 +1363,7 @@ GameObject:
   - component: {fileID: 114860501572578198}
   - component: {fileID: 195036613347181462}
   - component: {fileID: 54805802136085974}
-  - component: {fileID: 114413649021178784}
+  - component: {fileID: 114643980251039170}
   m_Layer: 15
   m_Name: Prefab_NPC_Imperialists_Hero_New
   m_TagString: NPC
@@ -3828,19 +3828,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114413649021178784
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1707675217828928}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a80e47992104adc43b6b73ead38204d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stepSpeed: 0.4
-  Steps: event:/Characters/Minions/Steps  Imperialisten
 --- !u!114 &114466863243148346
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3852,6 +3839,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 479cd6b17bf173d43b3c6db6d6c6ebac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114643980251039170
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1707675217828928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8628a85088bbdc642825eefdef6b1869, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  QuestTitle: 
+  Description: 
+  Reward: 0
+  Completed: 0
+  CollectableID: 0
+  collectables: []
 --- !u!114 &114860501572578198
 MonoBehaviour:
   m_ObjectHideFlags: 1

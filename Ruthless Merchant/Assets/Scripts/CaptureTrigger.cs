@@ -20,7 +20,12 @@ namespace RuthlessMerchant
         private Dictionary<Faction, int> capturingUnits;
         private List<NPC> capturingUnitsList;
 
-        private Renderer flagRenderer;
+        [SerializeField, Tooltip("Flag material for freemindes")]
+        private UnityEngine.Material freidenkerFlagMaterial = null;
+        [SerializeField, Tooltip("Flag material for imperialists")]
+        private UnityEngine.Material imperialistFlagMaterial = null;
+
+        private SkinnedMeshRenderer flagRenderer;
         [SerializeField, Tooltip("Text of mapmarker to make ownership visable on the map")]
         private TextMeshProUGUI mapMarkerRenderer;
 
@@ -37,13 +42,22 @@ namespace RuthlessMerchant
         [SerializeField, Tooltip("Indicates the possible next outpost in the direction to the Imperialist city (first item is the default outpost, all other items are optional items for lane splitting or defending)")]
         protected CaptureTrigger[] outpostsToImperialist;
 
-        [SerializeField]
-        private GameObject ImperialstHeroPrefab = null;
-        [SerializeField]
-        private GameObject FreidenkerHeroPrefab = null;
+        [SerializeField, Tooltip("Hero prefab for imperialist faction that should be spawned at game start")]
+        private GameObject imperialstHeroPrefab = null;
+        [SerializeField, Tooltip("Hero prefab for freeminds faction that should be spawned at game start")]
+        private GameObject freidenkerHeroPrefab = null;
+
+        [SerializeField, Tooltip("Assign a Trader that was placed in the outpost")]
+        private Trader assignedTrader = null;
+
+        [SerializeField, Tooltip("Add all Prefabs of weapons, shields and potions here!")]
+        private GameObject[] PrefabsUpgradeItems = null;
+
+        private Dictionary<string, ItemContainer> availableItems = new Dictionary<string, ItemContainer>();
 
         private Transform target;
         private bool isHeroAway = false;
+        private bool isCity = false;
 
         private Transform flagPosition;
 
@@ -183,9 +197,18 @@ namespace RuthlessMerchant
             }
         }
 
+        public Dictionary<string, ItemContainer> AvailableItems
+        {
+            get
+            {
+                return availableItems;
+            }
+        }
+
         // Use this for initialization
         protected virtual void Start()
         {
+            isCity = name.Contains("City");
             capturingUnits = new Dictionary<Faction, int>();
             capturingUnitsList = new List<NPC>();
             if (owner == Faction.Freidenker)
@@ -220,17 +243,63 @@ namespace RuthlessMerchant
 
                 if (obj != null && obj.CompareTag("Flag"))
                 {
-                    flagRenderer = obj.GetComponent<Renderer>();
-                    if (flagRenderer != null)
-                        flagRenderer.material.color = GetFactionColor();
+                    flagRenderer = obj.GetComponent<SkinnedMeshRenderer>();
+                    ChangeFlagMaterial();
                 }
             }
 
             if (mapMarkerRenderer != null)
                 mapMarkerRenderer.color = GetFactionColor();
 
+            Trade.ItemsSold += Trade_ItemsSold;
+
             //Spawn Hero
             SpawnHero();
+        }
+
+        private void Trade_ItemsSold(object sender, Trade.TradeArgs e)
+        {
+            Debug.Log("ItemsSlod event triggered");
+            if (e.Trader == assignedTrader)
+            {
+                for (int i = 0; i < e.Items.Count; i++)
+                {
+                    InventorySlot slot = e.Items[i].Slot;
+
+                    //Get item count
+                    int count = 0;
+                    if (!int.TryParse(e.Items[i].ItemQuantity.text.Replace("x", ""), out count))
+                        count = 1;
+
+                    //
+                    for (int j = 0; j < PrefabsUpgradeItems.Length; j++)
+                    {
+                        Weapon weapon = PrefabsUpgradeItems[j].GetComponent<Weapon>();
+                        if(weapon.ItemInfo.ItemName == slot.ItemInfo.ItemName)
+                        {
+                            if (!availableItems.ContainsKey(weapon.ItemInfo.ItemName))
+                                availableItems.Add(weapon.ItemInfo.ItemName, new ItemContainer(weapon, count));
+                            else
+                                availableItems.Add(weapon.ItemInfo.ItemName, new ItemContainer(availableItems[weapon.name]));
+                        }
+                    }
+                }
+
+                Debug.Log("New Items received");
+            }
+        }
+
+        private void ChangeFlagMaterial()
+        {
+            if (flagRenderer != null)
+            {
+                if (owner == Faction.Freidenker)
+                    flagRenderer.material = freidenkerFlagMaterial;
+                else if (owner == Faction.Imperialisten)
+                    flagRenderer.material = imperialistFlagMaterial;
+                else
+                    flagRenderer.material = null;
+            }
         }
 
         private void SpawnHero()
@@ -239,12 +308,12 @@ namespace RuthlessMerchant
             {
                 if (owner == Faction.Freidenker)
                 {
-                    GameObject gobj = Instantiate(FreidenkerHeroPrefab, Target.position, Quaternion.identity, transform);
+                    GameObject gobj = Instantiate(freidenkerHeroPrefab, Target.position, Quaternion.identity, transform);
                     Hero = gobj.GetComponent<Hero>();
                 }
                 else if (owner == Faction.Imperialisten)
                 {
-                    GameObject gobj = Instantiate(ImperialstHeroPrefab, Target.position, Quaternion.identity, transform);
+                    GameObject gobj = Instantiate(imperialstHeroPrefab, Target.position, Quaternion.identity, transform);
                     Hero = gobj.GetComponent<Hero>();
                 }
             }
@@ -264,7 +333,7 @@ namespace RuthlessMerchant
                 {
                     if (owner == Faction.Imperialisten)
                     {
-                        if (Hero != null && outpost.Hero == null)
+                        if (Hero != null && !IsHeroAway && outpost.Hero == null)
                         {
                             outpost.Hero = hero;
                             Hero = null;
@@ -330,7 +399,7 @@ namespace RuthlessMerchant
 
         private void Capture()
         {
-            if ((hero == null || isHeroAway) && capturingUnits != null)
+            if ((hero == null || isHeroAway) && capturingUnits != null && !isCity)
             {
                 //int freidenkerCount = capturingUnits.ContainsKey(Faction.Freidenker) ? capturingUnits[Faction.Freidenker] : 0;
                 //int imperialistenCount = capturingUnits.ContainsKey(Faction.Imperialisten) ? capturingUnits[Faction.Imperialisten] : 0;

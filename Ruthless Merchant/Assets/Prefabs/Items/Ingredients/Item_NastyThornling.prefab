@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 95719966836500256}
   - component: {fileID: 114205060440787664}
   - component: {fileID: 114888308271271922}
-  - component: {fileID: 64247083476858562}
+  - component: {fileID: 65580797973544504}
   m_Layer: 0
   m_Name: Item_NastyThornling
   m_TagString: Untagged
@@ -38,9 +38,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1896410965067150}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 34.56143, y: 25.116446, z: 230.49391}
-  m_LocalScale: {x: 2.057359, y: 2.057359, z: 2.057359}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -83.70998, y: -28.722733, z: -69.62697}
+  m_LocalScale: {x: 2.057359, y: 2.05736, z: 2.05736}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -60,7 +60,6 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: cab2f00f4e3d1cd4e98692ab1c54989e, type: 2}
   - {fileID: 2100000, guid: cab2f00f4e3d1cd4e98692ab1c54989e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -88,8 +87,8 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1896410965067150}
   m_Mesh: {fileID: 4300000, guid: 935809417967c0a4aaa40d642d98eeff, type: 3}
---- !u!64 &64247083476858562
-MeshCollider:
+--- !u!65 &65580797973544504
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -97,11 +96,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: 935809417967c0a4aaa40d642d98eeff, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.0818333, y: 0.07004967, z: 0.13595733}
+  m_Center: {x: 0.000000018626451, y: -0.011510581, z: 0.06422338}
 --- !u!95 &95719966836500256
 Animator:
   serializedVersion: 3
@@ -143,16 +140,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction: 2
-  ItemName: Nasty Thornling
-  ItemValue:
-  - Count: 1
-  ItemWeight: 1
-  ItemLore: "A bitter-smelling fungus. The cap is covered with little spikes that
-    give it it\u2019s name."
-  ItemSprite: {fileID: 21300000, guid: cda97a07acf656348be4bf0817210eda, type: 3}
-  ItemType: 0
-  ItemRarity: 0
-  MaxStackCount: 20
+  ItemInfo:
+    ItemName: Nasty Thornling
+    ItemValue:
+    - Count: 3
+    ItemWeight: 1
+    ItemLore: "A bitter-smelling fungus. The cap is covered with little spikes that
+      give it it\u2019s name."
+    ItemSprite: {fileID: 21300000, guid: cda97a07acf656348be4bf0817210eda, type: 3}
+    ItemType: 0
+    ItemRarity: 0
+    maxStackCount: 20
   ingredientType: 3
   attackSpeedBuff: 0
   healthBuff: 0

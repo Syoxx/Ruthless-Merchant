@@ -122,16 +122,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da849d998660b964aa1c71df0912cb55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  faction: 0
-  ItemName: Ancient axe
-  ItemValue:
-  - Count: 1
-  ItemWeight: 1
-  ItemLore: An ancient axe.
-  ItemSprite: {fileID: 0}
-  ItemType: 1
-  ItemRarity: 0
-  MaxStackCount: 20
+  faction: 4
+  ItemInfo:
+    ItemName: Ancient Axe
+    ItemValue:
+    - Count: 119
+    ItemWeight: 5
+    ItemLore: 
+    ItemSprite: {fileID: 21300000, guid: fb4ef6a5ccac9c04fbe4edd30e36e044, type: 3}
+    ItemType: 1
+    ItemRarity: 2
+    maxStackCount: 10
   weaponType: 0
   damage: 30
   defencePower: 0

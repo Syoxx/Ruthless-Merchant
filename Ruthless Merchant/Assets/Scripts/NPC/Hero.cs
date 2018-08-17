@@ -48,7 +48,7 @@ namespace RuthlessMerchant
                     (Waypoints.Count == 0 || waypoints[0].Transform != Outpost.Target))
                 {
                     AddNewWaypoint(new Waypoint(Outpost.Target, true, 0), true);
-                    SetCurrentAction(new ActionMove(ActionNPC.ActionPriority.Medium), null, true);
+                    SetCurrentAction(new ActionMove(ActionNPC.ActionPriority.Low), null, CurrentAction is ActionWander || CurrentAction is ActionIdle);
                 }
                 else if (!Outpost.IsHeroAway)
                 {
