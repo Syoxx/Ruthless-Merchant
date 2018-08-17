@@ -75,9 +75,6 @@ namespace RuthlessMerchant
             if (other.gameObject.CompareTag("Player"))
             {   
                 questingEnabled = false;
-                if (collectionGoal)
-                    collectionGoal.DisableButton();
-
             }
             //questingEnabled = false;
         }
