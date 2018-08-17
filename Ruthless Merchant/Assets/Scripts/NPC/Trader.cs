@@ -342,12 +342,19 @@ namespace RuthlessMerchant
                 {
                     // Trader accepts
                     trade.UpdateCurrentTraderOffer(currentPlayerOffer);
-                    Tutorial.Monolog(4);
                 }
                 else
                 {
                     // Trader makes first counteroffer.
                     trade.UpdateCurrentTraderOffer(underLimitReal + (wished[0] - underLimitReal) / wishedAndOfferedRatio[0]);
+                }
+
+                if(currentPlayerOffer <= TradeAbstract.Singleton.RealValue)
+                {
+                    Tutorial.Monolog(4);
+                }
+                else
+                {
                     Tutorial.Monolog(3);
                 }
             }
