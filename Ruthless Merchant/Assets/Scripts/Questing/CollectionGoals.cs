@@ -18,6 +18,8 @@ namespace RuthlessMerchant
         //[SerializeField]
         //public Transform QuestParent;
         [SerializeField]
+        private GameObject pagePrefab;
+        [SerializeField]
         private GameObject quest1Prefab;
         [SerializeField]
         private GameObject quest2Prefab;
@@ -54,6 +56,8 @@ namespace RuthlessMerchant
         {
             if (other.gameObject.CompareTag("Player"))
             {
+                ManageQuestPage questPage = pagePrefab.GetComponent<ManageQuestPage>();
+                questPage.DisableAllButtons();
                 questingEnabled = true;
                 //Instantiate(quest1Prefab, QuestParent);
                 //Instantiate(quest2Prefab, QuestParent);
