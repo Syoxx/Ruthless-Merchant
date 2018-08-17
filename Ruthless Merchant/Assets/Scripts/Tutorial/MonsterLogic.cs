@@ -121,6 +121,6 @@ public class MonsterLogic : MonoBehaviour
 
     private void PlayerIsDead()
     {   
-        SceneManager.LoadScene("Main");
+        SceneManager.LoadScene("Islandtesting");
     }
 }
