@@ -28,6 +28,9 @@ public class TradepointUnlocker : InteractiveObject
         Debug.Log("trading point purchased");
         //gameObject.GetComponentInChildren<Renderer>().enabled = false;    // this makes the unlocker invisible, can still receive player interaction tho
         TradingPointTent.SetActive(true);
+
+        //Sound - UpgradeOutpost
+        FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Player/UpgradeOutpost", GameObject.FindGameObjectWithTag("Player").transform.position);
     }
 
     public override void Start() { }
