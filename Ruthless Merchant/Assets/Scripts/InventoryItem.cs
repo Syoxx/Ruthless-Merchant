@@ -13,6 +13,11 @@ namespace RuthlessMerchant
         public delegate void MoveItemEventHandler(InventoryItem item);
         public static event MoveItemEventHandler MoveItem;
 
+        public static void ResetEvent()
+        {
+            MoveItem = null;
+        }
+
         public enum ItemBehaviour
         {
             None,

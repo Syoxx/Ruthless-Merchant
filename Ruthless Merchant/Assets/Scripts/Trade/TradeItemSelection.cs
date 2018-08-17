@@ -27,6 +27,7 @@ namespace RuthlessMerchant
         {
             Singleton = this;
             listedItems = new List<InventoryItem>();
+            InventoryItem.ResetEvent();
             InventoryItem.MoveItem += OnItemMoved;
 
             if (price == null)
