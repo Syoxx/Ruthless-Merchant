@@ -259,9 +259,8 @@ namespace RuthlessMerchant
             Character character = gameObject.GetComponent<Character>();
             if (character != null && faction != character.Faction && character.HealthSystem != null && character.HealthSystem.Health > 0)
             {
-                if (character.IsPlayer)
+                if (character.IsPlayer && faction != Faction.Monster)
                 {
-                    //TODO check faction standings
                     return false;
                 }
                 else
