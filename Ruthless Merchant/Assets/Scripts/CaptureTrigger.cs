@@ -20,7 +20,12 @@ namespace RuthlessMerchant
         private Dictionary<Faction, int> capturingUnits;
         private List<NPC> capturingUnitsList;
 
-        private Renderer flagRenderer;
+        [SerializeField, Tooltip("Flag material for freemindes")]
+        private UnityEngine.Material freidenkerFlagMaterial = null;
+        [SerializeField, Tooltip("Flag material for imperialists")]
+        private UnityEngine.Material imperialistFlagMaterial = null;
+
+        private SkinnedMeshRenderer flagRenderer;
         [SerializeField, Tooltip("Text of mapmarker to make ownership visable on the map")]
         private TextMeshProUGUI mapMarkerRenderer;
 
@@ -216,9 +221,8 @@ namespace RuthlessMerchant
 
                 if (obj != null && obj.CompareTag("Flag"))
                 {
-                    flagRenderer = obj.GetComponent<Renderer>();
-                    if (flagRenderer != null)
-                        flagRenderer.material.color = GetFactionColor();
+                    flagRenderer = obj.GetComponent<SkinnedMeshRenderer>();
+                    ChangeFlagMaterial();
                 }
             }
 
@@ -260,6 +264,19 @@ namespace RuthlessMerchant
                 }
 
                 Debug.Log("New Items received");
+            }
+        }
+
+        private void ChangeFlagMaterial()
+        {
+            if (flagRenderer != null)
+            {
+                if (owner == Faction.Freidenker)
+                    flagRenderer.material = freidenkerFlagMaterial;
+                else if (owner == Faction.Imperialisten)
+                    flagRenderer.material = imperialistFlagMaterial;
+                else
+                    flagRenderer.material = null;
             }
         }
 
