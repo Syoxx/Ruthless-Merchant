@@ -57,6 +57,7 @@ namespace RuthlessMerchant
 
         private Transform target;
         private bool isHeroAway = false;
+        private bool isCity = false;
 
         public event EventHandler OnHeroRemoved;
         public float CaptureValue
@@ -191,6 +192,7 @@ namespace RuthlessMerchant
         // Use this for initialization
         protected virtual void Start()
         {
+            isCity = name.Contains("City");
             capturingUnits = new Dictionary<Faction, int>();
             capturingUnitsList = new List<NPC>();
             if (owner == Faction.Freidenker)
@@ -377,7 +379,7 @@ namespace RuthlessMerchant
 
         private void Capture()
         {
-            if ((hero == null || isHeroAway) && capturingUnits != null)
+            if ((hero == null || isHeroAway) && capturingUnits != null && !isCity)
             {
                 //int freidenkerCount = capturingUnits.ContainsKey(Faction.Freidenker) ? capturingUnits[Faction.Freidenker] : 0;
                 //int imperialistenCount = capturingUnits.ContainsKey(Faction.Imperialisten) ? capturingUnits[Faction.Imperialisten] : 0;
