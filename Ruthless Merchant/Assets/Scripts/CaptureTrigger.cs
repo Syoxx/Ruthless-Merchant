@@ -121,14 +121,12 @@ namespace RuthlessMerchant
                     if(owner == Faction.Freidenker)
                     {
                         //Play FreemindConquerSound
-                        Debug.Log("Freeminds Conquered an Outpost");
-                        FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Minions/FreemindConquerOutpost", /*GameObject.FindGameObjectWithTag("Player").transform.position*/flagPosition.position);
+                        FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Minions/FreemindConquerOutpost",flagPosition.position);
                     }
                     else if (owner == Faction.Imperialisten)
                     {
                         //Play ImperialistConquerSound
-                        Debug.Log("Imperialists conquered an Outpost");
-                        FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Minions/ImperialistConquerOutpost", /*GameObject.FindGameObjectWithTag("Player").transform.position*/flagPosition.position);
+                        FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Minions/ImperialistConquerOutpost",flagPosition.position);
                     }
                 }
 
