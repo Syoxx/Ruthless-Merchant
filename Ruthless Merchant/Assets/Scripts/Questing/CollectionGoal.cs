@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-
+using UnityEngine.UI;
 
 namespace RuthlessMerchant {
     public class CollectionGoal : Goal {
@@ -132,5 +132,13 @@ namespace RuthlessMerchant {
                     Hero.SetCurrentAction(new ActionCollect(this, ActionNPC.ActionPriority.Medium), gobj, true, true);
             }
         }
+
+        //public void ChangeButtonColor(Button button)
+        //{
+            
+        //        ColorBlock colors = button.colors;
+        //        colors.disabledColor = new Color32(118, 229, 118, 128);
+        //        button.colors = colors;
+        //}
     }
 }
