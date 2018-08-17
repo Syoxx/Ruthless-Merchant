@@ -43,6 +43,7 @@ namespace RuthlessMerchant
         public override void StartAction(NPC parent, GameObject other)
         {
             parent.Waypoints.Clear();
+            parent.GetComponent<Animator>().SetBool("IsInFight", true);
             parent.GetComponent<Animator>().SetBool("IsAttacking", true);
             parentFighter = parent as Fighter;
             base.StartAction(parent, other);

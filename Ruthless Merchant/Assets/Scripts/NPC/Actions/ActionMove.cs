@@ -73,6 +73,9 @@ namespace RuthlessMerchant
                 agent.isStopped = false;
                 parent.RotateToNextTarget(agent.steeringTarget + parent.transform.forward, true);
             }
+
+            if (agent.isStopped)
+                parent.GetComponent<Animator>().SetBool("IsWalking", false);
         }
 
         public override void EndAction(bool executeEnd = true)
