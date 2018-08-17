@@ -126,7 +126,7 @@ namespace RuthlessMerchant
                 {
                     transform.position = new Vector3(caveEnter.transform.position.x, caveEnter.transform.position.y - 5,
                         caveEnter.transform.position.z);
-                    myFade.FadingWithCallback(0, 1, delegate { Debug.Log("Done fading"); });
+                    myFade.FadingWithCallback(0, 0.5f, delegate { Debug.Log("Done fading"); });
                 });
 
                 Monolog(11);
@@ -138,7 +138,7 @@ namespace RuthlessMerchant
                 {
                     transform.position = new Vector3(smithEnterObject.transform.position.x,
                         smithEnterObject.transform.position.y, smithEnterObject.transform.position.z);
-                    myFade.FadingWithCallback(0, 1, delegate { Debug.Log("Done fading"); });
+                    myFade.FadingWithCallback(0, 0.5f, delegate { Debug.Log("Done fading"); });
                 });
 
                 Monolog(12);
