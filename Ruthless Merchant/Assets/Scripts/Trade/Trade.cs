@@ -60,7 +60,7 @@ namespace RuthlessMerchant
                 }
             }
 
-            TradeObjectsParent.transform.position = Trader.CurrentTrader.gameObject.transform.position;
+            TradeObjectsParent.transform.position = Trader.CurrentTrader.gameObject.transform.position + new Vector3(0, 0.21f);
             NeutralPositionY = PlayerZone.transform.position.y;
 
             Vector3 prevRotation = TradeObjectsParent.transform.rotation.eulerAngles;
@@ -91,7 +91,10 @@ namespace RuthlessMerchant
                     MonsterLogic monsterLogic = FindObjectOfType<MonsterLogic>();
 
                     if (monsterLogic != null)
+                    {
                         monsterLogic.TradeIsDone = true;
+                        Debug.Log("Trade is done");
+                    }
 
                     Main_SceneManager.UnLoadScene("TradeScene");
                 }
