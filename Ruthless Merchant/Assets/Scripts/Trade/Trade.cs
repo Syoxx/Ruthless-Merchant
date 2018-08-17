@@ -105,7 +105,7 @@ namespace RuthlessMerchant
                         ModifyOffer();
                     }
 
-                    else if (Input.GetMouseButtonDown(0))
+                    else if (!Player.Singleton.bookCanvas.activeInHierarchy && Input.GetMouseButtonDown(0))
                     {
                         HandlePlayerOffer();
                     }
