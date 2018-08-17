@@ -47,6 +47,11 @@ namespace RuthlessMerchant
 
         public InventorySlot Slot;
 
+        public static void ResetEvent()
+        {
+            MoveItem = null;
+        }
+
         public void OnButtonClick()
         {
             Debug.Log("Inventory Item Button Pressed!");

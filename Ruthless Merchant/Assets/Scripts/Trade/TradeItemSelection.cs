@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,6 +28,9 @@ namespace RuthlessMerchant
         {
             Singleton = this;
             listedItems = new List<InventoryItem>();
+
+            InventoryItem.ResetEvent();
+
             InventoryItem.MoveItem += OnItemMoved;
 
             if (price == null)
