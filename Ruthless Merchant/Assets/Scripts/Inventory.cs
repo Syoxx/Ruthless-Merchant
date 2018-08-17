@@ -331,7 +331,7 @@ namespace RuthlessMerchant
                         count = 0;
                     }
                 }
-                else if (inventorySlots[i].Item)
+                else if (inventorySlots[i].ItemInfo.ItemName != null)
                 {
                     if (inventorySlots[i].ItemInfo.ItemName == item.ItemInfo.ItemName && inventorySlots[i].Count < item.ItemInfo.MaxStackCount)
                     {

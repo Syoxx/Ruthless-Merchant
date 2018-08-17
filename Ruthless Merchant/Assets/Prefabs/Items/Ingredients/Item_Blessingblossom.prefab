@@ -111,14 +111,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   faction: 2
   ItemInfo:
-    ItemName: 
-    ItemValue: []
-    ItemWeight: 0
-    ItemLore: 
-    ItemSprite: {fileID: 0}
+    ItemName: Blessingblossom
+    ItemValue:
+    - Count: 3
+    ItemWeight: 1
+    ItemLore: This golden-white flower only grows in clear weather and it is then
+      usually harvested in large quantities.
+    ItemSprite: {fileID: 21300000, guid: 99eeb06f1b39b1a4bbb807df1a530da5, type: 3}
     ItemType: 0
     ItemRarity: 0
-    maxStackCount: 0
+    maxStackCount: 20
   ingredientType: 6
   attackSpeedBuff: 0
   healthBuff: 5

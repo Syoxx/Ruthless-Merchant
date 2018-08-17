@@ -45,7 +45,7 @@ namespace RuthlessMerchant
         float underLimitPerCent = 0.35f;
 
         [SerializeField, Tooltip("Feilschfaktor Obergrenze")]
-        float upperLimitBargainPerCent;
+        float upperLimitBargainPerCent = 10000;
 
         #if UNITY_EDITOR
         [ReadOnly]
@@ -164,13 +164,75 @@ namespace RuthlessMerchant
 
         float timerLimit = 1;
 
+        bool movingToPosition = false;
+
+        Vector3 startPosition;
+        Vector3 tradePosition;
+
+        float lerpT = 0;
+
+        [SerializeField]
+        bool startTradeImmediately;
+
         #region MonoBehaviour cycle
 
         public override void Start()
         {
+            if(Tutorial.Singleton != null && startTradeImmediately)
+                Interact(null);
         }
 
         public override void Update()
+        {
+            UpdatePlacement();
+            UpdatePsychoCoolff();
+        }
+
+        #endregion
+
+        void UpdatePlacement()
+        {
+            if (movingToPosition)
+            {
+                if (tradePosition == Vector3.zero)
+                {
+                    Vector3 movement = (transform.position - Player.Singleton.transform.position).normalized;
+
+                    transform.position += Time.deltaTime * new Vector3(movement.x, 0, movement.z);
+
+                    if (Vector3.Distance(transform.position, Player.Singleton.transform.position) > 0.7f)
+                    {
+                        if (TradeAbstract.Singleton == null)
+                        {
+                            Position = gameObject.transform.position;
+                            InventoryItem.Behaviour = InventoryItem.ItemBehaviour.Move;
+                            Main_SceneManager.LoadSceneAdditively("TradeScene");
+                            Player.Singleton.EnterTrading();
+                            movingToPosition = false;
+                            Tutorial.Monolog(1);
+                        }
+                    }
+                }
+                else
+                {
+                    lerpT += Time.deltaTime;
+
+                    if (lerpT > 1)
+                    {
+                        movingToPosition = false;
+                        transform.position = Vector3.Lerp(tradePosition, startPosition, 1);
+                        tradePosition = Vector3.zero;
+                        lerpT = 0;
+                    }
+                    else
+                    {
+                        transform.position = Vector3.Lerp(tradePosition, startPosition, lerpT);
+                    }
+                }
+            }
+        }
+
+        void UpdatePsychoCoolff()
         {
             if (CurrentTrader != this)
             {
@@ -195,8 +257,6 @@ namespace RuthlessMerchant
             }
         }
 
-        #endregion
-
         /// <summary>
         /// Sets the initial trading variables.
         /// </summary>
@@ -206,11 +266,7 @@ namespace RuthlessMerchant
             realAndOfferedRatio   = new List<float>();
             wishedAndOfferedRatio = new List<float>();
 
-            if (IrritationTotal >= irritationStartLimit || SkepticismTotal >= skepticismStartLimit)
-            {
-                trade.Abort();
-            }
-            else
+            if (WantsToStartTrading())
             {
                 float realPrice = trade.RealValue;
 
@@ -218,10 +274,23 @@ namespace RuthlessMerchant
                 underLimitPercentTotal = underLimitPerCent + (-(underLimitPerCent * influenceFraction) - (underLimitPerCent * influenceIndividual) + (underLimitPerCent * influenceWar) + (underLimitPerCent * influenceNeighbours)) / 4;
 
                 upperLimitReal = (float)Math.Ceiling(realPrice * (1 + upperLimitPercentTotal));
-                upperLimitBargain   = (float)Math.Ceiling(upperLimitReal * (1 + upperLimitBargainPerCent));
-                underLimitReal      = (float)Math.Floor(realPrice * (1 - underLimitPercentTotal));
+                upperLimitBargain = (float)Math.Ceiling(upperLimitReal * (1 + upperLimitBargainPerCent));
+                underLimitReal = (float)Math.Floor(realPrice * (1 - underLimitPercentTotal));
                 wished.Add((float)Math.Floor((upperLimitReal + underLimitReal) / 2));
             }
+            else
+            {
+                trade.Abort();
+                Debug.Log("Trader does not want to start Trading!");
+            }
+        }
+
+        public bool WantsToStartTrading()
+        {
+            if (IrritationTotal >= irritationStartLimit || SkepticismTotal >= skepticismStartLimit)
+                return false;
+
+            return true;
         }
 
         /// <summary>
@@ -279,6 +348,15 @@ namespace RuthlessMerchant
                     // Trader makes first counteroffer.
                     trade.UpdateCurrentTraderOffer(underLimitReal + (wished[0] - underLimitReal) / wishedAndOfferedRatio[0]);
                 }
+
+                if(currentPlayerOffer <= TradeAbstract.Singleton.RealValue)
+                {
+                    Tutorial.Monolog(4);
+                }
+                else
+                {
+                    Tutorial.Monolog(3);
+                }
             }
         }
 
@@ -294,6 +372,7 @@ namespace RuthlessMerchant
 
             if (!continueTrade)
             {
+                Debug.Log("Trader does not want to continue Trade!");
                 trade.Abort();
                 return;
             }
@@ -334,9 +413,21 @@ namespace RuthlessMerchant
             IrritationTotal += irritationDelta;
             SkepticismTotal += skepticismDelta;
 
-            if (IrritationTotal >= IrritationLimit || SkepticismTotal >= SkepticismLimit)
+            if (IrritationTotal >= IrritationLimit)
             {
+                IrritationTotal = IrritationLimit;
                 trade.Abort();
+                Debug.Log("Trader has surpassed his psycho limits.");
+                Tutorial.Monolog(7);
+                return false;
+            }
+
+            if (SkepticismTotal >= SkepticismLimit)
+            {
+                SkepticismTotal = SkepticismLimit;
+                trade.Abort();
+                Debug.Log("Trader has surpassed his psycho limits.");
+                Tutorial.Monolog(8);
                 return false;
             }
 
@@ -349,14 +440,28 @@ namespace RuthlessMerchant
         /// <param name="caller"></param>
         public override void Interact(GameObject caller)
         {
-            if (TradeAbstract.Singleton == null)
+            if (!WantsToStartTrading())
             {
-                CurrentTrader = this;
-                Position = gameObject.transform.position;
-                InventoryItem.Behaviour = InventoryItem.ItemBehaviour.Move;
-                Main_SceneManager.LoadSceneAdditively("TradeScene");
-                Player.Singleton.EnterTrading();
+                //TradeAbstract.Singleton.TradeDialogue.text = "Nu-uh I'm not trading with ya.";
+                //TradeAbstract.Singleton.Exit = true;
+                //Player.RestrictCamera = false;
+                //CurrentTrader = null;
+                //GameObject.Find("UICanvas").SetActive(false);
+
+                Debug.Log("Trader is pissed, doesn't want to trade with you.");
             }
+            else
+            {
+                movingToPosition = true;
+                startPosition = transform.position;
+                CurrentTrader = this;
+            }
+        }
+
+        public void GoToPreviousPosition()
+        {
+            movingToPosition = true;
+            tradePosition = transform.position;
         }
 
         /// <summary>
