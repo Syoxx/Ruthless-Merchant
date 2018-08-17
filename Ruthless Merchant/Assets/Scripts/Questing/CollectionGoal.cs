@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using UnityEngine.UI;
+
 
 namespace RuthlessMerchant {
     public class CollectionGoal : Goal {
@@ -65,7 +65,7 @@ namespace RuthlessMerchant {
         {
             for (int i = 0; i < collectables.Count; i++)
             {
-                if (collectables[i].material.ItemName == foundMaterial.ItemName)
+                if (collectables[i].material.ItemInfo.ItemName == foundMaterial.ItemInfo.ItemName)
                 {
                     collectables[i].currentAmount++;
                     EvaluateCollectables(i);
@@ -82,7 +82,7 @@ namespace RuthlessMerchant {
             collectables = Collectables;
             Completed = false;
             
-             Materials = GameObject.FindGameObjectsWithTag(collectables[0].material.ItemName);
+             Materials = GameObject.FindGameObjectsWithTag(collectables[0].material.ItemInfo.ItemName);
         }
 
         void EvaluateCollectables(int index)
@@ -91,7 +91,7 @@ namespace RuthlessMerchant {
             {
                 collectables[index].completed = true;
                 if(index+1 < collectables.Count)
-                    Materials = GameObject.FindGameObjectsWithTag(collectables[index+1].material.ItemName);
+                    Materials = GameObject.FindGameObjectsWithTag(collectables[index+1].material.ItemInfo.ItemName);
             }
             
         }
@@ -128,17 +128,10 @@ namespace RuthlessMerchant {
 
             if (gobj != null && hero != null)
             {
+
                 if (!(hero.CurrentAction is ActionAttack))
                     Hero.SetCurrentAction(new ActionCollect(this, ActionNPC.ActionPriority.Medium), gobj, true, true);
             }
         }
-
-        //public void ChangeButtonColor(Button button)
-        //{
-            
-        //        ColorBlock colors = button.colors;
-        //        colors.disabledColor = new Color32(118, 229, 118, 128);
-        //        button.colors = colors;
-        //}
     }
 }
