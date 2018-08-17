@@ -45,6 +45,8 @@ namespace RuthlessMerchant
         private Transform target;
         private bool isHeroAway = false;
 
+        private Transform flagPosition;
+
         public event EventHandler OnHeroRemoved;
         public float CaptureValue
         {
@@ -114,6 +116,22 @@ namespace RuthlessMerchant
 
             set
             {
+                if(owner != Faction.Neutral && owner != value)
+                {
+                    if(owner == Faction.Freidenker)
+                    {
+                        //Play FreemindConquerSound
+                        Debug.Log("Freeminds Conquered an Outpost");
+                        FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Minions/FreemindConquerOutpost", /*GameObject.FindGameObjectWithTag("Player").transform.position*/flagPosition.position);
+                    }
+                    else if (owner == Faction.Imperialisten)
+                    {
+                        //Play ImperialistConquerSound
+                        Debug.Log("Imperialists conquered an Outpost");
+                        FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Minions/ImperialistConquerOutpost", /*GameObject.FindGameObjectWithTag("Player").transform.position*/flagPosition.position);
+                    }
+                }
+
                 owner = value;
                 if (hero != null && hero.Faction != owner)
                     hero = null;
@@ -194,6 +212,10 @@ namespace RuthlessMerchant
 
             //Color Flag
             Transform parentFlag = transform.Find("Flag");
+
+            //Save Flagposition for Soundlocation
+            flagPosition = parentFlag.transform;
+
             if (parentFlag != null)
             {
                 Transform obj = parentFlag.Find("Flag");
