@@ -17,12 +17,20 @@ namespace RuthlessMerchant
 
         //[SerializeField]
         //public Transform QuestParent;
+        //[SerializeField]
+        //private GameObject quest1Prefab;
+        //[SerializeField]
+        //private GameObject quest2Prefab;
+        //[SerializeField]
+        //private GameObject quest3Prefab;
+
         [SerializeField]
-        private GameObject quest1Prefab;
+        private GameObject buttonPrefab;
         [SerializeField]
-        private GameObject quest2Prefab;
-        [SerializeField]
-        private GameObject quest3Prefab;
+        private Transform buttonParent;
+
+        private List<GameObject> buttons = new List<GameObject>();
+
 
         public CollectionGoal CollectionGoal
         {
@@ -55,19 +63,29 @@ namespace RuthlessMerchant
             if (other.gameObject.CompareTag("Player"))
             {
                 questingEnabled = true;
-                //Instantiate(quest1Prefab, QuestParent);
-                //Instantiate(quest2Prefab, QuestParent);
-                //Instantiate(quest3Prefab, QuestParent);
-                ////quest1Prefab.GetComponent<Button>().onClick.AddListener(delegate { AssignQuest(0); });
-                ////quest1Prefab.GetComponent<Button>().onClick.AddListener(delegate { AssignQuest(1); });
-                ////quest1Prefab.GetComponent<Button>().onClick.AddListener(delegate { AssignQuest(2); });
-                //quest1Prefab.GetComponentInChildren<Button>().onClick.AddListener(() => AssignQuest(0));
-                if(quest1Prefab!=null)
-                    quest1Prefab.gameObject.SetActive(true);
-                if (quest2Prefab != null)
-                    quest2Prefab.gameObject.SetActive(true);
-                if (quest3Prefab != null)
-                    quest3Prefab.gameObject.SetActive(true);
+
+                for (int i = 0; i < collectionGoals.Count; i++)
+                {
+                    int localIndex = i;
+
+                    
+                    GameObject questButton = Instantiate(buttonPrefab, buttonParent) as GameObject;
+                    QuestDisplayedData questData = questButton.GetComponent<QuestDisplayedData>();
+                    questData.Name.text = collectionGoals[i].QuestTitle;
+                    questData.Description.text = collectionGoals[i].Description;
+                    questData.Reward.text = "Reward: " + collectionGoals[i].Reward.ToString() + "$";
+                    buttons.Add(questButton);
+
+                    Button btn = questButton.GetComponent<Button>();
+                    btn.onClick.AddListener(delegate { AssignQuest(localIndex, btn); });
+                }
+
+                //if(quest1Prefab!=null)
+                //    quest1Prefab.gameObject.SetActive(true);
+                //if (quest2Prefab != null)
+                //    quest2Prefab.gameObject.SetActive(true);
+                //if (quest3Prefab != null)
+                //    quest3Prefab.gameObject.SetActive(true);
             }
         }
         private void OnTriggerExit(Collider other)
@@ -75,44 +93,52 @@ namespace RuthlessMerchant
             if (other.gameObject.CompareTag("Player"))
             {   
                 questingEnabled = false;
+
+                for (int i = 0; i < buttons.Count; i++)
+                {
+                    if(!buttons[i].GetComponent<QuestButton>().inProgress)
+                        Destroy(buttons[i]);
+                }
             }
             //questingEnabled = false;
+
         }
         private void Update()
         {
 
         }
-        public void AssignQuest(int index)
+        public void AssignQuest(int index, Button button)
         {
-
-            Debug.Log("goes in");
+            
+            //Debug.Log("goes in");
             if (collectionGoal != null && questingEnabled)
             {
-                Debug.Log("AssignedQuest");
+
+            //Debug.Log("AssignedQuest: " + index);
                     List<Collectables> tempCollectables = new List<Collectables>();
                     for (int i = 0; i < collectionGoals[index].collectables.Count; i++)
                     {
                         tempCollectables.Add(collectionGoals[index].collectables[i].Clone());
                     }
-                if (index == 0)
-                {
-                    Button button = quest1Prefab.GetComponentInChildren<Button>();
+                //if (index == 0)
+                //{
+                //    Button button = quest1Prefab.GetComponentInChildren<Button>();
                     QuestButton questButton = button.GetComponent<QuestButton>();
                     collectionGoal.FillList(tempCollectables, questButton);
-                }
-                if(index == 1)
-                {
-                    Button button = quest2Prefab.GetComponentInChildren<Button>();
-                    QuestButton questButton = button.GetComponent<QuestButton>();
-                    collectionGoal.FillList(tempCollectables, questButton);
-                }
-                if (index == 2)
-                {
-                    Button button = quest3Prefab.GetComponentInChildren<Button>();
-                    QuestButton questButton = button.GetComponent<QuestButton>();
-                    collectionGoal.FillList(tempCollectables, questButton);
-                }
-                collectionGoal.CalcNextWaypoint();                
+                //}
+                //if(index == 1)
+                //{
+                //    Button button = quest2Prefab.GetComponentInChildren<Button>();
+                //    QuestButton questButton = button.GetComponent<QuestButton>();
+                //    collectionGoal.FillList(tempCollectables, questButton);
+                //}
+                //if (index == 2)
+                //{
+                //    Button button = quest3Prefab.GetComponentInChildren<Button>();
+                //    QuestButton questButton = button.GetComponent<QuestButton>();
+                //    collectionGoal.FillList(tempCollectables, questButton);
+                //}
+                //collectionGoal.CalcNextWaypoint();                
             }
         }
 

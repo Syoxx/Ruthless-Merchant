@@ -87,6 +87,7 @@ namespace RuthlessMerchant {
             Materials = GameObject.FindGameObjectsWithTag(collectables[0].material.ItemInfo.ItemName);
             questButton.InProgressButton();
             questButton.ButtonSettings(false);
+            Debug.Log(Materials.Length);
         }
 
         void EvaluateCollectables(int index)

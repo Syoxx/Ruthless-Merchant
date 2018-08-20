@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 
 namespace RuthlessMerchant {
     public class QuestButton : MonoBehaviour {
 
+        public bool inProgress;
 
         public void CompleteButton()
         {
@@ -23,6 +25,7 @@ namespace RuthlessMerchant {
             colors.normalColor = new Color32(179, 239, 250, 128);
             colors.disabledColor = new Color32(179, 239, 250, 128);
             GetComponent<Button>().colors = colors;
+            inProgress = true;
         }
 
         public void ButtonSettings(bool interactable)
@@ -30,5 +33,10 @@ namespace RuthlessMerchant {
             GetComponent<Button>().interactable = interactable;
         }
 
+        public void SetDisplayedData(string name)
+        {
+            QuestDisplayedData info = GetComponent<QuestDisplayedData>();
+            info.Name.text = name;
+        }
     }
 }
