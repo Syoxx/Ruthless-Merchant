@@ -11,7 +11,7 @@ public class MonsterLogic : MonoBehaviour
     private Vector3 traderPosition;
 
     //Check bool to start the movement of Monster
-    public bool TradeIsDone;
+    private bool tradeIsDone;
 
     //Check if guards are dead -> hunt player
     private bool guardsDead;
@@ -59,7 +59,7 @@ public class MonsterLogic : MonoBehaviour
         
 
         //If trading is done, Monster will start to hunt his targets down
-        if (TradeIsDone)
+        if (tradeIsDone)
         {
             MonsterHunt(step, distanceToGuard, distanceToPlayer);
 
@@ -121,6 +121,6 @@ public class MonsterLogic : MonoBehaviour
 
     private void PlayerIsDead()
     {   
-        SceneManager.LoadScene("Islandtesting");
+        SceneManager.LoadScene("Main");
     }
 }

@@ -23,7 +23,6 @@ namespace RuthlessMerchant
         private float groundedSkin = 0.05f;
         private bool grounded;
         private bool justJumped;
-        protected bool isDying = false;
         private RaycastHit rayHit;
         bool is_climbable_left;
         bool is_climbable_right;
@@ -57,9 +56,9 @@ namespace RuthlessMerchant
         private float healthRegValue = 0.0f;
 
         private float elapsedAttackTime = 2;
-        protected Weapon weapon;
-        protected Weapon shield;
-        protected Potion potion;
+        private Weapon weapon;
+        private Weapon shield;
+        private Potion potion;
 
         public Weapon Weapon
         {
@@ -210,8 +209,7 @@ namespace RuthlessMerchant
                 if (healthSystem == null)
                 {
                     healthSystem = GetComponent<DamageAbleObject>();
-                    if(healthSystem != null)
-                        healthSystem.OnDeath += HealthSystem_OnDeath;
+                    healthSystem.OnDeath += HealthSystem_OnDeath;
                 }
 
                 return healthSystem;
@@ -260,8 +258,7 @@ namespace RuthlessMerchant
 
         private void HealthSystem_OnDeath(object sender, System.EventArgs e)
         {
-            isDying = true;
-            DestroyInteractiveObject(5.0f);
+            DestroyInteractivObject();
         }
 
         public void Attack(Character character)

@@ -14,6 +14,7 @@ public class KillGoal : Goal {
         this.Completed = completed;
         this.CurrentAmount = currentAmount;
         this.RequiredAmount = requiredAmount;
+        this.Waypoints = waypoints;
     }
 
     public override void Initialize()

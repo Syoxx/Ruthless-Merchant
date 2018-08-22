@@ -59,7 +59,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 3fd6d9b4a7a29c44c8b63020189d1146, type: 2}
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -111,16 +111,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da849d998660b964aa1c71df0912cb55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  faction: 4
-  ItemInfo:
-    ItemName: Iron Hammer
-    ItemValue: 58
-    ItemWeight: 4
-    ItemLore: 
-    ItemSprite: {fileID: 21300000, guid: 19aae8362352d4842b1d7b514bceaf0e, type: 3}
-    ItemType: 1
-    ItemRarity: 0
-    maxStackCount: 10
+  faction: 0
+  ItemName: Iron Hammer
+  ItemValue:
+  - Count: 1
+  ItemWeight: 1
+  ItemLore: An iron hammer
+  ItemSprite: {fileID: 21300000, guid: 19aae8362352d4842b1d7b514bceaf0e, type: 3}
+  ItemType: 1
+  ItemRarity: 0
+  MaxStackCount: 20
   weaponType: 0
   damage: 130
   defencePower: 0

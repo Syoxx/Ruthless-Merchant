@@ -7,7 +7,6 @@ namespace RuthlessMerchant
         Monster,
         Neutral,
         Imperialisten,
-        None,
-        Money
+        None
     }
 }

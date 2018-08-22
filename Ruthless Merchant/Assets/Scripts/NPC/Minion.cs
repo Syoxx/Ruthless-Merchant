@@ -71,39 +71,6 @@ namespace RuthlessMerchant
                         }
                         else
                         {
-                            foreach (KeyValuePair<string, ItemContainer> itemPair in outpost.AvailableItems)
-                            {
-                                if (weapon != null && shield != null && potion != null)
-                                    break;
-
-                                ItemContainer slot = itemPair.Value;
-                                if (slot.Count > 0)
-                                {
-                                    if (slot.Item is Weapon)
-                                    {
-                                        bool isShield = itemPair.Key.Contains("shield");
-                                        if (weapon == null && !isShield)
-                                        {
-                                            weapon = (Weapon)slot.Item;
-                                            slot.Count--;
-                                        }
-                                        else if (shield == null && isShield)
-                                        {
-                                            shield = (Weapon)slot.Item;
-                                            slot.Count--;
-                                        }
-                                    }
-                                    else if (slot.Item is Potion)
-                                    {
-                                        if (potion == null)
-                                        {
-                                            potion = (Potion)slot.Item;
-                                            slot.Count--;
-                                        }
-                                    }
-                                }
-                            }
-
                             SelectNextOutpost(outpost);
                         }
                     }

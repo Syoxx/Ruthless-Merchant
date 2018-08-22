@@ -29,6 +29,18 @@ public class Quest : MonoBehaviour {
     }
     public void CheckGoals()
     {
+        //for (int i = 0; i < Goals.Count; i++)
+        //{
+
+        //    if (!Goals[i].Completed)
+        //    {
+        //        Completed = false;
+        //        break;
+        //    }
+        //    else
+        //        Completed = true;
+               
+        //}
          Completed = Goals.All(g => g.Completed);
         if (Completed)
             GiveReward();

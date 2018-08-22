@@ -59,7 +59,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: fc697ed6312335545836b7c45cebfe3c, type: 2}
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -111,16 +111,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da849d998660b964aa1c71df0912cb55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  faction: 4
-  ItemInfo:
-    ItemName: Steel Longsword
-    ItemValue: 65
-    ItemWeight: 2
-    ItemLore: 
-    ItemSprite: {fileID: 0}
-    ItemType: 1
-    ItemRarity: 1
-    maxStackCount: 10
+  faction: 0
+  ItemName: Steel longsword
+  ItemValue:
+  - Count: 1
+  ItemWeight: 1
+  ItemLore: A steel longsword.
+  ItemSprite: {fileID: 0}
+  ItemType: 1
+  ItemRarity: 0
+  MaxStackCount: 20
   weaponType: 0
   damage: 11
   defencePower: 0

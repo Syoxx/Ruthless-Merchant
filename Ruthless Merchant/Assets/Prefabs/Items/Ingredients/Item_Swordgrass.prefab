@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 23453933436621892}
   - component: {fileID: 114941894153861622}
   - component: {fileID: 114791146656476612}
-  - component: {fileID: 65404633719730950}
+  - component: {fileID: 64622140726950654}
   m_Layer: 0
   m_Name: Item_Swordgrass
   m_TagString: Untagged
@@ -86,8 +86,8 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1040716380191158}
   m_Mesh: {fileID: 4300000, guid: 19350b1dead052d4cb5a363400df0dec, type: 3}
---- !u!65 &65404633719730950
-BoxCollider:
+--- !u!64 &64622140726950654
+MeshCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -95,9 +95,11 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.17565197, y: 0.16838904, z: 0.110440925}
-  m_Center: {x: 0.016134981, y: -0.011479883, z: 0.039187197}
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300000, guid: 19350b1dead052d4cb5a363400df0dec, type: 3}
 --- !u!114 &114791146656476612
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -110,16 +112,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction: 2
-  ItemInfo:
-    ItemName: Swordgrass
-    ItemValue: 3
-    ItemWeight: 1
-    ItemLore: In keeping with its name, this grass is very hard and extremely sharp
-      on its sides. Extreme caution is required when picking.
-    ItemSprite: {fileID: 21300000, guid: 2c551a386a6655a4395c87660cbee712, type: 3}
-    ItemType: 0
-    ItemRarity: 0
-    maxStackCount: 20
+  ItemName: Swordgrass
+  ItemValue:
+  - Count: 1
+  ItemWeight: 1
+  ItemLore: This grass is very stable and extremely sharp on its sides. Extreme caution
+    is required when picking.
+  ItemSprite: {fileID: 21300000, guid: 2c551a386a6655a4395c87660cbee712, type: 3}
+  ItemType: 0
+  ItemRarity: 0
+  MaxStackCount: 20
   ingredientType: 0
   attackSpeedBuff: 1.05
   healthBuff: 0
