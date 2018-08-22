@@ -442,7 +442,7 @@ namespace RuthlessMerchant
         private Color GetFactionColor()
         {
             if (owner == Faction.Freidenker)
-                return new Color(94.0f / 255.0f, 125.0f / 255.0f, 142.0f / 255.0f);
+                return new Color(1f, 215.0f / 255.0f, 0);
             else if (owner == Faction.Imperialisten)
                 return new Color(175.0f / 255.0f, 33.0f / 255.0f, 32.0f / 255.0f);
             else
