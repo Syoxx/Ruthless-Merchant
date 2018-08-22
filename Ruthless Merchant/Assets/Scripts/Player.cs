@@ -91,7 +91,7 @@ namespace RuthlessMerchant
 
         [Header("Book")]
         [SerializeField, Tooltip("Drag a book canvas there / Daniil Masliy")]
-        private GameObject bookCanvas;
+        public GameObject bookCanvas;
 
         [SerializeField, Tooltip("Drag 'InventoryItem' Prefab here.")]
         private GameObject itemInventory;
@@ -730,7 +730,11 @@ namespace RuthlessMerchant
             restrictMovement = true;
             restrictCamera = true;
             bookCanvas.SetActive(true);
-            bookLogic.GoToPage(KeyCode.I);
+
+            if(Tutorial.Singleton != null & Tutorial.Singleton.isTutorial)
+                bookLogic.GoToPage(KeyCode.N);
+            else
+                bookLogic.GoToPage(KeyCode.I);
         }
 
         public void AllowTradingMovement()
