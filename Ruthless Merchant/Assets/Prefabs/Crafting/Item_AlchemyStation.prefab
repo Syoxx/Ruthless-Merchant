@@ -132,8 +132,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1521410502376498}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 46.562016, y: 25.228214, z: 230.08568}
+  m_LocalRotation: {x: -0.5584736, y: -0.4337134, z: -0.43371326, w: 0.55847365}
+  m_LocalPosition: {x: 48.032772, y: 25.288408, z: 222.20718}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4449202655119166}
@@ -157,7 +157,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: f60d7815bd7dd4e418b556da35f8b5cf, type: 3}
+  - {fileID: 2100000, guid: c452eaf0e74329e4ca3386a664488d12, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -192,7 +192,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 31bb3080aaa80454c8428fd8107b5203, type: 3}
+  - {fileID: 2100000, guid: 6e50fb5cc9ebf944ca87192e44352d40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -227,7 +227,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 46cb6e083bd0b7f4eb94a1b47054eab1, type: 3}
+  - {fileID: 2100000, guid: 5ad9dde66785fd04a80abaa1a37d47f3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -262,7 +262,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: b5507d0e6c001b74faa218c0330825eb, type: 2}
+  - {fileID: 2100000, guid: 864a14bdf0eac844ba37eeef7a69f650, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -295,7 +295,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1521410502376498}
-  m_Mesh: {fileID: 4300000, guid: f8f41ffa459d9364a9c9b5accc3592ad, type: 3}
+  m_Mesh: {fileID: 4300000, guid: e17d3463e19bfcd4b878dc0355ef1dbe, type: 3}
 --- !u!33 &33669253670059148
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -337,7 +337,7 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: f8f41ffa459d9364a9c9b5accc3592ad, type: 3}
+  m_Mesh: {fileID: 4300000, guid: e17d3463e19bfcd4b878dc0355ef1dbe, type: 3}
 --- !u!64 &64833720479520756
 MeshCollider:
   m_ObjectHideFlags: 1
@@ -377,7 +377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36ac65fab282af7448630aec53d72e87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  faction: 0
+  faction: 3
   potionSprites:
   - {fileID: 21300000, guid: ac52dcf8f803d7a43a56050ea3e16ba6, type: 3}
   - {fileID: 21300000, guid: bf00bdf589cd8b040b4717f1a204ec0f, type: 3}
