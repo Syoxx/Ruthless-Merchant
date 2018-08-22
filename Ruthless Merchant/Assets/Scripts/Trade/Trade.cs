@@ -14,6 +14,9 @@ namespace RuthlessMerchant
         #endif
         public List<float> PlayerOffers;
 
+        [SerializeField]
+        Item coinPrefab;
+
         #if UNITY_EDITOR
         [ReadOnly]
         #endif
@@ -303,6 +306,8 @@ namespace RuthlessMerchant
                 Tutorial.Monolog(5);
             else
                 Tutorial.Monolog(6);
+
+            Inventory.Singleton.Add(coinPrefab, (int)GetCurrentTraderOffer(), true);
 
             if (ItemsSold != null)
                 ItemsSold.Invoke(this, new TradeArgs(ItemsToSell, Trader.CurrentTrader));
