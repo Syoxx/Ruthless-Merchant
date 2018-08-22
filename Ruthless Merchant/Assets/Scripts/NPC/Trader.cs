@@ -171,20 +171,19 @@ namespace RuthlessMerchant
 
         float lerpT = 0;
 
-        [SerializeField]
-        bool startTradeImmediately;
+        public bool startTradeImmediately;
 
         #region MonoBehaviour cycle
 
         public override void Start()
         {
             if(Tutorial.Singleton != null && startTradeImmediately)
-                Interact(gameObject);
+                Interact(null);
         }
 
         public override void Update()
         {
-            //UpdatePlacement();
+            UpdatePlacement();
             UpdatePsychoCoolff();
         }
 
@@ -444,18 +443,23 @@ namespace RuthlessMerchant
             {
                 MonsterLogic monsterLogic = FindObjectOfType<MonsterLogic>();
 
-                if (WantsToStartTrading() && monsterLogic != null && !monsterLogic.TradeIsDone)
+                if (WantsToStartTrading())
                 {
-                    //movingToPosition = true;
-                    //startPosition = transform.position;
-                    //Position = gameObject.transform.position;
-                    //movingToPosition = false;
-
-                    CurrentTrader = this;
-                    InventoryItem.Behaviour = InventoryItem.ItemBehaviour.Move;
-                    Main_SceneManager.LoadSceneAdditively("TradeScene");
-                    Player.Singleton.EnterTrading();
-                    Tutorial.Monolog(1);
+                    if (caller == null && monsterLogic != null && !monsterLogic.TradeIsDone)
+                    {
+                        CurrentTrader = this;
+                        InventoryItem.Behaviour = InventoryItem.ItemBehaviour.Move;
+                        Main_SceneManager.LoadSceneAdditively("TradeScene");
+                        Player.Singleton.EnterTrading();
+                        Tutorial.Monolog(1);
+                    }
+                    else
+                    {
+                        CurrentTrader = this;
+                        movingToPosition = true;
+                        startPosition = transform.position;
+                        Position = gameObject.transform.position;
+                    }
                 }
                 else
                 {

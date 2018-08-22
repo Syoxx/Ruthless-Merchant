@@ -60,7 +60,12 @@ namespace RuthlessMerchant
                 }
             }
 
-            TradeObjectsParent.transform.position = Trader.CurrentTrader.gameObject.transform.position + new Vector3(0, 0.21f);
+            Vector3 addedVector = Vector3.zero;
+
+            if (Trader.CurrentTrader.startTradeImmediately)
+                addedVector = new Vector3(0, 0.22f);
+
+            TradeObjectsParent.transform.position = Trader.CurrentTrader.gameObject.transform.position + addedVector;
             NeutralPositionY = PlayerZone.transform.position.y;
 
             Vector3 prevRotation = TradeObjectsParent.transform.rotation.eulerAngles;
