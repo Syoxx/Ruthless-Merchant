@@ -143,11 +143,7 @@ namespace RuthlessMerchant
                     break;
             }
             inventoryItem.ItemDescription.text = inventorySlot.ItemInfo.ItemLore;
-
-            if (inventorySlot.ItemInfo.ItemValue != null && inventorySlot.ItemInfo.ItemValue.Length > 0)
-                inventoryItem.ItemPrice.text = inventorySlot.ItemInfo.ItemValue[0].Count.ToString();
-            else
-                inventoryItem.ItemPrice.text = "0G";
+            inventoryItem.ItemPrice.text = inventorySlot.ItemInfo.ItemValue.ToString() + "G";
 
             if (inventorySlot.ItemInfo.ItemSprite != null)
             {
@@ -191,10 +187,8 @@ namespace RuthlessMerchant
             inventoryItem.ItemQuantity.text = inventorySlot.Count + "x ";
             inventoryItem.ItemDescription.text = inventorySlot.ItemInfo.ItemLore;
 
-            if (inventorySlot.ItemInfo.ItemValue != null && inventorySlot.ItemInfo.ItemValue.Length > 0)
-                inventoryItem.ItemPrice.text = inventorySlot.ItemInfo.ItemValue[0].Count + "G";
-            else
-                inventoryItem.ItemPrice.text = "0G";
+
+            inventoryItem.ItemPrice.text = inventorySlot.ItemInfo.ItemValue.ToString() + "G";
 
             if (inventorySlot.ItemInfo.ItemSprite != null)
             {
