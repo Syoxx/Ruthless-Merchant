@@ -133,7 +133,7 @@ namespace RuthlessMerchant
             switch (inventorySlot.ItemInfo.ItemRarity)
             {
                 case ItemRarity.Üblich:
-                    inventoryItem.ItemName.color = new Color(0,0,0);
+                    inventoryItem.ItemName.color = new Color(0, 0, 0);
                     break;
                 case ItemRarity.Ungewöhnlich:
                     inventoryItem.ItemName.color = new Color(0, 0.2f, 1);
@@ -143,8 +143,7 @@ namespace RuthlessMerchant
                     break;
             }
             inventoryItem.ItemDescription.text = inventorySlot.ItemInfo.ItemLore;
-            if (inventorySlot.ItemInfo.ItemValue != null)
-                   inventoryItem.ItemPrice.text = inventorySlot.ItemInfo.ItemValue.ToString() + "G";
+            inventoryItem.ItemPrice.text = inventorySlot.ItemInfo.ItemValue.ToString() + "G";
 
             if (inventorySlot.ItemInfo.ItemSprite != null)
             {
@@ -187,8 +186,9 @@ namespace RuthlessMerchant
             inventoryItem.ItemName.text = inventorySlot.ItemInfo.ItemName;
             inventoryItem.ItemQuantity.text = inventorySlot.Count + "x ";
             inventoryItem.ItemDescription.text = inventorySlot.ItemInfo.ItemLore;
-            if (inventorySlot.ItemInfo.ItemValue != null)
-                    inventoryItem.ItemPrice.text = inventorySlot.ItemInfo.ItemValue + "G";
+
+
+            inventoryItem.ItemPrice.text = inventorySlot.ItemInfo.ItemValue.ToString() + "G";
 
             if (inventorySlot.ItemInfo.ItemSprite != null)
             {
