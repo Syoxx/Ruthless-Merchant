@@ -12,7 +12,7 @@ namespace RuthlessMerchant
 {
     public abstract class NPC : Character
     {
-        public static int MaxNPCCountPerFaction = 100;
+        public static int MaxNPCCountPerFaction = 62;
         public static Dictionary<Faction, int> NPCCount = new Dictionary<Faction, int>()
         {
             { Faction.Freidenker, 0 },
@@ -259,9 +259,8 @@ namespace RuthlessMerchant
             Character character = gameObject.GetComponent<Character>();
             if (character != null && faction != character.Faction && character.HealthSystem != null && character.HealthSystem.Health > 0)
             {
-                if (character.IsPlayer)
+                if (character.IsPlayer && faction != Faction.Monster)
                 {
-                    //TODO check faction standings
                     return false;
                 }
                 else

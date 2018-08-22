@@ -20,7 +20,12 @@ namespace RuthlessMerchant
         private Dictionary<Faction, int> capturingUnits;
         private List<NPC> capturingUnitsList;
 
-        private Renderer flagRenderer;
+        [SerializeField, Tooltip("Flag material for freemindes")]
+        private UnityEngine.Material freidenkerFlagMaterial = null;
+        [SerializeField, Tooltip("Flag material for imperialists")]
+        private UnityEngine.Material imperialistFlagMaterial = null;
+
+        private SkinnedMeshRenderer flagRenderer;
         [SerializeField, Tooltip("Text of mapmarker to make ownership visable on the map")]
         private TextMeshProUGUI mapMarkerRenderer;
 
@@ -52,6 +57,7 @@ namespace RuthlessMerchant
 
         private Transform target;
         private bool isHeroAway = false;
+        private bool isCity = false;
 
         public event EventHandler OnHeroRemoved;
         public float CaptureValue
@@ -186,6 +192,7 @@ namespace RuthlessMerchant
         // Use this for initialization
         protected virtual void Start()
         {
+            isCity = name.Contains("City");
             capturingUnits = new Dictionary<Faction, int>();
             capturingUnitsList = new List<NPC>();
             if (owner == Faction.Freidenker)
@@ -216,9 +223,8 @@ namespace RuthlessMerchant
 
                 if (obj != null && obj.CompareTag("Flag"))
                 {
-                    flagRenderer = obj.GetComponent<Renderer>();
-                    if (flagRenderer != null)
-                        flagRenderer.material.color = GetFactionColor();
+                    flagRenderer = obj.GetComponent<SkinnedMeshRenderer>();
+                    ChangeFlagMaterial();
                 }
             }
 
@@ -263,6 +269,19 @@ namespace RuthlessMerchant
             }
         }
 
+        private void ChangeFlagMaterial()
+        {
+            if (flagRenderer != null)
+            {
+                if (owner == Faction.Freidenker)
+                    flagRenderer.material = freidenkerFlagMaterial;
+                else if (owner == Faction.Imperialisten)
+                    flagRenderer.material = imperialistFlagMaterial;
+                else
+                    flagRenderer.material = null;
+            }
+        }
+
         private void SpawnHero()
         {
             if (hero == null)
@@ -294,7 +313,7 @@ namespace RuthlessMerchant
                 {
                     if (owner == Faction.Imperialisten)
                     {
-                        if (Hero != null && outpost.Hero == null)
+                        if (Hero != null && !IsHeroAway && outpost.Hero == null)
                         {
                             outpost.Hero = hero;
                             Hero = null;
@@ -360,7 +379,7 @@ namespace RuthlessMerchant
 
         private void Capture()
         {
-            if ((hero == null || isHeroAway) && capturingUnits != null)
+            if ((hero == null || isHeroAway) && capturingUnits != null && !isCity)
             {
                 //int freidenkerCount = capturingUnits.ContainsKey(Faction.Freidenker) ? capturingUnits[Faction.Freidenker] : 0;
                 //int imperialistenCount = capturingUnits.ContainsKey(Faction.Imperialisten) ? capturingUnits[Faction.Imperialisten] : 0;

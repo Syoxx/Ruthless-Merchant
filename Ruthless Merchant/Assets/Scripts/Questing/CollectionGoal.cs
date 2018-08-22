@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-
+using UnityEngine.UI;
 
 namespace RuthlessMerchant {
     public class CollectionGoal : Goal {
 
         Hero hero;
+        QuestButton questButton;
 
         [SerializeField]
         private int CollectableID;
@@ -50,7 +51,7 @@ namespace RuthlessMerchant {
         }
         private void Update()
         {
-
+                
         }
 
         public void CalcRequiredAmount()
@@ -60,6 +61,7 @@ namespace RuthlessMerchant {
                 RequiredAmount += collectables[i].requiredAmount;
             }
         }
+
         public void CollectableFound(Material foundMaterial)
         {
             for (int i = 0; i < collectables.Count; i++)
@@ -76,23 +78,28 @@ namespace RuthlessMerchant {
 
         }
 
-        public void FillList(List<Collectables> Collectables)
+        public void FillList(List<Collectables> Collectables, QuestButton questbtn)
         {
             collectables = Collectables;
             Completed = false;
-            
-             Materials = GameObject.FindGameObjectsWithTag(collectables[0].material.ItemInfo.ItemName);
+            questButton = questbtn;
+
+            Materials = GameObject.FindGameObjectsWithTag(collectables[0].material.ItemInfo.ItemName);
+            questButton.InProgressButton();
+            questButton.ButtonSettings(false);
         }
+
         void EvaluateCollectables(int index)
         {
             if (collectables[index].currentAmount >= collectables[index].requiredAmount)
             {
                 collectables[index].completed = true;
-                if(index < collectables.Count)
+                if(index+1 < collectables.Count)
                     Materials = GameObject.FindGameObjectsWithTag(collectables[index+1].material.ItemInfo.ItemName);
             }
             
         }
+
         bool EvaluateGoal()
         {
             for (int i = 0; i < collectables.Count; i++)
@@ -103,6 +110,8 @@ namespace RuthlessMerchant {
                 }
             }
             Materials = new GameObject[Materials.Length];
+            if(questButton)
+                questButton.CompleteButton();
             return true;
         }
 
@@ -130,5 +139,6 @@ namespace RuthlessMerchant {
                     Hero.SetCurrentAction(new ActionCollect(this, ActionNPC.ActionPriority.Medium), gobj, true, true);
             }
         }
+
     }
 }

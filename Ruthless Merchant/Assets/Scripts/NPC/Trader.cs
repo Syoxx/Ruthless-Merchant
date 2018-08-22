@@ -444,7 +444,7 @@ namespace RuthlessMerchant
             {
                 MonsterLogic monsterLogic = FindObjectOfType<MonsterLogic>();
 
-                if(WantsToStartTrading() && monsterLogic != null && !monsterLogic.TradeIsDone)
+                if (WantsToStartTrading() && monsterLogic != null && !monsterLogic.TradeIsDone)
                 {
                     //movingToPosition = true;
                     //startPosition = transform.position;

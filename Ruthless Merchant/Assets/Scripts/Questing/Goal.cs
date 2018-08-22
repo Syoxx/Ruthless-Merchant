@@ -11,6 +11,8 @@ public class Goal : MonoBehaviour {
     protected string Description; //{ get; set; }
     //[SerializeField]
     protected int RequiredAmount; //{ get; set; }
+    [SerializeField]
+    protected int Reward;
     //[SerializeField]
     //protected List<Transform> Waypoints;
 

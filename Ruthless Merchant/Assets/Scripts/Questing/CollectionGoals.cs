@@ -1,15 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-namespace RuthlessMerchant {
-    public class CollectionGoals : MonoBehaviour {
+namespace RuthlessMerchant
+{
+    public class CollectionGoals : MonoBehaviour
+    {
 
         [SerializeField]
         private List<CollectionGoal> collectionGoals;
         private List<CollectionGoal> CollectionGoalClones = new List<CollectionGoal>();
+        private bool questingEnabled;
 
-        CollectionGoal collectionGoal;
+        private CollectionGoal collectionGoal;
+
+        //[SerializeField]
+        //public Transform QuestParent;
+        [SerializeField]
+        private GameObject pagePrefab;
+        [SerializeField]
+        private GameObject quest1Prefab;
+        [SerializeField]
+        private GameObject quest2Prefab;
+        [SerializeField]
+        private GameObject quest3Prefab;
 
         public CollectionGoal CollectionGoal
         {
@@ -23,6 +38,7 @@ namespace RuthlessMerchant {
             }
         }
 
+
         private void Start()
         {
             collectionGoal = GetComponent<CollectionGoal>();
@@ -31,35 +47,79 @@ namespace RuthlessMerchant {
 
         private void OnTriggerStay(Collider other)
         {
-            if (other.gameObject.CompareTag("NPC"))
+            if (other.gameObject.CompareTag("NPC") && collectionGoal == null)
             {
                 collectionGoal = other.gameObject.GetComponent<CollectionGoal>();
-
-                if (Input.GetKeyDown(KeyCode.Alpha1))
-                {
-                    List<Collectables> tempCollectables = new List<Collectables>();
-                    for (int i = 0; i < collectionGoals[0].collectables.Count; i++)
-                    {
-                        tempCollectables.Add(collectionGoals[0].collectables[i].Clone());
-                    }
-                    
-                    collectionGoal.FillList(tempCollectables);
-                    collectionGoal.CalcNextWaypoint();
-                }
-                if (Input.GetKeyDown(KeyCode.Alpha2))
-                {
-                    collectionGoal.FillList(collectionGoals[1].collectables);
-                }
-                if (Input.GetKeyDown(KeyCode.Alpha3))
-                {
-                    collectionGoal.FillList(collectionGoals[2].collectables);
-                }
             }
+        }
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.CompareTag("Player"))
+            {
+                ManageQuestPage questPage = pagePrefab.GetComponent<ManageQuestPage>();
+                questPage.DisableAllButtons();
+                questingEnabled = true;
+                //Instantiate(quest1Prefab, QuestParent);
+                //Instantiate(quest2Prefab, QuestParent);
+                //Instantiate(quest3Prefab, QuestParent);
+                ////quest1Prefab.GetComponent<Button>().onClick.AddListener(delegate { AssignQuest(0); });
+                ////quest1Prefab.GetComponent<Button>().onClick.AddListener(delegate { AssignQuest(1); });
+                ////quest1Prefab.GetComponent<Button>().onClick.AddListener(delegate { AssignQuest(2); });
+                //quest1Prefab.GetComponentInChildren<Button>().onClick.AddListener(() => AssignQuest(0));
+                if(quest1Prefab!=null)
+                    quest1Prefab.gameObject.SetActive(true);
+                if (quest2Prefab != null)
+                    quest2Prefab.gameObject.SetActive(true);
+                if (quest3Prefab != null)
+                    quest3Prefab.gameObject.SetActive(true);
+            }
+        }
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.gameObject.CompareTag("Player"))
+            {   
+                questingEnabled = false;
+            }
+            //questingEnabled = false;
         }
         private void Update()
         {
 
         }
+        public void AssignQuest(int index)
+        {
+
+            Debug.Log("goes in");
+            if (collectionGoal != null && questingEnabled)
+            {
+                Debug.Log("AssignedQuest");
+                    List<Collectables> tempCollectables = new List<Collectables>();
+                    for (int i = 0; i < collectionGoals[index].collectables.Count; i++)
+                    {
+                        tempCollectables.Add(collectionGoals[index].collectables[i].Clone());
+                    }
+                if (index == 0)
+                {
+                    Button button = quest1Prefab.GetComponentInChildren<Button>();
+                    QuestButton questButton = button.GetComponent<QuestButton>();
+                    collectionGoal.FillList(tempCollectables, questButton);
+                }
+                if(index == 1)
+                {
+                    Button button = quest2Prefab.GetComponentInChildren<Button>();
+                    QuestButton questButton = button.GetComponent<QuestButton>();
+                    collectionGoal.FillList(tempCollectables, questButton);
+                }
+                if (index == 2)
+                {
+                    Button button = quest3Prefab.GetComponentInChildren<Button>();
+                    QuestButton questButton = button.GetComponent<QuestButton>();
+                    collectionGoal.FillList(tempCollectables, questButton);
+                }
+                collectionGoal.CalcNextWaypoint();                
+            }
+        }
+
 
     }
 }
