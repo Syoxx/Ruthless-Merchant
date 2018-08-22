@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5191,6 +5191,10 @@ Prefab:
     - target: {fileID: 1929549382354612, guid: 1c0d1eeffc62a47f897707cef4a1b158, type: 2}
       propertyPath: m_Name
       value: TraderCapsule
+      objectReference: {fileID: 0}
+    - target: {fileID: 1929549382354612, guid: 1c0d1eeffc62a47f897707cef4a1b158, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114767202788306604, guid: 1c0d1eeffc62a47f897707cef4a1b158, type: 2}

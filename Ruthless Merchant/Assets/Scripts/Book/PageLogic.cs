@@ -58,11 +58,16 @@ public class PageLogic : MonoBehaviour
 
     private BookSection myBookSection;
     // Use this for initialization
+
+    private void Awake()
+    {
+        myBook = GetComponent<BookPro>();
+        flipEffect = GetComponent<AutoFlip>();
+    }
+
     void Start()
     {
         couritineIsFinished = true;
-        myBook = GetComponent<BookPro>();
-        flipEffect = GetComponent<AutoFlip>();
     }
 
     void Update()
