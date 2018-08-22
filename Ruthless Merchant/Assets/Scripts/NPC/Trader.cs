@@ -179,12 +179,12 @@ namespace RuthlessMerchant
         public override void Start()
         {
             if(Tutorial.Singleton != null && startTradeImmediately)
-                Interact(null);
+                Interact(gameObject);
         }
 
         public override void Update()
         {
-            UpdatePlacement();
+            //UpdatePlacement();
             UpdatePsychoCoolff();
         }
 
@@ -306,7 +306,7 @@ namespace RuthlessMerchant
 
             if (UpdatePsychology())
             {
-                if (trade.GetCurrentPlayerOffer() == 1)
+                if (trade.GetCurrentTraderOffer() == -1)
                 {
                     HandleFirstPlayerOffer();
                 }
@@ -440,21 +440,27 @@ namespace RuthlessMerchant
         /// <param name="caller"></param>
         public override void Interact(GameObject caller)
         {
-            if (!WantsToStartTrading())
+            if (TradeAbstract.Singleton == null)
             {
-                //TradeAbstract.Singleton.TradeDialogue.text = "Nu-uh I'm not trading with ya.";
-                //TradeAbstract.Singleton.Exit = true;
-                //Player.RestrictCamera = false;
-                //CurrentTrader = null;
-                //GameObject.Find("UICanvas").SetActive(false);
+                MonsterLogic monsterLogic = FindObjectOfType<MonsterLogic>();
 
-                Debug.Log("Trader is pissed, doesn't want to trade with you.");
-            }
-            else
-            {
-                movingToPosition = true;
-                startPosition = transform.position;
-                CurrentTrader = this;
+                if (WantsToStartTrading() && monsterLogic != null && !monsterLogic.TradeIsDone)
+                {
+                    //movingToPosition = true;
+                    //startPosition = transform.position;
+                    //Position = gameObject.transform.position;
+                    //movingToPosition = false;
+
+                    CurrentTrader = this;
+                    InventoryItem.Behaviour = InventoryItem.ItemBehaviour.Move;
+                    Main_SceneManager.LoadSceneAdditively("TradeScene");
+                    Player.Singleton.EnterTrading();
+                    Tutorial.Monolog(1);
+                }
+                else
+                {
+                    Debug.Log("Trader is pissed, doesn't want to trade with you.");
+                }
             }
         }
 
