@@ -54,6 +54,9 @@ namespace RuthlessMerchant
 
         public void OnButtonClick()
         {
+            if (MoveItem == null)
+                return;
+
             Debug.Log("Inventory Item Button Pressed!");
 
             switch (Behaviour)
@@ -64,8 +67,7 @@ namespace RuthlessMerchant
                     {
                         Tutorial.Monolog(1);
 
-                        if(MoveItem != null)
-                            MoveItem(this);
+                        MoveItem(this);
                         Inventory.Singleton.Remove(this, 1, true);
                     }
                     else
