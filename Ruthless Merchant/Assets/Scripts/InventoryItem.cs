@@ -64,7 +64,8 @@ namespace RuthlessMerchant
                     {
                         Tutorial.Monolog(1);
 
-                        MoveItem(this);
+                        if(MoveItem != null)
+                            MoveItem(this);
                         Inventory.Singleton.Remove(this, 1, true);
                     }
                     else
