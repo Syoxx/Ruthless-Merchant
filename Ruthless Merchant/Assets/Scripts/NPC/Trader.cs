@@ -443,7 +443,7 @@ namespace RuthlessMerchant
             {
                 MonsterLogic monsterLogic = FindObjectOfType<MonsterLogic>();
 
-                if (WantsToStartTrading())
+                if (WantsToStartTrading() && (monsterLogic == null || !monsterLogic.TradeIsDone))
                 {
                     if (caller == null && monsterLogic != null && !monsterLogic.TradeIsDone)
                     {
