@@ -5192,6 +5192,10 @@ Prefab:
       propertyPath: m_Name
       value: TraderCapsule
       objectReference: {fileID: 0}
+    - target: {fileID: 1929549382354612, guid: 1c0d1eeffc62a47f897707cef4a1b158, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114767202788306604, guid: 1c0d1eeffc62a47f897707cef4a1b158, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 1c0d1eeffc62a47f897707cef4a1b158, type: 2}
@@ -9910,6 +9914,8 @@ MonoBehaviour:
   TradeObjectsParent: {fileID: 1185506952}
   defaultValue: 35
   PlayerOffers: []
+  coinPrefab: {fileID: 114152401755232270, guid: 7f925cec63a4cce44b3c75d34f41558e,
+    type: 2}
   TraderOffers: []
 --- !u!4 &1411813786
 Transform:

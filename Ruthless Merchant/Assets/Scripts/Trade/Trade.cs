@@ -14,6 +14,9 @@ namespace RuthlessMerchant
         #endif
         public List<float> PlayerOffers;
 
+        [SerializeField]
+        Item coinPrefab;
+
         #if UNITY_EDITOR
         [ReadOnly]
         #endif
@@ -60,7 +63,12 @@ namespace RuthlessMerchant
                 }
             }
 
-            TradeObjectsParent.transform.position = Trader.CurrentTrader.gameObject.transform.position;
+            Vector3 addedVector = Vector3.zero;
+
+            if (Trader.CurrentTrader.startTradeImmediately)
+                addedVector = new Vector3(0, 0.22f);
+
+            TradeObjectsParent.transform.position = Trader.CurrentTrader.gameObject.transform.position + addedVector;
             NeutralPositionY = PlayerZone.transform.position.y;
 
             Vector3 prevRotation = TradeObjectsParent.transform.rotation.eulerAngles;
@@ -91,7 +99,10 @@ namespace RuthlessMerchant
                     MonsterLogic monsterLogic = FindObjectOfType<MonsterLogic>();
 
                     if (monsterLogic != null)
+                    {
                         monsterLogic.TradeIsDone = true;
+                        Debug.Log("Trade is done");
+                    }
 
                     Main_SceneManager.UnLoadScene("TradeScene");
                 }
@@ -105,7 +116,7 @@ namespace RuthlessMerchant
                         ModifyOffer();
                     }
 
-                    else if (Input.GetMouseButtonDown(0))
+                    else if (!Player.Singleton.bookCanvas.activeInHierarchy && Input.GetMouseButtonDown(0))
                     {
                         HandlePlayerOffer();
                     }
@@ -295,6 +306,8 @@ namespace RuthlessMerchant
                 Tutorial.Monolog(5);
             else
                 Tutorial.Monolog(6);
+
+            Inventory.Singleton.Add(coinPrefab, (int)GetCurrentTraderOffer(), true);
 
             if (ItemsSold != null)
                 ItemsSold.Invoke(this, new TradeArgs(ItemsToSell, Trader.CurrentTrader));
