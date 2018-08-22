@@ -133,7 +133,7 @@ namespace RuthlessMerchant
             switch (inventorySlot.ItemInfo.ItemRarity)
             {
                 case ItemRarity.Üblich:
-                    inventoryItem.ItemName.color = new Color(0,0,0);
+                    inventoryItem.ItemName.color = new Color(0, 0, 0);
                     break;
                 case ItemRarity.Ungewöhnlich:
                     inventoryItem.ItemName.color = new Color(0, 0.2f, 1);
@@ -143,11 +143,11 @@ namespace RuthlessMerchant
                     break;
             }
             inventoryItem.ItemDescription.text = inventorySlot.ItemInfo.ItemLore;
-            if (inventorySlot.ItemInfo.ItemValue != null)
-                if (inventorySlot.ItemInfo.ItemValue.Length > 0)
-                    inventoryItem.ItemPrice.text = inventorySlot.ItemInfo.ItemValue[0].Count.ToString();
-                else
-                    inventoryItem.ItemPrice.text = "0G";
+
+            if (inventorySlot.ItemInfo.ItemValue != null && inventorySlot.ItemInfo.ItemValue.Length > 0)
+                inventoryItem.ItemPrice.text = inventorySlot.ItemInfo.ItemValue[0].Count.ToString();
+            else
+                inventoryItem.ItemPrice.text = "0G";
 
             if (inventorySlot.ItemInfo.ItemSprite != null)
             {
@@ -190,11 +190,11 @@ namespace RuthlessMerchant
             inventoryItem.ItemName.text = inventorySlot.ItemInfo.ItemName;
             inventoryItem.ItemQuantity.text = inventorySlot.Count + "x ";
             inventoryItem.ItemDescription.text = inventorySlot.ItemInfo.ItemLore;
-            if (inventorySlot.ItemInfo.ItemValue != null)
-                if (inventorySlot.ItemInfo.ItemValue.Length > 0)
-                    inventoryItem.ItemPrice.text = inventorySlot.ItemInfo.ItemValue[0].Count + "G";
-                else
-                    inventoryItem.ItemPrice.text = "0G";
+
+            if (inventorySlot.ItemInfo.ItemValue != null && inventorySlot.ItemInfo.ItemValue.Length > 0)
+                inventoryItem.ItemPrice.text = inventorySlot.ItemInfo.ItemValue[0].Count + "G";
+            else
+                inventoryItem.ItemPrice.text = "0G";
 
             if (inventorySlot.ItemInfo.ItemSprite != null)
             {
