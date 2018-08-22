@@ -24,11 +24,11 @@ GameObject:
   - component: {fileID: 95066089540471130}
   - component: {fileID: 114777856787426260}
   - component: {fileID: 114890186361641712}
-  - component: {fileID: 64607342190778450}
   - component: {fileID: 54229407800691826}
+  - component: {fileID: 65811263377372576}
   m_Layer: 0
   m_Name: Item_Wood
-  m_TagString: Untagged
+  m_TagString: Wood
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -40,7 +40,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1531244868073720}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 44.996174, y: 25.036663, z: 232.55792}
+  m_LocalPosition: {x: 48.00359, y: 25.279156, z: 222.99768}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -61,7 +61,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 35a5e0957f6fc7146aed315f20d45885, type: 3}
+  - {fileID: 2100000, guid: efb9dddc3db4de748baa52182975028e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -87,7 +87,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1531244868073720}
-  m_Mesh: {fileID: 4300000, guid: 35a5e0957f6fc7146aed315f20d45885, type: 3}
+  m_Mesh: {fileID: 4300000, guid: cc2447a83bdd0f44f93a322af2ba11f0, type: 3}
 --- !u!54 &54229407800691826
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -103,8 +103,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!64 &64607342190778450
-MeshCollider:
+--- !u!65 &65811263377372576
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -112,11 +112,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: 35a5e0957f6fc7146aed315f20d45885, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.2, y: 0.18, z: 0.28593937}
+  m_Center: {x: 0.000000007450581, y: 0, z: 0.10172835}
 --- !u!95 &95066089540471130
 Animator:
   serializedVersion: 3
@@ -157,14 +155,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f1b6d10c64b8064da2e4bc0add27cb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  faction: 0
-  ItemName: Wood
-  ItemValue:
-  - Count: 1
-  ItemWeight: 0
-  ItemLore: A piece of wood
-  ItemSprite: {fileID: 21300000, guid: fb272db21306ed04abb38487cf8231ea, type: 3}
-  ItemType: 3
-  ItemRarity: 0
-  MaxStackCount: 20
+  faction: 4
+  ItemInfo:
+    ItemName: Wood
+    ItemValue: 6
+    ItemWeight: 1
+    ItemLore: Simple pile of wood. Found almost everywhere.
+    ItemSprite: {fileID: 21300000, guid: fb272db21306ed04abb38487cf8231ea, type: 3}
+    ItemType: 3
+    ItemRarity: 0
+    maxStackCount: 20
   materialsType: 0

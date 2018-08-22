@@ -12,7 +12,7 @@ namespace RuthlessMerchant
 {
     public abstract class NPC : Character
     {
-        public static int MaxNPCCountPerFaction = 30;
+        public static int MaxNPCCountPerFaction = 62;
         public static Dictionary<Faction, int> NPCCount = new Dictionary<Faction, int>()
         {
             { Faction.Freidenker, 0 },
@@ -182,28 +182,35 @@ namespace RuthlessMerchant
         public override void Update()
         {
             base.Update();
-            Recognize();
-
-            if (currentAction != null)
-                currentAction.Update(Time.deltaTime);
-
-            CheckReactionState();
-
-            if (!Reacting)
+            if (!isDying)
             {
-                ChangeSpeed(SpeedType.Walk);
+                Recognize();
+
+                if (currentAction != null)
+                    currentAction.Update(Time.deltaTime);
+
+                CheckReactionState();
+
+                if (!Reacting)
+                {
+                    ChangeSpeed(SpeedType.Walk);
+                }
+
+                if (agent.remainingDistance <= agent.stoppingDistance)
+                {
+                    agent.isStopped = true;
+                }
             }
-
-            if (agent.remainingDistance <= agent.stoppingDistance)
+            else
             {
-                agent.isStopped = true;
+                SetCurrentAction(null, null, true, true);
             }
         }
 
-        public override void DestroyInteractivObject()
+        public override void DestroyInteractiveObject(float delay = 0)
         {
             NPCCount[faction]--;
-            base.DestroyInteractivObject();
+            base.DestroyInteractiveObject(delay);
         }
 
         private void CheckReactionState()
@@ -211,7 +218,7 @@ namespace RuthlessMerchant
             if (currentReactTarget != null)
             {
                 //Check Target Health
-                if (CurrentReactTarget.HealthSystem.Health <= 0)
+                if (CurrentReactTarget.HealthSystem == null || CurrentReactTarget.HealthSystem.Health <= 0)
                 {
                     reactionState = TargetState.None;
                     currentReactTarget = null;
@@ -250,11 +257,10 @@ namespace RuthlessMerchant
         protected bool IsThreat(GameObject gameObject)
         {
             Character character = gameObject.GetComponent<Character>();
-            if (character != null && faction != character.Faction && character.HealthSystem.Health > 0)
+            if (character != null && faction != character.Faction && character.HealthSystem != null && character.HealthSystem.Health > 0)
             {
-                if (character.IsPlayer)
+                if (character.IsPlayer && faction != Faction.Monster)
                 {
-                    //TODO check faction standings
                     return false;
                 }
                 else
@@ -404,13 +410,14 @@ namespace RuthlessMerchant
         /// <param name="other">Gameobject which might be useful for the action start</param>
         public void SetCurrentAction(ActionNPC action, GameObject other, bool force = false, bool executeEnd = true)
         {
-            if (force || currentAction == null || currentAction.Priority <= action.Priority)
+            if ((!isDying && (force || currentAction == null || currentAction.Priority <= action.Priority)) || (isDying && action == null))
             {
                 if (currentAction != null)
                     currentAction.EndAction(executeEnd);
 
                 currentAction = action;
-                currentAction.StartAction(this, other);
+                if(currentAction != null)
+                    currentAction.StartAction(this, other);
             }
         }
 

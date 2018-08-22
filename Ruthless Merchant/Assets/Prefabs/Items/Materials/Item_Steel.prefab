@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 114382469026404106}
   m_Layer: 0
   m_Name: Item_Steel
-  m_TagString: Untagged
+  m_TagString: Steel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -38,7 +38,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1076928460012452}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 44.463318, y: 24.990282, z: 230.30627}
+  m_LocalPosition: {x: 113.1339, y: 25.851727, z: 233.48698}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -53,13 +53,13 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 1463f7ccb0a881d498c99fa90bd6e6a7, type: 3}
+  - {fileID: 2100000, guid: 4a481c463b1dc224491ff5ccd4e6148b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -111,16 +111,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f1b6d10c64b8064da2e4bc0add27cb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  faction: 0
-  ItemName: Steel
-  ItemValue:
-  - Count: 1
-  ItemWeight: 1
-  ItemLore: A piece of steel.
-  ItemSprite: {fileID: 21300000, guid: d9bd3364ff2618342bf2da0bb89bf19a, type: 3}
-  ItemType: 3
-  ItemRarity: 0
-  MaxStackCount: 20
+  faction: 4
+  ItemInfo:
+    ItemName: Steel
+    ItemValue: 18
+    ItemWeight: 1
+    ItemLore: Special metal that can be used to forge stronger weapons.
+    ItemSprite: {fileID: 21300000, guid: d9bd3364ff2618342bf2da0bb89bf19a, type: 3}
+    ItemType: 3
+    ItemRarity: 1
+    maxStackCount: 20
   materialsType: 2
 --- !u!114 &114792276441560306
 MonoBehaviour:

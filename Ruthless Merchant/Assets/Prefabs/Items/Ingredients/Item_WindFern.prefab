@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 23006372054186518}
   - component: {fileID: 114192436418383118}
   - component: {fileID: 114292689267092580}
-  - component: {fileID: 64842777515905322}
+  - component: {fileID: 65348072604568638}
   m_Layer: 0
   m_Name: Item_WindFern
   m_TagString: Untagged
@@ -86,8 +86,8 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1557874709599914}
   m_Mesh: {fileID: 4300000, guid: 36f3e4a9418c0c347939e9f6d3bbbede, type: 3}
---- !u!64 &64842777515905322
-MeshCollider:
+--- !u!65 &65348072604568638
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -95,11 +95,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: 36f3e4a9418c0c347939e9f6d3bbbede, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.13706194, y: 0.12004085, z: 0.28291225}
+  m_Center: {x: 0.01024886, y: -0.005808966, z: 0.041696727}
 --- !u!114 &114192436418383118
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -123,16 +121,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction: 2
-  ItemName: Windfern
-  ItemValue:
-  - Count: 1
-  ItemWeight: 1
-  ItemLore: At first glance it is an ordinary grass. If you cut it, however, a bluish
-    fluid escapes, which increases the heartbeat.
-  ItemSprite: {fileID: 21300000, guid: decec5b814474aa4382ee4f30f1755e1, type: 3}
-  ItemType: 0
-  ItemRarity: 0
-  MaxStackCount: 20
+  ItemInfo:
+    ItemName: Windfern
+    ItemValue: 3
+    ItemWeight: 1
+    ItemLore: At first glance it is an ordinary grass. If you cut it, however, a bluish
+      fluid escapes, which increases the heartbeat.
+    ItemSprite: {fileID: 21300000, guid: decec5b814474aa4382ee4f30f1755e1, type: 3}
+    ItemType: 0
+    ItemRarity: 0
+    maxStackCount: 20
   ingredientType: 4
   attackSpeedBuff: 0
   healthBuff: 0
