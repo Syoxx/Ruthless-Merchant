@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6a0bd3bb770198a40b2d50fcaef26bb9
+guid: f84db71672ee13141bc0e7e4d4564f00
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
@@ -245,8 +245,9 @@ ModelImporter:
     400238: UpperLeg_R
     2100000: lambert20
     4300000: Character_MechanicalGolem_01
-    7400000: monsteridlenot
-    7400002: Monsterwalknot
+    7400000: monsteridle
+    7400002: monsterwalk
+    7400004: monsterattack
     9500000: //RootNode
     13700000: Character_MechanicalGolem_01
   externalObjects: {}
@@ -278,7 +279,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: monsteridlenot
+      name: monsteridle
       takeName: mixamo.com
       firstFrame: 0
       lastFrame: 295
@@ -288,7 +289,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -306,7 +307,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Monsterwalknot
+      name: monsterwalk
       takeName: mixamo.com 1
       firstFrame: 0
       lastFrame: 41
@@ -316,7 +317,35 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: monsterattack
+      takeName: mixamo.com 2
+      firstFrame: 0
+      lastFrame: 160
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
