@@ -107,8 +107,11 @@ namespace RuthlessMerchant
 
         public static void Monolog(int speechIndex)
         {
-            if(Singleton != null)
+            if (Singleton != null && Singleton.isTutorial && Singleton.textMesh != null)
+            {
                 Singleton.textMesh.text = Singleton.MonologSpeech[speechIndex];
+                Singleton.textMesh.transform.parent.gameObject.SetActive(true);
+            }
 
             Debug.Log("Monolog " + speechIndex);
         }

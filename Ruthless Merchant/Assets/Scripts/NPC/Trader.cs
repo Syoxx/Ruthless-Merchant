@@ -171,8 +171,7 @@ namespace RuthlessMerchant
 
         float lerpT = 0;
 
-        [SerializeField]
-        bool startTradeImmediately;
+        public bool startTradeImmediately;
 
         #region MonoBehaviour cycle
 
@@ -306,7 +305,7 @@ namespace RuthlessMerchant
 
             if (UpdatePsychology())
             {
-                if (trade.GetCurrentPlayerOffer() == 1)
+                if (trade.GetCurrentTraderOffer() == -1)
                 {
                     HandleFirstPlayerOffer();
                 }
@@ -440,21 +439,32 @@ namespace RuthlessMerchant
         /// <param name="caller"></param>
         public override void Interact(GameObject caller)
         {
-            if (!WantsToStartTrading())
+            if (TradeAbstract.Singleton == null)
             {
-                //TradeAbstract.Singleton.TradeDialogue.text = "Nu-uh I'm not trading with ya.";
-                //TradeAbstract.Singleton.Exit = true;
-                //Player.RestrictCamera = false;
-                //CurrentTrader = null;
-                //GameObject.Find("UICanvas").SetActive(false);
+                MonsterLogic monsterLogic = FindObjectOfType<MonsterLogic>();
 
-                Debug.Log("Trader is pissed, doesn't want to trade with you.");
-            }
-            else
-            {
-                movingToPosition = true;
-                startPosition = transform.position;
-                CurrentTrader = this;
+                if (WantsToStartTrading() && (monsterLogic == null || !monsterLogic.TradeIsDone))
+                {
+                    if (caller == null && monsterLogic != null && !monsterLogic.TradeIsDone)
+                    {
+                        CurrentTrader = this;
+                        InventoryItem.Behaviour = InventoryItem.ItemBehaviour.Move;
+                        Main_SceneManager.LoadSceneAdditively("TradeScene");
+                        Player.Singleton.EnterTrading();
+                        Tutorial.Monolog(1);
+                    }
+                    else
+                    {
+                        CurrentTrader = this;
+                        movingToPosition = true;
+                        startPosition = transform.position;
+                        Position = gameObject.transform.position;
+                    }
+                }
+                else
+                {
+                    Debug.Log("Trader is pissed, doesn't want to trade with you.");
+                }
             }
         }
 
