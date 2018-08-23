@@ -15,7 +15,7 @@ namespace RuthlessMerchant
     {
         public string ItemName;
 
-        public ItemValue[] ItemValue;
+        public int ItemValue;
 
         public int ItemWeight;
 
