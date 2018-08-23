@@ -8,7 +8,7 @@ using RuthlessMerchant;
 public class VRMenuScript : MonoBehaviour
 {
     [SerializeField, Tooltip("Name of the Scene which should be loaded to start the game")]
-    private string gamePlayScene = "main";
+    private string gamePlayScene = "Islandtesting";
 
     [SerializeField]
     private Light lightContinue, lightStartGame, lightOptions;

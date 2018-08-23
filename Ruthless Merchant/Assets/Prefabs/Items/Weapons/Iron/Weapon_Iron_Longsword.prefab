@@ -111,16 +111,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da849d998660b964aa1c71df0912cb55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  faction: 0
-  ItemName: Iron Longsword
-  ItemValue:
-  - Count: 1
-  ItemWeight: 1
-  ItemLore: An iron longsword
-  ItemSprite: {fileID: 0}
-  ItemType: 1
-  ItemRarity: 0
-  MaxStackCount: 20
+  faction: 4
+  ItemInfo:
+    ItemName: Iron Longsword
+    ItemValue:
+    - Count: 29
+    ItemWeight: 2
+    ItemLore: 
+    ItemSprite: {fileID: 21300000, guid: 49dcc7b65860aed4ba2941f5d773792a, type: 3}
+    ItemType: 1
+    ItemRarity: 0
+    maxStackCount: 10
   weaponType: 0
   damage: 8
   defencePower: 0

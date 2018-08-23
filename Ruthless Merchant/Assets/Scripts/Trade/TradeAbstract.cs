@@ -15,6 +15,10 @@ namespace RuthlessMerchant
         #endif
         public int RealValue;
 
+        public List<InventoryItem> ItemsToSell;
+
+        public bool Exit = false;
+
         #region Serialized Fields
 
         [SerializeField]
@@ -27,7 +31,7 @@ namespace RuthlessMerchant
         protected int nextPlayerOffer;
 
         [SerializeField]
-        protected Text tradeDialogue;
+        public Text TradeDialogue;
 
         [SerializeField]
         protected Text valueText;
@@ -71,7 +75,9 @@ namespace RuthlessMerchant
         protected List<List<GameObject>> weightsPlayer;
         protected List<List<GameObject>> weightsTrader;
 
-        public List<InventoryItem> ItemsToSell;
+        protected bool initialized = false;
+
+        protected float exitTimer = 0;
 
         public abstract void Initialize(int realValue);
 
@@ -166,11 +172,11 @@ namespace RuthlessMerchant
                     playerTraderOfferDelta /= weightsDeltaModifier;
                 }
 
-                if (playerTraderOfferDelta > 0.6f)
-                    playerTraderOfferDelta = 0.6f;
+                if (playerTraderOfferDelta > 0.2f)
+                    playerTraderOfferDelta = 0.2f;
 
-                else if (playerTraderOfferDelta < -0.6f)
-                    playerTraderOfferDelta = -0.6f;
+                else if (playerTraderOfferDelta < -0.2f)
+                    playerTraderOfferDelta = -0.2f;
 
                 if(GetCurrentTraderOffer() == 0)
                     playerTraderOfferDelta = 0;
