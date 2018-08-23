@@ -22,7 +22,11 @@ public class VRMenuScript : MonoBehaviour
     [SerializeField, Tooltip("Image used for fading")]
     Image fadeImage;
 
+    [SerializeField, Tooltip("Image shown while loading main Scene")]
+    Image loadingImage;
+
     private Camera playerAttachedCamera;
+    private AsyncOperation loadSceneOperator;
 
     // Use this for initialization
     void Start()
@@ -30,6 +34,8 @@ public class VRMenuScript : MonoBehaviour
         playerAttachedCamera = GetComponentInChildren<Camera>();
         if (fadeImage == null)
             fadeImage = GameObject.FindGameObjectWithTag("FadeImage").GetComponent<Image>();
+        if (loadingImage == null)
+            loadingImage = GameObject.FindGameObjectWithTag("LoadingImage").GetComponent<Image>();
     }
 
     // Update is called once per frame
@@ -77,7 +83,7 @@ public class VRMenuScript : MonoBehaviour
         {
             fadeImage.FadingWithCallback(1f, fadeTime, delegate
             {
-                SceneManager.LoadScene(gamePlayScene);
+                LoadLevelAsync();
             });
         }
     }
@@ -96,5 +102,32 @@ public class VRMenuScript : MonoBehaviour
     private void Options()
     {
         lightOptions.enabled = true;
+    }
+
+    public void LoadLevelAsync()
+    {
+        loadingImage.FadingWithCallback(1f, 2f, delegate
+        {
+            Debug.Log("displaying Load Image");
+        });
+        StartCoroutine(LoadLevelCOR());
+    }
+
+    IEnumerator LoadLevelCOR()
+    {
+        yield return new WaitForSeconds(1.5f);
+        loadSceneOperator = SceneManager.LoadSceneAsync(gamePlayScene);
+        loadSceneOperator.allowSceneActivation = false;
+        while (!loadSceneOperator.isDone)
+        {
+            yield return 0;
+            if (loadSceneOperator.progress >= 0.9f)
+            {
+                loadingImage.FadingWithCallback(0f, 2f, delegate
+                {
+                    loadSceneOperator.allowSceneActivation = true;
+                });
+            }
+        }
     }
 }
