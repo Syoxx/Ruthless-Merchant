@@ -603,7 +603,7 @@ namespace RuthlessMerchant
             {
                 if (playerAttachedCamera != null)
                 {
-                    Ray clickRay = playerAttachedCamera.ScreenPointToRay(Input.mousePosition);
+                    Ray clickRay = playerAttachedCamera.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
                     RaycastHit hit;
 
                     if (Physics.Raycast(clickRay, out hit, maxInteractDistance))
@@ -712,7 +712,6 @@ namespace RuthlessMerchant
 
         public void EnterWorkbench(Workbench workbench)
         {
-            //Might be excessiv Populating
             PopulateWorkbenchPanel();
             if (mapObject.activeSelf)
             {
