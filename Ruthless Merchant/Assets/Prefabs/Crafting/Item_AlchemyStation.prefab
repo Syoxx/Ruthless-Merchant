@@ -133,7 +133,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1521410502376498}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 37.664066, y: 25.095728, z: 258.94824}
+  m_LocalPosition: {x: 46.562016, y: 25.228214, z: 230.08568}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4449202655119166}
@@ -262,7 +262,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: f8f41ffa459d9364a9c9b5accc3592ad, type: 3}
+  - {fileID: 2100000, guid: b5507d0e6c001b74faa218c0330825eb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -378,6 +378,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction: 0
+  potionSprites:
+  - {fileID: 21300000, guid: ac52dcf8f803d7a43a56050ea3e16ba6, type: 3}
+  - {fileID: 21300000, guid: bf00bdf589cd8b040b4717f1a204ec0f, type: 3}
+  - {fileID: 21300000, guid: 5483e045285db224db6105288f3567e1, type: 3}
+  - {fileID: 21300000, guid: 7604e34884efbee4f81c785359bd5efa, type: 3}
+  - {fileID: 21300000, guid: 7c880feb76a57644880af62457f2e95a, type: 3}
+  - {fileID: 21300000, guid: 59579acc030bf6a43bcf90388b9f278f, type: 3}
 --- !u!114 &114789456357995420
 MonoBehaviour:
   m_ObjectHideFlags: 1

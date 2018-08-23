@@ -19,19 +19,19 @@ namespace RuthlessMerchant
         #endif
         public List<float> TraderOffers;
 
-        public delegate void ItemsSoldHandler(List<InventoryItem> item);
+        public static event EventHandler<TradeArgs> ItemsSold;
 
-        public static event ItemsSoldHandler ItemsSold;
+        public class TradeArgs : EventArgs
+        {
+            public List<InventoryItem> Items;
+            public Trader Trader;
 
-        #endregion
-
-        #region Private Fields
-
-        bool initialized = false;
-
-        float exitTimer = 0;
-
-        bool exit = false;
+            public TradeArgs(List<InventoryItem> items, Trader trader)
+            {
+                Items = items;
+                Trader = trader;
+            }
+        }
 
         #endregion
 
@@ -60,7 +60,7 @@ namespace RuthlessMerchant
                 }
             }
 
-            TradeObjectsParent.transform.position = Trader.CurrentTrader.gameObject.transform.position;
+            TradeObjectsParent.transform.position = Trader.CurrentTrader.gameObject.transform.position + new Vector3(0, 0.21f);
             NeutralPositionY = PlayerZone.transform.position.y;
 
             Vector3 prevRotation = TradeObjectsParent.transform.rotation.eulerAngles;
@@ -76,13 +76,26 @@ namespace RuthlessMerchant
 
         void Update()
         {
-            if (exit)
+            if (Exit)
             {
                 exitTimer += Time.deltaTime;
 
                 if (exitTimer > 3)
                 {
                     Cursor.visible = false;
+                    Singleton = null;
+                    Player.Singleton.AllowTradingMovement();
+                    Trader.CurrentTrader.GoToPreviousPosition();
+                    Trader.CurrentTrader = null;
+
+                    MonsterLogic monsterLogic = FindObjectOfType<MonsterLogic>();
+
+                    if (monsterLogic != null)
+                    {
+                        monsterLogic.TradeIsDone = true;
+                        Debug.Log("Trade is done");
+                    }
+
                     Main_SceneManager.UnLoadScene("TradeScene");
                 }
             }
@@ -95,7 +108,7 @@ namespace RuthlessMerchant
                         ModifyOffer();
                     }
 
-                    else if (Input.GetMouseButtonDown(0))
+                    else if (!Player.Singleton.bookCanvas.activeInHierarchy && Input.GetMouseButtonDown(0))
                     {
                         HandlePlayerOffer();
                     }
@@ -107,12 +120,12 @@ namespace RuthlessMerchant
                 }
 
                 #if UNITY_EDITOR
-                else if (Input.GetKeyDown(KeyCode.Q) || Vector3.Distance(TradeObjectsParent.transform.position, Player.Singleton.transform.position) > 5)
+                if (Input.GetKeyDown(KeyCode.Q) || Vector3.Distance(TradeObjectsParent.transform.position, Player.Singleton.transform.position) > 5)
                 {
                     Quit();
                 }
                 #else
-                else if (Input.GetKeyDown(KeyCode.Escape) || Vector3.Distance(TradeObjectsParent.transform.position, Player.Singleton.transform.position) > 5)
+                if (Input.GetKeyDown(KeyCode.Escape) || Vector3.Distance(TradeObjectsParent.transform.position, Player.Singleton.transform.position) > 5)
                 {
                     Quit();
                 }
@@ -241,7 +254,7 @@ namespace RuthlessMerchant
 
             PlayerOffers.Add(nextPlayerOffer);
 
-            tradeDialogue.text = "";
+            TradeDialogue.text = "";
             Trader.CurrentTrader.ReactToPlayerOffer();
 
             if (TraderOffers.Count > 0)
@@ -278,10 +291,16 @@ namespace RuthlessMerchant
         /// </summary>
         protected override void Accept()
         {
-            tradeDialogue.text = "You and Dormammu have a blood-sealing pact. He wishes you a good day and rides off into the sunset.";
-            exit = true;
+            TradeDialogue.text = "You and Dormammu have a blood-sealing pact. He wishes you a good day and rides off into the sunset.";
+            Exit = true;
 
-            ItemsSold(ItemsToSell);
+            if(GetCurrentTraderOffer() >= RealValue)
+                Tutorial.Monolog(5);
+            else
+                Tutorial.Monolog(6);
+
+            if (ItemsSold != null)
+                ItemsSold.Invoke(this, new TradeArgs(ItemsToSell, Trader.CurrentTrader));
         }
 
         /// <summary>
@@ -289,8 +308,8 @@ namespace RuthlessMerchant
         /// </summary>
         public override void Abort()
         {
-            tradeDialogue.text = "Dormammu tells you to fuck off and rides off with his galaxy-eating unicorn.";
-            exit = true;
+            TradeDialogue.text = "Dormammu tells you to fuck off and rides off with his galaxy-eating unicorn.";
+            Exit = true;
 
             foreach (InventoryItem item in ItemsToSell)
             {
@@ -303,8 +322,10 @@ namespace RuthlessMerchant
         /// </summary>
         public override void Quit()
         {
-            tradeDialogue.text = "U quitted coz u a lil chicken.";
-            exit = true;
+            TradeDialogue.text = "U quitted coz u a lil chicken.";
+            Player.RestrictCamera = false;
+            Cursor.visible = false;
+            Exit = true;
 
             foreach(InventoryItem item in ItemsToSell)
             {

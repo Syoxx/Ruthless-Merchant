@@ -3276,6 +3276,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 3
+  mapMarkerRenderer: {fileID: 0}
   heroRespawnTime: 30
   isLaneSplitter: 1
   outpostsToFreidenker:
@@ -4085,6 +4086,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 0
+  mapMarkerRenderer: {fileID: 0}
   heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
@@ -4595,6 +4597,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 3
+  mapMarkerRenderer: {fileID: 0}
   heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
@@ -7651,6 +7654,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 3
+  mapMarkerRenderer: {fileID: 0}
   heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
@@ -9292,6 +9296,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 3
+  mapMarkerRenderer: {fileID: 0}
   heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
@@ -10541,6 +10546,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 3
+  mapMarkerRenderer: {fileID: 0}
   heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
@@ -16454,6 +16460,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 0
+  mapMarkerRenderer: {fileID: 0}
   heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
@@ -23207,6 +23214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 0
+  mapMarkerRenderer: {fileID: 0}
   heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
@@ -29568,6 +29576,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 0
+  mapMarkerRenderer: {fileID: 0}
   heroRespawnTime: 30
   isLaneSplitter: 1
   outpostsToFreidenker:
@@ -30491,7 +30500,7 @@ MonoBehaviour:
   influenceNeighbours: 0
   upperLimitPerCent: 0.25
   underLimitPerCent: 0.35
-  upperLimitBargainPerCent: 0
+  upperLimitBargainPerCent: 10000
   upperLimitPercentTotal: 0
   underLimitPercentTotal: 0
   wished: []
@@ -31790,15 +31799,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8628a85088bbdc642825eefdef6b1869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  QuestTitle: 
   Description: Goal for Quest Collect Wood
-  RequiredAmount: 4
-  Waypoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   Completed: 0
   CollectableID: 1
+  collectables: []
 --- !u!114 &1225530548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35670,6 +35675,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 0
+  mapMarkerRenderer: {fileID: 0}
   heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
@@ -36786,6 +36792,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 3
+  mapMarkerRenderer: {fileID: 0}
   heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
@@ -37014,6 +37021,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 0
+  mapMarkerRenderer: {fileID: 0}
   heroRespawnTime: 30
   isLaneSplitter: 1
   outpostsToFreidenker:
@@ -40674,6 +40682,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 0
+  mapMarkerRenderer: {fileID: 0}
   heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker: []
@@ -42482,6 +42491,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 0
+  mapMarkerRenderer: {fileID: 0}
   heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
@@ -43393,6 +43403,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 3
+  mapMarkerRenderer: {fileID: 0}
   heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:
@@ -46010,6 +46021,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 3
+  mapMarkerRenderer: {fileID: 0}
   heroRespawnTime: 30
   isLaneSplitter: 0
   outpostsToFreidenker:

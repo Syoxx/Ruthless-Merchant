@@ -12,7 +12,7 @@ namespace RuthlessMerchant
 {
     public abstract class NPC : Character
     {
-        public static int MaxNPCCountPerFaction = 30;
+        public static int MaxNPCCountPerFaction = 100;
         public static Dictionary<Faction, int> NPCCount = new Dictionary<Faction, int>()
         {
             { Faction.Freidenker, 0 },
@@ -218,7 +218,7 @@ namespace RuthlessMerchant
             if (currentReactTarget != null)
             {
                 //Check Target Health
-                if (CurrentReactTarget.HealthSystem.Health <= 0)
+                if (CurrentReactTarget.HealthSystem == null || CurrentReactTarget.HealthSystem.Health <= 0)
                 {
                     reactionState = TargetState.None;
                     currentReactTarget = null;
@@ -257,7 +257,7 @@ namespace RuthlessMerchant
         protected bool IsThreat(GameObject gameObject)
         {
             Character character = gameObject.GetComponent<Character>();
-            if (character != null && faction != character.Faction && character.HealthSystem.Health > 0)
+            if (character != null && faction != character.Faction && character.HealthSystem != null && character.HealthSystem.Health > 0)
             {
                 if (character.IsPlayer)
                 {

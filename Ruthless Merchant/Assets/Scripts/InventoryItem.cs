@@ -47,6 +47,11 @@ namespace RuthlessMerchant
 
         public InventorySlot Slot;
 
+        public static void ResetEvent()
+        {
+            MoveItem = null;
+        }
+
         public void OnButtonClick()
         {
             Debug.Log("Inventory Item Button Pressed!");
@@ -57,6 +62,8 @@ namespace RuthlessMerchant
 
                     if (Location == UILocation.Inventory)
                     {
+                        Tutorial.Monolog(1);
+
                         MoveItem(this);
                         Inventory.Singleton.Remove(this, 1, true);
                     }
