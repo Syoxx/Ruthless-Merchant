@@ -312,7 +312,7 @@ namespace RuthlessMerchant
         }
 
         public override void Update()
-        {
+        {     
             LookRotation();
             ControleModeMove();
             if (controlMode == ControlMode.Move)
@@ -322,6 +322,8 @@ namespace RuthlessMerchant
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
             }
+
+            GlowObject();
             base.Update();
         }
 
@@ -601,7 +603,7 @@ namespace RuthlessMerchant
             {
                 if (playerAttachedCamera != null)
                 {
-                    Ray clickRay = playerAttachedCamera.ScreenPointToRay(Input.mousePosition);
+                    Ray clickRay = playerAttachedCamera.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
                     RaycastHit hit;
 
                     if (Physics.Raycast(clickRay, out hit, maxInteractDistance))
@@ -710,7 +712,6 @@ namespace RuthlessMerchant
 
         public void EnterWorkbench(Workbench workbench)
         {
-            //Might be excessiv Populating
             PopulateWorkbenchPanel();
             if (mapObject.activeSelf)
             {
@@ -830,6 +831,43 @@ namespace RuthlessMerchant
             }
 
             CloseTradingPointDialog();
+        }
+
+        private Outline lastOutline;
+        public void GlowObject()
+        {
+            Ray cameraRay = playerAttachedCamera.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
+            RaycastHit hit;
+            if (Physics.Raycast(cameraRay, out hit, maxInteractDistance))
+            {
+                Outline outline = hit.collider.gameObject.GetComponent<Outline>();
+                if (outline != null)
+                {
+                    ReplaceOutline(outline);
+                }
+                else
+                {
+                    ReplaceOutline(null);
+                }
+            }
+            else
+            {
+                ReplaceOutline(null);
+            }
+        }
+
+        private void ReplaceOutline(Outline outline)
+        {
+            if (outline != lastOutline)
+            {
+                if (lastOutline != null)
+                    lastOutline.OutlineMode = Outline.Mode.None;
+
+                if (outline != null)
+                    outline.OutlineMode = Outline.Mode.OutlineVisible;
+
+                lastOutline = outline;
+            }
         }
 
         public void CloseTradingPointDialog()

@@ -399,6 +399,7 @@ GameObject:
   - component: {fileID: 136692050001360312}
   - component: {fileID: 195185606548762318}
   - component: {fileID: 54211011498592222}
+  - component: {fileID: 114324030980871900}
   m_Layer: 15
   m_Name: Prefab_NPC_Imperialists_Smith_New
   m_TagString: NPC
@@ -497,7 +498,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1288419833628342
 GameObject:
   m_ObjectHideFlags: 1
@@ -3356,6 +3357,28 @@ MonoBehaviour:
   capValuePerSecond: 1
   Reacting: 0
   fleeDistance: 5
+  onSuccesfullSmithing:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+--- !u!114 &114324030980871900
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1242957152982964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 1
+  outlineColor: {r: 1, g: 0.79607844, b: 0, a: 1}
+  outlineWidth: 4
+  precomputeOutline: 1
+  bakeKeys: []
+  bakeValues: []
 --- !u!114 &114387799243649194
 MonoBehaviour:
   m_ObjectHideFlags: 1

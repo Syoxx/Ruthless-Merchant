@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 65065128729097566}
   - component: {fileID: 114168793740072854}
   - component: {fileID: 114029078802061828}
+  - component: {fileID: 114673189006814466}
   m_Layer: 0
   m_Name: KnarzigeKnolle
   m_TagString: Untagged
@@ -184,16 +185,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction: 2
-  ItemName: Creaky Tuber
-  ItemValue:
-  - Count: 1
-  ItemWeight: 1
-  ItemLore: This tear-shaped tuber has a bitter taste. Why anyone would eat it uncooked
-    remains a mystery.
-  ItemSprite: {fileID: 21300000, guid: 11dde3b644134ea42a0fb5edcbc48413, type: 3}
-  ItemType: 0
-  ItemRarity: 0
-  MaxStackCount: 20
+  ItemInfo:
+    ItemName: 
+    ItemValue: 0
+    ItemWeight: 1
+    ItemLore: 
+    ItemSprite: {fileID: 0}
+    ItemType: 0
+    ItemRarity: 0
+    maxStackCount: 20
   ingredientType: 5
   attackSpeedBuff: 0
   healthBuff: 0
@@ -211,6 +211,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1a2859bd3c9f7b41843846d87b72e3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114673189006814466
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1466657118676152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 1
+  outlineColor: {r: 1, g: 0.79607844, b: 0, a: 1}
+  outlineWidth: 4
+  precomputeOutline: 1
+  bakeKeys:
+  - {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  bakeValues:
+  - data:
+    - {x: 0.57735026, y: -0.57735026, z: 0.57735026}
+    - {x: -0.57735026, y: -0.57735026, z: 0.57735026}
+    - {x: 0.57735026, y: 0.57735026, z: 0.57735026}
+    - {x: -0.57735026, y: 0.57735026, z: 0.57735026}
+    - {x: 0.57735026, y: 0.57735026, z: -0.57735026}
+    - {x: -0.57735026, y: 0.57735026, z: -0.57735026}
+    - {x: 0.57735026, y: -0.57735026, z: -0.57735026}
+    - {x: -0.57735026, y: -0.57735026, z: -0.57735026}
+    - {x: 0.57735026, y: 0.57735026, z: 0.57735026}
+    - {x: -0.57735026, y: 0.57735026, z: 0.57735026}
+    - {x: 0.57735026, y: 0.57735026, z: -0.57735026}
+    - {x: -0.57735026, y: 0.57735026, z: -0.57735026}
+    - {x: 0.57735026, y: -0.57735026, z: -0.57735026}
+    - {x: 0.57735026, y: -0.57735026, z: 0.57735026}
+    - {x: -0.57735026, y: -0.57735026, z: 0.57735026}
+    - {x: -0.57735026, y: -0.57735026, z: -0.57735026}
+    - {x: -0.57735026, y: -0.57735026, z: 0.57735026}
+    - {x: -0.57735026, y: 0.57735026, z: 0.57735026}
+    - {x: -0.57735026, y: 0.57735026, z: -0.57735026}
+    - {x: -0.57735026, y: -0.57735026, z: -0.57735026}
+    - {x: 0.57735026, y: -0.57735026, z: -0.57735026}
+    - {x: 0.57735026, y: 0.57735026, z: -0.57735026}
+    - {x: 0.57735026, y: 0.57735026, z: 0.57735026}
+    - {x: 0.57735026, y: -0.57735026, z: 0.57735026}
 --- !u!224 &224155863311268282
 RectTransform:
   m_ObjectHideFlags: 1

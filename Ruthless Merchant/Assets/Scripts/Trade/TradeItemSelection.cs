@@ -6,7 +6,10 @@ using UnityEngine.UI;
 namespace RuthlessMerchant
 {
     public class TradeItemSelection : MonoBehaviour
-    { 
+    {
+        public static TradeItemSelection Singleton;
+        private bool abort = false;
+
         [SerializeField]
         Transform sellingItemParent;
 
@@ -16,18 +19,26 @@ namespace RuthlessMerchant
         [SerializeField]
         Text price;
 
+        [SerializeField]
+        Button StartTradingButton;
+
         List<InventoryItem> listedItems;
 
         void Awake()
         {
+            Singleton = this;
             listedItems = new List<InventoryItem>();
-            FindObjectOfType<BookPro>().CurrentPaper = 1;
-            //FindObjectOfType<BookPro>().UpdatePages();
+            InventoryItem.ResetEvent();
+            InventoryItem.MoveItem += OnItemMoved;
+
+            if (price == null)
+                price = GameObject.Find("TotalPrice").GetComponent<Text>();
         }
 
-        private void Start()
+        public void OnItemMoved(InventoryItem item)
         {
-            FindObjectOfType<BookPro>().CurrentPaper = 1;
+            Debug.Log("Moving " + item.ItemName.text + " !");
+            AddItemToSellingList(item);
         }
 
         public void AddItemToSellingList(InventoryItem inventoryItem)
@@ -38,36 +49,28 @@ namespace RuthlessMerchant
                 newObject.name = "SellingItem";
 
                 InventoryItem newItem = newObject.GetComponent<InventoryItem>();
-                newItem.itemQuantity.text = "1x";
-                newItem.itemName.text = inventoryItem.itemName.text;
-                newItem.itemPrice.text = inventoryItem.itemPrice.text;
-                newItem.itemDescription.text = inventoryItem.itemDescription.text;
+                newItem.ItemQuantity.text = "1x";
+                newItem.ItemName.text = inventoryItem.ItemName.text;
+                newItem.ItemPrice.text = inventoryItem.ItemPrice.text;
+                newItem.ItemDescription.text = inventoryItem.ItemDescription.text;
+                newItem.ItemImage.sprite = inventoryItem.ItemImage.sprite;
+                newItem.Location = InventoryItem.UILocation.ExternList;
 
+                newItem.Slot.ItemInfo = inventoryItem.Slot.ItemInfo;
+                newItem.Slot.Item = inventoryItem.Slot.Item;
                 listedItems.Add(newItem);
             }
 
-            price.text = (int.Parse(price.text) + int.Parse(inventoryItem.itemPrice.text)).ToString();
-
-            int inventoryItemQuantity = int.Parse(inventoryItem.itemQuantity.text.Replace("x", "")) - 1;
-
-            if (inventoryItemQuantity < 1)
-            {
-                //Inventory.Singleton.Add()
-                Destroy(inventoryItem.gameObject);
-            }
-            else
-            {
-                inventoryItem.itemQuantity.text = inventoryItemQuantity.ToString() + "x";
-            }
+            UpdatePrice();
         }
 
         bool addToPresent(InventoryItem data)
         {
             foreach (InventoryItem item in listedItems)
             {
-                if (item.itemName.text == data.itemName.text && item.itemDescription.text == data.itemDescription.text)
+                if (item.ItemName.text == data.ItemName.text && item.ItemDescription.text == data.ItemDescription.text)
                 {
-                    item.itemQuantity.text = (int.Parse(item.itemQuantity.text.Replace("x", "")) + 1).ToString() + "x";
+                    item.ItemQuantity.text = (int.Parse(item.ItemQuantity.text.Replace("x", "")) + 1).ToString() + "x";
                     return true;
                 }
             }
@@ -75,26 +78,86 @@ namespace RuthlessMerchant
             return false;
         }
 
-        public void RemoveItemToSellingList()
+        public void RemoveItemFromSellingList(InventoryItem item)
         {
+            Inventory.Singleton.Add(item.Slot.ItemInfo, 1, true);
 
+            int newQuantity = int.Parse(item.ItemQuantity.text.Replace("x", "")) - 1;
+            item.ItemQuantity.text = newQuantity.ToString() + "x";
+
+            if (newQuantity <= 0)
+            {
+                listedItems.Remove(item);
+                Destroy(item.gameObject);
+            }
+
+            UpdatePrice();
+        }
+
+        void UpdatePrice()
+        {
+            float totalPrice = 0;
+
+            foreach(InventoryItem item in listedItems)
+            {
+                totalPrice += int.Parse(item.ItemPrice.text.Replace("G","")) * int.Parse(item.ItemQuantity.text.Replace("x", ""));
+            }
+
+            price.text = totalPrice.ToString() + "G";
+
+            StartTradingButton.interactable = totalPrice > 0;
         }
 
         public void ConfirmTradeItems()
         {
-            TradeAbstract.Singleton.Initialize(int.Parse(price.text));
-            GameObject.Find("UICanvas").SetActive(false);
-            Player.RestrictCamera = false;
+            int totalPrice = int.Parse(price.text.Replace("G", ""));
+
+            if (totalPrice > 0)
+            {
+                TradeAbstract.Singleton.Initialize(totalPrice);
+                TradeAbstract.Singleton.ItemsToSell = listedItems;
+                Player.RestrictCamera = false;
+                GameObject.Find("UICanvas").SetActive(false);
+                Player.Singleton.AllowTradingMovement();
+                InventoryItem.MoveItem -= OnItemMoved;
+                Tutorial.Monolog(2);
+            }
         }
 
         private void LateUpdate()
         {
             //TODO: Clean this.
+            if (!abort)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                Player.RestrictCamera = true;
+            }
+        }
 
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            Player.RestrictCamera = true;
-            FindObjectOfType<BookPro>().CurrentPaper = 1;
+        public void AbortTrade()
+        {
+            abort = true;
+            foreach (InventoryItem item in listedItems)
+            {
+                Inventory.Singleton.Add(item.Slot.ItemInfo, 1, true);
+
+                int newQuantity = int.Parse(item.ItemQuantity.text.Replace("x", "")) - 1;
+                item.ItemQuantity.text = newQuantity.ToString() + "x";
+
+                if (newQuantity <= 0)
+                {
+                    listedItems.Remove(item);
+                    Destroy(item.gameObject);
+                }
+            }
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            Player.RestrictCamera = false;
+            GameObject.Find("UICanvas").SetActive(false);
+            Player.Singleton.AllowTradingMovement();
+            InventoryItem.MoveItem -= OnItemMoved;
         }
     }
 }

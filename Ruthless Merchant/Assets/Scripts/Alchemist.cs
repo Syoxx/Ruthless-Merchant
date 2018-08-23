@@ -8,6 +8,9 @@ namespace RuthlessMerchant
     {
         #region Fields ##################################################################
 
+        [SerializeField]
+        Sprite[] potionSprites;
+
         private AlchemySlot[] alchemySlots;
         #endregion
 
@@ -22,77 +25,6 @@ namespace RuthlessMerchant
         private void Awake()
         {
             alchemySlots = GetComponentsInChildren<AlchemySlot>();
-        }
-
-        #endregion
-
-
-        #region Public Functions ########################################################
-
-        public override void Interact(GameObject caller)
-        {
-            float atk = 0;
-            int def = 0;
-            float speed = 0;
-            float hp = 0;
-            int reg = 0;
-
-            int atkCount = 0;
-            int defCount = 0;
-            int speedCount = 0;
-            int hpCount = 0;
-
-            bool hasItem = false;
-            for(int i = 0; i < alchemySlots.Length; i++)
-            {
-                if(alchemySlots[i].Ingredient)
-                {
-                    atk += alchemySlots[i].Ingredient.AttackSpeedBuff;
-                    def += alchemySlots[i].Ingredient.DefenseBuff;
-                    hp += alchemySlots[i].Ingredient.HealthBuff;
-                    speed += alchemySlots[i].Ingredient.MovementBuff;
-                    reg += alchemySlots[i].Ingredient.RegenerationBuff;
-
-                    if (alchemySlots[i].Ingredient.AttackSpeedBuff > 0)
-                        atkCount++;
-                    else if(alchemySlots[i].Ingredient.AttackSpeedBuff < 0)
-                        atkCount--;
-
-                    if (alchemySlots[i].Ingredient.HealthBuff > 0)
-                        hpCount++;
-                    else if (alchemySlots[i].Ingredient.HealthBuff < 0)
-                        hpCount--;
-
-                    if (alchemySlots[i].Ingredient.MovementBuff > 0)
-                        speedCount++;
-                    else if (alchemySlots[i].Ingredient.MovementBuff < 0)
-                        speedCount--;
-
-                    if (alchemySlots[i].Ingredient.DefenseBuff > 0)
-                        defCount++;
-                    else if (alchemySlots[i].Ingredient.DefenseBuff < 0)
-                        defCount--;
-
-                    hasItem = true;
-                    alchemySlots[i].ClearItem();
-                }
-            }
-            if(!hasItem)
-            {
-                return;
-            }
-
-            string itemName = PotionName(atkCount, defCount, speedCount, hpCount);
-
-            Potion potion = new GameObject(itemName).AddComponent<Potion>();
-            potion.CreatePotion(atk, def, speed, hp, reg);
-            potion.ItemName = itemName;
-            potion.ItemType = ItemType.ConsumAble;
-            potion.ItemRarity = Rarity(atkCount, defCount, speedCount, hpCount);
-
-            Player p = caller.GetComponent<Player>();
-            p.Inventory.Add(potion.DeepCopy(), 1, true);
-            Destroy(potion.gameObject);
         }
 
         /// <summary>
@@ -195,7 +127,7 @@ namespace RuthlessMerchant
         /// <returns>returns the strength as string</returns>
         string GetPowerAsString(int power)
         {
-            if(Mathf.Abs(power) >2)
+            if (Mathf.Abs(power) > 2)
             {
                 return " 3x";
             }
@@ -205,6 +137,89 @@ namespace RuthlessMerchant
                 return " 2x";
             }
             return "";
+        }
+
+        private Sprite RandomSprite()
+        {
+            if(potionSprites.Length > 0)
+            {
+                return potionSprites[Random.Range(0, potionSprites.Length)];
+            }
+            return null;
+        }
+
+        #endregion
+
+
+        #region Public Functions ########################################################
+
+        public override void Interact(GameObject caller)
+        {
+            float atk = 0;
+            int def = 0;
+            float speed = 0;
+            float hp = 0;
+            int reg = 0;
+
+            int atkCount = 0;
+            int defCount = 0;
+            int speedCount = 0;
+            int hpCount = 0;
+
+            bool hasItem = false;
+            for(int i = 0; i < alchemySlots.Length; i++)
+            {
+                if(alchemySlots[i].Ingredient)
+                {
+                    atk += alchemySlots[i].Ingredient.AttackSpeedBuff;
+                    def += alchemySlots[i].Ingredient.DefenseBuff;
+                    hp += alchemySlots[i].Ingredient.HealthBuff;
+                    speed += alchemySlots[i].Ingredient.MovementBuff;
+                    reg += alchemySlots[i].Ingredient.RegenerationBuff;
+
+                    if (alchemySlots[i].Ingredient.AttackSpeedBuff > 0)
+                        atkCount++;
+                    else if(alchemySlots[i].Ingredient.AttackSpeedBuff < 0)
+                        atkCount--;
+
+                    if (alchemySlots[i].Ingredient.HealthBuff > 0)
+                        hpCount++;
+                    else if (alchemySlots[i].Ingredient.HealthBuff < 0)
+                        hpCount--;
+
+                    if (alchemySlots[i].Ingredient.MovementBuff > 0)
+                        speedCount++;
+                    else if (alchemySlots[i].Ingredient.MovementBuff < 0)
+                        speedCount--;
+
+                    if (alchemySlots[i].Ingredient.DefenseBuff > 0)
+                        defCount++;
+                    else if (alchemySlots[i].Ingredient.DefenseBuff < 0)
+                        defCount--;
+
+                    hasItem = true;
+                    alchemySlots[i].ClearItem();
+                }
+            }
+            if(!hasItem)
+            {
+                return;
+            }
+
+            string itemName = PotionName(atkCount, defCount, speedCount, hpCount);
+
+            Potion potion = new GameObject(itemName).AddComponent<Potion>();
+            potion.CreatePotion(atk, def, speed, hp, reg);
+            potion.ItemInfo.ItemName = itemName;
+            potion.ItemInfo.ItemType = ItemType.ConsumAble;
+            potion.ItemInfo.ItemRarity = Rarity(atkCount, defCount, speedCount, hpCount);
+            potion.ItemInfo.ItemSprite = RandomSprite();
+            potion.ItemInfo.MaxStackCount = 1;
+            potion.ItemInfo.ItemValue = 1;
+
+            Player p = caller.GetComponent<Player>();
+            p.Inventory.Add(potion.DeepCopy(), 1, true);
+            Destroy(potion.gameObject);
         }
 
         public override void Start()
