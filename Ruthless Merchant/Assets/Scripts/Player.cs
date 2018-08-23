@@ -25,7 +25,8 @@ namespace RuthlessMerchant
         private bool wasCrouching;
         private bool isGameFocused;
         private int outpostToUpgrade = 0;
-        private int maxInteractDistance;
+        [SerializeField, Tooltip("Max. interaction and glow range"), Range(0.0f, 5.0f)]
+        private float maxInteractDistance = 3;
         private float moveSpeed;
         private float mouseXSensitivity = 2f;
         private float mouseYSensitivity = 2f;
@@ -52,6 +53,7 @@ namespace RuthlessMerchant
 
         AlchemySlot localAlchemist;
         GameObject alchemyCanvas;
+        respawnLogic respawn;
 
         Canvas workbenchCanvas;
         Workbench localWorkbench;
@@ -115,9 +117,6 @@ namespace RuthlessMerchant
         {
             Singleton = this;
         }
-
-
-
         #endregion
 
 
@@ -174,7 +173,7 @@ namespace RuthlessMerchant
             smithCanvas = GameObject.Find("SmithCanvas");
             alchemyCanvas = GameObject.Find("AlchemyCanvas");
             reputation = GetComponent<Reputation>();
-
+            respawn = GetComponent<respawnLogic>();
             if (smithCanvas)
             {
                 smithCanvas.SetActive(false);
@@ -198,7 +197,6 @@ namespace RuthlessMerchant
             {
                 inventoryCanvas = itemsContainer.transform.parent.gameObject;
             }
-            maxInteractDistance = 3;
 
             playerHeight = GetComponent<CapsuleCollider>().height;
             crouchDelta = playerHeight - CrouchHeight;
@@ -903,6 +901,10 @@ namespace RuthlessMerchant
         }
         #endregion
 
+        public override void DestroyInteractiveObject(float delay = 0)
+        {
+            respawn.InitiateRespawn();
+        }
 
         public void Craft()
         {
