@@ -65,7 +65,7 @@ namespace RuthlessMerchant
 
             Vector3 addedVector = Vector3.zero;
 
-            if (Trader.CurrentTrader.startTradeImmediately)
+            //if (Trader.CurrentTrader.startTradeImmediately)
                 addedVector = new Vector3(0, 0.22f);
 
             TradeObjectsParent.transform.position = Trader.CurrentTrader.gameObject.transform.position + addedVector;
@@ -138,12 +138,6 @@ namespace RuthlessMerchant
                     Quit();
                 }
                 #endif
-            }
-
-            // TODO: Delete this
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
             }
         }
 
