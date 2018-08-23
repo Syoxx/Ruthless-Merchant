@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 23071943415985244}
   - component: {fileID: 114909173902830020}
   - component: {fileID: 114145828494694452}
+  - component: {fileID: 114626254585296008}
   m_Layer: 0
   m_Name: Item_Metalrod
   m_TagString: Item
@@ -99,8 +100,7 @@ MonoBehaviour:
   faction: 0
   ItemInfo:
     ItemName: Metal Rod
-    ItemValue:
-    - Count: 1
+    ItemValue: 0
     ItemWeight: 1
     ItemLore: 
     ItemSprite: {fileID: 0}
@@ -108,6 +108,23 @@ MonoBehaviour:
     ItemRarity: 0
     maxStackCount: 0
   materialsType: 6
+--- !u!114 &114626254585296008
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1450699792853716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 1
+  outlineColor: {r: 1, g: 0.79607844, b: 0, a: 1}
+  outlineWidth: 4
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!114 &114909173902830020
 MonoBehaviour:
   m_ObjectHideFlags: 1
