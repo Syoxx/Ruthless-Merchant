@@ -6013,6 +6013,12 @@ Transform:
   m_PrefabParentObject: {fileID: 4000010816402572, guid: 2de35d1857177974bb25ca62bfe136f5,
     type: 2}
   m_PrefabInternal: {fileID: 11078303}
+--- !u!114 &948760837 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114103232327578502, guid: 0302a444f84366c479b0b752d54e6f43,
+    type: 2}
+  m_PrefabInternal: {fileID: 1695755533}
+  m_Script: {fileID: 1908110080, guid: 89f0137620f6af44b9ba852b4190e64e, type: 3}
 --- !u!1 &1061575081
 GameObject:
   m_ObjectHideFlags: 0
@@ -6024,7 +6030,7 @@ GameObject:
   - component: {fileID: 1061575084}
   - component: {fileID: 1061575083}
   m_Layer: 0
-  m_Name: TMP SubMeshUI [BITCBLKAD SDF Material + LiberationSans SDF Atlas]
+  m_Name: TMP SubMeshUI [fourHand_TRIAL SDF Material + LiberationSans SDF Atlas]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16167,13 +16173,13 @@ Prefab:
         type: 2}
       propertyPath: m_fontAsset
       value: 
-      objectReference: {fileID: 11400000, guid: 93d349566b40c964ca5b22faf03f47a6,
+      objectReference: {fileID: 11400000, guid: 1483ffccd65fd7f469150d42c6eb3df9,
         type: 2}
     - target: {fileID: 114194405322421172, guid: 0302a444f84366c479b0b752d54e6f43,
         type: 2}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 21182016003557446, guid: 93d349566b40c964ca5b22faf03f47a6,
+      objectReference: {fileID: 21482784232099692, guid: 1483ffccd65fd7f469150d42c6eb3df9,
         type: 2}
     - target: {fileID: 114194405322421172, guid: 0302a444f84366c479b0b752d54e6f43,
         type: 2}
@@ -16182,7 +16188,7 @@ Prefab:
         Pritzer\r\n\r\nGame Design\r\nFelix Richter (Lead)\r\nAlexander Becker\r\nMario
         Mueller\r\nGregor von Frankenberg\r\n\r\nCode\r\nNikolas Pietrek (Lead)\r\nRichard
         Broennimann\r\nPeter Ehmler\r\nBenjamin Lehnert \r\nAlberto Llado\r\nDaniel
-        Masly\r\nBenedikt Z\xF6ller\r\nMarcel Croonenbroeck\r\nFabian Subat\r\nLukas
+        Masly\r\nBenedikt Zoeller\r\nMarcel Croonenbroeck\r\nFabian Subat\r\nLukas
         Bosniak\r\n\r\nArt\r\nKevin Allgeyer (Lead)\r\nJulia Schaefer\r\nNadja Hebele\r\nTimo
         Danter\r\nNicole Japs\r\nNikita Kuznetsov\r\nMax Freytag\r\nPauline Schamne\r\nErzen
         Luboja\r\nNikolas Wei\xDF\r\n\r\nQA\r\nKarin Hoffmann\r\nAndreas Ritter\r\nMarcel
@@ -16191,7 +16197,7 @@ Prefab:
     - target: {fileID: 114194405322421172, guid: 0302a444f84366c479b0b752d54e6f43,
         type: 2}
       propertyPath: m_textInfo.characterCount
-      value: 624
+      value: 625
       objectReference: {fileID: 0}
     - target: {fileID: 114194405322421172, guid: 0302a444f84366c479b0b752d54e6f43,
         type: 2}
@@ -16218,6 +16224,11 @@ Prefab:
       propertyPath: m_fontStyle
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114194405322421172, guid: 0302a444f84366c479b0b752d54e6f43,
+        type: 2}
+      propertyPath: m_subTextObjects.Array.data[2]
+      value: 
+      objectReference: {fileID: 948760837}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0302a444f84366c479b0b752d54e6f43, type: 2}
   m_IsPrefabParent: 0
