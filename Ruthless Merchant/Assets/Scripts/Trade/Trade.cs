@@ -139,12 +139,6 @@ namespace RuthlessMerchant
                 }
                 #endif
             }
-
-            // TODO: Delete this
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
-            }
         }
 
         #endregion

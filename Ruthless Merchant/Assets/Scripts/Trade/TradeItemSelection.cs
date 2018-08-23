@@ -8,6 +8,7 @@ namespace RuthlessMerchant
     public class TradeItemSelection : MonoBehaviour
     {
         public static TradeItemSelection Singleton;
+        private bool abort = false;
 
         [SerializeField]
         Transform sellingItemParent;
@@ -56,7 +57,7 @@ namespace RuthlessMerchant
                 newItem.Location = InventoryItem.UILocation.ExternList;
 
                 newItem.Slot.ItemInfo = inventoryItem.Slot.ItemInfo;
-
+                newItem.Slot.Item = inventoryItem.Slot.Item;
                 listedItems.Add(newItem);
             }
 
@@ -126,10 +127,37 @@ namespace RuthlessMerchant
         private void LateUpdate()
         {
             //TODO: Clean this.
+            if (!abort)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                Player.RestrictCamera = true;
+            }
+        }
 
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            Player.RestrictCamera = true;
+        public void AbortTrade()
+        {
+            abort = true;
+            foreach (InventoryItem item in listedItems)
+            {
+                Inventory.Singleton.Add(item.Slot.ItemInfo, 1, true);
+
+                int newQuantity = int.Parse(item.ItemQuantity.text.Replace("x", "")) - 1;
+                item.ItemQuantity.text = newQuantity.ToString() + "x";
+
+                if (newQuantity <= 0)
+                {
+                    listedItems.Remove(item);
+                    Destroy(item.gameObject);
+                }
+            }
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            Player.RestrictCamera = false;
+            GameObject.Find("UICanvas").SetActive(false);
+            Player.Singleton.AllowTradingMovement();
+            InventoryItem.MoveItem -= OnItemMoved;
         }
     }
 }
