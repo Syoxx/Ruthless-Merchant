@@ -15,19 +15,13 @@ namespace RuthlessMerchant
 
         private CollectionGoal collectionGoal;
 
-        //[SerializeField]
-        //public Transform QuestParent;
-        //[SerializeField]
-        //private GameObject quest1Prefab;
-        //[SerializeField]
-        //private GameObject quest2Prefab;
-        //[SerializeField]
-        //private GameObject quest3Prefab;
-
         [SerializeField]
         private GameObject buttonPrefab;
         [SerializeField]
         private Transform buttonParent;
+        [SerializeField]
+        private GameObject iconPrefab;
+
 
         private List<GameObject> buttons = new List<GameObject>();
 
@@ -47,8 +41,7 @@ namespace RuthlessMerchant
 
         private void Start()
         {
-            collectionGoal = GetComponent<CollectionGoal>();
-            
+            collectionGoal = GetComponent<CollectionGoal>();           
         }
 
         private void OnTriggerStay(Collider other)
@@ -68,26 +61,46 @@ namespace RuthlessMerchant
                 {
                     int localIndex = i;
 
-                    
-                    GameObject questButton = Instantiate(buttonPrefab, buttonParent) as GameObject;
-                    QuestDisplayedData questData = questButton.GetComponent<QuestDisplayedData>();
-                    questData.Name.text = collectionGoals[i].QuestTitle;
-                    questData.Description.text = collectionGoals[i].Description;
-                    questData.Reward.text = "Reward: " + collectionGoals[i].Reward.ToString() + "$";
-                    buttons.Add(questButton);
+                    for (int k = 0; k < buttons.Count; k++)
+                    {
+                        if (buttons[k])
+                        {
+                            if (collectionGoals[i].QuestTitle == buttons[k].GetComponent<QuestDisplayedData>().Name.text)
+                            {
+                                Debug.Log("collectiongoal: " + i);
+                                Debug.Log("button:" + k);
+                                Debug.Log("dont instantiate");
+                                i++;
+                                break;
+                            }
+                        }
+                    }
+                    if (i < collectionGoals.Count)
+                    {
+                        Debug.Log("0 shouldnt inst: " + i);
+                        GameObject questButton = Instantiate(buttonPrefab, buttonParent) as GameObject;
+                        QuestDisplayedData questData = questButton.GetComponent<QuestDisplayedData>();
+                        questData.Name.text = collectionGoals[i].QuestTitle;
+                        questData.Description.text = collectionGoals[i].Description;
+                        questData.Reward.text = "Reward: " + collectionGoals[i].Reward.ToString() + "$";
+                        for (int j = 0; j < collectionGoals[i].collectables.Count; j++)
+                        {
+                            Texture image = collectionGoals[i].collectables[j].icon;
+                            GameObject iconClone = Instantiate(iconPrefab, questButton.transform.Find("itemIcon"));
+                            RawImage iconImage = iconClone.GetComponent<RawImage>();
+                            iconImage.texture = image;
+                            Text counter = iconClone.GetComponentInChildren<Text>();
+                            counter.text = collectionGoals[i].collectables[j].requiredAmount.ToString() + "X";
+                        }
+                        buttons.Add(questButton);
 
-                    Button btn = questButton.GetComponent<Button>();
-                    btn.onClick.AddListener(delegate { AssignQuest(localIndex, btn); });
+                        Button btn = questButton.GetComponent<Button>();
+                        btn.onClick.AddListener(delegate { AssignQuest(localIndex, questButton); });
+                    }
                 }
-
-                //if(quest1Prefab!=null)
-                //    quest1Prefab.gameObject.SetActive(true);
-                //if (quest2Prefab != null)
-                //    quest2Prefab.gameObject.SetActive(true);
-                //if (quest3Prefab != null)
-                //    quest3Prefab.gameObject.SetActive(true);
             }
         }
+
         private void OnTriggerExit(Collider other)
         {
             if (other.gameObject.CompareTag("Player"))
@@ -96,8 +109,11 @@ namespace RuthlessMerchant
 
                 for (int i = 0; i < buttons.Count; i++)
                 {
-                    if(!buttons[i].GetComponent<QuestButton>().inProgress)
-                        Destroy(buttons[i]);
+                    if (buttons[i])
+                    {
+                        if (!buttons[i].GetComponent<QuestButton>().inProgress)
+                            Destroy(buttons[i]);
+                    }
                 }
             }
             //questingEnabled = false;
@@ -107,7 +123,7 @@ namespace RuthlessMerchant
         {
 
         }
-        public void AssignQuest(int index, Button button)
+        public void AssignQuest(int index, GameObject button)
         {
             
             //Debug.Log("goes in");
@@ -123,8 +139,12 @@ namespace RuthlessMerchant
                 //if (index == 0)
                 //{
                 //    Button button = quest1Prefab.GetComponentInChildren<Button>();
-                    QuestButton questButton = button.GetComponent<QuestButton>();
-                    collectionGoal.FillList(tempCollectables, questButton);
+
+
+                    //Button questButton = button/*.GetComponent<QuestButton>()*/;
+                    collectionGoal.FillList(tempCollectables, button);
+
+
                 //}
                 //if(index == 1)
                 //{
@@ -138,10 +158,8 @@ namespace RuthlessMerchant
                 //    QuestButton questButton = button.GetComponent<QuestButton>();
                 //    collectionGoal.FillList(tempCollectables, questButton);
                 //}
-                //collectionGoal.CalcNextWaypoint();                
+                collectionGoal.CalcNextWaypoint();                
             }
         }
-
-
     }
 }

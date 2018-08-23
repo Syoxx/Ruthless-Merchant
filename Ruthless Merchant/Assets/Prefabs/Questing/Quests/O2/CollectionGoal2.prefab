@@ -51,19 +51,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8628a85088bbdc642825eefdef6b1869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  QuestTitle: 
-  Description: 
+  QuestTitle: Quest 2
+  Description: Collect more wood
   Reward: 3000
   Completed: 0
   CollectableID: 0
   collectables:
-  - material: {fileID: 114684370248330746, guid: 6053dece9d619be409d3f5b613a9946c,
-      type: 2}
-    requiredAmount: 3
-    currentAmount: 0
-    completed: 0
   - material: {fileID: 114890186361641712, guid: c791c00511275d949a7dd8c7e3694f8f,
       type: 2}
     requiredAmount: 2
     currentAmount: 0
     completed: 0
+    icon: {fileID: 114547671925988572, guid: 82125d7248106e94b87e4e1190080596, type: 2}

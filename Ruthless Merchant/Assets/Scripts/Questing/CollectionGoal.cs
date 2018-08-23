@@ -8,6 +8,7 @@ namespace RuthlessMerchant {
     public class CollectionGoal : Goal {
 
         Hero hero;
+        GameObject button;
         QuestButton questButton;
 
         [SerializeField]
@@ -78,11 +79,12 @@ namespace RuthlessMerchant {
 
         }
 
-        public void FillList(List<Collectables> Collectables, QuestButton questbtn)
+        public void FillList(List<Collectables> Collectables, GameObject btn)
         {
             collectables = Collectables;
             Completed = false;
-            questButton = questbtn;
+            button = btn;
+            questButton = btn.GetComponentInChildren<QuestButton>();
 
             Materials = GameObject.FindGameObjectsWithTag(collectables[0].material.ItemInfo.ItemName);
             questButton.InProgressButton();
@@ -111,8 +113,11 @@ namespace RuthlessMerchant {
                 }
             }
             Materials = new GameObject[Materials.Length];
-            if(questButton)
+            if (questButton)
+            {
                 questButton.CompleteButton();
+                button.GetComponent<Button>().onClick.AddListener(delegate {  });
+            }
             return true;
         }
 
@@ -139,6 +144,12 @@ namespace RuthlessMerchant {
                 if (!(hero.CurrentAction is ActionAttack))
                     Hero.SetCurrentAction(new ActionCollect(this, ActionNPC.ActionPriority.Medium), gobj, true, true);
             }
+        }
+
+        void RemoveButton()
+        {
+            Debug.Log("Destroy" + button);
+            Destroy(button);
         }
 
     }
