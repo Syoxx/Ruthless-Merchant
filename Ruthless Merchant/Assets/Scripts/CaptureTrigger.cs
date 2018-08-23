@@ -135,12 +135,12 @@ namespace RuthlessMerchant
                     if(owner == Faction.Freidenker)
                     {
                         //Play FreemindConquerSound
-                        FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Minions/FreemindConquerOutpost",flagPosition.position);
+                        FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Minions/FreemindConquerOutpost",Target.position);
                     }
                     else if (owner == Faction.Imperialisten)
                     {
                         //Play ImperialistConquerSound
-                        FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Minions/ImperialistConquerOutpost",flagPosition.position);
+                        FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Minions/ImperialistConquerOutpost",Target.position);
                     }
                 }
 
@@ -233,9 +233,6 @@ namespace RuthlessMerchant
 
             //Color Flag
             Transform parentFlag = transform.Find("Flag");
-
-            //Save Flagposition for Soundlocation
-            flagPosition = parentFlag.transform;
 
             if (parentFlag != null)
             {

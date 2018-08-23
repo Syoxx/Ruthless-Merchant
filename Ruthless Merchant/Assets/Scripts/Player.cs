@@ -644,7 +644,7 @@ namespace RuthlessMerchant
                                 Item clonedItem = targetItem.DeepCopy();
 
                                 //Sound - Item pickup
-                                if (targetItem.ItemType == ItemType.Weapon)
+                                if (targetItem.ItemInfo.ItemType == ItemType.Weapon)
                                 {
                                     FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Player/Sheathing sword", this.transform.position);
                                 }
