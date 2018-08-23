@@ -3560,6 +3560,8 @@ GameObject:
   - component: {fileID: 223766385926797232}
   - component: {fileID: 114484262236922478}
   - component: {fileID: 114524284236911096}
+  - component: {fileID: 114290456215201150}
+  - component: {fileID: 225671853466062020}
   m_Layer: 5
   m_Name: SubtitleCanvas
   m_TagString: Untagged
@@ -12133,6 +12135,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1a2859bd3c9f7b41843846d87b72e3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114290456215201150
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1605051623540930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7154f534aa5434047b32dedef639e242, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 114970923710353322}
+  timePerLetter: 0.08
 --- !u!114 &114290798199354220
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12430,8 +12445,9 @@ MonoBehaviour:
 
     RuthlessMerchant.Inventory:UpdateDisplayData(InventorySlot) (at Assets/Scripts/Inventory.cs:189)'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 715b80e429c437e40867928a4e1fc975, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 715b80e429c437e40867928a4e1fc975, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 93d349566b40c964ca5b22faf03f47a6, type: 2}
+  m_sharedMaterial: {fileID: 21182016003557446, guid: 93d349566b40c964ca5b22faf03f47a6,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -12473,7 +12489,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: -1
+  m_firstOverflowCharacterIndex: 97
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -12908,3 +12924,14 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!225 &225671853466062020
+CanvasGroup:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1605051623540930}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
