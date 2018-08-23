@@ -403,9 +403,15 @@ namespace RuthlessMerchant
 
         public void ShowMap()
         {
+
             if (Input.GetKeyDown(KeyCode.M) && !isOutpostDialogActive)
             {
                 bool isUI_Inactive = (mapObject.activeSelf == false);
+
+                if(isUI_Inactive)
+                    gameObject.GetComponent<Animator>().SetBool("ShowMap", true);
+                else
+                    gameObject.GetComponent<Animator>().SetBool("ShowMap", false);
 
                 if (bookCanvas.activeSelf)
                 {
@@ -451,8 +457,10 @@ namespace RuthlessMerchant
 
         private void OpenBook(KeyCode key)
         {
+            gameObject.GetComponent<Animator>().SetBool("IsReading", true);
             if (mapObject.activeSelf)
             {
+                gameObject.GetComponent<Animator>().SetBool("ShowMap", false);
                 mapObject.SetActive(false);
             }
 
@@ -472,11 +480,13 @@ namespace RuthlessMerchant
 
         private void CloseBook()
         {
+            gameObject.GetComponent<Animator>().SetBool("IsReading", false);
+
             if (mapObject.activeSelf)
             {
+                gameObject.GetComponent<Animator>().SetBool("ShowMap", false);
                 mapObject.SetActive(false);
             }
-
             currentBookSection = KeyCode.None;
             bookCanvas.SetActive(bookCanvas.activeSelf == false);
             //lastKeyPressed = KeyCode.Escape;
@@ -502,6 +512,11 @@ namespace RuthlessMerchant
 
         private void ControleModeMove()
         {
+            if(InputVector != new Vector2(0,0) && moveSpeed == walkSpeed)
+                gameObject.GetComponent<Animator>().SetBool("IsWalking", true);
+            else
+                gameObject.GetComponent<Animator>().SetBool("IsWalking", false);
+
             bool isWalking = true;
 
             if (!Input.GetKey(KeyCode.LeftShift))
@@ -511,6 +526,7 @@ namespace RuthlessMerchant
             else
             {
                 isWalking = false;
+                gameObject.GetComponent<Animator>().SetBool("IsWalking", false);
             }
 
             if (Input.GetKeyDown(KeyCode.Space))
@@ -714,6 +730,7 @@ namespace RuthlessMerchant
             PopulateWorkbenchPanel();
             if (mapObject.activeSelf)
             {
+                gameObject.GetComponent<Animator>().SetBool("ShowMap", false);
                 mapObject.SetActive(false);
             }
 
