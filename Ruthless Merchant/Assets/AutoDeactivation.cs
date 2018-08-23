@@ -22,7 +22,6 @@ public class AutoDeactivation : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.Log(time + textLength * timePerLetter - Time.time);
 		if(Time.time > time + textLength * timePerLetter)
         {
             gameObject.SetActive(false);
