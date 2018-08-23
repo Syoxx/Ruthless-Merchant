@@ -215,6 +215,7 @@ namespace RuthlessMerchant
             potion.ItemInfo.ItemRarity = Rarity(atkCount, defCount, speedCount, hpCount);
             potion.ItemInfo.ItemSprite = RandomSprite();
             potion.ItemInfo.MaxStackCount = 1;
+            potion.ItemInfo.ItemValue = 1;
 
             Player p = caller.GetComponent<Player>();
             p.Inventory.Add(potion.DeepCopy(), 1, true);

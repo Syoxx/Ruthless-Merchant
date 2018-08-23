@@ -207,6 +207,74 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &46118707
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 46118708}
+  - component: {fileID: 46118710}
+  - component: {fileID: 46118709}
+  m_Layer: 5
+  m_Name: LoadingImage
+  m_TagString: LoadingImage
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &46118708
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 46118707}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1.2757471, z: 1}
+  m_Children: []
+  m_Father: {fileID: 645654474}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1600, y: 530}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &46118709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 46118707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 21300000, guid: a2196237f1abdfd42a406ceba696edb9, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &46118710
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 46118707}
 --- !u!4 &62863712 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4000013301716982, guid: ab48a37e3aaca844e911c79564d2f754,
@@ -5218,6 +5286,26 @@ Prefab:
       propertyPath: m_RenderMode
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 65927492907301526, guid: 2d6f0dbd869a13a4199c6e3848157e73,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 0.8314968
+      objectReference: {fileID: 0}
+    - target: {fileID: 65927492907301526, guid: 2d6f0dbd869a13a4199c6e3848157e73,
+        type: 2}
+      propertyPath: m_Size.z
+      value: 1.323956
+      objectReference: {fileID: 0}
+    - target: {fileID: 65927492907301526, guid: 2d6f0dbd869a13a4199c6e3848157e73,
+        type: 2}
+      propertyPath: m_Center.z
+      value: 0.68002254
+      objectReference: {fileID: 0}
+    - target: {fileID: 65927492907301526, guid: 2d6f0dbd869a13a4199c6e3848157e73,
+        type: 2}
+      propertyPath: m_Center.y
+      value: 1.2903156
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 108486947384735814, guid: 2d6f0dbd869a13a4199c6e3848157e73, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2d6f0dbd869a13a4199c6e3848157e73, type: 2}
@@ -5347,7 +5435,7 @@ Prefab:
     - target: {fileID: 65016933381443054, guid: f5c23d4da1ebd12458c84b8d0cc62198,
         type: 2}
       propertyPath: m_Size.x
-      value: 3.682845
+      value: 6.7952714
       objectReference: {fileID: 0}
     - target: {fileID: 65016933381443054, guid: f5c23d4da1ebd12458c84b8d0cc62198,
         type: 2}
@@ -5357,12 +5445,22 @@ Prefab:
     - target: {fileID: 65016933381443054, guid: f5c23d4da1ebd12458c84b8d0cc62198,
         type: 2}
       propertyPath: m_Center.x
-      value: -18.087307
+      value: -17.91592
       objectReference: {fileID: 0}
     - target: {fileID: 65016933381443054, guid: f5c23d4da1ebd12458c84b8d0cc62198,
         type: 2}
       propertyPath: m_Center.z
-      value: -6.4416075
+      value: -6.441606
+      objectReference: {fileID: 0}
+    - target: {fileID: 65016933381443054, guid: f5c23d4da1ebd12458c84b8d0cc62198,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 16.112463
+      objectReference: {fileID: 0}
+    - target: {fileID: 65016933381443054, guid: f5c23d4da1ebd12458c84b8d0cc62198,
+        type: 2}
+      propertyPath: m_Center.y
+      value: 8.246804
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 108951224779791292, guid: f5c23d4da1ebd12458c84b8d0cc62198, type: 2}
@@ -5516,6 +5614,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 756436050}
+  - {fileID: 46118708}
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5628,7 +5727,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1343522091758218, guid: 1793ab9fc99bd7a469e7802072d5ac25, type: 2}
       propertyPath: m_Name
-      value: Prefab_Item_Sign (2)
+      value: Settings Item Sign
       objectReference: {fileID: 0}
     - target: {fileID: 224579257495003950, guid: 1793ab9fc99bd7a469e7802072d5ac25,
         type: 2}
@@ -5690,6 +5789,17 @@ Prefab:
       propertyPath: m_Color.rgba
       value: 4281545523
       objectReference: {fileID: 0}
+    - target: {fileID: 23677544203397746, guid: 1793ab9fc99bd7a469e7802072d5ac25,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 49807f6f00c9c3f409f34962efa0f2a5, type: 3}
+    - target: {fileID: 102680224868582478, guid: 1793ab9fc99bd7a469e7802072d5ac25,
+        type: 2}
+      propertyPath: m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 49807f6f00c9c3f409f34962efa0f2a5,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1793ab9fc99bd7a469e7802072d5ac25, type: 2}
   m_IsPrefabParent: 0
@@ -5846,7 +5956,8 @@ MonoBehaviour:
   lightOptions: {fileID: 828179098}
   rayDistance: 100
   fadeTime: 2
-  fadeImage: {fileID: 0}
+  fadeImage: {fileID: 756436051}
+  loadingImage: {fileID: 46118709}
 --- !u!1001 &808905308
 Prefab:
   m_ObjectHideFlags: 0
@@ -16159,6 +16270,31 @@ Prefab:
       propertyPath: m_Lightmapping
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 65723721462265326, guid: 687c72d5177d10347b49e7338f20f7ae,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 1.339076
+      objectReference: {fileID: 0}
+    - target: {fileID: 65723721462265326, guid: 687c72d5177d10347b49e7338f20f7ae,
+        type: 2}
+      propertyPath: m_Size.z
+      value: 0.88833606
+      objectReference: {fileID: 0}
+    - target: {fileID: 65723721462265326, guid: 687c72d5177d10347b49e7338f20f7ae,
+        type: 2}
+      propertyPath: m_Center.x
+      value: -1.15874935e-10
+      objectReference: {fileID: 0}
+    - target: {fileID: 65723721462265326, guid: 687c72d5177d10347b49e7338f20f7ae,
+        type: 2}
+      propertyPath: m_Center.y
+      value: 0.58357954
+      objectReference: {fileID: 0}
+    - target: {fileID: 65723721462265326, guid: 687c72d5177d10347b49e7338f20f7ae,
+        type: 2}
+      propertyPath: m_Center.z
+      value: -0.043197624
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 687c72d5177d10347b49e7338f20f7ae, type: 2}
   m_IsPrefabParent: 0
@@ -16263,6 +16399,21 @@ Prefab:
         type: 2}
       propertyPath: m_Color.rgba
       value: 4281545523
+      objectReference: {fileID: 0}
+    - target: {fileID: 102680224868582478, guid: 1793ab9fc99bd7a469e7802072d5ac25,
+        type: 2}
+      propertyPath: m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 49807f6f00c9c3f409f34962efa0f2a5,
+        type: 3}
+    - target: {fileID: 23677544203397746, guid: 1793ab9fc99bd7a469e7802072d5ac25,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 49807f6f00c9c3f409f34962efa0f2a5, type: 3}
+    - target: {fileID: 1343522091758218, guid: 1793ab9fc99bd7a469e7802072d5ac25, type: 2}
+      propertyPath: m_Name
+      value: Start Item Sign
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1793ab9fc99bd7a469e7802072d5ac25, type: 2}
@@ -16530,7 +16681,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1343522091758218, guid: 1793ab9fc99bd7a469e7802072d5ac25, type: 2}
       propertyPath: m_Name
-      value: Prefab_Item_Sign (1)
+      value: Continue Item Sign
       objectReference: {fileID: 0}
     - target: {fileID: 224579257495003950, guid: 1793ab9fc99bd7a469e7802072d5ac25,
         type: 2}
@@ -16592,6 +16743,17 @@ Prefab:
       propertyPath: m_Color.rgba
       value: 4281545523
       objectReference: {fileID: 0}
+    - target: {fileID: 23677544203397746, guid: 1793ab9fc99bd7a469e7802072d5ac25,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 49807f6f00c9c3f409f34962efa0f2a5, type: 3}
+    - target: {fileID: 102680224868582478, guid: 1793ab9fc99bd7a469e7802072d5ac25,
+        type: 2}
+      propertyPath: m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 49807f6f00c9c3f409f34962efa0f2a5,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1793ab9fc99bd7a469e7802072d5ac25, type: 2}
   m_IsPrefabParent: 0

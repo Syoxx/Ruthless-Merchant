@@ -12,10 +12,5 @@ namespace RuthlessMerchant
             Item = item;
             Count = count;
         }
-
-        public ItemContainer(ItemContainer itemContainer)
-        {
-            Count += itemContainer.Count;
-        }
     }
 }
