@@ -14,6 +14,9 @@ namespace RuthlessMerchant
         #endif
         public List<float> PlayerOffers;
 
+        [SerializeField]
+        Item coinPrefab;
+
         #if UNITY_EDITOR
         [ReadOnly]
         #endif
@@ -62,7 +65,7 @@ namespace RuthlessMerchant
 
             Vector3 addedVector = Vector3.zero;
 
-            if (Trader.CurrentTrader.startTradeImmediately)
+            //if (Trader.CurrentTrader.startTradeImmediately)
                 addedVector = new Vector3(0, 0.22f);
 
             TradeObjectsParent.transform.position = Trader.CurrentTrader.gameObject.transform.position + addedVector;
@@ -303,6 +306,8 @@ namespace RuthlessMerchant
                 Tutorial.Monolog(5);
             else
                 Tutorial.Monolog(6);
+
+            Inventory.Singleton.Add(coinPrefab, (int)GetCurrentTraderOffer(), true);
 
             if (ItemsSold != null)
                 ItemsSold.Invoke(this, new TradeArgs(ItemsToSell, Trader.CurrentTrader));

@@ -54,6 +54,9 @@ namespace RuthlessMerchant
 
         public void OnButtonClick()
         {
+            if (MoveItem == null)
+                return;
+
             Debug.Log("Inventory Item Button Pressed!");
 
             switch (Behaviour)
