@@ -1568,6 +1568,7 @@ GameObject:
   - component: {fileID: 4474865292686292}
   - component: {fileID: 136625780459870842}
   - component: {fileID: 114767202788306604}
+  - component: {fileID: 114630469535438262}
   m_Layer: 0
   m_Name: Trader
   m_TagString: Trader
@@ -3263,6 +3264,23 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114630469535438262
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1929549382354612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 1
+  outlineColor: {r: 1, g: 0.79607844, b: 0, a: 1}
+  outlineWidth: 4
+  precomputeOutline: 1
+  bakeKeys: []
+  bakeValues: []
 --- !u!114 &114767202788306604
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -251,16 +251,35 @@ namespace RuthlessMerchant
                     if (!int.TryParse(e.Items[i].ItemQuantity.text.Replace("x", ""), out count))
                         count = 1;
 
-                    //
-                    for (int j = 0; j < PrefabsUpgradeItems.Length; j++)
+                    if (slot.Item != null && slot.Item is Potion)
                     {
-                        Weapon weapon = PrefabsUpgradeItems[j].GetComponent<Weapon>();
-                        if(weapon.ItemInfo.ItemName == slot.ItemInfo.ItemName)
+                        if (!availableItems.ContainsKey(slot.ItemInfo.ItemName))
+                            availableItems.Add(slot.ItemInfo.ItemName, new ItemContainer(slot.Item, count));
+                        else
+                            availableItems[slot.ItemInfo.ItemName].Count += count;
+                    }
+                    else
+                    {
+                        if (slot.Item != null && slot.Item is Weapon)
                         {
-                            if (!availableItems.ContainsKey(weapon.ItemInfo.ItemName))
-                                availableItems.Add(weapon.ItemInfo.ItemName, new ItemContainer(weapon, count));
+                            if (!availableItems.ContainsKey(slot.ItemInfo.ItemName))
+                                availableItems.Add(slot.ItemInfo.ItemName, new ItemContainer(slot.Item, count));
                             else
-                                availableItems.Add(weapon.ItemInfo.ItemName, new ItemContainer(availableItems[weapon.name]));
+                                availableItems[slot.ItemInfo.ItemName].Count += count;
+                        }
+                        else
+                        {
+                            for (int j = 0; j < PrefabsUpgradeItems.Length; j++)
+                            {
+                                Weapon weapon = PrefabsUpgradeItems[j].GetComponent<Weapon>();
+                                if (weapon.ItemInfo.ItemName == slot.ItemInfo.ItemName)
+                                {
+                                    if (!availableItems.ContainsKey(weapon.ItemInfo.ItemName))
+                                        availableItems.Add(weapon.ItemInfo.ItemName, new ItemContainer(weapon, count));
+                                    else
+                                        availableItems[weapon.ItemInfo.ItemName].Count += count;
+                                }
+                            }
                         }
                     }
                 }
