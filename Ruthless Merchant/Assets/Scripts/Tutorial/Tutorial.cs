@@ -120,6 +120,7 @@ namespace RuthlessMerchant
         {
             smithExit.SetActive(false);
             Monolog(14);
+            
         }
         private void Teleports()
         {
@@ -164,6 +165,7 @@ namespace RuthlessMerchant
             if (other.gameObject.name == "TriggerCancelTutorial")
             {
                 TutorialObject.SetActive(false);
+                Player.Singleton.Inventory.Remove(ironSword, true);
             }
         }
     }

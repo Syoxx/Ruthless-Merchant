@@ -455,7 +455,8 @@ namespace RuthlessMerchant
             int count = 0;
             for(int i = 0; i < InventorySlots.Length; i++)
             {
-                if(InventorySlots[i].Item.ItemInfo.ItemName == item.ItemInfo.ItemName)
+                if (InventorySlots[i].Item != null)
+                if (InventorySlots[i].Item.ItemInfo.ItemName == item.ItemInfo.ItemName)
                 {
                     count += InventorySlots[i].Count;
                     InventorySlots[i].Count = 0;
