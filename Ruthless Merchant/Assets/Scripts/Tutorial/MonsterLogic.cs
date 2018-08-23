@@ -27,8 +27,8 @@ public class MonsterLogic : MonoBehaviour
 
 
     [SerializeField]
-    [Tooltip("Drag Trader from Tutorial there")]
-    private GameObject traderObject;
+    [Tooltip("Drag MonsterDestination from Tutorial there")]
+    private GameObject MonsterDestinationObject;
     [SerializeField]
     [Tooltip("Drag Player there")]
     private GameObject playerObject;
@@ -46,7 +46,7 @@ public class MonsterLogic : MonoBehaviour
     {
         //Getting the positions and colliders of needed object
         startPosition = transform.position;
-        traderPosition = traderObject.transform.position;
+        traderPosition = MonsterDestinationObject.transform.position;
 
         playerCollider = playerObject.GetComponent<Collider>();
         triggerZoneCollider = triggerZoneObject.GetComponent<Collider>();
@@ -54,7 +54,7 @@ public class MonsterLogic : MonoBehaviour
     void Update()
     {
         float step = speed * Time.deltaTime;
-        float distanceToGuard = Vector3.Distance(transform.position, traderObject.transform.position);
+        float distanceToGuard = Vector3.Distance(transform.position, MonsterDestinationObject.transform.position);
         float distanceToPlayer = Vector3.Distance(transform.position, playerObject.transform.position);
         
 
@@ -77,7 +77,7 @@ public class MonsterLogic : MonoBehaviour
         //If Monster is not close enough, he will move towards the guards
         if (distanceToGuard >= 1 && !haveReachedGuards)
         {
-            transform.position = Vector3.MoveTowards(transform.position, traderObject.transform.position, step);
+            transform.position = Vector3.MoveTowards(transform.position, MonsterDestinationObject.transform.position, step);
         }
 
         // 2 Guards = 2 Attacks (1 hit to kill)
