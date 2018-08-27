@@ -105,34 +105,37 @@ namespace RuthlessMerchant
 
             price.text = totalPrice.ToString() + "G";
 
-            StartTradingButton.interactable = totalPrice > 0;
+            if (totalPrice > 0 && (Tutorial.Singleton == null || !Tutorial.Singleton.isTutorial || Tutorial.Singleton != null && Tutorial.Singleton.isTutorial && int.Parse(listedItems[0].ItemQuantity.text.Replace("x","")) == 5))
+            {
+                StartTradingButton.interactable = true;
+            }
+            else
+            {
+                StartTradingButton.interactable = false;
+            }
         }
 
         public void ConfirmTradeItems()
         {
             int totalPrice = int.Parse(price.text.Replace("G", ""));
 
-            if (totalPrice > 0)
-            {
-                TradeAbstract.Singleton.Initialize(totalPrice);
-                TradeAbstract.Singleton.ItemsToSell = listedItems;
-                Player.RestrictCamera = false;
-                GameObject.Find("UICanvas").SetActive(false);
-                Player.Singleton.AllowTradingMovement();
-                InventoryItem.MoveItem -= OnItemMoved;
-                Tutorial.Monolog(2);
-            }
+            TradeAbstract.Singleton.Initialize(totalPrice);
+            TradeAbstract.Singleton.ItemsToSell = listedItems;
+            GameObject.Find("UICanvas").SetActive(false);
+            Player.Singleton.AllowTradingMovement();
+            InventoryItem.MoveItem -= OnItemMoved;
+            Tutorial.Monolog(2);
         }
 
         private void LateUpdate()
         {
             //TODO: Clean this.
-            if (!abort)
-            {
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-                Player.RestrictCamera = true;
-            }
+            //if (!abort)
+            //{
+            //    Cursor.lockState = CursorLockMode.None;
+            //    Cursor.visible = true;
+            //    Player.RestrictCamera = true;
+            //}
         }
 
         public void AbortTrade()
@@ -152,12 +155,12 @@ namespace RuthlessMerchant
                 }
             }
 
-            Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-            Player.RestrictCamera = false;
-            GameObject.Find("UICanvas").SetActive(false);
-            Player.Singleton.AllowTradingMovement();
+            Cursor.lockState = CursorLockMode.Locked;
             InventoryItem.MoveItem -= OnItemMoved;
+            Main_SceneManager.UnLoadScene("TradeScene");
+            Player.Singleton.AllowTradingMovement();
+            Trader.CurrentTrader.GoToPreviousPosition();
         }
     }
 }

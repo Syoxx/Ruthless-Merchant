@@ -11,6 +11,10 @@ namespace RuthlessMerchant
         public static Tutorial Singleton;
         public bool isTutorial;
 
+        //Check bool to start the movement of Monster
+        [System.NonSerialized]
+        public bool TradeIsDone;
+
         [SerializeField]
         [Tooltip("Drag IronSword Prefab there")]
         private Item ironSword;
@@ -85,7 +89,6 @@ namespace RuthlessMerchant
 
         void Start()
         {
-            isTutorial = true;
             textMesh = textMesh.GetComponent<TextMeshProUGUI>();
             playerCollider = PlayerObject.GetComponent<Collider>();
             teleportUpCollider = teleportCaveUp.GetComponent<Collider>();

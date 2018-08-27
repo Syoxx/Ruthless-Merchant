@@ -109,8 +109,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction: 2
-  ironPrefab: {fileID: 1531244868073720, guid: 7eedd3cecc6144e43b7bb60a6aae6234, type: 2}
+  ironPrefab: {fileID: 1012216513785564, guid: 6053dece9d619be409d3f5b613a9946c, type: 2}
+  rareItemPrefab: {fileID: 0}
+  allowRareItemDrop: 0
   minNrOfIron: 2
   maxNrOfIron: 3
-  ironSpawnRandomizerMin: 1
-  ironSpawnRandomizerMax: 5
+  rareItemDropChance: 20
+  xForce: 75
+  zForce: 75
+  yForce: 125

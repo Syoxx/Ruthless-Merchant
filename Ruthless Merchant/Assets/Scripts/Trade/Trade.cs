@@ -65,7 +65,7 @@ namespace RuthlessMerchant
 
             Vector3 addedVector = Vector3.zero;
 
-            //if (Trader.CurrentTrader.startTradeImmediately)
+            if (Trader.CurrentTrader.startTradeImmediately)
                 addedVector = new Vector3(0, 0.22f);
 
             TradeObjectsParent.transform.position = Trader.CurrentTrader.gameObject.transform.position + addedVector;
@@ -90,17 +90,15 @@ namespace RuthlessMerchant
 
                 if (exitTimer > 3)
                 {
+                    Trader.CurrentTrader.GoToPreviousPosition();
+                    Trader.CurrentTrader = null;
                     Cursor.visible = false;
                     Singleton = null;
                     Player.Singleton.AllowTradingMovement();
-                    Trader.CurrentTrader.GoToPreviousPosition();
-                    Trader.CurrentTrader = null;
 
-                    MonsterLogic monsterLogic = FindObjectOfType<MonsterLogic>();
-
-                    if (monsterLogic != null)
+                    if (Tutorial.Singleton != null)
                     {
-                        monsterLogic.TradeIsDone = true;
+                        Tutorial.Singleton.TradeIsDone = true;
                         Debug.Log("Trade is done");
                     }
 
@@ -158,6 +156,7 @@ namespace RuthlessMerchant
             nextPlayerOfferText.fontStyle = FontStyle.Italic;
 
             UpdateWeights(weightsPlayer, nextPlayerOffer);
+            UpdateWeights(weightsTrader, realValue);
 
             initialized = true;
         }
@@ -214,7 +213,10 @@ namespace RuthlessMerchant
             {
                 nextPlayerOffer += (int)(wheelAxis * multiplier);
 
-                if(nextPlayerOffer > 400)
+                if (nextPlayerOffer > RealValue * 5)
+                    nextPlayerOffer = RealValue * 5;
+
+                else if (nextPlayerOffer > 400)
                     nextPlayerOffer = 400;
 
                 else if (nextPlayerOffer < 1)

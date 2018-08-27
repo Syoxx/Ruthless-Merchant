@@ -196,19 +196,17 @@ namespace RuthlessMerchant
                 if (tradePosition == Vector3.zero)
                 {
                     Vector3 movement = (transform.position - Player.Singleton.transform.position).normalized;
-
                     transform.position += Time.deltaTime * new Vector3(movement.x, 0, movement.z);
 
                     if (Vector3.Distance(transform.position, Player.Singleton.transform.position) > 0.7f)
                     {
                         if (TradeAbstract.Singleton == null)
                         {
-                            Position = gameObject.transform.position;
                             InventoryItem.Behaviour = InventoryItem.ItemBehaviour.Move;
-                            Main_SceneManager.LoadSceneAdditively("TradeScene");
                             Player.Singleton.EnterTrading();
-                            movingToPosition = false;
+                            Main_SceneManager.LoadSceneAdditively("TradeScene");
                             Tutorial.Monolog(1);
+                            movingToPosition = false;
                         }
                     }
                 }
@@ -443,11 +441,12 @@ namespace RuthlessMerchant
             {
                 MonsterLogic monsterLogic = FindObjectOfType<MonsterLogic>();
 
-                if (WantsToStartTrading() && (monsterLogic == null || !monsterLogic.TradeIsDone))
+                if (WantsToStartTrading() && (Tutorial.Singleton == null || !Tutorial.Singleton.isTutorial || !Tutorial.Singleton.TradeIsDone))
                 {
-                    if (caller == null && monsterLogic != null && !monsterLogic.TradeIsDone)
+                    CurrentTrader = this;
+
+                    if (caller == null && !Tutorial.Singleton.TradeIsDone)
                     {
-                        CurrentTrader = this;
                         InventoryItem.Behaviour = InventoryItem.ItemBehaviour.Move;
                         Main_SceneManager.LoadSceneAdditively("TradeScene");
                         Player.Singleton.EnterTrading();
@@ -455,15 +454,13 @@ namespace RuthlessMerchant
                     }
                     else
                     {
-                        CurrentTrader = this;
-                        movingToPosition = true;
                         startPosition = transform.position;
-                        Position = gameObject.transform.position;
+                        movingToPosition = true;
                     }
                 }
                 else
                 {
-                    Debug.Log("Trader is pissed, doesn't want to trade with you.");
+                    Debug.Log("Trader doesn't want to trade with you.");
                 }
             }
         }
