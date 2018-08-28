@@ -20,7 +20,10 @@ namespace RuthlessMerchant
         Text price;
 
         [SerializeField]
-        Button StartTradingButton;
+        Button abortTradingButton;
+
+        [SerializeField]
+        Button startTradingButton;
 
         List<InventoryItem> listedItems;
 
@@ -107,11 +110,11 @@ namespace RuthlessMerchant
 
             if (totalPrice > 0 && (Tutorial.Singleton == null || !Tutorial.Singleton.isTutorial || Tutorial.Singleton != null && Tutorial.Singleton.isTutorial && int.Parse(listedItems[0].ItemQuantity.text.Replace("x","")) == 5))
             {
-                StartTradingButton.interactable = true;
+                startTradingButton.interactable = true;
             }
             else
             {
-                StartTradingButton.interactable = false;
+                startTradingButton.interactable = false;
             }
         }
 

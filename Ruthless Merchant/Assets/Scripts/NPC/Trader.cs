@@ -380,7 +380,12 @@ namespace RuthlessMerchant
             }
             else
             {
-                trade.UpdateCurrentTraderOffer((float)(Math.Floor(currentTraderOffer) + (lastItem(wished, 1) - Math.Floor(currentTraderOffer)) / lastItem(wishedAndOfferedRatio)));
+                float nextTraderOffer = (float)(Math.Floor(currentTraderOffer) + (lastItem(wished, 1) - Math.Floor(currentTraderOffer)) / lastItem(wishedAndOfferedRatio));
+
+                if(nextTraderOffer < currentPlayerOffer)
+                    trade.UpdateCurrentTraderOffer(nextTraderOffer);
+                else
+                    trade.UpdateCurrentTraderOffer(currentPlayerOffer);
             }
         }
 
@@ -409,6 +414,8 @@ namespace RuthlessMerchant
 
             IrritationTotal += irritationDelta;
             SkepticismTotal += skepticismDelta;
+
+            TraderMoodIcon.Singleton.UpdateMood();
 
             if (IrritationTotal >= IrritationLimit)
             {
