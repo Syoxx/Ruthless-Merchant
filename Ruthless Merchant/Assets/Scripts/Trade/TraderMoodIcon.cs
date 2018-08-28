@@ -39,15 +39,22 @@ namespace RuthlessMerchant
 
         private void Awake()
         {
-            image = GetComponent<Image>();
-            transform.position = startPosition;
             Singleton = this;
+            image = GetComponent<Image>();
+        }
+
+        private void Start()
+        {
+            transform.position = startPosition;
+            UpdateMood();
         }
 
         private void Update()
         {
             lerpT += Time.deltaTime / 3;
+
             transform.localPosition = Vector3.Lerp(startPosition, endPosition, lerpT);
+
             image.color = new Color(image.color.r, image.color.g, image.color.b, 1 - lerpT);
             irritationText.color = new Color(irritationText.color.r, irritationText.color.g, irritationText.color.b, 1 - lerpT);
             skepticismText.color = new Color(skepticismText.color.r, skepticismText.color.g, skepticismText.color.b, 1 - lerpT);

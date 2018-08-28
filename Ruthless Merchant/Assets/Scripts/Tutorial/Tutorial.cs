@@ -117,9 +117,8 @@ namespace RuthlessMerchant
             {
                 Singleton.textMesh.text = Singleton.MonologSpeech[speechIndex];
                 Singleton.textMesh.transform.parent.gameObject.SetActive(true);
+                Debug.Log("Monolog " + speechIndex);
             }
-
-            Debug.Log("Monolog " + speechIndex);
         }
 
         public void OpenSmithDoor()

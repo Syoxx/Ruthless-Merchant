@@ -191,7 +191,7 @@ namespace RuthlessMerchant
 
         void UpdatePlacement()
         {
-            if (movingToPosition)
+            if (movingToPosition && !startTradeImmediately)
             {
                 if (tradePosition == Vector3.zero)
                 {
@@ -324,6 +324,8 @@ namespace RuthlessMerchant
         /// </summary>
         void HandleFirstPlayerOffer()
         {
+            Debug.LogWarning("HandleFirstPlayerOffer");
+
             TradeAbstract trade = TradeAbstract.Singleton;
 
             float currentPlayerOffer = trade.GetCurrentPlayerOffer();
@@ -382,7 +384,9 @@ namespace RuthlessMerchant
             {
                 float nextTraderOffer = (float)(Math.Floor(currentTraderOffer) + (lastItem(wished, 1) - Math.Floor(currentTraderOffer)) / lastItem(wishedAndOfferedRatio));
 
-                if(nextTraderOffer < currentPlayerOffer)
+                Debug.Log("nextTraderOffer: " + nextTraderOffer + " currentPlayerOffer: " + currentPlayerOffer);
+
+                if (nextTraderOffer < currentPlayerOffer)
                     trade.UpdateCurrentTraderOffer(nextTraderOffer);
                 else
                     trade.UpdateCurrentTraderOffer(currentPlayerOffer);

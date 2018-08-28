@@ -205,9 +205,12 @@ namespace RuthlessMerchant
             if (Input.GetKey(KeyCode.LeftShift))
                 multiplier = 100;
 
-            if (PlayerOffers.Count != 0 && nextPlayerOffer + (int)(wheelAxis * multiplier) >= PlayerOffers[PlayerOffers.Count - 1])
+            if (PlayerOffers.Count != 0 && nextPlayerOffer + (int)(wheelAxis * multiplier) >= GetCurrentPlayerOffer())
             {
-                nextPlayerOffer = (int)Math.Floor(PlayerOffers[PlayerOffers.Count - 1]) - 1;
+                if(GetCurrentPlayerOffer() > GetCurrentTraderOffer())
+                    nextPlayerOffer = (int)Math.Floor(GetCurrentPlayerOffer()) - 1;
+                else
+                    nextPlayerOffer = (int)Math.Floor(GetCurrentPlayerOffer());
             }
             else
             {
@@ -215,6 +218,9 @@ namespace RuthlessMerchant
 
                 if (nextPlayerOffer > RealValue * 5)
                     nextPlayerOffer = RealValue * 5;
+
+                else if (nextPlayerOffer < (int)GetCurrentTraderOffer())
+                    nextPlayerOffer = (int)GetCurrentTraderOffer();
 
                 else if (nextPlayerOffer > 400)
                     nextPlayerOffer = 400;
@@ -264,7 +270,9 @@ namespace RuthlessMerchant
             if (TraderOffers.Count > 0)
                 UpdateWeights(weightsTrader, (int)TraderOffers[TraderOffers.Count -1]);
 
-            nextPlayerOffer -= 1;
+            if(nextPlayerOffer > GetCurrentTraderOffer())
+                nextPlayerOffer -= 1;
+
             nextPlayerOfferText.fontStyle = FontStyle.Normal;
             UpdateWeights(weightsPlayer, nextPlayerOffer);
             UpdateUI();

@@ -25,12 +25,25 @@ namespace RuthlessMerchant
         [SerializeField]
         Button startTradingButton;
 
+        [SerializeField]
+        GameObject sellingItemInfoPrefab;
+
+        [SerializeField]
+        GameObject sellingItemInfoList;
+
+        [SerializeField]
+        GameObject sellingItemInfoParent;
+
+        [SerializeField]
+        Text sellingItemInfoPrice;
+
         List<InventoryItem> listedItems;
 
         void Awake()
         {
             Singleton = this;
             listedItems = new List<InventoryItem>();
+            sellingItemInfoList.SetActive(false);
             InventoryItem.ResetEvent();
             InventoryItem.MoveItem += OnItemMoved;
 
@@ -124,9 +137,21 @@ namespace RuthlessMerchant
 
             TradeAbstract.Singleton.Initialize(totalPrice);
             TradeAbstract.Singleton.ItemsToSell = listedItems;
-            GameObject.Find("UICanvas").SetActive(false);
             Player.Singleton.AllowTradingMovement();
             InventoryItem.MoveItem -= OnItemMoved;
+            gameObject.SetActive(false);
+
+            sellingItemInfoList.SetActive(true);
+            sellingItemInfoPrice.text = price.text;
+
+            foreach (InventoryItem inventoryItem in listedItems)
+            {
+                Text itemInfoText = Instantiate(sellingItemInfoPrefab, sellingItemInfoParent.transform).GetComponentsInChildren<Text>()[0];
+                itemInfoText.text = inventoryItem.ItemQuantity.text + " " + inventoryItem.ItemName.text + " " + inventoryItem.ItemRarity.text;
+            }
+
+            sellingItemInfoParent.GetComponent<VerticalLayoutGroup>().CalculateLayoutInputVertical();
+
             Tutorial.Monolog(2);
         }
 
