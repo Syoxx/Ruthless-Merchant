@@ -445,6 +445,33 @@ namespace RuthlessMerchant
         }
 
         /// <summary>
+        /// Removes all items of a specific item. returns the number of items that were in the inventory
+        /// </summary>
+        /// <param name="item">the item to be removed</param>
+        /// <param name="sortAfterMethod">set on true if inventory should be sorted after removing the items</param>
+        /// <returns>returns the number of items that were removed</returns>
+        public int Remove(Item item, bool sortAfterMethod)
+        {
+            int count = 0;
+            for(int i = 0; i < InventorySlots.Length; i++)
+            {
+                if (InventorySlots[i].Item != null)
+                if (InventorySlots[i].Item.ItemInfo.ItemName == item.ItemInfo.ItemName)
+                {
+                    count += InventorySlots[i].Count;
+                    InventorySlots[i].Count = 0;
+                    InventorySlots[i].Item = null;
+                    InventorySlots[i].ItemInfo = new ItemInfo();
+                }
+            }
+            if (sortAfterMethod)
+            {
+                SortInventory();
+            }
+            return count;
+        }
+
+        /// <summary>
         /// Removes any Item from a specific Slot
         /// </summary>
         /// <param name="slot">the slot from which items will be removed</param>
