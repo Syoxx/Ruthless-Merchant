@@ -14,7 +14,7 @@ namespace RuthlessMerchant
 
         [SerializeField]
         [Range(0, 1000)]
-        private float intervall = 1;
+        protected float intervall = 1;
 
         [SerializeField]
         [Range(1, 1000)]
