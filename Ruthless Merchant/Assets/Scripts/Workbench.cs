@@ -19,7 +19,7 @@ namespace RuthlessMerchant {
         {
             for (int i = 0; i < recipes.GetRecipes().Count; i++)
             {
-                if (recipes.GetRecipes()[i].Result.ItemInfo.ItemName == BreakableItem.ItemInfo.ItemName)
+                if (recipes.GetRecipes()[i].Result.ItemName == BreakableItem.ItemName)
                 {
                     
                     for (int j = 0; j < recipes.GetRecipes()[i].ListOfMaterials.Count; j++)

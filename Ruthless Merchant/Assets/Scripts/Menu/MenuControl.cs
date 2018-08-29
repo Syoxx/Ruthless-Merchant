@@ -16,7 +16,6 @@ public class MenuControl : MonoBehaviour {
     [SerializeField]
     private GameObject BookPrefab, pauseMenu, settingsMenu, loadMenu, saveMenu;
     private GameObject currentState;
-    private PageLogic book;
     #endregion
 
     private enum MenuStates
@@ -31,7 +30,6 @@ public class MenuControl : MonoBehaviour {
     public void Awake()
     {
         currentState = pauseMenu;
-        book = GetComponentInChildren<PageLogic>();
     }
     public void PlayButton()
     {
@@ -77,11 +75,6 @@ public class MenuControl : MonoBehaviour {
         Time.timeScale = 0f;
         RuthlessMerchant.Player.RestrictCamera = true;
         gameIsPaused = true;
-    }
-
-    public void Settings()
-    {
-        book.OpenSettings();
     }
 
     public void SaveGameMenu()

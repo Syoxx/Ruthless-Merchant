@@ -35,7 +35,6 @@ namespace RuthlessMerchant
         private int currentlyActiveItems;
         private List<GameObject> emptySpawners = new List<GameObject>();
         private GameObject[] spawnLocations;
-        private ContainingItemInformation[] containingItemInformations;
         private int maxNrOfItems;
         #endregion
 
@@ -44,17 +43,10 @@ namespace RuthlessMerchant
         /// sets the current Timer to th respawn Time to initiate the Spawning of the first items at the start
         /// Gets all SpawnLocations associated with the Item by predefined Tag
         /// </summary>
-        void Start()
-        {
-            currentTimer = 0; //RespawnTime statt 0 (Gregor von Frankenberg)
+        void Start() {
+            currentTimer = respawnTime;
             spawnLocations = GameObject.FindGameObjectsWithTag(spawnLocationsTag);
             maxNrOfItems = spawnLocations.Length - nrOfEmptyLocations;
-
-            containingItemInformations = new ContainingItemInformation[spawnLocations.Length];
-            for (int i = 0; i < spawnLocations.Length; i++)
-            {
-                containingItemInformations[i] = spawnLocations[i].GetComponent<ContainingItemInformation>();
-            }
         }
 
         /// <summary>
@@ -86,13 +78,12 @@ namespace RuthlessMerchant
         {
             currentlyActiveItems = 0;
             emptySpawners.Clear();
-
-            for (int i = 0; i < spawnLocations.Length; i++)
+            foreach (var item in spawnLocations)
             {
-                if (containingItemInformations[i].CheckContainingItem(itemToSpawn))
+                if (item.GetComponent<ContainingItemInformation>().CheckContainingItem(itemToSpawn))
                     currentlyActiveItems++;
                 else
-                    emptySpawners.Add(spawnLocations[i]);
+                    emptySpawners.Add(item);
             }
 
             int nrOfItemsToSpawn = maxNrOfItems - currentlyActiveItems;

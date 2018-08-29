@@ -58,16 +58,11 @@ public class PageLogic : MonoBehaviour
 
     private BookSection myBookSection;
     // Use this for initialization
-
-    private void Awake()
-    {
-        myBook = GetComponent<BookPro>();
-        flipEffect = GetComponent<AutoFlip>();
-    }
-
     void Start()
     {
         couritineIsFinished = true;
+        myBook = GetComponent<BookPro>();
+        flipEffect = GetComponent<AutoFlip>();
     }
 
     void Update()
@@ -166,7 +161,7 @@ public class PageLogic : MonoBehaviour
                 Player.lastKeyPressed = KeyCode.None;
                 break;
             case KeyCode.R:
-                myBook.CurrentPaper = 16;
+                myBook.CurrentPaper = 17;
                 Player.lastKeyPressed = KeyCode.None;
                 break;
             case KeyCode.Escape:
@@ -336,15 +331,6 @@ public class PageLogic : MonoBehaviour
         if (couritineIsFinished)
         {
             int neededPage = 2;
-            CheckPageLocation(neededPage);
-        }
-    }
-
-    public void OpenSettings()
-    {
-        if (couritineIsFinished)
-        {
-            int neededPage = 20;
             CheckPageLocation(neededPage);
         }
     }

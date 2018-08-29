@@ -265,8 +265,8 @@ namespace RuthlessMerchant
 
             GameObject newPanel = Instantiate(recipePanelPrefab, currentPageParent);
 
-            newPanel.transform.GetChild(1).GetChild(0).GetComponent<TMP_Text>().text = recipes[recipeIndex].Result.ItemInfo.ItemName;
-            newPanel.transform.GetChild(1).GetChild(1).GetComponent<Image>().sprite = recipes[recipeIndex].Result.ItemInfo.ItemSprite;
+            newPanel.transform.GetChild(1).GetChild(0).GetComponent<TMP_Text>().text = recipes[recipeIndex].Result.ItemName;
+            newPanel.transform.GetChild(1).GetChild(1).GetComponent<Image>().sprite = recipes[recipeIndex].Result.ItemSprite;
             recipePanels.Add(new RecipePanel(recipeIndex, newPanel.GetComponent<Button>()));
 
             for (int i = 0; i < recipes[recipeIndex].ListOfMaterials.Count; i++)
@@ -275,8 +275,8 @@ namespace RuthlessMerchant
                 comPanel.transform.SetSiblingIndex(0);
                 if (recipes[recipeIndex].ListOfMaterials[i].Item != null)
                 {
-                    comPanel.transform.GetChild(0).GetComponent<TMP_Text>().text = recipes[recipeIndex].ListOfMaterials[i].Item.ItemInfo.ItemName;
-                    comPanel.transform.GetChild(1).GetComponent<Image>().sprite = recipes[recipeIndex].ListOfMaterials[i].Item.ItemInfo.ItemSprite;
+                    comPanel.transform.GetChild(0).GetComponent<TMP_Text>().text = recipes[recipeIndex].ListOfMaterials[i].Item.ItemName;
+                    comPanel.transform.GetChild(1).GetComponent<Image>().sprite = recipes[recipeIndex].ListOfMaterials[i].Item.ItemSprite;
                 }
                 counts.Add(new ItemCount(comPanel.transform.GetChild(2).GetComponent<TMP_Text>(), recipes[recipeIndex].ListOfMaterials[i].Item, recipes[recipeIndex].ListOfMaterials[i].Count));
                 counts[counts.Count - 1].Textfield.text = Player.Singleton.Inventory.GetNumberOfItems(counts[counts.Count - 1].ItemToCount).ToString() + "/" + counts[counts.Count - 1].Count;

@@ -9,14 +9,9 @@ public class RenderingOptimization : MonoBehaviour
 
     [SerializeField] [Tooltip("The distance when the Object dissapears")]
     private int distance;
-
-    private float elapsedTime = 0;
-    [SerializeField, Tooltip("Limits the updates to increase performance")]
-    private float updateinterval = 0.064f;
 	// Use this for initialization
-	void Start ()
-    {
-        elapsedTime = updateinterval;
+	void Start () {
+
 	    listOfRenderedObjects = new List<GameObject>();
 
         //Find all objects with a tag and add them to list
@@ -37,22 +32,17 @@ public class RenderingOptimization : MonoBehaviour
     /// </summary>
     private void CheckForRendering()
     {
-        elapsedTime += Time.deltaTime;
-        if (elapsedTime > updateinterval)
+        foreach (var renderedObject in listOfRenderedObjects)
         {
-            elapsedTime = 0.0f;
-            foreach (var renderedObject in listOfRenderedObjects)
+            float tempDistance = Vector3.Distance(transform.position, renderedObject.transform.position);
+            if (tempDistance < distance)
             {
-                float tempDistance = Vector3.Distance(transform.position, renderedObject.transform.position);
-                if (tempDistance < distance)
-                {
-                    renderedObject.SetActive(true);
-                }
+                renderedObject.SetActive(true);
+            }
 
-                if (tempDistance > distance)
-                {
-                    renderedObject.SetActive(false);
-                }
+            if (tempDistance > distance)
+            {
+                renderedObject.SetActive(false);
             }
         }
     }
