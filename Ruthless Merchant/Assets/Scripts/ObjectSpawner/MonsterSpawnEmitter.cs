@@ -23,9 +23,10 @@ namespace RuthlessMerchant
 
         protected override void Update()
         {
-            if (startTimeOnMonsterDeath && monster == null)
+            if (startTimeOnMonsterDeath)
             {
-                base.Update();
+                if(monster == null)
+                    base.Update();
             }
             else
             {
