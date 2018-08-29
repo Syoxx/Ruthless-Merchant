@@ -16,7 +16,8 @@ namespace RuthlessMerchant
         public static Dictionary<Faction, int> NPCCount = new Dictionary<Faction, int>()
         {
             { Faction.Freidenker, 0 },
-            { Faction.Imperialisten,0 }
+            { Faction.Imperialisten,0 },
+            { Faction.Monster, 0 }
         };
 
         public enum SpeedType
@@ -78,7 +79,7 @@ namespace RuthlessMerchant
 
         private List<GameObject> possibleSeenObjects;
 
-        private List<GameObject> noticedGameObjects;
+        private List<GameObject> possibleHearedObjects;
 
         public event EventHandler OnCharacterNoticed;
         public event EventHandler OnItemNoticed;
@@ -156,17 +157,25 @@ namespace RuthlessMerchant
 
         public override void Start()
         {
-            //possibleHearedObjects = new List<AudioSource>();
             possibleSeenObjects = new List<GameObject>();
-            noticedGameObjects = new List<GameObject>();
+            possibleHearedObjects = new List<GameObject>();
 
             if (waypoints == null)
                 waypoints = new List<Waypoint>();
 
-            GameObject seeObject = transform.GetChild(4).gameObject;
+            Transform seeObj = transform.Find("SeeCollider");
+            if (seeObj != null)
+            {
+                SphereCollider seeCollider = seeObj.GetComponent<SphereCollider>();
+                seeCollider.radius = viewDistance;
+            }
 
-            SphereCollider seeCollider = seeObject.GetComponent<SphereCollider>();
-            seeCollider.radius = viewDistance;
+            Transform hearObj = transform.Find("HearCollider");
+            if(hearObj != null)
+            {
+                SphereCollider hearCollider = hearObj.GetComponent<SphereCollider>();
+                hearCollider.radius = hearDistance;
+            }
 
             agent = GetComponent<NavMeshAgent>();
             agent.autoBraking = false;
@@ -307,6 +316,22 @@ namespace RuthlessMerchant
                             if (OnCharacterNoticed != null)
                                 OnCharacterNoticed.Invoke(this, null);
                         }
+                    }
+                }
+            }
+
+            if(currentReactTarget == null)
+            {
+                for (int i = 0; i < possibleHearedObjects.Count; i++)
+                {
+                    FindReactionTarget(possibleHearedObjects[i]);
+                    if(currentReactTarget != null)
+                    {
+                        if (OnCharacterNoticed != null)
+                            OnCharacterNoticed.Invoke(this, null);
+
+                        if (reactionState.HasFlag(TargetState.IsThreat))
+                            break;
                     }
                 }
             }
@@ -606,7 +631,7 @@ namespace RuthlessMerchant
         {
             if (possibleSeenObjects == null)
                 possibleSeenObjects = new List<GameObject>();
-            
+
             possibleSeenObjects.Add(other.gameObject);
         }
 
@@ -620,6 +645,30 @@ namespace RuthlessMerchant
                 possibleSeenObjects = new List<GameObject>();
 
             possibleSeenObjects.Remove(other.gameObject);
+        }
+
+        /// <summary>
+        /// A given object entered the hear area
+        /// </summary>
+        /// <param name="other">Collider of gameobject</param>
+        public void OnEnterHearArea(Collider other)
+        {
+            if (possibleHearedObjects == null)
+                possibleHearedObjects = new List<GameObject>();
+
+            possibleHearedObjects.Add(other.gameObject);
+        }
+
+        /// <summary>
+        /// A given object left the hear area
+        /// </summary>
+        /// <param name="other">Collider of gameobject</param>
+        public void OnExitHearArea(Collider other)
+        {
+            if (possibleHearedObjects == null)
+                possibleHearedObjects = new List<GameObject>();
+
+            possibleHearedObjects.Remove(other.gameObject);
         }
         #endregion
     }
