@@ -18,6 +18,8 @@ public class Cheats : MonoBehaviour
             {
                 gobj.SetActive(false);
                 Debug.Log("Tutorial disabled");
+                //Achievements.CreateMonolog(0, false);
+                Achievements.UpdateCanvas(1);
             }
         }
         

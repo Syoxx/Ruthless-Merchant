@@ -618,7 +618,7 @@ namespace RuthlessMerchant
 
                     if (Physics.Raycast(clickRay, out hit, maxInteractDistance))
                     {
-                        Debug.Log(hit.collider.name + " " + hit.point + " clicked.");
+                        //Debug.Log(hit.collider.name + " " + hit.point + " clicked.");
 
                         InteractiveObject target = hit.collider.gameObject.GetComponent<InteractiveObject>();
 
@@ -630,6 +630,10 @@ namespace RuthlessMerchant
                             // Picking up items and gear
                             if (targetItem.ItemInfo.ItemType == ItemType.Weapon || targetItem.ItemInfo.ItemType == ItemType.Ingredient || targetItem.ItemInfo.ItemType == ItemType.CraftingMaterial || targetItem.ItemInfo.ItemType == ItemType.ConsumAble || targetItem.ItemInfo.ItemType == ItemType.Other)
                             {
+                                if(Achievements.singleton.stateNr == 1 && targetItem.ItemInfo.ItemType == ItemType.CraftingMaterial)
+                                {
+                                    Achievements.AddToCounter();
+                                }
                                 Item clonedItem = targetItem.DeepCopy();
 
                                 // Returns 0 if item was added to inventory

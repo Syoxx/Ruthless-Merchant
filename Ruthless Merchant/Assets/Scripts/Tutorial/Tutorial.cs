@@ -171,7 +171,6 @@ namespace RuthlessMerchant
             {
                 TutorialObject.SetActive(false);
                 Player.Singleton.Inventory.Remove(ironSword, true);
-                Achievements.CreateMonolog(0);
             }
         }
     }
