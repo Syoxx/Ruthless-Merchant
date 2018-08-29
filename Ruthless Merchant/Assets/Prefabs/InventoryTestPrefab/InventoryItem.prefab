@@ -152,7 +152,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 0577990645cb2bc478986f02a86f89eb, type: 3}
     m_FontSize: 14
     m_FontStyle: 2
     m_BestFit: 0
@@ -233,7 +233,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 0577990645cb2bc478986f02a86f89eb, type: 3}
     m_FontSize: 18
     m_FontStyle: 1
     m_BestFit: 0
@@ -266,7 +266,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 0577990645cb2bc478986f02a86f89eb, type: 3}
     m_FontSize: 16
     m_FontStyle: 0
     m_BestFit: 0
@@ -326,7 +326,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 0577990645cb2bc478986f02a86f89eb, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 0
@@ -364,7 +364,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 0577990645cb2bc478986f02a86f89eb, type: 3}
     m_FontSize: 16
     m_FontStyle: 0
     m_BestFit: 0
@@ -388,12 +388,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df6c6615bcceda14d97e22a404910695, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Location: 0
   ItemImage: {fileID: 114274666041236040}
-  itemName: {fileID: 114324071576175554}
-  itemRarity: {fileID: 114114259040030814}
-  itemDescription: {fileID: 114900458949617496}
-  itemPrice: {fileID: 114412147199367554}
-  itemWeight: {fileID: 114943036479368550}
+  ItemQuantity: {fileID: 0}
+  ItemName: {fileID: 0}
+  ItemRarity: {fileID: 0}
+  ItemDescription: {fileID: 0}
+  ItemPrice: {fileID: 0}
+  ItemWeight: {fileID: 0}
+  ItemButton: {fileID: 0}
 --- !u!222 &222019443297193988
 CanvasRenderer:
   m_ObjectHideFlags: 1
