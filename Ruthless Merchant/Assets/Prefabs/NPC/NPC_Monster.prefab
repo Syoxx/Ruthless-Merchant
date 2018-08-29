@@ -3459,7 +3459,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1722719057422642}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 43.7, y: 25.626, z: 209}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 4617577602763330}
@@ -3642,8 +3642,8 @@ MonoBehaviour:
   hearDistance: 5
   capValuePerSecond: 10
   Reacting: 0
-  huntDistance: 3.5
-  attackDistance: 1.5
+  huntDistance: 12
+  attackDistance: 1
 --- !u!114 &114400974246057558
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3712,7 +3712,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.15
+  m_Radius: 0.125
   m_Height: 0.5
   m_Direction: 1
   m_Center: {x: 0, y: 0.25, z: 0}
@@ -3818,9 +3818,9 @@ NavMeshAgent:
   m_GameObject: {fileID: 1722719057422642}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.2
+  m_Radius: 0.125
   m_Speed: 3.5
-  m_Acceleration: 8
+  m_Acceleration: 10000
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 1
