@@ -13,6 +13,11 @@ namespace RuthlessMerchant
         public delegate void MoveItemEventHandler(InventoryItem item);
         public static event MoveItemEventHandler MoveItem;
 
+        public static void ResetEvent()
+        {
+            MoveItem = null;
+        }
+
         public enum ItemBehaviour
         {
             None,
@@ -47,13 +52,11 @@ namespace RuthlessMerchant
 
         public InventorySlot Slot;
 
-        public static void ResetEvent()
-        {
-            MoveItem = null;
-        }
-
         public void OnButtonClick()
         {
+            if (MoveItem == null)
+                return;
+
             Debug.Log("Inventory Item Button Pressed!");
 
             switch (Behaviour)

@@ -171,20 +171,19 @@ namespace RuthlessMerchant
 
         float lerpT = 0;
 
-        [SerializeField]
-        bool startTradeImmediately;
+        public bool startTradeImmediately;
 
         #region MonoBehaviour cycle
 
         public override void Start()
         {
             if(Tutorial.Singleton != null && startTradeImmediately)
-                Interact(gameObject);
+                Interact(null);
         }
 
         public override void Update()
         {
-            //UpdatePlacement();
+            UpdatePlacement();
             UpdatePsychoCoolff();
         }
 
@@ -192,24 +191,22 @@ namespace RuthlessMerchant
 
         void UpdatePlacement()
         {
-            if (movingToPosition)
+            if (movingToPosition && !startTradeImmediately)
             {
                 if (tradePosition == Vector3.zero)
                 {
                     Vector3 movement = (transform.position - Player.Singleton.transform.position).normalized;
-
                     transform.position += Time.deltaTime * new Vector3(movement.x, 0, movement.z);
 
                     if (Vector3.Distance(transform.position, Player.Singleton.transform.position) > 0.7f)
                     {
                         if (TradeAbstract.Singleton == null)
                         {
-                            Position = gameObject.transform.position;
                             InventoryItem.Behaviour = InventoryItem.ItemBehaviour.Move;
-                            Main_SceneManager.LoadSceneAdditively("TradeScene");
                             Player.Singleton.EnterTrading();
-                            movingToPosition = false;
+                            Main_SceneManager.LoadSceneAdditively("TradeScene");
                             Tutorial.Monolog(1);
+                            movingToPosition = false;
                         }
                     }
                 }
@@ -327,6 +324,8 @@ namespace RuthlessMerchant
         /// </summary>
         void HandleFirstPlayerOffer()
         {
+            Debug.LogWarning("HandleFirstPlayerOffer");
+
             TradeAbstract trade = TradeAbstract.Singleton;
 
             float currentPlayerOffer = trade.GetCurrentPlayerOffer();
@@ -383,7 +382,14 @@ namespace RuthlessMerchant
             }
             else
             {
-                trade.UpdateCurrentTraderOffer((float)(Math.Floor(currentTraderOffer) + (lastItem(wished, 1) - Math.Floor(currentTraderOffer)) / lastItem(wishedAndOfferedRatio)));
+                float nextTraderOffer = (float)(Math.Floor(currentTraderOffer) + (lastItem(wished, 1) - Math.Floor(currentTraderOffer)) / lastItem(wishedAndOfferedRatio));
+
+                Debug.Log("nextTraderOffer: " + nextTraderOffer + " currentPlayerOffer: " + currentPlayerOffer);
+
+                if (nextTraderOffer < currentPlayerOffer)
+                    trade.UpdateCurrentTraderOffer(nextTraderOffer);
+                else
+                    trade.UpdateCurrentTraderOffer(currentPlayerOffer);
             }
         }
 
@@ -412,6 +418,8 @@ namespace RuthlessMerchant
 
             IrritationTotal += irritationDelta;
             SkepticismTotal += skepticismDelta;
+
+            TraderMoodIcon.Singleton.UpdateMood();
 
             if (IrritationTotal >= IrritationLimit)
             {
@@ -444,22 +452,26 @@ namespace RuthlessMerchant
             {
                 MonsterLogic monsterLogic = FindObjectOfType<MonsterLogic>();
 
-                if(WantsToStartTrading() && monsterLogic != null && !monsterLogic.TradeIsDone)
+                if (WantsToStartTrading() && (Tutorial.Singleton == null || !Tutorial.Singleton.isTutorial || !Tutorial.Singleton.TradeIsDone))
                 {
-                    //movingToPosition = true;
-                    //startPosition = transform.position;
-                    //Position = gameObject.transform.position;
-                    //movingToPosition = false;
-
                     CurrentTrader = this;
-                    InventoryItem.Behaviour = InventoryItem.ItemBehaviour.Move;
-                    Main_SceneManager.LoadSceneAdditively("TradeScene");
-                    Player.Singleton.EnterTrading();
-                    Tutorial.Monolog(1);
+
+                    if (caller == null && !Tutorial.Singleton.TradeIsDone)
+                    {
+                        InventoryItem.Behaviour = InventoryItem.ItemBehaviour.Move;
+                        Main_SceneManager.LoadSceneAdditively("TradeScene");
+                        Player.Singleton.EnterTrading();
+                        Tutorial.Monolog(1);
+                    }
+                    else
+                    {
+                        startPosition = transform.position;
+                        movingToPosition = true;
+                    }
                 }
                 else
                 {
-                    Debug.Log("Trader is pissed, doesn't want to trade with you.");
+                    Debug.Log("Trader doesn't want to trade with you.");
                 }
             }
         }

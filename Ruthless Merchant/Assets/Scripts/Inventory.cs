@@ -133,7 +133,7 @@ namespace RuthlessMerchant
             switch (inventorySlot.ItemInfo.ItemRarity)
             {
                 case ItemRarity.Üblich:
-                    inventoryItem.ItemName.color = new Color(0,0,0);
+                    inventoryItem.ItemName.color = new Color(0, 0, 0);
                     break;
                 case ItemRarity.Ungewöhnlich:
                     inventoryItem.ItemName.color = new Color(0, 0.2f, 1);
@@ -143,11 +143,7 @@ namespace RuthlessMerchant
                     break;
             }
             inventoryItem.ItemDescription.text = inventorySlot.ItemInfo.ItemLore;
-            if (inventorySlot.ItemInfo.ItemValue != null)
-                if (inventorySlot.ItemInfo.ItemValue.Length > 0)
-                    inventoryItem.ItemPrice.text = inventorySlot.ItemInfo.ItemValue[0].Count.ToString();
-                else
-                    inventoryItem.ItemPrice.text = "0G";
+            inventoryItem.ItemPrice.text = inventorySlot.ItemInfo.ItemValue.ToString() + "G";
 
             if (inventorySlot.ItemInfo.ItemSprite != null)
             {
@@ -190,11 +186,9 @@ namespace RuthlessMerchant
             inventoryItem.ItemName.text = inventorySlot.ItemInfo.ItemName;
             inventoryItem.ItemQuantity.text = inventorySlot.Count + "x ";
             inventoryItem.ItemDescription.text = inventorySlot.ItemInfo.ItemLore;
-            if (inventorySlot.ItemInfo.ItemValue != null)
-                if (inventorySlot.ItemInfo.ItemValue.Length > 0)
-                    inventoryItem.ItemPrice.text = inventorySlot.ItemInfo.ItemValue[0].Count + "G";
-                else
-                    inventoryItem.ItemPrice.text = "0G";
+
+
+            inventoryItem.ItemPrice.text = inventorySlot.ItemInfo.ItemValue.ToString() + "G";
 
             if (inventorySlot.ItemInfo.ItemSprite != null)
             {
@@ -448,6 +442,33 @@ namespace RuthlessMerchant
             }
 
             return amount;
+        }
+
+        /// <summary>
+        /// Removes all items of a specific item. returns the number of items that were in the inventory
+        /// </summary>
+        /// <param name="item">the item to be removed</param>
+        /// <param name="sortAfterMethod">set on true if inventory should be sorted after removing the items</param>
+        /// <returns>returns the number of items that were removed</returns>
+        public int Remove(Item item, bool sortAfterMethod)
+        {
+            int count = 0;
+            for(int i = 0; i < InventorySlots.Length; i++)
+            {
+                if (InventorySlots[i].Item != null)
+                if (InventorySlots[i].Item.ItemInfo.ItemName == item.ItemInfo.ItemName)
+                {
+                    count += InventorySlots[i].Count;
+                    InventorySlots[i].Count = 0;
+                    InventorySlots[i].Item = null;
+                    InventorySlots[i].ItemInfo = new ItemInfo();
+                }
+            }
+            if (sortAfterMethod)
+            {
+                SortInventory();
+            }
+            return count;
         }
 
         /// <summary>

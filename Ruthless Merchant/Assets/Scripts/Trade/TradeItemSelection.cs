@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,6 +8,7 @@ namespace RuthlessMerchant
     public class TradeItemSelection : MonoBehaviour
     {
         public static TradeItemSelection Singleton;
+        private bool abort = false;
 
         [SerializeField]
         Transform sellingItemParent;
@@ -20,7 +20,22 @@ namespace RuthlessMerchant
         Text price;
 
         [SerializeField]
-        Button StartTradingButton;
+        Button abortTradingButton;
+
+        [SerializeField]
+        Button startTradingButton;
+
+        [SerializeField]
+        GameObject sellingItemInfoPrefab;
+
+        [SerializeField]
+        GameObject sellingItemInfoList;
+
+        [SerializeField]
+        GameObject sellingItemInfoParent;
+
+        [SerializeField]
+        Text sellingItemInfoPrice;
 
         List<InventoryItem> listedItems;
 
@@ -28,9 +43,8 @@ namespace RuthlessMerchant
         {
             Singleton = this;
             listedItems = new List<InventoryItem>();
-
+            sellingItemInfoList.SetActive(false);
             InventoryItem.ResetEvent();
-
             InventoryItem.MoveItem += OnItemMoved;
 
             if (price == null)
@@ -59,7 +73,7 @@ namespace RuthlessMerchant
                 newItem.Location = InventoryItem.UILocation.ExternList;
 
                 newItem.Slot.ItemInfo = inventoryItem.Slot.ItemInfo;
-
+                newItem.Slot.Item = inventoryItem.Slot.Item;
                 listedItems.Add(newItem);
             }
 
@@ -107,32 +121,74 @@ namespace RuthlessMerchant
 
             price.text = totalPrice.ToString() + "G";
 
-            StartTradingButton.interactable = totalPrice > 0;
+            if (totalPrice > 0 && (Tutorial.Singleton == null || !Tutorial.Singleton.isTutorial || Tutorial.Singleton != null && Tutorial.Singleton.isTutorial && int.Parse(listedItems[0].ItemQuantity.text.Replace("x","")) == 5))
+            {
+                startTradingButton.interactable = true;
+            }
+            else
+            {
+                startTradingButton.interactable = false;
+            }
         }
 
         public void ConfirmTradeItems()
         {
             int totalPrice = int.Parse(price.text.Replace("G", ""));
 
-            if (totalPrice > 0)
+            TradeAbstract.Singleton.Initialize(totalPrice);
+            TradeAbstract.Singleton.ItemsToSell = listedItems;
+            Player.Singleton.AllowTradingMovement();
+            InventoryItem.MoveItem -= OnItemMoved;
+            gameObject.SetActive(false);
+
+            sellingItemInfoList.SetActive(true);
+            sellingItemInfoPrice.text = price.text;
+
+            foreach (InventoryItem inventoryItem in listedItems)
             {
-                TradeAbstract.Singleton.Initialize(totalPrice);
-                TradeAbstract.Singleton.ItemsToSell = listedItems;
-                Player.RestrictCamera = false;
-                GameObject.Find("UICanvas").SetActive(false);
-                Player.Singleton.AllowTradingMovement();
-                InventoryItem.MoveItem -= OnItemMoved;
-                Tutorial.Monolog(2);
+                Text itemInfoText = Instantiate(sellingItemInfoPrefab, sellingItemInfoParent.transform).GetComponentsInChildren<Text>()[0];
+                itemInfoText.text = inventoryItem.ItemQuantity.text + " " + inventoryItem.ItemName.text + " " + inventoryItem.ItemRarity.text;
             }
+
+            sellingItemInfoParent.GetComponent<VerticalLayoutGroup>().CalculateLayoutInputVertical();
+
+            Tutorial.Monolog(2);
         }
 
         private void LateUpdate()
         {
             //TODO: Clean this.
+            //if (!abort)
+            //{
+            //    Cursor.lockState = CursorLockMode.None;
+            //    Cursor.visible = true;
+            //    Player.RestrictCamera = true;
+            //}
+        }
 
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            Player.RestrictCamera = true;
+        public void AbortTrade()
+        {
+            abort = true;
+            foreach (InventoryItem item in listedItems)
+            {
+                Inventory.Singleton.Add(item.Slot.ItemInfo, 1, true);
+
+                int newQuantity = int.Parse(item.ItemQuantity.text.Replace("x", "")) - 1;
+                item.ItemQuantity.text = newQuantity.ToString() + "x";
+
+                if (newQuantity <= 0)
+                {
+                    listedItems.Remove(item);
+                    Destroy(item.gameObject);
+                }
+            }
+
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            InventoryItem.MoveItem -= OnItemMoved;
+            Main_SceneManager.UnLoadScene("TradeScene");
+            Player.Singleton.AllowTradingMovement();
+            Trader.CurrentTrader.GoToPreviousPosition();
         }
     }
 }

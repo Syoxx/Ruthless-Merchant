@@ -14,6 +14,9 @@ namespace RuthlessMerchant
         #endif
         public List<float> PlayerOffers;
 
+        [SerializeField]
+        Item coinPrefab;
+
         #if UNITY_EDITOR
         [ReadOnly]
         #endif
@@ -60,7 +63,12 @@ namespace RuthlessMerchant
                 }
             }
 
-            TradeObjectsParent.transform.position = Trader.CurrentTrader.gameObject.transform.position + new Vector3(0, 0.21f);
+            Vector3 addedVector = Vector3.zero;
+
+            if (Trader.CurrentTrader.startTradeImmediately)
+                addedVector = new Vector3(0, 0.22f);
+
+            TradeObjectsParent.transform.position = Trader.CurrentTrader.gameObject.transform.position + addedVector;
             NeutralPositionY = PlayerZone.transform.position.y;
 
             Vector3 prevRotation = TradeObjectsParent.transform.rotation.eulerAngles;
@@ -82,17 +90,15 @@ namespace RuthlessMerchant
 
                 if (exitTimer > 3)
                 {
+                    Trader.CurrentTrader.GoToPreviousPosition();
+                    Trader.CurrentTrader = null;
                     Cursor.visible = false;
                     Singleton = null;
                     Player.Singleton.AllowTradingMovement();
-                    Trader.CurrentTrader.GoToPreviousPosition();
-                    Trader.CurrentTrader = null;
 
-                    MonsterLogic monsterLogic = FindObjectOfType<MonsterLogic>();
-
-                    if (monsterLogic != null)
+                    if (Tutorial.Singleton != null)
                     {
-                        monsterLogic.TradeIsDone = true;
+                        Tutorial.Singleton.TradeIsDone = true;
                         Debug.Log("Trade is done");
                     }
 
@@ -131,12 +137,6 @@ namespace RuthlessMerchant
                 }
                 #endif
             }
-
-            // TODO: Delete this
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
-            }
         }
 
         #endregion
@@ -156,6 +156,7 @@ namespace RuthlessMerchant
             nextPlayerOfferText.fontStyle = FontStyle.Italic;
 
             UpdateWeights(weightsPlayer, nextPlayerOffer);
+            UpdateWeights(weightsTrader, realValue);
 
             initialized = true;
         }
@@ -204,15 +205,24 @@ namespace RuthlessMerchant
             if (Input.GetKey(KeyCode.LeftShift))
                 multiplier = 100;
 
-            if (PlayerOffers.Count != 0 && nextPlayerOffer + (int)(wheelAxis * multiplier) >= PlayerOffers[PlayerOffers.Count - 1])
+            if (PlayerOffers.Count != 0 && nextPlayerOffer + (int)(wheelAxis * multiplier) >= GetCurrentPlayerOffer())
             {
-                nextPlayerOffer = (int)Math.Floor(PlayerOffers[PlayerOffers.Count - 1]) - 1;
+                if(GetCurrentPlayerOffer() > GetCurrentTraderOffer())
+                    nextPlayerOffer = (int)Math.Floor(GetCurrentPlayerOffer()) - 1;
+                else
+                    nextPlayerOffer = (int)Math.Floor(GetCurrentPlayerOffer());
             }
             else
             {
                 nextPlayerOffer += (int)(wheelAxis * multiplier);
 
-                if(nextPlayerOffer > 400)
+                if (nextPlayerOffer > RealValue * 5)
+                    nextPlayerOffer = RealValue * 5;
+
+                else if (nextPlayerOffer < (int)GetCurrentTraderOffer())
+                    nextPlayerOffer = (int)GetCurrentTraderOffer();
+
+                else if (nextPlayerOffer > 400)
                     nextPlayerOffer = 400;
 
                 else if (nextPlayerOffer < 1)
@@ -260,7 +270,9 @@ namespace RuthlessMerchant
             if (TraderOffers.Count > 0)
                 UpdateWeights(weightsTrader, (int)TraderOffers[TraderOffers.Count -1]);
 
-            nextPlayerOffer -= 1;
+            if(nextPlayerOffer > GetCurrentTraderOffer())
+                nextPlayerOffer -= 1;
+
             nextPlayerOfferText.fontStyle = FontStyle.Normal;
             UpdateWeights(weightsPlayer, nextPlayerOffer);
             UpdateUI();
@@ -298,6 +310,8 @@ namespace RuthlessMerchant
                 Tutorial.Monolog(5);
             else
                 Tutorial.Monolog(6);
+
+            Inventory.Singleton.Add(coinPrefab, (int)GetCurrentTraderOffer(), true);
 
             if (ItemsSold != null)
                 ItemsSold.Invoke(this, new TradeArgs(ItemsToSell, Trader.CurrentTrader));

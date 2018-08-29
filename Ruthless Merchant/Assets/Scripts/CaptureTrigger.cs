@@ -20,7 +20,12 @@ namespace RuthlessMerchant
         private Dictionary<Faction, int> capturingUnits;
         private List<NPC> capturingUnitsList;
 
-        private Renderer flagRenderer;
+        [SerializeField, Tooltip("Flag material for freemindes")]
+        private UnityEngine.Material freidenkerFlagMaterial = null;
+        [SerializeField, Tooltip("Flag material for imperialists")]
+        private UnityEngine.Material imperialistFlagMaterial = null;
+
+        private SkinnedMeshRenderer flagRenderer;
         [SerializeField, Tooltip("Text of mapmarker to make ownership visable on the map")]
         private TextMeshProUGUI mapMarkerRenderer;
 
@@ -52,6 +57,7 @@ namespace RuthlessMerchant
 
         private Transform target;
         private bool isHeroAway = false;
+        private bool isCity = false;
 
         public event EventHandler OnHeroRemoved;
         public float CaptureValue
@@ -186,6 +192,7 @@ namespace RuthlessMerchant
         // Use this for initialization
         protected virtual void Start()
         {
+            isCity = name.Contains("City");
             capturingUnits = new Dictionary<Faction, int>();
             capturingUnitsList = new List<NPC>();
             if (owner == Faction.Freidenker)
@@ -216,9 +223,8 @@ namespace RuthlessMerchant
 
                 if (obj != null && obj.CompareTag("Flag"))
                 {
-                    flagRenderer = obj.GetComponent<Renderer>();
-                    if (flagRenderer != null)
-                        flagRenderer.material.color = GetFactionColor();
+                    flagRenderer = obj.GetComponent<SkinnedMeshRenderer>();
+                    ChangeFlagMaterial();
                 }
             }
 
@@ -245,21 +251,53 @@ namespace RuthlessMerchant
                     if (!int.TryParse(e.Items[i].ItemQuantity.text.Replace("x", ""), out count))
                         count = 1;
 
-                    //
-                    for (int j = 0; j < PrefabsUpgradeItems.Length; j++)
+                    if (slot.Item != null && slot.Item is Potion)
                     {
-                        Weapon weapon = PrefabsUpgradeItems[j].GetComponent<Weapon>();
-                        if(weapon.ItemInfo.ItemName == slot.ItemInfo.ItemName)
+                        if (!availableItems.ContainsKey(slot.ItemInfo.ItemName))
+                            availableItems.Add(slot.ItemInfo.ItemName, new ItemContainer(slot.Item, count));
+                        else
+                            availableItems[slot.ItemInfo.ItemName].Count += count;
+                    }
+                    else
+                    {
+                        if (slot.Item != null && slot.Item is Weapon)
                         {
-                            if (!availableItems.ContainsKey(weapon.ItemInfo.ItemName))
-                                availableItems.Add(weapon.ItemInfo.ItemName, new ItemContainer(weapon, count));
+                            if (!availableItems.ContainsKey(slot.ItemInfo.ItemName))
+                                availableItems.Add(slot.ItemInfo.ItemName, new ItemContainer(slot.Item, count));
                             else
-                                availableItems.Add(weapon.ItemInfo.ItemName, new ItemContainer(availableItems[weapon.name]));
+                                availableItems[slot.ItemInfo.ItemName].Count += count;
+                        }
+                        else
+                        {
+                            for (int j = 0; j < PrefabsUpgradeItems.Length; j++)
+                            {
+                                Weapon weapon = PrefabsUpgradeItems[j].GetComponent<Weapon>();
+                                if (weapon.ItemInfo.ItemName == slot.ItemInfo.ItemName)
+                                {
+                                    if (!availableItems.ContainsKey(weapon.ItemInfo.ItemName))
+                                        availableItems.Add(weapon.ItemInfo.ItemName, new ItemContainer(weapon, count));
+                                    else
+                                        availableItems[weapon.ItemInfo.ItemName].Count += count;
+                                }
+                            }
                         }
                     }
                 }
 
                 Debug.Log("New Items received");
+            }
+        }
+
+        private void ChangeFlagMaterial()
+        {
+            if (flagRenderer != null)
+            {
+                if (owner == Faction.Freidenker)
+                    flagRenderer.material = freidenkerFlagMaterial;
+                else if (owner == Faction.Imperialisten)
+                    flagRenderer.material = imperialistFlagMaterial;
+                else
+                    flagRenderer.material = null;
             }
         }
 
@@ -360,7 +398,7 @@ namespace RuthlessMerchant
 
         private void Capture()
         {
-            if ((hero == null || isHeroAway) && capturingUnits != null)
+            if ((hero == null || isHeroAway) && capturingUnits != null && !isCity)
             {
                 //int freidenkerCount = capturingUnits.ContainsKey(Faction.Freidenker) ? capturingUnits[Faction.Freidenker] : 0;
                 //int imperialistenCount = capturingUnits.ContainsKey(Faction.Imperialisten) ? capturingUnits[Faction.Imperialisten] : 0;
@@ -423,7 +461,7 @@ namespace RuthlessMerchant
         private Color GetFactionColor()
         {
             if (owner == Faction.Freidenker)
-                return new Color(94.0f / 255.0f, 125.0f / 255.0f, 142.0f / 255.0f);
+                return new Color(1f, 215.0f / 255.0f, 0);
             else if (owner == Faction.Imperialisten)
                 return new Color(175.0f / 255.0f, 33.0f / 255.0f, 32.0f / 255.0f);
             else

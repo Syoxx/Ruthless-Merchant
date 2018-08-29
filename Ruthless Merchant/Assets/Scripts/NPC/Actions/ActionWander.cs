@@ -7,6 +7,9 @@ namespace RuthlessMerchant
     {
         private const float maxReachTime = 10f;
         private float elapsedReachTime = 0.0f;
+        private float moveRange = 3;
+        private int minWaitDuration = 1;
+        private int maxWaitDuration = 3;
 
         public ActionWander() : base(ActionPriority.Low)
         {
@@ -18,17 +21,24 @@ namespace RuthlessMerchant
 
         }
 
+        public ActionWander(float moveRange, int minWaitDuration, int maxWaitDuration, ActionPriority priority) : base(priority)
+        {
+            this.moveRange = moveRange;
+            this.minWaitDuration = minWaitDuration;
+            this.maxWaitDuration = maxWaitDuration;
+        }
+
         public override void StartAction(NPC parent, GameObject other)
         {
             agent = parent.GetComponent<NavMeshAgent>();
             parent.ChangeSpeed(NPC.SpeedType.Walk);
             for (int i = 0; i < 10; i++)
             {
-                Vector3 wanderTarget = parent.transform.position + new Vector3(Random.Range(-1.5f, 1.5f), 0, Random.Range(-1.5f, 1.5f));
+                Vector3 wanderTarget = parent.transform.position + new Vector3(Random.Range((moveRange * -0.5f), moveRange * 0.5f), 0, Random.Range(moveRange * -0.5f, moveRange * 0.5f));
                 NavMeshPath path = new NavMeshPath();
                 if (agent.CalculatePath(wanderTarget, path) && path.status == NavMeshPathStatus.PathComplete)
                 {
-                    parent.AddNewWaypoint(new Waypoint(wanderTarget, true, Random.Range(1, 3)), true);
+                    parent.AddNewWaypoint(new Waypoint(wanderTarget, true, Random.Range(minWaitDuration, maxWaitDuration)), true);
                     break;
                 }
             }
