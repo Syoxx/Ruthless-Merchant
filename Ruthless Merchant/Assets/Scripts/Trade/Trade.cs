@@ -90,7 +90,6 @@ namespace RuthlessMerchant
 
                 if (exitTimer > 3)
                 {
-                    Trader.CurrentTrader.GoToPreviousPosition();
                     Trader.CurrentTrader = null;
                     Cursor.visible = false;
                     Singleton = null;
@@ -157,6 +156,8 @@ namespace RuthlessMerchant
 
             UpdateWeights(weightsPlayer, nextPlayerOffer);
             UpdateWeights(weightsTrader, realValue);
+
+            Player.Singleton.RestrictBookUsage = false;
 
             initialized = true;
         }

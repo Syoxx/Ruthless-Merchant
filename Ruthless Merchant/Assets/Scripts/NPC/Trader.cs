@@ -161,15 +161,7 @@ namespace RuthlessMerchant
         #endregion
 
         float timer = 0;
-
         float timerLimit = 1;
-
-        bool movingToPosition = false;
-
-        Vector3 startPosition;
-        Vector3 tradePosition;
-
-        float lerpT = 0;
 
         public bool startTradeImmediately;
 
@@ -183,51 +175,10 @@ namespace RuthlessMerchant
 
         public override void Update()
         {
-            UpdatePlacement();
             UpdatePsychoCoolff();
         }
 
         #endregion
-
-        void UpdatePlacement()
-        {
-            if (movingToPosition && !startTradeImmediately)
-            {
-                if (tradePosition == Vector3.zero)
-                {
-                    Vector3 movement = (transform.position - Player.Singleton.transform.position).normalized;
-                    transform.position += Time.deltaTime * new Vector3(movement.x, 0, movement.z);
-
-                    if (Vector3.Distance(transform.position, Player.Singleton.transform.position) > 0.7f)
-                    {
-                        if (TradeAbstract.Singleton == null)
-                        {
-                            InventoryItem.Behaviour = InventoryItem.ItemBehaviour.Move;
-                            Player.Singleton.EnterTrading();
-                            Main_SceneManager.LoadSceneAdditively("TradeScene");
-                            Tutorial.Monolog(1);
-                            movingToPosition = false;
-                        }
-                    }
-                }
-                else
-                {
-                    lerpT += Time.deltaTime;
-
-                    if (lerpT > 1)
-                    {
-                        movingToPosition = false;
-                        transform.position = Vector3.Lerp(tradePosition, startPosition, 1);
-                        tradePosition = Vector3.zero;
-                        lerpT = 0;
-                    }
-                    else
-                    {
-                        transform.position = Vector3.Lerp(tradePosition, startPosition, lerpT);
-                    }
-                }
-            }
-        }
 
         void UpdatePsychoCoolff()
         {
@@ -456,7 +407,7 @@ namespace RuthlessMerchant
                 {
                     CurrentTrader = this;
 
-                    if (caller == null && !Tutorial.Singleton.TradeIsDone)
+                    if (startTradeImmediately && !Tutorial.Singleton.TradeIsDone)
                     {
                         InventoryItem.Behaviour = InventoryItem.ItemBehaviour.Move;
                         Main_SceneManager.LoadSceneAdditively("TradeScene");
@@ -465,8 +416,18 @@ namespace RuthlessMerchant
                     }
                     else
                     {
-                        startPosition = transform.position;
-                        movingToPosition = true;
+                        transform.localPosition += new Vector3(0.7f, 0);
+                        Vector3 newPlayerPosition = transform.position;
+                        transform.localPosition -= new Vector3(0.7f, 0);
+
+                        Player.Singleton.transform.position = newPlayerPosition;
+                        Player.Singleton.transform.LookAt(transform);
+                        Player.Singleton.PlayerLookAngle = Player.Singleton.transform.localRotation;
+                        InventoryItem.Behaviour = InventoryItem.ItemBehaviour.Move;
+                        Main_SceneManager.LoadSceneAdditively("TradeScene");
+                        Player.Singleton.RestrictBookUsage = true;
+                        Player.Singleton.EnterTrading();
+                        Tutorial.Monolog(1);
                     }
                 }
                 else
@@ -474,12 +435,6 @@ namespace RuthlessMerchant
                     Debug.Log("Trader doesn't want to trade with you.");
                 }
             }
-        }
-
-        public void GoToPreviousPosition()
-        {
-            movingToPosition = true;
-            tradePosition = transform.position;
         }
 
         /// <summary>
