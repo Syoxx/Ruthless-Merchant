@@ -3,7 +3,6 @@
 //
 //---------------------------------------------------------------
 
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace RuthlessMerchant
@@ -12,11 +11,11 @@ namespace RuthlessMerchant
     {
         [Header("NPC Fighter settings")]
         [SerializeField, Tooltip("If the distance to a character is smaller than the hunting distance, the NPC follows the character")]
-        [Range(0, 100)]
+        [Range(0.0f, 100.0f)]
         protected float huntDistance = 5;
 
         [SerializeField, Tooltip("If the distance to a character is smaller then the attacking distance, the npc attacks the character")]
-        [Range(1, 100)]
+        [Range(0.0f, 100.0f)]
         protected float attackDistance = 1.5f;
 
         public float HuntDistance
