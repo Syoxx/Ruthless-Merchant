@@ -49,11 +49,15 @@ namespace RuthlessMerchant
 
         private void HealthSystem_OnHealthChanged(object sender, DamageAbleObject.HealthArgs e)
         {
-            if (CurrentAction == null || CurrentAction is ActionIdle)
+            if (e.ChangedValue < 0 && e.Sender != null && HealthSystem.Health > 0)
             {
-                if (e.ChangedValue < 0 && e.Sender != null && HealthSystem.Health > 0)
+                if (CurrentReactTarget == null || currentReactTarget.IsDying || !IsThreat(CurrentReactTarget.gameObject) || Vector3.Distance(CurrentReactTarget.transform.position, transform.position) > Vector3.Distance(e.Sender.transform.position, transform.position))
                 {
-                    SetCurrentAction(new ActionHunt(ActionNPC.ActionPriority.Medium), e.Sender.gameObject, false, true);
+                    currentReactTarget = e.Sender;
+                    reactionState = TargetState.None;
+                    reactionState = reactionState.SetFlag(TargetState.InView);
+                    reactionState = reactionState.SetFlag(TargetState.IsThreat);
+                    SetCurrentAction(new ActionHunt(ActionNPC.ActionPriority.Medium), e.Sender.gameObject, true, true);
                 }
             }
         }
@@ -68,10 +72,10 @@ namespace RuthlessMerchant
                     if (CurrentAction == null || !(CurrentAction is ActionAttack))
                         SetCurrentAction(new ActionAttack(), character.gameObject);
                 }
-                else
+                else if(distance < huntDistance)
                 {
                     if (CurrentAction == null || !(CurrentAction is ActionHunt))
-                        SetCurrentAction(new ActionHunt(), character.gameObject);
+                        SetCurrentAction(new ActionHunt(), character.gameObject, true, true);
                 }
             }
         }
