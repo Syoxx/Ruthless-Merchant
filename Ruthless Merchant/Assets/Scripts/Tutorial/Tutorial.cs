@@ -11,6 +11,10 @@ namespace RuthlessMerchant
         public static Tutorial Singleton;
         public bool isTutorial;
 
+        //Check bool to start the movement of Monster
+        [System.NonSerialized]
+        public bool TradeIsDone;
+
         [SerializeField]
         [Tooltip("Drag IronSword Prefab there")]
         private Item ironSword;
@@ -35,6 +39,9 @@ namespace RuthlessMerchant
         [SerializeField]
         [Tooltip("Drag Textmesh from Tutorial/Subtitle there")]
         private TextMeshProUGUI textMesh;
+        [SerializeField]
+        [Tooltip("Drag Monster from tutorial there")]
+        private GameObject TutorialMonster;
 
         private Collider playerCollider, teleportUpCollider, exitOutOfCaveCollider;
         [SerializeField]
@@ -57,8 +64,8 @@ namespace RuthlessMerchant
         private int speechCounter;
         private string[] MonologSpeech =
         {
-            "'Some call it a shattered world … and I call it home. Not because of my origin. But because I strive to own this place. I remember my first deal like it was yesterday. In piece, they preferred a little privacy.'",                                  //0 Start while fading
-            "'I offered a pack of Iron Swords. I knew the value of a single one was 29 Gold. We would haggle over it.'",                                                                                                                                            //1 Start at trade                                         
+            "'I offered a pack of 5 Iron Swords. I knew the value of a single one was 29 Gold. We would haggle over it.'",                                                                                                                                           //0 Start while fading
+            "'I offered a pack of 5 Iron Swords. I knew the value of a single one was 29 Gold. We would haggle over it.'",                                                                                                                                           //1 Start at trade                                         
             "'He had his own price in mind, probably way lower than I wished. So, I had the choice between pretending a higher value and hopefully selling it to him, or starting lower to please him'",                                                            //2 Start "Angebot"
             "'I preferred the chance for profit. He had a sense for that and replied with a lower initial offer. Now, we had to approach each other until we came to an agreement – or someone dropped the whole deal'",                                            //3 Nach Setzen des Startangebotes, sofern nicht direkt abbricht, Höher als Realwert
             "'I opened in a moderate fashion. I could go only lower from there'",                                                                                                                                                                                   //4 Niedriger als Realwert
@@ -66,8 +73,8 @@ namespace RuthlessMerchant
             "'I may have missed on that price, but a sold item is still a sold item I don’t have to occupy bag space for. And my customer seemed happy. I should quickly move to the nearby cave.'",                                                                                                          //6 Beim Ende Wenn unter Realwert verkauft: 
             "'I was to greedy. I expected too much from this deal. Honestly, I would have stopped there by myself. I should quickly move to the nearby cave.'",                                                                                                                                               //7 Beim Ende Wenn wegen Genervtheit 
             "'I was still naive and eased the price way to easy. No wonder he couldn’t take me serious anymore. I should quickly move to the nearby cave.'",                                                                                                                                                   //8 Beim Ende Wenn wegen Genervtheit     
-            "'It was time for me to return. However, their fortune was different. It was the first time I encountered one of those … things. Not exactly my audience. I may have watched the slaughter for some time, but I quickly made it to the nearby cave.'",  //9 Monster Appears
-            "'There was only one way out. I had to jump …'",                                                                                                                                                                                                        //10 Enter Cave
+            "'I quickly escaped to the nearby cave. However, their fortune was different. It was the first time I encountered one of those … things. Not exactly my audience.'",  //9 Monster Appears
+            "'There was only one way out, a hole in the floor. I had to jump …'",                                                                                                                                                                                                        //10 Enter Cave
             "'… and landed in a structure underneath. There were some obstacles, but nothing to worry about. The exit couldn’t be far away'",                                                                                                                       //11 Bottom Cave
             "'Weird. I prefer dreaming about the future, not the past. Well, it looks like I am not the only one taking a nap. Let’s give my smith some work'",                                                                                                     //12 Waking Up
             "'A capable man. I only have to bring him materials and i would craft whatever weapon I need'",                                                                                                                                                         //13 At Smith
@@ -82,7 +89,6 @@ namespace RuthlessMerchant
 
         void Start()
         {
-            isTutorial = true;
             textMesh = textMesh.GetComponent<TextMeshProUGUI>();
             playerCollider = PlayerObject.GetComponent<Collider>();
             teleportUpCollider = teleportCaveUp.GetComponent<Collider>();
@@ -108,15 +114,18 @@ namespace RuthlessMerchant
         public static void Monolog(int speechIndex)
         {
             if (Singleton != null && Singleton.isTutorial && Singleton.textMesh != null)
+            {
                 Singleton.textMesh.text = Singleton.MonologSpeech[speechIndex];
-
-            Debug.Log("Monolog " + speechIndex);
+                Singleton.textMesh.transform.parent.gameObject.SetActive(true);
+                Debug.Log("Monolog " + speechIndex);
+            }
         }
 
         public void OpenSmithDoor()
         {
             smithExit.SetActive(false);
             Monolog(14);
+            
         }
         private void Teleports()
         {
@@ -151,6 +160,7 @@ namespace RuthlessMerchant
             if (other.gameObject.name == "10_TriggerZone")
             {   
                Monolog(10);
+               TutorialMonster.SetActive(false);
             }
             if (other.gameObject.name == "13_TriggerZone")
             {
@@ -160,6 +170,7 @@ namespace RuthlessMerchant
             if (other.gameObject.name == "TriggerCancelTutorial")
             {
                 TutorialObject.SetActive(false);
+                Player.Singleton.Inventory.Remove(ironSword, true);
                 Achievements.CreateMonolog(0);
             }
         }
