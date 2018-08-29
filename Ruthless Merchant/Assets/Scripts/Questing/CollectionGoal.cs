@@ -8,7 +8,7 @@ namespace RuthlessMerchant {
     public class CollectionGoal : Goal {
 
         Hero hero;
-        GameObject button;
+        //GameObject button;
         QuestButton questButton;
 
         [SerializeField]
@@ -83,7 +83,7 @@ namespace RuthlessMerchant {
         {
             collectables = Collectables;
             Completed = false;
-            button = btn;
+            //button = btn;
             questButton = btn.GetComponentInChildren<QuestButton>();
 
             Materials = GameObject.FindGameObjectsWithTag(collectables[0].material.ItemInfo.ItemName);
@@ -116,7 +116,7 @@ namespace RuthlessMerchant {
             if (questButton)
             {
                 questButton.CompleteButton();
-                button.GetComponent<Button>().onClick.AddListener(delegate {  });
+                //button.GetComponent<Button>().onClick.AddListener(delegate {  });
             }
             return true;
         }
@@ -146,11 +146,11 @@ namespace RuthlessMerchant {
             }
         }
 
-        void RemoveButton()
-        {
-            Debug.Log("Destroy" + button);
-            Destroy(button);
-        }
+        //void RemoveButton()
+        //{
+        //    Debug.Log("Destroy" + button);
+        //    Destroy(button);
+        //}
 
     }
 }

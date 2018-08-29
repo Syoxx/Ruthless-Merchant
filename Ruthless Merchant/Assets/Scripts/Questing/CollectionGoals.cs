@@ -125,7 +125,7 @@ namespace RuthlessMerchant
         }
         public void AssignQuest(int index, GameObject button)
         {
-            
+            Debug.Log("assign quest: " + index);
             //Debug.Log("goes in");
             if (collectionGoal != null && questingEnabled)
             {
