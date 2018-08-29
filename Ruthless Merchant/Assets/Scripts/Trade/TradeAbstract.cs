@@ -158,54 +158,56 @@ namespace RuthlessMerchant
             UpdateWeight(weights, targetWeights, 2);
             UpdateWeight(weights, targetWeights, 3);
 
-            if (GetCurrentPlayerOffer() != -1)
+            float traderOffer;
+
+            if (GetCurrentTraderOffer() == -1)
+                traderOffer = RealValue;
+
+            else
+                traderOffer = GetCurrentTraderOffer();
+
+            float playerTraderOfferDelta = ((float)nextPlayerOffer - (int)traderOffer);
+            float ratioDelta = (float)nextPlayerOffer / (int)traderOffer - 1;
+
+            if (ratioDelta != Double.NaN)
+                playerTraderOfferDelta = (playerTraderOfferDelta + ratioDelta) / 2 / weightsDeltaModifier;
+
+            else
+                playerTraderOfferDelta /= weightsDeltaModifier;
+
+            if (playerTraderOfferDelta > 0.2f)
+                playerTraderOfferDelta = 0.2f;
+
+            else if (playerTraderOfferDelta < -0.2f)
+                playerTraderOfferDelta = -0.2f;
+
+            if(GetCurrentTraderOffer() == 0)
+                playerTraderOfferDelta = 0;
+
+            Vector3 playerDelta = new Vector3(0, -PlayerZone.position.y + NeutralPositionY - playerTraderOfferDelta, 0);
+            Vector3 traderDelta = new Vector3(0, -TraderZone.position.y + NeutralPositionY + playerTraderOfferDelta, 0);
+
+            Debug.Log(playerTraderOfferDelta);
+
+            // Trade?
+            if (gameObject.GetComponent<Trade>() != null)
             {
-                float playerTraderOfferDelta = ((float)nextPlayerOffer - (int)GetCurrentTraderOffer());
-                float ratioDelta = (float)nextPlayerOffer / (int)GetCurrentTraderOffer() - 1;
+                PlayerZone.position += playerDelta;
+                TraderZone.position += traderDelta;
+            }
 
-                if (ratioDelta != Double.NaN)
-                {
-                    playerTraderOfferDelta = (playerTraderOfferDelta + ratioDelta) / 2 / weightsDeltaModifier;
-                }
-                else
-                {
-                    playerTraderOfferDelta /= weightsDeltaModifier;
-                }
+            // VRTrade?
+            else
+            {
+                //ScaleMovement[] scaleMovements = FindObjectsOfType<ScaleMovement>();
 
-                if (playerTraderOfferDelta > 0.2f)
-                    playerTraderOfferDelta = 0.2f;
-
-                else if (playerTraderOfferDelta < -0.2f)
-                    playerTraderOfferDelta = -0.2f;
-
-                if(GetCurrentTraderOffer() == 0)
-                    playerTraderOfferDelta = 0;
-
-                Vector3 playerDelta = new Vector3(0, -PlayerZone.position.y + NeutralPositionY - playerTraderOfferDelta, 0);
-                Vector3 traderDelta = new Vector3(0, -TraderZone.position.y + NeutralPositionY + playerTraderOfferDelta, 0);
-
-                Debug.Log(playerTraderOfferDelta);
-
-                // Trade?
-                if (gameObject.GetComponent<Trade>() != null)
-                {
-                    PlayerZone.position += playerDelta;
-                    TraderZone.position += traderDelta;
-                }
-
-                // VRTrade?
-                else
-                {
-                    //ScaleMovement[] scaleMovements = FindObjectsOfType<ScaleMovement>();
-
-                    //foreach (ScaleMovement scale in scaleMovements)
-                    //{
-                    //    scale.SpeedY = 0;
-                    //    scale.TargetPositionPlayer = (PlayerZone.position + playerDelta).y;
-                    //    scale.TargetPositionTrader = (TraderZone.position + traderDelta).y;
-                    //    scale.enabled = true;
-                    //}
-                }
+                //foreach (ScaleMovement scale in scaleMovements)
+                //{
+                //    scale.SpeedY = 0;
+                //    scale.TargetPositionPlayer = (PlayerZone.position + playerDelta).y;
+                //    scale.TargetPositionTrader = (TraderZone.position + traderDelta).y;
+                //    scale.enabled = true;
+                //}
             }
         }
 

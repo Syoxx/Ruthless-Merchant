@@ -730,7 +730,7 @@ namespace RuthlessMerchant
             restrictCamera = true;
             bookCanvas.SetActive(true);
 
-            if(Tutorial.Singleton != null & Tutorial.Singleton.isTutorial)
+            if(Tutorial.Singleton != null && Tutorial.Singleton.isTutorial)
                 bookLogic.GoToPage(KeyCode.N);
             else
                 bookLogic.GoToPage(KeyCode.I);
@@ -739,7 +739,6 @@ namespace RuthlessMerchant
         public void AllowTradingMovement()
         {
             restrictCamera = false;
-            restrictMovement = false;
             bookCanvas.SetActive(false);
         }
 
