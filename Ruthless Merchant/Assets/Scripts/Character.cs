@@ -61,6 +61,8 @@ namespace RuthlessMerchant
         protected Weapon shield;
         protected Potion potion;
 
+        protected Animator animator;
+
         public Weapon Weapon
         {
             get
@@ -265,6 +267,7 @@ namespace RuthlessMerchant
             healthSystem.OnDeath += HealthSystem_OnDeath;
 
             gearSystem = new GearSystem(isPlayer);
+            animator = gameObject.GetComponent<Animator>();
         }
 
         private void HealthSystem_OnDeath(object sender, System.EventArgs e)
@@ -272,6 +275,7 @@ namespace RuthlessMerchant
             if(!isPlayer)
                 isDying = true;
 
+            animator.SetBool("IsDying",true);
             DestroyInteractiveObject(5.0f);
         }
 
