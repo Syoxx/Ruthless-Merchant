@@ -160,6 +160,7 @@ namespace RuthlessMerchant
             if (other.gameObject.name == "TriggerCancelTutorial")
             {
                 TutorialObject.SetActive(false);
+                Achievements.CreateMonolog(0);
             }
         }
     }
