@@ -37,6 +37,14 @@ namespace RuthlessMerchant
             {
                 npc.SetPath(nextOutpost, 0, true, laneSelectionIndex);
                 npc.SetCurrentAction(new ActionMove(), null);
+                if(npc is Minion)
+                {
+                    Minion minion = (Minion)npc;
+                    if (faction == Faction.Freidenker)
+                        minion.FirstOutpost = nextOutpost;
+                    else if (faction == Faction.Imperialisten)
+                        minion.FirstOutpost = nextOutpost;
+                }
             }
         }
     }
