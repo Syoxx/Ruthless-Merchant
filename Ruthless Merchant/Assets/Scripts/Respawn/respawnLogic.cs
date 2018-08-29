@@ -30,7 +30,7 @@ namespace RuthlessMerchant
         private GameObject respawnPoint;
         private bool fadingDone;
         private Vector3 respawnPosition;
-
+        private Character character;
         /// <summary>
         /// gets the Fade Image at the Start
         /// </summary>
@@ -40,7 +40,7 @@ namespace RuthlessMerchant
                 fadeImage = GameObject.FindGameObjectWithTag("FadeImage").GetComponent<Image>();
             respawnPosition = GameObject.Find("TriggerCancelTutorial").transform.position; ;
 
-
+            character = GetComponent<Character>();
         }
 
         /// <summary>
@@ -69,6 +69,9 @@ namespace RuthlessMerchant
         {
             fadeImage.FadingWithCallback(1f, fadeTime, delegate
             {
+                if (character != null)
+                    character.HealthSystem.ChangeHealth(character.HealthSystem.MaxHealth, character);
+
                 transform.position = respawnPosition;
                 fadeImage.FadingWithCallback(0f, 2f, delegate
                 {
