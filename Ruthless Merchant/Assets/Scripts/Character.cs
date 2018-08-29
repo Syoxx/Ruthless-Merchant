@@ -104,6 +104,15 @@ namespace RuthlessMerchant
         {
             get { return isPlayer; }
         }
+
+        public bool IsDying
+        {
+            get
+            {
+                return isDying;
+            }
+        }
+
         [SerializeField]
         [Range(0, 1000)]
         [Tooltip("Player speed while holding LCtrl.")]
@@ -260,11 +269,13 @@ namespace RuthlessMerchant
 
         private void HealthSystem_OnDeath(object sender, System.EventArgs e)
         {
-            isDying = true;
+            if(!isPlayer)
+                isDying = true;
+
             DestroyInteractiveObject(5.0f);
         }
 
-        public void Attack(Character character)
+        public bool Attack(Character character)
         {
             if (elapsedAttackTime >= GetAttackDelay())
             {
@@ -275,7 +286,10 @@ namespace RuthlessMerchant
                     damage = 1;
 
                 character.HealthSystem.ChangeHealth(-damage, this);
+                return true;
             }
+
+            return false;
         }
 
         public void Move(Vector2 velocity, float speed)
