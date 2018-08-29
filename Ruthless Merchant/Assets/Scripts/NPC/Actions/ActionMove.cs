@@ -14,6 +14,8 @@ namespace RuthlessMerchant
         protected float elapsedWaitTime;
         protected int waypointIndex;
         protected NavMeshAgent agent;
+        protected Animator animator;
+
 
         public ActionMove() : base(ActionPriority.Low)
         {
@@ -24,7 +26,6 @@ namespace RuthlessMerchant
         {
 
         }
-
         /// <summary>
         /// Current waypoint index
         /// </summary>
@@ -42,19 +43,21 @@ namespace RuthlessMerchant
                     throw new ArgumentOutOfRangeException();
             }
         }
-
         public override void StartAction(NPC parent, GameObject other)
         {
             base.StartAction(parent, other);
+            animator = parent.gameObject.GetComponent<Animator>();
 
-            if(agent == null)
+            if (agent == null)
                 agent = parent.GetComponent<NavMeshAgent>();
 
             if (other != null)
                 parent.AddNewWaypoint(new Waypoint(other.transform, true, 0), true);
 
             if (parent.Waypoints.Count > 0)
+            {
                 agent.SetDestination(parent.Waypoints[0].GetPosition());
+            }
         }
 
         public override void Update(float deltaTime)
@@ -67,18 +70,31 @@ namespace RuthlessMerchant
                 SetDestination();
             }
             else
-            {
+            {               
                 agent.isStopped = false;
                 parent.RotateToNextTarget(agent.steeringTarget + parent.transform.forward, true);
             }
+            MoveAnimation();
         }
 
+        private void MoveAnimation()
+        {
+            if (agent.velocity != Vector3.zero)
+            {
+                animator.SetBool("IsWalking",true);
+            }
+            else
+            {
+                animator.SetBool("IsWalking",false);
+            }
+        }
         public override void EndAction(bool executeEnd = true)
         {
             if (executeEnd)
             {
                 agent.isStopped = true;
                 agent.velocity = Vector3.zero;
+                animator.SetBool("IsWalking",false);
             }
             base.EndAction(executeEnd);
         }

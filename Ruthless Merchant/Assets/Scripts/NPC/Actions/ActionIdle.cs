@@ -30,6 +30,7 @@ namespace RuthlessMerchant
         public override void Update(float deltaTime)
         {
             elapsedIdleTime += deltaTime;
+            
         }
     }
 }
