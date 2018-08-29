@@ -11,8 +11,30 @@ namespace RuthlessMerchant
 
     public abstract class ActionNPC
     {
+        public enum ActionPriority
+        {
+            None,
+            Low,
+            Medium,
+            High,
+        }
+
         protected NPC parent;
         protected GameObject other;
+        protected ActionPriority priority;
+
+        public ActionPriority Priority
+        {
+            get
+            {
+                return priority;
+            }
+        }
+
+        public ActionNPC(ActionPriority priority)
+        {
+            this.priority = priority;
+        }
 
         /// <summary>
         /// Sets the parent and a target gameobject
@@ -23,9 +45,6 @@ namespace RuthlessMerchant
         {
             this.parent = parent;
             this.other = other;
-#if NPCDebugging && Debug
-            Debug.Log("Action \"" + GetType().FullName + "\" started!");
-#endif
         }
 
         /// <summary>
@@ -37,9 +56,8 @@ namespace RuthlessMerchant
         /// <summary>
         /// EndAction can be used to do some cleanup
         /// </summary>
-        public virtual void EndAction()
+        public virtual void EndAction(bool executeEnd = true)
         {
-
         }
     }
 }

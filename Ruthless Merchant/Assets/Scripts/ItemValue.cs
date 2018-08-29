@@ -1,5 +1,6 @@
 ﻿namespace RuthlessMerchant
 {
+    [System.Serializable]
     public struct ItemValue
     {
         public int Count;

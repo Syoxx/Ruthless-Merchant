@@ -3,7 +3,6 @@
 //
 //---------------------------------------------------------------
 
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace RuthlessMerchant
@@ -19,37 +18,31 @@ namespace RuthlessMerchant
 
         [SerializeField]
         [Range(1, 1000)]
-        private int count = 1;
+        protected int count = 1;
 
-        [SerializeField]
-        private string[] possiblePaths = null;
-
-        private ObjectSpawner spawner;
+        protected ObjectSpawner spawner;
         private float elapsedTime = 0f;
 
-        private void Start()
+        protected virtual void Start()
         {
             spawner = GetComponent<ObjectSpawner>();
-            spawner.OnObjectSpawned += Spawner_OnObjectSpawned;
+            elapsedTime = intervall;
         }
 
-        private void Spawner_OnObjectSpawned(object sender, SpawnArgs e)
-        {
-            if (possiblePaths != null && possiblePaths.Length > 0)
-            {
-                NPC npc = e.SpawnedObject.GetComponent<NPC>();
-                npc.SetRandomPath(possiblePaths, 3);
-            }
-        }
-
-        private void Update()
+        protected virtual void Update()
         {
             elapsedTime += Time.deltaTime;
             if(elapsedTime >= intervall)
             {
                 spawner.Spawn(spawnObject, count);
                 elapsedTime = 0;
+                SpawnQueued();
             }
+        }
+
+        protected virtual void SpawnQueued()
+        {
+
         }
     }
 }

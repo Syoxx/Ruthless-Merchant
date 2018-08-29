@@ -2,7 +2,7 @@
 {
     public enum ItemType
     {
-        Resource,
+        Ingredient,
         Weapon,
         ConsumAble,
         CraftingMaterial,

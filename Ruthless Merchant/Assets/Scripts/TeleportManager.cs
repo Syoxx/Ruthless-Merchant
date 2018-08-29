@@ -1,41 +1,35 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using RuthlessMerchant;
 using UnityEngine;
 
 public class TeleportManager : MonoBehaviour {
 
-    //Destinations for Unity Inspector when 
-    public enum Destination
+    //By Daniil Masliy
+
+    #region Serialize Fields
+    [SerializeField] [Tooltip("Drag a GameObject there. This object will be considered as Destination")]
+    private GameObject teleportDestination;
+    #endregion
+
+    #region Private Fields
+    private Rigidbody rb;
+    private Player playerScript;
+    private Vector3 positionOfDestination;
+    #endregion
+
+
+    private void Start()
     {
-        PointA, PointB, PointC, PointD, PointE
+        rb = GetComponentInParent<Rigidbody>();
+        playerScript = GetComponentInParent<Player>();
     }
 
-    [SerializeField]
-    TeleportManager myEnum;
-
-
-    public Destination TeleportDestination;
-
+    /// <summary>
+    /// Use this position, to declare where to teleport
+    /// </summary>
     public void Teleport()
     {
-        switch (TeleportDestination)
-        {
-            case Destination.PointA:
-                Debug.Log(TeleportDestination);
-                break;
-            case Destination.PointB:
-                Debug.Log(TeleportDestination);
-                break;
-            case Destination.PointC:
-                Debug.Log(TeleportDestination);
-                break;
-            case Destination.PointD:
-                Debug.Log(TeleportDestination);
-                break;
-            case Destination.PointE:
-                Debug.Log(TeleportDestination);
-                break;
-
-        }
+        playerScript.Grounding(false);
+        positionOfDestination = teleportDestination.transform.position;
+        rb.transform.position = positionOfDestination;
     }
 }

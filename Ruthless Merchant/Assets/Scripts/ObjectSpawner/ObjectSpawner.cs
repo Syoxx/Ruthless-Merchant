@@ -20,16 +20,16 @@ namespace RuthlessMerchant
         public event EventHandler<SpawnArgs> OnObjectSpawned;
 
         // Use this for initialization
-        private void Start()
+        protected virtual void Start()
         {
             blockingObjects = new List<Collider>();
             spawnQueue = new Queue<SpawnInfo?>();
         }
 
         // Update is called once per frame
-        private void Update()
+        protected virtual void Update()
         {
-            if (blockingObjects.Count == 0)
+            if (blockingObjects !=null && spawnQueue != null && blockingObjects.Count == 0)
             {
                 if (objectsToSpawn == 0 && spawnQueue.Count > 0)
                 {
@@ -68,9 +68,9 @@ namespace RuthlessMerchant
         /// </summary>
         /// <param name="spawnObject">Object to spawn</param>
         /// <returns>Returns the spawned object</returns>
-        public Transform ForceSpawn(Transform spawnObject)
+        public virtual Transform ForceSpawn(Transform spawnObject)
         {
-            return Instantiate(spawnObject, transform.position, transform.rotation);
+            return Instantiate(spawnObject, transform.position, transform.rotation, transform);
         }
 
         /// <summary>
@@ -79,23 +79,24 @@ namespace RuthlessMerchant
         /// <param name="spawnObject">Object to spawn</param>
         /// <param name="count">Numbers to spawn</param>
         /// <returns>Returns all spawned objects</returns>
-        public Transform[] ForceSpawn(Transform spawnObject, int count)
+        public virtual Transform[] ForceSpawn(Transform spawnObject, int count)
         {
             Transform[] spawnedObjects = new Transform[count];
             for (int i = 0; i < count; i++)
             {
-                spawnedObjects[i] = Instantiate(spawnObject, transform.position, transform.rotation);
+                spawnedObjects[i] = Instantiate(spawnObject, transform.position, transform.rotation, transform);
             }
 
             return spawnedObjects;
         }
 
-        private void OnTriggerEnter(Collider other)
+        protected virtual void OnTriggerEnter(Collider other)
         {
-            blockingObjects.Add(other);
+            if(other.CompareTag("NPC"))
+                blockingObjects.Add(other);
         }
 
-        private void OnTriggerExit(Collider other)
+        protected virtual void OnTriggerExit(Collider other)
         {
             blockingObjects.Remove(other);
         }

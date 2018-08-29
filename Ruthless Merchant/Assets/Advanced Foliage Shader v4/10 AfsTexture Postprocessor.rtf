@@ -1,0 +1,31 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1344\cocoasubrtf720
+{\fonttbl\f0\fswiss\fcharset0 ArialMT;}
+{\colortbl;\red255\green255\blue255;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww13960\viewh14980\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\sl264\slmult1\pardirnatural
+
+\f0\b\fs48 \cf0 AFS Texture Postprocessor
+\fs36 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2320\pardirnatural
+
+\b0 \cf0 \
+The AFS Texture Postprocessor will automatically prefilter your Smoothness Textures to reduce specular aliasing artifacts. The script acts as AssetPostprocessor and will automatically look for textures that fit the naming conventions mentioned below and postprocess them whenever they are updated.\
+
+\fs24 \
+As high specular powers and pretty bumpy details might cause heavy specular aliasing the package contains a texture postprocessor that will automatically tweak to the different mip levels of the smoothness textures (or better: smoothness texture channel) to make this less noticeable.\
+\
+The postprocessor can only handle combined Normal(GA) Trans(R) Smoothness(B) maps that were authored to work with the foliage shaders\'97textures using a different channel layout would be corrupted.\
+\
+In order to let the script find all textures that should be processed you will have to name them properly:\
+The script finds them by name which must end with: \'84_AfsNTR\'93 or \'84_AfsNTS\'93.\
+\
+In case you use very detailed and especially small geometry\'97like the nettle from the demos\'97texture filtering alone will not do the job: So you might also want to use the \'84specular highlights fadeout\'93 feature of the shaders. Set it up in the \'84Lighting Settings\'93 foldout of the \'84AdvancedFoliageShader\'93 script.\
+\
+Another possibility to reduce specular aliasing could be the aggressiv use of screen based anti aliasing filters.\
+\
+\
+\
+\
+\
+\
+}

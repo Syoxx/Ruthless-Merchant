@@ -1,23 +1,61 @@
-﻿namespace RuthlessMerchant
+﻿using UnityEditor;
+using UnityEngine;
+
+namespace RuthlessMerchant
 {
     public class Weapon : Item
-    {
-        private float attackRate;
-        private int damage;
-        private int range;
-        private WeaponType type;
-        private Item ammo;
+    {   
+        //Made by Daniil Masliy
 
-        public Item Ammo
+        [Header("Weapon Parameters")]
+        [SerializeField] private WeaponType weaponType;
+        [SerializeField] private int damage;
+
+        [SerializeField] private int defencePower;
+        [SerializeField] private float attackSpeed;
+
+        public WeaponType WeaponType
         {
             get
             {
-                return ammo;
-            }
-            set
-            {
-                ammo = value;
+                return weaponType;
             }
         }
+
+        public int Damage
+        {
+            get
+            {
+                return damage;
+            }
+        }
+
+        public int DefencePower
+        {
+            get
+            {
+                return defencePower;
+            }
+        }
+
+        public float AttackSpeed
+        {
+            get
+            {
+                return attackSpeed;
+            }
+        }
+
+        public override void Start()
+        {
+            
+        }
+
+        public override void Update()
+        {
+           
+        }
     }
+
+
 }

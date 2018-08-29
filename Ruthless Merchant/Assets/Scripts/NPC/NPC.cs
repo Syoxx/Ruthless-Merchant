@@ -12,6 +12,14 @@ namespace RuthlessMerchant
 {
     public abstract class NPC : Character
     {
+        public static int MaxNPCCountPerFaction = 62;
+        public static Dictionary<Faction, int> NPCCount = new Dictionary<Faction, int>()
+        {
+            { Faction.Freidenker, 0 },
+            { Faction.Imperialisten,0 },
+            { Faction.Monster, 0 }
+        };
+
         public enum SpeedType
         {
             None,
@@ -33,7 +41,6 @@ namespace RuthlessMerchant
             IsThreat
         }
 
-        private DayCycle dayCycle;
         private DialogSystem dialogSystem;
 
         protected List<Waypoint> waypoints;
@@ -41,36 +48,47 @@ namespace RuthlessMerchant
         [HideInInspector]
         public Nullable<Waypoint> CurrentWaypoint = null;
 
-        [SerializeField]
-        [Range(0.1f, 100.0f)]
+        [SerializeField, Range(0.1f, 100.0f), Tooltip("Roation Speed")]
         protected float rotationSpeed = 8.0f;
 
-        [SerializeField]
-        [Range(25, 90)]
+        [Header("NPC Recogniction Settings")]
+        [SerializeField, Range(25, 90), Tooltip("Field of view")]
         protected int fov = 45;
 
-        [SerializeField]
-        [Range(1, 1000)]
+        [SerializeField, Range(1, 100), Tooltip("Max. view distance")]
         protected int viewDistance = 10;
 
-        [SerializeField]
-        [Range(1, 1000)]
+        [SerializeField, Range(1, 100), Tooltip("Max. hear distance of npcs. Is used by child gameoject with hear script")]
         protected int hearDistance = 5;
 
+        [Header("NPC Settings")]
+
+        [SerializeField, Range(0, 100), Tooltip("Capturing value per second")]
+        protected int capValuePerSecond = 1;
+
+        public int CapValuePerSecond
+        {
+            get
+            {
+                return capValuePerSecond;
+            }
+        }
+
         protected NavMeshAgent agent;
+        protected int laneSelectionIndex = 0;
 
         private List<GameObject> possibleSeenObjects;
-        private List<AudioSource> possibleHearedObjects;
 
-        private List<GameObject> noticedGameObjects;
+        private List<GameObject> possibleHearedObjects;
 
         public event EventHandler OnCharacterNoticed;
         public event EventHandler OnItemNoticed;
-        public event EventHandler OnHeardSomething;
 
         private ActionNPC currentAction;
 
         private Vector3 rotationTarget;
+
+        [HideInInspector]
         public bool Reacting;
 
         private Character currentReactTarget;
@@ -80,18 +98,6 @@ namespace RuthlessMerchant
         private SpeedType currentSpeedType = SpeedType.None;
         private float elapsedLostTime = 0.0f;
         private float lostDuration = 3.0f;
-
-        public DayCycle DayCycle
-        {
-            get
-            {
-                return dayCycle;
-            }
-            set
-            {
-                dayCycle = value;
-            }
-        }
 
         public DialogSystem DialogSystem
         {
@@ -151,60 +157,105 @@ namespace RuthlessMerchant
 
         public override void Start()
         {
-            possibleHearedObjects = new List<AudioSource>();
             possibleSeenObjects = new List<GameObject>();
-            noticedGameObjects = new List<GameObject>();
+            possibleHearedObjects = new List<GameObject>();
 
-            if(waypoints == null)
+            if (waypoints == null)
                 waypoints = new List<Waypoint>();
 
-            GameObject hearObject = transform.GetChild(0).gameObject;
-            GameObject seeObject = transform.GetChild(1).gameObject;
+            Transform seeObj = transform.Find("SeeCollider");
+            if (seeObj != null)
+            {
+                SphereCollider seeCollider = seeObj.GetComponent<SphereCollider>();
+                seeCollider.radius = viewDistance;
+            }
 
-            SphereCollider seeCollider = seeObject.GetComponent<SphereCollider>();
-            seeCollider.radius = viewDistance;
-
-            SphereCollider hearCollider = hearObject.GetComponent<SphereCollider>();
-            hearCollider.radius = hearDistance;
+            Transform hearObj = transform.Find("HearCollider");
+            if(hearObj != null)
+            {
+                SphereCollider hearCollider = hearObj.GetComponent<SphereCollider>();
+                hearCollider.radius = hearDistance;
+            }
 
             agent = GetComponent<NavMeshAgent>();
             agent.autoBraking = false;
+            if (agent.stoppingDistance == 0)
+                agent.stoppingDistance = 1;
 
             ChangeSpeed(SpeedType.Walk);
+
+            NPCCount[faction]++;
+            base.Start();
         }
 
         public override void Update()
         {
             base.Update();
-            Recognize();
-            Hear();
+            if (!isDying)
+            {
+                Recognize();
 
-            if(currentAction != null)
-                currentAction.Update(Time.deltaTime);
+                if (currentAction != null)
+                    currentAction.Update(Time.deltaTime);
 
+                CheckReactionState();
+
+                if (!Reacting)
+                {
+                    ChangeSpeed(SpeedType.Walk);
+                }
+
+                if (agent.remainingDistance <= agent.stoppingDistance)
+                {
+                    agent.isStopped = true;
+                }
+            }
+            else
+            {
+                SetCurrentAction(null, null, true, true);
+            }
+        }
+
+        public override void DestroyInteractiveObject(float delay = 0)
+        {
+            NPCCount[faction]--;
+            base.DestroyInteractiveObject(delay);
+        }
+
+        private void CheckReactionState()
+        {
             if (currentReactTarget != null)
-            { 
-                if(reactionState.HasFlag(TargetState.Lost))
+            {
+                //Check Target Health
+                if (CurrentReactTarget.HealthSystem == null || CurrentReactTarget.HealthSystem.Health <= 0)
+                {
+                    reactionState = TargetState.None;
+                    currentReactTarget = null;
+                    elapsedLostTime = 0;
+                }
+
+                //Check lost targets
+                if (reactionState.HasFlag(TargetState.Lost))
                 {
                     elapsedLostTime += Time.deltaTime;
-                    if(elapsedLostTime >= lostDuration)
+                    if (elapsedLostTime >= lostDuration)
                     {
                         reactionState = TargetState.None;
                         currentReactTarget = null;
                         elapsedLostTime = 0;
                     }
                 }
+            }
 
-                if (currentReactTarget != null)
-                {
-                    React(currentReactTarget, reactionState.HasFlag(TargetState.IsThreat));
-                }
+            //Execute Reaction
+            if (currentReactTarget != null)
+            {
+                React(currentReactTarget, reactionState.HasFlag(TargetState.IsThreat));
             }
             else if (currentItemTarget != null)
                 React(currentItemTarget);
-
-            if(!Reacting)
-                ChangeSpeed(SpeedType.Walk);
+            else if (!(currentAction is ActionIdle))
+                SetCurrentAction(new ActionIdle(), null);
         }
 
         /// <summary>
@@ -215,11 +266,10 @@ namespace RuthlessMerchant
         protected bool IsThreat(GameObject gameObject)
         {
             Character character = gameObject.GetComponent<Character>();
-            if (character != null && faction != character.Faction)
+            if (character != null && faction != character.Faction && character.HealthSystem != null && character.HealthSystem.Health > 0)
             {
-                if (character.IsPlayer)
+                if (character.IsPlayer && faction != Faction.Monster)
                 {
-                    //TODO check faction standings
                     return false;
                 }
                 else
@@ -230,44 +280,13 @@ namespace RuthlessMerchant
         }
 
         /// <summary>
-        /// Check all gameobjects in hearrange to see if they are recognized
-        /// </summary>
-        private void Hear()
-        {
-            for (int i = 0; i < possibleHearedObjects.Count; i++)
-            {
-                bool alreadyNoticed = noticedGameObjects.Contains(possibleHearedObjects[i].gameObject);
-                if(Vector3.Distance(possibleHearedObjects[i].gameObject.transform.position, transform.position) 
-                    < possibleHearedObjects[i].maxDistance && possibleHearedObjects[i].isPlaying)
-                {
-                    if (!alreadyNoticed)
-                    {
-                        noticedGameObjects.Add(possibleHearedObjects[i].gameObject);
-                        FindReactionTarget(possibleHearedObjects[i].gameObject);
-                        if (OnHeardSomething != null)
-                            OnHeardSomething.Invoke(this, null);
-                    }
-                }
-                else
-                {
-                    if (alreadyNoticed)
-                    {
-                        noticedGameObjects.Remove(possibleHearedObjects[i].gameObject);
-                        if (currentReactTarget.gameObject == possibleHearedObjects[i].gameObject)
-                            currentReactTarget = null;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
         /// Check all gameobjects in viewrange to see if they are in sight
         /// </summary>
         private void Recognize()
         {
             for (int i = 0; i < possibleSeenObjects.Count; i++)
             {
-                if(possibleSeenObjects[i] == null)
+                if (possibleSeenObjects[i] == null)
                 {
                     possibleSeenObjects.RemoveAt(i);
                     i--;
@@ -275,41 +294,44 @@ namespace RuthlessMerchant
                 }
 
                 Vector3 targetDir = possibleSeenObjects[i].transform.position - transform.position;
-                float angle = Vector3.Angle(targetDir, transform.forward);            
-                bool alreadyNoticed = noticedGameObjects.Contains(possibleSeenObjects[i]);
+                float angle = Vector3.Angle(targetDir, transform.forward);
 
                 if (angle < fov && !IsObjectBehindObstacle(possibleSeenObjects[i]))
                 {
-                    if (!alreadyNoticed)
+                    if (currentReactTarget != null && currentReactTarget == possibleSeenObjects[i])
                     {
-                        noticedGameObjects.Add(possibleSeenObjects[i]);
+                        elapsedLostTime = 0.0f;
+                        reactionState = reactionState.SetFlag(TargetState.Lost);
+                        reactionState = reactionState.RemoveFlag(TargetState.InView);
+                    }
+                    else
+                    {
                         FindReactionTarget(possibleSeenObjects[i]);
-                        if(currentReactTarget != null && currentReactTarget.gameObject == possibleSeenObjects[i])
+                        if (currentReactTarget != null && currentReactTarget.gameObject == possibleSeenObjects[i])
                         {
                             reactionState = reactionState.SetFlag(TargetState.InView);
                             reactionState = reactionState.RemoveFlag(TargetState.Lost);
                             elapsedLostTime = 0.0f;
-                        }
 
-                        //TODO: check components and add event args!
+                            if (OnCharacterNoticed != null)
+                                OnCharacterNoticed.Invoke(this, null);
+                        }
+                    }
+                }
+            }
+
+            if(currentReactTarget == null)
+            {
+                for (int i = 0; i < possibleHearedObjects.Count; i++)
+                {
+                    FindReactionTarget(possibleHearedObjects[i]);
+                    if(currentReactTarget != null)
+                    {
                         if (OnCharacterNoticed != null)
                             OnCharacterNoticed.Invoke(this, null);
 
-                        if (OnItemNoticed != null)
-                            OnItemNoticed.Invoke(this, null);
-                    }
-                }
-                else
-                {
-                    if (alreadyNoticed)
-                    {
-                        noticedGameObjects.Remove(possibleSeenObjects[i]);
-                        if (currentReactTarget != null && currentReactTarget.gameObject == possibleSeenObjects[i])
-                        {
-                            elapsedLostTime = 0.0f;
-                            reactionState = reactionState.SetFlag(TargetState.Lost);
-                            reactionState = reactionState.RemoveFlag(TargetState.InView);
-                        }
+                        if (reactionState.HasFlag(TargetState.IsThreat))
+                            break;
                     }
                 }
             }
@@ -322,15 +344,16 @@ namespace RuthlessMerchant
         /// <returns>Returns true if the object is covered by an obstacle</returns>
         private bool IsObjectBehindObstacle(GameObject gameObject)
         {
-            Vector3 direction = gameObject.transform.position - transform.position;
-            direction.Normalize();
+            /*  Vector3 direction = gameObject.transform.position - transform.position;
+              direction.Normalize();
 
-            RaycastHit hitInfo;
-            bool hit = Physics.Raycast(transform.position, direction, out hitInfo, viewDistance);
-            if (hit)
-                hit = hitInfo.collider.gameObject == gameObject;
+              RaycastHit hitInfo;
+              bool hit = Physics.Raycast(transform.position, direction, out hitInfo, viewDistance);
+              if (hit)
+                  hit = hitInfo.collider.gameObject == gameObject;
 
-            return !hit;
+              return !hit;*/
+            return false;
         }
 
         /// <summary>
@@ -344,7 +367,7 @@ namespace RuthlessMerchant
             {
                 if (IsThreat(gameObject))
                 {
-                    if (currentReactTarget != null)
+                    if (currentReactTarget != null && reactionState.HasFlag(TargetState.IsThreat))
                     {
                         if (Vector3.Distance(gameObject.transform.position, transform.position) <
                             Vector3.Distance(currentReactTarget.transform.position, transform.position))
@@ -365,8 +388,15 @@ namespace RuthlessMerchant
                 {
                     if (!reactionState.HasFlag(TargetState.IsThreat))
                     {
-                        if (Vector3.Distance(gameObject.transform.position, transform.position) <
-                            Vector3.Distance(currentReactTarget.transform.position, transform.position))
+                        if (currentReactTarget != null)
+                        {
+                            if (Vector3.Distance(gameObject.transform.position, transform.position) <
+                                Vector3.Distance(currentReactTarget.transform.position, transform.position))
+                            {
+                                currentReactTarget = character;
+                            }
+                        }
+                        else
                         {
                             currentReactTarget = character;
                         }
@@ -403,15 +433,26 @@ namespace RuthlessMerchant
         /// </summary>
         /// <param name="action">Action to set</param>
         /// <param name="other">Gameobject which might be useful for the action start</param>
-        public void SetCurrentAction(ActionNPC action, GameObject other)
+        public void SetCurrentAction(ActionNPC action, GameObject other, bool force = false, bool executeEnd = true)
         {
-            if (currentAction != null)
-                currentAction.EndAction();
+            if ((!isDying && (force || currentAction == null || currentAction.Priority <= action.Priority)) || (isDying && action == null))
+            {
+                if (currentAction != null)
+                    currentAction.EndAction(executeEnd);
 
-            currentAction = action;
-            currentAction.StartAction(this, other);
+                currentAction = action;
+                if(currentAction != null)
+                    currentAction.StartAction(this, other);
+            }
         }
 
+
+        public void ResetTarget()
+        {
+            currentReactTarget = null;
+            reactionState = TargetState.None;
+            Reacting = false;
+        }
         /// <summary>
         /// Rotate towards a given position
         /// </summary>
@@ -447,31 +488,24 @@ namespace RuthlessMerchant
             {
                 case SpeedType.None:
                     agent.speed = 0;
-                    agent.angularSpeed = 0;
                     break;
                 case SpeedType.Walk:
                     agent.speed = walkSpeed;
-                    agent.angularSpeed = walkSpeed;
                     break;
                 case SpeedType.Run:
                     agent.speed = runSpeed;
-                    agent.angularSpeed = runSpeed;
                     break;
                 case SpeedType.Stealth:
                     agent.speed = walkSpeed;
-                    agent.angularSpeed = walkSpeed;
                     break;
                 case SpeedType.Crouch:
                     agent.speed = walkSpeed;
-                    agent.angularSpeed = walkSpeed;
                     break;
                 case SpeedType.Jump:
                     agent.speed = runSpeed;
-                    agent.angularSpeed = runSpeed;
                     break;
                 case SpeedType.Flee:
                     agent.speed = runSpeed * 1.5f;
-                    agent.angularSpeed = runSpeed * 1.5f;
                     break;
                 default:
                     break;
@@ -485,6 +519,9 @@ namespace RuthlessMerchant
         /// <param name="clearWaypoints">Indicates whether the current path should be removed or not</param>
         public void AddNewWaypoint(Waypoint waypoint, bool clearWaypoints = false)
         {
+            if (waypoints == null)
+                waypoints = new List<Waypoint>();
+
             if (clearWaypoints)
                 waypoints.Clear();
 
@@ -496,9 +533,25 @@ namespace RuthlessMerchant
         /// </summary>
         /// <param name="paths">Array of path names</param>
         /// <param name="waitTime">Wait time on a waypoint</param>
-        public void SetRandomPath(string[] paths, float waitTime)
+        /// <returns>Returns true on success</returns>
+        public bool SetRandomPath(string[] paths, float waitTime)
         {
-            string path = paths[UnityEngine.Random.Range(0, paths.Length - 1)];
+            if (paths != null && paths.Length > 0)
+            {
+                string path = paths[UnityEngine.Random.Range(0, paths.Length)];
+                return SetPath(path, waitTime) != null;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Sets a given path
+        /// </summary>
+        /// <param name="path">Name of path</param>
+        /// <param name="waitTime">Wait time on each waypoint</param>
+        /// <returns>Returns a list of waypoints</returns>
+        public IEnumerable<Waypoint> SetPath(string path, float waitTime, bool removeOnWaypointReached = true)
+        {
             if (path != null)
             {
                 GameObject parentPath = GameObject.Find(path);
@@ -506,11 +559,34 @@ namespace RuthlessMerchant
                 foreach (Transform child in parentPath.transform)
                 {
                     if (child.CompareTag(path))
-                        waypoints.Add(new Waypoint(child, true, waitTime));
+                        waypoints.Add(new Waypoint(child, removeOnWaypointReached, waitTime));
                 }
 
-                AddPath(waypoints);
+                AddWaypoints(waypoints);
+
+                return waypoints;
             }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Adds a new waypoint
+        /// </summary>
+        /// <param name="path">Next capture trigger</param>
+        /// <param name="waitTime">Wait time on waypoint</param>
+        /// <returns>Returns a waypoint</returns>
+        public Waypoint SetPath(CaptureTrigger path, float waitTime, bool removeOnWaypointReached = true, int laneSelectionIndex = 0)
+        {
+            if (path != null)
+            {
+                this.laneSelectionIndex = laneSelectionIndex;
+                Waypoint waypoint = new Waypoint(path.Target, removeOnWaypointReached, waitTime);
+                AddNewWaypoint(waypoint, true);
+                return waypoint;
+            }
+
+            return default(Waypoint);
         }
 
         /// <summary>
@@ -519,24 +595,13 @@ namespace RuthlessMerchant
         /// <param name="paths">Array of path names</param>
         /// <param name="removeOnReached">Indicates whether the waypoint should be removed or not when the waypoint was reached</param>
         /// <param name="waitTime">Wait time on a waypoint</param>
-        /// <returns></returns>
-        public Waypoint[] GetRandomPath(string[] paths, bool removeOnReached, float waitTime)
+        /// <returns>Returns a list of waypoints</returns>
+        public IEnumerable<Waypoint> GetRandomPath(string[] paths, bool removeOnReached, float waitTime)
         {
             if (paths != null && paths.Length > 0)
             {
-                string path = paths[UnityEngine.Random.Range(0, paths.Length - 1)];
-                if (path != null)
-                {
-                    GameObject parentPath = GameObject.Find(path);
-                    List<Waypoint> waypoints = new List<Waypoint>();
-                    foreach (Transform child in parentPath.transform)
-                    {
-                        if (child.CompareTag(path))
-                            waypoints.Add(new Waypoint(child, removeOnReached, waitTime));
-                    }
-
-                    return waypoints.ToArray();
-                }
+                string path = paths[UnityEngine.Random.Range(0, paths.Length)];
+                return SetPath(path, waitTime, removeOnReached);
             }
             return null;
         }
@@ -545,7 +610,7 @@ namespace RuthlessMerchant
         /// Adds a given path to the current path
         /// </summary>
         /// <param name="path">Array of waypoints</param>
-        public void AddPath(IEnumerable<Waypoint> path)
+        public void AddWaypoints(IEnumerable<Waypoint> path)
         {
             if (waypoints == null)
                 waypoints = new List<Waypoint>();
@@ -553,22 +618,9 @@ namespace RuthlessMerchant
             waypoints.AddRange(path);
         }
 
-        /// <summary>
-        /// A given object entered the hear area
-        /// </summary>
-        /// <param name="audioSource">Audiosource of entered gameobject</param>
-        public void OnEnterHearArea(AudioSource audioSource)
+        public virtual void ChangeFaction(Faction newFaction)
         {
-            possibleHearedObjects.Add(audioSource);
-        }
-
-        /// <summary>
-        /// A given object left the hear area
-        /// </summary>
-        /// <param name="audioSource">Audiosource of the left gameobject</param>
-        public void OnExitHearArea(AudioSource audioSource)
-        {
-            possibleHearedObjects.Remove(audioSource);
+            faction = newFaction;
         }
 
         /// <summary>
@@ -577,6 +629,9 @@ namespace RuthlessMerchant
         /// <param name="other">Collider of gameobject</param>
         public void OnEnterViewArea(Collider other)
         {
+            if (possibleSeenObjects == null)
+                possibleSeenObjects = new List<GameObject>();
+
             possibleSeenObjects.Add(other.gameObject);
         }
 
@@ -586,7 +641,34 @@ namespace RuthlessMerchant
         /// <param name="other">Collider of gameobject</param>
         public void OnExitViewArea(Collider other)
         {
+            if (possibleSeenObjects == null)
+                possibleSeenObjects = new List<GameObject>();
+
             possibleSeenObjects.Remove(other.gameObject);
+        }
+
+        /// <summary>
+        /// A given object entered the hear area
+        /// </summary>
+        /// <param name="other">Collider of gameobject</param>
+        public void OnEnterHearArea(Collider other)
+        {
+            if (possibleHearedObjects == null)
+                possibleHearedObjects = new List<GameObject>();
+
+            possibleHearedObjects.Add(other.gameObject);
+        }
+
+        /// <summary>
+        /// A given object left the hear area
+        /// </summary>
+        /// <param name="other">Collider of gameobject</param>
+        public void OnExitHearArea(Collider other)
+        {
+            if (possibleHearedObjects == null)
+                possibleHearedObjects = new List<GameObject>();
+
+            possibleHearedObjects.Remove(other.gameObject);
         }
         #endregion
     }
