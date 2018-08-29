@@ -63,7 +63,13 @@ namespace RuthlessMerchant
                     if (distance <= parentFighter.AttackDistance)
                     {
                         parent.Reacting = true;
-                        parent.Attack(character);
+                        if(parent.Attack(character))
+                        {
+                            if(character.HealthSystem.Health <= 0)
+                            {
+                                parent.ResetTarget();
+                            }
+                        }
                     }
                 }
             }
