@@ -43,8 +43,11 @@ namespace RuthlessMerchant
                 }
                 else
                 {
-                    AddNewWaypoint(new Waypoint(FirstOutpost.Target, true, 0));
-                    SetCurrentAction(new ActionMove(), null);
+                    if (FirstOutpost != null)
+                    {
+                        AddNewWaypoint(new Waypoint(FirstOutpost.Target, true, 0));
+                        SetCurrentAction(new ActionMove(), null);
+                    }
                 }
             }
         }

@@ -63,12 +63,7 @@ namespace RuthlessMerchant
                 }
             }
 
-            Vector3 addedVector = Vector3.zero;
-
-            if (Trader.CurrentTrader.startTradeImmediately)
-                addedVector = new Vector3(0, 0.22f);
-
-            TradeObjectsParent.transform.position = Trader.CurrentTrader.gameObject.transform.position + addedVector;
+            TradeObjectsParent.transform.position = Trader.CurrentTrader.gameObject.transform.position;
             NeutralPositionY = PlayerZone.transform.position.y;
 
             Vector3 prevRotation = TradeObjectsParent.transform.rotation.eulerAngles;
@@ -90,7 +85,6 @@ namespace RuthlessMerchant
 
                 if (exitTimer > 3)
                 {
-                    Trader.CurrentTrader.GoToPreviousPosition();
                     Trader.CurrentTrader = null;
                     Cursor.visible = false;
                     Singleton = null;
@@ -157,6 +151,8 @@ namespace RuthlessMerchant
 
             UpdateWeights(weightsPlayer, nextPlayerOffer);
             UpdateWeights(weightsTrader, realValue);
+
+            Player.Singleton.RestrictBookUsage = false;
 
             initialized = true;
         }
