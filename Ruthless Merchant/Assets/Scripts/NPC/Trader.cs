@@ -22,9 +22,6 @@ namespace RuthlessMerchant
 
         [Header("Influence Variables")]
 
-        [SerializeField, Range(0, 1), Tooltip("Ruf: Fraktion")]
-        float influenceFraction;
-
         [SerializeField, Range(0, 1), Tooltip("Ruf: Individuell")]
         float influenceIndividual;
 
@@ -254,10 +251,24 @@ namespace RuthlessMerchant
 
             if (WantsToStartTrading())
             {
-                float realPrice = trade.RealValue;
+                float influenceFaction;
 
-                upperLimitPercentTotal = upperLimitPerCent + ((upperLimitPerCent * influenceFraction) + (upperLimitPerCent * influenceIndividual) + (upperLimitPerCent * influenceWar) + (upperLimitPerCent * influenceNeighbours)) / 4;
-                underLimitPercentTotal = underLimitPerCent + (-(underLimitPerCent * influenceFraction) - (underLimitPerCent * influenceIndividual) + (underLimitPerCent * influenceWar) + (underLimitPerCent * influenceNeighbours)) / 4;
+                if (faction == Faction.Freidenker)
+                    influenceFaction = Player.Singleton.Reputation.FreidenkerStanding;
+
+                else if (faction == Faction.Imperialisten)
+                    influenceFaction = Player.Singleton.Reputation.ImperalistenStanding;
+
+                else
+                {
+                    Debug.LogError("Trader has no valid Faction!");
+                    return;
+                }
+
+                upperLimitPercentTotal = upperLimitPerCent + ((upperLimitPerCent * influenceFaction) + (upperLimitPerCent * influenceIndividual) + (upperLimitPerCent * influenceWar) + (upperLimitPerCent * influenceNeighbours)) / 4;
+                underLimitPercentTotal = underLimitPerCent + (-(underLimitPerCent * influenceFaction) - (underLimitPerCent * influenceIndividual) + (underLimitPerCent * influenceWar) + (underLimitPerCent * influenceNeighbours)) / 4;
+
+                float realPrice = trade.RealValue;
 
                 upperLimitReal = (float)Math.Ceiling(realPrice * (1 + upperLimitPercentTotal));
                 upperLimitBargain = (float)Math.Ceiling(upperLimitReal * (1 + upperLimitBargainPerCent));
