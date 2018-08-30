@@ -272,10 +272,11 @@ namespace RuthlessMerchant
 
         private void HealthSystem_OnDeath(object sender, System.EventArgs e)
         {
-            if(!isPlayer)
+            if (!isPlayer)
+            {
                 isDying = true;
-
-            animator.SetBool("IsDying",true);
+                animator.SetBool("IsDying", true);
+            }
             DestroyInteractiveObject(5.0f);
         }
 
