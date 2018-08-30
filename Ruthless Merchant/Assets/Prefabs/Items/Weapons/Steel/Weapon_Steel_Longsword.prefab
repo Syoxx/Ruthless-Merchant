@@ -22,6 +22,8 @@ GameObject:
   - component: {fileID: 33982806342316080}
   - component: {fileID: 23691855041655078}
   - component: {fileID: 95092855271829458}
+  - component: {fileID: 114716463964263128}
+  - component: {fileID: 114342707567619826}
   m_Layer: 0
   m_Name: Weapon_Steel_Longsword
   m_TagString: Untagged
@@ -102,3 +104,39 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114342707567619826
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1339216206582528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da849d998660b964aa1c71df0912cb55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  faction: 4
+  ItemInfo:
+    ItemName: Steel Longsword
+    ItemValue: 65
+    ItemWeight: 3
+    ItemLore: 
+    ItemSprite: {fileID: 21300000, guid: 1dde60588c1fad644a03d1236615a9b7, type: 3}
+    ItemType: 1
+    ItemRarity: 0
+    maxStackCount: 10
+  weaponType: 0
+  damage: 11
+  defencePower: 0
+  attackSpeed: 2.2
+--- !u!114 &114716463964263128
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1339216206582528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1a2859bd3c9f7b41843846d87b72e3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
