@@ -107,6 +107,12 @@ namespace RuthlessMerchant
 
         [Header("Psychological Variables")]
 
+        [SerializeField]
+        GameObject moodIconCanvas;
+
+        [SerializeField]
+        GameObject moodIconPrefab;
+
         #if UNITY_EDITOR
         [ReadOnly]
         #endif
@@ -161,17 +167,12 @@ namespace RuthlessMerchant
         #endregion
 
         float timer = 0;
-
         float timerLimit = 1;
 
-        bool movingToPosition = false;
-
-        Vector3 startPosition;
-        Vector3 tradePosition;
-
-        float lerpT = 0;
-
         public bool startTradeImmediately;
+
+        bool moving = false;
+        Vector3 targetPosition;
 
         #region MonoBehaviour cycle
 
@@ -183,51 +184,39 @@ namespace RuthlessMerchant
 
         public override void Update()
         {
-            UpdatePlacement();
             UpdatePsychoCoolff();
-        }
 
-        #endregion
-
-        void UpdatePlacement()
-        {
-            if (movingToPosition && !startTradeImmediately)
+            if (moving)
             {
-                if (tradePosition == Vector3.zero)
-                {
-                    Vector3 movement = (transform.position - Player.Singleton.transform.position).normalized;
-                    transform.position += Time.deltaTime * new Vector3(movement.x, 0, movement.z);
+                float remainingDistance = Player.Singleton.NavMeshAgent.remainingDistance;
 
-                    if (Vector3.Distance(transform.position, Player.Singleton.transform.position) > 0.7f)
-                    {
-                        if (TradeAbstract.Singleton == null)
-                        {
-                            InventoryItem.Behaviour = InventoryItem.ItemBehaviour.Move;
-                            Player.Singleton.EnterTrading();
-                            Main_SceneManager.LoadSceneAdditively("TradeScene");
-                            Tutorial.Monolog(1);
-                            movingToPosition = false;
-                        }
-                    }
+                Player player = Player.Singleton;
+
+                if (remainingDistance < 0.005f)
+                {
+                    moving = false;
+
+                    player.transform.position = targetPosition;
+                    player.transform.LookAt(transform);
+                    player.transform.eulerAngles = new Vector3(0, Player.Singleton.transform.eulerAngles.y, 0);
+                    player.PlayerLookAngle = Player.Singleton.transform.localRotation;
+
+                    player.NavMeshAgent.enabled = false;
+
+                    InventoryItem.Behaviour = InventoryItem.ItemBehaviour.Move;
+                    Main_SceneManager.LoadSceneAdditively("TradeScene");
+                    player.EnterTrading();
+                    Tutorial.Monolog(1);
                 }
                 else
                 {
-                    lerpT += Time.deltaTime;
-
-                    if (lerpT > 1)
-                    {
-                        movingToPosition = false;
-                        transform.position = Vector3.Lerp(tradePosition, startPosition, 1);
-                        tradePosition = Vector3.zero;
-                        lerpT = 0;
-                    }
-                    else
-                    {
-                        transform.position = Vector3.Lerp(tradePosition, startPosition, lerpT);
-                    }
+                    player.transform.LookAt(transform);
+                    player.transform.eulerAngles = new Vector3(0, Player.Singleton.transform.eulerAngles.y, 0);
                 }
             }
         }
+
+        #endregion
 
         void UpdatePsychoCoolff()
         {
@@ -419,7 +408,7 @@ namespace RuthlessMerchant
             IrritationTotal += irritationDelta;
             SkepticismTotal += skepticismDelta;
 
-            TraderMoodIcon.Singleton.UpdateMood();
+            SpawnMoodIcon();
 
             if (IrritationTotal >= IrritationLimit)
             {
@@ -450,36 +439,57 @@ namespace RuthlessMerchant
         {
             if (TradeAbstract.Singleton == null)
             {
-                MonsterLogic monsterLogic = FindObjectOfType<MonsterLogic>();
-
                 if (WantsToStartTrading() && (Tutorial.Singleton == null || !Tutorial.Singleton.isTutorial || !Tutorial.Singleton.TradeIsDone))
                 {
                     CurrentTrader = this;
 
-                    if (caller == null && !Tutorial.Singleton.TradeIsDone)
+                    Player player = Player.Singleton;
+
+                    if (startTradeImmediately && !Tutorial.Singleton.TradeIsDone)
                     {
                         InventoryItem.Behaviour = InventoryItem.ItemBehaviour.Move;
                         Main_SceneManager.LoadSceneAdditively("TradeScene");
-                        Player.Singleton.EnterTrading();
+                        player.EnterTrading();
                         Tutorial.Monolog(1);
                     }
                     else
                     {
-                        startPosition = transform.position;
-                        movingToPosition = true;
+                        transform.localPosition += new Vector3(0, 0, 0.4f);
+                        targetPosition = new Vector3(transform.position.x, player.transform.position.y, transform.position.z);
+                        transform.localPosition -= new Vector3(0, 0, 0.4f);
+
+                        Vector3 prevPosition = player.transform.position;
+                        Quaternion prevRotation = player.transform.rotation;
+
+                        player.transform.position = targetPosition;
+                        player.transform.LookAt(transform);
+
+                        player.transform.rotation = prevRotation;
+                        player.transform.position = prevPosition;
+
+                        player.NavMeshAgent.enabled = true;
+                        player.NavMeshAgent.SetDestination(targetPosition);
+
+                        player.RestrictBookUsage = true;
+                        Player.RestrictCamera = true;
+
+                        player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+
+                        moving = true;
                     }
                 }
                 else
                 {
+                    SpawnMoodIcon();
                     Debug.Log("Trader doesn't want to trade with you.");
                 }
             }
         }
 
-        public void GoToPreviousPosition()
+        public void SpawnMoodIcon()
         {
-            movingToPosition = true;
-            tradePosition = transform.position;
+            TraderMoodIcon newTraderMoodIcon = Instantiate(moodIconPrefab, moodIconCanvas.transform).GetComponentInChildren<TraderMoodIcon>();
+            newTraderMoodIcon.UpdateMood(this);
         }
 
         /// <summary>

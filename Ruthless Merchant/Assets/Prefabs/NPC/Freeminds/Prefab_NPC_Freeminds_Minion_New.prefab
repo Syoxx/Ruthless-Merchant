@@ -3478,6 +3478,7 @@ MonoBehaviour:
     m_Bits: 0
   maxJumpHeight: 0
   maxSlopeAngle: 0
+  ActionName: 
   rotationSpeed: 8
   fov: 45
   viewDistance: 10
@@ -3485,7 +3486,7 @@ MonoBehaviour:
   capValuePerSecond: 1
   Reacting: 0
   huntDistance: 10
-  attackDistance: 1
+  attackDistance: 0.5
   FirstOutpost: {fileID: 0}
 --- !u!114 &114878851598882912
 MonoBehaviour:
@@ -3648,7 +3649,7 @@ NavMeshAgent:
   m_Acceleration: 10000
   avoidancePriority: 50
   m_AngularSpeed: 10000
-  m_StoppingDistance: 1
+  m_StoppingDistance: 0.25
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
   m_AutoRepath: 1

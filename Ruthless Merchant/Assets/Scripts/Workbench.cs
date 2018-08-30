@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace RuthlessMerchant {
     public class Workbench : InteractiveObject {
 
         [SerializeField]
         Canvas workbenchCanvas;
+
+        [SerializeField] private UnityEvent onSuccesfullBench;
 
 
         public override void Interact(GameObject caller)
@@ -31,6 +34,7 @@ namespace RuthlessMerchant {
                         Debug.Log("Added " + recipes.GetRecipes()[i].ListOfMaterials[j].Item);
                     }
                     inventory.Remove(BreakableItem, 1, true);
+                    onSuccesfullBench.Invoke();
                     break;
                 }         
             }
