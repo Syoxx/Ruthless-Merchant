@@ -16,6 +16,7 @@ namespace RuthlessMerchant {
         {
             Player player = caller.GetComponent<Player>();
             player.EnterWorkbench(this);
+            
         }
 
         public void BreakdownItem(Item BreakableItem, Inventory inventory, Recipes recipes)
@@ -35,6 +36,7 @@ namespace RuthlessMerchant {
                     }
                     inventory.Remove(BreakableItem, 1, true);
                     onSuccesfullBench.Invoke();
+                    Debug.Log("DestroyedBlub");
                     break;
                 }         
             }
