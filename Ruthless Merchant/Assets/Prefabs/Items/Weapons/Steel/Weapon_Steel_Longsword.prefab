@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4873478025474354}
   - component: {fileID: 33982806342316080}
   - component: {fileID: 23691855041655078}
-  - component: {fileID: 95092855271829458}
   - component: {fileID: 114716463964263128}
   - component: {fileID: 114342707567619826}
   m_Layer: 0
@@ -37,9 +36,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1339216206582528}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0.12623906, y: 0.06361221, z: -0.0055654584}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 321.444, y: 25.165716, z: 151.74205}
+  m_LocalScale: {x: 1.7, y: 1.7, z: 1.7}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -59,7 +58,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 79b92d8f247e0784dba611c908ee552c, type: 3}
+  - {fileID: 2100000, guid: fc697ed6312335545836b7c45cebfe3c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -85,24 +84,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1339216206582528}
-  m_Mesh: {fileID: 4300000, guid: 79b92d8f247e0784dba611c908ee552c, type: 3}
---- !u!64 &64212535991951418
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1339216206582528}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 79b92d8f247e0784dba611c908ee552c, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_Mesh: {fileID: 4300000, guid: 618dc2eab2df94d46bba3bfffdd2fc90, type: 3}
 --- !u!114 &114342707567619826
 MonoBehaviour:
   m_ObjectHideFlags: 1
