@@ -43,6 +43,9 @@ public class VRMenuScript : MonoBehaviour
     {
         Ray ray = playerAttachedCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
+
+        Debug.DrawRay(transform.position, ray.direction, Color.green);
+
         lightStartGame.enabled = false;
         lightContinue.enabled = false;
         lightOptions.enabled = false;
