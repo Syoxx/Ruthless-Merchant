@@ -1,4 +1,4 @@
-﻿//---------------------------------------------------------------
+//---------------------------------------------------------------
 // Authors: Peter Ehmler, Richard Brönnimann, 
 //---------------------------------------------------------------
 using System;
@@ -428,7 +428,7 @@ namespace RuthlessMerchant
             {
                 grounded = false;
                 justJumped = true;
-                gravity = Vector3.zero;
+                rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
                 rb.AddForce(Vector3.up * 0.1f * maxJumpHeight, ForceMode.VelocityChange);
                 elapsedSecs = 0.4f;
             }
