@@ -3,6 +3,7 @@
 //
 //---------------------------------------------------------------
 
+using System.Collections;
 using UnityEngine;
 
 namespace RuthlessMerchant
@@ -34,10 +35,9 @@ namespace RuthlessMerchant
         {
             if (executeEnd)
             {
-                animator.SetBool("IsInFight", false);
-                animator.SetBool("IsAttacking", false);
                 parent.Reacting = false;
             }
+            AbortAnimations();
             base.EndAction();
         }
 
@@ -49,18 +49,22 @@ namespace RuthlessMerchant
             base.StartAction(parent, other);
             if (other != null)
                 character = other.GetComponent<Character>();
+
+            animator.SetBool("IsWalking", false);
+            animator.SetBool("IsInFight", true);
         }
 
         public override void Update(float deltaTime)
         {
+            if (!animator.GetBool("IsInFight"))
+                animator.SetBool("IsInFight", true);
+
             if (character != null && character.HealthSystem != null && character.HealthSystem.Health > 0)
             {
                 if (character != parent.CurrentReactTarget)
                 {
-                    parent.SetCurrentAction(new ActionIdle(), null, true);
-                    
-                    return;
-                    
+                    parent.SetCurrentAction(new ActionIdle(), null, true);    
+                    return;                 
                 }
                 else
                 {
@@ -75,27 +79,30 @@ namespace RuthlessMerchant
                             {
                                 parent.ResetTarget();
                             }
-                            animator.SetBool("IsAttacking", true);
+                            parent.StartCoroutine(AnimateAttack());
                         }
-                        else
-                        {
-                            animator.SetBool("IsInFight", true);
-                            animator.SetBool("IsAttacking", false);
-                        }
-                    }
-                    else
-                    {
-                        animator.SetBool("IsAttacking", false);
                     }
                 }
             }
             else
             {
                 parent.SetCurrentAction(new ActionIdle(), null, true);
-                animator.SetBool("IsAttacking",false);
-                animator.SetBool("IsInFight",false);
                 parent.ResetTarget();
             }
+        }
+
+        private IEnumerator AnimateAttack()
+        {
+            animator.SetBool("IsInFight", true);
+            animator.SetBool("IsAttacking", true);
+            yield return new WaitForSeconds(0);
+            animator.SetBool("IsAttacking", false);
+        }
+
+        private void AbortAnimations()
+        {
+            animator.SetBool("IsInFight", false);
+            animator.SetBool("IsAttacking", false);
         }
     }
 }
