@@ -535,6 +535,13 @@ namespace RuthlessMerchant
                     capturingUnits[npc.Faction]++;
                 }
             }
+            else if (other.CompareTag("Player") && this.gameObject.name == "OutpostF3")
+            {
+                if(Achievements.Singleton.switchIndex == 1)
+                {
+                    Achievements.AddToCounter();
+                }
+            }
         }
 
         public void OnTriggerExit(Collider other)
