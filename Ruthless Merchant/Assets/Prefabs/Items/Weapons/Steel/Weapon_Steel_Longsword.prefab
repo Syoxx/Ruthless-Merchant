@@ -21,9 +21,7 @@ GameObject:
   - component: {fileID: 4873478025474354}
   - component: {fileID: 33982806342316080}
   - component: {fileID: 23691855041655078}
-  - component: {fileID: 114696496009382434}
-  - component: {fileID: 114173011158496046}
-  - component: {fileID: 64212535991951418}
+  - component: {fileID: 95092855271829458}
   m_Layer: 0
   m_Name: Weapon_Steel_Longsword
   m_TagString: Untagged
@@ -37,9 +35,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1339216206582528}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 38.42416, y: 24.944006, z: 228.23994}
-  m_LocalScale: {x: 1.762949, y: 1.762949, z: 1.762949}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -0.12623906, y: 0.06361221, z: -0.0055654584}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -59,7 +57,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: fc697ed6312335545836b7c45cebfe3c, type: 2}
+  - {fileID: 2100000, guid: 79b92d8f247e0784dba611c908ee552c, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -85,54 +83,22 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1339216206582528}
-  m_Mesh: {fileID: 4300000, guid: 8ac4027012821a74b823d2c25998d86c, type: 3}
---- !u!64 &64212535991951418
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1339216206582528}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
+  m_Mesh: {fileID: 4300000, guid: 79b92d8f247e0784dba611c908ee552c, type: 3}
+--- !u!95 &95092855271829458
+Animator:
   serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: 8ac4027012821a74b823d2c25998d86c, type: 3}
---- !u!114 &114173011158496046
-MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1339216206582528}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da849d998660b964aa1c71df0912cb55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  faction: 4
-  ItemInfo:
-    ItemName: Steel Longsword
-    ItemValue: 65
-    ItemWeight: 3
-    ItemLore: 
-    ItemSprite: {fileID: 21300000, guid: 1dde60588c1fad644a03d1236615a9b7, type: 3}
-    ItemType: 1
-    ItemRarity: 0
-    maxStackCount: 10
-  weaponType: 0
-  damage: 11
-  defencePower: 0
-  attackSpeed: 2.2
---- !u!114 &114696496009382434
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1339216206582528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1a2859bd3c9f7b41843846d87b72e3a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Avatar: {fileID: 9000000, guid: 79b92d8f247e0784dba611c908ee552c, type: 3}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
