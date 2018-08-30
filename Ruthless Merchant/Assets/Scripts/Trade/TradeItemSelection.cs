@@ -175,6 +175,7 @@ namespace RuthlessMerchant
             Cursor.lockState = CursorLockMode.Locked;
             InventoryItem.MoveItem -= OnItemMoved;
             Main_SceneManager.UnLoadScene("TradeScene");
+            Player.Singleton.RestrictBookUsage = false;
             Player.Singleton.AllowTradingMovement();
         }
     }
