@@ -251,16 +251,35 @@ namespace RuthlessMerchant
                     if (!int.TryParse(e.Items[i].ItemQuantity.text.Replace("x", ""), out count))
                         count = 1;
 
-                    //
-                    for (int j = 0; j < PrefabsUpgradeItems.Length; j++)
+                    if (slot.Item != null && slot.Item is Potion)
                     {
-                        Weapon weapon = PrefabsUpgradeItems[j].GetComponent<Weapon>();
-                        if(weapon.ItemInfo.ItemName == slot.ItemInfo.ItemName)
+                        if (!availableItems.ContainsKey(slot.ItemInfo.ItemName))
+                            availableItems.Add(slot.ItemInfo.ItemName, new ItemContainer(slot.Item, count));
+                        else
+                            availableItems[slot.ItemInfo.ItemName].Count += count;
+                    }
+                    else
+                    {
+                        if (slot.Item != null && slot.Item is Weapon)
                         {
-                            if (!availableItems.ContainsKey(weapon.ItemInfo.ItemName))
-                                availableItems.Add(weapon.ItemInfo.ItemName, new ItemContainer(weapon, count));
+                            if (!availableItems.ContainsKey(slot.ItemInfo.ItemName))
+                                availableItems.Add(slot.ItemInfo.ItemName, new ItemContainer(slot.Item, count));
                             else
-                                availableItems.Add(weapon.ItemInfo.ItemName, new ItemContainer(availableItems[weapon.name]));
+                                availableItems[slot.ItemInfo.ItemName].Count += count;
+                        }
+                        else
+                        {
+                            for (int j = 0; j < PrefabsUpgradeItems.Length; j++)
+                            {
+                                Weapon weapon = PrefabsUpgradeItems[j].GetComponent<Weapon>();
+                                if (weapon.ItemInfo.ItemName == slot.ItemInfo.ItemName)
+                                {
+                                    if (!availableItems.ContainsKey(weapon.ItemInfo.ItemName))
+                                        availableItems.Add(weapon.ItemInfo.ItemName, new ItemContainer(weapon, count));
+                                    else
+                                        availableItems[weapon.ItemInfo.ItemName].Count += count;
+                                }
+                            }
                         }
                     }
                 }
@@ -442,7 +461,7 @@ namespace RuthlessMerchant
         private Color GetFactionColor()
         {
             if (owner == Faction.Freidenker)
-                return new Color(94.0f / 255.0f, 125.0f / 255.0f, 142.0f / 255.0f);
+                return new Color(1f, 215.0f / 255.0f, 0);
             else if (owner == Faction.Imperialisten)
                 return new Color(175.0f / 255.0f, 33.0f / 255.0f, 32.0f / 255.0f);
             else

@@ -61,6 +61,8 @@ namespace RuthlessMerchant
         protected Weapon shield;
         protected Potion potion;
 
+        protected Animator animator;
+
         public Weapon Weapon
         {
             get
@@ -104,6 +106,15 @@ namespace RuthlessMerchant
         {
             get { return isPlayer; }
         }
+
+        public bool IsDying
+        {
+            get
+            {
+                return isDying;
+            }
+        }
+
         [SerializeField]
         [Range(0, 1000)]
         [Tooltip("Player speed while holding LCtrl.")]
@@ -256,15 +267,19 @@ namespace RuthlessMerchant
             healthSystem.OnDeath += HealthSystem_OnDeath;
 
             gearSystem = new GearSystem(isPlayer);
+            animator = gameObject.GetComponent<Animator>();
         }
 
         private void HealthSystem_OnDeath(object sender, System.EventArgs e)
         {
-            isDying = true;
+            if(!isPlayer)
+                isDying = true;
+
+            animator.SetBool("IsDying",true);
             DestroyInteractiveObject(5.0f);
         }
 
-        public void Attack(Character character)
+        public bool Attack(Character character)
         {
             if (elapsedAttackTime >= GetAttackDelay())
             {
@@ -275,7 +290,10 @@ namespace RuthlessMerchant
                     damage = 1;
 
                 character.HealthSystem.ChangeHealth(-damage, this);
+                return true;
             }
+
+            return false;
         }
 
         public void Move(Vector2 velocity, float speed)
@@ -419,6 +437,20 @@ namespace RuthlessMerchant
         protected virtual void FixedUpdate()
         {
 
+        }
+
+        public override void DestroyInteractiveObject(float delay = 0)
+        {
+            if(potion != null)
+                Destroy(potion);
+
+            if(weapon != null)
+                Destroy(weapon);
+
+            if(shield != null)
+                Destroy(shield);
+
+            base.DestroyInteractiveObject(delay);
         }
 
         /// <summary>

@@ -25,7 +25,8 @@ namespace RuthlessMerchant
         private bool wasCrouching;
         private bool isGameFocused;
         private int outpostToUpgrade = 0;
-        private int maxInteractDistance;
+        [SerializeField, Tooltip("Max. interaction and glow range"), Range(0.0f, 5.0f)]
+        private float maxInteractDistance = 3;
         private float moveSpeed;
         private float mouseXSensitivity = 2f;
         private float mouseYSensitivity = 2f;
@@ -52,6 +53,7 @@ namespace RuthlessMerchant
 
         AlchemySlot localAlchemist;
         GameObject alchemyCanvas;
+        respawnLogic respawn;
 
         Canvas workbenchCanvas;
         Workbench localWorkbench;
@@ -115,9 +117,6 @@ namespace RuthlessMerchant
         {
             Singleton = this;
         }
-
-
-
         #endregion
 
 
@@ -174,7 +173,7 @@ namespace RuthlessMerchant
             smithCanvas = GameObject.Find("SmithCanvas");
             alchemyCanvas = GameObject.Find("AlchemyCanvas");
             reputation = GetComponent<Reputation>();
-
+            respawn = GetComponent<respawnLogic>();
             if (smithCanvas)
             {
                 smithCanvas.SetActive(false);
@@ -198,7 +197,6 @@ namespace RuthlessMerchant
             {
                 inventoryCanvas = itemsContainer.transform.parent.gameObject;
             }
-            maxInteractDistance = 3;
 
             playerHeight = GetComponent<CapsuleCollider>().height;
             crouchDelta = playerHeight - CrouchHeight;
@@ -312,7 +310,7 @@ namespace RuthlessMerchant
         }
 
         public override void Update()
-        {
+        {     
             LookRotation();
             ControleModeMove();
             if (controlMode == ControlMode.Move)
@@ -322,6 +320,8 @@ namespace RuthlessMerchant
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
             }
+
+            GlowObject();
             base.Update();
         }
 
@@ -407,6 +407,10 @@ namespace RuthlessMerchant
             {
                 bool isUI_Inactive = (mapObject.activeSelf == false);
 
+                if (isUI_Inactive)
+                    gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", true);
+                else
+                    gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", false);
                 if (bookCanvas.activeSelf)
                 {
                     CloseBook();
@@ -454,6 +458,7 @@ namespace RuthlessMerchant
             if (mapObject.activeSelf)
             {
                 mapObject.SetActive(false);
+                gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", false);
             }
 
             if (currentBookSection == key || (bookCanvas.activeSelf && key == KeyCode.Escape))
@@ -462,6 +467,7 @@ namespace RuthlessMerchant
             }
             else if (!isOutpostDialogActive)
             {
+                gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", true);
                 bookCanvas.SetActive(true);
                 restrictMovement = !(bookCanvas.activeSelf == false);
                 restrictCamera = !(bookCanvas.activeSelf == false);
@@ -475,8 +481,9 @@ namespace RuthlessMerchant
             if (mapObject.activeSelf)
             {
                 mapObject.SetActive(false);
+                gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", false);
             }
-
+            gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", false);
             currentBookSection = KeyCode.None;
             bookCanvas.SetActive(bookCanvas.activeSelf == false);
             //lastKeyPressed = KeyCode.Escape;
@@ -502,15 +509,21 @@ namespace RuthlessMerchant
 
         private void ControleModeMove()
         {
+            if (InputVector != new Vector2(0, 0) && moveSpeed == walkSpeed)
+                gameObject.GetComponentInChildren<Animator>().SetBool("IsWalking", true);
+            else
+                gameObject.GetComponentInChildren<Animator>().SetBool("IsWalking", false);
             bool isWalking = true;
 
             if (!Input.GetKey(KeyCode.LeftShift))
             {
                 isWalking = true;
+                gameObject.GetComponentInChildren<Animator>().SetBool("IsWalking", true);
             }
             else
             {
                 isWalking = false;
+                gameObject.GetComponentInChildren<Animator>().SetBool("IsWalking", false);
             }
 
             if (Input.GetKeyDown(KeyCode.Space))
@@ -601,7 +614,7 @@ namespace RuthlessMerchant
             {
                 if (playerAttachedCamera != null)
                 {
-                    Ray clickRay = playerAttachedCamera.ScreenPointToRay(Input.mousePosition);
+                    Ray clickRay = playerAttachedCamera.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
                     RaycastHit hit;
 
                     if (Physics.Raycast(clickRay, out hit, maxInteractDistance))
@@ -679,6 +692,7 @@ namespace RuthlessMerchant
             lastKeyPressed = KeyCode.I;
             if (localAlchemist.Ingredient == null)
             {
+                gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", true);
                 BookControls();
                 bookCanvas.SetActive(true);
                 restrictMovement = !(bookCanvas.activeSelf == false);
@@ -710,13 +724,14 @@ namespace RuthlessMerchant
 
         public void EnterWorkbench(Workbench workbench)
         {
-            //Might be excessiv Populating
             PopulateWorkbenchPanel();
             if (mapObject.activeSelf)
             {
+                gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", false);
                 mapObject.SetActive(false);
             }
 
+            gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", true);
             bookCanvas.SetActive(true);
             lastKeyPressed = KeyCode.I;
             restrictMovement = true;
@@ -730,8 +745,8 @@ namespace RuthlessMerchant
             restrictMovement = true;
             restrictCamera = true;
             bookCanvas.SetActive(true);
-
-            if(Tutorial.Singleton != null & Tutorial.Singleton.isTutorial)
+            gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", true);
+            if (Tutorial.Singleton != null && Tutorial.Singleton.isTutorial)
                 bookLogic.GoToPage(KeyCode.N);
             else
                 bookLogic.GoToPage(KeyCode.I);
@@ -740,8 +755,8 @@ namespace RuthlessMerchant
         public void AllowTradingMovement()
         {
             restrictCamera = false;
-            restrictMovement = false;
             bookCanvas.SetActive(false);
+            gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", false);
         }
 
         void CreateAlchemyCanvas()
@@ -851,6 +866,43 @@ namespace RuthlessMerchant
             CloseTradingPointDialog();
         }
 
+        private Outline lastOutline;
+        public void GlowObject()
+        {
+            Ray cameraRay = playerAttachedCamera.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
+            RaycastHit hit;
+            if (Physics.Raycast(cameraRay, out hit, maxInteractDistance))
+            {
+                Outline outline = hit.collider.gameObject.GetComponent<Outline>();
+                if (outline != null)
+                {
+                    ReplaceOutline(outline);
+                }
+                else
+                {
+                    ReplaceOutline(null);
+                }
+            }
+            else
+            {
+                ReplaceOutline(null);
+            }
+        }
+
+        private void ReplaceOutline(Outline outline)
+        {
+            if (outline != lastOutline)
+            {
+                if (lastOutline != null)
+                    lastOutline.OutlineMode = Outline.Mode.None;
+
+                if (outline != null)
+                    outline.OutlineMode = Outline.Mode.OutlineVisible;
+
+                lastOutline = outline;
+            }
+        }
+
         public void CloseTradingPointDialog()
         {
             if (outpostUpgradeDialogue.activeSelf)
@@ -864,6 +916,10 @@ namespace RuthlessMerchant
         }
         #endregion
 
+        public override void DestroyInteractiveObject(float delay = 0)
+        {
+            respawn.InitiateRespawn();
+        }
 
         public void Craft()
         {

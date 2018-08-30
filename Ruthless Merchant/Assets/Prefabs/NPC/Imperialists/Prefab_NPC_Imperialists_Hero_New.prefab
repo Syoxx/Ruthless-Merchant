@@ -3819,7 +3819,7 @@ Animator:
   m_GameObject: {fileID: 1707675217828928}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 8301f6bea0c83fe4dba3aabdc62793a5, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 335fd5898f4f28f4682cd124b300989d, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -3873,8 +3873,8 @@ MonoBehaviour:
   baseDefense: 22
   healthRegPerSec: 1.5
   sneakSpeed: 2
-  walkSpeed: 6
-  runSpeed: 11
+  walkSpeed: 5
+  runSpeed: 8
   groundCheckDistance: 0.25
   layerMask:
     serializedVersion: 2
@@ -3887,8 +3887,8 @@ MonoBehaviour:
   hearDistance: 5
   capValuePerSecond: 1
   Reacting: 0
-  huntDistance: 5
-  attackDistance: 1.5
+  huntDistance: 10
+  attackDistance: 1
   Level: 1
   Outpost: {fileID: 0}
   patrolActive: 0

@@ -15,16 +15,16 @@ namespace RuthlessMerchant
 
         private CollectionGoal collectionGoal;
 
-        //[SerializeField]
-        //public Transform QuestParent;
         [SerializeField]
-        private GameObject pagePrefab;
+        private GameObject buttonPrefab;
         [SerializeField]
-        private GameObject quest1Prefab;
+        private Transform buttonParent;
         [SerializeField]
-        private GameObject quest2Prefab;
-        [SerializeField]
-        private GameObject quest3Prefab;
+        private GameObject iconPrefab;
+
+
+        private List<GameObject> buttons = new List<GameObject>();
+
 
         public CollectionGoal CollectionGoal
         {
@@ -41,8 +41,7 @@ namespace RuthlessMerchant
 
         private void Start()
         {
-            collectionGoal = GetComponent<CollectionGoal>();
-            
+            collectionGoal = GetComponent<CollectionGoal>();           
         }
 
         private void OnTriggerStay(Collider other)
@@ -56,70 +55,111 @@ namespace RuthlessMerchant
         {
             if (other.gameObject.CompareTag("Player"))
             {
-                ManageQuestPage questPage = pagePrefab.GetComponent<ManageQuestPage>();
-                questPage.DisableAllButtons();
                 questingEnabled = true;
-                //Instantiate(quest1Prefab, QuestParent);
-                //Instantiate(quest2Prefab, QuestParent);
-                //Instantiate(quest3Prefab, QuestParent);
-                ////quest1Prefab.GetComponent<Button>().onClick.AddListener(delegate { AssignQuest(0); });
-                ////quest1Prefab.GetComponent<Button>().onClick.AddListener(delegate { AssignQuest(1); });
-                ////quest1Prefab.GetComponent<Button>().onClick.AddListener(delegate { AssignQuest(2); });
-                //quest1Prefab.GetComponentInChildren<Button>().onClick.AddListener(() => AssignQuest(0));
-                if(quest1Prefab!=null)
-                    quest1Prefab.gameObject.SetActive(true);
-                if (quest2Prefab != null)
-                    quest2Prefab.gameObject.SetActive(true);
-                if (quest3Prefab != null)
-                    quest3Prefab.gameObject.SetActive(true);
+
+                for (int i = 0; i < collectionGoals.Count; i++)
+                {
+                    int localIndex = i;
+
+                    for (int k = 0; k < buttons.Count; k++)
+                    {
+                        if (buttons[k])
+                        {
+                            if (collectionGoals[i].QuestTitle == buttons[k].GetComponent<QuestDisplayedData>().Name.text)
+                            {
+                                Debug.Log("collectiongoal: " + i);
+                                Debug.Log("button:" + k);
+                                Debug.Log("dont instantiate");
+                                i++;
+                                break;
+                            }
+                        }
+                    }
+                    if (i < collectionGoals.Count)
+                    {
+                        Debug.Log("0 shouldnt inst: " + i);
+                        GameObject questButton = Instantiate(buttonPrefab, buttonParent) as GameObject;
+                        QuestDisplayedData questData = questButton.GetComponent<QuestDisplayedData>();
+                        questData.Name.text = collectionGoals[i].QuestTitle;
+                        questData.Description.text = collectionGoals[i].Description;
+                        questData.Reward.text = "Reward: " + collectionGoals[i].Reward.ToString() + "$";
+                        for (int j = 0; j < collectionGoals[i].collectables.Count; j++)
+                        {
+                            Texture image = collectionGoals[i].collectables[j].icon;
+                            GameObject iconClone = Instantiate(iconPrefab, questButton.transform.Find("itemIcon"));
+                            RawImage iconImage = iconClone.GetComponent<RawImage>();
+                            iconImage.texture = image;
+                            Text counter = iconClone.GetComponentInChildren<Text>();
+                            counter.text = collectionGoals[i].collectables[j].requiredAmount.ToString() + "X";
+                        }
+                        buttons.Add(questButton);
+
+                        Button btn = questButton.GetComponent<Button>();
+                        btn.onClick.AddListener(delegate { AssignQuest(localIndex, questButton); });
+                    }
+                }
             }
         }
+
         private void OnTriggerExit(Collider other)
         {
             if (other.gameObject.CompareTag("Player"))
             {   
                 questingEnabled = false;
+
+                for (int i = 0; i < buttons.Count; i++)
+                {
+                    if (buttons[i])
+                    {
+                        if (!buttons[i].GetComponent<QuestButton>().inProgress)
+                            Destroy(buttons[i]);
+                    }
+                }
             }
             //questingEnabled = false;
+
         }
         private void Update()
         {
 
         }
-        public void AssignQuest(int index)
+        public void AssignQuest(int index, GameObject button)
         {
-
-            Debug.Log("goes in");
+            Debug.Log("assign quest: " + index);
+            //Debug.Log("goes in");
             if (collectionGoal != null && questingEnabled)
             {
-                Debug.Log("AssignedQuest");
+
+            //Debug.Log("AssignedQuest: " + index);
                     List<Collectables> tempCollectables = new List<Collectables>();
                     for (int i = 0; i < collectionGoals[index].collectables.Count; i++)
                     {
                         tempCollectables.Add(collectionGoals[index].collectables[i].Clone());
                     }
-                if (index == 0)
-                {
-                    Button button = quest1Prefab.GetComponentInChildren<Button>();
-                    QuestButton questButton = button.GetComponent<QuestButton>();
-                    collectionGoal.FillList(tempCollectables, questButton);
-                }
-                if(index == 1)
-                {
-                    Button button = quest2Prefab.GetComponentInChildren<Button>();
-                    QuestButton questButton = button.GetComponent<QuestButton>();
-                    collectionGoal.FillList(tempCollectables, questButton);
-                }
-                if (index == 2)
-                {
-                    Button button = quest3Prefab.GetComponentInChildren<Button>();
-                    QuestButton questButton = button.GetComponent<QuestButton>();
-                    collectionGoal.FillList(tempCollectables, questButton);
-                }
+                //if (index == 0)
+                //{
+                //    Button button = quest1Prefab.GetComponentInChildren<Button>();
+
+
+                    //Button questButton = button/*.GetComponent<QuestButton>()*/;
+                    collectionGoal.FillList(tempCollectables, button);
+
+
+                //}
+                //if(index == 1)
+                //{
+                //    Button button = quest2Prefab.GetComponentInChildren<Button>();
+                //    QuestButton questButton = button.GetComponent<QuestButton>();
+                //    collectionGoal.FillList(tempCollectables, questButton);
+                //}
+                //if (index == 2)
+                //{
+                //    Button button = quest3Prefab.GetComponentInChildren<Button>();
+                //    QuestButton questButton = button.GetComponent<QuestButton>();
+                //    collectionGoal.FillList(tempCollectables, questButton);
+                //}
                 collectionGoal.CalcNextWaypoint();                
             }
         }
-
-
     }
 }
