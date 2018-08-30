@@ -514,7 +514,7 @@ namespace RuthlessMerchant
 
         private void ControleModeMove()
         {
-            if (InputVector != new Vector2(0, 0) && moveSpeed == walkSpeed)
+            if (InputVector != new Vector2(0, 0))
                 gameObject.GetComponentInChildren<Animator>().SetBool("IsWalking", true);
             else
                 gameObject.GetComponentInChildren<Animator>().SetBool("IsWalking", false);
@@ -523,12 +523,10 @@ namespace RuthlessMerchant
             if (!Input.GetKey(KeyCode.LeftShift))
             {
                 isWalking = true;
-                gameObject.GetComponentInChildren<Animator>().SetBool("IsWalking", true);
             }
             else
             {
                 isWalking = false;
-                gameObject.GetComponentInChildren<Animator>().SetBool("IsWalking", false);
             }
 
             if (Input.GetKeyDown(KeyCode.Space))
