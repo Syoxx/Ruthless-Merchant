@@ -61,6 +61,8 @@ namespace RuthlessMerchant
         protected Weapon shield;
         protected Potion potion;
 
+        protected Animator animator;
+
         public Weapon Weapon
         {
             get
@@ -104,6 +106,15 @@ namespace RuthlessMerchant
         {
             get { return isPlayer; }
         }
+
+        public bool IsDying
+        {
+            get
+            {
+                return isDying;
+            }
+        }
+
         [SerializeField]
         [Range(0, 1000)]
         [Tooltip("Player speed while holding LCtrl.")]
@@ -261,15 +272,19 @@ namespace RuthlessMerchant
             healthSystem.OnDeath += HealthSystem_OnDeath;
 
             gearSystem = new GearSystem(isPlayer);
+            animator = gameObject.GetComponent<Animator>();
         }
 
         private void HealthSystem_OnDeath(object sender, System.EventArgs e)
         {
-            isDying = true;
+            if(!isPlayer)
+                isDying = true;
+
+            animator.SetBool("IsDying",true);
             DestroyInteractiveObject(5.0f);
         }
 
-        public void Attack(Character character)
+        public bool Attack(Character character)
         {
             if (elapsedAttackTime >= GetAttackDelay())
             {
@@ -281,7 +296,10 @@ namespace RuthlessMerchant
 
                 FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Minions/NPC swords", this.gameObject.transform.position);
                 character.HealthSystem.ChangeHealth(-damage, this);
+                return true;
             }
+
+            return false;
         }
 
         public void Move(Vector2 velocity, float speed)
