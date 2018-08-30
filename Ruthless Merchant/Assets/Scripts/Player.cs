@@ -518,6 +518,7 @@ namespace RuthlessMerchant
             if (!Input.GetKey(KeyCode.LeftShift))
             {
                 isWalking = true;
+                gameObject.GetComponentInChildren<Animator>().SetBool("IsWalking", true);
             }
             else
             {
@@ -691,6 +692,7 @@ namespace RuthlessMerchant
             lastKeyPressed = KeyCode.I;
             if (localAlchemist.Ingredient == null)
             {
+                gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", true);
                 BookControls();
                 bookCanvas.SetActive(true);
                 restrictMovement = !(bookCanvas.activeSelf == false);
@@ -725,9 +727,11 @@ namespace RuthlessMerchant
             PopulateWorkbenchPanel();
             if (mapObject.activeSelf)
             {
+                gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", false);
                 mapObject.SetActive(false);
             }
 
+            gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", true);
             bookCanvas.SetActive(true);
             lastKeyPressed = KeyCode.I;
             restrictMovement = true;
@@ -741,8 +745,8 @@ namespace RuthlessMerchant
             restrictMovement = true;
             restrictCamera = true;
             bookCanvas.SetActive(true);
-
-            if(Tutorial.Singleton != null && Tutorial.Singleton.isTutorial)
+            gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", true);
+            if (Tutorial.Singleton != null && Tutorial.Singleton.isTutorial)
                 bookLogic.GoToPage(KeyCode.N);
             else
                 bookLogic.GoToPage(KeyCode.I);
@@ -752,6 +756,7 @@ namespace RuthlessMerchant
         {
             restrictCamera = false;
             bookCanvas.SetActive(false);
+            gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", false);
         }
 
         void CreateAlchemyCanvas()
