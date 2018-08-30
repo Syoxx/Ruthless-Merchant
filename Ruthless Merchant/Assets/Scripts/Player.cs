@@ -518,6 +518,7 @@ namespace RuthlessMerchant
             if (!Input.GetKey(KeyCode.LeftShift))
             {
                 isWalking = true;
+                gameObject.GetComponentInChildren<Animator>().SetBool("IsWalking", true);
             }
             else
             {
