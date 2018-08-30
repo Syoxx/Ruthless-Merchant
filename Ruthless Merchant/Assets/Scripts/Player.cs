@@ -4,6 +4,7 @@
 
 using System;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 
 namespace RuthlessMerchant
@@ -11,6 +12,7 @@ namespace RuthlessMerchant
     public class Player : Character
     {
         public static Player Singleton;
+        public bool RestrictBookUsage = false;
         private static bool restrictCamera = false;
 
         #region Private Fields
@@ -37,7 +39,8 @@ namespace RuthlessMerchant
         }
 
         private Camera playerAttachedCamera;
-        private Quaternion playerLookAngle;
+        public NavMeshAgent NavMeshAgent;
+        public Quaternion PlayerLookAngle;
         private Quaternion cameraPitchAngle;
         private Vector3 MoveVector = Vector3.zero;
         private Vector2 InputVector = Vector2.zero;
@@ -116,11 +119,10 @@ namespace RuthlessMerchant
         private void Awake()
         {
             Singleton = this;
+            NavMeshAgent = GetComponent<NavMeshAgent>();
         }
+
         #endregion
-
-
-
 
         public static bool RestrictCamera
         {
@@ -214,7 +216,7 @@ namespace RuthlessMerchant
 
             inventory.ItemUIPrefab = itemInventory;
 
-            playerLookAngle = transform.localRotation;
+            PlayerLookAngle = transform.localRotation;
 
             // try to get the first person camera
             playerAttachedCamera = GetComponentInChildren<Camera>();
@@ -335,9 +337,9 @@ namespace RuthlessMerchant
                 float yRot = Input.GetAxis("Mouse X") * mouseXSensitivity;
                 float xRot = Input.GetAxis("Mouse Y") * mouseYSensitivity;
 
-                playerLookAngle *= Quaternion.Euler(0f, yRot, 0f);
+                PlayerLookAngle *= Quaternion.Euler(0f, yRot, 0f);
 
-                transform.localRotation = playerLookAngle;
+                transform.localRotation = PlayerLookAngle;
 
                 if (playerAttachedCamera != null)
                 {
@@ -421,7 +423,7 @@ namespace RuthlessMerchant
                 mapLogic.RefreshMapCanvas(unlockedTravelPoints);
 
                 mapObject.SetActive(isUI_Inactive);
-                restrictMovement = isUI_Inactive;
+                restrictMovement = isUI_Inactive || TradeAbstract.Singleton != null;
                 restrictCamera = isUI_Inactive;
             }
         }
@@ -431,25 +433,28 @@ namespace RuthlessMerchant
         /// </summary>
         private void BookControls()
         {
-            if (Input.GetKeyDown(KeyCode.J))
+            if (!RestrictBookUsage)
             {
-                OpenBook(KeyCode.J);
-            }
-            if (Input.GetKeyDown(KeyCode.N))
-            {
-                OpenBook(KeyCode.N);
-            }
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                OpenBook(KeyCode.Escape);
-            }
-            if (Input.GetKeyDown(KeyCode.I))
-            {
-                OpenBook(KeyCode.I);
-            }
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                OpenBook(KeyCode.R);
+                if (Input.GetKeyDown(KeyCode.J))
+                {
+                    OpenBook(KeyCode.J);
+                }
+                if (Input.GetKeyDown(KeyCode.N))
+                {
+                    OpenBook(KeyCode.N);
+                }
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    OpenBook(KeyCode.Escape);
+                }
+                if (Input.GetKeyDown(KeyCode.I))
+                {
+                    OpenBook(KeyCode.I);
+                }
+                if (Input.GetKeyDown(KeyCode.R))
+                {
+                    OpenBook(KeyCode.R);
+                }
             }
         }
 
@@ -469,8 +474,8 @@ namespace RuthlessMerchant
             {
                 gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", true);
                 bookCanvas.SetActive(true);
-                restrictMovement = !(bookCanvas.activeSelf == false);
-                restrictCamera = !(bookCanvas.activeSelf == false);
+                restrictMovement = bookCanvas.activeSelf;
+                restrictCamera = bookCanvas.activeSelf;
                 currentBookSection = key;
                 bookLogic.GoToPage(key);
             }
@@ -487,8 +492,8 @@ namespace RuthlessMerchant
             currentBookSection = KeyCode.None;
             bookCanvas.SetActive(bookCanvas.activeSelf == false);
             //lastKeyPressed = KeyCode.Escape;
-            restrictMovement = !(bookCanvas.activeSelf == false);
-            restrictCamera = !(bookCanvas.activeSelf == false);
+            restrictMovement = bookCanvas.activeSelf || TradeAbstract.Singleton != null;
+            restrictCamera = bookCanvas.activeSelf;
             if (!bookCanvas.activeSelf && recipes != null)
             {
                 for (int i = 0; i < recipes.Panels.Count; i++)
@@ -509,7 +514,7 @@ namespace RuthlessMerchant
 
         private void ControleModeMove()
         {
-            if (InputVector != new Vector2(0, 0) && moveSpeed == walkSpeed)
+            if (InputVector != new Vector2(0, 0))
                 gameObject.GetComponentInChildren<Animator>().SetBool("IsWalking", true);
             else
                 gameObject.GetComponentInChildren<Animator>().SetBool("IsWalking", false);
@@ -522,7 +527,6 @@ namespace RuthlessMerchant
             else
             {
                 isWalking = false;
-                gameObject.GetComponentInChildren<Animator>().SetBool("IsWalking", false);
             }
 
             if (Input.GetKeyDown(KeyCode.Space))
@@ -591,7 +595,7 @@ namespace RuthlessMerchant
 
             if (isOutpostDialogActive)
             {
-                if (Input.GetKeyDown(KeyCode.Escape))
+                if (Input.GetKeyDown(KeyCode.Escape) && TradeAbstract.Singleton == null)
                 {
                     isOutpostDialogActive = false;
                     restrictCamera = false;
@@ -691,8 +695,10 @@ namespace RuthlessMerchant
             lastKeyPressed = KeyCode.I;
             if (localAlchemist.Ingredient == null)
             {
+                gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", true);
                 BookControls();
                 bookCanvas.SetActive(true);
+                Debug.LogError("7");
                 restrictMovement = !(bookCanvas.activeSelf == false);
                 restrictCamera = !(bookCanvas.activeSelf == false);
                 bookLogic.GoToPage(KeyCode.I);
@@ -725,9 +731,11 @@ namespace RuthlessMerchant
             PopulateWorkbenchPanel();
             if (mapObject.activeSelf)
             {
+                gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", false);
                 mapObject.SetActive(false);
             }
 
+            gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", true);
             bookCanvas.SetActive(true);
             lastKeyPressed = KeyCode.I;
             restrictMovement = true;
@@ -741,8 +749,8 @@ namespace RuthlessMerchant
             restrictMovement = true;
             restrictCamera = true;
             bookCanvas.SetActive(true);
-
-            if(Tutorial.Singleton != null && Tutorial.Singleton.isTutorial)
+            gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", true);
+            if (Tutorial.Singleton != null && Tutorial.Singleton.isTutorial)
                 bookLogic.GoToPage(KeyCode.N);
             else
                 bookLogic.GoToPage(KeyCode.I);
@@ -751,7 +759,9 @@ namespace RuthlessMerchant
         public void AllowTradingMovement()
         {
             restrictCamera = false;
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
             bookCanvas.SetActive(false);
+            gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", false);
         }
 
         void CreateAlchemyCanvas()
@@ -900,7 +910,7 @@ namespace RuthlessMerchant
 
         public void CloseTradingPointDialog()
         {
-            if (outpostUpgradeDialogue.activeSelf)
+            if (outpostUpgradeDialogue.activeSelf && TradeAbstract.Singleton == null)
             {
                 isOutpostDialogActive = false;
                 restrictCamera = false;

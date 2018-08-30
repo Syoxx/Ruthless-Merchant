@@ -56,8 +56,18 @@ namespace RuthlessMerchant
         [Tooltip("Drag Tutorial there")]
         private GameObject TutorialObject;
 
+        [SerializeField]
+        [Tooltip("Drag AlchemyTextTrigger from Tutorial there")]
+        private GameObject AlchemyTextTrigger;
+        [SerializeField]
+        [Tooltip("Drag WorkbenchTrigger from Tutorial there")]
+        private GameObject WorkbenchTextTrigger;
+
+
         //Dialogue colliders
         private Collider dialogueZone11Collider;
+
+        private bool SmithDone, WorkbenchDone, AlchemyDone;
 
 
         //Text Monolog
@@ -78,7 +88,10 @@ namespace RuthlessMerchant
             "'… and landed in a structure underneath. There were some obstacles, but nothing to worry about. The exit couldn’t be far away'",                                                                                                                       //11 Bottom Cave
             "'Weird. I prefer dreaming about the future, not the past. Well, it looks like I am not the only one taking a nap. Let’s give my smith some work'",                                                                                                     //12 Waking Up
             "'A capable man. I only have to bring him materials and i would craft whatever weapon I need'",                                                                                                                                                         //13 At Smith
-            "'Let’s go. It’s business hour.'"                                                                                                                                                                                                                       //14 After Smith
+            "'Everything is set and prepared. I should leave this place and make some profit by selling my carefully crafted goods'",                                                                                                                                                                                                                       //14 After Smith
+            "'Sometimes, I need to dismantle some of my old stock. This workbench is the perfect tool to do so, and still retrieve some materials.'",
+            "'At alchemy stations like this one, I can brew potions to sell. I just put herbs in the small bottles and combine their effects with the tools on the table.'",
+            "'Everything is set and prepared. I should leave this place and make some profit by selling my carefully crafted goods.'"
         };
         // Hardcoded Stuff
 
@@ -109,6 +122,7 @@ namespace RuthlessMerchant
         void Update()
         {
             Teleports();
+            OpenSmithDoor();
         } 
 
         public static void Monolog(int speechIndex)
@@ -123,9 +137,10 @@ namespace RuthlessMerchant
 
         public void OpenSmithDoor()
         {
-            smithExit.SetActive(false);
-            Monolog(14);
-            
+            if (WorkbenchDone && AlchemyDone && WorkbenchDone)
+            {
+                smithExit.SetActive(false);   
+            }        
         }
         private void Teleports()
         {
@@ -157,23 +172,43 @@ namespace RuthlessMerchant
             }
         }
 
+        public void SmithIsCompleted()
+        {
+            SmithDone = true;
+        }
+        public void AlchemyIsCompleted()
+        {
+            AlchemyDone = true;
+        }
+        public void WorkbenchIsCompleted()
+        {
+            WorkbenchDone = true;
+        }
+
+
         void OnTriggerEnter(Collider other)
         {
             
-            if (other.gameObject.name == "10_TriggerZone")
-            {   
-               Monolog(10);
-               TutorialMonster.SetActive(false);
-            }
-            if (other.gameObject.name == "13_TriggerZone")
+            switch (other.gameObject.name)
             {
-                Monolog(13);
-                Destroy(other.gameObject);
-            }
-            if (other.gameObject.name == "TriggerCancelTutorial")
-            {
-                TutorialObject.SetActive(false);
-                Player.Singleton.Inventory.Remove(ironSword, true);
+                case "10_TriggerZone":
+                    Monolog(10);
+                    TutorialMonster.SetActive(false);
+                    break;
+                case "13_TriggerZone":
+                    Monolog(13);
+                    Destroy(other.gameObject);
+                    break;
+                case "TriggerCancelTutorial":
+                    TutorialObject.SetActive(false);
+                    Player.Singleton.Inventory.Remove(ironSword, true);
+                    break;
+                case "AlchemyTextTrigger":
+                    Monolog(16);
+                    break;
+                case "WorkbenchTextTrigger (1)":
+                    Monolog(15);
+                    break;
             }
         }
     }

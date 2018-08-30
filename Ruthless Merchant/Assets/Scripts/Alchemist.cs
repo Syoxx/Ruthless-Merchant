@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace RuthlessMerchant
 {
@@ -12,6 +13,8 @@ namespace RuthlessMerchant
         Sprite[] potionSprites;
 
         private AlchemySlot[] alchemySlots;
+
+        [SerializeField] private UnityEvent onSuccesfullAlchemy;
         #endregion
 
 
@@ -219,6 +222,7 @@ namespace RuthlessMerchant
 
             Player p = caller.GetComponent<Player>();
             p.Inventory.Add(potion.DeepCopy(), 1, true);
+            onSuccesfullAlchemy.Invoke();
             Destroy(potion.gameObject);
         }
 

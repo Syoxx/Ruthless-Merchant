@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace RuthlessMerchant
 {
@@ -47,19 +48,21 @@ namespace RuthlessMerchant
         //[HideInInspector]
         public int currentAmount;
         public bool completed;
+        public Texture icon;
 
 
-        public Collectables(Material Material, int RequiredAmount, int CurrentAmount, bool Completed)
+        public Collectables(Material Material, int RequiredAmount, int CurrentAmount, bool Completed, Texture Icon)
         {
             material = Material;
             requiredAmount = RequiredAmount;
             currentAmount = CurrentAmount;
             completed = Completed;
+            icon = Icon;
         }
 
         public Collectables Clone()
         {
-            return new Collectables(material, requiredAmount, currentAmount, completed);
+            return new Collectables(material, requiredAmount, currentAmount, completed, icon);
         }
     }
 }

@@ -71,6 +71,10 @@ namespace RuthlessMerchant
                         parent.Reacting = true;
                         if (parent.Attack(character))
                         {
+                            if (character.HealthSystem.Health <= 0)
+                            {
+                                parent.ResetTarget();
+                            }
                             animator.SetBool("IsAttacking", true);
                         }
                         else
