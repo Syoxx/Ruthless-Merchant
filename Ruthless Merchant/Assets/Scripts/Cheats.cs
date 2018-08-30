@@ -24,7 +24,7 @@ public class Cheats : MonoBehaviour
         //Teleport to Imperialist city
         if(Input.GetKey(KeyCode.F2))
         {
-            GameObject gobj = GameObject.Find("Main City Imperalists");
+            GameObject gobj = GameObject.Find("Main City Imperalists 2");
             GameObject player = GameObject.Find("NewPlayerPrefab");
             if (gobj != null && player != null)
             {
