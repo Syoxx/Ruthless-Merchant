@@ -555,10 +555,6 @@ namespace RuthlessMerchant
 
             if (!restrictMovement && !restrictCamera)
             {
-                if (gameObject.GetComponent<Rigidbody>().constraints != RigidbodyConstraints.None)
-                {
-                    gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-                }
 
                 if (Input.GetKey(KeyCode.W))
                     vertical = 1;
@@ -573,7 +569,7 @@ namespace RuthlessMerchant
             }
             else
             {
-                gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+                gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
             }
 
             InputVector = new Vector2(horizontal, vertical);
