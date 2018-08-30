@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 54504486789448586}
   m_Layer: 0
   m_Name: Item_Ancient_Chunk
-  m_TagString: Item
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -86,7 +86,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1547013325821260}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 4300000, guid: 88f7f3ef82883914caa3ed2846534155, type: 3}
 --- !u!54 &54504486789448586
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -139,11 +139,12 @@ MonoBehaviour:
   faction: 4
   ItemInfo:
     ItemName: Ancient Chunk
-    ItemValue: 42
+    ItemValue:
+    - Count: 42
     ItemWeight: 3
     ItemLore: Heavy chunk of molten metal and stone. No one knows where those things
       come from.
-    ItemSprite: {fileID: 0}
+    ItemSprite: {fileID: 21300000, guid: 00ceb8c21d0b7e241b90863c67bc5d07, type: 3}
     ItemType: 3
     ItemRarity: 2
     maxStackCount: 20

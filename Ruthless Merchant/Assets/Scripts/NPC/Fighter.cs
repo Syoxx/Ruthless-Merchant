@@ -3,7 +3,6 @@
 //
 //---------------------------------------------------------------
 
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace RuthlessMerchant
@@ -12,11 +11,11 @@ namespace RuthlessMerchant
     {
         [Header("NPC Fighter settings")]
         [SerializeField, Tooltip("If the distance to a character is smaller than the hunting distance, the NPC follows the character")]
-        [Range(0, 100)]
+        [Range(0.0f, 100.0f)]
         protected float huntDistance = 5;
 
         [SerializeField, Tooltip("If the distance to a character is smaller then the attacking distance, the npc attacks the character")]
-        [Range(1, 100)]
+        [Range(0.0f, 100.0f)]
         protected float attackDistance = 1.5f;
 
         public float HuntDistance
@@ -49,11 +48,15 @@ namespace RuthlessMerchant
 
         private void HealthSystem_OnHealthChanged(object sender, DamageAbleObject.HealthArgs e)
         {
-            if (CurrentAction == null || CurrentAction is ActionIdle)
+            if (e.ChangedValue < 0 && e.Sender != null && HealthSystem.Health > 0)
             {
-                if (e.ChangedValue < 0 && e.Sender != null && HealthSystem.Health > 0)
+                if (CurrentReactTarget == null || currentReactTarget.IsDying || !IsThreat(CurrentReactTarget.gameObject) || Vector3.Distance(CurrentReactTarget.transform.position, transform.position) > Vector3.Distance(e.Sender.transform.position, transform.position))
                 {
-                    SetCurrentAction(new ActionHunt(ActionNPC.ActionPriority.Medium), e.Sender.gameObject, false, true);
+                    currentReactTarget = e.Sender;
+                    reactionState = TargetState.None;
+                    reactionState = reactionState.SetFlag(TargetState.InView);
+                    reactionState = reactionState.SetFlag(TargetState.IsThreat);
+                    SetCurrentAction(new ActionHunt(ActionNPC.ActionPriority.Medium), e.Sender.gameObject, true, true);
                 }
             }
         }
@@ -68,10 +71,10 @@ namespace RuthlessMerchant
                     if (CurrentAction == null || !(CurrentAction is ActionAttack))
                         SetCurrentAction(new ActionAttack(), character.gameObject);
                 }
-                else
+                else if(distance < huntDistance)
                 {
                     if (CurrentAction == null || !(CurrentAction is ActionHunt))
-                        SetCurrentAction(new ActionHunt(), character.gameObject);
+                        SetCurrentAction(new ActionHunt(), character.gameObject, true, true);
                 }
             }
         }

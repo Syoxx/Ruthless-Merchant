@@ -106,6 +106,15 @@ namespace RuthlessMerchant
         {
             get { return isPlayer; }
         }
+
+        public bool IsDying
+        {
+            get
+            {
+                return isDying;
+            }
+        }
+
         [SerializeField]
         [Range(0, 1000)]
         [Tooltip("Player speed while holding LCtrl.")]
@@ -263,7 +272,9 @@ namespace RuthlessMerchant
 
         private void HealthSystem_OnDeath(object sender, System.EventArgs e)
         {
-            isDying = true;
+            if(!isPlayer)
+                isDying = true;
+
             animator.SetBool("IsDying",true);
             DestroyInteractiveObject(5.0f);
         }

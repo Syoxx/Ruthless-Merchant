@@ -6,7 +6,6 @@ namespace RuthlessMerchant
     public class CityTrigger : CaptureTrigger
     {
         private ObjectSpawner spawner;
-
        
         [Header("Hero spawn settings")]
         [SerializeField]
@@ -23,7 +22,7 @@ namespace RuthlessMerchant
 
         protected override void Start()
         {
-            spawner = transform.GetComponent<ObjectSpawner>();
+            spawner = GetComponent<ObjectSpawner>();
             foreach (CaptureTrigger outpost in outpostsToFreidenker)
             {
                 outpost.OnHeroRemoved += CaptureTriggerF_OnHeroRemoved;
