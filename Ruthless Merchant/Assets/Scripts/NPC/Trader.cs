@@ -192,7 +192,7 @@ namespace RuthlessMerchant
 
                 Player player = Player.Singleton;
 
-                if (remainingDistance < 0.005f)
+                if (remainingDistance == 0)
                 {
                     moving = false;
 
@@ -453,7 +453,7 @@ namespace RuthlessMerchant
         {
             if (TradeAbstract.Singleton == null)
             {
-                if (WantsToStartTrading() && (Tutorial.Singleton == null || !Tutorial.Singleton.isTutorial || !Tutorial.Singleton.TradeIsDone || !startTradeImmediately))
+                if (WantsToStartTrading() && (!Tutorial.Singleton.TradeIsDone || !startTradeImmediately))
                 {
                     CurrentTrader = this;
 
@@ -468,7 +468,7 @@ namespace RuthlessMerchant
                     }
                     else
                     {
-                        Vector3 direction = (directionPointer.position - transform.position).normalized * 0.4f;
+                        Vector3 direction = (directionPointer.position - transform.position).normalized * 0.66f;
                         transform.localPosition += direction;
                         targetPosition = new Vector3(transform.position.x, player.transform.position.y, transform.position.z);
                         transform.localPosition -= direction;

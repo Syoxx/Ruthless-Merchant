@@ -66,6 +66,8 @@ namespace RuthlessMerchant
             TradeObjectsParent.transform.position = Trader.CurrentTrader.gameObject.transform.position;
             NeutralPositionY = PlayerZone.transform.position.y;
 
+            neutralConnectorRotation = new Vector3(-90, -90, 90);
+
             Vector3 prevRotation = TradeObjectsParent.transform.rotation.eulerAngles;
             TradeObjectsParent.transform.LookAt(Player.Singleton.transform);
 
