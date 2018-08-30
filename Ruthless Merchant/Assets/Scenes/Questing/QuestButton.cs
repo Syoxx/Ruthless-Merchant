@@ -41,11 +41,12 @@ namespace RuthlessMerchant {
         public void DiscardQuestButton()
         {
             Button btn = GetComponent<Button>();
-            btn.onClick.AddListener(delegate { DiscardQuest(btn); });
+            
+            btn.onClick.AddListener(delegate { DiscardQuest(); });
         }
-        private void DiscardQuest(Button btn)
+        private void DiscardQuest()
         {
-            Destroy(btn);
+            Destroy(this);
         }
     }
 }
