@@ -439,7 +439,7 @@ namespace RuthlessMerchant
         {
             if (TradeAbstract.Singleton == null)
             {
-                if (WantsToStartTrading() && (Tutorial.Singleton == null || !Tutorial.Singleton.isTutorial || !Tutorial.Singleton.TradeIsDone))
+                if (WantsToStartTrading() && (Tutorial.Singleton == null || !Tutorial.Singleton.isTutorial || !Tutorial.Singleton.TradeIsDone || !startTradeImmediately))
                 {
                     CurrentTrader = this;
 
