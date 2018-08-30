@@ -3451,8 +3451,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97914d5b6dd26014dab9a2e600e6950a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
-  maxHealth: 100
+  health: 450
+  maxHealth: 450
 --- !u!114 &114334201353287288
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3484,8 +3484,9 @@ MonoBehaviour:
   hearDistance: 5
   capValuePerSecond: 1
   Reacting: 0
-  huntDistance: 5
-  attackDistance: 1.5
+  huntDistance: 10
+  attackDistance: 1
+  FirstOutpost: {fileID: 0}
 --- !u!114 &114878851598882912
 MonoBehaviour:
   m_ObjectHideFlags: 1
