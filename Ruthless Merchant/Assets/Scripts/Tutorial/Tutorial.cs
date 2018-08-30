@@ -123,6 +123,7 @@ namespace RuthlessMerchant
         {
             Teleports();
             OpenSmithDoor();
+            Debug.Log("Smith" + SmithDone + "Alchemy" + AlchemyDone + "Workbench" + WorkbenchDone);
         } 
 
         public static void Monolog(int speechIndex)
