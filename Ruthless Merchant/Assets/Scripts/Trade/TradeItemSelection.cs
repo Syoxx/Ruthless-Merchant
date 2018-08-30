@@ -154,6 +154,7 @@ namespace RuthlessMerchant
             }
 
             sellingItemInfoParent.GetComponent<VerticalLayoutGroup>().CalculateLayoutInputVertical();
+            Trader.CurrentTrader.SpawnMoodIcon();
 
             Tutorial.Monolog(2);
         }
@@ -162,18 +163,12 @@ namespace RuthlessMerchant
         {
             abort = true;
 
-            foreach (InventoryItem item in listedItems)
+            for (int x = listedItems.Count - 1; x >= 0; x--)
             {
-                Inventory.Singleton.Add(item.Slot.ItemInfo, int.Parse(item.ItemQuantity.text.Replace("x","")), true);
-
-                int newQuantity = int.Parse(item.ItemQuantity.text.Replace("x", "")) - 1;
-                item.ItemQuantity.text = newQuantity.ToString() + "x";
-
-                if (newQuantity <= 0)
-                {
-                    listedItems.Remove(item);
-                    Destroy(item.gameObject);
-                }
+                Inventory.Singleton.Add(listedItems[x].Slot.ItemInfo, int.Parse(listedItems[x].ItemQuantity.text.Replace("x","")), true);
+                InventoryItem temp = listedItems[x];
+                listedItems.Remove(listedItems[x]);
+                Destroy(temp.gameObject);
             }
 
             Cursor.visible = false;

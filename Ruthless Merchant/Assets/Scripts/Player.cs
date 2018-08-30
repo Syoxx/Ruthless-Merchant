@@ -4,6 +4,7 @@
 
 using System;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 
 namespace RuthlessMerchant
@@ -38,6 +39,7 @@ namespace RuthlessMerchant
         }
 
         private Camera playerAttachedCamera;
+        public NavMeshAgent NavMeshAgent;
         public Quaternion PlayerLookAngle;
         private Quaternion cameraPitchAngle;
         private Vector3 MoveVector = Vector3.zero;
@@ -117,11 +119,10 @@ namespace RuthlessMerchant
         private void Awake()
         {
             Singleton = this;
+            NavMeshAgent = GetComponent<NavMeshAgent>();
         }
+
         #endregion
-
-
-
 
         public static bool RestrictCamera
         {
@@ -744,6 +745,7 @@ namespace RuthlessMerchant
         public void AllowTradingMovement()
         {
             restrictCamera = false;
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
             bookCanvas.SetActive(false);
         }
 
