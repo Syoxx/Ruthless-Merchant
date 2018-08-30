@@ -12,6 +12,7 @@ namespace RuthlessMerchant
     {
         private CaptureTrigger currentOutpost = null;
         private CaptureTrigger lastOutpost = null;
+        public CaptureTrigger FirstOutpost = null;
 
         public override void Start()
         {
@@ -37,6 +38,14 @@ namespace RuthlessMerchant
                     else
                     {
                         AddNewWaypoint(new Waypoint(outpost.Target, true, 0));
+                        SetCurrentAction(new ActionMove(), null);
+                    }
+                }
+                else
+                {
+                    if (FirstOutpost != null)
+                    {
+                        AddNewWaypoint(new Waypoint(FirstOutpost.Target, true, 0));
                         SetCurrentAction(new ActionMove(), null);
                     }
                 }
@@ -72,6 +81,12 @@ namespace RuthlessMerchant
                         else
                         {
                             TryPickupEquipment(outpost);
+                            if(outpost.IsUnderAttack)
+                            {
+                                Transform attacker = outpost.GetClosestAttacker(this);
+                                if (attacker != null)
+                                    SetCurrentAction(new ActionHunt(ActionNPC.ActionPriority.High), attacker.gameObject, true, true);
+                            }
                             SelectNextOutpost(outpost);
                         }
                     }

@@ -91,10 +91,10 @@ namespace RuthlessMerchant
         [HideInInspector]
         public bool Reacting;
 
-        private Character currentReactTarget;
+        protected Character currentReactTarget;
         private Item currentItemTarget;
         private Vector3 currentReactPosition;
-        private TargetState reactionState;
+        protected TargetState reactionState;
         private SpeedType currentSpeedType = SpeedType.None;
         private float elapsedLostTime = 0.0f;
         private float lostDuration = 3.0f;
@@ -193,7 +193,27 @@ namespace RuthlessMerchant
             base.Update();
             if (!isDying)
             {
-                Recognize();
+                if (currentReactTarget != null && !currentReactTarget.IsDying && reactionState.HasFlag(TargetState.IsThreat))
+                {
+                    if (possibleSeenObjects.Contains(currentReactTarget.gameObject))
+                    {
+                        if(reactionState.HasFlag(TargetState.Lost))
+                        {
+                            reactionState = reactionState.RemoveFlag(TargetState.Lost);
+                            reactionState = reactionState.SetFlag(TargetState.InView);
+                        }
+                    }
+                    else if(!reactionState.HasFlag(TargetState.Lost))
+                    {
+                        reactionState = reactionState.RemoveFlag(TargetState.InView);
+                        reactionState = reactionState.SetFlag(TargetState.Lost);
+                        elapsedLostTime = 0;
+                    }
+                }
+                else
+                {
+                    Recognize();
+                }
 
                 if (currentAction != null)
                     currentAction.Update(Time.deltaTime);
@@ -224,7 +244,7 @@ namespace RuthlessMerchant
 
         private void CheckReactionState()
         {
-            if (currentReactTarget != null)
+            if (currentReactTarget != null && !currentReactTarget.IsDying)
             {
                 //Check Target Health
                 if (CurrentReactTarget.HealthSystem == null || CurrentReactTarget.HealthSystem.Health <= 0)
@@ -266,7 +286,7 @@ namespace RuthlessMerchant
         protected bool IsThreat(GameObject gameObject)
         {
             Character character = gameObject.GetComponent<Character>();
-            if (character != null && faction != character.Faction && character.HealthSystem != null && character.HealthSystem.Health > 0)
+            if (character != null && faction != character.Faction && character.HealthSystem != null && character.HealthSystem.Health > 0 && !character.IsDying)
             {
                 if (character.IsPlayer && faction != Faction.Monster)
                 {
@@ -298,11 +318,22 @@ namespace RuthlessMerchant
 
                 if (angle < fov && !IsObjectBehindObstacle(possibleSeenObjects[i]))
                 {
-                    if (currentReactTarget != null && currentReactTarget == possibleSeenObjects[i])
+                    if (currentReactTarget != null && reactionState.HasFlag(TargetState.IsThreat))
                     {
-                        elapsedLostTime = 0.0f;
-                        reactionState = reactionState.SetFlag(TargetState.Lost);
-                        reactionState = reactionState.RemoveFlag(TargetState.InView);
+                        if (possibleSeenObjects[i] == currentReactTarget.gameObject)
+                        {
+                            if (reactionState.HasFlag(TargetState.Lost))
+                            {
+                                reactionState = reactionState.RemoveFlag(TargetState.Lost);
+                                reactionState = reactionState.SetFlag(TargetState.InView);
+                            }
+                        }
+                        else if (!reactionState.HasFlag(TargetState.Lost))
+                        {
+                            reactionState = reactionState.RemoveFlag(TargetState.InView);
+                            reactionState = reactionState.SetFlag(TargetState.Lost);
+                            elapsedLostTime = 0;
+                        }
                     }
                     else
                     {
@@ -324,6 +355,13 @@ namespace RuthlessMerchant
             {
                 for (int i = 0; i < possibleHearedObjects.Count; i++)
                 {
+                    if (possibleHearedObjects[i] == null)
+                    {
+                        possibleHearedObjects.RemoveAt(i);
+                        i--;
+                        continue;
+                    }
+
                     FindReactionTarget(possibleHearedObjects[i]);
                     if(currentReactTarget != null)
                     {
@@ -362,33 +400,15 @@ namespace RuthlessMerchant
         /// <param name="gameObject">Gameobject to check</param>
         private void FindReactionTarget(GameObject gameObject)
         {
-            Character character = gameObject.GetComponent<Character>();
-            if (character != null)
+            if (gameObject != null)
             {
-                if (IsThreat(gameObject))
-                {
-                    if (currentReactTarget != null && reactionState.HasFlag(TargetState.IsThreat))
-                    {
-                        if (Vector3.Distance(gameObject.transform.position, transform.position) <
-                            Vector3.Distance(currentReactTarget.transform.position, transform.position))
-                        {
-                            currentReactTarget = character;
-                        }
-                    }
-                    else
-                    {
-                        currentReactTarget = character;
-                    }
 
-                    //character is only a potential threat if one of these characters isn't a civilian (prevents a civ vs civ fight where both civs flee)
-                    if (!(this is Civilian && character is Civilian))
-                        reactionState = reactionState.SetFlag(TargetState.IsThreat);
-                }
-                else
+                Character character = gameObject.GetComponent<Character>();
+                if (character != null && !character.IsDying)
                 {
-                    if (!reactionState.HasFlag(TargetState.IsThreat))
+                    if (IsThreat(gameObject))
                     {
-                        if (currentReactTarget != null)
+                        if (currentReactTarget != null && reactionState.HasFlag(TargetState.IsThreat))
                         {
                             if (Vector3.Distance(gameObject.transform.position, transform.position) <
                                 Vector3.Distance(currentReactTarget.transform.position, transform.position))
@@ -400,16 +420,41 @@ namespace RuthlessMerchant
                         {
                             currentReactTarget = character;
                         }
+
+                        //character is only a potential threat if one of these characters isn't a civilian (prevents a civ vs civ fight where both civs flee)
+                        if (!(this is Civilian && character is Civilian))
+                        {
+                            reactionState = reactionState.SetFlag(TargetState.IsThreat);
+                            reactionState = reactionState.SetFlag(TargetState.InView);
+                        }
+                    }
+                    else
+                    {
+                        if (!reactionState.HasFlag(TargetState.IsThreat))
+                        {
+                            if (currentReactTarget != null)
+                            {
+                                if (Vector3.Distance(gameObject.transform.position, transform.position) <
+                                    Vector3.Distance(currentReactTarget.transform.position, transform.position))
+                                {
+                                    currentReactTarget = character;
+                                }
+                            }
+                            else
+                            {
+                                currentReactTarget = character;
+                            }
+                        }
                     }
                 }
-            }
-            else
-            {
-                Item item = gameObject.GetComponent<Item>();
-                if (item != null)
+                else
                 {
-                    //TODO: React to item?
-                    currentItemTarget = item;
+                    Item item = gameObject.GetComponent<Item>();
+                    if (item != null)
+                    {
+                        //TODO: React to item?
+                        currentItemTarget = item;
+                    }
                 }
             }
         }
@@ -446,7 +491,9 @@ namespace RuthlessMerchant
             }
         }
 
-
+        /// <summary>
+        /// Sets the current reaction target to null
+        /// </summary>
         public void ResetTarget()
         {
             currentReactTarget = null;

@@ -6,13 +6,13 @@ public class Goal : MonoBehaviour {
 
 
     [SerializeField]
-    protected string QuestTitle;
+    public string QuestTitle;
     [SerializeField]
-    protected string Description; //{ get; set; }
+    public string Description; //{ get; set; }
     //[SerializeField]
     protected int RequiredAmount; //{ get; set; }
     [SerializeField]
-    protected int Reward;
+    public int Reward;
     //[SerializeField]
     //protected List<Transform> Waypoints;
 

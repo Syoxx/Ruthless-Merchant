@@ -3432,7 +3432,7 @@ Animator:
   m_GameObject: {fileID: 1483694749223856}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: c1c56c91f7c9d2f46b9eaee0c174c005, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8a5d0611157cafb49a4dda3e791d14c7, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -3472,8 +3472,8 @@ MonoBehaviour:
   hearDistance: 5
   capValuePerSecond: 1
   Reacting: 0
-  huntDistance: 5
-  attackDistance: 1.5
+  huntDistance: 10
+  attackDistance: 1
   Level: 1
   Outpost: {fileID: 0}
   patrolActive: 0

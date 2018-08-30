@@ -409,6 +409,10 @@ namespace RuthlessMerchant
             {
                 bool isUI_Inactive = (mapObject.activeSelf == false);
 
+                if (isUI_Inactive)
+                    gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", true);
+                else
+                    gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", false);
                 if (bookCanvas.activeSelf)
                 {
                     CloseBook();
@@ -459,6 +463,7 @@ namespace RuthlessMerchant
             if (mapObject.activeSelf)
             {
                 mapObject.SetActive(false);
+                gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", false);
             }
 
             if (currentBookSection == key || (bookCanvas.activeSelf && key == KeyCode.Escape))
@@ -467,6 +472,7 @@ namespace RuthlessMerchant
             }
             else if (!isOutpostDialogActive)
             {
+                gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", true);
                 bookCanvas.SetActive(true);
                 restrictMovement = bookCanvas.activeSelf;
                 restrictCamera = bookCanvas.activeSelf;
@@ -480,8 +486,9 @@ namespace RuthlessMerchant
             if (mapObject.activeSelf)
             {
                 mapObject.SetActive(false);
+                gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", false);
             }
-
+            gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", false);
             currentBookSection = KeyCode.None;
             bookCanvas.SetActive(bookCanvas.activeSelf == false);
             //lastKeyPressed = KeyCode.Escape;
@@ -507,6 +514,10 @@ namespace RuthlessMerchant
 
         private void ControleModeMove()
         {
+            if (InputVector != new Vector2(0, 0) && moveSpeed == walkSpeed)
+                gameObject.GetComponentInChildren<Animator>().SetBool("IsWalking", true);
+            else
+                gameObject.GetComponentInChildren<Animator>().SetBool("IsWalking", false);
             bool isWalking = true;
 
             if (!Input.GetKey(KeyCode.LeftShift))
@@ -516,6 +527,7 @@ namespace RuthlessMerchant
             else
             {
                 isWalking = false;
+                gameObject.GetComponentInChildren<Animator>().SetBool("IsWalking", false);
             }
 
             if (Input.GetKeyDown(KeyCode.Space))

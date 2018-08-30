@@ -133,9 +133,12 @@ namespace RuthlessMerchant
             {
                 myFade.FadingWithCallback(1, 1, delegate
                 {
-                    transform.position = new Vector3(caveEnter.transform.position.x, caveEnter.transform.position.y - 5,
-                        caveEnter.transform.position.z);
-                    myFade.FadingWithCallback(0, 0.5f, delegate { Debug.Log("Done fading"); });
+                    //transform.position = new Vector3(caveEnter.transform.position.x, caveEnter.transform.position.y - 5,
+                    //  caveEnter.transform.position.z);
+                    //transform.position = caveEnter.transform.position;
+                    Vector3 teleportTarget = new Vector3(386.635f, 7.847f, 68.289f) ;
+                    //teleportTarget.y = teleportTarget.y - 4;
+                    myFade.FadingWithCallback(0, 0.5f, delegate { transform.position = teleportTarget; });
                 });
 
                 Monolog(11);
