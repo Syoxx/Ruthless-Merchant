@@ -12,6 +12,8 @@ namespace RuthlessMerchant
 {
     public class CaptureTrigger : MonoBehaviour
     {
+        public static Dictionary<Faction, int> OwnerStatistics = new Dictionary<Faction, int>();
+
         [SerializeField, Tooltip("Owner of outpost on gamestart")]
         protected Faction owner = Faction.None;
         private float captureValue = 0;
@@ -128,6 +130,19 @@ namespace RuthlessMerchant
 
             set
             {
+                if(value != owner && !isCity)
+                {
+                    //Decrease old
+                    if (OwnerStatistics.ContainsKey(owner))
+                        OwnerStatistics[owner]--;
+
+                    //Increase new
+                    if (OwnerStatistics.ContainsKey(value))
+                        OwnerStatistics[value]++;
+                    else
+                        OwnerStatistics.Add(value, 1);
+                }
+
                 owner = value;
                 if (hero != null && hero.Faction != owner)
                     hero = null;
@@ -235,6 +250,14 @@ namespace RuthlessMerchant
 
             //Spawn Hero
             SpawnHero();
+
+            if (!isCity)
+            {
+                if (OwnerStatistics.ContainsKey(Owner))
+                    OwnerStatistics[Owner]++;
+                else
+                    OwnerStatistics.Add(Owner, 1);
+            }
         }
 
         private void Trade_ItemsSold(object sender, Trade.TradeArgs e)
