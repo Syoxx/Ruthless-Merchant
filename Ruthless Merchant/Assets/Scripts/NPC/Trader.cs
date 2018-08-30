@@ -18,6 +18,9 @@ namespace RuthlessMerchant
 
         #endregion
 
+        [SerializeField]
+        Transform directionPointer;
+
         #region Influence Properties
 
         [Header("Influence Variables")]
@@ -450,7 +453,7 @@ namespace RuthlessMerchant
         {
             if (TradeAbstract.Singleton == null)
             {
-                if (WantsToStartTrading() && (Tutorial.Singleton == null || !Tutorial.Singleton.isTutorial || !Tutorial.Singleton.TradeIsDone))
+                if (WantsToStartTrading() && (Tutorial.Singleton == null || !Tutorial.Singleton.isTutorial || !Tutorial.Singleton.TradeIsDone || !startTradeImmediately))
                 {
                     CurrentTrader = this;
 
@@ -465,9 +468,10 @@ namespace RuthlessMerchant
                     }
                     else
                     {
-                        transform.localPosition += new Vector3(0, 0, 0.4f);
+                        Vector3 direction = (directionPointer.position - transform.position).normalized * 0.4f;
+                        transform.localPosition += direction;
                         targetPosition = new Vector3(transform.position.x, player.transform.position.y, transform.position.z);
-                        transform.localPosition -= new Vector3(0, 0, 0.4f);
+                        transform.localPosition -= direction;
 
                         Vector3 prevPosition = player.transform.position;
                         Quaternion prevRotation = player.transform.rotation;
