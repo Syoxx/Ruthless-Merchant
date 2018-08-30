@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4197724656860238}
   - component: {fileID: 33801906144588872}
   - component: {fileID: 23946895159941282}
+  - component: {fileID: 114121716721216070}
   m_Layer: 0
   m_Name: NW_Item_Workbench_Shelf_UV
   m_TagString: Untagged
@@ -39,6 +40,7 @@ GameObject:
   - component: {fileID: 33090799318800866}
   - component: {fileID: 23622720969841200}
   - component: {fileID: 64434664617557156}
+  - component: {fileID: 114974049254210378}
   m_Layer: 0
   m_Name: NW_Item_Workbench_UV
   m_TagString: Untagged
@@ -73,6 +75,7 @@ GameObject:
   - component: {fileID: 4507418045333190}
   - component: {fileID: 33257005693215652}
   - component: {fileID: 23198784480434766}
+  - component: {fileID: 114514411239793402}
   m_Layer: 0
   m_Name: NW_Item_Workbench_Hammer_UV
   m_TagString: Untagged
@@ -112,14 +115,14 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1573537070982546}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 58.740562, y: 25.15783, z: 216.96207}
+  m_LocalRotation: {x: -0, y: 0.59271854, z: -0, w: 0.8054096}
+  m_LocalPosition: {x: 49.206566, y: 25.274216, z: 222.32982}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4591251485929524}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 72.700005, z: 0}
 --- !u!4 &4591251485929524
 Transform:
   m_ObjectHideFlags: 1
@@ -1254,12 +1257,51 @@ MonoBehaviour:
     - {x: -0.39517927, y: -0.91486627, z: -0.08278326}
     - {x: -0.5190539, y: -0.4665166, z: -0.716202}
     - {x: -0.9829656, y: 0.11776566, z: -0.1411027}
+--- !u!114 &114121716721216070
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1087756774895304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9eae5fbf858552c4d96c2bb1a8652680, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  faction: 0
+  workbenchCanvas: {fileID: 0}
+--- !u!114 &114514411239793402
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1624881409720556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9eae5fbf858552c4d96c2bb1a8652680, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  faction: 0
+  workbenchCanvas: {fileID: 0}
 --- !u!114 &114828971485488210
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1573537070982546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9eae5fbf858552c4d96c2bb1a8652680, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  faction: 3
+  workbenchCanvas: {fileID: 0}
+--- !u!114 &114974049254210378
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1490024764778140}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9eae5fbf858552c4d96c2bb1a8652680, type: 3}
