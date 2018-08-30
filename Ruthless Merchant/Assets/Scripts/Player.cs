@@ -4,6 +4,7 @@
 
 using System;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 
 namespace RuthlessMerchant
@@ -11,18 +12,23 @@ namespace RuthlessMerchant
     public class Player : Character
     {
         public static Player Singleton;
+        public bool RestrictBookUsage = false;
         private static bool restrictCamera = false;
 
         #region Private Fields
+        private bool[] unlockedTravelPoints;
         private UISystem uiSystem;
         private QuestManager questManager;
         private bool restrictMovement = false;
+        private bool isOutpostDialogActive;
         private bool hasJumped;
         private bool isCrouching;
         private bool isCtrlPressed;
         private bool wasCrouching;
         private bool isGameFocused;
-        private int maxInteractDistance;
+        private int outpostToUpgrade = 0;
+        [SerializeField, Tooltip("Max. interaction and glow range"), Range(0.0f, 5.0f)]
+        private float maxInteractDistance = 3;
         private float moveSpeed;
         private float mouseXSensitivity = 2f;
         private float mouseYSensitivity = 2f;
@@ -31,22 +37,26 @@ namespace RuthlessMerchant
         {
             Move = 0, AlchemySlot = 1
         }
-        
+
         private Camera playerAttachedCamera;
-        private Quaternion playerLookAngle;
+        public NavMeshAgent NavMeshAgent;
+        public Quaternion PlayerLookAngle;
         private Quaternion cameraPitchAngle;
         private Vector3 MoveVector = Vector3.zero;
         private Vector2 InputVector = Vector2.zero;
         private GameObject inventoryCanvas;
         private GameObject itemsContainer;
         private ControlMode controlMode = ControlMode.Move;
-
+        private Reputation reputation;
+        private MapSystem mapLogic;
         int currenRecipe;
+        private Recipes recipes;
         GameObject smithCanvas;
         Smith localSmith;
 
         AlchemySlot localAlchemist;
         GameObject alchemyCanvas;
+        respawnLogic respawn;
 
         Canvas workbenchCanvas;
         Workbench localWorkbench;
@@ -57,7 +67,7 @@ namespace RuthlessMerchant
         private float playerHeight;
 
         [SerializeField, Tooltip("Tip: If this value matches the rigidbody's height, crouching doesn't affect player height")]
-        [Range(0,5)]
+        [Range(0, 5)]
         private float CrouchHeight;
 
         [Space(10)]
@@ -69,30 +79,31 @@ namespace RuthlessMerchant
         [Header("UI Prefabs")]
         [SerializeField, Tooltip("This is the UI Prefab that appears for each Item when accessing an Alchemyslot")]
         GameObject alchemyUiPrefab;
-        
-        [SerializeField, Tooltip("This is the UI Prefab that appears for each Item when accessing the workbench.")]
-        private GameObject workshopUiPrefab;
 
         [SerializeField, Tooltip("The UI Prefab that appears for each recipe when accessing the Smith")]
         GameObject recipeUiPrefab;
 
+        [SerializeField, Tooltip("'TempUpgradeDialogue' in /Prefabs/TradingPoint/")]
+        private GameObject outpostUpgradeDialogue;
+
         [Space(15)]
-        
+
         [SerializeField, Tooltip("Drag Map_Canvas object here.")]
         private GameObject mapObject;
-
-        [SerializeField, Tooltip("This is the Recipe Component placed on this object")]
-        private Recipes recipes;
+        
 
         [Space(10)]
 
         [Header("Book")]
         [SerializeField, Tooltip("Drag a book canvas there / Daniil Masliy")]
-        private GameObject bookCanvas;
+        public GameObject bookCanvas;
 
         [SerializeField, Tooltip("Drag 'InventoryItem' Prefab here.")]
-        private GameObject itemUIPrefab;
+        private GameObject itemInventory;
+
+        [SerializeField, Tooltip("The Booklogic attached to the Book-Object")]
         private PageLogic bookLogic;
+        private KeyCode currentBookSection;
         #endregion
 
         #region Public Fields
@@ -108,14 +119,10 @@ namespace RuthlessMerchant
         private void Awake()
         {
             Singleton = this;
+            NavMeshAgent = GetComponent<NavMeshAgent>();
         }
 
-
-
         #endregion
-
-
-
 
         public static bool RestrictCamera
         {
@@ -147,13 +154,29 @@ namespace RuthlessMerchant
             }
         }
 
+        public Reputation Reputation
+        {
+            get
+            {
+                if (reputation == null)
+                {
+                    reputation = GetComponent<Reputation>();
+                }
+                return reputation;
+            }
+        }
+        
+
         public override void Start()
         {
             base.Start();
-
+            CheckForMissingObjects();
+            unlockedTravelPoints = new bool[17];
             smithCanvas = GameObject.Find("SmithCanvas");
             alchemyCanvas = GameObject.Find("AlchemyCanvas");
-            if(smithCanvas)
+            reputation = GetComponent<Reputation>();
+            respawn = GetComponent<respawnLogic>();
+            if (smithCanvas)
             {
                 smithCanvas.SetActive(false);
             }
@@ -176,19 +199,24 @@ namespace RuthlessMerchant
             {
                 inventoryCanvas = itemsContainer.transform.parent.gameObject;
             }
-            maxInteractDistance = 3;
-            
+
             playerHeight = GetComponent<CapsuleCollider>().height;
             crouchDelta = playerHeight - CrouchHeight;
 
             //BookLogic instantiate
-            bookLogic = new PageLogic();
+            if(!bookLogic)
+            {
+                bookLogic = GameObject.Find("Book").GetComponent<PageLogic>();
+            }
             bookLogic.GeneratePages();
-            
             inventory.BookLogic = bookLogic;
-            inventory.ItemUIPrefab = itemUIPrefab;
 
-            playerLookAngle = transform.localRotation;
+            mapLogic = mapObject.GetComponent<MapSystem>();
+            mapLogic.Start();
+
+            inventory.ItemUIPrefab = itemInventory;
+
+            PlayerLookAngle = transform.localRotation;
 
             // try to get the first person camera
             playerAttachedCamera = GetComponentInChildren<Camera>();
@@ -204,7 +232,26 @@ namespace RuthlessMerchant
                 isGameFocused = false;
             }
 
+            Physics.IgnoreLayerCollision(9, 13);
+
+            OpenBook(KeyCode.N);
             //inventory.InventoryChanged.AddListener(PopulateInventoryPanel);
+        }
+
+        /// <summary>
+        /// Use this method to check if your Prefab/GameObject etc. is correctly configured in Inspector 
+        /// </summary>
+        private void CheckForMissingObjects()
+        {
+            if (itemInventory == null)
+            {
+                throw new Exception("Item Inventory Prefab is missing in Player Inspector. This prefab if placed in (../Prefabs/Book/Item Inventory)");
+            }
+
+            if (bookCanvas == null)
+            {
+                throw new Exception("BookCanvas is missing in Player Inspector - just drag book canvas from the Scene");
+            }
         }
 
         protected override void FixedUpdate()
@@ -234,17 +281,50 @@ namespace RuthlessMerchant
             base.FixedUpdate();
         }
 
-        public override void Update()
+        public void Crouch()
         {
+            CapsuleCollider playerCollider = GetComponent<CapsuleCollider>();
+
+            //if (crouchDelta != 0)
+            //{
+            if (!isCtrlPressed && wasCrouching != isCtrlPressed)
+            {
+                if (playerCollider.height <= playerHeight)
+                {
+                    playerCollider.height += crouchDelta * 0.1f;
+                    playerCollider.center -= new Vector3(0, crouchDelta * 0.05f, 0);
+                }
+                else
+                {
+                    isCrouching = false;
+                    wasCrouching = isCrouching;
+                }
+            }
+
+            if (!wasCrouching && isCrouching)
+            {
+                playerCollider.height -= crouchDelta;
+                playerCollider.center += new Vector3(0, crouchDelta / 2, 0);
+                wasCrouching = isCrouching;
+            }
+
+            //TODO: other sneak effects
+        }
+
+        public override void Update()
+        {     
             LookRotation();
-            HandleInput();
-            if(controlMode == ControlMode.Move)
+            ControleModeMove();
+            if (controlMode == ControlMode.Move)
                 FocusCursor();
             else
             {
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
             }
+
+            GlowObject();
+            base.Update();
         }
 
         /// <summary>
@@ -257,9 +337,9 @@ namespace RuthlessMerchant
                 float yRot = Input.GetAxis("Mouse X") * mouseXSensitivity;
                 float xRot = Input.GetAxis("Mouse Y") * mouseYSensitivity;
 
-                playerLookAngle *= Quaternion.Euler(0f, yRot, 0f);
+                PlayerLookAngle *= Quaternion.Euler(0f, yRot, 0f);
 
-                transform.localRotation = playerLookAngle;
+                transform.localRotation = PlayerLookAngle;
 
                 if (playerAttachedCamera != null)
                 {
@@ -295,13 +375,7 @@ namespace RuthlessMerchant
         /// </summary>
         private void FocusCursor()
         {
-            // Pressing escape in a menu switches back to game (no cursor)
-            //if (Input.GetKeyUp(KeyCode.Escape) && restrictCamera)
-            //{
-            //    isGameFocused = true;
-            //    restrictCamera = false;
-            //}
-            /*else*/ if ((!restrictCamera) && restrictMovement)
+            if ((!restrictCamera) && restrictMovement && TradeAbstract.Singleton == null)
             {
                 // This prevents movement being disabled while restrictCamera is not on
                 restrictMovement = false;
@@ -326,85 +400,135 @@ namespace RuthlessMerchant
             }
         }
         
-        private void PopulateWorkbenchPanel()
-        {
-            for (int itemIndex = 0; itemIndex < inventory.inventorySlots.Length; itemIndex++)
-            {
-                if (inventory.inventorySlots[itemIndex].Item == null)
-                {
-                    continue;
-                }
-                else if (inventory.inventorySlots[itemIndex].Item.ItemType == ItemType.Weapon)
-                {
-                    GameObject panelPrefab = inventory.inventorySlots[itemIndex].DisplayData.gameObject;
-                    if (panelPrefab.GetComponent<Button>() != null)
-                    {
-                        itemSlot = itemIndex;
-                        panelPrefab.GetComponent<Button>().onClick.AddListener(() => OnWorkbenchButton(itemSlot));
-                    }
-                }
-                else continue;
-            }
-        }
-        
-        private void UpdateCanvas(int currentRecipe)
-        {
-            Transform canv = smithCanvas.transform.GetChild(0);
-            foreach (Transform child in canv.transform)
-            {
-                Destroy(child.gameObject);
-            }
-            for (int i = 0; i < recipes.GetRecipes()[currenRecipe].ListOfMaterials.Count; i++)
-            {
-                GameObject newPanel = Instantiate(recipeUiPrefab, canv);
-                newPanel.GetComponentInChildren<Text>().text = recipes.GetRecipes()[currenRecipe].ListOfMaterials[i].Item.ItemName + "\n" + recipes.GetRecipes()[currenRecipe].ListOfMaterials[i].Count;
-            }
-        }
+
+        #region Book and map
 
         public void ShowMap()
         {
-            if (Input.GetKeyDown(KeyCode.M))
+            if (Input.GetKeyDown(KeyCode.M) && !isOutpostDialogActive)
             {
                 bool isUI_Inactive = (mapObject.activeSelf == false);
 
+                if (isUI_Inactive)
+                    gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", true);
+                else
+                    gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", false);
                 if (bookCanvas.activeSelf)
                 {
-                    bookCanvas.SetActive(false);
+                    CloseBook();
                 }
 
+                //TODO: check which posts player has unlocked / bought
+                // pass an array with ids of trading posts that should be displayed
+                mapLogic.RefreshMapCanvas(unlockedTravelPoints);
+
                 mapObject.SetActive(isUI_Inactive);
-                restrictMovement = isUI_Inactive;
+                restrictMovement = isUI_Inactive || TradeAbstract.Singleton != null;
                 restrictCamera = isUI_Inactive;
             }
         }
 
         /// <summary>
-        /// Checks for input to control the player character.
+        /// A simple function to open a book
         /// </summary>
-        public void HandleInput()
+        private void BookControls()
         {
-            switch(controlMode)
+            if (!RestrictBookUsage)
             {
-                case ControlMode.Move:
-                    ControleModeMove();
-                    break;
-                case ControlMode.AlchemySlot:
-                    ControlModeAlchemist();
-                    break;
+                if (Input.GetKeyDown(KeyCode.J))
+                {
+                    OpenBook(KeyCode.J);
+                }
+                if (Input.GetKeyDown(KeyCode.N))
+                {
+                    OpenBook(KeyCode.N);
+                }
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    OpenBook(KeyCode.Escape);
+                }
+                if (Input.GetKeyDown(KeyCode.I))
+                {
+                    OpenBook(KeyCode.I);
+                }
+                if (Input.GetKeyDown(KeyCode.R))
+                {
+                    OpenBook(KeyCode.R);
+                }
             }
         }
 
+        private void OpenBook(KeyCode key)
+        {
+            if (mapObject.activeSelf)
+            {
+                mapObject.SetActive(false);
+                gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", false);
+            }
+
+            if (currentBookSection == key || (bookCanvas.activeSelf && key == KeyCode.Escape))
+            {
+                CloseBook();
+            }
+            else if (!isOutpostDialogActive)
+            {
+                gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", true);
+                bookCanvas.SetActive(true);
+                restrictMovement = bookCanvas.activeSelf;
+                restrictCamera = bookCanvas.activeSelf;
+                currentBookSection = key;
+                bookLogic.GoToPage(key);
+            }
+        }
+
+        private void CloseBook()
+        {
+            if (mapObject.activeSelf)
+            {
+                mapObject.SetActive(false);
+                gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", false);
+            }
+            gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", false);
+            currentBookSection = KeyCode.None;
+            bookCanvas.SetActive(bookCanvas.activeSelf == false);
+            //lastKeyPressed = KeyCode.Escape;
+            restrictMovement = bookCanvas.activeSelf || TradeAbstract.Singleton != null;
+            restrictCamera = bookCanvas.activeSelf;
+            if (!bookCanvas.activeSelf && recipes != null)
+            {
+                for (int i = 0; i < recipes.Panels.Count; i++)
+                {
+                    recipes.Panels[i].Button.onClick.RemoveAllListeners();
+                }
+                for (int i = 0; i < inventory.InventorySlots.Length; i++)
+                {
+                    if (inventory.inventorySlots[i].DisplayData)
+                        inventory.inventorySlots[i].DisplayData.ItemButton.onClick.RemoveAllListeners();
+                }
+            }
+        }
+        #endregion
+
+
+        #region Interaction and control modes
+
         private void ControleModeMove()
         {
+            if (InputVector != new Vector2(0, 0) && moveSpeed == walkSpeed)
+                gameObject.GetComponentInChildren<Animator>().SetBool("IsWalking", true);
+            else
+                gameObject.GetComponentInChildren<Animator>().SetBool("IsWalking", false);
             bool isWalking = true;
 
             if (!Input.GetKey(KeyCode.LeftShift))
             {
                 isWalking = true;
+                gameObject.GetComponentInChildren<Animator>().SetBool("IsWalking", true);
             }
             else
             {
                 isWalking = false;
+                gameObject.GetComponentInChildren<Animator>().SetBool("IsWalking", false);
             }
 
             if (Input.GetKeyDown(KeyCode.Space))
@@ -414,7 +538,7 @@ namespace RuthlessMerchant
                     hasJumped = true;
                 }
             }
-            
+
             if (Input.GetKey(KeyCode.LeftControl))
             {
                 if (!restrictMovement && !restrictCamera)
@@ -437,17 +561,25 @@ namespace RuthlessMerchant
 
             if (!restrictMovement && !restrictCamera)
             {
-                horizontal = Input.GetAxis("Horizontal");
-                vertical = Input.GetAxis("Vertical");
+                if (horizontal != 0 || vertical != 0)
+                {
+                    gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+                }
+
+                if (Input.GetKey(KeyCode.W))
+                    vertical = 1;
+                else if (Input.GetKey(KeyCode.S))
+                    vertical = -1;
+                if (Input.GetKey(KeyCode.D))
+                    horizontal = 1;
+                else if (Input.GetKey(KeyCode.A))
+                    horizontal = -1;
+                //horizontal = Input.GetAxis("Horizontal");
+                //vertical = Input.GetAxis("Vertical");
             }
             else
             {
-                gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
-            }
-            
-            if (horizontal != 0 || vertical != 0)
-            {
-                gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+                //gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
             }
 
             InputVector = new Vector2(horizontal, vertical);
@@ -462,208 +594,92 @@ namespace RuthlessMerchant
 
             SendInteraction();
             ShowMap();
-            OpenBook();
-        }
 
-        void ControlModeAlchemist()
-        {
-            if(Input.GetKeyDown(KeyCode.Escape))
+            if (isOutpostDialogActive)
             {
-                alchemyCanvas.SetActive(false);
-                controlMode = ControlMode.Move;
+                if (Input.GetKeyDown(KeyCode.Escape) && TradeAbstract.Singleton == null)
+                {
+                    isOutpostDialogActive = false;
+                    restrictCamera = false;
+                    restrictMovement = false;
+                    outpostUpgradeDialogue.SetActive(false);
+                    controlMode = ControlMode.Move;
+                }
             }
-        }
-
-        public void OnAlchemyButton(int itemSlot)
-        {
-            localAlchemist.AddItem((Ingredient)Inventory.inventorySlots[itemSlot].Item);
-            Inventory.Remove(itemSlot, 1, true);
-            CloseBook();
-        }
-
-
-        private void ControlModeInventoryBook()
-        {
-
-        }
-
-        public void OnWorkbenchButton(int itemslot)
-        {
-            localWorkbench.BreakdownItem(inventory.inventorySlots[itemSlot].Item, Inventory, recipes);
-            // TODO: update book inventory?
-        }
-
-        private void OnCollisionStay(Collision collision)
-        {
+            else
+            {
+                BookControls();
+            }
             
-            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Terrain"))
-            {
-                base.Grounding(true);
-            }
         }
 
-        private void OnCollisionExit(Collision collision)
+        public void SendInteraction()
         {
-            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Terrain"))
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                base.Grounding(false);
-            }
-        }
+                if (playerAttachedCamera != null)
+                {
+                    Ray clickRay = playerAttachedCamera.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
+                    RaycastHit hit;
 
-      
-       public void SendInteraction()
-       {
-           if (Input.GetKeyDown(KeyCode.E))
-           {
-               if (playerAttachedCamera != null)
-               {
-                   Ray clickRay = playerAttachedCamera.ScreenPointToRay(Input.mousePosition);
-                   RaycastHit hit;
-      
-                   if (Physics.Raycast(clickRay, out hit, maxInteractDistance))
-                   {
-                       Debug.Log(hit.collider.name + " " + hit.point + " clicked.");
-      
-                       InteractiveObject target = hit.collider.gameObject.GetComponent<InteractiveObject>();
-      
-                       // Treat interaction target like an item                    
-                       Item targetItem = target as Item;
-      
-                       if (targetItem != null)
-                       {
-                           // Picking up items and gear
-                           if (targetItem.ItemType == ItemType.Weapon || targetItem.ItemType == ItemType.Ingredient || targetItem.ItemType == ItemType.CraftingMaterial|| targetItem.ItemType == ItemType.ConsumAble)
-                           {
-                               Item clonedItem = targetItem.DeepCopy();
-                                
-                               // Returns 0 if item was added to inventory
-                               int UnsuccessfulPickup = inventory.Add(clonedItem, 1, true);
-      
-                               if (UnsuccessfulPickup != 0)
-                               {
-                                   Debug.Log("Returned " + UnsuccessfulPickup + ", failed to collect item.");
-                               }
-                               else
-                               {
-                                   targetItem.DestroyInteractivObject();
-                                   //PopulateInventoryPanel();
-                               }
-                           }
-                       }
-                       
-                       else
-                       {
-                           // Treat interaction target like an NPC
-                           NPC targetNPC = target as NPC;
+                    if (Physics.Raycast(clickRay, out hit, maxInteractDistance))
+                    {
+                        Debug.Log(hit.collider.name + " " + hit.point + " clicked.");
 
-                           if (targetNPC != null)
-                           {
-                               target.Interact(this.gameObject);
-                               //PopulateInventoryPanel();
-                           }
-                           else if(target !=null )
-                           {
+                        InteractiveObject target = hit.collider.gameObject.GetComponent<InteractiveObject>();
+
+                        // Treat interaction target like an item                    
+                        Item targetItem = target as Item;
+
+                        if (targetItem != null)
+                        {
+                            // Picking up items and gear
+                            if (targetItem.ItemInfo.ItemType == ItemType.Weapon || targetItem.ItemInfo.ItemType == ItemType.Ingredient || targetItem.ItemInfo.ItemType == ItemType.CraftingMaterial || targetItem.ItemInfo.ItemType == ItemType.ConsumAble || targetItem.ItemInfo.ItemType == ItemType.Other)
+                            {
+                                Item clonedItem = targetItem.DeepCopy();
+
+                                // Returns 0 if item was added to inventory
+                                int UnsuccessfulPickup = inventory.Add(clonedItem, 1, true);
+
+                                if (UnsuccessfulPickup != 0)
+                                {
+                                    Debug.Log("Returned " + UnsuccessfulPickup + ", failed to collect item.");
+                                }
+                                else
+                                {
+                                    targetItem.DestroyInteractiveObject();
+                                    //PopulateInventoryPanel();
+                                }
+                            }
+                        }
+
+                        else
+                        {
+                            // Treat interaction target like an NPC
+                            NPC targetNPC = target as NPC;
+
+                            if (targetNPC != null)
+                            {
+                                target.Interact(this.gameObject);
+                                //PopulateInventoryPanel();
+                            }
+                            else if (target != null)
+                            {
                                 target.Interact(this.gameObject);
                             }
-                       }
-                   }
-               }
-           }
-       }
-
-        public override void Interact(GameObject caller)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Crouch()
-        {
-            CapsuleCollider playerCollider = GetComponent<CapsuleCollider>();
-
-            //if (crouchDelta != 0)
-            //{
-                if (!isCtrlPressed && wasCrouching != isCtrlPressed)
-                {
-                    if (playerCollider.height <= playerHeight)
-                    {
-                        playerCollider.height += crouchDelta * 0.1f;
-                        playerCollider.center -= new Vector3(0, crouchDelta * 0.05f, 0);
-                    }
-                    else
-                    {
-                        isCrouching = false;
-                        wasCrouching = isCrouching;
+                        }
                     }
                 }
-
-                if (!wasCrouching && isCrouching)
-                {
-                    playerCollider.height -= crouchDelta;
-                    playerCollider.center += new Vector3(0, crouchDelta / 2, 0);
-                    wasCrouching = isCrouching;
-                }
-            
-            //TODO: other sneak effects
-        }
-
-        /// <summary>
-        /// A simple function to open a book
-        /// </summary>
-        private void OpenBook()
-        {
-            if (Input.GetKeyDown(KeyCode.J))
-            {
-                bookCanvas.SetActive(true);
-                lastKeyPressed = KeyCode.J;
-                restrictMovement = !(bookCanvas.activeSelf == false);
-                restrictCamera = !(bookCanvas.activeSelf == false);
-            }
-            if (Input.GetKeyDown(KeyCode.N))
-            {
-                bookCanvas.SetActive(true);
-                lastKeyPressed = KeyCode.N;
-                restrictMovement = !(bookCanvas.activeSelf == false);
-                restrictCamera = !(bookCanvas.activeSelf == false);
-            }
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                CloseBook();
-            }
-            if (Input.GetKeyDown(KeyCode.I))
-            {
-                bookCanvas.SetActive(true);
-                lastKeyPressed = KeyCode.I;
-                restrictMovement = !(bookCanvas.activeSelf == false);
-                restrictCamera = !(bookCanvas.activeSelf == false);
             }
         }
 
-        private void CloseBook()
-        {
-            bookCanvas.SetActive(bookCanvas.activeSelf == false);
-            lastKeyPressed = KeyCode.Escape;
-            restrictMovement = !(bookCanvas.activeSelf == false);
-            restrictCamera = !(bookCanvas.activeSelf == false);
-            if (!bookCanvas.activeSelf && recipes != null)
-            {
-                for (int i = 0; i < recipes.Panels.Count; i++)
-                {
-                    recipes.Panels[i].Button.onClick.RemoveAllListeners();
-                }
-                for (int i = 0; i < inventory.InventorySlots.Length; i++)
-                {
-                    if (inventory.inventorySlots[i].DisplayData)
-                        inventory.inventorySlots[i].DisplayData.itemButton.onClick.RemoveAllListeners();
-                }
-            }
-        }
         public void EnterSmith(Smith smith)
         {
             localSmith = smith;
-            for(int i = 0; i <  recipes.Panels.Count; i++)
+            for (int i = 0; i < recipes.Panels.Count; i++)
             {
                 int num = i;
-                recipes.Panels[num].Button.onClick.RemoveAllListeners();
+                    recipes.Panels[num].Button.onClick.RemoveAllListeners();
                 recipes.Panels[num].Button.onClick.AddListener(delegate { localSmith.TryCraft(inventory, recipes.Panels[num].Recipe, recipes); });
             }
             {
@@ -671,6 +687,7 @@ namespace RuthlessMerchant
                 lastKeyPressed = KeyCode.R;
                 restrictMovement = !(bookCanvas.activeSelf == false);
                 restrictCamera = !(bookCanvas.activeSelf == false);
+                bookLogic.GoToPage(KeyCode.R);
             }
         }
 
@@ -680,10 +697,13 @@ namespace RuthlessMerchant
             lastKeyPressed = KeyCode.I;
             if (localAlchemist.Ingredient == null)
             {
-                OpenBook();
+                gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", true);
+                BookControls();
                 bookCanvas.SetActive(true);
+                Debug.LogError("7");
                 restrictMovement = !(bookCanvas.activeSelf == false);
                 restrictCamera = !(bookCanvas.activeSelf == false);
+                bookLogic.GoToPage(KeyCode.I);
 
                 SetAlchemyItemButtons();
             }
@@ -699,10 +719,10 @@ namespace RuthlessMerchant
             {
                 if (inventory.inventorySlots[i].DisplayData)
                 {
-                    if (inventory.inventorySlots[i].Item.ItemType == ItemType.Ingredient)
+                    if (inventory.inventorySlots[i].ItemInfo.ItemType == ItemType.Ingredient)
                     {
                         int value = i;
-                        inventory.inventorySlots[i].DisplayData.itemButton.onClick.AddListener(delegate { OnAlchemyButton(value); });
+                        inventory.inventorySlots[i].DisplayData.ItemButton.onClick.AddListener(delegate { OnAlchemyButton(value); });
                     }
                 }
             }
@@ -710,39 +730,202 @@ namespace RuthlessMerchant
 
         public void EnterWorkbench(Workbench workbench)
         {
-            //Might be excessiv Populating
             PopulateWorkbenchPanel();
             if (mapObject.activeSelf)
             {
+                gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", false);
                 mapObject.SetActive(false);
             }
 
+            gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", true);
             bookCanvas.SetActive(true);
             lastKeyPressed = KeyCode.I;
             restrictMovement = true;
             restrictCamera = true;
             localWorkbench = workbench;
+            bookLogic.GoToPage(KeyCode.I);
+        }
+
+        public void EnterTrading()
+        {
+            restrictMovement = true;
+            restrictCamera = true;
+            bookCanvas.SetActive(true);
+            gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", true);
+            if (Tutorial.Singleton != null && Tutorial.Singleton.isTutorial)
+                bookLogic.GoToPage(KeyCode.N);
+            else
+                bookLogic.GoToPage(KeyCode.I);
+        }
+
+        public void AllowTradingMovement()
+        {
+            restrictCamera = false;
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+            bookCanvas.SetActive(false);
+            gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", false);
         }
 
         void CreateAlchemyCanvas()
         {
-            foreach(Transform item in alchemyCanvas.transform)
+            foreach (Transform item in alchemyCanvas.transform)
             {
                 Destroy(item.gameObject);
             }
             for (int i = 0; i < inventory.inventorySlots.Length; i++)
             {
                 if (inventory.inventorySlots[i].Item)
-                    if (inventory.inventorySlots[i].Item.ItemType == ItemType.Ingredient)
+                    if (inventory.inventorySlots[i].ItemInfo.ItemType == ItemType.Ingredient)
                     {
                         Button newPanel = Instantiate(alchemyUiPrefab, alchemyCanvas.transform).GetComponent<Button>();
 
                         int panel = i;
                         newPanel.onClick.AddListener(delegate { OnAlchemyButton(panel); });
 
-                        newPanel.GetComponentInChildren<Text>().text = inventory.inventorySlots[i].Item.ItemName;
+                        newPanel.GetComponentInChildren<Text>().text = inventory.inventorySlots[i].ItemInfo.ItemName;
                     }
             }
+        }
+
+        public void OutpostInteraction(int OutpostIndex)
+        {
+            outpostToUpgrade = OutpostIndex;
+
+            // TODO: option to unlock fast travel point
+            // requires: outpost receives interaction
+            // if this outpost has no trade point yet:
+            // show confirmation dialogue, restrict movement until OnClick or Esc pressed
+            if (unlockedTravelPoints[outpostToUpgrade] == false)
+            {
+                isOutpostDialogActive = true;
+                outpostUpgradeDialogue.SetActive(true);
+                restrictCamera = true;
+                restrictMovement = true;
+            }
+            else
+            {
+                // TODO: Allow item storage in trading point
+                Debug.Log("Interacted with trading point");
+            }
+        }
+
+        public override void Interact(GameObject caller)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+
+        #region OnClick Handlers
+
+        public void OnAlchemyButton(int itemSlot)
+        {
+            if(Inventory.inventorySlots[itemSlot].ItemInfo.ItemType == ItemType.Ingredient)
+            {
+                localAlchemist.AddItem((Ingredient)Inventory.inventorySlots[itemSlot].Item);
+                Inventory.Remove(itemSlot, 1, true);
+                CloseBook();
+            }
+        }
+
+
+        public void OnWorkbenchButton(int itemslot)
+        {
+            localWorkbench.BreakdownItem(inventory.inventorySlots[itemslot].Item, Inventory, recipes);
+            PopulateWorkbenchPanel();
+        }
+
+        private void PopulateWorkbenchPanel()
+        {
+            for (int itemIndex = 0; itemIndex < inventory.inventorySlots.Length; itemIndex++)
+            {
+                if (inventory.inventorySlots[itemIndex].Item == null)
+                {
+                    continue;
+                }
+                else if (inventory.inventorySlots[itemIndex].ItemInfo.ItemType == ItemType.Weapon)
+                {
+                    int item = itemIndex;
+                    inventory.inventorySlots[itemIndex].DisplayData.ItemButton.onClick.RemoveAllListeners();
+                    inventory.inventorySlots[itemIndex].DisplayData.ItemButton.onClick.AddListener(delegate{ OnWorkbenchButton(item); });
+                }
+            }
+        }
+
+        public void BuyTradingPoint()
+        {
+            // player pays $$$
+            // update array of unlocked travel points
+            unlockedTravelPoints[outpostToUpgrade] = true;
+            
+            Ray cameraRay = playerAttachedCamera.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
+            RaycastHit hit;
+            if (Physics.Raycast(cameraRay, out hit, maxInteractDistance))
+            {
+                TradepointUnlocker tradepoint = hit.collider.gameObject.GetComponent<TradepointUnlocker>();
+
+                if (tradepoint != null)
+                {
+                    tradepoint.SetActiveTradepoint();
+                }
+            }
+
+            CloseTradingPointDialog();
+        }
+
+        private Outline lastOutline;
+        public void GlowObject()
+        {
+            Ray cameraRay = playerAttachedCamera.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
+            RaycastHit hit;
+            if (Physics.Raycast(cameraRay, out hit, maxInteractDistance))
+            {
+                Outline outline = hit.collider.gameObject.GetComponent<Outline>();
+                if (outline != null)
+                {
+                    ReplaceOutline(outline);
+                }
+                else
+                {
+                    ReplaceOutline(null);
+                }
+            }
+            else
+            {
+                ReplaceOutline(null);
+            }
+        }
+
+        private void ReplaceOutline(Outline outline)
+        {
+            if (outline != lastOutline)
+            {
+                if (lastOutline != null)
+                    lastOutline.OutlineMode = Outline.Mode.None;
+
+                if (outline != null)
+                    outline.OutlineMode = Outline.Mode.OutlineVisible;
+
+                lastOutline = outline;
+            }
+        }
+
+        public void CloseTradingPointDialog()
+        {
+            if (outpostUpgradeDialogue.activeSelf && TradeAbstract.Singleton == null)
+            {
+                isOutpostDialogActive = false;
+                restrictCamera = false;
+                restrictMovement = false;
+                outpostUpgradeDialogue.SetActive(false);
+                controlMode = ControlMode.Move;
+            }
+        }
+        #endregion
+
+        public override void DestroyInteractiveObject(float delay = 0)
+        {
+            respawn.InitiateRespawn();
         }
 
         public void Craft()
@@ -761,6 +944,5 @@ namespace RuthlessMerchant
         }
     }
 }
-       
-        
-     
+
+

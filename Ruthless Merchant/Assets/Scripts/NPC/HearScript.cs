@@ -20,9 +20,7 @@ namespace RuthlessMerchant
         {
             if (!other.isTrigger && other.transform != transform.parent && (other.CompareTag("NPC") || other.CompareTag("Player") || other.CompareTag("Item")))
             {
-                AudioSource source = other.GetComponent<AudioSource>();
-                if (source != null)
-                    npc.OnEnterHearArea(source);
+                npc.OnEnterHearArea(other);
             }
         }
 
@@ -30,9 +28,7 @@ namespace RuthlessMerchant
         {
             if (!other.isTrigger && other.transform != transform.parent && (other.CompareTag("NPC") || other.CompareTag("Player") || other.CompareTag("Item")))
             {
-                AudioSource source = other.GetComponent<AudioSource>();
-                if (source != null)
-                    npc.OnExitHearArea(source);
+                npc.OnExitHearArea(other);
             }
         }
     }

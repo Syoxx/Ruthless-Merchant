@@ -14,6 +14,8 @@ namespace RuthlessMerchant
         protected float elapsedWaitTime;
         protected int waypointIndex;
         protected NavMeshAgent agent;
+        protected Animator animator;
+
 
         public ActionMove() : base(ActionPriority.Low)
         {
@@ -24,7 +26,6 @@ namespace RuthlessMerchant
         {
 
         }
-
         /// <summary>
         /// Current waypoint index
         /// </summary>
@@ -36,22 +37,32 @@ namespace RuthlessMerchant
             }
             set
             {
-                if (value >= 0 &&  ((parent.Waypoints.Count > 0 && value < parent.Waypoints.Count) || (parent.Waypoints.Count == 0 && value <= parent.Waypoints.Count)))
+                if (value >= 0 && ((parent.Waypoints.Count > 0 && value < parent.Waypoints.Count) || (parent.Waypoints.Count == 0 && value <= parent.Waypoints.Count)))
                     waypointIndex = value;
                 else
                     throw new ArgumentOutOfRangeException();
             }
         }
-
         public override void StartAction(NPC parent, GameObject other)
         {
             base.StartAction(parent, other);
-            agent = parent.GetComponent<NavMeshAgent>();
+            animator = parent.gameObject.GetComponent<Animator>();
+
+            if (agent == null)
+                agent = parent.GetComponent<NavMeshAgent>();
+
+            if (other != null)
+                parent.AddNewWaypoint(new Waypoint(other.transform, true, 0), true);
+
+            if (parent.Waypoints.Count > 0)
+            {
+                agent.SetDestination(parent.Waypoints[0].GetPosition());
+            }
         }
 
         public override void Update(float deltaTime)
         {
-            if (!agent.pathPending && agent.remainingDistance < agent.baseOffset)
+            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
             {
                 agent.isStopped = true;
                 agent.velocity = Vector3.zero;
@@ -59,18 +70,31 @@ namespace RuthlessMerchant
                 SetDestination();
             }
             else
-            {
+            {               
                 agent.isStopped = false;
                 parent.RotateToNextTarget(agent.steeringTarget + parent.transform.forward, true);
             }
+            MoveAnimation();
         }
 
+        private void MoveAnimation()
+        {
+            if (agent.velocity != Vector3.zero)
+            {
+                animator.SetBool("IsWalking",true);
+            }
+            else
+            {
+                animator.SetBool("IsWalking",false);
+            }
+        }
         public override void EndAction(bool executeEnd = true)
         {
             if (executeEnd)
             {
                 agent.isStopped = true;
                 agent.velocity = Vector3.zero;
+                animator.SetBool("IsWalking",false);
             }
             base.EndAction(executeEnd);
         }
@@ -83,6 +107,7 @@ namespace RuthlessMerchant
             {
                 waypointIndex = 0;
                 parent.CurrentWaypoint = null;
+                parent.SetCurrentAction(new ActionIdle(), null, true);
                 return;
             }
 

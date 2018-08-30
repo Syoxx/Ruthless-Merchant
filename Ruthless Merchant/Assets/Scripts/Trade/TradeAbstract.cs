@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,6 +15,10 @@ namespace RuthlessMerchant
         #endif
         public int RealValue;
 
+        public List<InventoryItem> ItemsToSell;
+
+        public bool Exit = false;
+
         #region Serialized Fields
 
         [SerializeField]
@@ -27,6 +32,7 @@ namespace RuthlessMerchant
 
         [SerializeField]
         protected Text tradeDialogue;
+        public Text TradeDialogue;
 
         [SerializeField]
         protected Text valueText;
@@ -69,6 +75,10 @@ namespace RuthlessMerchant
 
         protected List<List<GameObject>> weightsPlayer;
         protected List<List<GameObject>> weightsTrader;
+
+        protected bool initialized = false;
+
+        protected float exitTimer = 0;
 
         public abstract void Initialize(int realValue);
 
@@ -142,46 +152,63 @@ namespace RuthlessMerchant
         /// <param name="offer">The offer to be represented.</param>
         protected void UpdateWeights(List<List<GameObject>> weights, int offer)
         {
-            if (GetCurrentPlayerOffer() != -1)
+            int[] targetWeights = GetTargetWeights(offer);
+
+            UpdateWeight(weights, targetWeights, 0);
+            UpdateWeight(weights, targetWeights, 1);
+            UpdateWeight(weights, targetWeights, 2);
+            UpdateWeight(weights, targetWeights, 3);
+
+            float traderOffer;
+
+            if (GetCurrentTraderOffer() == -1)
+                traderOffer = RealValue;
+
+            else
+                traderOffer = GetCurrentTraderOffer();
+
+            float playerTraderOfferDelta = ((float)nextPlayerOffer - (int)traderOffer);
+            float ratioDelta = (float)nextPlayerOffer / (int)traderOffer - 1;
+
+            if (ratioDelta != Double.NaN)
+                playerTraderOfferDelta = (playerTraderOfferDelta + ratioDelta) / 2 / weightsDeltaModifier;
+
+            else
+                playerTraderOfferDelta /= weightsDeltaModifier;
+
+            if (playerTraderOfferDelta > 0.2f)
+                playerTraderOfferDelta = 0.2f;
+
+            else if (playerTraderOfferDelta < -0.2f)
+                playerTraderOfferDelta = -0.2f;
+
+            if(GetCurrentTraderOffer() == 0)
+                playerTraderOfferDelta = 0;
+
+            Vector3 playerDelta = new Vector3(0, -PlayerZone.position.y + NeutralPositionY - playerTraderOfferDelta, 0);
+            Vector3 traderDelta = new Vector3(0, -TraderZone.position.y + NeutralPositionY + playerTraderOfferDelta, 0);
+
+            Debug.Log(playerTraderOfferDelta);
+
+            // Trade?
+            if (gameObject.GetComponent<Trade>() != null)
             {
-                int[] targetWeights = GetTargetWeights(offer);
+                PlayerZone.position += playerDelta;
+                TraderZone.position += traderDelta;
+            }
 
-                UpdateWeight(weights, targetWeights, 0);
-                UpdateWeight(weights, targetWeights, 1);
-                UpdateWeight(weights, targetWeights, 2);
-                UpdateWeight(weights, targetWeights, 3);
+            // VRTrade?
+            else
+            {
+                //ScaleMovement[] scaleMovements = FindObjectsOfType<ScaleMovement>();
 
-                float playerTraderOfferDelta = ((float)nextPlayerOffer - (int)GetCurrentTraderOffer() - 1) / weightsDeltaModifier;
-
-                if (playerTraderOfferDelta > 0.75f)
-                    playerTraderOfferDelta = 0.75f;
-
-                else if (playerTraderOfferDelta < -0.75f)
-                    playerTraderOfferDelta = -0.75f;
-
-                Vector3 playerDelta = new Vector3(0, -PlayerZone.position.y + NeutralPositionY - playerTraderOfferDelta, 0);
-                Vector3 traderDelta = new Vector3(0, -TraderZone.position.y + NeutralPositionY + playerTraderOfferDelta, 0);
-
-                // Trade?
-                if (gameObject.GetComponent<Trade>() != null)
-                {
-                    PlayerZone.position += playerDelta;
-                    TraderZone.position += traderDelta;
-                }
-
-                // VRTrade?
-                else
-                {
-                    ScaleMovement[] scaleMovements = FindObjectsOfType<ScaleMovement>();
-
-                    foreach (ScaleMovement scale in scaleMovements)
-                    {
-                        scale.SpeedY = 0;
-                        scale.TargetPositionPlayer = (PlayerZone.position + playerDelta).y;
-                        scale.TargetPositionTrader = (TraderZone.position + traderDelta).y;
-                        scale.enabled = true;
-                    }
-                }
+                //foreach (ScaleMovement scale in scaleMovements)
+                //{
+                //    scale.SpeedY = 0;
+                //    scale.TargetPositionPlayer = (PlayerZone.position + playerDelta).y;
+                //    scale.TargetPositionTrader = (TraderZone.position + traderDelta).y;
+                //    scale.enabled = true;
+                //}
             }
         }
 

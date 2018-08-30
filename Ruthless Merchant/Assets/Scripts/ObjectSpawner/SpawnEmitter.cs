@@ -14,14 +14,14 @@ namespace RuthlessMerchant
 
         [SerializeField]
         [Range(0, 1000)]
-        private float intervall = 1;
+        protected float intervall = 1;
 
         [SerializeField]
         [Range(1, 1000)]
         protected int count = 1;
 
         protected ObjectSpawner spawner;
-        private float elapsedTime = 0f;
+        protected float elapsedTime = 0f;
 
         protected virtual void Start()
         {

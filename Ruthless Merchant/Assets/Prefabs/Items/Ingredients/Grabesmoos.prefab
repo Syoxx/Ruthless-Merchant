@@ -184,15 +184,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction: 2
-  ItemName: Grabesmoos
-  ItemValue: []
-  ItemWeight: 0
-  ItemLore: 
-  ItemSprite: {fileID: 0}
-  ItemType: 0
-  ItemRarity: 0
-  MaxStackCount: 20
+  ItemInfo:
+    ItemName: 
+    ItemValue:
+    - Count: 3
+    ItemWeight: 1
+    ItemLore: 
+    ItemSprite: {fileID: 0}
+    ItemType: 0
+    ItemRarity: 0
+    maxStackCount: 20
   ingredientType: 7
+  attackSpeedBuff: 0
+  healthBuff: 0.97
+  defenseBuff: 0
+  regenerationBuff: -2
+  movementBuff: 0
 --- !u!114 &114168793740072854
 MonoBehaviour:
   m_ObjectHideFlags: 1

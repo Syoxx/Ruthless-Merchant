@@ -1,0 +1,656 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1347\cocoasubrtf570
+{\fonttbl\f0\fswiss\fcharset0 ArialMT;\f1\fnil\fcharset0 Monaco;\f2\fswiss\fcharset0 Helvetica;
+}
+{\colortbl;\red255\green255\blue255;\red217\green11\blue0;\red0\green45\blue153;\red255\green39\blue18;
+\red102\green0\blue141;\red133\green0\blue175;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww15040\viewh16200\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\sl264\slmult1\pardirnatural
+
+\f0\b\fs48 \cf0 AFS Tree Shaders and Scripts
+\b0\fs24 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs36 \cf0 \
+The package ships with tree shaders and scripts which give you advanced bending on all trees created using the built in tree creator and improve the fading between regular mesh trees and billboards. They will allow you to use manually modeled \'84foliage\'93 as trees within the terrain engine (including billboarding) or let you place terrain trees on top of manually added geometry.
+\fs24 \
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\sl264\slmult1\pardirnatural
+
+\b\fs36 \cf0 Table of Content\
+
+\fs24 \
+Overview\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+\cf0 \
+1. AfsTreeCreatorBark, AfsTreeCreatorBarkDeferred and AfsTreeCreatorLeaves Shader\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\sl264\slmult1\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+\cf0 2. AfsTreeCreatorBarkOptimized, AfsTreeCreatorBarkDeferredOptimized and AfsTreeCreatorLeavesOptimized Shader\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs24 \cf0 2.1. Base Features\
+2.2. Assign the shaders\
+2.3. Shader Inputs\
+2.4. Requirements\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b \cf0 3. AfsSimpleTree v4\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b0 \cf0 3.1. Base Features\
+3.2. Pros\
+3.3. Cons\
+3.4. Recommended use cases\
+3.5. Usage\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+\cf0 3.6. Shader Inputs\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b \cf0 4. Enhanced Billboard Shader\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2311
+\cf0 5. Repositioned terrain trees
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2311\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2311\pardirnatural
+
+\fs24 \cf0 5.1. Setting up the script\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2311
+\cf0 5.2. Adding trees on top of your geometry\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b \cf0 6. Troubleshooting
+\b0 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b \cf2 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs48 \cf0 Overview
+\b0\fs24 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs24 \cf0 If you use trees within the terrain engine which are created with the tree creator using the built in tree creator shaders, you might have noticed that the transition from mesh tree to billboard often does not look very smooth and even depends on your wind strength.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs24 \cf0 The "Afs Tree Shaders" replace the built in tree creator shaders and will enhance the transition from mesh tree to billboard by fading in/out wind, real time shadows and point and spot lights and give you much more variety in bending at hardly any costs.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs24 \cf0 Next to that the "Afs Simple Tree\'93 shader will let you use manually modeled foliage as trees within the terrain engine so you will benefit from billboarding.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs24 \cf0 Finally the "Reposition trees AFS" script will let you place trees on any kind of geometry\'97not only the terrain\'97as long as you have a terrain below that geometry so you can have fully billboarding trees on manually added cliffs, overhangs or even on the third floor of an ruined building.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b \cf0 Bark Shaders\'97forward vs. deferred\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b0 \cf0 In order to be able to fade in real time shadows and point and spot lights on the bark the "base" AfsTreeCreatorBark Shader always uses forward rendering (just like the Leaves shader).\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs24 \cf0 In case your camera is set to "deferred" you might want to render the bark using deferred as well\'97especially if you have a very complex lighting situation or place the trees manually and not within the terrain engine.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+\cf0 To do so assign the "AfsTreeCreatorBarkDeferred" shader to your bark base material so that the optimized material will use the "AfsTreeCreatorBarkDeferredOptimized" shader.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\b\fs24 \cf0 Please note:
+\b0  When using the deferred bark shader neither real time shadows nor point or spot lights will fade in. They simply pop up which most likely will worsen the fading between mesh and billboard.\
+There is no way to get real time shadows fade in (except from syncing billboard distance and real time shadow distance) but in case you have some point or spot lights you would like to fade in you may think about fading in the light based on distance to the camera instead. This of course will effect all other objects too\'85\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\fs24 \cf3 See: "FadeInPixelLights" script and the "03 Tree Demo Scene" for example\cf0 .
+\fs12 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs24 \cf0 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b\fs48 \cf0 1. AfsTreeCreatorBark, AfsTreeCreatorBarkDeferred and AfsTreeCreatorLeaves Shader
+\fs24 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\i\fs24 \cf0 (Nature/AFS Tree Creator Bark)\
+(Nature/AFS Tree Creator Bark Deferred)\
+(Nature/AFS Tree Creator Leafs)\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\i0 \cf0 Those shaders do more or less nothing\'97they just help you to setup your trees.\
+Apply them to the base materials of your trees created using the built in tree creator to make sure that the automatically generated and optimized materials will use the "AfsTreeCreatorBarkOptimized" / "AfsTreeCreatorBarkDeferredOptimized" and "AfsTreeCreatorLeavesOptimized" Shader.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\fs24 \cf4 Please do not use these shaders on any game object in your hierarchy directly.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\b\fs24 \cf4 Please note:
+\b0  Unity will not copy the value from the "Afs Xtra Bending" parameter to the optimized leaf material. You have to add the "TreeXtrabending" script to your prefab to setup Afs Xtra Bending values for the optimized material.\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+\cf0 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b\fs48 \cf0 2. AfsTreeCreatorBarkOptimized, AfsTreeCreatorBarkDeferredOptimized and AfsTreeCreatorLeavesOptimized Shader\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\i\fs24 \cf0 (Nature/AFS Tree Creator Bark Optimized)\
+(Nature/AFS Tree Creator Bark Deferred Optimized)\
+(Nature/AFS Tree Creator Leafs Optimized)
+\i0\b\fs48 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b0\fs24 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b\fs28 \cf0 2.1. Base Features\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs24 \cf0 As described above these shaders will replace the built in tree creator shaders and enhabce the fading between mesh trees and billboards.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b\fs28 \cf0 2.2. Assign the shaders\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs24 \cf0 The regular way would be to assign the "AfsTreeCreatorBark" / "AfsTreeCreatorBarkDeferred"  and "AfsTreeCreatorLeaves" Shader to the base materials of your trees\'97so the tree creator will automatically assign the "Afs Optimized" shaders as soon as you hit "update tree".\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs24 \cf0 In case you want to assign the shaders manually please follow the instructions below:\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs24 \cf0 - Create 2 new materials and using the "AfsTreeCreatorBarkOptimized" / "AfsTreeCreatorBarkDeferredOptimized" respectively the "AfsTreeCreatorLeavesOptimized" shader.\
+- Find and assign the textures of your tree which are generated by the tree creator.\
+- Find the prefab of your tree, click on the root node and replace "Optimized Bark Material" and "Optimized Leaves Material" with the new materials.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\b\fs28 \cf0 2.3. Shader Inputs\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs24 \cf0 Shader inputs are just the same as in the original tree creator shaders\'97except for "Afs Xtra Bending".\
+	\
+	
+\b Afs Xtra Bending
+\b0 \
+\pard\tx0\tx550\tx565\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li568\fi-3\ri-2333\pardirnatural
+\cf0 Values > 0 will add some extra bending along the y-axis according to vertex color green (which is also used to define edge fluttering). Your leaf planes should be custom meshes and the pivot point should have vertex color green = 0.0. Otherwise leaves might get disconnected from the branches or trunk.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx0\tx550\tx565\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li568\fi-3\ri-2333\pardirnatural
+
+\b\fs24 \cf4 Please note:
+\b0  If you work with the automatically created optimized materials from the tree creator you won\'92t be able to change the value. In this case simply add the "TreeXtrabending" script to your prefab to setup Afs Xtra Bending values.\
+Afs Xtra Bending values on bark and leaves must be the same.\
+The tree prefab has to be placed into your scene to make the script take effect.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+\cf0 	\
+	
+\b \kerning1\expnd-1\expndtw-2
+Tumble Strength
+\b0 \kerning1\expnd0\expndtw0 \
+\pard\tx0\tx550\tx565\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li568\fi-3\ri-2333\pardirnatural
+\cf0 \kerning1\expnd-1\expndtw-2
+Defines the strength of the tumbling.\
+Trees have to be imported using the "Custom Tree Importer" package from the asset store.\
+Tumbling must be enabled in the shaders.\kerning1\expnd0\expndtw0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+\cf0 \
+	
+\b \kerning1\expnd-1\expndtw-2
+Tumble Frequency
+\b0 \kerning1\expnd0\expndtw0 \
+\pard\tx0\tx550\tx565\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li568\fi-3\ri-2333\pardirnatural
+\cf0 \kerning1\expnd-1\expndtw-2
+Lets you adjust the frequency of the tumbling.\
+Trees have to be imported using the "Custom Tree Importer" package from the asset store.\
+Tumbling must be enabled in the shaders.\kerning1\expnd0\expndtw0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+\cf0 	\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b\fs28 \cf0 2.4. Requirements
+\b0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs24 \cf0 The shaders support and need unity built in wind zones.\
+Wind settings from the "SetupAdvancedFoliageShader" script will be ignored.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs24 \cf0 The shaders only work with trees which use the "Tree Creator Bark" and "Tree Creator Leafs" shaders.\
+The "Tree Creator Fast" Shaders are not supported.\
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b\fs48 \cf0 3. AfsSimpleTree v4
+\b0\fs24 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\i\fs24 \cf0 (Nature/AFS Simple Tree v4)
+\i0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b\fs28 \cf0 \
+3.1. Base Features
+\b0\fs24 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs24 \cf0 Some of your foliage prepared to work with the advanced foliage shaders might be rather big and should be visible over a very long viewing distance\'97just like our banana.\
+So in order to reduce rendering costs on plants which are far away in the background but still visible you might either use the built in LOD system or the "AFS Simple Tree" shader.\
+This shader lets you place models prepared for the usage with the advanced foliage shaders (double sided geometry, correctly set up vertex colors and/or UV4) as "tree" within the terrain engine so rendering will be speeded up by the internal billboard system of the terrain engine.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b\fs24 \cf4 Please note:
+\b0  The shader does NOT support any kind of the foliage shader\'92s rain feature.\
+It does not use physically based shading but only the original tree shading.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b\fs24 \cf4 Please note:
+\b0  If you just want to simplify existing tree creator trees or convert those to be compatible with the foliage shaders please have a look into "08 AfsFoliageTool.rtf" \cf0 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b\fs28 \cf0 3.2. Pros
+\b0\fs24 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs24 \cf0 - The shader lets you use manually modeled geometry as trees within the terrain engine including billboarding.\
+- The shader causes just 1 draw call per mesh tree instead of 2, or 3 draw calls instead of 6 when using realtime shadows compared to the built in tree creator shaders and regular trees. So it is much cheaper to render.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b\fs28 \cf0 3.3. Cons
+\f1\b0\fs24 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\f0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs24 \cf0 - Wrapped around diffuse lighting even on the "bark" which will make all edges and bump mapping "smoother".\
+- The shader uses the original tree lighting\'97so unlike the foliage shaders no physically based shading nor wetness here.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b\fs28 \cf0 3.4. Recommended use cases
+\f1\b0\fs24 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\f0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs24 \cf0 Use this shader on manually modeled large bushes or smaller trees which should be visible over a very long viewing distance and benefit from the built in billboarding.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b\fs28 \cf0 3.5. Usage\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs24 \cf0 - Create a new prefab and assign your mesh/model to it.\
+- Create a new material and choose the "AfsSimpleTree" shader.\
+- Assign the new material.\
+- Assign all needed textures. They follow the needs of the foliage shader as far as the channel setup is concerned but please keep in mind that this shaders uses regular tree lighting: So Specular reflectivity is Shininess and Smoothness is Gloss\'97somehow at least ;-) You probably have to tweak these values!\
+- Set up the "Bending Parameters" in the material inspector.\
+- Assign a capsule collider to the prefab\
+- Add the prefab as "tree" to your terrain.\
+- Now you can simply paint your plant as trees onto the terrain.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b\fs24 \cf0 Please note:
+\b0  The shader supports and needs unity built in wind zones.\
+The wind settings from the "setupAdvancedFoliageShader" script will be ignored.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b\fs24 \cf0 Please note:
+\b0  Trees using this shader have to be placed using the terrain engine. Otherwise there will be no bending. If you want to use those trees as manually placed game objects simply switch back to the regular foliage shader.\cf5 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs12 \cf5 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b\fs24 \cf4 Important:
+\b0  If you want to rework your mesh using the Afs Foliage tool you must NOT do this in the same scene which you use the tweaked trees in added to the terrain engine as unity will most likely crash when ever you do any changes to the original prefab.\
+So please adjust bending in another scene or disable the terrain while tweaking the model:\
+- Disable the terrain.\
+- Select your prefab, adjust bending and save the new mesh.\
+- Reactivate your terrain.\
+- If the tweaked simple tree does not show up on the terrain, select the terrain, switch to the \'84Place Trees\'93 tool and select your prefab and the list of applied trees. Now trees should show up on the terrain again.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+\cf5 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\b\fs28 \cf0 3.6. Shader Inputs\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx0\tx550\tx565\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li568\fi-3\ri-2333\pardirnatural
+
+\b\fs24 \cf0 Color
+\b0 \
+Base color that gets multiplied on top of the main diffuse texture.
+\b \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\b0\fs12 \cf0 \
+\pard\tx0\tx550\tx565\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li568\fi-3\ri-2333\pardirnatural
+
+\b\fs24 \cf0 Base (RGB) Alpha (A)
+\b0 \
+Main diffuse texture (RGB) transparency (A)\
+\pard\tx0\tx550\tx565\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li568\fi-3\ri-2333\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx0\tx550\tx565\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li568\fi-3\ri-2333\pardirnatural
+
+\b\fs24 \cf0 Alpha cutoff
+\b0 \
+If the alpha channel of the Base texture contains different shades of gray instead of just black and white, you can manually determine the cutoff point by adjusting the slider.\
+\pard\tx0\tx550\tx565\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li568\fi-3\ri-2333\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx0\tx550\tx565\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li568\fi-3\ri-2333\pardirnatural
+
+\b\fs24 \cf0 Normal (GA) Trans(R) Gloss(B)
+\b0 \
+This slot holds the combined texture containing the normal map, the translucency map and the gloss map. You have to author this texture according to the AFS model guide. Tiling on this texture will be ignored: it follows the settings made for the base texture.\
+\pard\tx0\tx550\tx565\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li568\fi-3\ri-2333\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx0\tx550\tx565\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li568\fi-3\ri-2333\pardirnatural
+
+\b\fs24 \cf0 Shininess
+\b0 \
+\pard\tx0\tx550\tx565\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li568\fi-3\ri-2333\pardirnatural
+
+\f2 \cf0 Controls the level of \'84blur\'93 for the specular highlight.
+\f0 \
+\pard\tx0\tx550\tx565\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li568\fi-3\ri-2333\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx0\tx550\tx565\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li568\fi-3\ri-2333\pardirnatural
+
+\b\fs24 \cf0 Translucency Color
+\b0 \
+The color that will be multiplied in when the leaves are backlit.\
+\pard\tx0\tx550\tx565\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li568\fi-3\ri-2333\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx0\tx550\tx565\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li568\fi-3\ri-2333\pardirnatural
+
+\b\fs24 \cf0 View Dependency
+\b0 \
+Fully view dependent translucency is relative to the angle between the view direction and the light direction. View independent is relative to the angle between the leaf's normal vector and the light direction.\
+\pard\tx0\tx550\tx565\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li568\fi-3\ri-2333\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx0\tx550\tx565\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li568\fi-3\ri-2333\pardirnatural
+
+\b\fs24 \cf0 Shadow Strength
+\b0 \
+Makes the shadows on the leaves less harsh.\
+\pard\tx0\tx550\tx565\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li568\fi-3\ri-2333\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx0\tx550\tx565\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li568\fi-3\ri-2333\pardirnatural
+
+\b\fs24 \cf0 Bending Parameters
+\b0 \
+Chose between \'84Vertex Colors\'93 and \'84Vertex Colors And UV4\'93 according to how the bending information is baked into the given mesh.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+\cf0 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b\fs48 \cf0 4. AfsBillboardTree Shader\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2311
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2333\pardirnatural
+
+\i\b0\fs24 \cf0 (hidden shader)
+\i0\fs48 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs24 \cf0 All shaders mentioned above relay on the "AfsBillboardTree v4\'93. This shader renders the billboards and overwrites the built in one.\
+It is needed to support perspectively aligned billboards instead of the "classic always upright oriented" ones (unless you deactivate this feature).\
+The shader will also fade out all billboards towards the "Tree distance" specified in the terrain settings.\
+Use "Billboard Fadeout Length" to specify the length of the fading.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+\cf3 See: 05 SetupAdvancedFoliageShader Script.rtf to find out more.\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2311
+
+\b\fs24 \cf4 Important: 
+\b0 You will not see the advanced billboards within the "scene view" but only in the "game view".\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+\cf4 Make sure that your camera is tagged as "MainCamera".\cf6 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+\cf0 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2311
+
+\b\fs48 \cf0 5. Repositioned terrain trees\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2311
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2311
+
+\b0\fs24 \cf0 If you add large rocks or cliffs to your scene you usually won\'92t be able to place trees on top of those\'97at least not trees placed within the terrain engine which benefit from billboarding.\
+But instead of adding manually placed trees which do not get billboarded and might produce a lot of overhead as each tree would be a single game object you can use the "Reposition trees AFS" script to make your trees added to the terrain appear on top of your manually added geometry.
+\b\fs48 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2311
+
+\fs36 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2311
+
+\fs28 \cf0 5.1. Setting up the script
+\fs24 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2311
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2311
+
+\b0\fs24 \cf0 Add the "Reposition trees AFS" script to your terrain and set it up like described below:\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2311
+
+\b\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2311
+
+\fs24 \cf0 Additional Colliders\
+
+\b0 Add all objects which you want to place terrain trees on top to this list by dragging them onto the slot "Add new collider". Then hit "Add".
+\b \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+\cf4 Please note: 
+\b0 All game objects added must have a collider attached to (best is a mesh collider). Otherwise the script can not calculate where to place the terrain trees.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2311
+
+\b\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2311
+
+\fs24 \cf0 Exclude Tree Prototypes from Repositioning\
+
+\b0 In case you have overlapping geometry like an overhang you might want to place some trees on top of the overhang and others below the overhang on top of the terrain. Usually the script would simply place all trees on top of the overhang but you can exclude some tree prefabs from being repositioned by checking their checkbox so they will always stuck to the terrain.\
+In case you just have one tree you would have to add this prefab twice to the terrain: first one will be repositioned, second one not in case you check it checkbox.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2311
+
+\b\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2311
+
+\fs24 \cf0 Reposition Trees
+\b0 \
+Hit to make it happen.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2311
+
+\b\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs24 \cf4 Please note: 
+\b0 Whenever you make any changes to the height map of the terrain unity will automatically reposition all terrain trees.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2311
+\cf4 You have to hit "Reposition Trees" again to make the tree appear on top of the geometry.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+\cf4 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2311
+
+\b\fs28 \cf0 5.2. Adding trees on top of your geometry\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2311
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2311
+
+\b0\fs24 \cf0 The script does not ship with its own tree placement tool. Instead it just uses the built it one. So if you want to place a tree on top of any geometry simply select the "Terrain" --> "Place Trees" Tool, select the tree prefab you would like to add and switch to the scene view.\
+You will see the blue circle which is your top down projected cursor. So navigate to the area you would like to place your trees, make sure that you see the blue circle at exact the position on top of your geometry where you would like to place the tree and click the left mouse button.\
+This will add a tree at the given position \'96 but the tree will be placed on top of the terrain and not the geometry. All you have to do is to hit "Reposition trees" to make the tree(s) being placed on top of your geometry.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b\fs48 \cf0 6. Troubleshooting
+\fs36 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2311
+
+\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs24 \cf0 The transition between billboards and mesh trees does not look smooth at all. What do i miss?\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\b0 \cf0 - Make sure your trees use the right shaders on your trees.\
+- Make sure you have set "Billboard Start" and "Fade Length" in the "setupAdvancedFoliageShader" script according to your terrain settings.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2311
+
+\b\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs24 \cf0 Billboards are not lit correctly when i rotate the sun. What is wrong?
+\b0 \
+Unity does not update the rendered billboard textures (which also contain the lighting) until the camera rotates.\
+Unfortunately there is not much we can do about this \'96 apart from calling:"Terrain.activeTerrain.terrainData.RefreshPrototypes();" which will give you a small hiccup. But as soon as the camera rotates just a little bit (which should be the case in most use cases) the billboard textures will be updated automatically and should fit the given lighting situation.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2311
+
+\b\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs24 \cf0 My trees do not receive real time shadows, What is wrong?
+\b0 \
+Please check the "Billboard Start" and "Fade Length" setting in the "setupAdvancedFoliageShader" script and make them fit your terrain settings.\
+Those parameters determine when real time shadows get faded in on trees.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2311
+
+\b\fs12 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ri-2311\pardirnatural
+
+\fs24 \cf0 Real time shadows are not faded in smoothly. What is wrong?
+\b0 \
+If the number of "max mesh trees" is lower than the number of mesh trees that should be rendered according to the distance settings the shaders will not be able to fade in real time shadows correctly. So please make sure that your settings within the terrain engine fit your needs.\
+When trees are shadowed by trees, shadows will probably suddenly pop in. Unfortunately there is not much we can do about this apart from using the "Tree Shadow Dissolve" feature.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2311
+\cf0 \
+\
+\
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\ri-2311
+\cf5 \
+\
+\pard\tx0\tx550\tx565\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li568\fi-3\ri-2333\pardirnatural
+\cf5 \
+}

@@ -9,7 +9,6 @@ namespace RuthlessMerchant
     public abstract class Character : InteractiveObject
     {
         private DamageAbleObject healthSystem;
-        //private Vector3 velocity;
         private Vector3 moveVector;
         private CharacterController charController;
         private int stamina;
@@ -23,6 +22,13 @@ namespace RuthlessMerchant
         private static float globalGravityScale = -9.81f;
         private float groundedSkin = 0.05f;
         private bool grounded;
+        private bool justJumped;
+        protected bool isDying = false;
+        private RaycastHit rayHit;
+        bool is_climbable_left;
+        bool is_climbable_right;
+        bool is_climbable_front;
+        bool is_climbable_back;
 
         private float playerRadius;
         private Vector3 boxSize;
@@ -31,9 +37,10 @@ namespace RuthlessMerchant
         private CapsuleCollider charCollider;
         private bool isPlayer;
         private bool preventClimbing = false;
+        private Vector3 previousPosition;
+        private float yPositionOffset;
         private float elapsedSecs;
         private float terrainCheckRadius;
-        private float colliderHeight;
 
         [Header("Character Attack Settings")]
         [SerializeField, Range(0, 1000), Tooltip("Base damage per attack")]
@@ -45,12 +52,69 @@ namespace RuthlessMerchant
         [SerializeField, Range(0, 1000), Tooltip("Base defense value")]
         protected int baseDefense = 10;
 
+        [SerializeField, Range(0, 50.0f), Tooltip("Health Regneration per second")]
+        private float healthRegPerSec = 0;
+        private float healthRegValue = 0.0f;
+
         private float elapsedAttackTime = 2;
+        protected Weapon weapon;
+        protected Weapon shield;
+        protected Potion potion;
+
+        protected Animator animator;
+
+        public Weapon Weapon
+        {
+            get
+            {
+                return weapon;
+            }
+        }
+
+        public Weapon Shield
+        {
+            get
+            {
+                return shield;
+            }
+        }
+
+        public Potion Potion
+        {
+            get
+            {
+                return potion;
+            }
+
+            set
+            {
+                potion = value;
+                if (potion != null)
+                {
+                    if (HealthSystem != null)
+                    {
+                        int diff = Convert.ToInt32(HealthSystem.MaxHealth * potion.Health) - HealthSystem.Health;
+                        HealthSystem.MaxHealth = Convert.ToInt32(HealthSystem.MaxHealth * potion.Health);
+                        HealthSystem.ChangeHealth(diff, this);
+                    }
+                    healthRegPerSec += potion.Regeneration;
+                }
+            }
+        }
 
         public bool IsPlayer
         {
             get { return isPlayer; }
         }
+
+        public bool IsDying
+        {
+            get
+            {
+                return isDying;
+            }
+        }
+
         [SerializeField]
         [Range(0, 1000)]
         [Tooltip("Player speed while holding LCtrl.")]
@@ -68,9 +132,13 @@ namespace RuthlessMerchant
         protected float runSpeed = 6;
 
         [SerializeField]
-        [Range(0, 1000)]
-        [Tooltip("Constant downward force, used instead of gravity when on the ground.")]
-        private float stickToGroundValue;
+        [Range(0, 5)]
+        [Tooltip("Length of raycast to check if player is grounded")]
+        private float groundCheckDistance = 0.25f;
+
+        [SerializeField]
+        [Tooltip("Layermask that is detected as ground.")]
+        private LayerMask layerMask;
 
         [SerializeField]
         [Range(0, 1000)]
@@ -153,7 +221,8 @@ namespace RuthlessMerchant
                 if (healthSystem == null)
                 {
                     healthSystem = GetComponent<DamageAbleObject>();
-                    healthSystem.OnDeath += HealthSystem_OnDeath;
+                    if(healthSystem != null)
+                        healthSystem.OnDeath += HealthSystem_OnDeath;
                 }
 
                 return healthSystem;
@@ -164,18 +233,24 @@ namespace RuthlessMerchant
         {
             elapsedAttackTime = baseAttackDelay;
 
+            if (isPlayer)
+            {
+                previousPosition = transform.position;
+            }
+
             if (rb == null)
             {
                 rb = GetComponent<Rigidbody>();
-                rb.useGravity = false;
+                //rb.useGravity = false;
+                //rb.maxDepenetrationVelocity = 10f;
             }
 
             if (charCollider == null)
             {
                 charCollider = GetComponent<CapsuleCollider>();
-                terrainCheckRadius = charCollider.radius;
-                colliderHeight = charCollider.height;
-            }            
+                terrainCheckRadius = charCollider.radius / 4;
+                yPositionOffset = (charCollider.height / 2) * transform.localScale.y;
+            }
 
             if (CompareTag("Player"))
             {
@@ -192,46 +267,104 @@ namespace RuthlessMerchant
             healthSystem.OnDeath += HealthSystem_OnDeath;
 
             gearSystem = new GearSystem(isPlayer);
+            animator = gameObject.GetComponent<Animator>();
         }
 
         private void HealthSystem_OnDeath(object sender, System.EventArgs e)
         {
-            DestroyInteractivObject();
+            if(!isPlayer)
+                isDying = true;
+
+            animator.SetBool("IsDying",true);
+            DestroyInteractiveObject(5.0f);
         }
 
-        public void Attack(Character character)
+        public bool Attack(Character character)
         {
-            if (elapsedAttackTime >= baseAttackDelay)
+            if (elapsedAttackTime >= GetAttackDelay())
             {
                 elapsedAttackTime = 0f;
 
-                int damage = baseDamagePerAtk - baseDefense;
+                int damage = GetDamage() - character.GetDefense();
                 if (damage <= 0)
                     damage = 1;
 
                 character.HealthSystem.ChangeHealth(-damage, this);
+                return true;
             }
+
+            return false;
         }
 
         public void Move(Vector2 velocity, float speed)
         {
-            if (velocity != Vector2.zero && !isPlayer)
-            { transform.rotation = Quaternion.LookRotation(velocity); }
-
-            moveVector = Vector3.zero;
-            rb.velocity = new Vector3(0f, rb.velocity.y, 0f);
-
-            moveVector.y = 0;
-            moveVector.x = velocity.x;
-            moveVector.z = velocity.y;
-
-            if (moveVector.sqrMagnitude > 1)
+            if(velocity != Vector2.zero)
             {
-                moveVector.Normalize();
+                Vector3 velocityVector = rb.velocity;
+
+                velocityVector += transform.forward * velocity.y * speed;
+                velocityVector += new Vector3(transform.forward.z, 0, -transform.forward.x) * velocity.x * speed;
+
+                Vector2 rbspeed = new Vector2(velocityVector.x, velocityVector.z);
+                float length = rbspeed.sqrMagnitude;
+                if (length > Mathf.Pow(speed, 2))
+                {
+                    rbspeed = rbspeed.normalized * speed;
+                    velocityVector = new Vector3(rbspeed.x, velocityVector.y, rbspeed.y);
+                }
+
+                rb.velocity = velocityVector;
+
+                //rb.velocity = new Vector3((rb.velocity.x < -walkSpeed) ? -walkSpeed : rb.velocity.x, rb.velocity.y, (rb.velocity.z < walkSpeed) ? -walkSpeed : rb.velocity.z);
+
+            }
+            else
+            {
+                rb.velocity = Vector3.right * rb.velocity.x / 2 + Vector3.up * rb.velocity.y + Vector3.forward * rb.velocity.z / 2;
             }
 
+            //if (velocity != Vector2.zero && !isPlayer)
+            //{ transform.rotation = Quaternion.LookRotation(velocity); }
 
-            transform.Translate(moveVector * speed * Time.fixedDeltaTime, Space.Self);
+            //rb.velocity = new Vector3(0f, rb.velocity.y, 0f);
+
+            //moveVector.y = 0;
+            //moveVector.x = velocity.x;
+            //moveVector.z = velocity.y;
+
+            //if (moveVector.sqrMagnitude > 1)
+            //{
+            //    moveVector.Normalize();
+            //}
+
+            //if (isPlayer) //Prevent penetration of terrain obstacles
+            //{
+            //    Ray forwardRay = new Ray(new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z),
+            //                    transform.TransformDirection(moveVector));
+            //    RaycastHit forwardRayHit;
+
+            //    if (Physics.Raycast(forwardRay, out forwardRayHit, 0.1f))
+            //    {
+            //        if (forwardRayHit.collider.gameObject.layer == 14)
+            //        {
+            //            // player does not move into obstacles of layer 14
+            //        }
+            //        else
+            //        {
+            //            transform.Translate(moveVector * speed * Time.deltaTime, Space.Self);
+            //        }
+            //    }
+            //    else
+            //    {
+            //        transform.Translate(moveVector * speed * Time.deltaTime, Space.Self);
+            //    }
+            //}
+            //else
+            //{
+            //    transform.Translate(moveVector * speed * Time.deltaTime, Space.Self);
+            //}
+
+            //moveVector = Vector3.zero;
         }
 
         public void Rotate()
@@ -241,7 +374,30 @@ namespace RuthlessMerchant
 
         public override void Update()
         {
-            elapsedAttackTime += Time.deltaTime;
+            elapsedAttackTime += Time.deltaTime;      
+
+            if (elapsedSecs > 0)
+            {
+                elapsedSecs -= Time.deltaTime;
+            }
+            else /*if (justJumped == true && grounded)*/
+            {
+                justJumped = false;
+            }
+        }
+
+        protected void Regeneration()
+        {
+            if (healthRegPerSec != 0)
+            {
+                healthRegValue += healthRegPerSec * Time.deltaTime;
+                if (Math.Abs(healthRegValue) > 1.0f)
+                {
+                    int addValue = (int)Math.Floor(healthRegValue);
+                    healthRegValue -= addValue;
+                    HealthSystem.ChangeHealth(addValue, this);
+                }
+            }
         }
 
         public void Consume()
@@ -266,70 +422,35 @@ namespace RuthlessMerchant
 
         public void Jump()
         {
-            if (grounded && !preventClimbing)
+            rayHit = CheckCharGrounded(rayHit);
+
+            if (grounded)
             {
-                if (elapsedSecs <= 0)
-                {
-                    grounded = false;
-                    gravity = Vector3.zero;
-                    rb.AddForce(Vector3.up * Mathf.Sqrt(maxJumpHeight), ForceMode.VelocityChange);
-                    elapsedSecs = 1f;
-                }
+                grounded = false;
+                justJumped = true;
+                gravity = Vector3.zero;
+                rb.AddForce(Vector3.up * 0.1f * maxJumpHeight, ForceMode.VelocityChange);
+                elapsedSecs = 0.4f;
             }
         }
 
         protected virtual void FixedUpdate()
         {
-            if (elapsedSecs >= 0)
-            {
-                elapsedSecs -= Time.deltaTime;
-            }
 
-            if (isPlayer)
-            {
-                preventClimbing = false;
-                                
-                Ray rayLeft     = new Ray(new Vector3(transform.localPosition.x - terrainCheckRadius, transform.localPosition.y /*+ 0.1f*/, transform.localPosition.z), Vector3.down);
-                Ray rayRight    = new Ray(new Vector3(transform.localPosition.x + terrainCheckRadius, transform.localPosition.y /*+ 0.1f*/, transform.localPosition.z), Vector3.down);
-                Ray rayFront    = new Ray(new Vector3(transform.localPosition.x, transform.localPosition.y /*+ 0.1f*/, transform.localPosition.z + terrainCheckRadius), Vector3.down);
-                Ray rayBack     = new Ray(new Vector3(transform.localPosition.x, transform.localPosition.y /*+ 0.1f*/, transform.localPosition.z - terrainCheckRadius), Vector3.down);
-                
-                bool is_climbable_left = CheckGroundAngle(rayLeft);
-                bool is_climbable_right = CheckGroundAngle(rayRight);
-                bool is_climbable_front = CheckGroundAngle(rayFront);
-                bool is_climbable_back = CheckGroundAngle(rayBack);
+        }
 
-                if (!is_climbable_left || !is_climbable_right || !is_climbable_front || !is_climbable_back)
-                {
-                    preventClimbing = true;
-                    grounded = false;
-                }
-            }
-            
+        public override void DestroyInteractiveObject(float delay = 0)
+        {
+            if(potion != null)
+                Destroy(potion);
 
+            if(weapon != null)
+                Destroy(weapon);
 
-            if (grounded /*&& !preventClimbing*/)
-            {if (rb != null)
-                {
-                    gravity = Vector3.zero;
-                    gravity.y = -stickToGroundValue;
-                    ApplyGravity(gravity);
-                }
-            }
-            else
-            {
-                if (rb != null)
-                {
-                    //if (preventClimbing)
-                    //{
-                    //    gravity.y -= 30;
-                    //}
+            if(shield != null)
+                Destroy(shield);
 
-                    gravity += globalGravityScale * Vector3.up * Time.deltaTime * 5f;
-                    ApplyGravity(gravity);
-                }
-            }
-
+            base.DestroyInteractiveObject(delay);
         }
 
         /// <summary>
@@ -343,7 +464,7 @@ namespace RuthlessMerchant
             RaycastHit hitInfo;
             bool isClimbableAngle = true;
 
-            Physics.Raycast(ray, out hitInfo, 4f);
+            Physics.Raycast(ray, out hitInfo, 0.4f);
 
             if (hitInfo.collider != null)
             {
@@ -356,14 +477,9 @@ namespace RuthlessMerchant
                         isClimbableAngle = false;
                     }
                 }
-            }          
+            }
 
             return isClimbableAngle;
-        }
-
-        public void CalculateVelocity()
-        {
-            throw new System.NotImplementedException();
         }
 
         public void ChangeGear()
@@ -378,36 +494,66 @@ namespace RuthlessMerchant
 
         public void ApplyGravity(Vector3 gravity)
         {
-            if (gravity.y > 0)
-            {
-                gravity.y = 0;
-            }
             rb.AddForce(gravity, ForceMode.Acceleration);
         }
 
         public void Grounding(bool _grounded)
         {
             grounded = _grounded;
-
         }
 
-        private void OnCollisionStay(Collision collision)
+        /// <summary>
+        /// Used to check if character is on the ground
+        /// </summary>
+        /// <returns>
+        /// returns true if detects collision with relevant layer within the CheckDistance 
+        /// (layerMask defines which layers are detected)
+        /// </returns>
+        private RaycastHit CheckCharGrounded(RaycastHit hitInfo)
         {
-            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Terrain"))
-            {
-                if (!preventClimbing)
-                {
-                    grounded = true;
-                }
-            }
+            grounded = Physics.Raycast(transform.position, Vector3.down, out hitInfo, groundCheckDistance);
+            return hitInfo;
         }
 
-        private void OnCollisionExit(Collision collision)
+        public float GetAttackDelay()
         {
-            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Terrain"))
-            {
-                grounded = false;
-            }
+            if (weapon != null && potion != null)
+                return baseAttackDelay / (weapon.AttackSpeed * potion.AttackSpeed);
+            else if (weapon != null)
+                return baseAttackDelay / weapon.AttackSpeed;
+            else if(potion != null)
+                return baseAttackDelay / potion.AttackSpeed;
+
+            return baseAttackDelay;
+        }
+
+        public int GetDamage()
+        {
+            int damage = baseDamagePerAtk;
+
+            if (weapon != null)
+                damage += weapon.Damage;
+
+            if (shield != null)
+                damage += shield.Damage;
+
+            return damage;
+        }
+
+        public int GetDefense()
+        {
+            int defense = baseDefense;
+
+            if (weapon != null)
+                defense += weapon.DefencePower;
+
+            if (shield != null)
+                defense += shield.DefencePower;
+
+            if (potion != null)
+                defense += potion.DefenseValue;
+
+            return defense;
         }
     }
 }

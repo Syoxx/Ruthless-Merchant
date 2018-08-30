@@ -34,10 +34,12 @@ namespace RuthlessMerchant
             questDialogue =
                "1.    Den Wald besuchen\n" +
                "2.    Holz sammeln (" + woodCounter + "/5)\n" +
-               "3.    Iron sammeln (" + ironCounter + "/5)\n" +
+               "3.    Eisen sammeln (" + ironCounter + "/5)\n" +
                "4.    Crafting aus Eisen + Holz = neue Waffe\n" +
                "5.    Waffe an der Workbench zerlegen oder\n" +
-               "6.    Mit einem Händler handeln";
+               "6.    Mit einem Händler handeln\n" +
+               "7.    Sammle mind. 3 Trankzutaten\n" +
+               "8.    Verarbeite die Zutaten beim Alchemisten zu einem Trank";
             textMesh.text = questDialogue.ToString();
         }
     }

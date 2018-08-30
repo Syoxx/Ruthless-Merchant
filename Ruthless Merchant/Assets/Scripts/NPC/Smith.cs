@@ -2,14 +2,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 namespace RuthlessMerchant
 {
     public class Smith : Civilian
     {
+        #region Fields #############################################################################################
+
+        [SerializeField] private UnityEvent onSuccesfullSmithing;
+
+        #endregion
+
+
+        #region Properties #########################################################################################
+
+
+
+        #endregion
+
+
+        #region Structs ############################################################################################
+
+
+
+        #endregion
+
+
+        #region Private Functions ##################################################################################
+
+
+
+        #endregion
+
+
+        #region Public Functions ##################################################################################
+
         public override void Update()
         {
-            
         }
 
         public override void Start()
@@ -38,6 +68,7 @@ namespace RuthlessMerchant
                     inventory.Remove(recipes.GetRecipes()[index].ListOfMaterials[i].Item, recipes.GetRecipes()[index].ListOfMaterials[i].Count, false);
                 }
                 inventory.Add(recipes.GetRecipes()[index].Result, 1, true);
+                onSuccesfullSmithing.Invoke();
                 return true;
             }
             return false;
@@ -61,6 +92,7 @@ namespace RuthlessMerchant
             }
             return true;
         }
-    }
 
+        #endregion
+    }
 }
