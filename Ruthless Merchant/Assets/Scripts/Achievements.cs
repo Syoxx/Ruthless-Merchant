@@ -7,12 +7,14 @@ namespace RuthlessMerchant {
     public class Achievements : MonoBehaviour {
 
         public TextMeshProUGUI textMesh;
+        [HideInInspector]
         public int switchIndex;
         public static Achievements Singleton;
         private int counter;
         private int counter2;
         private int RequiredAmount;
         private int RequiredAmount2;
+        [HideInInspector]
         public bool Completed;
 
         public string[] Monolog =
@@ -37,7 +39,10 @@ namespace RuthlessMerchant {
         "Reach “Ancient Trade Route” ",
         "Click E on the lot next to the tent ",
 
-        "Reach “Open-Minded Capital” "
+        "Reach “Open-Minded Capital” ",
+
+        "Craft Weapons (Iron Mace) at smith ",
+        "Sell Weapons at trader "
     };
 
         private void Awake()
@@ -80,6 +85,9 @@ namespace RuthlessMerchant {
                 case 2:
                     Singleton.RequiredAmount = 1; Singleton.RequiredAmount2 = 0;
                     Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex] + Singleton.Goal[4] + "( " + Singleton.counter + " / " + Singleton.RequiredAmount + " )"; break;
+                case 3:
+                    Singleton.RequiredAmount = 3; Singleton.RequiredAmount2 = 3;
+                    Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex] + Singleton.Goal[5] + "( " + Singleton.counter + " / " + Singleton.RequiredAmount + " )" + Singleton.Goal[6] + "( " + Singleton.counter2 + " / " + Singleton.RequiredAmount2 + " )"; break;
             }
         }
 

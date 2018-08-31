@@ -129,8 +129,10 @@ namespace RuthlessMerchant
             //Debug.Log("goes in");
             if (collectionGoal != null && questingEnabled)
             {
-                if (!collectionGoal.Completed)
+                Debug.Log("AssignQuest quest and collectiongoal != null");
+                if (collectionGoal.Completed || !collectionGoal.InProgress || collectionGoal.collectables.Count <= 0)
                 {
+                    //{
                     //Debug.Log("AssignedQuest: " + index);
                     List<Collectables> tempCollectables = new List<Collectables>();
                     for (int i = 0; i < collectionGoals[index].collectables.Count; i++)
@@ -161,6 +163,7 @@ namespace RuthlessMerchant
                     //    collectionGoal.FillList(tempCollectables, questButton);
                     //}
                     collectionGoal.CalcNextWaypoint();
+
                 }
             }
         }

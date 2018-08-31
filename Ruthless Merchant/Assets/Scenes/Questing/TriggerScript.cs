@@ -51,9 +51,12 @@ namespace RuthlessMerchant
         public Texture icon;
 
 
-        public Collectables(Material Material, int RequiredAmount, int CurrentAmount, bool Completed, Texture Icon)
+
+
+        public Item item;
+        public Collectables(Item Material, int RequiredAmount, int CurrentAmount, bool Completed, Texture Icon)
         {
-            material = Material;
+            item = Material;
             requiredAmount = RequiredAmount;
             currentAmount = CurrentAmount;
             completed = Completed;
@@ -62,7 +65,22 @@ namespace RuthlessMerchant
 
         public Collectables Clone()
         {
-            return new Collectables(material, requiredAmount, currentAmount, completed, icon);
+            return new Collectables(item, requiredAmount, currentAmount, completed, icon);
         }
+
+
+        //public Collectables(Material Material, int RequiredAmount, int CurrentAmount, bool Completed, Texture Icon)
+        //{
+        //    material = Material;
+        //    requiredAmount = RequiredAmount;
+        //    currentAmount = CurrentAmount;
+        //    completed = Completed;
+        //    icon = Icon;
+        //}
+
+        //public Collectables Clone()
+        //{
+        //    return new Collectables(material, requiredAmount, currentAmount, completed, icon);
+        //}
     }
 }

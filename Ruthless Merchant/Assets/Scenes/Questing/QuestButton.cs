@@ -44,7 +44,7 @@ namespace RuthlessMerchant {
         {
             Debug.Log("Discard");
             Button btn = GetComponent<Button>();
-            
+            btn.onClick.RemoveAllListeners();
             btn.onClick.AddListener(delegate { DiscardQuest(); });
         }
         private void DiscardQuest()
