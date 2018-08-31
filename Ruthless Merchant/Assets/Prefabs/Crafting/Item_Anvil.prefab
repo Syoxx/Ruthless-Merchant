@@ -19,7 +19,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4430823471781092}
-  - component: {fileID: 114982249299369772}
   m_Layer: 0
   m_Name: Item_Anvil
   m_TagString: Untagged
@@ -64,14 +63,14 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1333155726167432}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 118.239365, y: 25.37191, z: 232.68027}
+  m_LocalRotation: {x: -0, y: -0.28456762, z: -0, w: 0.958656}
+  m_LocalPosition: {x: 442.95917, y: 25.329, z: 251.63695}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4138588647330894}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -33.066, z: 0}
 --- !u!23 &23487316504013758
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -128,40 +127,3 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 8e3fdffe3258ac547812fdee776e5d8b, type: 3}
---- !u!114 &114982249299369772
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1333155726167432}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81f1e45ebcb59a845ab73522764077fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  faction: 0
-  baseDamagePerAtk: 75
-  baseAttackDelay: 2
-  baseDefense: 10
-  healthRegPerSec: 0
-  sneakSpeed: 2
-  walkSpeed: 3
-  runSpeed: 6
-  groundCheckDistance: 0.25
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 0
-  maxJumpHeight: 0
-  maxSlopeAngle: 0
-  rotationSpeed: 8
-  fov: 45
-  viewDistance: 10
-  hearDistance: 5
-  capValuePerSecond: 1
-  Reacting: 0
-  fleeDistance: 5
-  onSuccesfullSmithing:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
