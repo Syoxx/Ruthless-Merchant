@@ -38,23 +38,16 @@ MonoBehaviour:
   - {fileID: 114418612937110006}
   - {fileID: 114653455922961872}
   - {fileID: 114714123564601040}
-  - {fileID: 114789003519843198}
   - {fileID: 114692097171126412}
   - {fileID: 114005998211482524}
   - {fileID: 114760308939839288}
-  - {fileID: 114540810102905840}
   - {fileID: 114277430057654142}
   - {fileID: 114897634924191554}
-  - {fileID: 114710131131730200}
-  - {fileID: 114117211955928474}
   - {fileID: 114038869884246356}
-  - {fileID: 114983114169992474}
-  - {fileID: 114506426793609934}
   - {fileID: 114973173769688360}
   - {fileID: 114055176806511978}
   - {fileID: 114685022315171668}
   - {fileID: 114165684188960056}
-  - {fileID: 114718100414387156}
   - {fileID: 114181607740312722}
   - {fileID: 114433519838735876}
   - {fileID: 114641062115248180}
@@ -65,9 +58,16 @@ MonoBehaviour:
   - {fileID: 114387708405743942}
   - {fileID: 114483971044018134}
   - {fileID: 114316610806934006}
+  - {fileID: 114075266978314522}
+  - {fileID: 114427310390202052}
+  - {fileID: 114480110628809086}
+  - {fileID: 114560985981186774}
+  - {fileID: 114062267211459438}
+  - {fileID: 114197689824393440}
+  - {fileID: 114377664081035276}
   MasterBankRef: {fileID: 114619718326599488}
   StringsBankRef: {fileID: 114222368669742390}
-  stringsBankWriteTime: 636701156728831436
+  stringsBankWriteTime: 636713286278722140
   cacheVersion: 2
 --- !u!114 &114001170859459416
 MonoBehaviour:
@@ -113,6 +113,21 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 417
+--- !u!114 &114011779034619488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Carpet
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114014402567788870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,6 +468,28 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114062267211459438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Characters/Monster/MonsterHit
+  guid: 961f1dc43198ec47a7803f1ec94d8e2d
+  Banks:
+  - {fileID: 114763312908714178}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2000
 --- !u!114 &114064112334945356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -555,6 +592,43 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 320
+--- !u!114 &114075266978314522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Characters/Minions/MinionStepsFreeminds
+  guid: 259359e93a79754787735fcd381c7c68
+  Banks:
+  - {fileID: 114763312908714178}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 10
+  Length: 576
+--- !u!114 &114076067204528764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Grass
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114077843043794826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -887,11 +961,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Path: D:\Ruthless Merchant\Repository\Ruthless-Merchant\Ruthless Merchant\Assets\StreamingAssets\Desktop\Environment.bank
-  lastModified: 636701156728810992
+  lastModified: 636713286278602107
   LoadResult: 0
   FileSizes:
   - Name: 
-    Value: 1211712
+    Value: 1514752
   Exists: 1
 --- !u!114 &114141350896992880
 MonoBehaviour:
@@ -927,7 +1001,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Path: D:\Ruthless Merchant\Repository\Ruthless-Merchant\Ruthless Merchant\Assets\StreamingAssets\Desktop\Music.bank
-  lastModified: 636701156730269596
+  lastModified: 636713286279262190
   LoadResult: 0
   FileSizes:
   - Name: 
@@ -1183,6 +1257,32 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 895
+--- !u!114 &114197689824393440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Characters/Steps/BlendAllSteps
+  guid: 9b62e98f9694ba45b58d6495f62a6466
+  Banks:
+  - {fileID: 114763312908714178}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 114076067204528764}
+  - {fileID: 114583942122228206}
+  - {fileID: 114011779034619488}
+  - {fileID: 114609462546995554}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 501
 --- !u!114 &114199458436511194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1354,11 +1454,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Path: Assets\StreamingAssets\Desktop\Master Bank.strings.bank
-  lastModified: 636701156728831436
+  lastModified: 636713286278722140
   LoadResult: 0
   FileSizes:
   - Name: 
-    Value: 3164
+    Value: 3180
   Exists: 1
 --- !u!114 &114228750070597038
 MonoBehaviour:
@@ -2290,6 +2390,29 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 417
+--- !u!114 &114377664081035276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Characters/Steps/SeparatedAllSteps
+  guid: b0dfb2eec4e62d4b951857d0fe70add7
+  Banks:
+  - {fileID: 114763312908714178}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 114414298471990694}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &114381128518923082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2528,6 +2651,21 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 32654
+--- !u!114 &114414298471990694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: FloorMaterial
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114415612672886384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2686,6 +2824,28 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 39400
+--- !u!114 &114427310390202052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/UI Generic/Blip_Select_Test
+  guid: 710cbf78cccac64ba5740845357f6920
+  Banks:
+  - {fileID: 114763312908714178}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 143
 --- !u!114 &114432108510299120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2990,6 +3150,28 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 143
+--- !u!114 &114480110628809086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Characters/Monster/MonsterStep
+  guid: 728b3d8defa59d4a92241929f7e340c8
+  Banks:
+  - {fileID: 114763312908714178}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1400
 --- !u!114 &114482585958274346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3366,6 +3548,28 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 533
+--- !u!114 &114560985981186774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Characters/Minions/MinionStepsImperialists
+  guid: 89844d5fdb35c64b88732aebd72f7cf2
+  Banks:
+  - {fileID: 114763312908714178}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 10
+  Length: 500
 --- !u!114 &114563539150136540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3501,6 +3705,21 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 79725
+--- !u!114 &114583942122228206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Wood
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114596251838834036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3633,6 +3852,21 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 6071
+--- !u!114 &114609462546995554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Gravel
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114613058250234242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3683,7 +3917,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: D:\Ruthless Merchant\Repository\Ruthless-Merchant\Ruthless Merchant\Assets\StreamingAssets\Desktop\Master
     Bank.bank
-  lastModified: 636701156728831436
+  lastModified: 636713285868698731
   LoadResult: 0
   FileSizes:
   - Name: 
@@ -4120,7 +4354,7 @@ MonoBehaviour:
   guid: 5e2512635544e04b96292fda704b2311
   Banks:
   - {fileID: 114763312908714178}
-  IsStream: 1
+  IsStream: 0
   Is3D: 1
   IsOneShot: 1
   Parameters: []
@@ -4680,11 +4914,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Path: D:\Ruthless Merchant\Repository\Ruthless-Merchant\Ruthless Merchant\Assets\StreamingAssets\Desktop\SFX.bank
-  lastModified: 636701156738996283
+  lastModified: 636713286279742528
   LoadResult: 0
   FileSizes:
   - Name: 
-    Value: 3103552
+    Value: 4036960
   Exists: 1
 --- !u!114 &114765211906313778
 MonoBehaviour:
@@ -5579,7 +5813,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Path: D:\Ruthless Merchant\Repository\Ruthless-Merchant\Ruthless Merchant\Assets\StreamingAssets\Desktop\Ambience.bank
-  lastModified: 636701156728130567
+  lastModified: 636713286278018331
   LoadResult: 0
   FileSizes:
   - Name: 

@@ -1673,6 +1673,7 @@ GameObject:
   - component: {fileID: 114396617350757250}
   - component: {fileID: 195629065006459154}
   - component: {fileID: 54430386408056642}
+  - component: {fileID: 114818005404925236}
   m_Layer: 15
   m_Name: Prefab_NPC_Imperialists_Minion_New
   m_TagString: NPC
@@ -5891,6 +5892,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 450
   maxHealth: 450
+--- !u!114 &114818005404925236
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1736766596807856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d08cbd94b6fadd499e42cf6c8c56d06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114868787679261628
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -724,6 +724,7 @@ GameObject:
   - component: {fileID: 54136982264584648}
   - component: {fileID: 114369936501490062}
   - component: {fileID: 195487635512329904}
+  - component: {fileID: 114171069449242016}
   m_Layer: 15
   m_Name: Prefab_NPC_Freemind_Guard_New
   m_TagString: NPC
@@ -3515,6 +3516,17 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114171069449242016
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1370263602111662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d08cbd94b6fadd499e42cf6c8c56d06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114190001044323702
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -8,10 +8,18 @@ namespace Assets.Scripts.Audio
     {
 #if FMOD
 
-        void NPC_Step(string _path)
+        void NPC_Steps(string _path)
         {
             FMODUnity.RuntimeManager.PlayOneShot(_path, this.transform.position);
             //event:/Characters/Monster/MonsterStep
+            //event:/Characters/Minions/MinionStepsFreeminds
+            //event:/Characters/Minions/MinionStepsImperialists
+        }
+
+        void NPC_Attack(string _path)
+        {
+            FMODUnity.RuntimeManager.PlayOneShot(_path, this.transform.position);
+            //event:/Characters/Minions/NPC swords
         }
 
 
