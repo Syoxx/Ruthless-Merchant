@@ -155,23 +155,23 @@ public class PageLogic : MonoBehaviour
         {
             case KeyCode.I:
                 myBook.CurrentPaper = 10;
-                Player.lastKeyPressed = KeyCode.None;
+                OpenInventory();
                 break;
             case KeyCode.J:
                 myBook.CurrentPaper = 7;
-                Player.lastKeyPressed = KeyCode.None;
+                OpenJournal();
                 break;
             case KeyCode.N:
                 myBook.CurrentPaper = 2;
-                Player.lastKeyPressed = KeyCode.None;
+                OpenNotices();
                 break;
             case KeyCode.R:
                 myBook.CurrentPaper = 16;
-                Player.lastKeyPressed = KeyCode.None;
+                OpenRecipes();
                 break;
             case KeyCode.Escape:
                 myBook.CurrentPaper = 19;
-                Player.lastKeyPressed = KeyCode.None;
+                OpenMenu();
                 break;
         }
     }
@@ -317,7 +317,7 @@ public class PageLogic : MonoBehaviour
     {
         if (couritineIsFinished)
         {
-            int neededPage = 17;
+            int neededPage = 16;
             CheckPageLocation(neededPage);
         }
     }
