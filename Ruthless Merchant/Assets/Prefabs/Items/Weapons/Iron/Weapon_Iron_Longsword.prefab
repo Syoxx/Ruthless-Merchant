@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 23871877444964644}
   - component: {fileID: 114935274048631938}
   - component: {fileID: 114065764209282390}
-  - component: {fileID: 64377752606703424}
   m_Layer: 0
   m_Name: Weapon_Iron_Longsword
   m_TagString: Untagged
@@ -38,8 +37,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1695804445075584}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 38.4244, y: 24.954655, z: 228.89911}
-  m_LocalScale: {x: 1.762949, y: 1.762949, z: 1.762949}
+  m_LocalPosition: {x: 321.468, y: 25.188005, z: 151.222}
+  m_LocalScale: {x: 1.7, y: 1.7, z: 1.7}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -85,21 +84,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1695804445075584}
-  m_Mesh: {fileID: 4300000, guid: 79b92d8f247e0784dba611c908ee552c, type: 3}
---- !u!64 &64377752606703424
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1695804445075584}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: 79b92d8f247e0784dba611c908ee552c, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 618dc2eab2df94d46bba3bfffdd2fc90, type: 3}
 --- !u!114 &114065764209282390
 MonoBehaviour:
   m_ObjectHideFlags: 1

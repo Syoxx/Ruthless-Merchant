@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 23041264806706522}
   - component: {fileID: 114441717184399350}
   - component: {fileID: 114971217982261916}
-  - component: {fileID: 64649857223243222}
   m_Layer: 0
   m_Name: Weapon_Ancient_Hammer
   m_TagString: Untagged
@@ -85,20 +84,6 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1806142224370482}
-  m_Mesh: {fileID: 4300000, guid: 11b5b34556a71df4e95973c55e980a8f, type: 3}
---- !u!64 &64649857223243222
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1806142224370482}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 11b5b34556a71df4e95973c55e980a8f, type: 3}
 --- !u!114 &114441717184399350
 MonoBehaviour:
