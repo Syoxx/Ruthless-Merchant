@@ -3,6 +3,7 @@
 //
 //---------------------------------------------------------------
 
+using System.Collections;
 using UnityEngine;
 
 namespace RuthlessMerchant
@@ -38,6 +39,18 @@ namespace RuthlessMerchant
         {
             base.Start();
             HealthSystem.OnHealthChanged += HealthSystem_OnHealthChanged;
+            HealthSystem.OnDeath += HealthSystem_OnDeath;
+        }
+
+        private void HealthSystem_OnDeath(object sender, DamageAbleObject.HealthArgs e)
+        {
+            ParticleSystem fx = BloodManager.GetFreeFX();
+            if (fx != null)
+            {
+                fx.transform.position = transform.position + (Vector3.up * 0.5f);
+                fx.transform.rotation = transform.rotation;
+                fx.Play();
+            }
         }
 
         public override void Update()

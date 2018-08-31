@@ -66,6 +66,8 @@ namespace RuthlessMerchant
             TradeObjectsParent.transform.position = Trader.CurrentTrader.gameObject.transform.position;
             NeutralPositionY = PlayerZone.transform.position.y;
 
+            neutralConnectorRotation = new Vector3(-90, -90, 90);
+
             Vector3 prevRotation = TradeObjectsParent.transform.rotation.eulerAngles;
             TradeObjectsParent.transform.LookAt(Player.Singleton.transform);
 
@@ -215,14 +217,14 @@ namespace RuthlessMerchant
                 if (nextPlayerOffer > RealValue * 5)
                     nextPlayerOffer = RealValue * 5;
 
+                else if (nextPlayerOffer < 1)
+                    nextPlayerOffer = 1;
+
                 else if (nextPlayerOffer < (int)GetCurrentTraderOffer())
                     nextPlayerOffer = (int)GetCurrentTraderOffer();
 
                 else if (nextPlayerOffer > 400)
                     nextPlayerOffer = 400;
-
-                else if (nextPlayerOffer < 1)
-                    nextPlayerOffer = 1;
             }
 
             nextPlayerOfferText.fontStyle = FontStyle.Italic;
@@ -299,18 +301,20 @@ namespace RuthlessMerchant
         /// </summary>
         protected override void Accept()
         {
-            TradeDialogue.text = "You and Dormammu have a blood-sealing pact. He wishes you a good day and rides off into the sunset.";
-            Exit = true;
-
-            if(GetCurrentTraderOffer() >= RealValue)
-                Tutorial.Monolog(5);
-            else
-                Tutorial.Monolog(6);
-
             Inventory.Singleton.Add(coinPrefab, (int)GetCurrentTraderOffer(), true);
 
             if (ItemsSold != null)
                 ItemsSold.Invoke(this, new TradeArgs(ItemsToSell, Trader.CurrentTrader));
+
+            Trader.CurrentTrader.IncreaseReputation();
+            Exit = true;
+
+            TradeDialogue.text = "You and Dormammu have a blood-sealing pact. He wishes you a good day and rides off into the sunset.";
+
+            if (GetCurrentTraderOffer() >= RealValue)
+                Tutorial.Monolog(5);
+            else
+                Tutorial.Monolog(6);
         }
 
         /// <summary>

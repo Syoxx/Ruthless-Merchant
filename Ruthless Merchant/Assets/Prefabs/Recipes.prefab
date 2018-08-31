@@ -51,21 +51,184 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b73fe1d1cbc08842bba8e4a455bc5ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recipeCanvas: {fileID: 0}
+  maxRecipesPerPage: 0
+  book: {fileID: 0}
   recipePanelPrefab: {fileID: 1673355018477292, guid: 9e21876d013fb0e4284bc5d075636ae5,
     type: 2}
   componentPanelPrefab: {fileID: 1385645771078158, guid: a1d93465f04d9d64eade0da3a25dbd98,
     type: 2}
   recipes:
-  - result: {fileID: 114628218058561934, guid: 9c7f52522ae8cbe4ab2a4a192f744792, type: 2}
+  - result: {fileID: 114065764209282390, guid: 55fb1a3a2bc58c147a60abbbfcd5d630, type: 2}
     materials:
-    - item: {fileID: 114010673415681312, guid: 6053dece9d619be409d3f5b613a9946c, type: 2}
+    - item: {fileID: 114684370248330746, guid: 6053dece9d619be409d3f5b613a9946c, type: 2}
+      count: 3
+    unlocked: 1
+  - result: {fileID: 114736667231854196, guid: b531ea83427d9ff45ba2f82f116f009f, type: 2}
+    materials:
+    - item: {fileID: 114890186361641712, guid: c791c00511275d949a7dd8c7e3694f8f, type: 2}
+      count: 2
+    - item: {fileID: 114684370248330746, guid: 6053dece9d619be409d3f5b613a9946c, type: 2}
+      count: 3
+    unlocked: 1
+  - result: {fileID: 114619050484835400, guid: 7eb51cf03efef554b99e88b074745e65, type: 2}
+    materials:
+    - item: {fileID: 114890186361641712, guid: c791c00511275d949a7dd8c7e3694f8f, type: 2}
+      count: 2
+    - item: {fileID: 114684370248330746, guid: 6053dece9d619be409d3f5b613a9946c, type: 2}
+      count: 2
+    unlocked: 1
+  - result: {fileID: 114185774356998762, guid: 5b2cc2394c3916443a5860e2f0a90e0b, type: 2}
+    materials:
+    - item: {fileID: 114684370248330746, guid: 6053dece9d619be409d3f5b613a9946c, type: 2}
+      count: 5
+    unlocked: 1
+  - result: {fileID: 114560232005937032, guid: 0ac37a579ec2786489d45d000b1bba7e, type: 2}
+    materials:
+    - item: {fileID: 114684370248330746, guid: 6053dece9d619be409d3f5b613a9946c, type: 2}
+      count: 6
+    unlocked: 1
+  - result: {fileID: 114254912312544576, guid: 223391c7ede36e94b8c40553a216dbf5, type: 2}
+    materials:
+    - item: {fileID: 114890186361641712, guid: c791c00511275d949a7dd8c7e3694f8f, type: 2}
       count: 1
+    - item: {fileID: 114684370248330746, guid: 6053dece9d619be409d3f5b613a9946c, type: 2}
+      count: 5
+    unlocked: 1
+  - result: {fileID: 114005220275747214, guid: c1126af4d8e0143449298766ea07941e, type: 2}
+    materials:
+    - item: {fileID: 114684370248330746, guid: 6053dece9d619be409d3f5b613a9946c, type: 2}
+      count: 5
+    unlocked: 1
+  - result: {fileID: 114342707567619826, guid: f668b6778cab28b40999185b88a3a014, type: 2}
+    materials:
+    - item: {fileID: 114382469026404106, guid: e5f1f9da2dbe175459c86268383066cc, type: 2}
+      count: 3
+    unlocked: 1
+  - result: {fileID: 114177843926585238, guid: 6fee8ce9f2cfbaf4c856b69d86602376, type: 2}
+    materials:
+    - item: {fileID: 114890186361641712, guid: c791c00511275d949a7dd8c7e3694f8f, type: 2}
+      count: 1
+    - item: {fileID: 114382469026404106, guid: e5f1f9da2dbe175459c86268383066cc, type: 2}
+      count: 3
+    unlocked: 1
+  - result: {fileID: 114241037254786540, guid: 3cc408280e0938e46a88c2b17aac6c9f, type: 2}
+    materials:
+    - item: {fileID: 114382469026404106, guid: e5f1f9da2dbe175459c86268383066cc, type: 2}
+      count: 3
     - item: {fileID: 114890186361641712, guid: c791c00511275d949a7dd8c7e3694f8f, type: 2}
       count: 2
     unlocked: 1
-  - result: {fileID: 114009136576711010, guid: 2723310b2c0af82448f2ab94f0daea47, type: 2}
+  - result: {fileID: 114984745812299540, guid: 6a0ebb8aefcbd1d49b686bc9f6fa7275, type: 2}
+    materials:
+    - item: {fileID: 114382469026404106, guid: e5f1f9da2dbe175459c86268383066cc, type: 2}
+      count: 4
+    - item: {fileID: 114412076440990828, guid: 917ec48d0d087154eac52a7f8bf7da89, type: 2}
+      count: 1
+    unlocked: 1
+  - result: {fileID: 114582699216892018, guid: dc7c8bc3fde1a9041b9a86d71fb09e16, type: 2}
+    materials:
+    - item: {fileID: 114382469026404106, guid: e5f1f9da2dbe175459c86268383066cc, type: 2}
+      count: 6
+    - item: {fileID: 114412076440990828, guid: 917ec48d0d087154eac52a7f8bf7da89, type: 2}
+      count: 1
+    unlocked: 1
+  - result: {fileID: 114217702403218868, guid: 08ef37cee84da164499ad4f21faa1af2, type: 2}
+    materials:
+    - item: {fileID: 114382469026404106, guid: e5f1f9da2dbe175459c86268383066cc, type: 2}
+      count: 5
+    - item: {fileID: 114890186361641712, guid: c791c00511275d949a7dd8c7e3694f8f, type: 2}
+      count: 1
+    - item: {fileID: 114412076440990828, guid: 917ec48d0d087154eac52a7f8bf7da89, type: 2}
+      count: 1
+    unlocked: 1
+  - result: {fileID: 114283981639560194, guid: 4510319b2dc461f43b0e1b890f37933a, type: 2}
+    materials:
+    - item: {fileID: 114382469026404106, guid: e5f1f9da2dbe175459c86268383066cc, type: 2}
+      count: 4
+    - item: {fileID: 114642128834756526, guid: c0fedf4035284cb4780cc5d83392e25c, type: 2}
+      count: 1
+    unlocked: 1
+  - result: {fileID: 114009690548270032, guid: e5d453bac5959f046a1bb4fe4f720df7, type: 2}
+    materials:
+    - item: {fileID: 114684370248330746, guid: 6053dece9d619be409d3f5b613a9946c, type: 2}
+      count: 1
+    - item: {fileID: 114642128834756526, guid: c0fedf4035284cb4780cc5d83392e25c, type: 2}
+      count: 1
+    - item: {fileID: 114285962268487682, guid: 4809875320463be4b9ffa42dac1dabd4, type: 2}
+      count: 1
+    unlocked: 1
+  - result: {fileID: 114332976531527338, guid: a25c27161b32e6e4d96560923ac2e0ed, type: 2}
+    materials:
+    - item: {fileID: 114684370248330746, guid: 6053dece9d619be409d3f5b613a9946c, type: 2}
+      count: 1
+    - item: {fileID: 114890186361641712, guid: c791c00511275d949a7dd8c7e3694f8f, type: 2}
+      count: 2
+    - item: {fileID: 114446382836646924, guid: 4c63fbfbcbe96ea46a13d33c66aca0dc, type: 2}
+      count: 1
+    - item: {fileID: 114285962268487682, guid: 4809875320463be4b9ffa42dac1dabd4, type: 2}
+      count: 1
+    unlocked: 1
+  - result: {fileID: 114600145693919062, guid: c58aba3dd27e62043ae3b7b2cd83c7bb, type: 2}
+    materials:
+    - item: {fileID: 114382469026404106, guid: e5f1f9da2dbe175459c86268383066cc, type: 2}
+      count: 1
+    - item: {fileID: 114890186361641712, guid: c791c00511275d949a7dd8c7e3694f8f, type: 2}
+      count: 1
+    - item: {fileID: 114642128834756526, guid: c0fedf4035284cb4780cc5d83392e25c, type: 2}
+      count: 1
+    - item: {fileID: 114285962268487682, guid: 4809875320463be4b9ffa42dac1dabd4, type: 2}
+      count: 1
+    unlocked: 1
+  - result: {fileID: 114217261959413886, guid: faa2e98166614fe4f8ab88fb6801e678, type: 2}
+    materials:
+    - item: {fileID: 114412076440990828, guid: 917ec48d0d087154eac52a7f8bf7da89, type: 2}
+      count: 1
+    - item: {fileID: 114642128834756526, guid: c0fedf4035284cb4780cc5d83392e25c, type: 2}
+      count: 2
+    - item: {fileID: 114285962268487682, guid: 4809875320463be4b9ffa42dac1dabd4, type: 2}
+      count: 2
+    unlocked: 1
+  - result: {fileID: 114971217982261916, guid: 5899eecee11a0234f805298bd0fc02d0, type: 2}
     materials:
     - item: {fileID: 114890186361641712, guid: c791c00511275d949a7dd8c7e3694f8f, type: 2}
+      count: 1
+    - item: {fileID: 114412076440990828, guid: 917ec48d0d087154eac52a7f8bf7da89, type: 2}
+      count: 2
+    - item: {fileID: 114446382836646924, guid: 4c63fbfbcbe96ea46a13d33c66aca0dc, type: 2}
+      count: 1
+    - item: {fileID: 114642128834756526, guid: c0fedf4035284cb4780cc5d83392e25c, type: 2}
+      count: 1
+    - item: {fileID: 114285962268487682, guid: 4809875320463be4b9ffa42dac1dabd4, type: 2}
+      count: 1
+    unlocked: 1
+  - result: {fileID: 114356801135550876, guid: e03c2309586b12c43a9eccbc5a3ab1f1, type: 2}
+    materials:
+    - item: {fileID: 114890186361641712, guid: c791c00511275d949a7dd8c7e3694f8f, type: 2}
+      count: 1
+    - item: {fileID: 114412076440990828, guid: 917ec48d0d087154eac52a7f8bf7da89, type: 2}
+      count: 1
+    - item: {fileID: 114446382836646924, guid: 4c63fbfbcbe96ea46a13d33c66aca0dc, type: 2}
+      count: 1
+    - item: {fileID: 114642128834756526, guid: c0fedf4035284cb4780cc5d83392e25c, type: 2}
+      count: 1
+    - item: {fileID: 114285962268487682, guid: 4809875320463be4b9ffa42dac1dabd4, type: 2}
+      count: 1
+    unlocked: 1
+  - result: {fileID: 114902138187843202, guid: a0f0f0526420def42bfdfcfd655859a9, type: 2}
+    materials:
+    - item: {fileID: 114382469026404106, guid: e5f1f9da2dbe175459c86268383066cc, type: 2}
+      count: 1
+    - item: {fileID: 114642128834756526, guid: c0fedf4035284cb4780cc5d83392e25c, type: 2}
+      count: 1
+    - item: {fileID: 114446382836646924, guid: 4c63fbfbcbe96ea46a13d33c66aca0dc, type: 2}
+      count: 1
+    - item: {fileID: 114285962268487682, guid: 4809875320463be4b9ffa42dac1dabd4, type: 2}
+      count: 1
+    unlocked: 1
+  - result: {fileID: 114144005309738694, guid: 07f9062af6ed159488df40c96630eb13, type: 2}
+    materials:
+    - item: {fileID: 114890186361641712, guid: c791c00511275d949a7dd8c7e3694f8f, type: 2}
+      count: 4
+    - item: {fileID: 114285962268487682, guid: 4809875320463be4b9ffa42dac1dabd4, type: 2}
       count: 3
     unlocked: 1

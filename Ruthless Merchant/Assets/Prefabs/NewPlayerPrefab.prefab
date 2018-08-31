@@ -1859,7 +1859,7 @@ GameObject:
   - component: {fileID: 114977015637283580}
   - component: {fileID: 114882514418276802}
   - component: {fileID: 114508190163446328}
-  - component: {fileID: 114533024417589048}
+  - component: {fileID: 114628207026431860}
   m_Layer: 9
   m_Name: NewPlayerPrefab
   m_TagString: Player
@@ -6353,6 +6353,33 @@ MonoBehaviour:
   TutorialObject: {fileID: 0}
   AlchemyTextTrigger: {fileID: 0}
   WorkbenchTextTrigger: {fileID: 0}
+--- !u!114 &114513384931572782
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1840166461024574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
 --- !u!114 &114514625359140988
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6803,6 +6830,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114628207026431860
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1726920853392978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dbeb6f0e01774f4189a27c28a93ec4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  freidenkerStanding: 0
+  imperalistenStanding: 0
 --- !u!114 &114629869874948136
 MonoBehaviour:
   m_ObjectHideFlags: 1

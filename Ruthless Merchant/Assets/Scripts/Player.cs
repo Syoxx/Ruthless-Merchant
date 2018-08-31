@@ -123,6 +123,8 @@ namespace RuthlessMerchant
         {
             Singleton = this;
             NavMeshAgent = GetComponent<NavMeshAgent>();
+            NavMeshAgent.stoppingDistance = 0.1f;
+            NavMeshAgent.autoBraking = true;
         }
 
         #endregion
@@ -717,7 +719,6 @@ namespace RuthlessMerchant
                 gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", true);
                 BookControls();
                 bookCanvas.SetActive(true);
-                Debug.LogError("7");
                 restrictMovement = !(bookCanvas.activeSelf == false);
                 restrictCamera = !(bookCanvas.activeSelf == false);
                 bookLogic.GoToPage(KeyCode.I);

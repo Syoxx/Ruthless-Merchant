@@ -180,19 +180,19 @@ namespace RuthlessMerchant
                     speed += alchemySlots[i].Ingredient.MovementBuff;
                     reg += alchemySlots[i].Ingredient.RegenerationBuff;
 
-                    if (alchemySlots[i].Ingredient.AttackSpeedBuff > 0)
+                    if (alchemySlots[i].Ingredient.AttackSpeedBuff > 1)
                         atkCount++;
-                    else if(alchemySlots[i].Ingredient.AttackSpeedBuff < 0)
+                    else if(alchemySlots[i].Ingredient.AttackSpeedBuff < 1)
                         atkCount--;
 
-                    if (alchemySlots[i].Ingredient.HealthBuff > 0)
+                    if (alchemySlots[i].Ingredient.HealthBuff > 1)
                         hpCount++;
-                    else if (alchemySlots[i].Ingredient.HealthBuff < 0)
+                    else if (alchemySlots[i].Ingredient.HealthBuff < 1)
                         hpCount--;
 
-                    if (alchemySlots[i].Ingredient.MovementBuff > 0)
+                    if (alchemySlots[i].Ingredient.MovementBuff > 1)
                         speedCount++;
-                    else if (alchemySlots[i].Ingredient.MovementBuff < 0)
+                    else if (alchemySlots[i].Ingredient.MovementBuff < 1)
                         speedCount--;
 
                     if (alchemySlots[i].Ingredient.DefenseBuff > 0)

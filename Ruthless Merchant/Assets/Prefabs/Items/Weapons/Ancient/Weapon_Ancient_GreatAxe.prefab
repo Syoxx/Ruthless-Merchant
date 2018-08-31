@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 23883060324205896}
   - component: {fileID: 114381641785526186}
   - component: {fileID: 114356801135550876}
-  - component: {fileID: 64069331423749664}
   m_Layer: 0
   m_Name: Weapon_Ancient_GreatAxe
   m_TagString: Untagged
@@ -86,20 +85,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1869381597952296}
   m_Mesh: {fileID: 4300000, guid: 5a143a019ca9b94468427a3ac06446dd, type: 3}
---- !u!64 &64069331423749664
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1869381597952296}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: 5a143a019ca9b94468427a3ac06446dd, type: 3}
 --- !u!114 &114356801135550876
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -117,7 +102,7 @@ MonoBehaviour:
     ItemValue: 160
     ItemWeight: 8
     ItemLore: 
-    ItemSprite: {fileID: 21300000, guid: 20eea75bb2f5ffd4c9e6031ea6398f8e, type: 3}
+    ItemSprite: {fileID: 21300000, guid: 8f2e185d5da87004aae7758d9c2a2fbb, type: 3}
     ItemType: 1
     ItemRarity: 2
     maxStackCount: 10
