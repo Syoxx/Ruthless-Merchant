@@ -39,7 +39,7 @@ namespace RuthlessMerchant
         }
 
         private Camera playerAttachedCamera;
-        public NavMeshAgent NavMeshAgent;
+        public NavMeshObstacle NavMeshObstacle;
         public Quaternion PlayerLookAngle;
         private Quaternion cameraPitchAngle;
         private Vector3 MoveVector = Vector3.zero;
@@ -122,9 +122,11 @@ namespace RuthlessMerchant
         private void Awake()
         {
             Singleton = this;
-            NavMeshAgent = GetComponent<NavMeshAgent>();
-            NavMeshAgent.stoppingDistance = 0.1f;
-            NavMeshAgent.autoBraking = true;
+
+            NavMeshObstacle = GetComponent<NavMeshObstacle>();
+
+            if (NavMeshObstacle != null)
+                NavMeshObstacle.enabled = false;
         }
 
         #endregion
