@@ -872,7 +872,7 @@ namespace RuthlessMerchant
 
         public void BuyTradingPoint()
         {
-            if (inventory.RemoveGold(5))
+            if (inventory.RemoveGold(50))
             {
                 unlockedTravelPoints[outpostToUpgrade] = true;      // update array of unlocked travel points
 
