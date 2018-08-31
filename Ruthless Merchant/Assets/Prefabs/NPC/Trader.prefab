@@ -57,6 +57,7 @@ GameObject:
   - component: {fileID: 136277896373343174}
   - component: {fileID: 114213900245958120}
   - component: {fileID: 95792237685895078}
+  - component: {fileID: 208306851672094010}
   m_Layer: 0
   m_Name: Trader
   m_TagString: Untagged
@@ -100,8 +101,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1562558091748010}
-  m_LocalRotation: {x: 0, y: -0.5523007, z: 0, w: 0.833645}
-  m_LocalPosition: {x: 0.734, y: -0.5065918, z: -1.414}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 38.311, y: 25.1059, z: 229.617}
   m_LocalScale: {x: 5.548728, y: 5.548727, z: 5.548727}
   m_Children:
   - {fileID: 4218194579291312}
@@ -275,6 +276,11 @@ MonoBehaviour:
   influenceIndividual: 0
   influenceWar: 0
   influenceNeighbours: 0
+  valueFactionPerRealValue: 0.00005
+  influenceIndividualBonus: 0.1
+  valueIndividualPerTrade: 0.02
+  influenceIndividualDelta: 0
+  influenceFactionDelta: 0
   upperLimitPerCent: 0.25
   underLimitPerCent: 0.35
   upperLimitBargainPerCent: 10000
@@ -352,6 +358,21 @@ CapsuleCollider:
   m_Height: 0.1
   m_Direction: 1
   m_Center: {x: 0, y: 0.044, z: 0}
+--- !u!208 &208306851672094010
+NavMeshObstacle:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1562558091748010}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.025, y: 0.046000004, z: 0.012}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.045, z: -0.002}
+  m_TimeToStationary: 0.5
 --- !u!223 &223832551935740572
 Canvas:
   m_ObjectHideFlags: 1
