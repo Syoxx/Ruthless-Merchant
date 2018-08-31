@@ -28,6 +28,8 @@ namespace RuthlessMerchant
         #endif
         public CaptureTrigger AsignedOutpost;
 
+        public GameObject Scale;
+
         [SerializeField]
         Transform directionPointer;
 
@@ -244,14 +246,16 @@ namespace RuthlessMerchant
                         Player player = Player.Singleton;
                         player.EnterTrading();
 
-                        Vector3 direction = (directionPointer.position - transform.position).normalized * 0.66f;
+                        Vector3 direction = (directionPointer.position - transform.position).normalized * 0.52f;
                         transform.localPosition += direction;
                         player.transform.position = new Vector3(transform.position.x, player.transform.position.y, transform.position.z);
                         transform.localPosition -= direction;
 
                         player.transform.LookAt(transform);
+                        player.GetComponentInChildren<Camera>().transform.localEulerAngles = new Vector3(player.transform.eulerAngles.x, 0, 0);
                         player.transform.eulerAngles = new Vector3(0, Player.Singleton.transform.eulerAngles.y, 0);
                         player.PlayerLookAngle = Player.Singleton.transform.localRotation;
+                        Scale.SetActive(false);
 
                         Main_SceneManager.LoadSceneAdditively("TradeScene");
                     }
@@ -259,6 +263,7 @@ namespace RuthlessMerchant
                     if (fadeImage.color.a <= 0)
                     {
                         fading = 0;
+                        fadeImage.color = new Color(0, 0, 0, 0);
                         fadeImage.raycastTarget = false;
                         Cursor.visible = true;
                         TradeHasLoaded = false;
@@ -551,7 +556,7 @@ namespace RuthlessMerchant
                         player.RestrictBookUsage = true;
                         player.NavMeshObstacle.enabled = true;
 
-                        player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+                        player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePosition;
                     }
                 }
                 else
