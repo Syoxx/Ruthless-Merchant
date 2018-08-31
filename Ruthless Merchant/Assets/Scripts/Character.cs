@@ -208,8 +208,6 @@ namespace RuthlessMerchant
         {
             get
             {
-                RaycastHit hitInfo = new RaycastHit();
-                hitInfo = CheckCharGrounded(hitInfo);
                 return grounded;
             }
         }
