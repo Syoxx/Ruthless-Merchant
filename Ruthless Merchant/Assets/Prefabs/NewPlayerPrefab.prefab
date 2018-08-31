@@ -2299,6 +2299,7 @@ GameObject:
   - component: {fileID: 114977015637283580}
   - component: {fileID: 114882514418276802}
   - component: {fileID: 114508190163446328}
+  - component: {fileID: 114628207026431860}
   m_Layer: 9
   m_Name: NewPlayerPrefab
   m_TagString: Player
@@ -8765,6 +8766,8 @@ MonoBehaviour:
   myFade: {fileID: 0}
   dialogueZone10: {fileID: 0}
   TutorialObject: {fileID: 0}
+  AlchemyTextTrigger: {fileID: 0}
+  WorkbenchTextTrigger: {fileID: 0}
 --- !u!114 &114513384931572782
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9432,6 +9435,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114628207026431860
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1726920853392978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dbeb6f0e01774f4189a27c28a93ec4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  freidenkerStanding: 0
+  imperalistenStanding: 0
 --- !u!114 &114629869874948136
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11886,7 +11902,10 @@ MonoBehaviour:
     m_Bits: 1024
   maxJumpHeight: 30
   maxSlopeAngle: 40
+  RestrictBookUsage: 0
   maxInteractDistance: 3
+  NavMeshAgent: {fileID: 0}
+  PlayerLookAngle: {x: 0, y: 0, z: 0, w: 0}
   CrouchHeight: 2.06
   aimpointTexture: {fileID: 2800000, guid: 7f40fe37f6cd0cd4fbef3e96c81508ff, type: 3}
   alchemyUiPrefab: {fileID: 1130014939077452, guid: e078c3a6ff729074da7b01b3cfec7794,
