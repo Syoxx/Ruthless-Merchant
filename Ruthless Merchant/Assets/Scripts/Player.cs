@@ -13,6 +13,7 @@ namespace RuthlessMerchant
     {
         public static Player Singleton;
         public bool RestrictBookUsage = false;
+        public bool skip = true;
         private static bool restrictCamera = false;
 
         #region Private Fields
