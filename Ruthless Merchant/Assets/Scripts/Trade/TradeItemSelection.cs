@@ -49,6 +49,8 @@ namespace RuthlessMerchant
 
             if (price == null)
                 price = GameObject.Find("TotalPrice").GetComponent<Text>();
+
+            Trader.TradeHasLoaded = true;
         }
 
         public void OnItemMoved(InventoryItem item)
@@ -59,25 +61,28 @@ namespace RuthlessMerchant
 
         public void AddItemToSellingList(InventoryItem inventoryItem)
         {
-            if (!addToPresent(inventoryItem))
+            if (int.Parse(inventoryItem.ItemQuantity.text.Replace("x", "")) > 0)
             {
-                GameObject newObject = Instantiate(sellingItemPrefab, sellingItemParent);
-                newObject.name = "SellingItem";
+                if (!addToPresent(inventoryItem))
+                {
+                    GameObject newObject = Instantiate(sellingItemPrefab, sellingItemParent);
+                    newObject.name = "SellingItem";
 
-                InventoryItem newItem = newObject.GetComponent<InventoryItem>();
-                newItem.ItemQuantity.text = "1x";
-                newItem.ItemName.text = inventoryItem.ItemName.text;
-                newItem.ItemPrice.text = inventoryItem.ItemPrice.text;
-                newItem.ItemDescription.text = inventoryItem.ItemDescription.text;
-                newItem.ItemImage.sprite = inventoryItem.ItemImage.sprite;
-                newItem.Location = InventoryItem.UILocation.ExternList;
+                    InventoryItem newItem = newObject.GetComponent<InventoryItem>();
+                    newItem.ItemQuantity.text = "1x";
+                    newItem.ItemName.text = inventoryItem.ItemName.text;
+                    newItem.ItemPrice.text = inventoryItem.ItemPrice.text;
+                    newItem.ItemDescription.text = inventoryItem.ItemDescription.text;
+                    newItem.ItemImage.sprite = inventoryItem.ItemImage.sprite;
+                    newItem.Location = InventoryItem.UILocation.ExternList;
 
-                newItem.Slot.ItemInfo = inventoryItem.Slot.ItemInfo;
-                newItem.Slot.Item = inventoryItem.Slot.Item;
-                listedItems.Add(newItem);
+                    newItem.Slot.ItemInfo = inventoryItem.Slot.ItemInfo;
+                    newItem.Slot.Item = inventoryItem.Slot.Item;
+                    listedItems.Add(newItem);
+                }
+
+                UpdatePrice();
             }
-
-            UpdatePrice();
         }
 
         bool addToPresent(InventoryItem data)
@@ -121,7 +126,7 @@ namespace RuthlessMerchant
 
             price.text = totalPrice.ToString() + "G";
 
-            if (totalPrice > 0 && (Tutorial.Singleton == null || !Tutorial.Singleton.isTutorial || Tutorial.Singleton != null && Tutorial.Singleton.isTutorial && int.Parse(listedItems[0].ItemQuantity.text.Replace("x","")) == 5))
+            if (totalPrice > 0 && (!Trader.CurrentTrader.startTradeImmediately || Tutorial.Singleton != null && Tutorial.Singleton.isTutorial && int.Parse(listedItems[0].ItemQuantity.text.Replace("x","")) == 5))
             {
                 startTradingButton.interactable = true;
             }
@@ -151,44 +156,33 @@ namespace RuthlessMerchant
             }
 
             sellingItemInfoParent.GetComponent<VerticalLayoutGroup>().CalculateLayoutInputVertical();
+            Trader.CurrentTrader.SpawnMoodIcon();
 
             Tutorial.Monolog(2);
-        }
-
-        private void LateUpdate()
-        {
-            //TODO: Clean this.
-            //if (!abort)
-            //{
-            //    Cursor.lockState = CursorLockMode.None;
-            //    Cursor.visible = true;
-            //    Player.RestrictCamera = true;
-            //}
         }
 
         public void AbortTrade()
         {
             abort = true;
-            foreach (InventoryItem item in listedItems)
+
+            for (int x = listedItems.Count - 1; x >= 0; x--)
             {
-                Inventory.Singleton.Add(item.Slot.ItemInfo, 1, true);
-
-                int newQuantity = int.Parse(item.ItemQuantity.text.Replace("x", "")) - 1;
-                item.ItemQuantity.text = newQuantity.ToString() + "x";
-
-                if (newQuantity <= 0)
-                {
-                    listedItems.Remove(item);
-                    Destroy(item.gameObject);
-                }
+                Inventory.Singleton.Add(listedItems[x].Slot.ItemInfo, int.Parse(listedItems[x].ItemQuantity.text.Replace("x","")), true);
+                InventoryItem temp = listedItems[x];
+                listedItems.Remove(listedItems[x]);
+                Destroy(temp.gameObject);
             }
 
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
             InventoryItem.MoveItem -= OnItemMoved;
+
+            Player player = Player.Singleton;
+            player.RestrictBookUsage = false;
+            player.AllowTradingMovement();
+            player.NavMeshObstacle.enabled = false;
+
             Main_SceneManager.UnLoadScene("TradeScene");
-            Player.Singleton.AllowTradingMovement();
-            Trader.CurrentTrader.GoToPreviousPosition();
         }
     }
 }

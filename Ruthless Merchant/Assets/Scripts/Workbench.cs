@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace RuthlessMerchant {
     public class Workbench : InteractiveObject {
@@ -8,11 +9,14 @@ namespace RuthlessMerchant {
         [SerializeField]
         Canvas workbenchCanvas;
 
+        [SerializeField] private UnityEvent onSuccesfullBench;
+
 
         public override void Interact(GameObject caller)
         {
             Player player = caller.GetComponent<Player>();
             player.EnterWorkbench(this);
+            
         }
 
         public void BreakdownItem(Item BreakableItem, Inventory inventory, Recipes recipes)
@@ -32,6 +36,9 @@ namespace RuthlessMerchant {
                     }
                     inventory.Remove(BreakableItem, 1, true);
 
+                    onSuccesfullBench.Invoke();
+                    Debug.Log("DestroyedBlub");
+                    
                     //Sound - hammer
                     FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Player/Forging/hammer", GameObject.FindGameObjectWithTag("Player").transform.position);
 

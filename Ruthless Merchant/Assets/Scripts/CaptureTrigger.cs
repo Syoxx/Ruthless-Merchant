@@ -12,6 +12,8 @@ namespace RuthlessMerchant
 {
     public class CaptureTrigger : MonoBehaviour
     {
+        public static Dictionary<Faction, int> OwnerStatistics = new Dictionary<Faction, int>();
+
         [SerializeField, Tooltip("Owner of outpost on gamestart")]
         protected Faction owner = Faction.None;
         private float captureValue = 0;
@@ -130,7 +132,7 @@ namespace RuthlessMerchant
 
             set
             {
-                if(owner != Faction.Neutral && owner != value)
+		        if(owner != Faction.Neutral && owner != value)
                 {
                     if(owner == Faction.Freidenker)
                     {
@@ -143,6 +145,20 @@ namespace RuthlessMerchant
                         FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Minions/ImperialistConquerOutpost",Target.position);
                     }
                 }
+                
+                if(value != owner && !isCity)
+                {
+                    //Decrease old
+                    if (OwnerStatistics.ContainsKey(owner))
+                        OwnerStatistics[owner]--;
+
+                    //Increase new
+                    if (OwnerStatistics.ContainsKey(value))
+                        OwnerStatistics[value]++;
+                    else
+                        OwnerStatistics.Add(value, 1);
+                }
+
 
                 owner = value;
                 if (hero != null && hero.Faction != owner)
@@ -205,6 +221,12 @@ namespace RuthlessMerchant
             }
         }
 
+        void Awake()
+        {
+            if(assignedTrader != null)
+                assignedTrader.AsignedOutpost = this;
+        }
+
         // Use this for initialization
         protected virtual void Start()
         {
@@ -252,6 +274,14 @@ namespace RuthlessMerchant
 
             //Spawn Hero
             SpawnHero();
+
+            if (!isCity)
+            {
+                if (OwnerStatistics.ContainsKey(Owner))
+                    OwnerStatistics[Owner]++;
+                else
+                    OwnerStatistics.Add(Owner, 1);
+            }
         }
 
         private void Trade_ItemsSold(object sender, Trade.TradeArgs e)

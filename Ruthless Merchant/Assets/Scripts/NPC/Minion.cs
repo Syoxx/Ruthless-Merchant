@@ -43,8 +43,11 @@ namespace RuthlessMerchant
                 }
                 else
                 {
-                    AddNewWaypoint(new Waypoint(FirstOutpost.Target, true, 0));
-                    SetCurrentAction(new ActionMove(), null);
+                    if (FirstOutpost != null)
+                    {
+                        AddNewWaypoint(new Waypoint(FirstOutpost.Target, true, 0));
+                        SetCurrentAction(new ActionMove(), null);
+                    }
                 }
             }
         }
@@ -85,42 +88,6 @@ namespace RuthlessMerchant
                                     SetCurrentAction(new ActionHunt(ActionNPC.ActionPriority.High), attacker.gameObject, true, true);
                             }
                             SelectNextOutpost(outpost);
-                        }
-                    }
-                }
-            }
-        }
-
-        private void TryPickupEquipment(CaptureTrigger outpost)
-        {
-            foreach (KeyValuePair<string, ItemContainer> itemPair in outpost.AvailableItems)
-            {
-                if (weapon != null && shield != null && potion != null)
-                    break;
-
-                ItemContainer slot = itemPair.Value;
-                if (slot.Count > 0)
-                {
-                    if (slot.Item is Weapon)
-                    {
-                        bool isShield = itemPair.Key.Contains("shield");
-                        if (weapon == null && !isShield)
-                        {
-                            weapon = (Weapon)slot.Item;
-                            slot.Count--;
-                        }
-                        else if (shield == null && isShield)
-                        {
-                            shield = (Weapon)slot.Item;
-                            slot.Count--;
-                        }
-                    }
-                    else if (slot.Item is Potion)
-                    {
-                        if (potion == null)
-                        {
-                            potion = (Potion)slot.Item;
-                            slot.Count--;
                         }
                     }
                 }
