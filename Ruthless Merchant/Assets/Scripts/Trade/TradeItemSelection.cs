@@ -49,6 +49,8 @@ namespace RuthlessMerchant
 
             if (price == null)
                 price = GameObject.Find("TotalPrice").GetComponent<Text>();
+
+            Trader.TradeHasLoaded = true;
         }
 
         public void OnItemMoved(InventoryItem item)
@@ -174,9 +176,13 @@ namespace RuthlessMerchant
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
             InventoryItem.MoveItem -= OnItemMoved;
+
+            Player player = Player.Singleton;
+            player.RestrictBookUsage = false;
+            player.AllowTradingMovement();
+            player.NavMeshObstacle.enabled = false;
+
             Main_SceneManager.UnLoadScene("TradeScene");
-            Player.Singleton.RestrictBookUsage = false;
-            Player.Singleton.AllowTradingMovement();
         }
     }
 }
