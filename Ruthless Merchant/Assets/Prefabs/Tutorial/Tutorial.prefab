@@ -615,6 +615,9 @@ GameObject:
   - component: {fileID: 33052349220707408}
   - component: {fileID: 23126591299077900}
   - component: {fileID: 65871261394635254}
+  - component: {fileID: 65691323848226174}
+  - component: {fileID: 65905542088219874}
+  - component: {fileID: 65933684647707098}
   m_Layer: 0
   m_Name: DeathTriggerZone
   m_TagString: Untagged
@@ -3643,6 +3646,7 @@ GameObject:
   - component: {fileID: 223766385926797232}
   - component: {fileID: 114484262236922478}
   - component: {fileID: 114524284236911096}
+  - component: {fileID: 114587934208885708}
   m_Layer: 5
   m_Name: SubtitleCanvas
   m_TagString: Untagged
@@ -6181,7 +6185,7 @@ Transform:
   m_GameObject: {fileID: 1889006527364284}
   m_LocalRotation: {x: -0, y: 0.30036065, z: -0, w: 0.9538258}
   m_LocalPosition: {x: -79.9346, y: -3.0192986, z: 100.9214}
-  m_LocalScale: {x: 0.58700997, y: 0.73039997, z: 1.16576}
+  m_LocalScale: {x: 0.58700997, y: 0.10995124, z: 1.16576}
   m_Children: []
   m_Father: {fileID: 4710201625478442}
   m_RootOrder: 4
@@ -9577,7 +9581,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1358684713495238}
   m_LocalRotation: {x: 0.28735524, y: -0.646086, z: 0.6460858, w: 0.28735527}
-  m_LocalPosition: {x: -70.83099, y: 41.143, z: 12.113007}
+  m_LocalPosition: {x: -70.83099, y: 40.921, z: 12.113007}
   m_LocalScale: {x: 0.10000004, y: 0.100000024, z: 0.1}
   m_Children: []
   m_Father: {fileID: 4822059944611084}
@@ -10129,7 +10133,7 @@ Transform:
   m_GameObject: {fileID: 1209810646994666}
   m_LocalRotation: {x: -0, y: 0.30036065, z: -0, w: 0.9538258}
   m_LocalPosition: {x: -81.8946, y: -3.105, z: 103.0045}
-  m_LocalScale: {x: 0.6343292, y: 0.73039883, z: 1.165759}
+  m_LocalScale: {x: 0.6343292, y: 0.026914561, z: 1.165759}
   m_Children: []
   m_Father: {fileID: 4710201625478442}
   m_RootOrder: 0
@@ -12232,6 +12236,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 10, y: 2.220446e-16, z: 10}
   m_Center: {x: 0, y: 0.000015258789, z: -0.00012207031}
+--- !u!65 &65691323848226174
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1093886511224904}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 8, z: 1}
+  m_Center: {x: 0.2, y: 0, z: 5.5}
 --- !u!65 &65731047233382368
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -12266,8 +12282,32 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 8, z: 1}
+  m_Center: {x: 0.2, y: 0, z: 0}
+--- !u!65 &65905542088219874
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1093886511224904}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.1, y: 8, z: 4.5}
+  m_Center: {x: 0.65, y: 0, z: 2.75}
+--- !u!65 &65933684647707098
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1093886511224904}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.1, y: 8, z: 4.5}
+  m_Center: {x: -0.25, y: 0, z: 2.75}
 --- !u!65 &65936096683888100
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -12774,6 +12814,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e614d419f3c56c745bca2731e8a6dba5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114587934208885708
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1605051623540930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7154f534aa5434047b32dedef639e242, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 114632989207832800}
+  timePerLetter: 0.1
 --- !u!114 &114632989207832800
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12933,7 +12986,7 @@ MonoBehaviour:
   capValuePerSecond: 1
   Reacting: 0
   fleeDistance: 5
-  influenceFraction: 0
+  directionPointer: {fileID: 0}
   influenceIndividual: 0
   influenceWar: 0
   influenceNeighbours: 0

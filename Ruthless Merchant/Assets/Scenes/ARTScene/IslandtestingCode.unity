@@ -15776,6 +15776,16 @@ Prefab:
       propertyPath: m_Constraints
       value: 80
       objectReference: {fileID: 0}
+    - target: {fileID: 114150057148719160, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114150057148719160, guid: 44a219676742c784c8cf187979537aa9,
+        type: 2}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 44a219676742c784c8cf187979537aa9, type: 2}
   m_IsPrefabParent: 0
@@ -47071,26 +47081,6 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1773564065}
---- !u!1 &1774661731 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1562558091748010, guid: 501eef700e5efe74a80050a95783f376,
-    type: 2}
-  m_PrefabInternal: {fileID: 1598731169}
---- !u!208 &1774661732
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1774661731}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.025, y: 0.046000004, z: 0.012}
-  m_MoveThreshold: 0.1
-  m_Carve: 0
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0.045, z: -0.002}
-  m_TimeToStationary: 0.5
 --- !u!4 &1776581793 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4506851739715618, guid: e54bc28cc2011cc49a299b7d5ecbc6aa,

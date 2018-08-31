@@ -17,6 +17,7 @@ namespace RuthlessMerchant
 
         public List<InventoryItem> ItemsToSell;
 
+        [System.NonSerialized]
         public bool Exit = false;
 
         #region Serialized Fields
@@ -29,6 +30,8 @@ namespace RuthlessMerchant
         #endif
         [SerializeField]
         protected int nextPlayerOffer;
+
+        #region GUI For debugging purposes
 
         [SerializeField]
         protected Text tradeDialogue;
@@ -58,12 +61,28 @@ namespace RuthlessMerchant
         [SerializeField]
         protected Text currentPlayerOfferText;
 
+        #endregion
+
+        [SerializeField]
+        protected Transform connector;
+
+        [SerializeField]
+        protected Transform platePositionPlayer;
+
+        [SerializeField]
+        protected Transform platePositionTrader;
+
+        protected Vector3 neutralConnectorRotation;
+
         public Transform TraderZone;
 
         public Transform PlayerZone;
 
         [SerializeField]
         protected GameObject TradeObjectsParent;
+
+        [SerializeField]
+        float connectorSensitivity = 400;
 
         // TODO: Delete this.
         [SerializeField]
@@ -193,8 +212,16 @@ namespace RuthlessMerchant
             // Trade?
             if (gameObject.GetComponent<Trade>() != null)
             {
-                PlayerZone.position += playerDelta;
-                TraderZone.position += traderDelta;
+                float newX = -90 + playerTraderOfferDelta * connectorSensitivity;
+
+                if (newX > -70)
+                    newX = -70;
+                else if (newX < -110)
+                    newX = -110;
+
+                connector.localEulerAngles = new Vector3(newX, -90, 90); 
+                PlayerZone.position = platePositionPlayer.position;
+                TraderZone.position = platePositionTrader.position;
             }
 
             // VRTrade?

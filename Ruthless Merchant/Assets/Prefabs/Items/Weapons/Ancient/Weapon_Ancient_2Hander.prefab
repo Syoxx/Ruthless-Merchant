@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 23678343064702084}
   - component: {fileID: 114563242020650344}
   - component: {fileID: 114217261959413886}
-  - component: {fileID: 64381347736719838}
   m_Layer: 0
   m_Name: Weapon_Ancient_2Hander
   m_TagString: Untagged
@@ -85,20 +84,6 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1837927608110148}
-  m_Mesh: {fileID: 4300000, guid: 4579947ed592d8f499c95df38c0503d9, type: 3}
---- !u!64 &64381347736719838
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1837927608110148}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 4579947ed592d8f499c95df38c0503d9, type: 3}
 --- !u!114 &114217261959413886
 MonoBehaviour:
