@@ -3,7 +3,7 @@
 //
 //---------------------------------------------------------------
 
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace RuthlessMerchant
@@ -89,6 +89,63 @@ namespace RuthlessMerchant
                     if (CurrentAction == null || !(CurrentAction is ActionHunt))
                         SetCurrentAction(new ActionHunt(), character.gameObject, true, true);
                 }
+            }
+        }
+
+        protected void TryPickupEquipment(CaptureTrigger outpost)
+        {
+            foreach (KeyValuePair<string, ItemContainer> itemPair in outpost.AvailableItems)
+            {
+                if (weapon != null && shield != null && potion != null)
+                    break;
+
+                ItemContainer slot = itemPair.Value;
+                if (slot.Count > 0)
+                {
+                    if (slot.Item is Weapon)
+                    {
+                        bool isShield = itemPair.Key.Contains("shield");
+                        if (weapon == null && !isShield)
+                        {
+                            weapon = (Weapon)slot.Item;
+                            slot.Count--;
+                            EnableWeapon(weapon.name, transform);
+                        }
+                        else if (shield == null && isShield)
+                        {
+                            shield = (Weapon)slot.Item;
+                            slot.Count--;
+                        }
+                    }
+                    else if (slot.Item is Potion)
+                    {
+                        if (potion == null)
+                        {
+                            potion = (Potion)slot.Item;
+                            slot.Count--;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Enable pick weapon by weaponname
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="transform"></param>
+        protected void EnableWeapon(string name, Transform transform = null)
+        {
+            foreach (Transform child in transform)
+            {
+                if (child == null)
+                    continue;
+
+                if (child.name.Contains("Weapon"))
+                    child.gameObject.SetActive(child.name.StartsWith(name));
+
+                EnableWeapon(name, child);
+                Debug.Log("Child: " + child.ToString());
             }
         }
 
