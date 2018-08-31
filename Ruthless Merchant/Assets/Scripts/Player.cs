@@ -770,7 +770,8 @@ namespace RuthlessMerchant
             restrictCamera = true;
             bookCanvas.SetActive(true);
             gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", true);
-            if (Tutorial.Singleton != null && Tutorial.Singleton.isTutorial)
+
+            if (Trader.CurrentTrader.startTradeImmediately)
                 bookLogic.GoToPage(KeyCode.N);
             else
                 bookLogic.GoToPage(KeyCode.I);
