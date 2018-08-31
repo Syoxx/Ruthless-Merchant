@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace RuthlessMerchant
 {
@@ -11,6 +12,13 @@ namespace RuthlessMerchant
         [SerializeField, Range(0, 60)]
         private float duration = 10;
 
+        [SerializeField, Tooltip("GameOver Screen for Imperialist win")]
+        private Image imperialWinImg;
+
+        [SerializeField, Tooltip("GameOver Screen for Freemind win")]
+        private Image freemindsWinImg;
+
+        private Image winningFactionImg;
         private bool gameOver = false;
         private float elapsedTime = 0;
 
@@ -22,7 +30,13 @@ namespace RuthlessMerchant
                 if ((CaptureTrigger.OwnerStatistics[Faction.Imperialisten] <= 0 || CaptureTrigger.OwnerStatistics[Faction.Freidenker] <= 0) && CaptureTrigger.OwnerStatistics[Faction.Neutral] == 0)
                 {
                     gameOver = true;
-                    //TODO show gameover image
+
+                    if (CaptureTrigger.OwnerStatistics[Faction.Imperialisten] <= 0)
+                        winningFactionImg = freemindsWinImg;
+                    if (CaptureTrigger.OwnerStatistics[Faction.Freidenker] <= 0)
+                        winningFactionImg = imperialWinImg;
+
+                    winningFactionImg.FadingWithCallback(0f, 1f, delegate { Debug.Log("Game Over"); });
                 }
             }
             else
@@ -30,7 +44,7 @@ namespace RuthlessMerchant
                 elapsedTime += Time.deltaTime;
                 if(elapsedTime >= duration)
                 {
-                    SceneManager.LoadScene("MainMenu");
+                    SceneManager.LoadScene("NewMainMenu");
                 }
             }
         }
