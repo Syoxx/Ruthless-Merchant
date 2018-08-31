@@ -1,4 +1,4 @@
-﻿//---------------------------------------------------------------
+//---------------------------------------------------------------
 // Authors: Daniil Masliy, Richard Brönnimann, Peter Ehmler
 //---------------------------------------------------------------
 
@@ -28,7 +28,7 @@ namespace RuthlessMerchant
         private bool isGameFocused;
         private int outpostToUpgrade = 0;
         [SerializeField, Tooltip("Max. interaction and glow range"), Range(0.0f, 5.0f)]
-        private float maxInteractDistance = 3;
+        private float maxInteractDistance;
         private float moveSpeed;
         private float mouseXSensitivity = 2f;
         private float mouseYSensitivity = 2f;
@@ -559,10 +559,6 @@ namespace RuthlessMerchant
 
             if (!restrictMovement && !restrictCamera)
             {
-                if (horizontal != 0 || vertical != 0)
-                {
-                    gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-                }
 
                 if (Input.GetKey(KeyCode.W))
                     vertical = 1;
@@ -577,7 +573,7 @@ namespace RuthlessMerchant
             }
             else
             {
-                //gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+                gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
             }
 
             InputVector = new Vector2(horizontal, vertical);
@@ -619,8 +615,9 @@ namespace RuthlessMerchant
                 {
                     Ray clickRay = playerAttachedCamera.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
                     RaycastHit hit;
+                    LayerMask mask = ~(1 << 16);
 
-                    if (Physics.Raycast(clickRay, out hit, maxInteractDistance))
+                    if (Physics.Raycast(clickRay, out hit, maxInteractDistance, mask));
                     {
                         Debug.Log(hit.collider.name + " " + hit.point + " clicked.");
 
@@ -698,7 +695,6 @@ namespace RuthlessMerchant
                 gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", true);
                 BookControls();
                 bookCanvas.SetActive(true);
-                Debug.LogError("7");
                 restrictMovement = !(bookCanvas.activeSelf == false);
                 restrictCamera = !(bookCanvas.activeSelf == false);
                 bookLogic.GoToPage(KeyCode.I);
@@ -876,7 +872,8 @@ namespace RuthlessMerchant
         {
             Ray cameraRay = playerAttachedCamera.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
             RaycastHit hit;
-            if (Physics.Raycast(cameraRay, out hit, maxInteractDistance))
+            LayerMask mask = ~(1 << 16);
+            if (Physics.Raycast(cameraRay, out hit, maxInteractDistance, mask))
             {
                 Outline outline = hit.collider.gameObject.GetComponent<Outline>();
                 if (outline != null)
