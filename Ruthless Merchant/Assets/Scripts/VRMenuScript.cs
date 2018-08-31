@@ -30,6 +30,7 @@ public class VRMenuScript : MonoBehaviour
 
     private Camera playerAttachedCamera;
     private AsyncOperation loadSceneOperator;
+    private bool levelLoadingInitiated = false;
 
     // Use this for initialization
     void Start()
@@ -82,8 +83,9 @@ public class VRMenuScript : MonoBehaviour
     private void startGame()
     {
         lightStartGame.enabled = true;
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !levelLoadingInitiated)
         {
+            levelLoadingInitiated = true;
             fadeImage.FadingWithCallback(1f, fadeTime, delegate
             {
                 LoadLevelAsync();

@@ -12,6 +12,9 @@ namespace RuthlessMerchant
         [SerializeField]
         Sprite[] potionSprites;
 
+        [SerializeField]
+        ParticleSystem effect;
+
         private AlchemySlot[] alchemySlots;
 
         [SerializeField] private UnityEvent onSuccesfullAlchemy;
@@ -221,6 +224,7 @@ namespace RuthlessMerchant
             p.Inventory.Add(potion.DeepCopy(), 1, true);
             onSuccesfullAlchemy.Invoke();
             Destroy(potion.gameObject);
+            effect.Play();
         }
 
         public override void Start()

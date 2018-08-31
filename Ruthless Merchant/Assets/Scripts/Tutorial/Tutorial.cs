@@ -195,6 +195,7 @@ namespace RuthlessMerchant
                 case "10_TriggerZone":
                     Monolog(10);
                     TutorialMonster.SetActive(false);
+                    Player.Singleton.Inventory.Remove(ironSword, true);
                     break;
                 case "13_TriggerZone":
                     Monolog(13);
@@ -202,7 +203,7 @@ namespace RuthlessMerchant
                     break;
                 case "TriggerCancelTutorial":
                     TutorialObject.SetActive(false);
-                    Player.Singleton.Inventory.Remove(ironSword, true);
+                    
                     break;
                 case "AlchemyTextTrigger":
                     Monolog(16);
