@@ -566,7 +566,7 @@ namespace RuthlessMerchant
 
             if (!restrictMovement && !restrictCamera)
             {
-                if (gameObject.GetComponent<Rigidbody>().freezeRotation == true || gameObject.GetComponent<Rigidbody>().useGravity == false)
+                if ((gameObject.GetComponent<Rigidbody>().freezeRotation == true || gameObject.GetComponent<Rigidbody>().useGravity == false) && TradeAbstract.Singleton != null)
                 {
                     gameObject.GetComponent<Rigidbody>().freezeRotation = false;
                     gameObject.GetComponent<Rigidbody>().useGravity = true;
