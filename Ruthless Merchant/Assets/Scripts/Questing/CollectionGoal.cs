@@ -78,7 +78,7 @@ namespace RuthlessMerchant {
                         break;
                     }
                 }
-                else
+                else if (collectables[i].item.ItemInfo.ItemName == "Iron")
                 {
                     collectables[i].currentAmount += 3;
                     EvaluateCollectables(i);
