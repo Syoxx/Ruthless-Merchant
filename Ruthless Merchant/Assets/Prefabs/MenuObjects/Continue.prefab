@@ -19,9 +19,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4742641331982888}
-  - component: {fileID: 108951224779791292}
+  - component: {fileID: 108514514062027134}
   m_Layer: 0
-  m_Name: ContinueLight
+  m_Name: SettingsLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -195,14 +195,14 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1178478764272482}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 44.62342, y: 25.119, z: 230.60704}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_LocalRotation: {x: -0, y: 0.84888387, z: -0, w: -0.5285795}
+  m_LocalPosition: {x: -0.2805233, y: -5.78, z: 19.679693}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4224937303034104}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 243.819, z: 0}
 --- !u!4 &4742641331982888
 Transform:
   m_ObjectHideFlags: 1
@@ -449,8 +449,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.3861084, y: 4.849596, z: 1.6721344}
-  m_Center: {x: -18.04781, y: 2.6153708, z: -6.4416122}
+  m_Size: {x: 6.7952714, y: 16.112463, z: 1.672134}
+  m_Center: {x: -17.91592, y: 8.246804, z: -6.441606}
 --- !u!95 &95532081069016552
 Animator:
   serializedVersion: 3
@@ -523,7 +523,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!108 &108951224779791292
+--- !u!108 &108514514062027134
 Light:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -532,9 +532,9 @@ Light:
   m_Enabled: 1
   serializedVersion: 8
   m_Type: 2
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
-  m_Intensity: 500
-  m_Range: 0.07
+  m_Color: {r: 1, g: 0.93386793, b: 0.25, a: 1}
+  m_Intensity: 8.1
+  m_Range: 4.94
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -548,11 +548,11 @@ Light:
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
