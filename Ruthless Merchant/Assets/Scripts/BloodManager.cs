@@ -41,11 +41,15 @@ public class BloodManager : MonoBehaviour
     {
         lock (freeSystems)
         {
-            ParticleSystem fx = freeSystems.Dequeue();
-            if (fx != null)
-                systemsInUse.Add(fx);
+            if (freeSystems.Count > 0)
+            {
+                ParticleSystem fx = freeSystems.Dequeue();
+                if (fx != null)
+                    systemsInUse.Add(fx);
 
-            return fx;
+                return fx;
+            }
+            return null;
         }
     }
 }
