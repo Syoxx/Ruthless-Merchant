@@ -180,24 +180,21 @@ namespace RuthlessMerchant
                     speed += alchemySlots[i].Ingredient.MovementBuff;
                     reg += alchemySlots[i].Ingredient.RegenerationBuff;
 
-                    if (alchemySlots[i].Ingredient.AttackSpeedBuff > 1)
+                    if (alchemySlots[i].Ingredient.IngredientType == IngredientType.Schwertgras)
                         atkCount++;
-                    else if(alchemySlots[i].Ingredient.AttackSpeedBuff < 1)
+                    else if(alchemySlots[i].Ingredient.IngredientType == IngredientType.Stichelpilz)
                         atkCount--;
-
-                    if (alchemySlots[i].Ingredient.HealthBuff > 1)
+                    else if (alchemySlots[i].Ingredient.IngredientType == IngredientType.Segensblüte)
                         hpCount++;
-                    else if (alchemySlots[i].Ingredient.HealthBuff < 1)
+                    else if (alchemySlots[i].Ingredient.IngredientType == IngredientType.Grabesmoos)
                         hpCount--;
-
-                    if (alchemySlots[i].Ingredient.MovementBuff > 1)
+                    else if (alchemySlots[i].Ingredient.IngredientType == IngredientType.Windfarn)
                         speedCount++;
-                    else if (alchemySlots[i].Ingredient.MovementBuff < 1)
+                    else if (alchemySlots[i].Ingredient.IngredientType == IngredientType.KnarzigeKnolle)
                         speedCount--;
-
-                    if (alchemySlots[i].Ingredient.DefenseBuff > 0)
+                    else if (alchemySlots[i].Ingredient.IngredientType == IngredientType.SteinernderRuestling)
                         defCount++;
-                    else if (alchemySlots[i].Ingredient.DefenseBuff < 0)
+                    else if (alchemySlots[i].Ingredient.IngredientType == IngredientType.GemeinerDornling)
                         defCount--;
 
                     hasItem = true;
