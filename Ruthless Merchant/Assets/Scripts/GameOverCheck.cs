@@ -30,7 +30,7 @@ namespace RuthlessMerchant
         {
             if (!gameOver)
             {
-                if ((CaptureTrigger.OwnerStatistics[Faction.Imperialisten] <= 0 || CaptureTrigger.OwnerStatistics[Faction.Freidenker] <= 0) && CaptureTrigger.OwnerStatistics[Faction.Neutral] == 0)
+                if ((CaptureTrigger.OwnerStatistics[Faction.Imperialisten] <= 0 || CaptureTrigger.OwnerStatistics[Faction.Freidenker] <= 0) && (!CaptureTrigger.OwnerStatistics.ContainsKey(Faction.Neutral) || CaptureTrigger.OwnerStatistics[Faction.Neutral] == 0))
                 {
                     gameOver = true;
 

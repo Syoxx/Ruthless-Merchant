@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 23017506237101170}
   - component: {fileID: 114900006991491218}
   - component: {fileID: 114984745812299540}
-  - component: {fileID: 64990155467582264}
   m_Layer: 0
   m_Name: Weapon_Steel_2Hander
   m_TagString: Untagged
@@ -38,8 +37,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1425325313791830}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 30.086336, y: 25.24, z: 228.49097}
-  m_LocalScale: {x: 0.18326084, y: 0.1832608, z: 0.1832608}
+  m_LocalPosition: {x: 320.29425, y: 25.127645, z: 151.81377}
+  m_LocalScale: {x: 1.7, y: 1.7, z: 1.7}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -59,7 +58,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: e79a8dadc2b2e624199181fda4900c94, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -85,21 +84,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1425325313791830}
-  m_Mesh: {fileID: 4300000, guid: 8ac4027012821a74b823d2c25998d86c, type: 3}
---- !u!64 &64990155467582264
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1425325313791830}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 4300000, guid: 69f87399916332f4ea32a53589b1c89d, type: 3}
 --- !u!114 &114900006991491218
 MonoBehaviour:
   m_ObjectHideFlags: 1

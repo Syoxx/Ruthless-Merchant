@@ -124,7 +124,7 @@ namespace RuthlessMerchant
 
             price.text = totalPrice.ToString() + "G";
 
-            if (totalPrice > 0 && (Tutorial.Singleton == null || !Tutorial.Singleton.isTutorial || Tutorial.Singleton != null && Tutorial.Singleton.isTutorial && int.Parse(listedItems[0].ItemQuantity.text.Replace("x","")) == 5))
+            if (totalPrice > 0 && (!Trader.CurrentTrader.startTradeImmediately || Tutorial.Singleton != null && Tutorial.Singleton.isTutorial && int.Parse(listedItems[0].ItemQuantity.text.Replace("x","")) == 5))
             {
                 startTradingButton.interactable = true;
             }
@@ -175,6 +175,7 @@ namespace RuthlessMerchant
             Cursor.lockState = CursorLockMode.Locked;
             InventoryItem.MoveItem -= OnItemMoved;
             Main_SceneManager.UnLoadScene("TradeScene");
+            Player.Singleton.RestrictBookUsage = false;
             Player.Singleton.AllowTradingMovement();
         }
     }

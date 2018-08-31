@@ -206,7 +206,12 @@ namespace RuthlessMerchant
 
         public bool IsGrounded
         {
-            get { return grounded; }
+            get
+            {
+                RaycastHit hitInfo = new RaycastHit();
+                hitInfo = CheckCharGrounded(hitInfo);
+                return grounded;
+            }
         }
 
         public CharacterController CharController
