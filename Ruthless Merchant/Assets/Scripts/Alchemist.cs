@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace RuthlessMerchant
 {
@@ -12,6 +13,8 @@ namespace RuthlessMerchant
         Sprite[] potionSprites;
 
         private AlchemySlot[] alchemySlots;
+
+        [SerializeField] private UnityEvent onSuccesfullAlchemy;
         #endregion
 
 
@@ -177,19 +180,19 @@ namespace RuthlessMerchant
                     speed += alchemySlots[i].Ingredient.MovementBuff;
                     reg += alchemySlots[i].Ingredient.RegenerationBuff;
 
-                    if (alchemySlots[i].Ingredient.AttackSpeedBuff > 0)
+                    if (alchemySlots[i].Ingredient.AttackSpeedBuff > 1)
                         atkCount++;
-                    else if(alchemySlots[i].Ingredient.AttackSpeedBuff < 0)
+                    else if(alchemySlots[i].Ingredient.AttackSpeedBuff < 1)
                         atkCount--;
 
-                    if (alchemySlots[i].Ingredient.HealthBuff > 0)
+                    if (alchemySlots[i].Ingredient.HealthBuff > 1)
                         hpCount++;
-                    else if (alchemySlots[i].Ingredient.HealthBuff < 0)
+                    else if (alchemySlots[i].Ingredient.HealthBuff < 1)
                         hpCount--;
 
-                    if (alchemySlots[i].Ingredient.MovementBuff > 0)
+                    if (alchemySlots[i].Ingredient.MovementBuff > 1)
                         speedCount++;
-                    else if (alchemySlots[i].Ingredient.MovementBuff < 0)
+                    else if (alchemySlots[i].Ingredient.MovementBuff < 1)
                         speedCount--;
 
                     if (alchemySlots[i].Ingredient.DefenseBuff > 0)
@@ -219,6 +222,7 @@ namespace RuthlessMerchant
 
             Player p = caller.GetComponent<Player>();
             p.Inventory.Add(potion.DeepCopy(), 1, true);
+            onSuccesfullAlchemy.Invoke();
             Destroy(potion.gameObject);
         }
 

@@ -88,14 +88,15 @@ namespace RuthlessMerchant
                 animator.SetBool("IsWalking",false);
             }
         }
+
         public override void EndAction(bool executeEnd = true)
         {
             if (executeEnd)
             {
                 agent.isStopped = true;
                 agent.velocity = Vector3.zero;
-                animator.SetBool("IsWalking",false);
             }
+            animator.SetBool("IsWalking", false);
             base.EndAction(executeEnd);
         }
         /// <summary>

@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 23173059993938328}
   - component: {fileID: 114368719071553144}
   - component: {fileID: 114600145693919062}
-  - component: {fileID: 64719492828493420}
   m_Layer: 0
   m_Name: Weapon_Ancient_Mace
   m_TagString: Untagged
@@ -85,20 +84,6 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1038898339034092}
-  m_Mesh: {fileID: 4300000, guid: bb3110abd62fc4446bacc9ee19f194e9, type: 3}
---- !u!64 &64719492828493420
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1038898339034092}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: bb3110abd62fc4446bacc9ee19f194e9, type: 3}
 --- !u!114 &114368719071553144
 MonoBehaviour:
