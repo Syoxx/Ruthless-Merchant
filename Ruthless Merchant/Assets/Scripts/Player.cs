@@ -120,6 +120,8 @@ namespace RuthlessMerchant
         {
             Singleton = this;
             NavMeshAgent = GetComponent<NavMeshAgent>();
+            NavMeshAgent.stoppingDistance = 0.1f;
+            NavMeshAgent.autoBraking = true;
         }
 
         #endregion

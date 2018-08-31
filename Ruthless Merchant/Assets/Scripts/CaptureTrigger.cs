@@ -204,6 +204,11 @@ namespace RuthlessMerchant
             }
         }
 
+        void Awake()
+        {
+            assignedTrader.AsignedOutpost = this;
+        }
+
         // Use this for initialization
         protected virtual void Start()
         {
