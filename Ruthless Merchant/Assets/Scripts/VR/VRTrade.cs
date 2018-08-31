@@ -47,7 +47,9 @@ namespace RuthlessMerchant
         {
             Cursor.visible = true;
             SetItemValue(realValue);
-            Trader.CurrentTrader.Initialize(this);
+            Trader trader = FindObjectOfType<Trader>();
+            Trader.CurrentTrader = trader;
+            trader.Initialize(this);
 
             nextPlayerOffer = RealValue; ;
             nextPlayerOfferText.text = nextPlayerOffer.ToString();

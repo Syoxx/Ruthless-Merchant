@@ -227,15 +227,15 @@ namespace RuthlessMerchant
             // VRTrade?
             else
             {
-                //ScaleMovement[] scaleMovements = FindObjectsOfType<ScaleMovement>();
+                ScaleMovement[] scaleMovements = FindObjectsOfType<ScaleMovement>();
 
-                //foreach (ScaleMovement scale in scaleMovements)
-                //{
-                //    scale.SpeedY = 0;
-                //    scale.TargetPositionPlayer = (PlayerZone.position + playerDelta).y;
-                //    scale.TargetPositionTrader = (TraderZone.position + traderDelta).y;
-                //    scale.enabled = true;
-                //}
+                foreach (ScaleMovement scale in scaleMovements)
+                {
+                    scale.SpeedY = 0;
+                    scale.TargetPositionPlayer = (PlayerZone.position + playerDelta).y;
+                    scale.TargetPositionTrader = (TraderZone.position + traderDelta).y;
+                    scale.enabled = true;
+                }
             }
         }
 
@@ -249,6 +249,9 @@ namespace RuthlessMerchant
         {
             for (int x = weights[weightIndex].Count - 1; x >= targetWeights[weightIndex]; x--)
             {
+                if (x < 0)
+                    break;
+
                 weights[weightIndex][x].SetActive(false);
             }
 

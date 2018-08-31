@@ -219,7 +219,7 @@ namespace RuthlessMerchant
 
         private void Awake()
         {
-            if (fadeImage == null)
+            if (fadeImage == null && FindObjectOfType<Trade>() != null)
                 fadeImage = GameObject.Find("FadeImage").GetComponent<Image>();
         }
 
@@ -310,34 +310,44 @@ namespace RuthlessMerchant
 
             if (WantsToStartTrading())
             {
-                if (faction == Faction.Freidenker)
+                if (FindObjectOfType<Trade>() != null)
                 {
-                    influenceFaction = Player.Singleton.Reputation.FreidenkerStanding;
-                    influenceWar = CaptureTrigger.OwnerStatistics[Faction.Freidenker] / 6;
+                    if (faction == Faction.Freidenker)
+                    {
+                        influenceFaction = Player.Singleton.Reputation.FreidenkerStanding;
+                        influenceWar = CaptureTrigger.OwnerStatistics[Faction.Freidenker] / 6;
 
-                    if(AsignedOutpost != null)
-                        influenceNeighbours = (AsignedOutpost.OutpostsToFreidenker.Length + AsignedOutpost.OutpostsToImperialist.Length - 1) / AsignedOutpost.OutpostsToFreidenker.Length;
-                }
+                        if (AsignedOutpost != null)
+                            influenceNeighbours = (AsignedOutpost.OutpostsToFreidenker.Length + AsignedOutpost.OutpostsToImperialist.Length - 1) / AsignedOutpost.OutpostsToFreidenker.Length;
+                    }
 
-                else if (faction == Faction.Imperialisten)
-                {
-                    influenceFaction = Player.Singleton.Reputation.ImperalistenStanding;
-                    influenceWar = CaptureTrigger.OwnerStatistics[Faction.Imperialisten] / 6;
+                    else if (faction == Faction.Imperialisten)
+                    {
+                        influenceFaction = Player.Singleton.Reputation.ImperalistenStanding;
+                        influenceWar = CaptureTrigger.OwnerStatistics[Faction.Imperialisten] / 6;
+
+                        if (AsignedOutpost != null)
+                            influenceNeighbours = (AsignedOutpost.OutpostsToFreidenker.Length + AsignedOutpost.OutpostsToImperialist.Length - 1) / AsignedOutpost.OutpostsToImperialist.Length;
+                    }
+
+                    else
+                    {
+                        Debug.LogError("Trader has no valid Faction!");
+                        return;
+                    }
 
                     if (AsignedOutpost != null)
-                        influenceNeighbours = (AsignedOutpost.OutpostsToFreidenker.Length + AsignedOutpost.OutpostsToImperialist.Length - 1) / AsignedOutpost.OutpostsToImperialist.Length;
-                }
+                        influenceNeighbours = CorrectAndConvertToPercent(influenceNeighbours);
 
+                    influenceWar = CorrectAndConvertToPercent(influenceWar);
+                }
                 else
                 {
-                    Debug.LogError("Trader has no valid Faction!");
-                    return;
+                    influenceFaction = 0.5f;
+                    influenceIndividual = 0.5f;
+                    influenceNeighbours = 0.5f;
+                    influenceWar = 0.5f;
                 }
-
-                if (AsignedOutpost != null)
-                    influenceNeighbours = CorrectAndConvertToPercent(influenceNeighbours);
-
-                influenceWar = CorrectAndConvertToPercent(influenceWar);
 
                 upperLimitPercentTotal = upperLimitPerCent + ((upperLimitPerCent * influenceFaction) + (upperLimitPerCent * influenceIndividual) + (upperLimitPerCent * influenceWar) + (upperLimitPerCent * influenceNeighbours)) / 4;
                 underLimitPercentTotal = underLimitPerCent + (-(underLimitPerCent * influenceFaction) - (underLimitPerCent * influenceIndividual) + (underLimitPerCent * influenceWar) + (underLimitPerCent * influenceNeighbours)) / 4;
