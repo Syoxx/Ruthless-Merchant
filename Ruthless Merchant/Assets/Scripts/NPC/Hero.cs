@@ -61,7 +61,10 @@ namespace RuthlessMerchant
                     else
                     {
                         if (CurrentAction is ActionIdle || CurrentAction == null)
+                        {
                             SetCurrentAction(new ActionWander(), null);
+                            TryPickupEquipment(Outpost);
+                        }
                     }
                 }
             }
