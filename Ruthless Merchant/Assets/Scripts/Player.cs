@@ -660,6 +660,10 @@ namespace RuthlessMerchant
                                 // Returns 0 if item was added to inventory
                                 int UnsuccessfulPickup = inventory.Add(clonedItem, 1, true);
 
+                                //In Achievement-Mode
+                                if(Achievements.Singleton.switchIndex < 1)
+                                    Achievements.AddToCounter(targetItem);
+
                                 if (UnsuccessfulPickup != 0)
                                 {
                                     Debug.Log("Returned " + UnsuccessfulPickup + ", failed to collect item.");
