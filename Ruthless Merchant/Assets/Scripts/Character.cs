@@ -447,15 +447,6 @@ namespace RuthlessMerchant
 
         public override void DestroyInteractiveObject(float delay = 0)
         {
-            if(potion != null)
-                Destroy(potion);
-
-            if(weapon != null)
-                Destroy(weapon);
-
-            if(shield != null)
-                Destroy(shield);
-
             base.DestroyInteractiveObject(delay);
         }
 
