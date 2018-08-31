@@ -12,6 +12,9 @@ namespace RuthlessMerchant
         [SerializeField, Range(0, 60)]
         private float duration = 10;
 
+        [SerializeField, Tooltip("Time it takes to fade to Game Over Screen")]
+        private float fadeDuration = 1f;
+
         [SerializeField, Tooltip("GameOver Screen for Imperialist win")]
         private Image imperialWinImg;
 
@@ -36,7 +39,7 @@ namespace RuthlessMerchant
                     if (CaptureTrigger.OwnerStatistics[Faction.Freidenker] <= 0)
                         winningFactionImg = imperialWinImg;
 
-                    winningFactionImg.FadingWithCallback(0f, 1f, delegate { Debug.Log("Game Over"); });
+                    winningFactionImg.FadingWithCallback(fadeDuration, 1f, delegate { Debug.Log("Game Over"); });
                 }
             }
             else
