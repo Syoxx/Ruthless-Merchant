@@ -23,8 +23,17 @@ namespace RuthlessMerchant
             {
                 if (other != null)
                 {
-                    goal.CollectableFound(other.GetComponent<Material>());
-                    UnityEngine.GameObject.DestroyImmediate(other);
+                    if (other.GetComponent<Item>() != null)
+                    {
+                        goal.CollectableFound(other.GetComponent<Item>());
+                        UnityEngine.GameObject.DestroyImmediate(other);
+                    }
+                    else
+                    {
+                        Debug.Log("seems like he found ironVein");
+                        goal.CollectableFound(null);
+                        UnityEngine.GameObject.DestroyImmediate(other);
+                    }
 
                     parent.SetCurrentAction(new ActionIdle(), null, true);
 
