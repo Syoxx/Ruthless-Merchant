@@ -20,6 +20,7 @@ namespace RuthlessMerchant
 
         //Collider for triggerzone of a player -> he can't leave -> he will die
         private Collider playerCollider, triggerZoneCollider;
+        private Animator animator;
 
         //Hardcoded integer -> needed to count attacks. 2 Attacks = Guard dead. 3rd Attack = Player dead
         private int attackCounter = 0;
@@ -46,6 +47,7 @@ namespace RuthlessMerchant
             //Getting the positions and colliders of needed object
             startPosition = transform.position;
             traderPosition = MonsterDestinationObject.transform.position;
+            animator = gameObject.GetComponent<Animator>();
 
             playerCollider = playerObject.GetComponent<Collider>();
             triggerZoneCollider = triggerZoneObject.GetComponent<Collider>();
@@ -77,6 +79,8 @@ namespace RuthlessMerchant
             if (distanceToGuard >= 1 && !haveReachedGuards)
             {
                 transform.position = Vector3.MoveTowards(transform.position, MonsterDestinationObject.transform.position, step);
+                transform.rotation =
+                    Quaternion.LookRotation(playerObject.transform.position);
             }
 
             // 2 Guards = 2 Attacks (1 hit to kill)
@@ -84,7 +88,6 @@ namespace RuthlessMerchant
             {
                 haveReachedGuards = true;
                 Attack();
-
             }
 
             // 2 hits = dead
