@@ -63,6 +63,24 @@ namespace RuthlessMerchant
             }
         }
 
+        public int PlayerMoney
+        {
+            get
+            {
+                int slotIndex = FindMoneySlot();
+                int amount = 0;
+                if (slotIndex != -1)
+                {
+                    if (InventorySlots[slotIndex].Count >= 0)
+                    {
+                        amount = InventorySlots[slotIndex].Count;
+                    }
+                }
+                
+                return amount;
+            }
+        }
+
         #endregion
 
         #region Private Functions
@@ -96,6 +114,18 @@ namespace RuthlessMerchant
                 {
                     if (inventorySlots[i].ItemInfo.ItemName == item.ItemInfo.ItemName)
                         return i;
+                }
+            }
+            return -1;
+        }
+
+        private int FindMoneySlot()
+        {
+            for (int i = 0; i < maxSlotCount; i++)
+            {
+                if (InventorySlots[i].ItemInfo.ItemName == "Gold Coin")
+                {
+                    return i;
                 }
             }
             return -1;
@@ -671,6 +701,30 @@ namespace RuthlessMerchant
             {
                 inventorySlots[slot].Item.Interact(caller);
             }
+        }
+
+        /// <summary>
+        /// Finds Gold in inventory and removes the passed amount.
+        /// </summary>
+        /// <param name="cost">
+        /// How much Gold should be removed.
+        /// </param>
+        /// <returns>
+        /// Returns true if 'cost' was removed, otherwise returns false.
+        /// </returns>
+        public bool RemoveGold(int cost)
+        {
+            int goldslot = FindMoneySlot();
+
+            if (goldslot != -1)
+            {
+                if (InventorySlots[goldslot].Count >= cost)
+                {
+                    Remove(goldslot, cost, true);
+                    return true;
+                }
+            }
+            return false;
         }
 
         /// <summary>
