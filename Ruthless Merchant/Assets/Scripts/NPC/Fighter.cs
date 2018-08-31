@@ -145,6 +145,7 @@ namespace RuthlessMerchant
                     child.gameObject.SetActive(child.name.StartsWith(name));
 
                 EnableWeapon(name, child);
+                Debug.Log("Child: " + child.ToString());
             }
         }
 

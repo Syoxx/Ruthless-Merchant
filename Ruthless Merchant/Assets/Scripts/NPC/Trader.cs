@@ -226,7 +226,7 @@ namespace RuthlessMerchant
 
                 Player player = Player.Singleton;
 
-                if (remainingDistance == 0 || player.skip)
+                if (remainingDistance == 0)
                 {
                     moving = false;
 
