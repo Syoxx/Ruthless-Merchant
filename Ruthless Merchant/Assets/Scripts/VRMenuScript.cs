@@ -11,7 +11,7 @@ public class VRMenuScript : MonoBehaviour
     private string gamePlayScene = "Islandtesting";
 
     [SerializeField]
-    private Light lightContinue, lightStartGame, lightOptions;
+    private Light lightContinue, lightStartGame, lightSettings;
 
     [SerializeField]
     private float rayDistance = 3;
@@ -44,11 +44,11 @@ public class VRMenuScript : MonoBehaviour
         Ray ray = playerAttachedCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        Debug.DrawRay(transform.position, ray.direction, Color.green);
+        //Debug.DrawRay(transform.position, ray.direction, Color.green);
 
         lightStartGame.enabled = false;
         lightContinue.enabled = false;
-        lightOptions.enabled = false;
+        lightSettings.enabled = false;
 
         if (Physics.Raycast(ray, out hit, rayDistance))
         {
@@ -60,8 +60,8 @@ public class VRMenuScript : MonoBehaviour
                         case "StartGame":
                             startGame();
                             break;
-                        case "Options":
-                            Options();
+                        case "Settings":
+                            Settings();
                             break;
                         case "QuitGame":
                             QuitGame();
@@ -102,9 +102,9 @@ public class VRMenuScript : MonoBehaviour
         }
     }
 
-    private void Options()
+    private void Settings()
     {
-        lightOptions.enabled = true;
+        lightSettings.enabled = true;
     }
 
     public void LoadLevelAsync()
