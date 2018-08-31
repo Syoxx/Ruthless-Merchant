@@ -88,7 +88,7 @@ namespace RuthlessMerchant {
 
             Materials = GameObject.FindGameObjectsWithTag(collectables[0].material.ItemInfo.ItemName);
             questButton.InProgressButton();
-            questButton.ButtonSettings(false);
+            //questButton.ButtonSettings(false);
             Debug.Log(Materials.Length);
         }
 
@@ -117,6 +117,7 @@ namespace RuthlessMerchant {
             {
                 questButton.CompleteButton();
                 //button.GetComponent<Button>().onClick.AddListener(delegate {  });
+                questButton.DiscardQuestButton();
             }
             return true;
         }
