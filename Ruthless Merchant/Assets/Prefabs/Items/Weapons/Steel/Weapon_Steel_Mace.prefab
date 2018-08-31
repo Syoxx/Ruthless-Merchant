@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 23257386061820116}
   - component: {fileID: 114514814874175340}
   - component: {fileID: 114241037254786540}
-  - component: {fileID: 64404013132294108}
   m_Layer: 0
   m_Name: Weapon_Steel_Mace
   m_TagString: Untagged
@@ -38,8 +37,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1422641938855346}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 39.038067, y: 24.975769, z: 228.2877}
-  m_LocalScale: {x: 1.762949, y: 1.762949, z: 1.762949}
+  m_LocalPosition: {x: 321.64963, y: 25.172709, z: 151.71248}
+  m_LocalScale: {x: 1.7, y: 1.7, z: 1.7}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -85,21 +84,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1422641938855346}
-  m_Mesh: {fileID: 4300000, guid: b8a2a6fc377d2744596f32e2392a8f68, type: 3}
---- !u!64 &64404013132294108
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1422641938855346}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: b8a2a6fc377d2744596f32e2392a8f68, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 12886762d4e55e14da99c208004b6b38, type: 3}
 --- !u!114 &114241037254786540
 MonoBehaviour:
   m_ObjectHideFlags: 1

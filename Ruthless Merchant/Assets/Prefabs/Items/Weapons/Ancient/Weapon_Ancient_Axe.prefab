@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 23458807053810178}
   - component: {fileID: 114248504342456076}
   - component: {fileID: 114332976531527338}
-  - component: {fileID: 64031191079666290}
   m_Layer: 0
   m_Name: Weapon_Ancient_Axe
   m_TagString: Untagged
@@ -85,20 +84,6 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1368994678374094}
-  m_Mesh: {fileID: 4300000, guid: 2044c56047486414191b89535211e9b8, type: 3}
---- !u!64 &64031191079666290
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1368994678374094}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 2044c56047486414191b89535211e9b8, type: 3}
 --- !u!114 &114248504342456076
 MonoBehaviour:
