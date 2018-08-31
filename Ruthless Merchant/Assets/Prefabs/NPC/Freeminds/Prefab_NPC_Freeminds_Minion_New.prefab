@@ -1589,6 +1589,7 @@ GameObject:
   - component: {fileID: 136244394596243318}
   - component: {fileID: 195867478805977248}
   - component: {fileID: 54874248571107850}
+  - component: {fileID: 114541154156019962}
   m_Layer: 15
   m_Name: Prefab_NPC_Freeminds_Minion_New
   m_TagString: NPC
@@ -3487,6 +3488,19 @@ MonoBehaviour:
   huntDistance: 10
   attackDistance: 1
   FirstOutpost: {fileID: 0}
+--- !u!114 &114541154156019962
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1925128174930270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a80e47992104adc43b6b73ead38204d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stepSpeed: 0.4
+  Steps: event:/Characters/Minions/MinionStepsFreeminds
 --- !u!114 &114878851598882912
 MonoBehaviour:
   m_ObjectHideFlags: 1

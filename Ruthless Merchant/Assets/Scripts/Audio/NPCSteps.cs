@@ -37,7 +37,12 @@ public class NPCSteps : MonoBehaviour {
     {
         if (characterIsMoving == true)
         {
-            FMODUnity.RuntimeManager.PlayOneShot(Steps, this.GetComponent<Transform>().position);
+            //FMODUnity.RuntimeManager.PlayOneShot(Steps, this.transform.position);
         }
+    }
+
+    void AnimationSteps(string _path)
+    {
+        FMODUnity.RuntimeManager.PlayOneShot(_path, this.transform.position);
     }
 }

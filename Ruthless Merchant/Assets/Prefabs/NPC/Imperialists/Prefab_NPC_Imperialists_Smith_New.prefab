@@ -400,6 +400,7 @@ GameObject:
   - component: {fileID: 195185606548762318}
   - component: {fileID: 54211011498592222}
   - component: {fileID: 114324030980871900}
+  - component: {fileID: 114071371643681848}
   m_Layer: 15
   m_Name: Prefab_NPC_Imperialists_Smith_New
   m_TagString: NPC
@@ -3314,6 +3315,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114071371643681848
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1242957152982964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a80e47992104adc43b6b73ead38204d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stepSpeed: 0.4
+  Steps: event:/Characters/Minions/MinionStepsImperialists
 --- !u!114 &114077413883246028
 MonoBehaviour:
   m_ObjectHideFlags: 1

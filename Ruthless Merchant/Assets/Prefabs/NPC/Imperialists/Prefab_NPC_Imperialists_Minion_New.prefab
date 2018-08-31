@@ -1350,6 +1350,8 @@ GameObject:
   - component: {fileID: 114396617350757250}
   - component: {fileID: 195629065006459154}
   - component: {fileID: 54430386408056642}
+  - component: {fileID: 114256035508424570}
+  - component: {fileID: 114357598226031336}
   m_Layer: 15
   m_Name: Prefab_NPC_Imperialists_Minion_New
   m_TagString: NPC
@@ -3838,6 +3840,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 479cd6b17bf173d43b3c6db6d6c6ebac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114256035508424570
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1736766596807856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a80e47992104adc43b6b73ead38204d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stepSpeed: 0.4
+  Steps: event:/Characters/Minions/MinionStepsImperialists
 --- !u!114 &114329299024760256
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3849,6 +3864,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81771f0903b5f3a4685e911e37a544c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114357598226031336
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1736766596807856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a80e47992104adc43b6b73ead38204d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stepSpeed: 0.4
+  Steps: 
 --- !u!114 &114396617350757250
 MonoBehaviour:
   m_ObjectHideFlags: 1

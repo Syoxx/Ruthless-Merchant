@@ -103,6 +103,10 @@ public class Triggerzone : MonoBehaviour
         //Debug.Log("Chosen event is:" + eventDimension);
     }
 
+    private void OnDestroy()
+    {
+        soundevent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+    }
 
     // Use this for initialization
     void Start()
