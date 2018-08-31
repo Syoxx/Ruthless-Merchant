@@ -143,7 +143,6 @@ namespace RuthlessMerchant
         /// <param name="realValue">The RealValue of the trade.</param>
         public override void Initialize(int realValue)
         {
-            Cursor.visible = true;
             SetItemValue(realValue);
             Trader.CurrentTrader.Initialize(this);
 
