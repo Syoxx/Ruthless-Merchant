@@ -206,7 +206,7 @@ namespace RuthlessMerchant
 
         void Awake()
         {
-            if(assignedTrader == null)
+            if(assignedTrader != null)
                 assignedTrader.AsignedOutpost = this;
         }
 
