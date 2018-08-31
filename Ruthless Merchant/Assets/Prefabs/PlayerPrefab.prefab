@@ -40,8 +40,7 @@ GameObject:
   - component: {fileID: 33075191851740420}
   - component: {fileID: 23192897696449590}
   - component: {fileID: 136168245779560638}
-  - component: {fileID: 54512829118395394}
-  - component: {fileID: 114928432184483950}
+  - component: {fileID: 114671204489816380}
   m_Layer: 0
   m_Name: PlayerPrefab
   m_TagString: Player
@@ -69,7 +68,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1686158950975600}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.7710762, y: 1.49, z: -1.1980729}
+  m_LocalPosition: {x: -0.22, y: -0.23, z: -10.47}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4359696008124210}
@@ -154,21 +153,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1686158950975600}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!54 &54512829118395394
-Rigidbody:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1686158950975600}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!81 &81876746086278908
 AudioListener:
   m_ObjectHideFlags: 1
@@ -176,7 +160,7 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1626474581151162}
   m_Enabled: 1
---- !u!114 &114928432184483950
+--- !u!114 &114671204489816380
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -184,15 +168,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1686158950975600}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f633f4cc7a8c8b49948019d13f49f22, type: 3}
+  m_Script: {fileID: 11500000, guid: d9206339f2746fb469a39624faaa39fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 2
-  runSpeed: 4
-  jumpSpeed: 10
-  ItemsParent: {fileID: 0}
-  ItemUIPrefab: {fileID: 1467541113604382, guid: 1ae9b739481380f4293ec96f99231f43,
-    type: 2}
+  gamePlayScene: VR_IslandScene
+  lightContinue: {fileID: 0}
+  lightStartGame: {fileID: 0}
+  lightSettings: {fileID: 0}
+  rayDistance: 100
+  fadeTime: 2
+  fadeImage: {fileID: 0}
+  loadingImage: {fileID: 0}
 --- !u!124 &124031298168068666
 Behaviour:
   m_ObjectHideFlags: 1
