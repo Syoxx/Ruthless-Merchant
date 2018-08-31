@@ -111,6 +111,7 @@ namespace RuthlessMerchant
                         {
                             weapon = (Weapon)slot.Item;
                             slot.Count--;
+                            EnableWeapon(weapon.name, transform);
                         }
                         else if (shield == null && isShield)
                         {
@@ -127,6 +128,21 @@ namespace RuthlessMerchant
                         }
                     }
                 }
+            }
+        }
+
+        private void EnableWeapon(string name, Transform transform = null)
+        {
+            foreach (Transform child in transform)
+            {
+                if (child == null)
+                    continue;
+
+                if (child.name.Contains("Weapon"))
+                    child.gameObject.SetActive(child.name.StartsWith(name));
+
+                EnableWeapon(name, child);
+                Debug.Log("Child: " + child.ToString());
             }
         }
 
