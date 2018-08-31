@@ -38,7 +38,7 @@ namespace RuthlessMerchant
                 parent.Reacting = false;
             }
             AbortAnimations();
-            parent.StartCoroutine(AbortAnimationsDelayed);
+            parent.StartCoroutine(AbortAnimationsDelayed());
             base.EndAction();
         }
 
