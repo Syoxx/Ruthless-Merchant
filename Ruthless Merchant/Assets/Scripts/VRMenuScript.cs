@@ -25,6 +25,9 @@ public class VRMenuScript : MonoBehaviour
     [SerializeField, Tooltip("Image shown while loading main Scene")]
     Image loadingImage;
 
+    [SerializeField, Tooltip("Drag a SwitchScenePNL there")]
+    private GameObject PNL_BgSwitchScene;
+
     private Camera playerAttachedCamera;
     private AsyncOperation loadSceneOperator;
 
@@ -50,10 +53,12 @@ public class VRMenuScript : MonoBehaviour
         lightContinue.enabled = false;
         lightOptions.enabled = false;
 
-        if (Physics.Raycast(ray, out hit, rayDistance))
+        if (!PNL_BgSwitchScene.activeSelf)
         {
-            if (hit.transform.tag.Equals("MenuObject"))
+            if (Physics.Raycast(ray, out hit, rayDistance))
             {
+                if (hit.transform.tag.Equals("MenuObject"))
+                {
                 
                     switch (hit.collider.gameObject.name)
                     {
@@ -70,10 +75,51 @@ public class VRMenuScript : MonoBehaviour
                             Continue();
                             break;
                     }
+                }
             }
         }
     }
 
+    void Update()
+    {
+        OpenSceneSwitcher();
+    }
+
+
+
+    #region SwitchSceneManager
+
+    public void OpenSceneSwitcher()
+    {
+        if (Input.GetKeyDown(KeyCode.F10))
+        {
+            if (PNL_BgSwitchScene.activeSelf)
+            {
+                PNL_BgSwitchScene.SetActive(false);
+            }
+            else
+            {
+                PNL_BgSwitchScene.SetActive(true);
+            }
+        }
+    }
+    public void Button1()
+    {
+
+    }
+    public void Button2()
+    {
+
+    }
+    public void Button3()
+    {
+
+    }
+    public void Button4()
+    {
+
+    }
+    #endregion
     private void Continue()
     {
         lightContinue.enabled = true;
