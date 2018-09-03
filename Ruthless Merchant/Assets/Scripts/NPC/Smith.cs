@@ -69,8 +69,12 @@ namespace RuthlessMerchant
                 }
                 inventory.Add(recipes.GetRecipes()[index].Result, 1, true);
                 onSuccesfullSmithing.Invoke();
+                
                 //Sound - OpenForge
                 FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Player/Forging/OpenForge", GameObject.FindGameObjectWithTag("Player").transform.position);
+                
+                if (Achievements.Singleton.switchIndex == 3)
+                    Achievements.AddToCounter();
 
                 return true;
             }

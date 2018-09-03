@@ -808,7 +808,6 @@ GameObject:
   - component: {fileID: 114964805266507156}
   - component: {fileID: 195429260383978880}
   - component: {fileID: 54213946702984684}
-  - component: {fileID: 114932266525235366}
   m_Layer: 15
   m_Name: Prefab_NPC_Imperialists_Guard_New
   m_TagString: NPC
@@ -3640,7 +3639,7 @@ Transform:
   m_GameObject: {fileID: 1518369309256216}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 381.77936, y: 27.578304, z: 66.574615}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children:
   - {fileID: 4699586644756570}
   - {fileID: 4841616654519128}
@@ -3960,17 +3959,6 @@ MonoBehaviour:
   damage: 110
   defencePower: 0
   attackSpeed: 1.5
---- !u!114 &114932266525235366
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1518369309256216}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d08cbd94b6fadd499e42cf6c8c56d06, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114964805266507156
 MonoBehaviour:
   m_ObjectHideFlags: 1
