@@ -88,11 +88,7 @@ namespace RuthlessMerchant {
                 {
                     ironMaceCrafted = true;
                 }
-            }
-            if (Singleton.switchIndex == 3 && ironMaceCrafted)
-            {
-                Singleton.counter2 = (3 - Player.Singleton.Inventory.GetNumberOfItems(IronMaceWeapon));
-            }
+            }            
         }
 
         public void BrewingPotion()
@@ -106,6 +102,10 @@ namespace RuthlessMerchant {
         void OnItemSold(object sender, EventArgs args)
         {
             if (Singleton.switchIndex == 8)
+            {
+                Singleton.counter2++;
+            }
+            if (Singleton.switchIndex == 3 && ironMaceCrafted)
             {
                 Singleton.counter2++;
             }
