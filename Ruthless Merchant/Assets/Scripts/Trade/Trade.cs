@@ -312,9 +312,9 @@ namespace RuthlessMerchant
             TradeDialogue.text = "You and Dormammu have a blood-sealing pact. He wishes you a good day and rides off into the sunset.";
 
             if (GetCurrentTraderOffer() >= RealValue)
-                Tutorial.Monolog(5);
+                Tutorial.TradeMonolog5();
             else
-                Tutorial.Monolog(6);
+                Tutorial.TradeMonolog6();
         }
 
         /// <summary>

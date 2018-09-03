@@ -240,7 +240,7 @@ namespace RuthlessMerchant
                     InventoryItem.Behaviour = InventoryItem.ItemBehaviour.Move;
                     Main_SceneManager.LoadSceneAdditively("TradeScene");
                     player.EnterTrading();
-                    Tutorial.Monolog(1);
+                    Tutorial.TraderMonologStart();
                 }
                 else
                 {
@@ -413,11 +413,11 @@ namespace RuthlessMerchant
 
                 if(currentPlayerOffer <= TradeAbstract.Singleton.RealValue)
                 {
-                    Tutorial.Monolog(4);
+                    Tutorial.TraderMonolog4();
                 }
                 else
                 {
-                    Tutorial.Monolog(3);
+                    Tutorial.TraderMonolog3();
                 }
             }
         }
@@ -489,7 +489,7 @@ namespace RuthlessMerchant
                 IrritationTotal = IrritationLimit;
                 trade.Abort();
                 Debug.Log("Trader has surpassed his psycho limits.");
-                Tutorial.Monolog(7);
+                Tutorial.TraderMonolog7();
                 return false;
             }
 
@@ -498,7 +498,7 @@ namespace RuthlessMerchant
                 SkepticismTotal = SkepticismLimit;
                 trade.Abort();
                 Debug.Log("Trader has surpassed his psycho limits.");
-                Tutorial.Monolog(8);
+                Tutorial.TraderMonolog8();
                 return false;
             }
 
@@ -524,7 +524,7 @@ namespace RuthlessMerchant
                         InventoryItem.Behaviour = InventoryItem.ItemBehaviour.Move;
                         Main_SceneManager.LoadSceneAdditively("TradeScene");
                         player.EnterTrading();
-                        Tutorial.Monolog(1);
+                        Tutorial.TraderMonologStart();
                     }
                     else
                     {

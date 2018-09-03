@@ -36,7 +36,7 @@ namespace RuthlessMerchant
         /// </summary>
         private void Start()
         {
-            respawnPosition = GameObject.Find("TriggerCancelTutorial").transform.position; ;
+            respawnPosition = GameObject.Find("RespawnPointPlayer").transform.position;
 
             character = GetComponent<Character>();
         }
