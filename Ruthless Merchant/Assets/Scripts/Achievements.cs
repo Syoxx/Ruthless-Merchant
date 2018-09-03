@@ -36,13 +36,28 @@ namespace RuthlessMerchant {
         "\nCollect Wood  ",
         "\nCollect Iron  ",
 
-        "Reach “Ancient Trade Route” ",
-        "Click E on the lot next to the tent ",
+        "\nReach “Ancient Trade Route” ",
+        "\nClick E on the lot next to the tent ",
 
-        "Reach “Open-Minded Capital” ",
+        "\nReach “Open-Minded Capital” ",
 
-        "Craft Weapons (Iron Mace) at smith ",
-        "Sell Weapons at trader "
+        "\nCraft Weapons (Iron Mace) at smith ",
+        "\nsSell Weapons at trader ",
+
+        "Reach “Eastern Mountain Trail” ",
+        "Steal weapon ",
+
+        "Reach Uphill Path ",
+        "Collect Vipershrooms ",
+
+        "Reach “Green Leaf Path” ",
+        "Collect Creaky Tuber ",
+
+        "Brew potions ",
+        "Sell potions ",
+
+        "Reach “Imperial Capital” ",
+        "Sell special weapon "
     };
 
         private void Awake()
@@ -88,6 +103,24 @@ namespace RuthlessMerchant {
                 case 3:
                     Singleton.RequiredAmount = 3; Singleton.RequiredAmount2 = 3;
                     Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex] + Singleton.Goal[5] + "( " + Singleton.counter + " / " + Singleton.RequiredAmount + " )" + Singleton.Goal[6] + "( " + Singleton.counter2 + " / " + Singleton.RequiredAmount2 + " )"; break;
+                case 4:
+                    Singleton.RequiredAmount = 1; Singleton.RequiredAmount2 = 1;
+                    Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex] + Singleton.Goal[7] + "( " + Singleton.counter + " / " + Singleton.RequiredAmount + " )" + Singleton.Goal[8] + "( " + Singleton.counter2 + " / " + Singleton.RequiredAmount2 + " )"; break;
+                case 5:
+                    Singleton.RequiredAmount = 1; Singleton.RequiredAmount2 = 5;
+                    Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex] + Singleton.Goal[9] + "( " + Singleton.counter + " / " + Singleton.RequiredAmount + " )" + Singleton.Goal[10] + "( " + Singleton.counter2 + " / " + Singleton.RequiredAmount2 + " )"; break;
+                case 6:
+                    Singleton.RequiredAmount = 1; Singleton.RequiredAmount2 = 5;
+                    Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex] + Singleton.Goal[11] + "( " + Singleton.counter + " / " + Singleton.RequiredAmount + " )" + Singleton.Goal[12] + "( " + Singleton.counter2 + " / " + Singleton.RequiredAmount2 + " )"; break;
+                case 7:
+                    Singleton.RequiredAmount = 3; Singleton.RequiredAmount2 = 3;
+                    Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex] + Singleton.Goal[13] + "( " + Singleton.counter + " / " + Singleton.RequiredAmount + " )" + Singleton.Goal[14] + "( " + Singleton.counter2 + " / " + Singleton.RequiredAmount2 + " )"; break;
+                case 8:
+                    Singleton.RequiredAmount = 1; Singleton.RequiredAmount2 = 1;
+                    Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex] + Singleton.Goal[15] + "( " + Singleton.counter + " / " + Singleton.RequiredAmount + " )" + Singleton.Goal[16] + "( " + Singleton.counter2 + " / " + Singleton.RequiredAmount2 + " )"; break;
+                case 9:
+                    Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex]; break;
+
             }
         }
 
