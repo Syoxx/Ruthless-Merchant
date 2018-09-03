@@ -22,6 +22,8 @@ GameObject:
   - component: {fileID: 33781031705685360}
   - component: {fileID: 23276565487149888}
   - component: {fileID: 95615607937750878}
+  - component: {fileID: 114416457845028488}
+  - component: {fileID: 114399749109384620}
   m_Layer: 0
   m_Name: Item_Weapon_Standard
   m_TagString: Untagged
@@ -57,7 +59,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 618dc2eab2df94d46bba3bfffdd2fc90, type: 3}
+  - {fileID: 2100000, guid: b999c9bcb7168894cb4af52ea158dcf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -102,3 +104,39 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114399749109384620
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1887760472089586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da849d998660b964aa1c71df0912cb55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  faction: 0
+  ItemInfo:
+    ItemName: Standardwaffe
+    ItemValue: 0
+    ItemWeight: 1
+    ItemLore: This is the standardweapon for recruits
+    ItemSprite: {fileID: 0}
+    ItemType: 1
+    ItemRarity: 0
+    maxStackCount: 20
+  weaponType: 0
+  damage: 90
+  defencePower: 0
+  attackSpeed: 0
+--- !u!114 &114416457845028488
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1887760472089586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1a2859bd3c9f7b41843846d87b72e3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
