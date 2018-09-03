@@ -43,7 +43,7 @@ namespace RuthlessMerchant
     [System.Serializable]
     public class Collectables
     {
-        public Material material;
+        //public Material material;
         public int requiredAmount;
         //[HideInInspector]
         public int currentAmount;
