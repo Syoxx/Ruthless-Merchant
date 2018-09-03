@@ -33,14 +33,12 @@ namespace RuthlessMerchant
         {
             Collisions.Add(collision.gameObject);
             VRPlayerTradeZone.Singleton.UpdateWeight = true;
-            Debug.LogWarning("ADDED " + collision.gameObject.name + " in " + gameObject.name);
         }
 
         private void OnCollisionExit(Collision collision)
         {
             Collisions.Remove(collision.gameObject);
             VRPlayerTradeZone.Singleton.UpdateWeight = true;
-            Debug.LogWarning("REMOVED " + collision.gameObject.name + " from " + gameObject.name);
         }
 
         /// <summary>

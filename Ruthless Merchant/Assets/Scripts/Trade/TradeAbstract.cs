@@ -239,17 +239,15 @@ namespace RuthlessMerchant
                     else
                         delta = VRPlayerTradeZone.Singleton.TotalWeight - RealValue;
 
-                    Debug.Log("delta: " + delta);
+                    float targetRotationZ = delta / connectorSensitivity;
 
-                    float newX = -90 - delta / connectorSensitivity;
+                    if (targetRotationZ > 20)
+                        targetRotationZ = 20;
+                    else if (targetRotationZ < -20)
+                        targetRotationZ = -20;
 
-                    if (newX > -70)
-                        newX = -70;
-                    else if (newX < -110)
-                        newX = -110;
-
-                    scale.SpeedX = 0;
-                    scale.TargetConnectorRotation = newX;
+                    scale.SpeedZ = 0;
+                    scale.TargetConnectorRotationZ = targetRotationZ;
                     scale.enabled = true;
                 }
             }

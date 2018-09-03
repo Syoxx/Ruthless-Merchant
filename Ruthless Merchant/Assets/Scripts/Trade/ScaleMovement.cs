@@ -10,29 +10,23 @@ namespace RuthlessMerchant
         #if UNITY_EDITOR
         [ReadOnly]
         #endif
-        public float TargetConnectorRotation; 
+        public float TargetConnectorRotationZ; 
 
         public float SpeedModifier = 0.4f;
 
         #if UNITY_EDITOR
         [ReadOnly]
         #endif
-        public float SpeedX = 0;
+        public float SpeedZ = 0;
 
         [SerializeField, Range(0,1)]
-        float frictionY = 0.95f;
+        float frictionZ = 0.95f;
 
         [SerializeField]
-        float speedThresholdY = 0.075f;
+        float speedThresholdZ = 0.075f;
 
         [SerializeField]
-        float positionThresholdY = 0.02f;
-
-        [SerializeField]
-        Transform scaleRight;
-
-        [SerializeField]
-        Transform scaleLeft;
+        float rotationThresholdZ = 0.02f;
 
         VRSceneItem[] VRItems;
 
@@ -43,28 +37,23 @@ namespace RuthlessMerchant
 
         void Update()
         {
-            Vector3 rotationDelta;
-
-            float targetDelta = TargetConnectorRotation - TradeAbstract.Singleton.connector.transform.eulerAngles.x;
+            TradeAbstract trade = TradeAbstract.Singleton;
+            float targetDelta = TargetConnectorRotationZ - get180(trade.connector.localEulerAngles.z);
 
             // End Movement?
-            if (Math.Abs(targetDelta) < positionThresholdY && Math.Abs(SpeedX) < speedThresholdY)
+            if (Math.Abs(targetDelta) < rotationThresholdZ && Math.Abs(SpeedZ) < speedThresholdZ)
             {
-                Vector3 traderDelta = scaleRight.position;
-                TradeAbstract.Singleton.connector.transform.eulerAngles = new Vector3(TargetConnectorRotation, -90, 90);
-                traderDelta -= scaleRight.position;
+                Vector3 traderDelta = trade.PlayerZone.position;
+                trade.connector.transform.localEulerAngles = new Vector3(0, 0, TargetConnectorRotationZ);
+                traderDelta -= trade.PlayerZone.position;
 
                 foreach (VRSceneItem VRItem in VRItems)
                 {
                     if (VRItem.TouchesGround(true))
                     {
                         VRItem.transform.position += traderDelta;
-                        VRItem.GetComponent<Rigidbody>().useGravity = true;
-                        VRItem.GetComponent<Rigidbody>().isKinematic = false;
                     }
                 }
-
-                Debug.LogWarning("Ended Movement!");
 
                 enabled = false;
             }
@@ -72,24 +61,17 @@ namespace RuthlessMerchant
             // Continue Movement.
             else
             {
-                SpeedX += (TargetConnectorRotation - TradeAbstract.Singleton.connector.transform.eulerAngles.x) * SpeedModifier;
-                SpeedX *= frictionY;
+                SpeedZ += (TargetConnectorRotationZ - get180(TradeAbstract.Singleton.connector.localEulerAngles.z)) * SpeedModifier;
+                SpeedZ *= frictionZ;
 
-                float newX = TradeAbstract.Singleton.connector.localEulerAngles.x + SpeedX * Time.deltaTime;
+                Vector3 traderDelta = trade.platePositionPlayer.transform.position;
 
-                if (newX > -70)
-                    newX = -70;
-                else if (newX < -110)
-                    newX = -110;
+                trade.connector.localEulerAngles += new Vector3(0, 0, SpeedZ * Time.deltaTime);
 
-                TradeAbstract.Singleton.connector.localEulerAngles = new Vector3(newX, -90, 90);
+                trade.PlayerZone.position = trade.platePositionPlayer.transform.position;
+                trade.TraderZone.position = trade.platePositionTrader.transform.position;
 
-                Vector3 traderDelta = scaleRight.position;
-
-                scaleRight.position = TradeAbstract.Singleton.platePositionPlayer.transform.position;
-                scaleLeft.position = TradeAbstract.Singleton.platePositionTrader.transform.position;
-
-                traderDelta -= scaleRight.position;
+                traderDelta = trade.platePositionPlayer.transform.position - traderDelta;
 
                 foreach (VRSceneItem VRItem in VRItems)
                 {
@@ -99,6 +81,14 @@ namespace RuthlessMerchant
                     }
                 }
             }
+        }
+
+        float get180(float float360)
+        {
+            if (float360 > 180)
+                return float360 - 360;
+            else
+                return float360;
         }
     }
 }
