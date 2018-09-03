@@ -6,6 +6,8 @@ namespace RuthlessMerchant
 {
     public class KillingGoals : MonoBehaviour
     {
+        [SerializeField]
+        private List<KillGoal> KillGoalsList;
 
         private bool questingEnabled;
         private KillGoal killGoal;
@@ -23,32 +25,24 @@ namespace RuthlessMerchant
 
         }
 
-        public void AssignQuest()
+        public void AssignQuest(GameObject button)
         {
             if (killGoal != null && questingEnabled)
             {
                 Debug.Log("kill quest assigned.");
 
-                GameObject target = null; // targeted by the hero
-                float distance = float.MaxValue;
-
-                // detect monsters
-                GameObject[] Monsters = GameObject.FindGameObjectsWithTag("NPC");
-                
-                for (int i = 0; i < Monsters.Length; i++)
+                if (killGoal.Completed || !killGoal.InProgress /*|| enemies killed <= 0*/)
                 {
-                    if (Monsters[i].gameObject.name == "NPC_Monster(Clone)")
-                    {
-                        float newDistance = Vector3.Distance(gameObject.transform.position, Monsters[i].transform.position);
 
-                        if (newDistance < distance)
-                        {
-                            target = Monsters[i];
-                        }
-                    }
+                    GameObject target = null; // targeted by the hero
+                    float distance = float.MaxValue;
+
+                    // List<GameObject> questTargets = new List<GameObject>();
+
+                    killGoal.SetTargetList(button);
+
+                    killGoal.CalcNextWayPoint();
                 }
-
-                // killgoal.setAction
             }
         }
 
@@ -57,6 +51,16 @@ namespace RuthlessMerchant
             if (other.gameObject.CompareTag("Player"))
             {
                 questingEnabled = true;
+            }
+
+
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.gameObject.CompareTag("Player"))
+            {
+                questingEnabled = false;
             }
         }
     }
