@@ -97,7 +97,7 @@ public class VRMenuScript : MonoBehaviour
     private void QuitGame()
     {
         lightExit.enabled = true;
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !levelLoadingInitiated)
         {
             fadeImage.FadingWithCallback(1f, fadeTime, delegate
             {
@@ -109,10 +109,13 @@ public class VRMenuScript : MonoBehaviour
     private void Credits()
     {
         lightCredits.enabled = true;
-        fadeImage.FadingWithCallback(0f, 2f, delegate
-         {
-             SceneManager.LoadScene("Credits");
-         });
+        if (Input.GetMouseButtonDown(0) && !levelLoadingInitiated)
+        {
+            fadeImage.FadingWithCallback(0f, 2f, delegate
+             {
+                 SceneManager.LoadScene("Credits");
+             });
+        }
     }
 
     public void LoadLevelAsync()
