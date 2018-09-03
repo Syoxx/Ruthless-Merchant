@@ -213,8 +213,10 @@ namespace RuthlessMerchant
             {
                 float newX = -90 + playerTraderOfferDelta * connectorSensitivity;
 
-                if (newX > 39.268965f)
-                    newX = 39.268965f;
+                if (newX > -70)
+                    newX = -70;
+                else if (newX < -110)
+                    newX = -110;
 
                 connector.localEulerAngles = new Vector3(newX, -90, 90); 
                 PlayerZone.position = platePositionPlayer.position;

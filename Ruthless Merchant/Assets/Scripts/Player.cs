@@ -39,7 +39,7 @@ namespace RuthlessMerchant
         }
 
         private Camera playerAttachedCamera;
-        public NavMeshAgent NavMeshAgent;
+        public NavMeshObstacle NavMeshObstacle;
         public Quaternion PlayerLookAngle;
         private Quaternion cameraPitchAngle;
         private Vector3 MoveVector = Vector3.zero;
@@ -107,6 +107,11 @@ namespace RuthlessMerchant
         [SerializeField, Tooltip("The Booklogic attached to the Book-Object")]
         private PageLogic bookLogic;
         private KeyCode currentBookSection;
+
+        private Rigidbody rbplayer;
+        private Vector3 reachedVelocity;
+        [SerializeField, Range(-30.0f, 0.0f), Tooltip("The Velocity that is required to kill the player when falling")]
+        private float deathVelocity = 12f;
         #endregion
 
         #region Public Fields
@@ -122,9 +127,11 @@ namespace RuthlessMerchant
         private void Awake()
         {
             Singleton = this;
-            NavMeshAgent = GetComponent<NavMeshAgent>();
-            NavMeshAgent.stoppingDistance = 0.1f;
-            NavMeshAgent.autoBraking = true;
+
+            NavMeshObstacle = GetComponent<NavMeshObstacle>();
+
+            if (NavMeshObstacle != null)
+                NavMeshObstacle.enabled = false;
         }
 
         #endregion
@@ -317,7 +324,9 @@ namespace RuthlessMerchant
         }
 
         public override void Update()
-        {     
+        {
+            CheckFallDamage();
+
             LookRotation();
             ControleModeMove();
             if (controlMode == ControlMode.Move)
@@ -330,6 +339,31 @@ namespace RuthlessMerchant
 
             GlowObject();
             base.Update();
+        }
+
+        /// <summary>
+        /// Checks if the player should die due to a high falling velocity
+        /// </summary>
+        private void CheckFallDamage()
+        {
+            if (rbplayer != null)
+            {
+                if (reachedVelocity.y > rbplayer.velocity.y)
+                    reachedVelocity = rbplayer.velocity;
+
+                if (rbplayer.velocity.y > reachedVelocity.y)
+                {
+                    if (reachedVelocity.y < -12)
+                    {
+                        reachedVelocity = Vector3.zero;
+                        respawn.InitiateRespawn();
+                    }
+                }
+            }
+            else
+            {
+                rbplayer = GetComponent<Rigidbody>();
+            }
         }
 
         /// <summary>
@@ -564,7 +598,7 @@ namespace RuthlessMerchant
 
             if (!restrictMovement && !restrictCamera)
             {
-                if (gameObject.GetComponent<Rigidbody>().freezeRotation == true || gameObject.GetComponent<Rigidbody>().useGravity == false)
+                if ((gameObject.GetComponent<Rigidbody>().freezeRotation == true || gameObject.GetComponent<Rigidbody>().useGravity == false) && TradeAbstract.Singleton != null)
                 {
                     gameObject.GetComponent<Rigidbody>().freezeRotation = false;
                     gameObject.GetComponent<Rigidbody>().useGravity = true;
@@ -770,7 +804,8 @@ namespace RuthlessMerchant
             restrictCamera = true;
             bookCanvas.SetActive(true);
             gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", true);
-            if (Tutorial.Singleton != null && Tutorial.Singleton.isTutorial)
+
+            if (Trader.CurrentTrader.startTradeImmediately)
                 bookLogic.GoToPage(KeyCode.N);
             else
                 bookLogic.GoToPage(KeyCode.I);
