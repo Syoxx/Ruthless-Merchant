@@ -15,6 +15,8 @@ namespace RuthlessMerchant
         private AlchemySlot[] alchemySlots;
 
         [SerializeField] private UnityEvent onSuccesfullAlchemy;
+
+        [SerializeField] private UnityEvent onSuccesfullAlchemyAchievment;
         #endregion
 
 
@@ -223,6 +225,7 @@ namespace RuthlessMerchant
             Player p = caller.GetComponent<Player>();
             p.Inventory.Add(potion.DeepCopy(), 1, true);
             onSuccesfullAlchemy.Invoke();
+            onSuccesfullAlchemyAchievment.Invoke();
             Destroy(potion.gameObject);
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -14,6 +15,17 @@ namespace RuthlessMerchant {
         private int counter2;
         private int RequiredAmount;
         private int RequiredAmount2;
+
+        [SerializeField]
+        [Tooltip("Drage a StealSpecianWeapon from Achievements/EasternMountainTrail there")]
+        private Item StealSpecialWeapon;
+
+        [SerializeField]
+        [Tooltip("Drage a Iron Mace there")]
+        private Item IronMaceWeapon;
+
+        private bool ironMaceCrafted;
+
         [HideInInspector]
         public bool Completed;
 
@@ -64,16 +76,67 @@ namespace RuthlessMerchant {
         {
             Singleton = this;
             UpdateCanvas(0);
+            Trade.ItemsSold += OnItemSold;
+        }
+
+        void Update()
+        {
+            if (Singleton.switchIndex == 3 && !ironMaceCrafted)
+            {
+                Singleton.counter = Player.Singleton.Inventory.GetNumberOfItems(IronMaceWeapon);
+                if (Singleton.counter == 3)
+                {
+                    ironMaceCrafted = true;
+                }
+            }
+            if (Singleton.switchIndex == 3 && ironMaceCrafted)
+            {
+                Singleton.counter2 = (3 - Player.Singleton.Inventory.GetNumberOfItems(IronMaceWeapon));
+            }
+        }
+
+        public void BrewingPotion()
+        {
+            if (Singleton.switchIndex == 7)
+            {
+                Singleton.counter++;
+            }
+        }
+
+        void OnItemSold(object sender, EventArgs args)
+        {
+            if (Singleton.switchIndex == 8)
+            {
+                Singleton.counter2++;
+            }
         }
 
         public static void AddToCounter(Item item = null, bool firstCounter = true)
         {
             if (item)
             {
-                if (item.ItemInfo.ItemName == "Wood")
-                    Singleton.counter++;
-                else if (item.ItemInfo.ItemName == "Iron")
-                    Singleton.counter2++;
+                if (Singleton.switchIndex < 1)
+                {
+                    if (item.ItemInfo.ItemName == "Wood")
+                        Singleton.counter++;
+                    else if (item.ItemInfo.ItemName == "Iron")
+                        Singleton.counter2++;
+                }
+                if (Singleton.switchIndex == 4)
+                {
+                    if (item.ItemInfo.ItemName == "Ancient Axe")
+                        Singleton.counter2++;
+                }
+                if (Singleton.switchIndex == 5)
+                {
+                    if (item.ItemInfo.ItemName == "Vipershroom")
+                        Singleton.counter2++;
+                }
+                if (Singleton.switchIndex == 6)
+                {
+                    if (item.ItemInfo.ItemName == "Creaky Tuber")
+                        Singleton.counter2++;
+                }
             }
             else
             {
@@ -92,7 +155,7 @@ namespace RuthlessMerchant {
             switch (Singleton.switchIndex)
             {
                 case 0:
-                    Singleton.RequiredAmount = 6; Singleton.RequiredAmount2 = 9;
+                    Singleton.RequiredAmount = 1; Singleton.RequiredAmount2 = 1;
                     Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex] + Singleton.Goal[0] + "( " + Singleton.counter + " / " + Singleton.RequiredAmount + " )" + Singleton.Goal[1] + "( " + Singleton.counter2 + " / " + Singleton.RequiredAmount2 + " )"; break;
                 case 1:
                     Singleton.RequiredAmount = 1; Singleton.RequiredAmount2 = 1;
@@ -113,7 +176,7 @@ namespace RuthlessMerchant {
                     Singleton.RequiredAmount = 1; Singleton.RequiredAmount2 = 5;
                     Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex] + Singleton.Goal[11] + "( " + Singleton.counter + " / " + Singleton.RequiredAmount + " )" + Singleton.Goal[12] + "( " + Singleton.counter2 + " / " + Singleton.RequiredAmount2 + " )"; break;
                 case 7:
-                    Singleton.RequiredAmount = 3; Singleton.RequiredAmount2 = 3;
+                    Singleton.RequiredAmount = 3; Singleton.RequiredAmount2 = 0;
                     Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex] + Singleton.Goal[13] + "( " + Singleton.counter + " / " + Singleton.RequiredAmount + " )" + Singleton.Goal[14] + "( " + Singleton.counter2 + " / " + Singleton.RequiredAmount2 + " )"; break;
                 case 8:
                     Singleton.RequiredAmount = 1; Singleton.RequiredAmount2 = 1;
@@ -133,4 +196,49 @@ namespace RuthlessMerchant {
                 Singleton.counter = 0; Singleton.counter2 = 0;
             }
         }
-    } }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            switch (other.gameObject.name)
+            {
+                case "AncientTradeRouteTrigger":
+                    if (Singleton.switchIndex == 1)
+                    {
+                        AddToCounter();
+                    }
+                    break;
+                case "OpenMindedCapitalTrigger":
+                    if (Singleton.switchIndex == 2)
+                    {
+                        AddToCounter();
+                    }
+
+                    break;
+                case "EasternMountainTrailTrigger":
+                    if (Singleton.switchIndex == 4)
+                    {
+                        AddToCounter();
+                    }
+                    break;
+                case "UphillPathTrigger":
+                    if (Singleton.switchIndex == 5)
+                    {
+                        AddToCounter();
+                    }
+                    break;
+                case "GreenLeafPathTrigger":
+                    if (Singleton.switchIndex == 6)
+                    {
+                        AddToCounter();
+                    }
+                    break;
+                case "ImperialistCityTrigger":
+                    if (Singleton.switchIndex == 8)
+                    {
+                        AddToCounter();
+                    }
+                    break;
+            }
+        }
+    }
+}
