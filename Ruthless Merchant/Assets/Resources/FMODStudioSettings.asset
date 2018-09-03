@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Name: FMODStudioSettings
   m_EditorClassIdentifier: 
   HasSourceProject: 0
-  HasPlatforms: 1
+  HasPlatforms: 0
   sourceProjectPath: D:\Ruthless Merchant\FMOD Repository\FMOD-RuthlessMerchant\RuthlessMerchant\RuthlessMerchant.fspro
   SourceProjectPathUnformatted: D:\Ruthless Merchant\FMOD Repository\FMOD-RuthlessMerchant\RuthlessMerchant\RuthlessMerchant.fspro
-  SourceBankPathUnformatted: D:\Ruthless Merchant\FMOD Repository\FMOD-RuthlessMerchant\RuthlessMerchant\Build
+  SourceBankPathUnformatted: Assets\StreamingAssets\Desktop
   AutomaticEventLoading: 1
   AutomaticSampleLoading: 0
   ImportType: 0
@@ -35,7 +35,7 @@ MonoBehaviour:
     Value: 0
   OverlaySettings:
   - Platform: 1
-    Value: 1
+    Value: 0
   - Platform: 2
     Value: 0
   LoggingSettings:
@@ -59,7 +59,7 @@ MonoBehaviour:
   Plugins: []
   MasterBank: Master Bank
   Banks:
+  - Ambience
   - Environment
   - SFX
   - Music
-  - Ambience
