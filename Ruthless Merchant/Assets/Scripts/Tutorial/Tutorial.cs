@@ -11,19 +11,34 @@ namespace RuthlessMerchant
         public static Tutorial Singleton;
         public bool isTutorial;
 
+        [SerializeField]
+        private int minCollectedVains = 1;
+        [SerializeField]
+        private int minCollectedPlants = 1;
+
+        [SerializeField, Tooltip("Add all collactable materials")]
+        private GameObject[] ironVains;
+
+        [SerializeField, Tooltip("Add platns here")]
+        private GameObject[] plants;
+
         //Check bool to start the movement of Monster
         [System.NonSerialized]
         public bool TradeIsDone;
 
         [SerializeField]
-        [Tooltip("Drag IronSword Prefab there")]
-        private Item ironSword;
+        private Trader trader;
+
+        [SerializeField,Tooltip("Drag Monster from tutorial there")]
+        private Monster monster;
+
+        [SerializeField]
+        [Tooltip("Drag DefaultSword Prefab there")]
+        private Item defaultSword;
         [SerializeField]
         [Tooltip("Drag teleportCaveUp from Tutorial there")]
         private GameObject teleportCaveUp;
-        [SerializeField]
-        [Tooltip("Drag Enter from Tutorial there")]
-        private GameObject caveEnter;
+
         [SerializeField]
         [Tooltip("Drag Player there")]
         private GameObject PlayerObject;
@@ -39,11 +54,8 @@ namespace RuthlessMerchant
         [SerializeField]
         [Tooltip("Drag Textmesh from Tutorial/Subtitle there")]
         private TextMeshProUGUI textMesh;
-        [SerializeField]
-        [Tooltip("Drag Monster from tutorial there")]
-        private GameObject TutorialMonster;
 
-        private Collider playerCollider, teleportUpCollider, exitOutOfCaveCollider;
+        private Collider playerCollider, exitOutOfCaveCollider;
         [SerializeField]
         [Tooltip("Drag FadeImage there")]
         private Image myFade;
@@ -67,33 +79,25 @@ namespace RuthlessMerchant
         //Dialogue colliders
         private Collider dialogueZone11Collider;
 
-        private bool SmithDone, WorkbenchDone, AlchemyDone;
+        private bool SmithDone, WorkbenchDone, AlchemyDone, DismentalDone, CollectingDone;
 
-
-        //Text Monolog
-        private int speechCounter;
-        private string[] MonologSpeech =
-        {
-            "'I offered a pack of 5 Iron Swords. I knew the value of a single one was 29 Gold. We would haggle over it.'",                                                                                                                                           //0 Start while fading
-            "'I offered a pack of 5 Iron Swords. I knew the value of a single one was 29 Gold. We would haggle over it.'",                                                                                                                                           //1 Start at trade                                         
-            "'He had his own price in mind, probably way lower than I wished. So, I had the choice between pretending a higher value and hopefully selling it to him, or starting lower to please him'",                                                            //2 Start "Angebot"
-            "'I preferred the chance for profit. He had a sense for that and replied with a lower initial offer. Now, we had to approach each other until we came to an agreement – or someone dropped the whole deal'",                                            //3 Nach Setzen des Startangebotes, sofern nicht direkt abbricht, Höher als Realwert
-            "'I opened in a moderate fashion. I could go only lower from there'",                                                                                                                                                                                   //4 Niedriger als Realwert
-            "'I made a profitable deal by selling it for a good price. I should quickly move to the nearby cave.'",                                                                                                                                                                                           //5 Beim Ende Wenn über oder genau bei Realwert verkauft
-            "'I may have missed on that price, but a sold item is still a sold item I don’t have to occupy bag space for. And my customer seemed happy. I should quickly move to the nearby cave.'",                                                                                                          //6 Beim Ende Wenn unter Realwert verkauft: 
-            "'I was to greedy. I expected too much from this deal. Honestly, I would have stopped there by myself. I should quickly move to the nearby cave.'",                                                                                                                                               //7 Beim Ende Wenn wegen Genervtheit 
-            "'I was still naive and eased the price way to easy. No wonder he couldn’t take me serious anymore. I should quickly move to the nearby cave.'",                                                                                                                                                   //8 Beim Ende Wenn wegen Genervtheit     
-            "'I quickly escaped to the nearby cave. However, their fortune was different. It was the first time I encountered one of those … things. Not exactly my audience.'",  //9 Monster Appears
-            "'There was only one way out, a hole in the floor. I had to jump …'",                                                                                                                                                                                                        //10 Enter Cave
-            "'… and landed in a structure underneath. There were some obstacles, but nothing to worry about. The exit couldn’t be far away'",                                                                                                                       //11 Bottom Cave
-            "'Weird. I prefer dreaming about the future, not the past. Well, it looks like I am not the only one taking a nap. Let’s give my smith some work'",                                                                                                     //12 Waking Up
-            "'A capable man. I only have to bring him materials and i would craft whatever weapon I need'",                                                                                                                                                         //13 At Smith
-            "'Everything is set and prepared. I should leave this place and make some profit by selling my carefully crafted goods'",                                                                                                                                                                                                                       //14 After Smith
-            "'Sometimes, I need to dismantle some of my old stock. This workbench is the perfect tool to do so, and still retrieve some materials.'",
-            "'At alchemy stations like this one, I can brew potions to sell. I just put herbs in the small bottles and combine their effects with the tools on the table.'",
-            "'Everything is set and prepared. I should leave this place and make some profit by selling my carefully crafted goods.'"
-        };
-        // Hardcoded Stuff
+        private string startMonolog = "'Some call it a shattered world … and I call it home.Not because of my origin.But because I strive to own this place.I can move around with[W][A][S][D], jump with[SPACE], run with[SHIFT], look around by moving the mouse and collect items or interact by pressing[E]. Now I should collect some materials.'";
+        private string tryExitWithoutMaterials = "'I think I should collect some materials before I leave'";
+        private string collectedMaterials = "'I have enough materials a should go to my cave'";
+        private string playerCaveEntered = "'Weird. I prefer dreaming about the future, not the past. Well, it looks like I am not the only one taking a nap. Let’s give my smith some work'";
+        private string playerCaveCraftAlchemy = "'At alchemy stations like this one, I can brew potions to sell. I just put herbs in the small bottles and combine their effects with the tools on the table.'";
+        private string playerCaveCraftSmith = "'A capable man. I only have to bring him materials and i would craft whatever weapon I need'";
+        private string playerCaveCraftDismantel = "'Sometimes, I need to dismantle some of my old stock. This workbench is the perfect tool to do so, and still retrieve some materials.'";
+        private string playerCaveFinished = "'Everything is set and prepared. I should leave this place and make some profit by selling my carefully crafted goods'";
+        private string TradingInit = "'I offered a pack of 5 Iron Swords. I knew the value of a single one was 29 Gold. We would haggle over it.'";
+        private string TradingDoBet = "'He had his own price in mind, probably way lower than I wished. So, I had the choice between pretending a higher value and hopefully selling it to him, or starting lower to please him'";
+        private string TradeGoodBet = "'I preferred the chance for profit. He had a sense for that and replied with a lower initial offer. Now, we had to approach each other until we came to an agreement – or someone dropped the whole deal'";
+        private string TradeBadBet = "'I opened in a moderate fashion. I could go only lower from there'";
+        private string TradeGoodResult = "'I made a profitable deal by selling it for a good price. I should quickly move to the nearby cave.'";
+        private string TradeBadResult = "'I may have missed on that price, but a sold item is still a sold item I don’t have to occupy bag space for. And my customer seemed happy. I should quickly move to the nearby cave.'";
+        private string TradeIrritationResultGreedy = "'I was to greedy. I expected too much from this deal. Honestly, I would have stopped there by myself. I should quickly move to the nearby cave.'";
+        private string TradeIrritationResultNaiv = "'I was still naive and eased the price way to easy. No wonder he couldn’t take me serious anymore. I should quickly move to the nearby cave.'";
+        private string TradeFinished = "'Trade finished (monster)'";
 
         private void Awake()
         {
@@ -104,16 +108,15 @@ namespace RuthlessMerchant
         {
             textMesh = textMesh.GetComponent<TextMeshProUGUI>();
             playerCollider = PlayerObject.GetComponent<Collider>();
-            teleportUpCollider = teleportCaveUp.GetComponent<Collider>();
             exitOutOfCaveCollider = exitOutOfCaveObject.GetComponent<Collider>();
 
             // Dialogues
             dialogueZone11Collider = dialogueZone10.GetComponent<Collider>();
 
 
-            Player.Singleton.Inventory.Add(ironSword, 5, true);
+            Player.Singleton.Inventory.Add(defaultSword, 5, true);
 
-            myFade.FadingWithCallback(1, 0.001f, delegate {Monolog(0); myFade.FadingWithCallback(0, 3, delegate { Debug.Log("Done fading"); });
+            myFade.FadingWithCallback(1, 0.001f, delegate {Monolog(startMonolog); myFade.FadingWithCallback(0, 3, delegate { Debug.Log("Done fading"); });
             });
 
         }
@@ -121,99 +124,192 @@ namespace RuthlessMerchant
         // Update is called once per frame
         void Update()
         {
-            Teleports();
+            CheckCollection();
             OpenSmithDoor();
             Debug.Log("Smith" + SmithDone + "Alchemy" + AlchemyDone + "Workbench" + WorkbenchDone);
-        } 
+        }
 
-        public static void Monolog(int speechIndex)
+        private void CheckCollection()
+        {
+            int collectedVains = 0;
+            if (ironVains != null)
+            {
+                for (int i = 0; i < ironVains.Length; i++)
+                {
+                    if (ironVains[i] == null)
+                        collectedVains++;
+                }
+            }
+
+            int collectedPlants = 0;
+            if (plants != null)
+            {
+                for (int i = 0; i < plants.Length; i++)
+                {
+                    if (plants[i] == null)
+                        collectedPlants++;
+                }
+            }
+
+            bool prevDone = CollectingDone;
+            CollectingDone = collectedPlants >= minCollectedPlants && collectedVains >= minCollectedVains;
+
+            if(!prevDone && CollectingDone)
+            {
+                Monolog(Singleton.collectedMaterials);
+            }
+        }
+
+        #region TradeMonologs
+        public static void TraderMonologStart()
+        {
+            Monolog(Singleton.TradingInit);
+            Singleton.trader.Interact(Player.Singleton.gameObject);
+        }
+
+        public static void TraderItemSelectionMonolog2()
+        {
+            Monolog(Singleton.startMonolog);
+        }
+
+        public static void TraderMonolog3()
+        {
+            Monolog(Singleton.TradingDoBet);
+        }
+
+        public static void TraderMonolog4()
+        {
+            Monolog(Singleton.TradeGoodBet);
+        }
+
+        public static void TradeMonolog5()
+        {
+            Monolog(Singleton.TradeBadBet);
+        }
+
+        public static void TradeMonolog6()
+        {
+            Monolog(Singleton.TradeGoodResult);
+        }
+
+        public static void TraderMonolog7()
+        {
+            Monolog(Singleton.TradeBadResult);
+        }
+
+        public static void TraderMonolog8()
+        {
+            Monolog(Singleton.TradeIrritationResultGreedy);
+        }
+
+        public static void TraderMonolog9()
+        {
+            Monolog(Singleton.TradeIrritationResultNaiv);
+        }
+        #endregion
+
+        public static void Monolog(string text)
         {
             if (Singleton != null && Singleton.isTutorial && Singleton.textMesh != null)
             {
-                Singleton.textMesh.text = Singleton.MonologSpeech[speechIndex];
+                Singleton.textMesh.text = text;
                 Singleton.textMesh.transform.parent.gameObject.SetActive(true);
-                Debug.Log("Monolog " + speechIndex);
             }
         }
 
         public void OpenSmithDoor()
         {
-            if (WorkbenchDone && AlchemyDone && WorkbenchDone)
+            if (WorkbenchDone && AlchemyDone && SmithDone)
             {
+                Monolog(playerCaveFinished);
                 smithExit.SetActive(false);   
             }        
-        }
-        private void Teleports()
-        {
-            if (playerCollider.bounds.Intersects(teleportUpCollider.bounds))
-            {
-                myFade.FadingWithCallback(1, 1, delegate
-                {
-                    //transform.position = new Vector3(caveEnter.transform.position.x, caveEnter.transform.position.y - 5,
-                    //  caveEnter.transform.position.z);
-                    //transform.position = caveEnter.transform.position;
-                    Vector3 teleportTarget = new Vector3(386.635f, 7.847f, 68.289f) ;
-                    //teleportTarget.y = teleportTarget.y - 4;
-                    myFade.FadingWithCallback(0, 0.5f, delegate { transform.position = teleportTarget; });
-                });
-
-                Monolog(11);
-            }
-
-            if (playerCollider.bounds.Intersects(exitOutOfCaveCollider.bounds))
-            {
-                myFade.FadingWithCallback(1, 1, delegate
-                {
-                    transform.position = new Vector3(smithEnterObject.transform.position.x,
-                        smithEnterObject.transform.position.y, smithEnterObject.transform.position.z);
-                    myFade.FadingWithCallback(0, 0.5f, delegate { Debug.Log("Done fading"); });
-                });
-
-                Monolog(12);
-            }
         }
 
         public void SmithIsCompleted()
         {
             SmithDone = true;
         }
+
         public void AlchemyIsCompleted()
         {
             AlchemyDone = true;
         }
+
         public void WorkbenchIsCompleted()
         {
             WorkbenchDone = true;
         }
 
-
         void OnTriggerEnter(Collider other)
-        {
-            
+        {          
             switch (other.gameObject.name)
             {
                 case "10_TriggerZone":
-                    Monolog(10);
-                    TutorialMonster.SetActive(false);
-                    Player.Singleton.Inventory.Remove(ironSword, true);
+                    //Monolog(10);
+                    //Player.Singleton.Inventory.Remove(ironSword, true);
                     break;
                 case "13_TriggerZone":
-                    Monolog(13);
-                    Destroy(other.gameObject);
+                    //Monolog(13);
+                    //Destroy(other.gameObject);
                     break;
                 case "TriggerCancelTutorial":
-                    TutorialObject.SetActive(false);
-                    
+                    TutorialObject.SetActive(false);                
                     break;
                 case "AlchemyTextTrigger":
-                    Monolog(16);
+                    AlchemyTrigger();
                     break;
                 case "WorkbenchTextTrigger (1)":
-                    Monolog(15);
+                    WorkbenchTrigger();
+                    break;
+                case "ExitOutOfCave":
+                    OnExitCave();
                     break;
             }
         }
-    }
- 
 
+        private void OnExitCave()
+        {
+            if (CollectingDone)
+            {
+                myFade.FadingWithCallback(1, 1, delegate
+                {
+                    transform.position = new Vector3(smithEnterObject.transform.position.x,
+                        smithEnterObject.transform.position.y, smithEnterObject.transform.position.z);
+                    myFade.FadingWithCallback(0, 0.5f, delegate { Debug.Log("Done fading"); });
+                    Monolog(playerCaveEntered);
+                });
+            }
+            else
+            {
+                Monolog(tryExitWithoutMaterials);
+            }
+        }
+
+        #region PlayerCaveMonologs
+        private void AlchemyTrigger()
+        {
+            if (!AlchemyDone)
+            {
+                Monolog(playerCaveCraftAlchemy);
+            }
+        }
+
+        private void WorkbenchTrigger()
+        {
+            if (!DismentalDone)
+            {
+                Monolog(playerCaveCraftDismantel);
+            }
+        }
+
+        private void SmithTrigger()
+        {
+            if (!SmithDone)
+            {
+                Monolog(playerCaveCraftSmith);
+            }
+        }
+        #endregion
+    }
 }

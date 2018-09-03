@@ -69,6 +69,8 @@ namespace RuthlessMerchant
                 }
                 inventory.Add(recipes.GetRecipes()[index].Result, 1, true);
                 onSuccesfullSmithing.Invoke();
+                if (Achievements.Singleton.switchIndex == 3)
+                    Achievements.AddToCounter();
                 return true;
             }
             return false;

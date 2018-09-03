@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace RuthlessMerchant
 {
@@ -26,6 +27,8 @@ namespace RuthlessMerchant
         [ReadOnly]
         #endif
         public CaptureTrigger AsignedOutpost;
+
+        public GameObject Scale;
 
         [SerializeField]
         Transform directionPointer;
@@ -205,10 +208,20 @@ namespace RuthlessMerchant
         float timer = 0;
         float timerLimit = 1;
 
-        bool moving = false;
+        public static bool TradeHasLoaded;
+        int fading = 0;
+        bool moving;
         Vector3 targetPosition;
 
+        static Image fadeImage;
+
         #region MonoBehaviour cycle
+
+        private void Awake()
+        {
+            if (fadeImage == null)
+                fadeImage = GameObject.Find("FadeImage").GetComponent<Image>();
+        }
 
         public override void Start()
         {
@@ -220,32 +233,41 @@ namespace RuthlessMerchant
         {
             UpdatePsychoCoolff();
 
-            if (moving)
-            {
-                float remainingDistance = Player.Singleton.NavMeshAgent.remainingDistance;
-
-                Player player = Player.Singleton;
-
-                if (remainingDistance == 0)
+            if (fading != 0)
+            { 
+                if (TradeHasLoaded || fading == 1)
                 {
-                    moving = false;
+                    fadeImage.color += new Color(0, 0, 0, Time.deltaTime * 2) * fading;
 
-                    player.transform.position = targetPosition;
-                    player.transform.LookAt(transform);
-                    player.transform.eulerAngles = new Vector3(0, Player.Singleton.transform.eulerAngles.y, 0);
-                    player.PlayerLookAngle = Player.Singleton.transform.localRotation;
+                    if (fadeImage.color.a >= 1 && fading != -1)
+                    {
+                        fading = -1;
 
-                    player.NavMeshAgent.enabled = false;
+                        Player player = Player.Singleton;
+                        player.EnterTrading();
 
-                    InventoryItem.Behaviour = InventoryItem.ItemBehaviour.Move;
-                    Main_SceneManager.LoadSceneAdditively("TradeScene");
-                    player.EnterTrading();
-                    Tutorial.Monolog(1);
-                }
-                else
-                {
-                    player.transform.LookAt(transform);
-                    player.transform.eulerAngles = new Vector3(0, Player.Singleton.transform.eulerAngles.y, 0);
+                        Vector3 direction = (directionPointer.position - transform.position).normalized * 0.52f;
+                        transform.localPosition += direction;
+                        player.transform.position = new Vector3(transform.position.x, player.transform.position.y, transform.position.z);
+                        transform.localPosition -= direction;
+
+                        player.transform.LookAt(transform);
+                        player.GetComponentInChildren<Camera>().transform.localEulerAngles = new Vector3(player.transform.eulerAngles.x, 0, 0);
+                        player.transform.eulerAngles = new Vector3(0, Player.Singleton.transform.eulerAngles.y, 0);
+                        player.PlayerLookAngle = Player.Singleton.transform.localRotation;
+                        Scale.SetActive(false);
+
+                        Main_SceneManager.LoadSceneAdditively("TradeScene");
+                    }
+
+                    if (fadeImage.color.a <= 0)
+                    {
+                        fading = 0;
+                        fadeImage.color = new Color(0, 0, 0, 0);
+                        fadeImage.raycastTarget = false;
+                        Cursor.visible = true;
+                        TradeHasLoaded = false;
+                    }
                 }
             }
         }
@@ -413,11 +435,11 @@ namespace RuthlessMerchant
 
                 if(currentPlayerOffer <= TradeAbstract.Singleton.RealValue)
                 {
-                    Tutorial.Monolog(4);
+                    Tutorial.TraderMonolog4();
                 }
                 else
                 {
-                    Tutorial.Monolog(3);
+                    Tutorial.TraderMonolog3();
                 }
             }
         }
@@ -489,7 +511,7 @@ namespace RuthlessMerchant
                 IrritationTotal = IrritationLimit;
                 trade.Abort();
                 Debug.Log("Trader has surpassed his psycho limits.");
-                Tutorial.Monolog(7);
+                Tutorial.TraderMonolog7();
                 return false;
             }
 
@@ -498,7 +520,7 @@ namespace RuthlessMerchant
                 SkepticismTotal = SkepticismLimit;
                 trade.Abort();
                 Debug.Log("Trader has surpassed his psycho limits.");
-                Tutorial.Monolog(8);
+                Tutorial.TraderMonolog8();
                 return false;
             }
 
@@ -523,34 +545,19 @@ namespace RuthlessMerchant
                     {
                         InventoryItem.Behaviour = InventoryItem.ItemBehaviour.Move;
                         Main_SceneManager.LoadSceneAdditively("TradeScene");
-                        player.EnterTrading();
-                        Tutorial.Monolog(1);
+
+                        Tutorial.TraderMonologStart();
                     }
                     else
                     {
-                        Vector3 direction = (directionPointer.position - transform.position).normalized * 0.66f;
-                        transform.localPosition += direction;
-                        targetPosition = new Vector3(transform.position.x, player.transform.position.y, transform.position.z);
-                        transform.localPosition -= direction;
+                        fading = 1;
+                        fadeImage.raycastTarget = true;
 
-                        Vector3 prevPosition = player.transform.position;
-                        Quaternion prevRotation = player.transform.rotation;
-
-                        player.transform.position = targetPosition;
-                        player.transform.LookAt(transform);
-
-                        player.transform.rotation = prevRotation;
-                        player.transform.position = prevPosition;
-
-                        player.NavMeshAgent.enabled = true;
-                        player.NavMeshAgent.SetDestination(targetPosition);
-
+                        InventoryItem.Behaviour = InventoryItem.ItemBehaviour.Move;
                         player.RestrictBookUsage = true;
-                        Player.RestrictCamera = true;
+                        player.NavMeshObstacle.enabled = true;
 
-                        player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-
-                        moving = true;
+                        player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePosition;
                     }
                 }
                 else

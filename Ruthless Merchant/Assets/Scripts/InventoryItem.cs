@@ -65,7 +65,7 @@ namespace RuthlessMerchant
 
                     if (Location == UILocation.Inventory)
                     {
-                        Tutorial.Monolog(1);
+                        Tutorial.TraderMonologStart();
 
                         MoveItem(this);
                         Inventory.Singleton.Remove(this, 1, true);
