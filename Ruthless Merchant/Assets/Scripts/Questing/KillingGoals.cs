@@ -15,9 +15,14 @@ namespace RuthlessMerchant
         [SerializeField]
         private Transform buttonParent;
         private List<GameObject> buttons = new List<GameObject>();
-
+        private CaptureTrigger outpostTrigger;
         private bool questingEnabled;
         private KillGoal killGoal;
+
+        private void Start()
+        {
+            outpostTrigger = GetComponent<CaptureTrigger>();
+        }
 
         private void OnTriggerStay(Collider other)
         {
@@ -27,6 +32,11 @@ namespace RuthlessMerchant
         
         public void AssignQuest(int localIndex, GameObject button)
         {
+            if (killGoal == null && !(outpostTrigger.IsHeroAway))
+            {
+                killGoal = outpostTrigger.Hero.GetComponent<KillGoal>();
+            }
+
             if (killGoal != null && questingEnabled)
             {
                 Debug.Log("AssignQuest quest and collectiongoal != null");

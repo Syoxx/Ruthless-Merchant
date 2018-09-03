@@ -40,8 +40,13 @@ namespace RuthlessMerchant {
             //cheat for testing
             if (Input.GetKeyDown(KeyCode.F10))
                 EnemyKilled();
-            if(InProgress)
-                Debug.Log("current action: " + hero.CurrentAction);
+            //if(InProgress)
+            //    Debug.Log("current action: " + hero.CurrentAction);
+
+            if (InProgress && hero.CurrentAction is ActionIdle)
+            {
+                // hero needs to see the monster to hunt properly, maybe use ActionMove
+            }
 
         }
 
@@ -88,8 +93,10 @@ namespace RuthlessMerchant {
             {
                 if (!(hero.CurrentAction is ActionAttack))
                 {
-                    Debug.Log(target.transform.position);
-                    hero.SetCurrentAction(new ActionHunt( ActionNPC.ActionPriority.High), target, true, true);
+                    //Debug.Log(target.transform.position);     // target position checking
+                    //hero.SetCurrentAction(new ActionHunt( ActionNPC.ActionPriority.Medium), target, true, true);
+                    // TODO: Use an action that hunts monsters beyond the normal 'hunt distance' and calls EnemyKilled() when monster was killed
+                    hero.SetCurrentAction(new ActionMonsterQuest(ActionNPC.ActionPriority.Medium), target, true, true);
                 }
             }
         }
