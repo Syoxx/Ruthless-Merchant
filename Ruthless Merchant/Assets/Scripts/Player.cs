@@ -695,8 +695,9 @@ namespace RuthlessMerchant
                                 int UnsuccessfulPickup = inventory.Add(clonedItem, 1, true);
 
                                 //In Achievement-Mode
-                                if(Achievements.Singleton.switchIndex < 1)
-                                    Achievements.AddToCounter(targetItem);
+                               
+                                Achievements.AddToCounter(targetItem);
+                                
 
                                 if (UnsuccessfulPickup != 0)
                                 {
