@@ -20,6 +20,7 @@ namespace Assets.Scripts.Audio
         {
             FMODUnity.RuntimeManager.PlayOneShot(_path, this.transform.position);
             //event:/Characters/Minions/NPC swords
+            //event:/Characters/Monster/MonsterHit
         }
 
 
