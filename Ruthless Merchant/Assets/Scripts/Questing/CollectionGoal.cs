@@ -12,7 +12,7 @@ namespace RuthlessMerchant {
         QuestButton questButton;
 
         [SerializeField]
-        private int CollectableID;
+        private bool inProgress;
         private int QuestZoneID;
 
         private GameObject[] Materials;
@@ -20,12 +20,13 @@ namespace RuthlessMerchant {
 
         public List<Collectables> collectables;
         private List<Material> FoundMaterials;
-
-        public CollectionGoal(string description, bool completed, string questTitle)
+        
+        public CollectionGoal(string description, bool completed, string questTitle, bool inProgress)
         {
             QuestTitle = questTitle;
             Description = description;
             Completed = completed;
+            InProgress = inProgress;
         }
 
         public Hero Hero
@@ -63,17 +64,26 @@ namespace RuthlessMerchant {
             }
         }
 
-        public void CollectableFound(Material foundMaterial)
+        public void CollectableFound(Item foundMaterial)
         {
             for (int i = 0; i < collectables.Count; i++)
             {
-                if (collectables[i].material.ItemInfo.ItemName == foundMaterial.ItemInfo.ItemName)
+                if (foundMaterial != null)
                 {
-                    collectables[i].currentAmount++;
-                    EvaluateCollectables(i);
+                    if (collectables[i].item.ItemInfo.ItemName == foundMaterial.ItemInfo.ItemName)
+                    {
+                        collectables[i].currentAmount++;
+                        EvaluateCollectables(i);
 
+                        break;
+                    }
+                }
+                else if (collectables[i].item.ItemInfo.ItemName == "Iron")
+                {
+                    collectables[i].currentAmount += 3;
+                    EvaluateCollectables(i);
                     break;
-                }                
+                }
             }
             Completed = EvaluateGoal();
 
@@ -81,14 +91,22 @@ namespace RuthlessMerchant {
 
         public void FillList(List<Collectables> Collectables, GameObject btn)
         {
+            Debug.Log("Fills list");
             collectables = Collectables;
             Completed = false;
             //button = btn;
             questButton = btn.GetComponentInChildren<QuestButton>();
 
-            Materials = GameObject.FindGameObjectsWithTag(collectables[0].material.ItemInfo.ItemName);
+
+
+            Materials = GameObject.FindGameObjectsWithTag(collectables[0].item.ItemInfo.ItemName); 
+           
+            
+            
+            // Materials = GameObject.FindGameObjectsWithTag(collectables[0].material.ItemInfo.ItemName);
             questButton.InProgressButton();
-            questButton.ButtonSettings(false);
+            InProgress = true;
+            //questButton.ButtonSettings(false);
             Debug.Log(Materials.Length);
         }
 
@@ -98,7 +116,7 @@ namespace RuthlessMerchant {
             {
                 collectables[index].completed = true;
                 if(index+1 < collectables.Count)
-                    Materials = GameObject.FindGameObjectsWithTag(collectables[index+1].material.ItemInfo.ItemName);
+                    Materials = GameObject.FindGameObjectsWithTag(collectables[index+1].item.ItemInfo.ItemName);
             }
             
         }
@@ -116,7 +134,9 @@ namespace RuthlessMerchant {
             if (questButton)
             {
                 questButton.CompleteButton();
+                InProgress = false;
                 //button.GetComponent<Button>().onClick.AddListener(delegate {  });
+                questButton.DiscardQuestButton();
             }
             return true;
         }

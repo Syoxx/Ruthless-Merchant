@@ -25,8 +25,12 @@ public class VRMenuScript : MonoBehaviour
     [SerializeField, Tooltip("Image shown while loading main Scene")]
     Image loadingImage;
 
+    [SerializeField, Tooltip("Coin Object on the LoadingScreen")]
+    GameObject loadingCoin;
+
     private Camera playerAttachedCamera;
     private AsyncOperation loadSceneOperator;
+    private bool levelLoadingInitiated = false;
 
     // Use this for initialization
     void Start()
@@ -79,8 +83,9 @@ public class VRMenuScript : MonoBehaviour
     private void startGame()
     {
         lightStartGame.enabled = true;
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !levelLoadingInitiated)
         {
+            levelLoadingInitiated = true;
             fadeImage.FadingWithCallback(1f, fadeTime, delegate
             {
                 LoadLevelAsync();
@@ -106,7 +111,9 @@ public class VRMenuScript : MonoBehaviour
 
     public void LoadLevelAsync()
     {
-        loadingImage.FadingWithCallback(1f, 2f, delegate
+        loadingCoin.SetActive(true);
+        loadingImage.color = Color.white;
+        fadeImage.FadingWithCallback(0f, 2f, delegate
         {
             Debug.Log("displaying Load Image");
         });
@@ -123,11 +130,12 @@ public class VRMenuScript : MonoBehaviour
             yield return 0;
             if (loadSceneOperator.progress >= 0.9f)
             {
-                loadingImage.FadingWithCallback(0f, 2f, delegate
+                fadeImage.FadingWithCallback(1f, 2f, delegate
                 {
                     loadSceneOperator.allowSceneActivation = true;
                 });
             }
         }
     }
+
 }

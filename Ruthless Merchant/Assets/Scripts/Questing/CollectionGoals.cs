@@ -129,36 +129,42 @@ namespace RuthlessMerchant
             //Debug.Log("goes in");
             if (collectionGoal != null && questingEnabled)
             {
-
-            //Debug.Log("AssignedQuest: " + index);
+                Debug.Log("AssignQuest quest and collectiongoal != null");
+                if (collectionGoal.Completed || !collectionGoal.InProgress || collectionGoal.collectables.Count <= 0)
+                {
+                    //{
+                    //Debug.Log("AssignedQuest: " + index);
                     List<Collectables> tempCollectables = new List<Collectables>();
                     for (int i = 0; i < collectionGoals[index].collectables.Count; i++)
                     {
                         tempCollectables.Add(collectionGoals[index].collectables[i].Clone());
                     }
-                //if (index == 0)
-                //{
-                //    Button button = quest1Prefab.GetComponentInChildren<Button>();
+                    //if (index == 0)
+                    //{
+                    //    Button button = quest1Prefab.GetComponentInChildren<Button>();
 
 
                     //Button questButton = button/*.GetComponent<QuestButton>()*/;
+
                     collectionGoal.FillList(tempCollectables, button);
 
 
-                //}
-                //if(index == 1)
-                //{
-                //    Button button = quest2Prefab.GetComponentInChildren<Button>();
-                //    QuestButton questButton = button.GetComponent<QuestButton>();
-                //    collectionGoal.FillList(tempCollectables, questButton);
-                //}
-                //if (index == 2)
-                //{
-                //    Button button = quest3Prefab.GetComponentInChildren<Button>();
-                //    QuestButton questButton = button.GetComponent<QuestButton>();
-                //    collectionGoal.FillList(tempCollectables, questButton);
-                //}
-                collectionGoal.CalcNextWaypoint();                
+                    //}
+                    //if(index == 1)
+                    //{
+                    //    Button button = quest2Prefab.GetComponentInChildren<Button>();
+                    //    QuestButton questButton = button.GetComponent<QuestButton>();
+                    //    collectionGoal.FillList(tempCollectables, questButton);
+                    //}
+                    //if (index == 2)
+                    //{
+                    //    Button button = quest3Prefab.GetComponentInChildren<Button>();
+                    //    QuestButton questButton = button.GetComponent<QuestButton>();
+                    //    collectionGoal.FillList(tempCollectables, questButton);
+                    //}
+                    collectionGoal.CalcNextWaypoint();
+
+                }
             }
         }
     }

@@ -9,6 +9,7 @@ namespace RuthlessMerchant
         #region Fields ##################################################################
 
         Ingredient _ingredient;
+        ParticleSystem _particles;
 
         #endregion
 
@@ -44,7 +45,7 @@ namespace RuthlessMerchant
 
         public override void Start()
         {
-
+            _particles = GetComponentInChildren<ParticleSystem>();
         }
 
         public override void Update()
@@ -59,6 +60,7 @@ namespace RuthlessMerchant
         public void AddItem(Ingredient ingredient)
         {
             _ingredient = ingredient;
+            _particles.Play();
         }
 
         /// <summary>
@@ -70,11 +72,13 @@ namespace RuthlessMerchant
             Item item = _ingredient.DeepCopy();
             inventory.Add(item, 1, true);
             _ingredient = null;
+            _particles.Stop();
         }
 
         public void ClearItem()
         {
             _ingredient = null;
+            _particles.Stop();
         }
 
         #endregion
