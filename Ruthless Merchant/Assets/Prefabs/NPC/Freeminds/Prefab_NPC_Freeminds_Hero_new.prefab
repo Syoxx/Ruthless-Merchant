@@ -969,6 +969,7 @@ GameObject:
   - component: {fileID: 114071354520824414}
   - component: {fileID: 136913065771763924}
   - component: {fileID: 114929850781165696}
+  - component: {fileID: 114832566367219510}
   m_Layer: 15
   m_Name: Prefab_NPC_Freeminds_Hero_new
   m_TagString: NPC
@@ -4980,6 +4981,7 @@ MonoBehaviour:
     m_Bits: 0
   maxJumpHeight: 0
   maxSlopeAngle: 0
+  ActionName: 
   rotationSpeed: 8
   fov: 45
   viewDistance: 10
@@ -5510,6 +5512,23 @@ MonoBehaviour:
   damage: 85
   defencePower: 0
   attackSpeed: 1.25
+--- !u!114 &114832566367219510
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1483694749223856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d8ab2fdd5794194c8a08a931fbd9ff7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  QuestTitle: 
+  Description: 
+  RequiredAmount: 0
+  Reward: 0
+  Completed: 0
+  InProgress: 0
 --- !u!114 &114834507185765288
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5570,9 +5589,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   QuestTitle: 
   Description: 
+  RequiredAmount: 0
   Reward: 0
   Completed: 0
-  CollectableID: 0
+  InProgress: 0
+  inProgress: 0
   collectables: []
 --- !u!114 &114950154157930552
 MonoBehaviour:

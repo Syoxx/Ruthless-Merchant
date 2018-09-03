@@ -40,7 +40,7 @@ namespace RuthlessMerchant
             Search,
             IsThreat
         }
-
+        public string ActionName;
         private DialogSystem dialogSystem;
 
         protected List<Waypoint> waypoints;
@@ -488,6 +488,8 @@ namespace RuthlessMerchant
                 currentAction = action;
                 if(currentAction != null)
                     currentAction.StartAction(this, other);
+
+                ActionName = action == null ? "null" : action.ToString();
             }
         }
 

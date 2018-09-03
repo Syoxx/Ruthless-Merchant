@@ -97,8 +97,6 @@ namespace RuthlessMerchant {
             //button = btn;
             questButton = btn.GetComponentInChildren<QuestButton>();
 
-
-
             Materials = GameObject.FindGameObjectsWithTag(collectables[0].item.ItemInfo.ItemName); 
            
             

@@ -11,7 +11,7 @@ namespace RuthlessMerchant {
         //private bool inProgress;
 
         Hero hero;
-        public int RequiredEliminations;
+        //public int RequiredEliminations;
         private GameObject[] Targets;
         private QuestButton questButton;
 
@@ -32,7 +32,6 @@ namespace RuthlessMerchant {
 
         private void Start()
         {
-            RequiredEliminations = RequiredAmount;
             hero = GetComponent<Hero>();
         }
 
@@ -41,6 +40,8 @@ namespace RuthlessMerchant {
             //cheat for testing
             if (Input.GetKeyDown(KeyCode.F10))
                 EnemyKilled();
+            if(InProgress)
+                Debug.Log("current action: " + hero.CurrentAction);
 
         }
 
@@ -50,13 +51,15 @@ namespace RuthlessMerchant {
             Evaluate();
         }
 
-        public void SetTargetList(GameObject button)
+        public void SetTargetList(GameObject button, int monsterAmount)
         {
             Completed = false;
             questButton = button.GetComponentInChildren<QuestButton>();
 
             questButton.InProgressButton();
             InProgress = true;
+
+            RequiredAmount = monsterAmount;
         }
 
         public void CalcNextWayPoint()
@@ -69,7 +72,7 @@ namespace RuthlessMerchant {
 
             for (int i = 0; i < Monsters.Length; i++)
             {
-                if (Monsters[i].gameObject.name == "NPC_Monster(Clone)")
+                if (Monsters[i].gameObject.name.Contains("NPC_Monster")) 
                 {
                     float newDistance = Vector3.Distance(gameObject.transform.position, Monsters[i].transform.position);
 
@@ -85,7 +88,8 @@ namespace RuthlessMerchant {
             {
                 if (!(hero.CurrentAction is ActionAttack))
                 {
-                    hero.SetCurrentAction(new ActionHunt(ActionNPC.ActionPriority.Medium), target);
+                    Debug.Log(target.transform.position);
+                    hero.SetCurrentAction(new ActionHunt( ActionNPC.ActionPriority.High), target, true, true);
                 }
             }
         }

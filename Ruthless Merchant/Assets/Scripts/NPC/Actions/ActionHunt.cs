@@ -11,9 +11,10 @@ namespace RuthlessMerchant
     {
         private Fighter fighter;
 
+
         public ActionHunt() : base(ActionPriority.Medium)
         {
-
+            
         }
 
         public ActionHunt(ActionPriority priority) : base(priority)

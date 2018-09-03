@@ -10,7 +10,7 @@ public class Goal : MonoBehaviour {
     [SerializeField]
     public string Description; //{ get; set; }
     //[SerializeField]
-    protected int RequiredAmount; //{ get; set; }
+    public int RequiredAmount; //{ get; set; }
     [SerializeField]
     public int Reward;
     //[SerializeField]
