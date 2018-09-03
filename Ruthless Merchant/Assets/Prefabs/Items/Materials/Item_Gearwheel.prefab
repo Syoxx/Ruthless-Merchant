@@ -38,8 +38,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1905815932998252}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 37.73, y: 25.27, z: 229.7}
-  m_LocalScale: {x: 0.11644309, y: 0.11644309, z: 0.11644309}
+  m_LocalPosition: {x: 0.45816487, y: 0.257, z: 1.9361992}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -59,7 +59,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a5b3ac8f9fffcba48b5cda31e00fc25c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -96,8 +96,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.025, y: 0.13, z: 0.13}
+  m_Center: {x: 0.0095, y: 0, z: 0}
 --- !u!114 &114510790560866316
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -123,8 +123,7 @@ MonoBehaviour:
   faction: 4
   ItemInfo:
     ItemName: Gearwheel
-    ItemValue:
-    - Count: 33
+    ItemValue: 0
     ItemWeight: 2
     ItemLore: Part of the strange creatures that came from the underground. They are
       the last invention of the Ancestors
