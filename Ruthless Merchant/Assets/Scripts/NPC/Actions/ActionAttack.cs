@@ -38,6 +38,7 @@ namespace RuthlessMerchant
                 parent.Reacting = false;
             }
             AbortAnimations();
+            parent.StartCoroutine(AbortAnimationsDelayed());
             base.EndAction();
         }
 
@@ -101,6 +102,13 @@ namespace RuthlessMerchant
 
         private void AbortAnimations()
         {
+            animator.SetBool("IsInFight", false);
+            animator.SetBool("IsAttacking", false);
+        }
+
+        private IEnumerator AbortAnimationsDelayed()
+        {
+            yield return new WaitForSeconds(0);
             animator.SetBool("IsInFight", false);
             animator.SetBool("IsAttacking", false);
         }
