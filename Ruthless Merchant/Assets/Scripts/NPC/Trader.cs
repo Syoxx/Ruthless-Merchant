@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace RuthlessMerchant
 {
@@ -18,21 +19,65 @@ namespace RuthlessMerchant
 
         #endregion
 
+        [Header("TRADER VARIABLES")]
+
+        public bool startTradeImmediately;
+
+        #if UNITY_EDITOR
+        [ReadOnly]
+        #endif
+        public CaptureTrigger AsignedOutpost;
+
+        public GameObject Scale;
+
         [SerializeField]
         Transform directionPointer;
 
         #region Influence Properties
 
-        [Header("Influence Variables")]
+        [Header("Reputation Variables")]
 
         [SerializeField, Range(0, 1), Tooltip("Ruf: Individuell")]
         float influenceIndividual;
 
-        [SerializeField, Range(0, 1), Tooltip("Situation: Krieg")]
+        #if UNITY_EDITOR
+        [ReadOnly, Tooltip("Ruf Individuell +")]
+        #endif
+        [SerializeField]
+        float influenceIndividualDelta;
+
+        #if UNITY_EDITOR
+        [ReadOnly]
+        #endif
+        [SerializeField, Tooltip("Situation: Krieg")]
         float influenceWar;
 
-        [SerializeField, Range(0, 1), Tooltip("Situation: Nachbarn")]
+        #if UNITY_EDITOR
+        [ReadOnly]
+        #endif
+        [SerializeField, Tooltip("Situation: Nachbarn")]
         float influenceNeighbours;
+
+        #if UNITY_EDITOR
+        [ReadOnly, Tooltip("Ruf Fraktion")]
+        #endif
+        [SerializeField]
+        float influenceFaction;
+
+        #if UNITY_EDITOR
+        [ReadOnly, Tooltip("Ruf Fraktion +")]
+        #endif
+        [SerializeField]
+        float influenceFactionDelta;
+
+        [SerializeField, Range(0, 0.001f), Tooltip("Grundwert Ruf Fraktion je 1 Realwert")]
+        float valueFactionPerRealValue = 0.00005f;
+
+        [SerializeField, Range(0, 1f), Tooltip("Faktor Bonus durch individuellen Ruf")]
+        float influenceIndividualBonus = 0.1f;
+
+        [SerializeField, Range(0, 0.1f), Tooltip("Grundwert Ruf Individuum je Handel")]
+        float valueIndividualPerTrade = 0.02f;
 
         #endregion
 
@@ -125,9 +170,6 @@ namespace RuthlessMerchant
         [SerializeField, Range(0, 100)]
         public float SkepticismLimit = 100;
 
-        //[SerializeField, Range(0, 100)]
-        //float skepticismStart;
-
         [SerializeField, Range(0, 100)]
         float skepticismStartLimit = 80;
 
@@ -146,9 +188,6 @@ namespace RuthlessMerchant
         [SerializeField, Range(0, 100)]
         public float IrritationLimit = 100;
 
-        //[SerializeField, Range(0, 100)]
-        //float irritationStart;
-
         [SerializeField, Range(0, 100)]
         float irritationStartLimit = 80;
 
@@ -161,7 +200,7 @@ namespace RuthlessMerchant
         [SerializeField, Range(0, 100), Tooltip("Genervt plus Grundwert")]
         float irritationDeltaModifier = 20;
 
-        [SerializeField, Range(0, 2), Tooltip("Abbau pro Sekunde (Skepsis / Genervtheit)")]
+        [SerializeField, Range(0, 2), Tooltip("Abbau pro Sekunde (Skepsis & Genervtheit)")]
         float psychoCooldown = 1;
 
         #endregion
@@ -169,12 +208,20 @@ namespace RuthlessMerchant
         float timer = 0;
         float timerLimit = 1;
 
-        public bool startTradeImmediately;
-
-        bool moving = false;
+        public static bool TradeHasLoaded;
+        int fading = 0;
+        bool moving;
         Vector3 targetPosition;
 
+        static Image fadeImage;
+
         #region MonoBehaviour cycle
+
+        private void Awake()
+        {
+            if (fadeImage == null)
+                fadeImage = GameObject.Find("FadeImage").GetComponent<Image>();
+        }
 
         public override void Start()
         {
@@ -186,32 +233,41 @@ namespace RuthlessMerchant
         {
             UpdatePsychoCoolff();
 
-            if (moving)
-            {
-                float remainingDistance = Player.Singleton.NavMeshAgent.remainingDistance;
-
-                Player player = Player.Singleton;
-
-                if (remainingDistance < 0.005f)
+            if (fading != 0)
+            { 
+                if (TradeHasLoaded || fading == 1)
                 {
-                    moving = false;
+                    fadeImage.color += new Color(0, 0, 0, Time.deltaTime * 2) * fading;
 
-                    player.transform.position = targetPosition;
-                    player.transform.LookAt(transform);
-                    player.transform.eulerAngles = new Vector3(0, Player.Singleton.transform.eulerAngles.y, 0);
-                    player.PlayerLookAngle = Player.Singleton.transform.localRotation;
+                    if (fadeImage.color.a >= 1 && fading != -1)
+                    {
+                        fading = -1;
 
-                    player.NavMeshAgent.enabled = false;
+                        Player player = Player.Singleton;
+                        player.EnterTrading();
 
-                    InventoryItem.Behaviour = InventoryItem.ItemBehaviour.Move;
-                    Main_SceneManager.LoadSceneAdditively("TradeScene");
-                    player.EnterTrading();
-                    Tutorial.Monolog(1);
-                }
-                else
-                {
-                    player.transform.LookAt(transform);
-                    player.transform.eulerAngles = new Vector3(0, Player.Singleton.transform.eulerAngles.y, 0);
+                        Vector3 direction = (directionPointer.position - transform.position).normalized * 0.52f;
+                        transform.localPosition += direction;
+                        player.transform.position = new Vector3(transform.position.x, player.transform.position.y, transform.position.z);
+                        transform.localPosition -= direction;
+
+                        player.transform.LookAt(transform);
+                        player.GetComponentInChildren<Camera>().transform.localEulerAngles = new Vector3(player.transform.eulerAngles.x, 0, 0);
+                        player.transform.eulerAngles = new Vector3(0, Player.Singleton.transform.eulerAngles.y, 0);
+                        player.PlayerLookAngle = Player.Singleton.transform.localRotation;
+                        Scale.SetActive(false);
+
+                        Main_SceneManager.LoadSceneAdditively("TradeScene");
+                    }
+
+                    if (fadeImage.color.a <= 0)
+                    {
+                        fading = 0;
+                        fadeImage.color = new Color(0, 0, 0, 0);
+                        fadeImage.raycastTarget = false;
+                        Cursor.visible = true;
+                        TradeHasLoaded = false;
+                    }
                 }
             }
         }
@@ -254,19 +310,34 @@ namespace RuthlessMerchant
 
             if (WantsToStartTrading())
             {
-                float influenceFaction;
-
                 if (faction == Faction.Freidenker)
+                {
                     influenceFaction = Player.Singleton.Reputation.FreidenkerStanding;
+                    influenceWar = CaptureTrigger.OwnerStatistics[Faction.Freidenker] / 6;
+
+                    if(AsignedOutpost != null)
+                        influenceNeighbours = (AsignedOutpost.OutpostsToFreidenker.Length + AsignedOutpost.OutpostsToImperialist.Length - 1) / AsignedOutpost.OutpostsToFreidenker.Length;
+                }
 
                 else if (faction == Faction.Imperialisten)
+                {
                     influenceFaction = Player.Singleton.Reputation.ImperalistenStanding;
+                    influenceWar = CaptureTrigger.OwnerStatistics[Faction.Imperialisten] / 6;
+
+                    if (AsignedOutpost != null)
+                        influenceNeighbours = (AsignedOutpost.OutpostsToFreidenker.Length + AsignedOutpost.OutpostsToImperialist.Length - 1) / AsignedOutpost.OutpostsToImperialist.Length;
+                }
 
                 else
                 {
                     Debug.LogError("Trader has no valid Faction!");
                     return;
                 }
+
+                if (AsignedOutpost != null)
+                    influenceNeighbours = CorrectAndConvertToPercent(influenceNeighbours);
+
+                influenceWar = CorrectAndConvertToPercent(influenceWar);
 
                 upperLimitPercentTotal = upperLimitPerCent + ((upperLimitPerCent * influenceFaction) + (upperLimitPerCent * influenceIndividual) + (upperLimitPerCent * influenceWar) + (upperLimitPerCent * influenceNeighbours)) / 4;
                 underLimitPercentTotal = underLimitPerCent + (-(underLimitPerCent * influenceFaction) - (underLimitPerCent * influenceIndividual) + (underLimitPerCent * influenceWar) + (underLimitPerCent * influenceNeighbours)) / 4;
@@ -284,6 +355,17 @@ namespace RuthlessMerchant
                 Debug.Log("Trader does not want to start Trading!");
             }
         }
+
+        float CorrectAndConvertToPercent(float data)
+        {
+            if (data > 100)
+                data = 100;
+
+            else if (data < 0)
+                data = 0;
+
+            return data / 100;
+        } 
 
         public bool WantsToStartTrading()
         {
@@ -453,7 +535,7 @@ namespace RuthlessMerchant
         {
             if (TradeAbstract.Singleton == null)
             {
-                if (WantsToStartTrading() && (Tutorial.Singleton == null || !Tutorial.Singleton.isTutorial || !Tutorial.Singleton.TradeIsDone || !startTradeImmediately))
+                if (WantsToStartTrading() && (!Tutorial.Singleton.TradeIsDone || !startTradeImmediately))
                 {
                     CurrentTrader = this;
 
@@ -463,34 +545,18 @@ namespace RuthlessMerchant
                     {
                         InventoryItem.Behaviour = InventoryItem.ItemBehaviour.Move;
                         Main_SceneManager.LoadSceneAdditively("TradeScene");
-                        player.EnterTrading();
                         Tutorial.Monolog(1);
                     }
                     else
                     {
-                        Vector3 direction = (directionPointer.position - transform.position).normalized * 0.4f;
-                        transform.localPosition += direction;
-                        targetPosition = new Vector3(transform.position.x, player.transform.position.y, transform.position.z);
-                        transform.localPosition -= direction;
+                        fading = 1;
+                        fadeImage.raycastTarget = true;
 
-                        Vector3 prevPosition = player.transform.position;
-                        Quaternion prevRotation = player.transform.rotation;
-
-                        player.transform.position = targetPosition;
-                        player.transform.LookAt(transform);
-
-                        player.transform.rotation = prevRotation;
-                        player.transform.position = prevPosition;
-
-                        player.NavMeshAgent.enabled = true;
-                        player.NavMeshAgent.SetDestination(targetPosition);
-
+                        InventoryItem.Behaviour = InventoryItem.ItemBehaviour.Move;
                         player.RestrictBookUsage = true;
-                        Player.RestrictCamera = true;
+                        player.NavMeshObstacle.enabled = true;
 
-                        player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-
-                        moving = true;
+                        player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePosition;
                     }
                 }
                 else
@@ -505,6 +571,27 @@ namespace RuthlessMerchant
         {
             TraderMoodIcon newTraderMoodIcon = Instantiate(moodIconPrefab, moodIconCanvas.transform).GetComponentInChildren<TraderMoodIcon>();
             newTraderMoodIcon.UpdateMood(this);
+        }
+
+        public void IncreaseReputation()
+        {
+            TradeAbstract trade = TradeAbstract.Singleton;
+
+            influenceIndividualDelta = valueIndividualPerTrade - valueIndividualPerTrade * ((IrritationTotal / IrritationLimit + SkepticismTotal / SkepticismLimit) / 2);
+            influenceIndividual += influenceIndividualDelta;
+
+            float multiplier = trade.RealValue / trade.GetCurrentTraderOffer();
+
+            if (multiplier <= 1)
+                multiplier = 1;
+
+            influenceFactionDelta = (trade.RealValue * valueFactionPerRealValue) * multiplier + influenceIndividualDelta * influenceIndividualBonus;
+
+            if (faction == Faction.Freidenker)
+                Player.Singleton.Reputation.FreidenkerStanding += influenceFactionDelta;
+
+            else if (faction == Faction.Imperialisten)
+                Player.Singleton.Reputation.ImperalistenStanding += influenceFactionDelta;
         }
 
         /// <summary>

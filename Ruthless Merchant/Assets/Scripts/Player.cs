@@ -39,7 +39,7 @@ namespace RuthlessMerchant
         }
 
         private Camera playerAttachedCamera;
-        public NavMeshAgent NavMeshAgent;
+        public NavMeshObstacle NavMeshObstacle;
         public Quaternion PlayerLookAngle;
         private Quaternion cameraPitchAngle;
         private Vector3 MoveVector = Vector3.zero;
@@ -86,6 +86,9 @@ namespace RuthlessMerchant
         [SerializeField, Tooltip("'TempUpgradeDialogue' in /Prefabs/TradingPoint/")]
         private GameObject outpostUpgradeDialogue;
 
+        [SerializeField, Tooltip("'FailedUpgradeMessage' in /Prefabs/TradingPoint/")]
+        private GameObject failedUpgradeDialogue;
+
         [Space(15)]
 
         [SerializeField, Tooltip("Drag Map_Canvas object here.")]
@@ -104,6 +107,11 @@ namespace RuthlessMerchant
         [SerializeField, Tooltip("The Booklogic attached to the Book-Object")]
         private PageLogic bookLogic;
         private KeyCode currentBookSection;
+
+        private Rigidbody rbplayer;
+        private Vector3 reachedVelocity;
+        [SerializeField, Range(-30.0f, 0.0f), Tooltip("The Velocity that is required to kill the player when falling")]
+        private float deathVelocity = 12f;
         #endregion
 
         #region Public Fields
@@ -119,7 +127,11 @@ namespace RuthlessMerchant
         private void Awake()
         {
             Singleton = this;
-            NavMeshAgent = GetComponent<NavMeshAgent>();
+
+            NavMeshObstacle = GetComponent<NavMeshObstacle>();
+
+            if (NavMeshObstacle != null)
+                NavMeshObstacle.enabled = false;
         }
 
         #endregion
@@ -312,7 +324,9 @@ namespace RuthlessMerchant
         }
 
         public override void Update()
-        {     
+        {
+            CheckFallDamage();
+
             LookRotation();
             ControleModeMove();
             if (controlMode == ControlMode.Move)
@@ -325,6 +339,31 @@ namespace RuthlessMerchant
 
             GlowObject();
             base.Update();
+        }
+
+        /// <summary>
+        /// Checks if the player should die due to a high falling velocity
+        /// </summary>
+        private void CheckFallDamage()
+        {
+            if (rbplayer != null)
+            {
+                if (reachedVelocity.y > rbplayer.velocity.y)
+                    reachedVelocity = rbplayer.velocity;
+
+                if (rbplayer.velocity.y > reachedVelocity.y)
+                {
+                    if (reachedVelocity.y < -12)
+                    {
+                        reachedVelocity = Vector3.zero;
+                        respawn.InitiateRespawn();
+                    }
+                }
+            }
+            else
+            {
+                rbplayer = GetComponent<Rigidbody>();
+            }
         }
 
         /// <summary>
@@ -559,6 +598,11 @@ namespace RuthlessMerchant
 
             if (!restrictMovement && !restrictCamera)
             {
+                if ((gameObject.GetComponent<Rigidbody>().freezeRotation == true || gameObject.GetComponent<Rigidbody>().useGravity == false) && TradeAbstract.Singleton != null)
+                {
+                    gameObject.GetComponent<Rigidbody>().freezeRotation = false;
+                    gameObject.GetComponent<Rigidbody>().useGravity = true;
+                }
 
                 if (Input.GetKey(KeyCode.W))
                     vertical = 1;
@@ -571,10 +615,13 @@ namespace RuthlessMerchant
                 //horizontal = Input.GetAxis("Horizontal");
                 //vertical = Input.GetAxis("Vertical");
             }
-            else
+            else if (IsGrounded)
             {
+                gameObject.GetComponent<Rigidbody>().useGravity = false;
                 gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                gameObject.GetComponent<Rigidbody>().freezeRotation = true;
             }
+            //else{}
 
             InputVector = new Vector2(horizontal, vertical);
 
@@ -596,7 +643,14 @@ namespace RuthlessMerchant
                     isOutpostDialogActive = false;
                     restrictCamera = false;
                     restrictMovement = false;
-                    outpostUpgradeDialogue.SetActive(false);
+                    if (outpostUpgradeDialogue.activeSelf)
+                    {
+                        outpostUpgradeDialogue.SetActive(false);
+                    }
+                    else
+                    {
+                        failedUpgradeDialogue.SetActive(false);
+                    }
                     controlMode = ControlMode.Move;
                 }
             }
@@ -604,7 +658,11 @@ namespace RuthlessMerchant
             {
                 BookControls();
             }
-            
+
+            if (Input.GetKey(KeyCode.F6))
+            {
+                Debug.Log("Gold: " + inventory.PlayerMoney);
+            }
         }
 
         public void SendInteraction()
@@ -746,7 +804,8 @@ namespace RuthlessMerchant
             restrictCamera = true;
             bookCanvas.SetActive(true);
             gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", true);
-            if (Tutorial.Singleton != null && Tutorial.Singleton.isTutorial)
+
+            if (Trader.CurrentTrader.startTradeImmediately)
                 bookLogic.GoToPage(KeyCode.N);
             else
                 bookLogic.GoToPage(KeyCode.I);
@@ -848,23 +907,33 @@ namespace RuthlessMerchant
 
         public void BuyTradingPoint()
         {
-            // player pays $$$
-            // update array of unlocked travel points
-            unlockedTravelPoints[outpostToUpgrade] = true;
-            
-            Ray cameraRay = playerAttachedCamera.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
-            RaycastHit hit;
-            if (Physics.Raycast(cameraRay, out hit, maxInteractDistance))
+            if (inventory.RemoveGold(50))
             {
-                TradepointUnlocker tradepoint = hit.collider.gameObject.GetComponent<TradepointUnlocker>();
+                unlockedTravelPoints[outpostToUpgrade] = true;      // update array of unlocked travel points
 
-                if (tradepoint != null)
+                Ray cameraRay = playerAttachedCamera.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
+                RaycastHit hit;
+                if (Physics.Raycast(cameraRay, out hit, maxInteractDistance))
                 {
-                    tradepoint.SetActiveTradepoint();
-                }
-            }
+                    TradepointUnlocker tradepoint = hit.collider.gameObject.GetComponent<TradepointUnlocker>();
 
-            CloseTradingPointDialog();
+                    if (tradepoint != null)
+                    {
+                        tradepoint.SetActiveTradepoint();
+                    }
+                }
+
+                CloseTradingPointDialog();
+            }
+            else
+            {
+                CloseTradingPointDialog();
+                isOutpostDialogActive = true;
+                restrictCamera = true;
+                restrictMovement = true;
+                failedUpgradeDialogue.SetActive(true);
+            }
+            
         }
 
         private Outline lastOutline;
@@ -913,6 +982,18 @@ namespace RuthlessMerchant
                 restrictCamera = false;
                 restrictMovement = false;
                 outpostUpgradeDialogue.SetActive(false);
+                controlMode = ControlMode.Move;
+            }
+        }
+
+        public void CloseTradingPointMessage()
+        {
+            if (failedUpgradeDialogue.activeSelf && TradeAbstract.Singleton == null)
+            {
+                isOutpostDialogActive = false;
+                restrictCamera = false;
+                restrictMovement = false;
+                failedUpgradeDialogue.SetActive(false);
                 controlMode = ControlMode.Move;
             }
         }

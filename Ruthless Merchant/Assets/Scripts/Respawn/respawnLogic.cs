@@ -36,8 +36,6 @@ namespace RuthlessMerchant
         /// </summary>
         private void Start()
         {
-            if (fadeImage == null)
-                fadeImage = GameObject.FindGameObjectWithTag("FadeImage").GetComponent<Image>();
             respawnPosition = GameObject.Find("TriggerCancelTutorial").transform.position; ;
 
             character = GetComponent<Character>();

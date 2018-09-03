@@ -28,6 +28,7 @@ GameObject:
   - component: {fileID: 114336738226053766}
   - component: {fileID: 65386519577525734}
   - component: {fileID: 114266806441816754}
+  - component: {fileID: 114035694020123070}
   m_Layer: 13
   m_Name: Item_IronVein
   m_TagString: Item
@@ -135,6 +136,28 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114035694020123070
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1531244868073720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f1b6d10c64b8064da2e4bc0add27cb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  faction: 0
+  ItemInfo:
+    ItemName: 
+    ItemValue: 0
+    ItemWeight: 0
+    ItemLore: 
+    ItemSprite: {fileID: 0}
+    ItemType: 0
+    ItemRarity: 0
+    maxStackCount: 0
+  materialsType: 0
 --- !u!114 &114107331400412594
 MonoBehaviour:
   m_ObjectHideFlags: 1
