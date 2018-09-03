@@ -21,8 +21,8 @@ GameObject:
   - component: {fileID: 4873478025474354}
   - component: {fileID: 33982806342316080}
   - component: {fileID: 23691855041655078}
-  - component: {fileID: 114696496009382434}
-  - component: {fileID: 114173011158496046}
+  - component: {fileID: 114716463964263128}
+  - component: {fileID: 114342707567619826}
   - component: {fileID: 64212535991951418}
   m_Layer: 0
   m_Name: Weapon_Steel_Longsword
@@ -38,8 +38,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1339216206582528}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 38.42416, y: 24.944006, z: 228.23994}
-  m_LocalScale: {x: 1.762949, y: 1.762949, z: 1.762949}
+  m_LocalPosition: {x: 276.53668, y: 25.27, z: 150.38844}
+  m_LocalScale: {x: 1.7, y: 1.7, z: 1.7}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -85,7 +85,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1339216206582528}
-  m_Mesh: {fileID: 4300000, guid: 8ac4027012821a74b823d2c25998d86c, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 618dc2eab2df94d46bba3bfffdd2fc90, type: 3}
 --- !u!64 &64212535991951418
 MeshCollider:
   m_ObjectHideFlags: 1
@@ -99,8 +99,8 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: 8ac4027012821a74b823d2c25998d86c, type: 3}
---- !u!114 &114173011158496046
+  m_Mesh: {fileID: 0}
+--- !u!114 &114342707567619826
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -115,17 +115,17 @@ MonoBehaviour:
   ItemInfo:
     ItemName: Steel Longsword
     ItemValue: 65
-    ItemWeight: 2
+    ItemWeight: 3
     ItemLore: 
-    ItemSprite: {fileID: 0}
+    ItemSprite: {fileID: 21300000, guid: 1dde60588c1fad644a03d1236615a9b7, type: 3}
     ItemType: 1
-    ItemRarity: 1
+    ItemRarity: 0
     maxStackCount: 10
   weaponType: 0
   damage: 11
   defencePower: 0
   attackSpeed: 2.2
---- !u!114 &114696496009382434
+--- !u!114 &114716463964263128
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}

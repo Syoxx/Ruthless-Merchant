@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 23761096451499050}
   - component: {fileID: 114425540371055910}
   - component: {fileID: 114254912312544576}
-  - component: {fileID: 64387746192644050}
   m_Layer: 0
   m_Name: Weapon_Iron_GreatAxe
   m_TagString: Untagged
@@ -38,8 +37,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1932351543454448}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 30.086336, y: 25.24, z: 228.49097}
-  m_LocalScale: {x: 0.18326084, y: 0.1832608, z: 0.1832608}
+  m_LocalPosition: {x: 320.932, y: 25.179, z: 151.25}
+  m_LocalScale: {x: 1.7, y: 1.7, z: 1.7}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -59,7 +58,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 43a807742b140d244b4a1d9613dac12c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -85,21 +84,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1932351543454448}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &64387746192644050
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1932351543454448}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 4300000, guid: 4ba5316105535c6448dd460aa7a0fd05, type: 3}
 --- !u!114 &114254912312544576
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -113,8 +98,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   faction: 4
   ItemInfo:
-    ItemName: Iron Great Axe
-    ItemValue: 55
+    ItemName: Iron Greataxe
+    ItemValue: 0
     ItemWeight: 4
     ItemLore: 
     ItemSprite: {fileID: 21300000, guid: 95203d8a53768804591837a52edeee66, type: 3}

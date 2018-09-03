@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 54504486789448586}
   m_Layer: 0
   m_Name: Item_Ancient_Chunk
-  m_TagString: Item
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -39,8 +39,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1547013325821260}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 38.111954, y: 25.192, z: 229.23361}
-  m_LocalScale: {x: 0.18577622, y: 0.1857762, z: 0.1857762}
+  m_LocalPosition: {x: -0.055788755, y: 0.21, z: 1.8044454}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -60,7 +60,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 33d5ea71be080fb4faf3b62ac018a0e8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -86,7 +86,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1547013325821260}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 4300000, guid: 88f7f3ef82883914caa3ed2846534155, type: 3}
 --- !u!54 &54504486789448586
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -112,8 +112,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.23, y: 0.23, z: 0.23}
+  m_Center: {x: 0, y: 0, z: 0.1}
 --- !u!114 &114211204665771980
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -139,11 +139,11 @@ MonoBehaviour:
   faction: 4
   ItemInfo:
     ItemName: Ancient Chunk
-    ItemValue: 42
+    ItemValue: 0
     ItemWeight: 3
     ItemLore: Heavy chunk of molten metal and stone. No one knows where those things
       come from.
-    ItemSprite: {fileID: 0}
+    ItemSprite: {fileID: 21300000, guid: 00ceb8c21d0b7e241b90863c67bc5d07, type: 3}
     ItemType: 3
     ItemRarity: 2
     maxStackCount: 20

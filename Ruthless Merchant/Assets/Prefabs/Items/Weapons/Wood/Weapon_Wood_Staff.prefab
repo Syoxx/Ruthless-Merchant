@@ -30,15 +30,15 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4102765879638532
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1866673125733078}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 45.85082, y: 25.2, z: 245.7108}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.01, y: -0.024, z: 0.037}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -59,7 +59,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: f697dc34c6a534e418252efb4d00a0f8, type: 3}
+  - {fileID: 2100000, guid: c4dc89a0b52ac29498965415a6e9050e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -111,16 +111,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da849d998660b964aa1c71df0912cb55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  faction: 0
+  faction: 4
   ItemInfo:
-    ItemName: 
-    ItemValue: 1
-    ItemWeight: 0
+    ItemName: Wood Staff
+    ItemValue: 40
+    ItemWeight: 2
     ItemLore: 
     ItemSprite: {fileID: 0}
-    ItemType: 0
+    ItemType: 1
     ItemRarity: 0
-    maxStackCount: 0
+    maxStackCount: 10
   weaponType: 0
   damage: 0
   defencePower: 0

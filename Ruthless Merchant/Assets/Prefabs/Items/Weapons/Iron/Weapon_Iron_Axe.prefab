@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 23950128020699206}
   - component: {fileID: 114699755350410526}
   - component: {fileID: 114619050484835400}
-  - component: {fileID: 64578468394540604}
   m_Layer: 0
   m_Name: Weapon_Iron_Axe
   m_TagString: Untagged
@@ -38,8 +37,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1236201372090336}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 38.638, y: 24.964, z: 228.905}
-  m_LocalScale: {x: 1.762949, y: 1.762949, z: 1.762949}
+  m_LocalPosition: {x: 320.6366, y: 25.166952, z: 151.26654}
+  m_LocalScale: {x: 1.7, y: 1.7, z: 1.7}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -85,21 +84,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1236201372090336}
-  m_Mesh: {fileID: 4300000, guid: 3367e68a4aa321e4a9fd1f6ad867967d, type: 3}
---- !u!64 &64578468394540604
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1236201372090336}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: 3367e68a4aa321e4a9fd1f6ad867967d, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 224fb5ec45bed2e4698243900f0f4a29, type: 3}
 --- !u!114 &114619050484835400
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -113,7 +98,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   faction: 4
   ItemInfo:
-    ItemName: Iron Axe
+    ItemName: Iron Handaxe
     ItemValue: 34
     ItemWeight: 2
     ItemLore: 

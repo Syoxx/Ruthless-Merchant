@@ -1,4 +1,4 @@
-﻿//---------------------------------------------------------------
+//---------------------------------------------------------------
 // Authors: Peter Ehmler, Richard Brönnimann, 
 //---------------------------------------------------------------
 using System;
@@ -106,6 +106,15 @@ namespace RuthlessMerchant
         {
             get { return isPlayer; }
         }
+
+        public bool IsDying
+        {
+            get
+            {
+                return isDying;
+            }
+        }
+
         [SerializeField]
         [Range(0, 1000)]
         [Tooltip("Player speed while holding LCtrl.")]
@@ -197,7 +206,10 @@ namespace RuthlessMerchant
 
         public bool IsGrounded
         {
-            get { return grounded; }
+            get
+            {
+                return grounded;
+            }
         }
 
         public CharacterController CharController
@@ -263,8 +275,11 @@ namespace RuthlessMerchant
 
         private void HealthSystem_OnDeath(object sender, System.EventArgs e)
         {
-            isDying = true;
-            animator.SetBool("IsDying",true);
+            if (!isPlayer)
+            {
+                isDying = true;
+                animator.SetBool("IsDying", true);
+            }
             DestroyInteractiveObject(5.0f);
         }
 
@@ -417,7 +432,7 @@ namespace RuthlessMerchant
             {
                 grounded = false;
                 justJumped = true;
-                gravity = Vector3.zero;
+                rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
                 rb.AddForce(Vector3.up * 0.1f * maxJumpHeight, ForceMode.VelocityChange);
                 elapsedSecs = 0.4f;
             }
@@ -430,15 +445,6 @@ namespace RuthlessMerchant
 
         public override void DestroyInteractiveObject(float delay = 0)
         {
-            if(potion != null)
-                Destroy(potion);
-
-            if(weapon != null)
-                Destroy(weapon);
-
-            if(shield != null)
-                Destroy(shield);
-
             base.DestroyInteractiveObject(delay);
         }
 

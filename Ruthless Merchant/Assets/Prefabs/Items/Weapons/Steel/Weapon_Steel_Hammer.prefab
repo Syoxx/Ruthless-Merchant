@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 23895066361887824}
   - component: {fileID: 114116612768237826}
   - component: {fileID: 114582699216892018}
-  - component: {fileID: 64262020504247862}
   m_Layer: 0
   m_Name: Weapon_Steel_Hammer
   m_TagString: Untagged
@@ -38,8 +37,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1766828420337324}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 38.859818, y: 24.964838, z: 228.266}
-  m_LocalScale: {x: 1.762949, y: 1.762949, z: 1.762949}
+  m_LocalPosition: {x: 321.21042, y: 25.159658, z: 151.74727}
+  m_LocalScale: {x: 1.7, y: 1.7, z: 1.7}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -85,21 +84,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1766828420337324}
-  m_Mesh: {fileID: 4300000, guid: 396c72d52e62b984eb582b8553960a2d, type: 3}
---- !u!64 &64262020504247862
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1766828420337324}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: 396c72d52e62b984eb582b8553960a2d, type: 3}
+  m_Mesh: {fileID: 4300000, guid: ac17b5a9c61229940992d2aea5670367, type: 3}
 --- !u!114 &114116612768237826
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -130,7 +115,7 @@ MonoBehaviour:
     ItemLore: 
     ItemSprite: {fileID: 21300000, guid: 3cb07edf75d7bc84aabf33b12ee89394, type: 3}
     ItemType: 1
-    ItemRarity: 1
+    ItemRarity: 0
     maxStackCount: 10
   weaponType: 0
   damage: 150

@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 23115473570367068}
   - component: {fileID: 114899140859142784}
   - component: {fileID: 114185774356998762}
-  - component: {fileID: 64408788981255248}
   m_Layer: 0
   m_Name: Weapon_Iron_2Hander
   m_TagString: Untagged
@@ -38,8 +37,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1273693476261552}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 30.086336, y: 25.24, z: 228.49097}
-  m_LocalScale: {x: 0.18326084, y: 0.1832608, z: 0.1832608}
+  m_LocalPosition: {x: 1.1633, y: 0.060868442, z: 1.548}
+  m_LocalScale: {x: 1.7, y: 1.7, z: 1.7}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -59,7 +58,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 263fff79ab71f494fad97c397b2d4f12, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -85,21 +84,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1273693476261552}
-  m_Mesh: {fileID: 0}
---- !u!64 &64408788981255248
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1273693476261552}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 4300000, guid: 69f87399916332f4ea32a53589b1c89d, type: 3}
 --- !u!114 &114185774356998762
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -113,11 +98,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   faction: 4
   ItemInfo:
-    ItemName: "Iron Zweih\xE4nder"
+    ItemName: Iron Zweihander
     ItemValue: 48
     ItemWeight: 3
     ItemLore: 
-    ItemSprite: {fileID: 21300000, guid: 49dcc7b65860aed4ba2941f5d773792a, type: 3}
+    ItemSprite: {fileID: 21300000, guid: 3e12adfab30737242914428844780f00, type: 3}
     ItemType: 1
     ItemRarity: 0
     maxStackCount: 10

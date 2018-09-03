@@ -55,12 +55,16 @@ namespace RuthlessMerchant
                     if (Outpost.IsUnderAttack)
                     {
                         Transform target = Outpost.GetClosestAttacker(this);
-                        SetCurrentAction(new ActionHunt(ActionNPC.ActionPriority.High), target.gameObject, false, true);
+                        if(!(CurrentAction is ActionAttack))
+                            SetCurrentAction(new ActionHunt(ActionNPC.ActionPriority.High), target.gameObject, false, true);
                     }
                     else
                     {
                         if (CurrentAction is ActionIdle || CurrentAction == null)
+                        {
                             SetCurrentAction(new ActionWander(), null);
+                            TryPickupEquipment(Outpost);
+                        }
                     }
                 }
             }

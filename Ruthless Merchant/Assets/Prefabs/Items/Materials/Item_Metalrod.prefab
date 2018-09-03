@@ -21,12 +21,12 @@ GameObject:
   - component: {fileID: 4207102544709852}
   - component: {fileID: 33283074848342118}
   - component: {fileID: 23071943415985244}
-  - component: {fileID: 114909173902830020}
-  - component: {fileID: 114145828494694452}
-  - component: {fileID: 114626254585296008}
+  - component: {fileID: 65156691487724844}
+  - component: {fileID: 114760428803959080}
+  - component: {fileID: 114446382836646924}
   m_Layer: 0
   m_Name: Item_Metalrod
-  m_TagString: Item
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -37,9 +37,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1450699792853716}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0.12718125, y: 0.027141657, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.6823888, y: 0.209, z: 1.6240853}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -59,7 +59,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 1545057bf2ac42846bff9b18c10db546, type: 3}
+  - {fileID: 2100000, guid: d240a40c168515d47842fb692e4b2734, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -86,7 +86,19 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1450699792853716}
   m_Mesh: {fileID: 4300000, guid: 1545057bf2ac42846bff9b18c10db546, type: 3}
---- !u!114 &114145828494694452
+--- !u!65 &65156691487724844
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1450699792853716}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.26, y: 0.02, z: 0.05}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114446382836646924
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -97,35 +109,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f1b6d10c64b8064da2e4bc0add27cb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  faction: 0
+  faction: 4
   ItemInfo:
-    ItemName: Metal Rod
+    ItemName: Metalrod
     ItemValue: 0
-    ItemWeight: 1
-    ItemLore: 
-    ItemSprite: {fileID: 0}
-    ItemType: 0
-    ItemRarity: 0
-    maxStackCount: 0
+    ItemWeight: 2
+    ItemLore: Part of the strange creatures that came from the underground. They seem
+      to exist for a long period of time.
+    ItemSprite: {fileID: 21300000, guid: 7ecb387839a4b394abecc24a37037282, type: 3}
+    ItemType: 3
+    ItemRarity: 2
+    maxStackCount: 20
   materialsType: 6
---- !u!114 &114626254585296008
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1450699792853716}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 1
-  outlineColor: {r: 1, g: 0.79607844, b: 0, a: 1}
-  outlineWidth: 4
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []
---- !u!114 &114909173902830020
+--- !u!114 &114760428803959080
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}

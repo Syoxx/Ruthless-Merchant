@@ -21,7 +21,7 @@ namespace RuthlessMerchant
         protected int count = 1;
 
         protected ObjectSpawner spawner;
-        private float elapsedTime = 0f;
+        protected float elapsedTime = 0f;
 
         protected virtual void Start()
         {
