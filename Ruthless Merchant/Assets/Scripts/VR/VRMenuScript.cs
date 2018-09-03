@@ -8,7 +8,7 @@ using RuthlessMerchant;
 public class VRMenuScript : MonoBehaviour
 {
     [SerializeField, Tooltip("Name of the Scene which should be loaded to start the game")]
-    private string gamePlayScene = "Islandtesting";
+    private string gamePlayScene = "VR_IslandScene";
 
     [SerializeField]
     private Light lightContinue, lightStartGame, lightSettings;
@@ -25,8 +25,8 @@ public class VRMenuScript : MonoBehaviour
     [SerializeField, Tooltip("Image shown while loading main Scene")]
     Image loadingImage;
 
-    [SerializeField, Tooltip("Drag a SwitchScenePNL there")]
-    private GameObject PNL_BgSwitchScene;
+    //[SerializeField, Tooltip("Drag a SwitchScenePNL there")]
+    //private GameObject PNL_BgSwitchScene;
 
     private Camera playerAttachedCamera;
     private AsyncOperation loadSceneOperator;
@@ -46,15 +46,13 @@ public class VRMenuScript : MonoBehaviour
     {
         Ray ray = playerAttachedCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-
-        //Debug.DrawRay(transform.position, ray.direction, Color.green);
-
+        
         lightStartGame.enabled = false;
         lightContinue.enabled = false;
         lightSettings.enabled = false;
 
-        if (!PNL_BgSwitchScene.activeSelf)
-        {
+        //if (!PNL_BgSwitchScene.activeSelf)
+        //{
             if (Physics.Raycast(ray, out hit, rayDistance))
             {
                 if (hit.transform.tag.Equals("MenuObject"))
@@ -77,49 +75,53 @@ public class VRMenuScript : MonoBehaviour
                     }
                 }
             }
-        }
+        //}
     }
-
-    void Update()
-    {
-        OpenSceneSwitcher();
-    }
-
 
 
     #region SwitchSceneManager
 
-    public void OpenSceneSwitcher()
-    {
-        if (Input.GetKeyDown(KeyCode.F10))
-        {
-            if (PNL_BgSwitchScene.activeSelf)
-            {
-                PNL_BgSwitchScene.SetActive(false);
-            }
-            else
-            {
-                PNL_BgSwitchScene.SetActive(true);
-            }
-        }
-    }
-    public void Button1()
-    {
+    //void Update()
+    //{
+    //    OpenSceneSwitcher();
+    //}
 
-    }
-    public void Button2()
-    {
 
-    }
-    public void Button3()
-    {
 
-    }
-    public void Button4()
-    {
 
-    }
-    #endregion
+
+    //public void OpenSceneSwitcher()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.F10))
+    //    {
+    //        if (PNL_BgSwitchScene.activeSelf)
+    //        {
+    //            PNL_BgSwitchScene.SetActive(false);
+    //        }
+    //        else
+    //        {
+    //            PNL_BgSwitchScene.SetActive(true);
+    //        }
+    //    }
+    //}
+    //public void Button1()
+    //{
+
+    //}
+    //public void Button2()
+    //{
+
+    //}
+    //public void Button3()
+    //{
+
+    //}
+    //public void Button4()
+    //{
+
+    //}
+#endregion
+
     private void Continue()
     {
         lightContinue.enabled = true;

@@ -16,13 +16,23 @@ public delegate void PointerEventHandler(object sender, PointerEventArgs e);
 public class SteamVR_LaserPointer : MonoBehaviour
 {
     public bool active = true;
+    [SerializeField, Tooltip("Color of the laser.")]
     public Color color;
+    [SerializeField, Tooltip("Color of the laser.")]
     public float thickness = 0.002f;
+
     public GameObject holder;
     public GameObject pointer;
+
+    [SerializeField, Tooltip("Color of the laser.")]
     bool isActive = false;
+
+    [SerializeField, Tooltip("Color of the laser.")]
     public bool addRigidBody = false;
+
+    [SerializeField, Tooltip("Color of the laser.")]
     public Transform reference;
+
     public event PointerEventHandler PointerIn;
     public event PointerEventHandler PointerOut;
 
