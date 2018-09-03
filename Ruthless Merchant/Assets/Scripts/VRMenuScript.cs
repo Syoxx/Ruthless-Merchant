@@ -99,6 +99,7 @@ public class VRMenuScript : MonoBehaviour
         lightExit.enabled = true;
         if (Input.GetMouseButtonDown(0) && !levelLoadingInitiated)
         {
+            levelLoadingInitiated = true;
             fadeImage.FadingWithCallback(1f, fadeTime, delegate
             {
                 Application.Quit();
@@ -111,9 +112,10 @@ public class VRMenuScript : MonoBehaviour
         lightCredits.enabled = true;
         if (Input.GetMouseButtonDown(0) && !levelLoadingInitiated)
         {
-            fadeImage.FadingWithCallback(0f, 2f, delegate
+            levelLoadingInitiated = true;
+            fadeImage.FadingWithCallback(1f, 2f, delegate
              {
-                 SceneManager.LoadScene("Credits");
+                 SceneManager.LoadScene("NewCredits");
              });
         }
     }
