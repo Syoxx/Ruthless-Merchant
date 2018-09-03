@@ -36,6 +36,9 @@ namespace RuthlessMerchant
         [Tooltip("Drag DefaultSword Prefab there")]
         private Item defaultSword;
         [SerializeField]
+        [Tooltip("Drag IronSword Prefab there")]
+        private Item ironSword;
+        [SerializeField]
         [Tooltip("Drag teleportCaveUp from Tutorial there")]
         private GameObject teleportCaveUp;
 
@@ -114,7 +117,7 @@ namespace RuthlessMerchant
             dialogueZone11Collider = dialogueZone10.GetComponent<Collider>();
 
 
-            Player.Singleton.Inventory.Add(defaultSword, 5, true);
+            Player.Singleton.Inventory.Add(defaultSword, 1, true);
 
             myFade.FadingWithCallback(1, 0.001f, delegate {Monolog(startMonolog); myFade.FadingWithCallback(0, 3, delegate { Debug.Log("Done fading"); });
             });
@@ -221,6 +224,9 @@ namespace RuthlessMerchant
         {
             if (WorkbenchDone && AlchemyDone && SmithDone)
             {
+                int swords = Player.Singleton.Inventory.GetNumberOfItems(ironSword);
+                if(swords < 5)
+                    Player.Singleton.Inventory.Add(ironSword, 5-swords, true);
                 Monolog(playerCaveFinished);
                 smithExit.SetActive(false);   
             }        
