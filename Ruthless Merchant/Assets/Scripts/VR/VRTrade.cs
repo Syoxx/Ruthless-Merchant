@@ -54,11 +54,13 @@ namespace RuthlessMerchant
             nextPlayerOffer = RealValue; ;
             nextPlayerOfferText.text = nextPlayerOffer.ToString();
             nextPlayerOfferText.fontStyle = FontStyle.Italic;
+
+            UpdateWeights(weightsTrader, realValue);
         }
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.E) || hand1 != null && hand1.controller.GetHairTriggerDown())
+            if (Input.GetKeyDown(KeyCode.E)) //|| hand1 != null && hand1.controller.GetHairTriggerDown())
             {
                 HandlePlayerOffer();
             }
@@ -152,22 +154,15 @@ namespace RuthlessMerchant
                 nextPlayerOffer = 1;
             }
 
-            else if (lastPlayerOffer != -1 && nextPlayerOffer >= lastPlayerOffer)
-            {
-                nextPlayerOffer = lastPlayerOffer - 1;
-            }
-
             currentPlayerOffer = nextPlayerOffer;
 
             tradeDialogue.text = "";
             Trader.CurrentTrader.ReactToPlayerOffer();
 
-            if (GetCurrentTraderOffer() != -1)
-                UpdateWeights(weightsTrader, (int)GetCurrentTraderOffer());
+            VRPlayerTradeZone.Singleton.UpdateWeight = true;
 
             nextPlayerOffer -= 1;
             nextPlayerOfferText.fontStyle = FontStyle.Normal;
-            //UpdateWeights(weightsPlayer, nextPlayerOffer);
             UpdateUI();
         }
 

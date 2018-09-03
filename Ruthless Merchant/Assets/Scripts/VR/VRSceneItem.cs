@@ -60,7 +60,7 @@ namespace RuthlessMerchant
 
             foreach (GameObject collision in Collisions)
             {
-                if (collision.name.Contains("TradeZone"))
+                if (collision.name.Contains("Schale"))
                 {
                     return true;
                 }

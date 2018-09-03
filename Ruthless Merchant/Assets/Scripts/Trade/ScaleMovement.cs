@@ -10,16 +10,14 @@ namespace RuthlessMerchant
         #if UNITY_EDITOR
         [ReadOnly]
         #endif
-        public float TargetPositionPlayer; 
-
-        public float TargetPositionTrader;
+        public float TargetConnectorRotation; 
 
         public float SpeedModifier = 0.4f;
 
         #if UNITY_EDITOR
         [ReadOnly]
         #endif
-        public float SpeedY = 0;
+        public float SpeedX = 0;
 
         [SerializeField, Range(0,1)]
         float frictionY = 0.95f;
@@ -30,6 +28,12 @@ namespace RuthlessMerchant
         [SerializeField]
         float positionThresholdY = 0.02f;
 
+        [SerializeField]
+        Transform scaleRight;
+
+        [SerializeField]
+        Transform scaleLeft;
+
         VRSceneItem[] VRItems;
 
         void OnEnable()
@@ -39,27 +43,28 @@ namespace RuthlessMerchant
 
         void Update()
         {
-            Vector3 positionDelta;
+            Vector3 rotationDelta;
 
-            float targetDelta = TargetPositionPlayer - TradeAbstract.Singleton.PlayerZone.transform.position.y;
+            float targetDelta = TargetConnectorRotation - TradeAbstract.Singleton.connector.transform.eulerAngles.x;
 
             // End Movement?
-            if (Math.Abs(targetDelta) < positionThresholdY && Math.Abs(SpeedY) < speedThresholdY)
+            if (Math.Abs(targetDelta) < positionThresholdY && Math.Abs(SpeedX) < speedThresholdY)
             {
-                positionDelta = new Vector3(0, targetDelta, 0);
+                Vector3 traderDelta = scaleRight.position;
+                TradeAbstract.Singleton.connector.transform.eulerAngles = new Vector3(TargetConnectorRotation, -90, 90);
+                traderDelta -= scaleRight.position;
 
                 foreach (VRSceneItem VRItem in VRItems)
                 {
                     if (VRItem.TouchesGround(true))
                     {
-                        VRItem.transform.position += positionDelta;
+                        VRItem.transform.position += traderDelta;
                         VRItem.GetComponent<Rigidbody>().useGravity = true;
                         VRItem.GetComponent<Rigidbody>().isKinematic = false;
                     }
                 }
 
-                TradeAbstract.Singleton.PlayerZone.transform.position += positionDelta;
-                TradeAbstract.Singleton.TraderZone.transform.position += positionDelta;
+                Debug.LogWarning("Ended Movement!");
 
                 enabled = false;
             }
@@ -67,21 +72,32 @@ namespace RuthlessMerchant
             // Continue Movement.
             else
             {
-                SpeedY += (TargetPositionPlayer - TradeAbstract.Singleton.PlayerZone.transform.position.y) * SpeedModifier;
-                SpeedY *= frictionY;
+                SpeedX += (TargetConnectorRotation - TradeAbstract.Singleton.connector.transform.eulerAngles.x) * SpeedModifier;
+                SpeedX *= frictionY;
 
-                positionDelta = new Vector3(0, SpeedY, 0);
+                float newX = TradeAbstract.Singleton.connector.localEulerAngles.x + SpeedX * Time.deltaTime;
+
+                if (newX > -70)
+                    newX = -70;
+                else if (newX < -110)
+                    newX = -110;
+
+                TradeAbstract.Singleton.connector.localEulerAngles = new Vector3(newX, -90, 90);
+
+                Vector3 traderDelta = scaleRight.position;
+
+                scaleRight.position = TradeAbstract.Singleton.platePositionPlayer.transform.position;
+                scaleLeft.position = TradeAbstract.Singleton.platePositionTrader.transform.position;
+
+                traderDelta -= scaleRight.position;
 
                 foreach (VRSceneItem VRItem in VRItems)
                 {
                     if (VRItem.TouchesGround(true))
                     {
-                        VRItem.transform.position += positionDelta * Time.deltaTime;
+                        VRItem.transform.position += traderDelta;
                     }
                 }
-
-                TradeAbstract.Singleton.PlayerZone.transform.position += positionDelta * Time.deltaTime;
-                TradeAbstract.Singleton.TraderZone.transform.position -= positionDelta * Time.deltaTime;
             }
         }
     }
