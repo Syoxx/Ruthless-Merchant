@@ -273,6 +273,9 @@ namespace RuthlessMerchant
                     //Monolog(13);
                     //Destroy(other.gameObject);
                     break;
+                case "TradeTrigger":
+                    TraderMonologStart();
+                    break;
                 case "TriggerCancelTutorial":
                     TutorialObject.SetActive(false);                
                     break;
