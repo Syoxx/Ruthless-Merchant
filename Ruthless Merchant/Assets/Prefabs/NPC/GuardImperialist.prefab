@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 195709978842490820}
   - component: {fileID: 54468376184057394}
   - component: {fileID: 114825290769760860}
+  - component: {fileID: 114393907780416382}
   m_Layer: 0
   m_Name: GuardImperialist
   m_TagString: NPC
@@ -189,6 +190,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 1500
   maxHealth: 1500
+--- !u!114 &114393907780416382
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1407176522050474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d08cbd94b6fadd499e42cf6c8c56d06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114523369483673472
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -234,6 +246,7 @@ MonoBehaviour:
   huntDistance: 8
   attackDistance: 1.5
   outpost: {fileID: 0}
+  hasGodMode: 1
 --- !u!135 &135293564801483562
 SphereCollider:
   m_ObjectHideFlags: 1
