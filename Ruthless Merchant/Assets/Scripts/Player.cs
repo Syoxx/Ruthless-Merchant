@@ -667,7 +667,7 @@ namespace RuthlessMerchant
 
         public void SendInteraction()
         {
-            if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0))
+            if (Input.GetKeyDown(KeyCode.E))
             {
                 if (playerAttachedCamera != null)
                 {
@@ -693,6 +693,11 @@ namespace RuthlessMerchant
 
                                 // Returns 0 if item was added to inventory
                                 int UnsuccessfulPickup = inventory.Add(clonedItem, 1, true);
+
+                                //In Achievement-Mode
+                               
+                                Achievements.AddToCounter(targetItem);
+                                
 
                                 if (UnsuccessfulPickup != 0)
                                 {

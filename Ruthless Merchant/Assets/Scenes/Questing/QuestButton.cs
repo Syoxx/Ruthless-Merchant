@@ -14,7 +14,8 @@ namespace RuthlessMerchant {
         {
             Debug.Log("Color changed");
                     var colors = GetComponent<Button>().colors;
-                    colors.disabledColor = new Color32(171,243, 116, 255);
+                    colors.normalColor = new Color32(171,243, 116, 255);
+                    colors.highlightedColor = new Color32(171, 243, 116, 255);
                     GetComponent<Button>().colors = colors;
         }
 
@@ -22,7 +23,8 @@ namespace RuthlessMerchant {
         {
             Debug.Log("InProgress");
             var colors = GetComponent<Button>().colors;
-            colors.disabledColor = new Color32(179, 239, 250, 255);
+            colors.normalColor = new Color32(179, 239, 250, 255);
+            colors.highlightedColor = new Color32(179, 239, 250, 255);
             GetComponent<Button>().colors = colors;
             inProgress = true;
         }
@@ -40,13 +42,15 @@ namespace RuthlessMerchant {
 
         public void DiscardQuestButton()
         {
+            Debug.Log("Discard");
             Button btn = GetComponent<Button>();
-            
+            btn.onClick.RemoveAllListeners();
             btn.onClick.AddListener(delegate { DiscardQuest(); });
         }
         private void DiscardQuest()
         {
-            Destroy(this);
+            Debug.Log("Destroy"+ this.gameObject);
+            Destroy(gameObject);
         }
     }
 }
