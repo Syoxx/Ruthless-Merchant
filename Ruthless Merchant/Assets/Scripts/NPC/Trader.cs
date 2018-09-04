@@ -330,8 +330,11 @@ namespace RuthlessMerchant
 
                 else
                 {
-                    Debug.LogError("Trader has no valid Faction!");
-                    return;
+                    if (Tutorial.Singleton.TradeIsDone)
+                    {
+                        Debug.LogError("Trader has no valid Faction!");
+                        return;
+                    }
                 }
 
                 if (AsignedOutpost != null)
@@ -546,7 +549,7 @@ namespace RuthlessMerchant
                         InventoryItem.Behaviour = InventoryItem.ItemBehaviour.Move;
                         Main_SceneManager.LoadSceneAdditively("TradeScene");
 
-                        Tutorial.Singleton.TraderMonologStart();
+                        Tutorial.Singleton.StartTrading();
                     }
                     else
                     {
