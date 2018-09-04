@@ -148,6 +148,6 @@ public class SteamVR_LaserPointer : MonoBehaviour
         }
         pointer.transform.localPosition = new Vector3(0f, 0f, dist/2f);
 
-        //hit.collider.gameObject 
+        //hit.collider.gameObject;
     }
 }
