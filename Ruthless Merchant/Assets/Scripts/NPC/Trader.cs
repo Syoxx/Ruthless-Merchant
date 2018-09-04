@@ -564,9 +564,8 @@ namespace RuthlessMerchant
 
                         InventoryItem.Behaviour = InventoryItem.ItemBehaviour.Move;
                         player.RestrictBookUsage = true;
-                        player.NavMeshObstacle.enabled = true;
-
                         player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePosition;
+                        player.NavMeshObstacle.enabled = true;
                     }
                 }
                 else

@@ -17,6 +17,7 @@ public class Goal : MonoBehaviour {
     //protected List<Transform> Waypoints;
 
     public bool Completed; //{ get; set; }
+    public bool InProgress;
     protected int CurrentAmount; //{ get; set; }
 
 

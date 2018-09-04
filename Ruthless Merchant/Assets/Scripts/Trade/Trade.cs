@@ -308,9 +308,12 @@ namespace RuthlessMerchant
         {
             Inventory.Singleton.Add(coinPrefab, (int)GetCurrentTraderOffer(), true);
 
+            if (Achievements.Singleton.switchIndex == 3)
+                Achievements.AddToCounter(null, false);
+
             if (ItemsSold != null)
                 ItemsSold.Invoke(this, new TradeArgs(ItemsToSell, Trader.CurrentTrader));
-
+            
             Trader.CurrentTrader.IncreaseReputation();
             Exit = true;
 
@@ -320,6 +323,7 @@ namespace RuthlessMerchant
                 Tutorial.Monolog(5);
             else
                 Tutorial.Monolog(6);
+
         }
 
         /// <summary>

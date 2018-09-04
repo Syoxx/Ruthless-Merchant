@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1266657485587914}
+  m_IsPrefabParent: 1
+--- !u!1 &1266657485587914
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4282459086209170}
+  - component: {fileID: 114050033859989318}
+  m_Layer: 0
+  m_Name: CollectionQuest Windfern IO5
+  m_TagString: Windfern
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4282459086209170
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1266657485587914}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114050033859989318
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1266657485587914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8628a85088bbdc642825eefdef6b1869, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  QuestTitle: Collect 7 Windfern!
+  Description: At the river fork some unique herbs grow, which I absolutely need for
+    new potions. Please get me some.
+  Reward: 25
+  Completed: 0
+  InProgress: 0
+  inProgress: 0
+  collectables:
+  - requiredAmount: 7
+    currentAmount: 0
+    completed: 0
+    icon: {fileID: 2800000, guid: decec5b814474aa4382ee4f30f1755e1, type: 3}
+    item: {fileID: 114292689267092580, guid: 14854821f13632f40a2b2b322465d020, type: 2}
