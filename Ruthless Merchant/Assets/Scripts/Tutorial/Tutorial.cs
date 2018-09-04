@@ -197,7 +197,7 @@ namespace RuthlessMerchant
         private void TutorialFinished()
         {
             //TODO Fade to black
-            myFade.FadingWithCallback(1, 0.001f, delegate
+            myFade.FadingWithCallback(1, 3.5f, delegate
             {
                 DisableTutorial();
                 myFade.FadingWithCallback(0, 3, delegate { Debug.Log("Tutorial disabled"); });

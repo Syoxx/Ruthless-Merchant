@@ -5728,7 +5728,8 @@ MonoBehaviour:
   Description: 
   Reward: 0
   Completed: 0
-  CollectableID: 0
+  InProgress: 0
+  inProgress: 0
   collectables: []
 --- !u!114 &114671086745944594
 MonoBehaviour:
@@ -5920,7 +5921,7 @@ MonoBehaviour:
   capValuePerSecond: 1
   Reacting: 0
   huntDistance: 10
-  attackDistance: 0.5
+  attackDistance: 1.2
   Level: 1
   Outpost: {fileID: 0}
   patrolActive: 0
