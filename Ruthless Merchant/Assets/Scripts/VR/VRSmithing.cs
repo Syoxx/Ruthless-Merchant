@@ -157,7 +157,7 @@ namespace RuthlessMerchant
 
         public void CreatingSwordStep(Collision collision)
         {
-            if (collision.gameObject == HammerController1 || collision.gameObject == HammerController2)
+            if (collision.gameObject.name.ToLower().Contains("hammer"))
             {
                 Destroy(HotIron);
                 FinalSword.SetActive(true);
