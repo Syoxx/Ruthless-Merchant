@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Valve.VR.InteractionSystem;
 
 namespace RuthlessMerchant
 {
@@ -16,6 +17,9 @@ namespace RuthlessMerchant
         [SerializeField]
         int value;
 
+        [SerializeField]
+        bool SmithingHammer;
+
         /// <summary>
         /// True if the VRSceneItem has been checked for contact with the ground in the current frame. 
         /// Used for internal recursive purposes in the TouchesGround Method.
@@ -27,6 +31,30 @@ namespace RuthlessMerchant
             Collisions = new List<GameObject>();
             Item.ItemName = itemName;
             Item.Value = value;
+        }
+
+        public void ChangeToHammerController(int hand)
+        {
+            if (VRSmithing.Singleton.hammerItem == gameObject && VRSmithing.Singleton.AllIronsPlaced && (transform.parent == VRSmithing.Singleton.hand1 || transform.parent == VRSmithing.Singleton.hand2))
+            {
+                if (hand == 1)
+                {
+                    foreach (GameObject gObject in VRSmithing.Singleton.controllerObjectsToDeactivate1)
+                        gObject.SetActive(false);
+
+                    VRSmithing.Singleton.hammerController1.SetActive(true);
+                }
+
+                else if (hand == 2)
+                {
+                    foreach (GameObject gObject in VRSmithing.Singleton.controllerObjectsToDeactivate2)
+                        gObject.SetActive(false);
+
+                    VRSmithing.Singleton.hammerController2.SetActive(true);
+                }
+
+                gameObject.SetActive(false);
+            }
         }
 
         private void OnCollisionEnter(Collision collision)

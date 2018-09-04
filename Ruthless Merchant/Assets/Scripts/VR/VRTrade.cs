@@ -60,7 +60,7 @@ namespace RuthlessMerchant
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.E)) //|| hand1 != null && hand1.controller.GetHairTriggerDown())
+            if (Input.GetKeyDown(KeyCode.E) || hand1 != null && hand1.controller.GetHairTriggerDown())
             {
                 HandlePlayerOffer();
             }
