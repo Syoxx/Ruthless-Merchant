@@ -38,22 +38,22 @@ namespace RuthlessMerchant
         {
             yield return new WaitForEndOfFrame();
 
-            if (VRSmithing.Singleton.hammerItem == gameObject && VRSmithing.Singleton.AllIronsPlaced && (transform.parent == VRSmithing.Singleton.hand1.transform || transform.parent == VRSmithing.Singleton.hand2.transform))
+            if (VRSmithing.Singleton.HammerItem == gameObject && VRSmithing.Singleton.smithingSteps == VRSmithing.SmithingSteps.CreatingSword && (transform.parent == VRSmithing.Singleton.Hand1.transform || transform.parent == VRSmithing.Singleton.Hand2.transform))
             {
                 if (hand == 1)
                 {
-                    foreach (GameObject gObject in VRSmithing.Singleton.controllerObjectsToDeactivate1)
+                    foreach (GameObject gObject in VRSmithing.Singleton.ControllerObjectsToDeactivate1)
                         gObject.SetActive(false);
 
-                    VRSmithing.Singleton.hammerController1.SetActive(true);
+                    VRSmithing.Singleton.HammerController1.SetActive(true);
                 }
 
                 else if (hand == 2)
                 {
-                    foreach (GameObject gObject in VRSmithing.Singleton.controllerObjectsToDeactivate2)
+                    foreach (GameObject gObject in VRSmithing.Singleton.ControllerObjectsToDeactivate2)
                         gObject.SetActive(false);
 
-                    VRSmithing.Singleton.hammerController2.SetActive(true);
+                    VRSmithing.Singleton.HammerController2.SetActive(true);
                 }
 
                 gameObject.SetActive(false);
@@ -66,19 +66,6 @@ namespace RuthlessMerchant
 
             if (VRPlayerTradeZone.Singleton != null)
                 VRPlayerTradeZone.Singleton.UpdateWeight = true;
-
-            VRSmithing vrSmithing = FindObjectOfType<VRSmithing>();
-
-            if (vrSmithing != null && vrSmithing.AllIronsPlaced && collision.gameObject.name == "WorkbenchHammer")
-            {
-                foreach(GameObject iron in VRSmithing.Singleton.Irons)
-                {
-                    iron.SetActive(false);
-                }
-
-                VRSmithing.Singleton.FinalSword.SetActive(true);
-                VRSmithing.Singleton.HammerHand.controller.TriggerHapticPulse(UInt16.MaxValue);
-            }
         }
 
         private void OnCollisionExit(Collision collision)
