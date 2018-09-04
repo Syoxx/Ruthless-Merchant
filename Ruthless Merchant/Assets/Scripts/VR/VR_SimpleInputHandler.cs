@@ -20,17 +20,34 @@ public class VR_SimpleInputHandler : MonoBehaviour
     void Start ()
     {
         trackedObj = GetComponent<SteamVR_TrackedController>();
+        
         trackedObj.TriggerClicked += Grab;
+        trackedObj.TriggerUnclicked += Ungrab;
+
         //trackedObj = GetComponent<SteamVR_TrackedObject>();
     }
 
     void Grab(object sender, ClickedEventArgs e)
     {
+        GameObject[] tags = GameObject.FindGameObjectsWithTag("Item");
 
+        foreach (GameObject tag in tags)
+        {
+            if (tag.transform.parent == gameObject)
+            {
+                pickup = tag;
+                break;
+            }
+        }
     }
 
-	// Update is called once per frame
-	void Update ()
+    void Ungrab(object sender, ClickedEventArgs e)
+    {
+        pickup = null;
+    }
+
+    // Update is called once per frame
+    void Update ()
 	{
 
 
@@ -56,7 +73,7 @@ public class VR_SimpleInputHandler : MonoBehaviour
 	}
     private void OnTriggerEnter(Collider collider)
     {
-        pickup = collider.gameObject;
+        
     }
 
     private void OnTriggerExit(Collider collider)
