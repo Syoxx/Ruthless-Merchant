@@ -40,6 +40,7 @@ namespace RuthlessMerchant {
         "Across the bridge near “Green Leaf Path” is a known place for many other ingredients like Creaky Tuber that I could use.\n",
         "Now I can brew some potion and sell these for a good price.\n",
         "I should arrive at the “Imperialist capital” soon and finally sell this special weapon. These Imperialists are a strong faction. But they are hiding behind great stone walls. They love all the stuff of the ancient civilization. I should keep this in mind.\n",
+        "Before I arrive at the “Imperialist capital” I should stop by at “Imperial Roadway” and talk to a hero about a mission.",
         "A rather large disbalance has arisen between both fractions. I should sell lots of good weapons to the Imperalists now, so they can fight back. However, I should always try to keep a balance…\n"
     };
 
@@ -69,7 +70,10 @@ namespace RuthlessMerchant {
         "Sell potions ",
 
         "Reach “Imperial Capital” ",
-        "Sell special weapon "
+        "Sell special weapon ",
+
+        "Reach “Imperial Broadway” (0/1)",
+        "Order an assassination mission from a hero (0/1)"
     };
 
         private void Awake()
@@ -182,6 +186,9 @@ namespace RuthlessMerchant {
                     Singleton.RequiredAmount = 1; Singleton.RequiredAmount2 = 1;
                     Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex] + Singleton.Goal[15] + "( " + Singleton.counter + " / " + Singleton.RequiredAmount + " )" + Singleton.Goal[16] + "( " + Singleton.counter2 + " / " + Singleton.RequiredAmount2 + " )"; break;
                 case 9:
+                    Singleton.RequiredAmount = 1; Singleton.RequiredAmount2 = 1;
+                    Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex] + Singleton.Goal[17] + "( " + Singleton.counter + " / " + Singleton.RequiredAmount + " )" + Singleton.Goal[18] + "( " + Singleton.counter2 + " / " + Singleton.RequiredAmount2 + " )"; break;
+                case 10:
                     Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex]; break;
 
             }
@@ -238,6 +245,15 @@ namespace RuthlessMerchant {
                         AddToCounter();
                     }
                     break;
+                case "EmpirialRoadwayTrigger":
+                    if (Singleton.switchIndex == 9)
+                    {
+                        AddToCounter();
+                    }
+                    break;
+
+
+                    
             }
         }
     }
