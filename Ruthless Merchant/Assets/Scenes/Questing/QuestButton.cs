@@ -47,10 +47,12 @@ namespace RuthlessMerchant {
             btn.onClick.RemoveAllListeners();
             btn.onClick.AddListener(delegate { DiscardQuest(); });
         }
-        private void DiscardQuest()
+        private void DiscardQuest(int Reward)
         {
             Debug.Log("Destroy"+ this.gameObject);
             Destroy(gameObject);
+            Player.Singleton.Inventory.RemoveGold(Reward);
+
         }
     }
 }

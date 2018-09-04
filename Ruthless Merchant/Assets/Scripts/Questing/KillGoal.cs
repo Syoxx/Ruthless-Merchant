@@ -78,7 +78,7 @@ namespace RuthlessMerchant {
                 if (questButton)
                 {
                     questButton.CompleteButton();
-                    questButton.DiscardQuestButton();
+                    questButton.DiscardQuestButton(Reward);
                 }
 
                 return true;
@@ -94,6 +94,8 @@ namespace RuthlessMerchant {
             InProgress = true;
 
             RequiredAmount = monsterAmount;
+            if (Achievements.Singleton.switchIndex == 9)
+                Achievements.AddToCounter(null, false);
         }
 
         public void CalcNextWayPoint()

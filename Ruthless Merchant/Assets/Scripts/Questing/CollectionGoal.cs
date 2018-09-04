@@ -134,7 +134,7 @@ namespace RuthlessMerchant {
                 questButton.CompleteButton();
                 InProgress = false;
                 //button.GetComponent<Button>().onClick.AddListener(delegate {  });
-                questButton.DiscardQuestButton();
+                questButton.DiscardQuestButton(Reward);
             }
             return true;
         }
