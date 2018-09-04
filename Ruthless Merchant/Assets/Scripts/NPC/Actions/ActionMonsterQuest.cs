@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace RuthlessMerchant
 {
@@ -9,15 +7,17 @@ namespace RuthlessMerchant
 
         //private Fighter fighter;
         private Hero hero;
+        private GameObject monster;
+        private KillGoal questGoal;
 
         public ActionMonsterQuest() : base(ActionPriority.Medium)
         {
 
         }
 
-        public ActionMonsterQuest(ActionPriority priority) : base(priority)
+        public ActionMonsterQuest(KillGoal goal, ActionPriority priority) : base(priority)
         {
-
+            questGoal = goal;
         }
 
         public override void EndAction(bool executeEnd = true)
@@ -34,6 +34,7 @@ namespace RuthlessMerchant
             parent.Waypoints.Clear();
             parent.AddNewWaypoint(new Waypoint(other.transform.position, true, 3.0f), true);
             hero = parent as Hero;
+            monster = other;
             parent.Reacting = true;
             base.StartAction(parent, other);
         }
@@ -53,10 +54,10 @@ namespace RuthlessMerchant
             //    return;
             //}
 
-            //if (other.gameObject == null)
-            {
-                // TODO: evaluate in KillGoal.cs
-            }
+            //if (monster == null)
+            //{
+            //    questGoal.EnemyKilled();
+            //}
 
             float distance = Vector3.Distance(other.transform.position, parent.transform.position);
             if (distance <= agent.stoppingDistance)

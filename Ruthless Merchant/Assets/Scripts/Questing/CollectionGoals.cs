@@ -82,7 +82,7 @@ namespace RuthlessMerchant
                         QuestDisplayedData questData = questButton.GetComponent<QuestDisplayedData>();
                         questData.Name.text = collectionGoals[i].QuestTitle;
                         questData.Description.text = collectionGoals[i].Description;
-                        questData.Reward.text = "Reward: " + collectionGoals[i].Reward.ToString() + "$";
+                        questData.Reward.text = "Reward: " + collectionGoals[i].ReputationGain.ToString() + "$";
                         for (int j = 0; j < collectionGoals[i].collectables.Count; j++)
                         {
                             Texture image = collectionGoals[i].collectables[j].icon;

@@ -629,6 +629,11 @@ namespace RuthlessMerchant
             {
                 Debug.Log("Gold: " + inventory.PlayerMoney);
             }
+
+            if (Input.GetKey(KeyCode.F7))
+            {
+                inventory.PlayerMoney = 50;
+            }
         }
 
         public void SendInteraction()

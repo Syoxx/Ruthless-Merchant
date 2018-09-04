@@ -79,6 +79,23 @@ namespace RuthlessMerchant
                 
                 return amount;
             }
+            set
+            {
+                int slotIndex = FindMoneySlot();
+                int amount = 0;
+                if (slotIndex != -1)
+                {
+                    inventorySlots[slotIndex].Count = amount;
+                }
+                else
+                {
+                    ItemInfo gold = new ItemInfo();
+
+                    gold.ItemName = "Gold Coin";
+
+                    Add(gold, amount, false);
+                }
+            }
         }
 
         #endregion

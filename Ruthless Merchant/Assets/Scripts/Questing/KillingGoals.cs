@@ -45,7 +45,7 @@ namespace RuthlessMerchant
                     //{
                     //Debug.Log("AssignedQuest: " + index);
                     Debug.Log(KillGoalsList[localIndex].RequiredAmount);
-                    killGoal.SetTargetList(button, KillGoalsList[localIndex].RequiredAmount);
+                    killGoal.SetTargetList(button, KillGoalsList[localIndex].RequiredAmount, KillGoalsList[localIndex].ReputationGain);
 
                     killGoal.CalcNextWayPoint();
 
@@ -90,6 +90,11 @@ namespace RuthlessMerchant
 
                         Button btn = questButton.GetComponent<Button>();
                         btn.onClick.AddListener(delegate { AssignQuest(localIndex, questButton); });
+
+                        if (Player.Singleton.Inventory.PlayerMoney < KillGoalsList[i].Reward)
+                        {
+                            btn.enabled = false;
+                        }
                     }
                 }
             }
@@ -102,6 +107,15 @@ namespace RuthlessMerchant
             if (other.gameObject.CompareTag("Player"))
             {
                 questingEnabled = false;
+
+                for (int i = 0; i < buttons.Count; i++)
+                {
+                    if (buttons[i])
+                    {
+                        if (!buttons[i].GetComponent<QuestButton>().inProgress)
+                            Destroy(buttons[i]);
+                    }
+                }
             }
         }
     }
