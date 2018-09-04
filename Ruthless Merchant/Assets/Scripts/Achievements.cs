@@ -164,7 +164,7 @@ namespace RuthlessMerchant {
                     Singleton.RequiredAmount = 1; Singleton.RequiredAmount2 = 0;
                     Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex] + Singleton.Goal[4] + "( " + Singleton.counter + " / " + Singleton.RequiredAmount + " )"; break;
                 case 3:
-                    Singleton.RequiredAmount = 3; Singleton.RequiredAmount2 = 3;
+                    Singleton.RequiredAmount = 3; Singleton.RequiredAmount2 = 1;
                     Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex] + Singleton.Goal[5] + "( " + Singleton.counter + " / " + Singleton.RequiredAmount + " )" + Singleton.Goal[6] + "( " + Singleton.counter2 + " / " + Singleton.RequiredAmount2 + " )"; break;
                 case 4:
                     Singleton.RequiredAmount = 1; Singleton.RequiredAmount2 = 1;
