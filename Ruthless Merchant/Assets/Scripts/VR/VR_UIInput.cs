@@ -31,6 +31,7 @@ namespace RuthlessMerchant
         private SteamVR_TrackedController trackedController;
         private AsyncOperation loadSceneOperator;
         private bool levelLoadingInitiated;
+        private bool hairTriggerTriggered;
 
         private void Start()
         {
@@ -40,6 +41,7 @@ namespace RuthlessMerchant
             creditsLight.enabled = false;
             loadingCoin.SetActive(false);
             levelLoadingInitiated = false;
+            hairTriggerTriggered = false;
         }
 
         private void OnEnable()
@@ -57,14 +59,22 @@ namespace RuthlessMerchant
             }
             trackedController.TriggerClicked -= HandleTriggerClicked;
             trackedController.TriggerClicked += HandleTriggerClicked;
+            trackedController.TriggerUnclicked -= HandleTriggerUnclicked;
+            trackedController.TriggerUnclicked += HandleTriggerUnclicked;
         }
 
         private void HandleTriggerClicked(object sender, ClickedEventArgs e)
         {
             if (EventSystem.current.currentSelectedGameObject != null)
             {
+                hairTriggerTriggered = true;
                 ExecuteEvents.Execute(EventSystem.current.currentSelectedGameObject, new PointerEventData(EventSystem.current), ExecuteEvents.submitHandler);
             }
+        }
+
+        private void HandleTriggerUnclicked(object sender, ClickedEventArgs e)
+        {
+            hairTriggerTriggered = false;
         }
 
         private void HandlePointerIn(object sender, PointerEventArgs e)
@@ -132,7 +142,7 @@ namespace RuthlessMerchant
             if (activated)
             {
                 exitLight.enabled = true;
-                if ((leftHand.controller.GetHairTriggerDown() || rightHand.controller.GetHairTriggerDown()) && !levelLoadingInitiated)
+                if (hairTriggerTriggered && !levelLoadingInitiated)
                 {
                     levelLoadingInitiated = true;
                     fadeImage.FadingWithCallback(1f, 2f, delegate
@@ -153,7 +163,7 @@ namespace RuthlessMerchant
             if (activated)
             {
                 creditsLight.enabled = true;
-                if ((leftHand.controller.GetHairTriggerDown() || rightHand.controller.GetHairTriggerDown()) && !levelLoadingInitiated)
+                if (hairTriggerTriggered && !levelLoadingInitiated)
                 {
                     levelLoadingInitiated = true;
                     fadeImage.FadingWithCallback(1f, 2f, delegate
@@ -174,7 +184,7 @@ namespace RuthlessMerchant
             if (activated)
             {
                 startLight.enabled = true;
-                if ((leftHand.controller.GetHairTriggerDown() || rightHand.controller.GetHairTriggerDown()) && !levelLoadingInitiated)
+                if (hairTriggerTriggered && !levelLoadingInitiated)
                 {
                     levelLoadingInitiated = true;
                     fadeImage.FadingWithCallback(1f, 2f, delegate
