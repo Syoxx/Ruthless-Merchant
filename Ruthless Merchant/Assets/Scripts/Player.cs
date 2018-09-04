@@ -677,6 +677,9 @@ namespace RuthlessMerchant
 
                     if (Physics.Raycast(clickRay, out hit, maxInteractDistance, mask));
                     {
+                        if (hit.collider == null)
+                            return;
+
                         Debug.Log(hit.collider.name + " " + hit.point + " clicked.");
 
                         InteractiveObject target = hit.collider.gameObject.GetComponent<InteractiveObject>();

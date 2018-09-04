@@ -180,7 +180,7 @@ namespace RuthlessMerchant {
                     Singleton.RequiredAmount = 1; Singleton.RequiredAmount2 = 5;
                     Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex] + Singleton.Goal[11] + "( " + Singleton.counter + " / " + Singleton.RequiredAmount + " )" + Singleton.Goal[12] + "( " + Singleton.counter2 + " / " + Singleton.RequiredAmount2 + " )"; break;
                 case 7:
-                    Singleton.RequiredAmount = 3; Singleton.RequiredAmount2 = 0;
+                    Singleton.RequiredAmount = 3; Singleton.RequiredAmount2 = 1;
                     Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex] + Singleton.Goal[13] + "( " + Singleton.counter + " / " + Singleton.RequiredAmount + " )" + Singleton.Goal[14] + "( " + Singleton.counter2 + " / " + Singleton.RequiredAmount2 + " )"; break;
                 case 8:
                     Singleton.RequiredAmount = 1; Singleton.RequiredAmount2 = 1;
@@ -212,6 +212,7 @@ namespace RuthlessMerchant {
                     if (Singleton.switchIndex == 1)
                     {
                         AddToCounter();
+                        Destroy(other);
                     }
                     break;
                 case "OpenMindedCapitalTrigger":
