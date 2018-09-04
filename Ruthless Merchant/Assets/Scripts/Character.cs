@@ -283,7 +283,8 @@ namespace RuthlessMerchant
             if (!isPlayer)
             {
                 isDying = true;
-                animator.SetBool("IsDying", true);
+                if(animator != null)
+                    animator.SetBool("IsDying", true);
             }
             DestroyInteractiveObject(5.0f);
         }

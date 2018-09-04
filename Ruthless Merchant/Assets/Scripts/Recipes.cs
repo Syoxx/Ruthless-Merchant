@@ -20,6 +20,9 @@ namespace RuthlessMerchant
         [SerializeField, Tooltip("The prefab that will be used for displaying the materials in the recipe-panels")]
         GameObject componentPanelPrefab;
 
+        [SerializeField]
+        Item[] SteelAndIron;
+
         [SerializeField, Tooltip("All recipes that can be created by the player")]
         List<Recipe> recipes;
 
@@ -194,6 +197,13 @@ namespace RuthlessMerchant
 
         private void Awake()
         {
+            if(SteelAndIron.Length > 1)
+            {
+                List<Recipe.Materials> steelList = new List<Recipe.Materials> { new Recipe.Materials(SteelAndIron[1], 2) };
+
+                recipes.Insert(0, new Recipe(SteelAndIron[0], steelList, true));
+            }
+
             recipePanels = new List<RecipePanel>();
             counts = new List<ItemCount>();
             if(!book)

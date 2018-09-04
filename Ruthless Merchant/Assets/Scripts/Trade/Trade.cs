@@ -319,10 +319,9 @@ namespace RuthlessMerchant
 
 
             if (GetCurrentTraderOffer() >= RealValue)
-                Tutorial.Monolog(5);
+                Tutorial.Singleton.TradeMonolog5();
             else
-                Tutorial.Monolog(6);
-
+                Tutorial.Singleton.TradeMonolog6();
         }
 
         /// <summary>

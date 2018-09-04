@@ -701,6 +701,9 @@ namespace RuthlessMerchant
 
                     if (Physics.Raycast(clickRay, out hit, maxInteractDistance, mask));
                     {
+                        if (hit.collider == null)
+                            return;
+
                         Debug.Log(hit.collider.name + " " + hit.point + " clicked.");
 
                         InteractiveObject target = hit.collider.gameObject.GetComponent<InteractiveObject>();
@@ -729,8 +732,9 @@ namespace RuthlessMerchant
                                 int UnsuccessfulPickup = inventory.Add(clonedItem, 1, true);
 
                                 //In Achievement-Mode
-                                if(Achievements.Singleton.switchIndex < 1)
-                                    Achievements.AddToCounter(targetItem);
+                               
+                                Achievements.AddToCounter(targetItem);
+                                
 
                                 if (UnsuccessfulPickup != 0)
                                 {

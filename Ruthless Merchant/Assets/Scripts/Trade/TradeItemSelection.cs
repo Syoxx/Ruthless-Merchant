@@ -158,7 +158,7 @@ namespace RuthlessMerchant
             sellingItemInfoParent.GetComponent<VerticalLayoutGroup>().CalculateLayoutInputVertical();
             Trader.CurrentTrader.SpawnMoodIcon();
 
-            Tutorial.Monolog(2);
+            Tutorial.Singleton.TraderItemSelectionMonolog2();
         }
 
         public void AbortTrade()
@@ -182,7 +182,8 @@ namespace RuthlessMerchant
             player.AllowTradingMovement();
             player.NavMeshObstacle.enabled = false;
 
-            Trader.CurrentTrader.Scale.SetActive(true);
+            if(Trader.CurrentTrader.Scale)
+                Trader.CurrentTrader.Scale.SetActive(true);
 
             Main_SceneManager.UnLoadScene("TradeScene");
         }

@@ -330,8 +330,11 @@ namespace RuthlessMerchant
 
                 else
                 {
-                    Debug.LogError("Trader has no valid Faction!");
-                    return;
+                    if (Tutorial.Singleton.TradeIsDone)
+                    {
+                        Debug.LogError("Trader has no valid Faction!");
+                        return;
+                    }
                 }
 
                 if (AsignedOutpost != null)
@@ -435,11 +438,11 @@ namespace RuthlessMerchant
 
                 if(currentPlayerOffer <= TradeAbstract.Singleton.RealValue)
                 {
-                    Tutorial.Monolog(4);
+                    Tutorial.Singleton.TraderMonolog4();
                 }
                 else
                 {
-                    Tutorial.Monolog(3);
+                    Tutorial.Singleton.TraderMonolog3();
                 }
             }
         }
@@ -511,7 +514,7 @@ namespace RuthlessMerchant
                 IrritationTotal = IrritationLimit;
                 trade.Abort();
                 Debug.Log("Trader has surpassed his psycho limits.");
-                Tutorial.Monolog(7);
+                Tutorial.Singleton.TraderMonolog7();
                 return false;
             }
 
@@ -520,7 +523,7 @@ namespace RuthlessMerchant
                 SkepticismTotal = SkepticismLimit;
                 trade.Abort();
                 Debug.Log("Trader has surpassed his psycho limits.");
-                Tutorial.Monolog(8);
+                Tutorial.Singleton.TraderMonolog8();
                 return false;
             }
 
@@ -545,7 +548,8 @@ namespace RuthlessMerchant
                     {
                         InventoryItem.Behaviour = InventoryItem.ItemBehaviour.Move;
                         Main_SceneManager.LoadSceneAdditively("TradeScene");
-                        Tutorial.Monolog(1);
+
+                        Tutorial.Singleton.StartTrading();
                     }
                     else
                     {
@@ -554,9 +558,8 @@ namespace RuthlessMerchant
 
                         InventoryItem.Behaviour = InventoryItem.ItemBehaviour.Move;
                         player.RestrictBookUsage = true;
-                        player.NavMeshObstacle.enabled = true;
-
                         player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePosition;
+                        player.NavMeshObstacle.enabled = true;
                     }
                 }
                 else
