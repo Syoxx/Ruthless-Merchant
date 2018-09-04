@@ -667,7 +667,7 @@ namespace RuthlessMerchant
 
         public void SendInteraction()
         {
-            if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0))
+            if (Input.GetKeyDown(KeyCode.E))
             {
                 if (playerAttachedCamera != null)
                 {
