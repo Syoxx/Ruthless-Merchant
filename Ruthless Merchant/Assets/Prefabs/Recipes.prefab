@@ -51,12 +51,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b73fe1d1cbc08842bba8e4a455bc5ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxRecipesPerPage: 0
+  maxRecipesPerPage: 4
   book: {fileID: 0}
   recipePanelPrefab: {fileID: 1673355018477292, guid: 9e21876d013fb0e4284bc5d075636ae5,
     type: 2}
   componentPanelPrefab: {fileID: 1385645771078158, guid: a1d93465f04d9d64eade0da3a25dbd98,
     type: 2}
+  SteelAndIron:
+  - {fileID: 114382469026404106, guid: e5f1f9da2dbe175459c86268383066cc, type: 2}
+  - {fileID: 114684370248330746, guid: 6053dece9d619be409d3f5b613a9946c, type: 2}
   recipes:
   - result: {fileID: 114065764209282390, guid: 55fb1a3a2bc58c147a60abbbfcd5d630, type: 2}
     materials:
