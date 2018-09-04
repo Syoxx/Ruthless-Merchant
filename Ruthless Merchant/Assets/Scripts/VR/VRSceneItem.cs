@@ -32,13 +32,29 @@ namespace RuthlessMerchant
         private void OnCollisionEnter(Collision collision)
         {
             Collisions.Add(collision.gameObject);
-            VRPlayerTradeZone.Singleton.UpdateWeight = true;
+
+            if (VRPlayerTradeZone.Singleton != null)
+                VRPlayerTradeZone.Singleton.UpdateWeight = true;
+
+            VRSmithing vrSmithing = FindObjectOfType<VRSmithing>();
+
+            if (vrSmithing != null && vrSmithing.AllIronsPlaced && collision.gameObject.name == "WorkbenchHammer")
+            {
+                foreach(GameObject iron in VRSmithing.Singleton.Irons)
+                {
+                    iron.SetActive(false);
+                }
+
+                VRSmithing.Singleton.FinalSword.SetActive(true);
+            }
         }
 
         private void OnCollisionExit(Collision collision)
         {
             Collisions.Remove(collision.gameObject);
-            VRPlayerTradeZone.Singleton.UpdateWeight = true;
+
+            if(VRPlayerTradeZone.Singleton != null)
+                VRPlayerTradeZone.Singleton.UpdateWeight = true;
         }
 
         /// <summary>
