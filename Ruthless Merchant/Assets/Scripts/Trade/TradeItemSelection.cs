@@ -158,7 +158,7 @@ namespace RuthlessMerchant
             sellingItemInfoParent.GetComponent<VerticalLayoutGroup>().CalculateLayoutInputVertical();
             Trader.CurrentTrader.SpawnMoodIcon();
 
-            Tutorial.Monolog(2);
+            Tutorial.Singleton.TraderItemSelectionMonolog2();
         }
 
         public void AbortTrade()

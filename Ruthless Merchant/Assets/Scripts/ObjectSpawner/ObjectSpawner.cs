@@ -70,7 +70,7 @@ namespace RuthlessMerchant
         /// <returns>Returns the spawned object</returns>
         public virtual Transform ForceSpawn(Transform spawnObject)
         {
-            return Instantiate(spawnObject, transform.position, transform.rotation, transform);
+            return Instantiate(spawnObject, transform.position, transform.rotation, null);
         }
 
         /// <summary>
