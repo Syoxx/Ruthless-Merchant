@@ -29,6 +29,8 @@ namespace RuthlessMerchant
 
         public bool AllIronsPlaced;
 
+        public Hand HammerHand;
+
         private void Awake()
         {
             Singleton = this;
@@ -41,6 +43,7 @@ namespace RuthlessMerchant
                 foreach (VRSceneItem item in FindObjectsOfType<VRSceneItem>())
                 {
                     StartCoroutine(item.ChangeToHammerController(1));
+                    HammerHand = hand1;
                 }
         }
 
@@ -49,6 +52,7 @@ namespace RuthlessMerchant
                 foreach (VRSceneItem item in FindObjectsOfType<VRSceneItem>())
                 {
                     StartCoroutine(item.ChangeToHammerController(2));
+                    HammerHand = hand2;
                 }
             }
         }
