@@ -16,9 +16,6 @@ namespace RuthlessMerchant
         private Light continueLight, exitLight, startLight, creditsLight;
 
         [SerializeField]
-        private Hand leftHand, rightHand;
-
-        [SerializeField]
         private Image fadeImage, loadingImage;
 
         [SerializeField]
@@ -65,11 +62,13 @@ namespace RuthlessMerchant
 
         private void HandleTriggerClicked(object sender, ClickedEventArgs e)
         {
-            if (EventSystem.current.currentSelectedGameObject != null)
-            {
-                hairTriggerTriggered = true;
-                ExecuteEvents.Execute(EventSystem.current.currentSelectedGameObject, new PointerEventData(EventSystem.current), ExecuteEvents.submitHandler);
-            }
+            hairTriggerTriggered = true;
+
+            //if (EventSystem.current.currentSelectedGameObject != null)
+            //{
+            //    hairTriggerTriggered = true;
+            //    ExecuteEvents.Execute(EventSystem.current.currentSelectedGameObject, new PointerEventData(EventSystem.current), ExecuteEvents.submitHandler);
+            //}
         }
 
         private void HandleTriggerUnclicked(object sender, ClickedEventArgs e)
@@ -99,12 +98,6 @@ namespace RuthlessMerchant
                         break;
                 }
             }
-            var button = e.target.GetComponent<Button>();
-            if (button != null)
-            {
-                button.Select();
-                Debug.Log("HandlePointerIn", e.target.gameObject);
-            }
         }
 
         private void HandlePointerOut(object sender, PointerEventArgs e)
@@ -128,12 +121,6 @@ namespace RuthlessMerchant
                         QuitGame(false);
                         break;
                 }
-            }
-            var button = e.target.GetComponent<Button>();
-            if (button != null)
-            {
-                EventSystem.current.SetSelectedGameObject(null);
-                Debug.Log("HandlePointerOut", e.target.gameObject);
             }
         }
 

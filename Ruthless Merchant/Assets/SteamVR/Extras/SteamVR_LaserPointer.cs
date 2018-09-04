@@ -116,7 +116,7 @@ public class SteamVR_LaserPointer : MonoBehaviour
             OnPointerOut(args);
             previousContact = null;
         }
-        if(bHit && previousContact != hit.transform)
+        if(bHit)
         {
             PointerEventArgs argsIn = new PointerEventArgs();
             if (controller != null)
