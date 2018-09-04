@@ -28,6 +28,23 @@ namespace RuthlessMerchant
         {
             if(other.gameObject.CompareTag("NPC"))
                 killGoal = other.GetComponent<KillGoal>();
+            if (other.gameObject.CompareTag("Player"))
+            {
+                for (int i = 0; i < buttons.Count; i++)
+                {
+                    if (buttons[i] != null)
+                    {
+                        if (buttons[i].GetComponent<QuestButton>().isDisabled)
+                        {
+                            if (Player.Singleton.Inventory.PlayerMoney >= KillGoalsList[i].Reward)
+                            {
+                                KillGoalsList[i].DefaultColor();
+                            }
+                        }
+                    }
+
+                }
+            }
         }
         
         public void AssignQuest(int localIndex, GameObject button)
@@ -39,8 +56,9 @@ namespace RuthlessMerchant
 
             if (killGoal != null && questingEnabled)
             {
+
                 Debug.Log("AssignQuest quest and collectiongoal != null");
-                if (killGoal.Completed || !killGoal.InProgress)
+                if (killGoal.Completed || !killGoal.InProgress || (Player.Singleton.Inventory.PlayerMoney >= killGoal.Reward))
                 {
                     //{
                     //Debug.Log("AssignedQuest: " + index);
@@ -50,6 +68,8 @@ namespace RuthlessMerchant
                     killGoal.CalcNextWayPoint();
 
                 }
+
+
             }
         }
 
@@ -85,16 +105,13 @@ namespace RuthlessMerchant
                         questData.Name.text = KillGoalsList[i].QuestTitle;
                         questData.Description.text = KillGoalsList[i].Description;
                         questData.Reward.text = "Reward: " + KillGoalsList[i].Reward.ToString() + "$";
-                        
+                        questData.ReputationGain.text = "Reputation: " + KillGoalsList[i].ReputationGain.ToString() + "%";
+
                         buttons.Add(questButton);
 
                         Button btn = questButton.GetComponent<Button>();
                         btn.onClick.AddListener(delegate { AssignQuest(localIndex, questButton); });
 
-                        if (Player.Singleton.Inventory.PlayerMoney < KillGoalsList[i].Reward)
-                        {
-                            btn.enabled = false;
-                        }
                     }
                 }
             }

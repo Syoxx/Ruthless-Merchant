@@ -6,15 +6,13 @@ using UnityEngine;
 namespace RuthlessMerchant {
     public class KillGoal : Goal {
 
-        //[SerializeField]
-        //private int EnemyID;
-        //[SerializeField]
-        //private bool inProgress;
-
         Hero hero;
         GameObject currentTarget;
+        Character targetChar;
         private GameObject[] Targets;
         private QuestButton questButton;
+        private float repGain;
+        private bool wasKillCounted;
 
         public KillGoal(/*int enemyID, */string description, bool completed, int currentAmount, int requiredAmount, List<Transform> waypoints)
         {
@@ -28,7 +26,7 @@ namespace RuthlessMerchant {
         public override void Initialize()
         {
             base.Initialize();
-
+            wasKillCounted = true;
         }
 
         private void Start()
@@ -41,23 +39,41 @@ namespace RuthlessMerchant {
             //cheat for testing
             if (Input.GetKeyDown(KeyCode.F10))
                 EnemyKilled();
-            //if(InProgress)
-            //    Debug.Log("current action: " + hero.CurrentAction);
 
-            if (InProgress && hero.CurrentAction is ActionIdle)
-            {
-                // hero needs to see the monster to hunt properly, maybe use ActionMove
-            }
+            //hero.CurrentAction is ActionIdle
+            //if (InProgress && currentTarget != null)
+            //{
+            //hero.SetCurrentAction(new ActionMonsterQuest(this, ActionNPC.ActionPriority.Medium), currentTarget, true, true);
+            //}
 
-            if (InProgress && currentTarget == null)
+            if (questButton && currentTarget)
             {
-                EnemyKilled();
+
+                if (targetChar != null)
+                {
+                    if (InProgress && targetChar.IsDying)
+                    {
+                        EnemyKilled();
+                        targetChar = null;
+                    }
+                }
+            else if (!Completed)
+            {
+                    // only calc next waypoint if target monster was destroyed
+                CalcNextWayPoint();
             }
         }
+    }
 
         public void EnemyKilled()
         {
-            CurrentAmount++;
+            if (!wasKillCounted)
+            {
+                wasKillCounted = true;
+                CurrentAmount += 1;
+                CalcNextWayPoint();
+            }
+            
             //Evaluate();
             Completed = EvaluateGoal();
         }
@@ -66,12 +82,12 @@ namespace RuthlessMerchant {
         {
             if (CurrentAmount < RequiredAmount)
             {
-                CalcNextWayPoint();
+                //CalcNextWayPoint();
                 return false;
             }
             else
             {
-                // reputation reward
+                Player.Singleton.GetComponent<Reputation>().ChangeStanding(hero.Faction, repGain);
 
                 InProgress = false;
 
@@ -80,6 +96,8 @@ namespace RuthlessMerchant {
                     questButton.CompleteButton();
                     questButton.DiscardQuestButton(Reward);
                 }
+                
+                hero.SetCurrentAction(new ActionMove(ActionNPC.ActionPriority.Medium), hero.Outpost.gameObject, true, true);
 
                 return true;
             }
@@ -88,18 +106,26 @@ namespace RuthlessMerchant {
         public void SetTargetList(GameObject button, int monsterAmount, float reputationGain)
         {
             Completed = false;
+
+            if (CurrentAmount != 0)
+            {
+                CurrentAmount = 0;
+            }
+
             questButton = button.GetComponentInChildren<QuestButton>();
 
             questButton.InProgressButton();
             InProgress = true;
 
             RequiredAmount = monsterAmount;
-            if (Achievements.Singleton.switchIndex == 9)
-                Achievements.AddToCounter(null, false);
+            repGain = reputationGain;
+            
         }
 
         public void CalcNextWayPoint()
         {
+            wasKillCounted = false;
+            Debug.Log("calculating monster point");
             currentTarget = null;
             float distance = float.MaxValue;
 
@@ -108,13 +134,14 @@ namespace RuthlessMerchant {
 
             for (int i = 0; i < Monsters.Length; i++)
             {
-                if (Monsters[i].gameObject.name.Contains("NPC_Monster")) 
+                if (Monsters[i].gameObject.name.Contains("NPC_Monster") && !Monsters[i].GetComponent<Character>().IsDying) 
                 {
                     float newDistance = Vector3.Distance(gameObject.transform.position, Monsters[i].transform.position);
 
                     if (newDistance < distance)
                     {
                         currentTarget = Monsters[i];
+                        targetChar = currentTarget.GetComponent<Character>();
                         distance = newDistance;
                     }
                 }
@@ -122,14 +149,25 @@ namespace RuthlessMerchant {
 
             if (currentTarget != null && hero != null)
             {
-                if (!(hero.CurrentAction is ActionAttack))
+                //if (!(hero.CurrentAction is ActionAttack))
                 {
-                    //Debug.Log(target.transform.position);     // target position checking
-                    //hero.SetCurrentAction(new ActionHunt( ActionNPC.ActionPriority.Medium), target, true, true);
-                    // TODO: Use an action that hunts monsters beyond the normal 'hunt distance' and calls EnemyKilled() when monster was killed
                     hero.SetCurrentAction(new ActionMonsterQuest(this, ActionNPC.ActionPriority.Medium), currentTarget, true, true);
+                    //InProgress = true;
                 }
+
+                wasKillCounted = false;
             }
+
+        }
+
+        public void GreyOut()
+        {
+            questButton.GreyOut();
+        }
+
+        public void DefaultColor()
+        {
+            questButton.DefaultColor();
         }
     }
 

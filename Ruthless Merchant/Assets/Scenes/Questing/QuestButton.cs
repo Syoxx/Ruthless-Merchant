@@ -9,6 +9,7 @@ namespace RuthlessMerchant {
     public class QuestButton : MonoBehaviour {
 
         public bool inProgress;
+        public bool isDisabled;
 
         public void CompleteButton()
         {
@@ -40,19 +41,34 @@ namespace RuthlessMerchant {
             info.Name.text = name;
         }
 
-        public void DiscardQuestButton()
+        public void DiscardQuestButton(int Reward)
         {
             Debug.Log("Discard");
             Button btn = GetComponent<Button>();
             btn.onClick.RemoveAllListeners();
-            btn.onClick.AddListener(delegate { DiscardQuest(); });
+            btn.onClick.AddListener(delegate { DiscardQuest(Reward); });
         }
         private void DiscardQuest(int Reward)
         {
             Debug.Log("Destroy"+ this.gameObject);
             Destroy(gameObject);
             Player.Singleton.Inventory.RemoveGold(Reward);
+        }
 
+        public void GreyOut()
+        {
+            var colors = GetComponent<Button>().colors;
+            colors.normalColor = new Color32(102, 102, 102, 255);
+            colors.highlightedColor = new Color32(102, 102, 102, 255);
+            GetComponent<Button>().colors = colors;
+        }
+
+        public void DefaultColor()
+        {
+            var colors = GetComponent<Button>().colors;
+            colors.normalColor = new Color32(255, 255, 255, 255);
+            colors.highlightedColor = new Color32(255, 255, 255, 255);
+            GetComponent<Button>().colors = colors;
         }
     }
 }

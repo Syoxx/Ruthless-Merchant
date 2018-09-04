@@ -35,8 +35,9 @@ namespace RuthlessMerchant
             parent.AddNewWaypoint(new Waypoint(other.transform.position, true, 3.0f), true);
             hero = parent as Hero;
             monster = other;
+            this.other = other;
             parent.Reacting = true;
-            base.StartAction(parent, other);
+            base.StartAction(parent, null);
         }
 
         // Use this for initialization
@@ -48,6 +49,22 @@ namespace RuthlessMerchant
         // Update is called once per frame
         void Update(float deltaTime)
         {
+            //if (!agent.pathPending && agent.remainingDistance < agent.stoppingDistance)
+            //{
+            //    Debug.Log("close enough");
+            //    if (other != null)
+            //    {
+            //        Debug.Log("Monster !=null");
+            //        if (other.GetComponent<Character>().IsDying)
+            //        {
+            //            Debug.Log("Enemy killed");
+            //            questGoal.EnemyKilled();
+            //            parent.SetCurrentAction(new ActionIdle(), null, true);
+            //            if (!questGoal.Completed)
+            //                questGoal.CalcNextWayPoint();
+            //        }
+            //    }
+            //}
             //if (parent.CurrentReactTarget == null || other != parent.CurrentReactTarget.gameObject)
             //{
             //    parent.SetCurrentAction(new ActionIdle(), null, true);

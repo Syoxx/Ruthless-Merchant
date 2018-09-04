@@ -82,10 +82,10 @@ namespace RuthlessMerchant
             set
             {
                 int slotIndex = FindMoneySlot();
-                int amount = 0;
+                int amount = value;
                 if (slotIndex != -1)
                 {
-                    inventorySlots[slotIndex].Count = amount;
+                    inventorySlots[slotIndex].Count += amount;
                 }
                 else
                 {

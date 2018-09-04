@@ -15,6 +15,7 @@ public class Goal : MonoBehaviour {
     public int Reward;              // reward for the hero
     [SerializeField]
     public float ReputationGain;    // reward for the player
+
     //[SerializeField]
     //protected List<Transform> Waypoints;
 
