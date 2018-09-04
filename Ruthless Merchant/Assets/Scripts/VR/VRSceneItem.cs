@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Valve.VR.InteractionSystem;
@@ -76,6 +77,7 @@ namespace RuthlessMerchant
                 }
 
                 VRSmithing.Singleton.FinalSword.SetActive(true);
+                VRSmithing.Singleton.HammerHand.controller.TriggerHapticPulse(UInt16.MaxValue);
             }
         }
 
