@@ -66,6 +66,27 @@ namespace RuthlessMerchant
                     trigger.CaptureValue = -100;
                 }
             }
+
+            if(Input.GetKey(KeyCode.F6))
+            {
+                GameObject player = GameObject.Find("NewPlayerPrefab");
+                Tutorial tut = player.GetComponent<Tutorial>();
+                tut.CollectionIsCompleted();
+            }
+
+            if(Input.GetKey(KeyCode.F7))
+            {
+                GameObject player = GameObject.Find("NewPlayerPrefab");
+                Tutorial tut = player.GetComponent<Tutorial>();
+                tut.WorkbenchIsCompleted();
+                tut.AlchemyIsCompleted();
+                tut.SmithIsCompleted();
+            }
+
+            if(Input.GetKey(KeyCode.F10))
+            {
+                Debug.Log("Praise Lord Crone!");
+            }
         }
     }
 }
