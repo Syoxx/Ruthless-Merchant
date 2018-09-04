@@ -42,7 +42,7 @@ namespace RuthlessMerchant
         public Hand HammerHand;
 
         public GameObject Meltbox;
-        public GameObject MeltedIron;
+        public GameObject MeltedMeltbox;
 
         public GameObject HotIron;
 
@@ -108,17 +108,17 @@ namespace RuthlessMerchant
 
         void MakeMeltBoxInteractbale()
         {
-            Meltbox.AddComponent<Rigidbody>();
-            Meltbox.AddComponent<Interactable>();
-            Meltbox.AddComponent<Throwable>();
-            Meltbox.AddComponent<Outline>();
-
             for(int x = Irons.Length - 1; x >= 0; x--)
             {
                 Destroy(Irons[x]);
             }
 
-            MeltedIron.SetActive(true);
+            MeltedMeltbox.transform.position = Meltbox.transform.position;
+            MeltedMeltbox.transform.rotation = Meltbox.transform.rotation;
+
+            Destroy(Meltbox);
+            MeltedMeltbox.SetActive(true);
+
             smithingSteps = SmithingSteps.PlacingMeltedIron;
         }
 
@@ -145,7 +145,7 @@ namespace RuthlessMerchant
 
         public void PlacingMeltedIronStep(Collision collision)
         {
-            if (collision.gameObject == Meltbox)
+            if (collision.gameObject == MeltedMeltbox)
             {
                 HotIron.SetActive(true);
                 EmptyMeltbox.SetActive(true);
