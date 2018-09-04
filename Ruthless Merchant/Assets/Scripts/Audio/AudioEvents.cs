@@ -6,8 +6,6 @@ namespace Assets.Scripts.Audio
 {
     class AudioEvents : MonoBehaviour
     {
-#if FMOD
-
         void NPC_Steps(string _path)
         {
             FMODUnity.RuntimeManager.PlayOneShot(_path, this.transform.position);
@@ -22,8 +20,5 @@ namespace Assets.Scripts.Audio
             //event:/Characters/Minions/NPC swords
             //event:/Characters/Monster/MonsterHit
         }
-
-
-#endif
     }
 }
