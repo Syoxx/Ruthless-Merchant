@@ -1380,7 +1380,6 @@ GameObject:
   - component: {fileID: 195856025711840140}
   - component: {fileID: 114860657565036504}
   - component: {fileID: 114134786773802046}
-  - component: {fileID: 114515037515706168}
   m_Layer: 15
   m_Name: NPC_Monster
   m_TagString: NPC
@@ -3631,7 +3630,7 @@ MonoBehaviour:
   capValuePerSecond: 10
   Reacting: 0
   huntDistance: 12
-  attackDistance: 0.75
+  attackDistance: 1.2
 --- !u!114 &114400974246057558
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3641,17 +3640,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 479cd6b17bf173d43b3c6db6d6c6ebac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114515037515706168
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1722719057422642}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d08cbd94b6fadd499e42cf6c8c56d06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114550729020127464

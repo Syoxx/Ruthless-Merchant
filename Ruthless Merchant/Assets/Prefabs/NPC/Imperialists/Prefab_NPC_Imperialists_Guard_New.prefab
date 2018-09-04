@@ -808,7 +808,7 @@ GameObject:
   - component: {fileID: 114964805266507156}
   - component: {fileID: 195429260383978880}
   - component: {fileID: 54213946702984684}
-  - component: {fileID: 114139122318404494}
+  - component: {fileID: 114018654884098882}
   m_Layer: 15
   m_Name: Prefab_NPC_Imperialists_Guard_New
   m_TagString: NPC
@@ -3638,8 +3638,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1518369309256216}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 381.77936, y: 27.578304, z: 66.574615}
+  m_LocalRotation: {x: -0, y: -0.9981602, z: -0, w: 0.060631853}
+  m_LocalPosition: {x: 5.7084427, y: 43.23155, z: -90.76282}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children:
   - {fileID: 4699586644756570}
@@ -3649,7 +3649,7 @@ Transform:
   - {fileID: 4345668893086402}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -173.048, z: 0}
 --- !u!4 &4892041559324024
 Transform:
   m_ObjectHideFlags: 1
@@ -3902,7 +3902,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114139122318404494
+--- !u!114 &114018654884098882
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -3910,9 +3910,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1518369309256216}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d08cbd94b6fadd499e42cf6c8c56d06, type: 3}
+  m_Script: {fileID: 11500000, guid: 97914d5b6dd26014dab9a2e600e6950a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 10000
+  maxHealth: 10000
 --- !u!114 &114242396911286774
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4003,8 +4005,9 @@ MonoBehaviour:
   capValuePerSecond: 1
   Reacting: 0
   huntDistance: 10
-  attackDistance: 0.5
+  attackDistance: 1.2
   outpost: {fileID: 0}
+  hasGodMode: 1
 --- !u!135 &135079227358108142
 SphereCollider:
   m_ObjectHideFlags: 1

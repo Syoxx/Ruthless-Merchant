@@ -1971,7 +1971,6 @@ GameObject:
   - component: {fileID: 136244394596243318}
   - component: {fileID: 195867478805977248}
   - component: {fileID: 54874248571107850}
-  - component: {fileID: 114033233594059488}
   m_Layer: 15
   m_Name: Prefab_NPC_Freeminds_Minion_New
   m_TagString: NPC
@@ -5058,17 +5057,6 @@ MonoBehaviour:
   damage: 30
   defencePower: 0
   attackSpeed: 2
---- !u!114 &114033233594059488
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1925128174930270}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d08cbd94b6fadd499e42cf6c8c56d06, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114042890006278822
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5380,7 +5368,7 @@ MonoBehaviour:
   capValuePerSecond: 1
   Reacting: 0
   huntDistance: 10
-  attackDistance: 0.5
+  attackDistance: 1.2
   FirstOutpost: {fileID: 0}
 --- !u!114 &114352965833184690
 MonoBehaviour:
