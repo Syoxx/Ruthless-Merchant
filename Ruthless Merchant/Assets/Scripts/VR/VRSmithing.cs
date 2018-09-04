@@ -40,7 +40,7 @@ namespace RuthlessMerchant
             {
                 foreach (VRSceneItem item in FindObjectsOfType<VRSceneItem>())
                 {
-                    item.ChangeToHammerController(1);
+                    StartCoroutine(item.ChangeToHammerController(1));
                 }
         }
 
@@ -48,7 +48,7 @@ namespace RuthlessMerchant
             {
                 foreach (VRSceneItem item in FindObjectsOfType<VRSceneItem>())
                 {
-                    item.ChangeToHammerController(2);
+                    StartCoroutine(item.ChangeToHammerController(2));
                 }
             }
         }

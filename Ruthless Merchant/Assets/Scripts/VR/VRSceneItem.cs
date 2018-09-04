@@ -33,9 +33,11 @@ namespace RuthlessMerchant
             Item.Value = value;
         }
 
-        public void ChangeToHammerController(int hand)
+        public IEnumerator ChangeToHammerController(int hand)
         {
-            if (VRSmithing.Singleton.hammerItem == gameObject && VRSmithing.Singleton.AllIronsPlaced && (transform.parent == VRSmithing.Singleton.hand1 || transform.parent == VRSmithing.Singleton.hand2))
+            yield return new WaitForEndOfFrame();
+
+            if (VRSmithing.Singleton.hammerItem == gameObject && VRSmithing.Singleton.AllIronsPlaced && (transform.parent == VRSmithing.Singleton.hand1.transform || transform.parent == VRSmithing.Singleton.hand2.transform))
             {
                 if (hand == 1)
                 {
