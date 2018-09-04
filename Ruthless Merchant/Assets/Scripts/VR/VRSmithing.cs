@@ -149,7 +149,7 @@ namespace RuthlessMerchant
             {
                 HotIron.SetActive(true);
                 EmptyMeltbox.SetActive(true);
-                Destroy(Meltbox);
+                Destroy(MeltedMeltbox);
 
                 smithingSteps = SmithingSteps.CreatingSword;
             }
