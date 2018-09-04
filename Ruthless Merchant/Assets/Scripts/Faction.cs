@@ -8,6 +8,8 @@ namespace RuthlessMerchant
         Neutral,
         Imperialisten,
         None,
-        Money
+        Money,
+        TutorialMonster,
+        TutorialGuard,
     }
 }
