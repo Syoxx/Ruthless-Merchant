@@ -78,6 +78,14 @@ namespace RuthlessMerchant
         [Tooltip("Drag WorkbenchTrigger from Tutorial there")]
         private GameObject WorkbenchTextTrigger;
 
+        [SerializeField]
+        private GameObject tutorialCave;
+
+        [SerializeField]
+        private Material itemSteel;
+
+        [SerializeField]
+        private GameObject traderPart;
 
         //Dialogue colliders
         private Collider dialogueZone11Collider;
@@ -134,89 +142,98 @@ namespace RuthlessMerchant
 
         private void CheckCollection()
         {
-            int collectedVains = 0;
-            if (ironVains != null)
+            if (tutorialCave.activeSelf)
             {
-                for (int i = 0; i < ironVains.Length; i++)
+                int collectedVains = 0;
+                if (ironVains != null)
                 {
-                    if (ironVains[i] == null)
-                        collectedVains++;
+                    for (int i = 0; i < ironVains.Length; i++)
+                    {
+                        if (ironVains[i] == null)
+                            collectedVains++;
+                    }
                 }
-            }
 
-            int collectedPlants = 0;
-            if (plants != null)
-            {
-                for (int i = 0; i < plants.Length; i++)
+                int collectedPlants = 0;
+                if (plants != null)
                 {
-                    if (plants[i] == null)
-                        collectedPlants++;
+                    for (int i = 0; i < plants.Length; i++)
+                    {
+                        if (plants[i] == null)
+                            collectedPlants++;
+                    }
                 }
-            }
 
-            bool prevDone = CollectingDone;
-            CollectingDone = collectedPlants >= minCollectedPlants && collectedVains >= minCollectedVains;
+                int steelCollected = Player.Singleton.Inventory.GetNumberOfItems(itemSteel);
+                bool prevDone = CollectingDone;
+                CollectingDone = collectedPlants >= minCollectedPlants && collectedVains >= minCollectedVains && steelCollected > 3;
 
-            if(!prevDone && CollectingDone)
-            {
-                Monolog(Singleton.collectedMaterials);
+                if (!prevDone && CollectingDone)
+                {
+                    Monolog(Singleton.collectedMaterials);
+                }
             }
         }
 
         #region TradeMonologs
-        public static void TraderMonologStart()
+        public void TraderMonologStart()
         {
-            Monolog(Singleton.TradingInit);
-            Singleton.trader.Interact(Player.Singleton.gameObject);
+            int swords = Player.Singleton.Inventory.GetNumberOfItems(ironSword);
+            if (swords < 5)
+                Player.Singleton.Inventory.Add(ironSword, 5 - swords, true);
+
+            Monolog(TradingInit);
+            trader.Interact(Player.Singleton.gameObject);
+
         }
 
-        public static void TraderItemSelectionMonolog2()
+        public void TraderItemSelectionMonolog2()
         {
-            Monolog(Singleton.startMonolog);
+            Monolog(startMonolog);
         }
 
-        public static void TraderMonolog3()
+        public void TraderMonolog3()
         {
-            Monolog(Singleton.TradingDoBet);
+            Monolog(TradingDoBet);
         }
 
-        public static void TraderMonolog4()
+        public void TraderMonolog4()
         {
-            Monolog(Singleton.TradeGoodBet);
+            Monolog(TradeGoodBet);
         }
 
-        public static void TradeMonolog5()
+        public void TradeMonolog5()
         {
-            Monolog(Singleton.TradeBadBet);
+            Monolog(TradeBadBet);
         }
 
-        public static void TradeMonolog6()
+        public void TradeMonolog6()
         {
-            Monolog(Singleton.TradeGoodResult);
+            Monolog(TradeGoodResult);
         }
 
-        public static void TraderMonolog7()
+        public void TraderMonolog7()
         {
-            Monolog(Singleton.TradeBadResult);
+            Monolog(TradeBadResult);
         }
 
-        public static void TraderMonolog8()
+        public void TraderMonolog8()
         {
-            Monolog(Singleton.TradeIrritationResultGreedy);
+            Monolog(TradeIrritationResultGreedy);
         }
 
-        public static void TraderMonolog9()
+        public void TraderMonolog9()
         {
-            Monolog(Singleton.TradeIrritationResultNaiv);
+            Monolog(TradeIrritationResultNaiv);
         }
         #endregion
 
-        public static void Monolog(string text)
+        public void Monolog(string text)
         {
-            if (Singleton != null && Singleton.isTutorial && Singleton.textMesh != null)
+            if (isTutorial && textMesh != null)
             {
-                Singleton.textMesh.text = text;
-                Singleton.textMesh.transform.parent.gameObject.SetActive(true);
+                textMesh.text = text;
+                textMesh.transform.parent.gameObject.SetActive(true);
             }
         }
 
@@ -224,9 +241,6 @@ namespace RuthlessMerchant
         {
             if (WorkbenchDone && AlchemyDone && SmithDone)
             {
-                int swords = Player.Singleton.Inventory.GetNumberOfItems(ironSword);
-                if(swords < 5)
-                    Player.Singleton.Inventory.Add(ironSword, 5-swords, true);
                 Monolog(playerCaveFinished);
                 smithExit.SetActive(false);   
             }        
@@ -285,11 +299,19 @@ namespace RuthlessMerchant
                     myFade.FadingWithCallback(0, 0.5f, delegate { Debug.Log("Done fading"); });
                     Monolog(playerCaveEntered);
                 });
+
+                tutorialCave.SetActive(false);
             }
             else
             {
                 Monolog(tryExitWithoutMaterials);
             }
+        }
+
+        public void DisableTutorial()
+        {
+            tutorialCave.SetActive(false);
+            traderPart.SetActive(false);
         }
 
         #region PlayerCaveMonologs

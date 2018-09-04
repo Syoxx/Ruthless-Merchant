@@ -15,12 +15,9 @@ namespace RuthlessMerchant
             //Disable Tutorial
             if (Input.GetKey(KeyCode.F1))
             {
-                GameObject gobj = GameObject.Find("Tutorial");
-                if (gobj != null && gobj.activeSelf)
-                {
-                    gobj.SetActive(false);
-                    Debug.Log("Tutorial disabled");
-                }
+                GameObject player = GameObject.Find("NewPlayerPrefab");
+                Tutorial tut = player.GetComponent<Tutorial>();
+                tut.DisableTutorial();
             }
 
             //Teleport to Imperialist city
