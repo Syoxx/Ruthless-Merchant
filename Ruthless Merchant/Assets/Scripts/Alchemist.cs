@@ -12,9 +12,14 @@ namespace RuthlessMerchant
         [SerializeField]
         Sprite[] potionSprites;
 
+        [SerializeField]
+        ParticleSystem effect;
+
         private AlchemySlot[] alchemySlots;
 
         [SerializeField] private UnityEvent onSuccesfullAlchemy;
+
+        [SerializeField] private UnityEvent onSuccesfullAlchemyAchievment;
         #endregion
 
 
@@ -180,24 +185,21 @@ namespace RuthlessMerchant
                     speed += alchemySlots[i].Ingredient.MovementBuff;
                     reg += alchemySlots[i].Ingredient.RegenerationBuff;
 
-                    if (alchemySlots[i].Ingredient.AttackSpeedBuff > 1)
+                    if (alchemySlots[i].Ingredient.IngredientType == IngredientType.Schwertgras)
                         atkCount++;
-                    else if(alchemySlots[i].Ingredient.AttackSpeedBuff < 1)
+                    else if(alchemySlots[i].Ingredient.IngredientType == IngredientType.Stichelpilz)
                         atkCount--;
-
-                    if (alchemySlots[i].Ingredient.HealthBuff > 1)
+                    else if (alchemySlots[i].Ingredient.IngredientType == IngredientType.Segensblüte)
                         hpCount++;
-                    else if (alchemySlots[i].Ingredient.HealthBuff < 1)
+                    else if (alchemySlots[i].Ingredient.IngredientType == IngredientType.Grabesmoos)
                         hpCount--;
-
-                    if (alchemySlots[i].Ingredient.MovementBuff > 1)
+                    else if (alchemySlots[i].Ingredient.IngredientType == IngredientType.Windfarn)
                         speedCount++;
-                    else if (alchemySlots[i].Ingredient.MovementBuff < 1)
+                    else if (alchemySlots[i].Ingredient.IngredientType == IngredientType.KnarzigeKnolle)
                         speedCount--;
-
-                    if (alchemySlots[i].Ingredient.DefenseBuff > 0)
+                    else if (alchemySlots[i].Ingredient.IngredientType == IngredientType.SteinernderRuestling)
                         defCount++;
-                    else if (alchemySlots[i].Ingredient.DefenseBuff < 0)
+                    else if (alchemySlots[i].Ingredient.IngredientType == IngredientType.GemeinerDornling)
                         defCount--;
 
                     hasItem = true;
@@ -223,7 +225,9 @@ namespace RuthlessMerchant
             Player p = caller.GetComponent<Player>();
             p.Inventory.Add(potion.DeepCopy(), 1, true);
             onSuccesfullAlchemy.Invoke();
+            onSuccesfullAlchemyAchievment.Invoke();
             Destroy(potion.gameObject);
+            effect.Play();
         }
 
         public override void Start()

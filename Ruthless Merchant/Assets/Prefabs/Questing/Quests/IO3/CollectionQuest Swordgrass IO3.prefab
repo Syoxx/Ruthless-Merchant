@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 114420612006172464}
   m_Layer: 0
   m_Name: CollectionQuest Swordgrass IO3
-  m_TagString: Untagged
+  m_TagString: Swordgrass
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -51,29 +51,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8628a85088bbdc642825eefdef6b1869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  QuestTitle: 
-  Description: 
-  Reward: 0
+  QuestTitle: Collect 7 Swordgrasses!
+  Description: I need some herbs from the river basin, but be careful. It is not allowed
+    to pick too many of these herbs.
+  Reward: 25
   Completed: 0
-  CollectableID: 0
+  InProgress: 0
+  inProgress: 0
   collectables:
-  - material: {fileID: 0}
-    requiredAmount: 0
+  - requiredAmount: 7
     currentAmount: 0
     completed: 0
-    icon: {fileID: 0}
-  - material: {fileID: 0}
-    requiredAmount: 0
-    currentAmount: 0
-    completed: 0
-    icon: {fileID: 0}
-  - material: {fileID: 0}
-    requiredAmount: 0
-    currentAmount: 0
-    completed: 0
-    icon: {fileID: 0}
-  - material: {fileID: 0}
-    requiredAmount: 0
-    currentAmount: 0
-    completed: 0
-    icon: {fileID: 0}
+    icon: {fileID: 2800000, guid: 2c551a386a6655a4395c87660cbee712, type: 3}
+    item: {fileID: 114791146656476612, guid: 5905d987fecbfd54c91fec360d7f2adb, type: 2}
