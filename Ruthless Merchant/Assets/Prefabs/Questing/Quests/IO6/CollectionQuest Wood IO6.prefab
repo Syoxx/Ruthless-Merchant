@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 114177914521970066}
   m_Layer: 0
   m_Name: CollectionQuest Wood IO6
-  m_TagString: Untagged
+  m_TagString: Wood
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -52,14 +52,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   QuestTitle: Collect 5 Wood
-  Description: The hero will collect 5 Wood
+  Description: I could use some swamp wood from the area. I pay good money for it.
   Reward: 28
   Completed: 0
-  CollectableID: 0
+  InProgress: 0
+  inProgress: 0
   collectables:
-  - material: {fileID: 114890186361641712, guid: c791c00511275d949a7dd8c7e3694f8f,
-      type: 2}
-    requiredAmount: 5
+  - requiredAmount: 5
     currentAmount: 0
     completed: 0
     icon: {fileID: 2800000, guid: fb272db21306ed04abb38487cf8231ea, type: 3}
+    item: {fileID: 114890186361641712, guid: c791c00511275d949a7dd8c7e3694f8f, type: 2}

@@ -107,6 +107,11 @@ namespace RuthlessMerchant
         [SerializeField, Tooltip("The Booklogic attached to the Book-Object")]
         private PageLogic bookLogic;
         private KeyCode currentBookSection;
+
+        private Rigidbody rbplayer;
+        private Vector3 reachedVelocity;
+        [SerializeField, Range(-30.0f, 0.0f), Tooltip("The Velocity that is required to kill the player when falling")]
+        private float deathVelocity = 12f;
         #endregion
 
         #region Public Fields
@@ -319,7 +324,9 @@ namespace RuthlessMerchant
         }
 
         public override void Update()
-        {     
+        {
+            CheckFallDamage();
+
             LookRotation();
             ControleModeMove();
             if (controlMode == ControlMode.Move)
@@ -332,6 +339,31 @@ namespace RuthlessMerchant
 
             GlowObject();
             base.Update();
+        }
+
+        /// <summary>
+        /// Checks if the player should die due to a high falling velocity
+        /// </summary>
+        private void CheckFallDamage()
+        {
+            if (rbplayer != null)
+            {
+                if (reachedVelocity.y > rbplayer.velocity.y)
+                    reachedVelocity = rbplayer.velocity;
+
+                if (rbplayer.velocity.y > reachedVelocity.y)
+                {
+                    if (reachedVelocity.y < -12)
+                    {
+                        reachedVelocity = Vector3.zero;
+                        respawn.InitiateRespawn();
+                    }
+                }
+            }
+            else
+            {
+                rbplayer = GetComponent<Rigidbody>();
+            }
         }
 
         /// <summary>
@@ -566,7 +598,7 @@ namespace RuthlessMerchant
 
             if (!restrictMovement && !restrictCamera)
             {
-                if (gameObject.GetComponent<Rigidbody>().freezeRotation == true || gameObject.GetComponent<Rigidbody>().useGravity == false)
+                if ((gameObject.GetComponent<Rigidbody>().freezeRotation == true || gameObject.GetComponent<Rigidbody>().useGravity == false) && TradeAbstract.Singleton != null)
                 {
                     gameObject.GetComponent<Rigidbody>().freezeRotation = false;
                     gameObject.GetComponent<Rigidbody>().useGravity = true;
@@ -635,7 +667,7 @@ namespace RuthlessMerchant
 
         public void SendInteraction()
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0))
             {
                 if (playerAttachedCamera != null)
                 {
@@ -661,6 +693,11 @@ namespace RuthlessMerchant
 
                                 // Returns 0 if item was added to inventory
                                 int UnsuccessfulPickup = inventory.Add(clonedItem, 1, true);
+
+                                //In Achievement-Mode
+                               
+                                Achievements.AddToCounter(targetItem);
+                                
 
                                 if (UnsuccessfulPickup != 0)
                                 {

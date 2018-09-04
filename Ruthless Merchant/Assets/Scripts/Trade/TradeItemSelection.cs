@@ -182,6 +182,9 @@ namespace RuthlessMerchant
             player.AllowTradingMovement();
             player.NavMeshObstacle.enabled = false;
 
+            if(Trader.CurrentTrader.Scale)
+                Trader.CurrentTrader.Scale.SetActive(true);
+
             Main_SceneManager.UnLoadScene("TradeScene");
         }
     }
