@@ -50,6 +50,19 @@ namespace RuthlessMerchant
             {
                 collectionGoal = other.gameObject.GetComponent<CollectionGoal>();
             }
+            if (other.gameObject.CompareTag("Player"))
+            {
+                for (int i = 0; i < buttons.Count; i++)
+                {
+                    if (buttons[i].GetComponent<QuestButton>().isDisabled)
+                    {
+                        if (Player.Singleton.Inventory.PlayerMoney >= collectionGoals[i].Reward)
+                        {
+                            collectionGoals[i].DefaultColor();
+                        }
+                    }
+                }
+            }
         }
         private void OnTriggerEnter(Collider other)
         {
@@ -83,6 +96,7 @@ namespace RuthlessMerchant
                         questData.Name.text = collectionGoals[i].QuestTitle;
                         questData.Description.text = collectionGoals[i].Description;
                         questData.Reward.text = "Reward: " + collectionGoals[i].Reward.ToString() + "$";
+                        questData.ReputationGain.text = "Reputation: " + collectionGoals[i].ReputationGain.ToString() + "%";
                         for (int j = 0; j < collectionGoals[i].collectables.Count; j++)
                         {
                             Texture image = collectionGoals[i].collectables[j].icon;
@@ -96,6 +110,12 @@ namespace RuthlessMerchant
 
                         Button btn = questButton.GetComponent<Button>();
                         btn.onClick.AddListener(delegate { AssignQuest(localIndex, questButton); });
+
+                        if(Player.Singleton.Inventory.PlayerMoney < collectionGoals[i].Reward)
+                        {
+                            collectionGoals[i].GreyOutButton();
+                        }
+
                     }
                 }
             }
@@ -130,7 +150,7 @@ namespace RuthlessMerchant
             if (collectionGoal != null && questingEnabled)
             {
                 Debug.Log("AssignQuest quest and collectiongoal != null");
-                if (collectionGoal.Completed || !collectionGoal.InProgress || collectionGoal.collectables.Count <= 0)
+                if (collectionGoal.Completed || !collectionGoal.InProgress || collectionGoal.collectables.Count <= 0 || (Player.Singleton.Inventory.PlayerMoney >= collectionGoal.Reward))
                 {
                     //{
                     //Debug.Log("AssignedQuest: " + index);
@@ -146,7 +166,7 @@ namespace RuthlessMerchant
 
                     //Button questButton = button/*.GetComponent<QuestButton>()*/;
 
-                    collectionGoal.FillList(tempCollectables, button);
+                    collectionGoal.FillList(tempCollectables, collectionGoals[index].ReputationGain, button);
 
 
                     //}

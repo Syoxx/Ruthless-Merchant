@@ -10,15 +10,18 @@ public class Goal : MonoBehaviour {
     [SerializeField]
     public string Description; //{ get; set; }
     //[SerializeField]
-    protected int RequiredAmount; //{ get; set; }
+    public int RequiredAmount; //{ get; set; }
     [SerializeField]
-    public int Reward;
+    public int Reward;              // reward for the hero
+    [SerializeField]
+    public float ReputationGain;    // reward for the player
+
     //[SerializeField]
     //protected List<Transform> Waypoints;
 
     public bool Completed; //{ get; set; }
     public bool InProgress;
-    protected int CurrentAmount; //{ get; set; }
+    public int CurrentAmount; //{ get; set; }
 
 
     public virtual void Initialize()

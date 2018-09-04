@@ -7,11 +7,11 @@ public class Reputation : MonoBehaviour {
 
     #region fields
     [SerializeField, Tooltip("Player standing with the Freidenker faction")]
-    [Range(0, 1)]
+    [Range(0, 100)]
     private float freidenkerStanding;
 
     [SerializeField, Tooltip("Player standing with the Imperialisten faction")]
-    [Range(0, 1)]
+    [Range(0, 100)]
     private float imperalistenStanding;
     #endregion
 
@@ -67,13 +67,13 @@ public class Reputation : MonoBehaviour {
             case Faction.Freidenker:
                 {
                     freidenkerStanding += standingDifference;
-                    freidenkerStanding = (freidenkerStanding > 1f) ? 1f : freidenkerStanding;
+                    freidenkerStanding = (freidenkerStanding > 100f) ? 100f : freidenkerStanding;
                 }
                 break;
             case Faction.Imperialisten:
                 {
                     imperalistenStanding += standingDifference;
-                    imperalistenStanding = (imperalistenStanding > 1f) ? 1f : imperalistenStanding;
+                    imperalistenStanding = (imperalistenStanding > 100f) ? 100f : imperalistenStanding;
                 }
                 break;
             default:

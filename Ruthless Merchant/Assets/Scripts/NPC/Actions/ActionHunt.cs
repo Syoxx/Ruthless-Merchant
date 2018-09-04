@@ -9,7 +9,9 @@ namespace RuthlessMerchant
 {
     public class ActionHunt : ActionMove
     {
+
         private Fighter fighter;
+
 
         public ActionHunt() : base(ActionPriority.Medium)
         {
@@ -40,7 +42,7 @@ namespace RuthlessMerchant
 
         public override void Update(float deltaTime)
         {
-            if(parent.CurrentReactTarget == null || other != parent.CurrentReactTarget.gameObject)
+            if (parent.CurrentReactTarget == null || other != parent.CurrentReactTarget.gameObject)
             {
                 parent.SetCurrentAction(new ActionIdle(), null, true);
                 return;
