@@ -12,6 +12,8 @@ public class VR_Cheats : MonoBehaviour
 
     private SteamVR_TrackedController controller;
 
+    private Vector2 padAxisVector;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -25,11 +27,40 @@ public class VR_Cheats : MonoBehaviour
     {
         if (device.GetAxis().x != 0 || device.GetAxis().y != 0)
         {
+            padAxisVector = new Vector2(device.GetAxis().x,device.GetAxis().y);
+
+            Debug.Log("VECTOR: " + padAxisVector);
             Debug.Log("ClickedPad Vectors: " + device.GetAxis().x + " " + device.GetAxis().y);
         }
 
-        // Get axis variable and check value 
-        //if(device.GetAxis().x > 0.85 && )
+
+        //Trackpad Down (0, -1)
+        if (device.GetAxis().x > -0.3 && device.GetAxis().x < 0.3 && device.GetAxis().y < -0.8)
+        {
+            Debug.Log("Trackpad Down clicked.");
+            //Put scene switch here
+        }
+
+        //Trackpad Up (0, +1)
+        if (device.GetAxis().x > -0.3 && device.GetAxis().x < 0.3 && device.GetAxis().y > +0.8)
+        {
+            Debug.Log("Trackpad Up clicked.");
+            //Put scene switch here
+        }
+
+        //Trackpad Left (-1, 0)
+        if (device.GetAxis().y > -0.3 && device.GetAxis().y < 0.3 && device.GetAxis().x < -0.8)
+        {
+            Debug.Log("Trackpad Left clicked.");
+            //Put scene switch here
+        }
+
+        //Trackpad Right (+1, 0)
+        if (device.GetAxis().y > -0.3 && device.GetAxis().y < 0.3 && device.GetAxis().x > 0.8)
+        {
+            Debug.Log("Trackpad Right clicked.");
+            //Put scene switch here
+        }
     }
 
     
