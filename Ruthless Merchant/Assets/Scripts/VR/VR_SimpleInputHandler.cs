@@ -46,38 +46,38 @@ public class VR_SimpleInputHandler : MonoBehaviour
         pickup = null;
     }
 
-    // Update is called once per frame
-    void Update ()
-	{
+    //Update is called once per frame
+    //void Update()
+    //{
 
 
-	    //if (controller == null)
-	    //{
-     //       Debug.Log("Controller not initialized.");
-	    //    return;
-	    //}
+    //    if (controller == null)
+    //    {
+    //        Debug.Log("Controller not initialized.");
+    //        return;
+    //    }
 
-     //   if (controller.GetTouchDown(Button1) && pickup != null)
-     //   {
-     //       pickup.transform.parent = this.transform;
-     //       pickup.GetComponent<Rigidbody>().useGravity = false;
-     //       pickup.GetComponent<Rigidbody>().isKinematic = true;
-     //   }
+    //    if (controller.GetTouchDown(Button1) && pickup != null)
+    //    {
+    //        pickup.transform.parent = this.transform;
+    //        pickup.GetComponent<Rigidbody>().useGravity = false;
+    //        pickup.GetComponent<Rigidbody>().isKinematic = true;
+    //    }
 
-	    //if (controller.GetTouchUp(Button1) && pickup != null)
-	    //{
-	    //    pickup.transform.parent = null;
-	    //    pickup.GetComponent<Rigidbody>().useGravity = true;
-	    //    pickup.GetComponent<Rigidbody>().isKinematic = false;
-     //   }
-	}
-    private void OnTriggerEnter(Collider collider)
-    {
-        
-    }
+    //    if (controller.GetTouchUp(Button1) && pickup != null)
+    //    {
+    //        pickup.transform.parent = null;
+    //        pickup.GetComponent<Rigidbody>().useGravity = true;
+    //        pickup.GetComponent<Rigidbody>().isKinematic = false;
+    //    }
+    //}
+    //private void OnTriggerEnter(Collider collider)
+    //{
 
-    private void OnTriggerExit(Collider collider)
-    {
-        pickup = null;
-    }
+    //}
+
+    //private void OnTriggerExit(Collider collider)
+    //{
+
+    //}
 }
