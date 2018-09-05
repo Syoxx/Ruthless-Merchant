@@ -87,13 +87,14 @@ namespace RuthlessMerchant
             {
                 foreach (VRSceneItem allItem in FindObjectsOfType<VRSceneItem>())
                 {
-                    allItem.CheckedGndTouch = false;
+                    if(allItem != null)
+                        allItem.CheckedGndTouch = false;
                 }
             }
 
             foreach (GameObject collision in Collisions)
             {
-                if (collision.name.Contains("Schale"))
+                if (collision != null && collision.name.Contains("Schale"))
                 {
                     return true;
                 }
@@ -103,11 +104,14 @@ namespace RuthlessMerchant
 
             foreach (GameObject collision in Collisions)
             {
-                VRSceneItem item = collision.GetComponent<VRSceneItem>();
-
-                if (item != null && !item.CheckedGndTouch && item.TouchesGround())
+                if (collision != null)
                 {
-                    return true;
+                    VRSceneItem item = collision.GetComponent<VRSceneItem>();
+
+                    if (item != null && !item.CheckedGndTouch && item.TouchesGround())
+                    {
+                        return true;
+                    }
                 }
             }
 

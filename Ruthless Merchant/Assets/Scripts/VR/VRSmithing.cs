@@ -16,7 +16,8 @@ namespace RuthlessMerchant
             MeltingIron,
             PlacingMeltedIron,
             CreatingSword,
-            Done
+            PlacingSword,
+            Trading
         }
 
         public SmithingSteps smithingSteps;
@@ -50,6 +51,15 @@ namespace RuthlessMerchant
 
         [SerializeField]
         GameObject fireEffects;
+
+        [SerializeField]
+        GameObject swordPlaceholder;
+
+        [SerializeField]
+        GameObject meltedIronPlaceholder;
+
+        [SerializeField]
+        GameObject hammerPlaceholder;
 
         private void Awake()
         {
@@ -88,7 +98,7 @@ namespace RuthlessMerchant
                             {
                                 smithingSteps = SmithingSteps.MeltingIron;
                                 fireEffects.SetActive(true);
-                                Invoke("MakeMeltBoxInteractbale", 3);
+                                Invoke("MakeMeltBoxInteractbale", 5);
                             }
 
                             break;
@@ -123,13 +133,14 @@ namespace RuthlessMerchant
             Destroy(Meltbox);
             fireEffects.SetActive(false);
             MeltedMeltbox.SetActive(true);
+            meltedIronPlaceholder.SetActive(true);
 
             smithingSteps = SmithingSteps.PlacingMeltedIron;
         }
 
         void CreatingSwordStep()
         {
-            if (Hand1 != null && Hand1.controller.GetHairTriggerDown())
+            if (Hand1.controller != null && Hand1.controller.GetHairTriggerDown())
             {
                 foreach (VRSceneItem item in FindObjectsOfType<VRSceneItem>())
                 {
@@ -138,7 +149,7 @@ namespace RuthlessMerchant
                 }
             }
 
-            else if (Hand2 != null && Hand2.controller.GetHairTriggerDown())
+            else if (Hand2.controller != null && Hand2.controller.GetHairTriggerDown())
             {
                 foreach (VRSceneItem item in FindObjectsOfType<VRSceneItem>())
                 {
@@ -155,6 +166,8 @@ namespace RuthlessMerchant
                 HotIron.SetActive(true);
                 EmptyMeltbox.SetActive(true);
                 Destroy(MeltedMeltbox);
+                meltedIronPlaceholder.SetActive(false);
+                hammerPlaceholder.SetActive(true);
 
                 smithingSteps = SmithingSteps.CreatingSword;
             }
@@ -166,9 +179,48 @@ namespace RuthlessMerchant
             {
                 Destroy(HotIron);
                 FinalSword.SetActive(true);
-                HammerHand.controller.TriggerHapticPulse(UInt16.MaxValue);
+                hammerPlaceholder.SetActive(false);
 
-                smithingSteps = SmithingSteps.Done;
+                if (HammerHand == Hand1)
+                {
+                    HammerController1.SetActive(false);
+                    HammerItem.transform.position = HammerController1.transform.position;
+                    HammerItem.transform.rotation = HammerController1.transform.rotation;
+                }
+
+                else if (HammerHand == Hand2)
+                {
+                    HammerController2.SetActive(false);
+                    HammerItem.transform.position = HammerController2.transform.position;
+                    HammerItem.transform.rotation = HammerController2.transform.rotation;
+                }
+
+                HammerItem.SetActive(true);
+                smithingSteps = SmithingSteps.PlacingSword;
+                swordPlaceholder.SetActive(true);
+
+                if (HammerHand != null)
+                    HammerHand.controller.TriggerHapticPulse(UInt16.MaxValue);
+            }
+        }
+
+        public void PlacingSwordStep(Collision collision)
+        {
+            if(smithingSteps == SmithingSteps.PlacingSword && collision.gameObject.name.ToLower().Contains("sword"))
+            {
+                swordPlaceholder.SetActive(false);
+
+                FinalSword.transform.position = swordPlaceholder.transform.position;
+                FinalSword.transform.rotation = swordPlaceholder.transform.rotation;
+
+                Destroy(FinalSword.GetComponent<Throwable>());
+                Destroy(FinalSword.GetComponent<Interactable>());
+                Destroy(FinalSword.GetComponent<VelocityEstimator>());
+                Destroy(FinalSword.GetComponent<Rigidbody>());
+                Destroy(FinalSword.GetComponent<Collider>());
+
+                smithingSteps = SmithingSteps.Trading;
+                TradeAbstract.Singleton.Initialize();
             }
         }
     }

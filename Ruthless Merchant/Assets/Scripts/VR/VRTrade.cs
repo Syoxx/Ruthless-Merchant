@@ -40,10 +40,9 @@ namespace RuthlessMerchant
             }
 
             NeutralPositionY = PlayerZone.transform.position.y;
-            Initialize(defaultValue);
         }
 
-        public override void Initialize(int realValue)
+        public override void Initialize(int realValue = defaultValue)
         {
             Cursor.visible = true;
             SetItemValue(realValue);
@@ -60,7 +59,7 @@ namespace RuthlessMerchant
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.E) || hand1 != null && hand1.controller.GetHairTriggerDown())
+            if (VRSmithing.Singleton.smithingSteps == VRSmithing.SmithingSteps.Trading && (Input.GetKeyDown(KeyCode.E) || hand1 != null && hand1.controller.GetHairTriggerDown()))
             {
                 HandlePlayerOffer();
             }

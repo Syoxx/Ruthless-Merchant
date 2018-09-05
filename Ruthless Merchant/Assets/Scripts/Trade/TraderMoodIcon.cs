@@ -55,10 +55,18 @@ namespace RuthlessMerchant
 
             transform.localPosition = Vector3.Lerp(startPosition, endPosition, lerpT);
 
-            if(Player.Singleton != null)
+            if (Player.Singleton != null)
                 transform.LookAt(Player.Singleton.transform);
+
             else
-                transform.LookAt(steamVrPlayer.transform);
+            {
+                GameObject vrCamera = GameObject.Find("VRCamera");
+
+                if(vrCamera != null)
+                    transform.LookAt(steamVrPlayer.transform);
+                else
+                    transform.LookAt(GameObject.Find("FallbackObjects").transform);
+            }
 
             image.color = new Color(image.color.r, image.color.g, image.color.b, 1 - lerpT);
             irritationText.color = new Color(irritationText.color.r, irritationText.color.g, irritationText.color.b, 1 - lerpT);

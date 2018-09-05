@@ -11,7 +11,8 @@ namespace RuthlessMerchant
         {
             MeltBox,
             Anvil,
-            HotIron
+            HotIron,
+            TradeTable
         }
 
         [SerializeField]
@@ -31,6 +32,10 @@ namespace RuthlessMerchant
 
                 case SmithItemType.HotIron:
                     VRSmithing.Singleton.CreatingSwordStep(collision);
+                    break;
+
+                case SmithItemType.TradeTable:
+                    VRSmithing.Singleton.PlacingSwordStep(collision);
                     break;
             }
         }

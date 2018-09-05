@@ -82,9 +82,7 @@ namespace RuthlessMerchant
 
         public float connectorSensitivity = 400;
 
-        // TODO: Delete this.
-        [SerializeField]
-        protected int defaultValue = 35;
+        protected const int defaultValue = 50;
 
         #endregion
 
@@ -97,7 +95,7 @@ namespace RuthlessMerchant
 
         protected float exitTimer = 0;
 
-        public abstract void Initialize(int realValue);
+        public abstract void Initialize(int realValue = defaultValue);
 
         public abstract float GetCurrentPlayerOffer();
         public abstract float GetCurrentTraderOffer();
