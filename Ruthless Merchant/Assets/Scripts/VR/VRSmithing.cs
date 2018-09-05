@@ -48,6 +48,9 @@ namespace RuthlessMerchant
 
         public GameObject EmptyMeltbox;
 
+        [SerializeField]
+        GameObject fireEffects;
+
         private void Awake()
         {
             Singleton = this;
@@ -84,7 +87,8 @@ namespace RuthlessMerchant
                             if (x == IronFinalPositions.Length - 1)
                             {
                                 smithingSteps = SmithingSteps.MeltingIron;
-                                Invoke("MakeMeltBoxInteractbale", 1);
+                                fireEffects.SetActive(true);
+                                Invoke("MakeMeltBoxInteractbale", 3);
                             }
 
                             break;
@@ -117,6 +121,7 @@ namespace RuthlessMerchant
             MeltedMeltbox.transform.rotation = Meltbox.transform.rotation;
 
             Destroy(Meltbox);
+            fireEffects.SetActive(false);
             MeltedMeltbox.SetActive(true);
 
             smithingSteps = SmithingSteps.PlacingMeltedIron;
