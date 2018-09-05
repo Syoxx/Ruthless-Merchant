@@ -45,5 +45,16 @@ namespace RuthlessMerchant
                 });
             }
         }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.tag == triggerTag || other.gameObject.name == triggerName)
+            {
+                fadeImage.FadingWithCallback(1f, fadeTime, delegate
+                {
+                    SceneManager.LoadScene(featureShowcaseScene);
+                });
+            }
+        }
     }
 }
