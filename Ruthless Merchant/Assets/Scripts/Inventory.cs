@@ -136,6 +136,12 @@ namespace RuthlessMerchant
             return -1;
         }
 
+        /// <summary>
+        /// Identifies the inventory slot where player money is stored
+        /// </summary>
+        /// <returns>
+        /// Returns the slot # if found, otherwise returns -1
+        /// </returns>
         private int FindMoneySlot()
         {
             for (int i = 0; i < maxSlotCount; i++)

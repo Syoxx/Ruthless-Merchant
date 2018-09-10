@@ -29,6 +29,15 @@ namespace RuthlessMerchant
             base.EndAction(executeEnd);
         }
 
+        /// <summary>
+        /// Commences monster hunt quest and gives hero a waypoint
+        /// </summary>
+        /// <param name="parent">
+        /// Hero that received the quest
+        /// </param>
+        /// <param name="other">
+        /// Targeted monster
+        /// </param>
         public override void StartAction(NPC parent, GameObject other)
         {
             parent.Waypoints.Clear();

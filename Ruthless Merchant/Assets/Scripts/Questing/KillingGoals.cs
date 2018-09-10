@@ -24,6 +24,12 @@ namespace RuthlessMerchant
             outpostTrigger = GetComponent<CaptureTrigger>();
         }
 
+        /// <summary>
+        /// Detects player in outpost and updates the quest availability if requirements are met
+        /// </summary>
+        /// <param name="other">
+        /// Player collider
+        /// </param>
         private void OnTriggerStay(Collider other)
         {
             if(other.gameObject.CompareTag("NPC"))
@@ -47,6 +53,15 @@ namespace RuthlessMerchant
             }
         }
         
+        /// <summary>
+        /// Assigns the quest when it gets clicked
+        /// </summary>
+        /// <param name="localIndex">
+        /// Index of button
+        /// </param>
+        /// <param name="button">
+        /// Button that was clicked
+        /// </param>
         public void AssignQuest(int localIndex, GameObject button)
         {
             if (killGoal == null && !(outpostTrigger.IsHeroAway))
@@ -73,6 +88,12 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// Displays quest button when player is at the corresponding outpost
+        /// </summary>
+        /// <param name="other">
+        /// Player collider
+        /// </param>
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.CompareTag("Player"))
@@ -119,6 +140,12 @@ namespace RuthlessMerchant
 
         }
 
+        /// <summary>
+        /// Removes quest button when player leaves the outpost
+        /// </summary>
+        /// <param name="other">
+        /// Player collider
+        /// </param>
         private void OnTriggerExit(Collider other)
         {
             if (other.gameObject.CompareTag("Player"))
