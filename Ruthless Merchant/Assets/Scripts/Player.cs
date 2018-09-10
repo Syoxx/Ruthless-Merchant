@@ -11,12 +11,20 @@ namespace RuthlessMerchant
 {
     public class Player : Character
     {
-        public static Player Singleton;
-        public bool RestrictBookUsage = false;
-        private static bool restrictCamera = false;
+        
+        
 
         #region Private Fields
+
+
+        enum ControlMode
+        {
+            Move = 0, AlchemySlot = 1
+        }
+
         private bool[] unlockedTravelPoints;
+        private static bool restrictCamera = false;
+        private Outline lastOutline;
         private UISystem uiSystem;
         private QuestManager questManager;
         private bool restrictMovement = false;
@@ -26,21 +34,11 @@ namespace RuthlessMerchant
         private bool isCtrlPressed;
         private bool wasCrouching;
         private bool isGameFocused;
-        private int outpostToUpgrade = 0;
-        [SerializeField, Tooltip("Max. interaction and glow range"), Range(0.0f, 5.0f)]
-        private float maxInteractDistance;
+        private int outpostToUpgrade = 0;        
         private float moveSpeed;
         private float mouseXSensitivity = 2f;
         private float mouseYSensitivity = 2f;
-
-        enum ControlMode
-        {
-            Move = 0, AlchemySlot = 1
-        }
-
-        private Camera playerAttachedCamera;
-        public NavMeshObstacle NavMeshObstacle;
-        public Quaternion PlayerLookAngle;
+        private Camera playerAttachedCamera;        
         private Quaternion cameraPitchAngle;
         private Vector3 MoveVector = Vector3.zero;
         private Vector2 InputVector = Vector2.zero;
@@ -49,22 +47,29 @@ namespace RuthlessMerchant
         private ControlMode controlMode = ControlMode.Move;
         private Reputation reputation;
         private MapSystem mapLogic;
-        int currenRecipe;
+        private int currenRecipe;
         private Recipes recipes;
-        GameObject smithCanvas;
-        Smith localSmith;
+        private GameObject smithCanvas;
+        private Smith localSmith;
 
-        AlchemySlot localAlchemist;
-        GameObject alchemyCanvas;
-        respawnLogic respawn;
+        private AlchemySlot localAlchemist;
+        private GameObject alchemyCanvas;
+        private respawnLogic respawn;
 
-        Canvas workbenchCanvas;
-        Workbench localWorkbench;
-        Item breakableItem;
-        int itemSlot;
+        private Canvas workbenchCanvas;
+        private Workbench localWorkbench;
+        private Item breakableItem;
+        private int itemSlot;
 
         private float crouchDelta;
         private float playerHeight;
+
+        private KeyCode currentBookSection;
+        private Rigidbody rbplayer;
+        private Vector3 reachedVelocity;
+
+        [SerializeField, Tooltip("Max. interaction and glow range"), Range(0.0f, 5.0f)]
+        private float maxInteractDistance;
 
         [SerializeField, Tooltip("Tip: If this value matches the rigidbody's height, crouching doesn't affect player height")]
         [Range(0, 5)]
@@ -78,10 +83,10 @@ namespace RuthlessMerchant
 
         [Header("UI Prefabs")]
         [SerializeField, Tooltip("This is the UI Prefab that appears for each Item when accessing an Alchemyslot")]
-        GameObject alchemyUiPrefab;
+        private GameObject alchemyUiPrefab;
 
         [SerializeField, Tooltip("The UI Prefab that appears for each recipe when accessing the Smith")]
-        GameObject recipeUiPrefab;
+        private GameObject recipeUiPrefab;
 
         [SerializeField, Tooltip("'TempUpgradeDialogue' in /Prefabs/TradingPoint/")]
         private GameObject outpostUpgradeDialogue;
@@ -96,32 +101,38 @@ namespace RuthlessMerchant
         
 
         [Space(10)]
-
-        [Header("Book")]
-        [SerializeField, Tooltip("Drag a book canvas there / Daniil Masliy")]
-        public GameObject bookCanvas;
+        
 
         [SerializeField, Tooltip("Drag 'InventoryItem' Prefab here.")]
         private GameObject itemInventory;
 
         [SerializeField, Tooltip("The Booklogic attached to the Book-Object")]
         private PageLogic bookLogic;
-        private KeyCode currentBookSection;
+        
 
-        private Rigidbody rbplayer;
-        private Vector3 reachedVelocity;
         [SerializeField, Range(-30.0f, 0.0f), Tooltip("The Velocity that is required to kill the player when falling")]
         private float deathVelocity = 12f;
         #endregion
 
         #region Public Fields
+        [Header("Book")]
+        [SerializeField, Tooltip("Drag a book canvas there / Daniil Masliy")]
+        public GameObject bookCanvas;
+
         [HideInInspector]
         public static KeyCode lastKeyPressed;
+
         [Space(8)]
         [SerializeField, Tooltip("Set the maximum amount of items per page.")]
         [Range(0, 8)]
         public int MaxItemsPerPage = 4;
+
+        public static Player Singleton;
+        public bool RestrictBookUsage = false;
+        public NavMeshObstacle NavMeshObstacle;
+        public Quaternion PlayerLookAngle;
         #endregion
+
         #region MonoBehaviour Life Cycle
 
         private void Awake()
@@ -293,6 +304,9 @@ namespace RuthlessMerchant
             base.FixedUpdate();
         }
 
+        /// <summary>
+        /// Handles the crouching flags and (optional) changes to player height
+        /// </summary>
         public void Crouch()
         {
             CapsuleCollider playerCollider = GetComponent<CapsuleCollider>();
@@ -442,6 +456,9 @@ namespace RuthlessMerchant
 
         #region Book and map
 
+        /// <summary>
+        /// Brings map data up to date and shows the player map
+        /// </summary>
         public void ShowMap()
         {
             if (Input.GetKeyDown(KeyCode.M) && !isOutpostDialogActive)
@@ -468,7 +485,7 @@ namespace RuthlessMerchant
         }
 
         /// <summary>
-        /// A simple function to open a book
+        /// Checks book control keys and calls OpenBook()
         /// </summary>
         private void BookControls()
         {
@@ -497,6 +514,12 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// Manages a state where interactions are limited to book and calls CloseBook() when necessary
+        /// </summary>
+        /// <param name="key">
+        /// Most recently pressed book control key
+        /// </param>
         private void OpenBook(KeyCode key)
         {
             if (mapObject.activeSelf)
@@ -520,6 +543,9 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// Hides book and returns player to movement state
+        /// </summary>
         private void CloseBook()
         {
             if (mapObject.activeSelf)
@@ -551,6 +577,9 @@ namespace RuthlessMerchant
 
         #region Interaction and control modes
 
+        /// <summary>
+        /// Handles player movement controls and manages restrictions to movement
+        /// </summary>
         private void ControleModeMove()
         {
             if (InputVector != new Vector2(0, 0))
@@ -670,6 +699,9 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// Checks if player can interact with what he's aiming at and executes the corresponding code 
+        /// </summary>
         public void SendInteraction()
         {
             if (Input.GetKeyDown(KeyCode.E))
@@ -739,6 +771,12 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// Initiates control of weapon smithing
+        /// </summary>
+        /// <param name="smith">
+        /// The specific smith handling the action
+        /// </param>
         public void EnterSmith(Smith smith)
         {
             localSmith = smith;
@@ -757,6 +795,12 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// Initiates control of potion brewing
+        /// </summary>
+        /// <param name="alchemySlot">
+        /// The alchemy station handling the action
+        /// </param>
         public void EnterAlchemySlot(AlchemySlot alchemySlot)
         {
             localAlchemist = alchemySlot;
@@ -778,6 +822,9 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// Allows inventory items to be selected for potion brewing
+        /// </summary>
         void SetAlchemyItemButtons()
         {
             for (int i = 0; i < inventory.inventorySlots.Length; i++)
@@ -793,6 +840,12 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// Initiates control of weapon breakdown
+        /// </summary>
+        /// <param name="workbench">
+        /// The specific workbench handling the action
+        /// </param>
         public void EnterWorkbench(Workbench workbench)
         {
             PopulateWorkbenchPanel();
@@ -811,6 +864,9 @@ namespace RuthlessMerchant
             bookLogic.GoToPage(KeyCode.I);
         }
 
+        /// <summary>
+        /// Initiates trading minigame
+        /// </summary>
         public void EnterTrading()
         {
             restrictMovement = true;
@@ -824,6 +880,9 @@ namespace RuthlessMerchant
                 bookLogic.GoToPage(KeyCode.I);
         }
 
+        /// <summary>
+        /// Manages player character control during trading
+        /// </summary>
         public void AllowTradingMovement()
         {
             restrictCamera = false;
@@ -832,6 +891,9 @@ namespace RuthlessMerchant
             gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", false);
         }
 
+        /// <summary>
+        /// Manages potion brewing UI
+        /// </summary>
         void CreateAlchemyCanvas()
         {
             foreach (Transform item in alchemyCanvas.transform)
@@ -853,6 +915,12 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// Initiates player outpost upgrading
+        /// </summary>
+        /// <param name="OutpostIndex">
+        /// Designates the specific outpost to upgrade
+        /// </param>
         public void OutpostInteraction(int OutpostIndex)
         {
             outpostToUpgrade = OutpostIndex;
@@ -877,13 +945,19 @@ namespace RuthlessMerchant
 
         public override void Interact(GameObject caller)
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
         #endregion
 
 
         #region OnClick Handlers
 
+        /// <summary>
+        /// Handles button click when alchemy in progress
+        /// </summary>
+        /// <param name="itemSlot">
+        /// Inventory slot that corresponds to this button
+        /// </param>
         public void OnAlchemyButton(int itemSlot)
         {
             if(Inventory.inventorySlots[itemSlot].ItemInfo.ItemType == ItemType.Ingredient)
@@ -894,13 +968,21 @@ namespace RuthlessMerchant
             }
         }
 
-
+        /// <summary>
+        /// Handles button click when weapon breakdown is in progress
+        /// </summary>
+        /// <param name="itemslot">
+        /// Inventory slot that corresponds to this button
+        /// </param>
         public void OnWorkbenchButton(int itemslot)
         {
             localWorkbench.BreakdownItem(inventory.inventorySlots[itemslot].Item, Inventory, recipes);
             PopulateWorkbenchPanel();
         }
 
+        /// <summary>
+        /// Allows inventory items to be selected for workbench actions
+        /// </summary>
         private void PopulateWorkbenchPanel()
         {
             for (int itemIndex = 0; itemIndex < inventory.inventorySlots.Length; itemIndex++)
@@ -918,6 +1000,9 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// Executes outpost upgrade in exchange for gold
+        /// </summary>
         public void BuyTradingPoint()
         {
             if (inventory.RemoveGold(50))
@@ -949,7 +1034,10 @@ namespace RuthlessMerchant
             
         }
 
-        private Outline lastOutline;
+        
+        /// <summary>
+        /// Displays an outline for interactables that player aims at
+        /// </summary>
         public void GlowObject()
         {
             Ray cameraRay = playerAttachedCamera.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
@@ -973,6 +1061,10 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// Updates interactability outline
+        /// </summary>
+        /// <param name="outline"></param>
         private void ReplaceOutline(Outline outline)
         {
             if (outline != lastOutline)
@@ -987,6 +1079,9 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// Closes upgrade confirmation UI
+        /// </summary>
         public void CloseTradingPointDialog()
         {
             if (outpostUpgradeDialogue.activeSelf && TradeAbstract.Singleton == null)
@@ -999,6 +1094,9 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// Closes failure notification UI
+        /// </summary>
         public void CloseTradingPointMessage()
         {
             if (failedUpgradeDialogue.activeSelf && TradeAbstract.Singleton == null)
@@ -1012,6 +1110,12 @@ namespace RuthlessMerchant
         }
         #endregion
 
+        /// <summary>
+        /// Initiates player respawn
+        /// </summary>
+        /// <param name="delay">
+        /// 
+        /// </param>
         public override void DestroyInteractiveObject(float delay = 0)
         {
             respawn.InitiateRespawn();
@@ -1019,7 +1123,7 @@ namespace RuthlessMerchant
 
         public void Craft()
         {
-            throw new System.NotImplementedException();
+            //throw new System.NotImplementedException();
         }
 
         public void GetLoudness()
@@ -1029,7 +1133,7 @@ namespace RuthlessMerchant
 
         public void Sneak()
         {
-            throw new System.NotImplementedException();
+            //throw new System.NotImplementedException();
         }
     }
 }
