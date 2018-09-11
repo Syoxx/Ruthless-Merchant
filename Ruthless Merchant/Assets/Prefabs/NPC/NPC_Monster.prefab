@@ -3610,28 +3610,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction: 1
-  baseDamagePerAtk: 0
-  baseAttackDelay: 0
-  baseDefense: 0
+  baseDamagePerAtk: 425
+  baseAttackDelay: 2.5
+  baseDefense: 15
   healthRegPerSec: 0
-  sneakSpeed: 0
-  walkSpeed: 2
-  runSpeed: 2
+  sneakSpeed: 2
+  walkSpeed: 4
+  runSpeed: 7
   groundCheckDistance: 0.25
   layerMask:
     serializedVersion: 2
     m_Bits: 0
   maxJumpHeight: 0
   maxSlopeAngle: 0
-  ActionName: 
   rotationSpeed: 8
   fov: 60
   viewDistance: 10
   hearDistance: 5
   capValuePerSecond: 10
   Reacting: 0
-  huntDistance: 2
-  attackDistance: 2
+  huntDistance: 12
+  attackDistance: 1.2
 --- !u!114 &114400974246057558
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3665,8 +3664,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97914d5b6dd26014dab9a2e600e6950a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 5
-  maxHealth: 5
+  health: 3000
+  maxHealth: 3000
 --- !u!135 &135346563965052764
 SphereCollider:
   m_ObjectHideFlags: 1

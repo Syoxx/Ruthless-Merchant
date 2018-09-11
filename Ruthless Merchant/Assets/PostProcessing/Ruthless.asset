@@ -25,11 +25,11 @@ MonoBehaviour:
         motionVectorsResolution: 24
         motionVectorsAmplitude: 64
   fog:
-    m_Enabled: 1
+    m_Enabled: 0
     m_Settings:
       excludeSkybox: 1
   antialiasing:
-    m_Enabled: 0
+    m_Enabled: 1
     m_Settings:
       method: 0
       fxaaSettings:
@@ -69,11 +69,11 @@ MonoBehaviour:
       screenEdgeMask:
         intensity: 0.03
   depthOfField:
-    m_Enabled: 1
+    m_Enabled: 0
     m_Settings:
       focusDistance: 0.42
       aperture: 32
-      focalLength: 35
+      focalLength: 18
       useCameraFov: 0
       kernelSize: 1
   motionBlur:
@@ -100,11 +100,11 @@ MonoBehaviour:
     m_Enabled: 1
     m_Settings:
       bloom:
-        intensity: 1.86
+        intensity: 0.5
         threshold: 1.1
         softKnee: 0.5
-        radius: 4
-        antiFlicker: 0
+        radius: 1.34
+        antiFlicker: 1
       lensDirt:
         texture: {fileID: 0}
         intensity: 3
@@ -112,7 +112,7 @@ MonoBehaviour:
     m_Enabled: 1
     m_Settings:
       tonemapping:
-        tonemapper: 1
+        tonemapper: 0
         neutralBlackIn: 0.02
         neutralWhiteIn: 10
         neutralBlackOut: 0
@@ -120,14 +120,14 @@ MonoBehaviour:
         neutralWhiteLevel: 5.3
         neutralWhiteClip: 10
       basic:
-        postExposure: 0
-        temperature: -5
-        tint: 0
-        hueShift: 0
-        saturation: 1.1
-        contrast: 0.64
+        postExposure: 0.26
+        temperature: 11
+        tint: -10
+        hueShift: -9
+        saturation: 1
+        contrast: 1
       channelMixer:
-        red: {x: 1, y: 0, z: 0}
+        red: {x: 0.58, y: 0.21, z: 0.32}
         green: {x: 0, y: 1, z: 0}
         blue: {x: 0, y: 0, z: 1}
         currentEditingChannel: 0
@@ -305,12 +305,12 @@ MonoBehaviour:
       lut: {fileID: 0}
       contribution: 1
   chromaticAberration:
-    m_Enabled: 1
+    m_Enabled: 0
     m_Settings:
       spectralTexture: {fileID: 0}
       intensity: 0.203
   grain:
-    m_Enabled: 1
+    m_Enabled: 0
     m_Settings:
       colored: 0
       intensity: 0.152
@@ -322,9 +322,9 @@ MonoBehaviour:
       mode: 0
       color: {r: 0, g: 0, b: 0, a: 1}
       center: {x: 0.5, y: 0.5}
-      intensity: 0.45
+      intensity: 0.3
       smoothness: 0.178
-      roundness: 0.899
+      roundness: 0.8
       mask: {fileID: 0}
       opacity: 1
       rounded: 0

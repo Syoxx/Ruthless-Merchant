@@ -183,8 +183,9 @@ namespace RuthlessMerchant
                 agent.stoppingDistance = 1;
 
             ChangeSpeed(SpeedType.Walk);
+            if(NPCCount.ContainsKey(faction))
+                NPCCount[faction]++;
 
-            NPCCount[faction]++;
             base.Start();
         }
 
@@ -238,7 +239,8 @@ namespace RuthlessMerchant
 
         public override void DestroyInteractiveObject(float delay = 0)
         {
-            NPCCount[faction]--;
+            if(NPCCount.ContainsKey(faction))
+                NPCCount[faction]--;
             base.DestroyInteractiveObject(delay);
         }
 
@@ -303,7 +305,7 @@ namespace RuthlessMerchant
         /// Check all gameobjects in viewrange to see if they are in sight
         /// </summary>
         private void Recognize()
-        {
+        { 
             for (int i = 0; i < possibleSeenObjects.Count; i++)
             {
                 if (possibleSeenObjects[i] == null)
