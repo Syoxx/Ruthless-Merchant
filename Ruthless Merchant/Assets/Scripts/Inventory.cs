@@ -154,6 +154,10 @@ namespace RuthlessMerchant
             return -1;
         }
 
+        /// <summary>
+        /// re-arranges the display panel to it's designated place in the book
+        /// </summary>
+        /// <param name="inventorySlot"></param>
         private void SortDisplayPanel(int inventorySlot)
         {
             int pageForItem = inventorySlot / Player.Singleton.MaxItemsPerPage;
@@ -332,7 +336,6 @@ namespace RuthlessMerchant
         }
 
         #endregion
-
 
         #region Public Functions ##################################################################################
 
