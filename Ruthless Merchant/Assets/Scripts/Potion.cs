@@ -51,6 +51,14 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// Sets the potion-buffs to the funcion-input
+        /// </summary>
+        /// <param name="attackSpeed"></param>
+        /// <param name="defense"></param>
+        /// <param name="movement"></param>
+        /// <param name="health"></param>
+        /// <param name="reg"></param>
         public void CreatePotion(float attackSpeed, int defense, float movement, float health, int reg)
         {
             this.attackSpeed = attackSpeed;
