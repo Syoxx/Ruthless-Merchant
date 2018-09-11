@@ -137,9 +137,11 @@ namespace RuthlessMerchant
         }
 
         /// <summary>
-        /// searches for the inventory slot with the gold coins
+        /// Identifies the inventory slot where player money is stored
         /// </summary>
-        /// <returns>returns the index of the inventory slot</returns>
+        /// <returns>
+        /// Returns the slot # if found, otherwise returns -1
+        /// </returns>
         private int FindMoneySlot()
         {
             for (int i = 0; i < maxSlotCount; i++)
