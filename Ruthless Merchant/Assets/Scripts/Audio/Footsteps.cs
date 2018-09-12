@@ -138,5 +138,14 @@ namespace RuthlessMerchant
         {
             playerismoving = false;
         }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if(other.name == "TradeTrigger" && Steps != "event:/Characters/Steps/StepsGrass")
+            {
+                Steps = "event:/Characters/Steps/StepsGrass";
+                stepSound = FMODUnity.RuntimeManager.CreateInstance(Steps);
+            }
+        }
     }
 }

@@ -227,6 +227,7 @@ namespace RuthlessMerchant
             onSuccesfullAlchemy.Invoke();
             onSuccesfullAlchemyAchievment.Invoke();
             Destroy(potion.gameObject);
+            FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Player/Pickup potion", GameObject.FindGameObjectWithTag("Player").transform.position);
             effect.Play();
         }
 
