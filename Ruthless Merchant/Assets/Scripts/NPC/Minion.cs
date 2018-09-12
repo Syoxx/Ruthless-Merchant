@@ -14,11 +14,17 @@ namespace RuthlessMerchant
         private CaptureTrigger lastOutpost = null;
         public CaptureTrigger FirstOutpost = null;
 
+        /// <summary>
+        /// Init minion
+        /// </summary>
         public override void Start()
         {
             base.Start();
         }
 
+        /// <summary>
+        /// Updates minion
+        /// </summary>
         public override void Update()
         {
             base.Update();

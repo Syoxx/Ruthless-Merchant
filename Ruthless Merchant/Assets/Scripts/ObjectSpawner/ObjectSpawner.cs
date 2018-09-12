@@ -60,6 +60,9 @@ namespace RuthlessMerchant
         /// <param name="count">Spawn count</param>
         public void Spawn(Transform spawnObject, int count)
         {
+            if (spawnQueue == null)
+                spawnQueue = new Queue<SpawnInfo?>();
+
             spawnQueue.Enqueue(new SpawnInfo(spawnObject, count));
         }
 

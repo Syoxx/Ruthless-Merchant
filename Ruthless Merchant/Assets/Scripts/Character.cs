@@ -2,6 +2,7 @@
 // Authors: Peter Ehmler, Richard Brönnimann, 
 //---------------------------------------------------------------
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace RuthlessMerchant
@@ -276,13 +277,18 @@ namespace RuthlessMerchant
             if (!isPlayer)
             {
                 isDying = true;
-                if(animator != null)
+                if (animator != null)
+                {
+                    animator.SetBool("IsWalking", false);
+                    animator.SetBool("IsInFight", false);
+                    animator.SetBool("IsAttacking", false);
                     animator.SetBool("IsDying", true);
+                }
             }
             DestroyInteractiveObject(5.0f);
         }
 
-        public bool Attack(Character character)
+        public bool Attack(Character character, float delay = 0.0f)
         {
             if (elapsedAttackTime >= GetAttackDelay())
             {
@@ -292,11 +298,21 @@ namespace RuthlessMerchant
                 if (damage <= 0)
                     damage = 1;
 
-                character.HealthSystem.ChangeHealth(-damage, this);
+                if (delay > 0)
+                    StartCoroutine(DoDamage(character, damage, delay));
+                else
+                    character.HealthSystem.ChangeHealth(-damage, this);
+
                 return true;
             }
 
             return false;
+        }
+
+        private IEnumerator DoDamage(Character character, int damage, float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            character.HealthSystem.ChangeHealth(-damage, this);
         }
 
         public void Move(Vector2 velocity, float speed)

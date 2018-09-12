@@ -13,11 +13,19 @@ namespace RuthlessMerchant
         private Character character;
         private Fighter parentFighter;
         private Animator animator;
+        private float attackAnimationDuration = 0;
 
+        /// <summary>
+        /// Action which tries to attack an given enemy 
+        /// </summary>
+        /// <param name="priority">Priority of the action</param>
         public ActionAttack(ActionPriority priority) : base(priority)
         {
         }
 
+        /// <summary>
+        /// Action which tries to attack an given enemy 
+        /// </summary>
         public ActionAttack() : base(ActionPriority.High)
         {
 
@@ -31,6 +39,10 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// EndAction can be used to do some cleanup
+        /// </summary>
+        /// <param name="executeEnd">Indicates if abort code should be executed</param>
         public override void EndAction(bool executeEnd = true)
         {
             if (executeEnd)
@@ -42,6 +54,11 @@ namespace RuthlessMerchant
             base.EndAction();
         }
 
+        /// <summary>
+        /// Initialaztion of the action
+        /// </summary>
+        /// <param name="parent">Action owner</param>
+        /// <param name="other">Action target</param>
         public override void StartAction(NPC parent, GameObject other)
         {
             parent.Waypoints.Clear();
@@ -51,10 +68,20 @@ namespace RuthlessMerchant
             if (other != null)
                 character = other.GetComponent<Character>();
 
+            attackAnimationDuration = GetAnimationDuration("meeleAttack");
+            if (attackAnimationDuration <= 0)
+                attackAnimationDuration = GetAnimationDuration("monsterattack") * 0.7f;
+            else
+                attackAnimationDuration *= 0.9f;
+
             animator.SetBool("IsWalking", false);
             animator.SetBool("IsInFight", true);
         }
 
+        /// <summary>
+        /// Updates the action
+        /// </summary>
+        /// <param name="deltaTime">Elapsed time since last update</param>
         public override void Update(float deltaTime)
         {
             if (!animator.GetBool("IsInFight"))
@@ -92,6 +119,10 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// Starts attack action
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator AnimateAttack()
         {
             animator.SetBool("IsInFight", true);
@@ -100,17 +131,41 @@ namespace RuthlessMerchant
             animator.SetBool("IsAttacking", false);
         }
 
+        /// <summary>
+        /// Aborts attack action
+        /// </summary>
         private void AbortAnimations()
         {
             animator.SetBool("IsInFight", false);
             animator.SetBool("IsAttacking", false);
         }
 
+        /// <summary>
+        /// Aborts attack action delayed
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator AbortAnimationsDelayed()
         {
             yield return new WaitForSeconds(0);
             animator.SetBool("IsInFight", false);
             animator.SetBool("IsAttacking", false);
+        }
+
+        /// <summary>
+        /// Gets the animation duration from a given clip name
+        /// </summary>
+        /// <param name="clipName">Clip name</param>
+        /// <returns>Returns the clip duration</returns>
+        private float GetAnimationDuration(string clipName)
+        {
+            RuntimeAnimatorController controller = animator.runtimeAnimatorController;
+            for (int i = 0; i < controller.animationClips.Length; i++)
+            {
+                if (controller.animationClips[i].name == clipName)
+                    return controller.animationClips[i].length;
+            }
+
+            return 0.0f;
         }
     }
 }
