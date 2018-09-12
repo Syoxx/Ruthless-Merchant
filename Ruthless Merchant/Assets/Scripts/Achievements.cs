@@ -85,14 +85,17 @@ namespace RuthlessMerchant {
 
         void Update()
         {
-            if (Singleton.switchIndex == 3 && !ironMaceCrafted)
+            if (Singleton != null)
             {
-                Singleton.counter = Player.Singleton.Inventory.GetNumberOfItems(IronMaceWeapon);
-                if (Singleton.counter == 3)
+                if (Singleton.switchIndex == 3 && !ironMaceCrafted)
                 {
-                    ironMaceCrafted = true;
+                    Singleton.counter = Player.Singleton.Inventory.GetNumberOfItems(IronMaceWeapon);
+                    if (Singleton.counter == 3)
+                    {
+                        ironMaceCrafted = true;
+                    }
                 }
-            }            
+            }
         }
 
         public void BrewingPotion()

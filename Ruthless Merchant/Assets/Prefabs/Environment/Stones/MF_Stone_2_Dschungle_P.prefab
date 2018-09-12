@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4669271709045172}
   - component: {fileID: 33262190619970704}
   - component: {fileID: 23853704742009866}
+  - component: {fileID: 136806491175158160}
   m_Layer: 0
   m_Name: MF_Stone_2_Dschungle_P
   m_TagString: Untagged
@@ -35,7 +36,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1090372203693798}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.554}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -83,3 +84,16 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1090372203693798}
   m_Mesh: {fileID: 4300000, guid: 7006ae6e5288c1d4b925df2f7fe475f1, type: 3}
+--- !u!136 &136806491175158160
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1090372203693798}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.21
+  m_Height: 0.44
+  m_Direction: 2
+  m_Center: {x: -0.000000007450581, y: -0.005618216, z: 0.08787758}

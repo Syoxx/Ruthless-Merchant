@@ -247,9 +247,9 @@ namespace RuthlessMerchant
                         player.EnterTrading();
 
                         Vector3 direction = (directionPointer.position - transform.position).normalized * 0.52f;
-                        transform.localPosition += direction;
+                        transform.position += direction;
                         player.transform.position = new Vector3(transform.position.x, player.transform.position.y, transform.position.z);
-                        transform.localPosition -= direction;
+                        transform.position -= direction;
 
                         player.transform.LookAt(transform);
                         player.GetComponentInChildren<Camera>().transform.localEulerAngles = new Vector3(player.transform.eulerAngles.x, 0, 0);
