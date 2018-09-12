@@ -368,12 +368,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 41994990}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27c6b285e989f5c419a7b3049abd9d4b, type: 3}
+  m_Script: {fileID: 11500000, guid: 89189c28220bf5b409494a2e153bd976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Collisions: []
-  itemName: SuperCube
-  value: 50
+  itemName: 
+  value: 0
   SmithingHammer: 0
   CheckedGndTouch: 0
 --- !u!1 &46204287
@@ -775,12 +775,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 74624305}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27c6b285e989f5c419a7b3049abd9d4b, type: 3}
+  m_Script: {fileID: 11500000, guid: 89189c28220bf5b409494a2e153bd976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Collisions: []
-  itemName: SuperCube
-  value: 10
+  itemName: 
+  value: 0
   SmithingHammer: 0
   CheckedGndTouch: 0
 --- !u!1001 &119186026
@@ -826,7 +826,20 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.y
       value: -20.019001
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 447954, guid: dc06161b6d97feb419f45f03b62e14b9, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 447954, guid: dc06161b6d97feb419f45f03b62e14b9, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 447954, guid: dc06161b6d97feb419f45f03b62e14b9, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 1.8
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 114000011983135080, guid: dc06161b6d97feb419f45f03b62e14b9, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: dc06161b6d97feb419f45f03b62e14b9, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &120939029
@@ -1358,12 +1371,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 164318250}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27c6b285e989f5c419a7b3049abd9d4b, type: 3}
+  m_Script: {fileID: 11500000, guid: 89189c28220bf5b409494a2e153bd976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Collisions: []
-  itemName: SuperCube
-  value: 10
+  itemName: 
+  value: 0
   SmithingHammer: 0
   CheckedGndTouch: 0
 --- !u!1 &167089341
@@ -1717,12 +1730,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 195422365}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27c6b285e989f5c419a7b3049abd9d4b, type: 3}
+  m_Script: {fileID: 11500000, guid: 89189c28220bf5b409494a2e153bd976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Collisions: []
-  itemName: SuperCube
-  value: 1
+  itemName: 
+  value: 0
   SmithingHammer: 0
   CheckedGndTouch: 0
 --- !u!1 &199976114
@@ -1757,11 +1770,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 199976114}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27c6b285e989f5c419a7b3049abd9d4b, type: 3}
+  m_Script: {fileID: 11500000, guid: 89189c28220bf5b409494a2e153bd976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Collisions: []
-  itemName: 
+  itemName: Hammer
   value: 0
   SmithingHammer: 0
   CheckedGndTouch: 0
@@ -3884,12 +3897,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 467227672}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27c6b285e989f5c419a7b3049abd9d4b, type: 3}
+  m_Script: {fileID: 11500000, guid: 89189c28220bf5b409494a2e153bd976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Collisions: []
-  itemName: SuperCube
-  value: 10
+  itemName: 
+  value: 0
   SmithingHammer: 0
   CheckedGndTouch: 0
 --- !u!1 &485582347
@@ -5657,12 +5670,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 716246579}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27c6b285e989f5c419a7b3049abd9d4b, type: 3}
+  m_Script: {fileID: 11500000, guid: 89189c28220bf5b409494a2e153bd976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Collisions: []
-  itemName: SuperCube
-  value: 1
+  itemName: 
+  value: 0
   SmithingHammer: 0
   CheckedGndTouch: 0
 --- !u!1 &717451093
@@ -6351,13 +6364,12 @@ Transform:
 --- !u!114 &808973817
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114232850785946478, guid: c69b285bd55d04540a5282a86b31b4f2,
-    type: 2}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 808973815}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80f8251b8e359a84ba6c4b7e383219bb, type: 3}
+  m_Script: {fileID: 11500000, guid: f6f92c7a64f818a40967236f7f5ef1d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   TargetConnectorRotationZ: 0
@@ -6576,12 +6588,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 827299525}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27c6b285e989f5c419a7b3049abd9d4b, type: 3}
+  m_Script: {fileID: 11500000, guid: 89189c28220bf5b409494a2e153bd976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Collisions: []
-  itemName: SuperCube
-  value: 50
+  itemName: 
+  value: 0
   SmithingHammer: 0
   CheckedGndTouch: 0
 --- !u!1 &833010472
@@ -6774,7 +6786,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 927665477}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba03945e7bc3f44dacb89323a656511, type: 3}
+  m_Script: {fileID: 11500000, guid: 8411622d6a5670a44859006d24539e28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   RealValue: 0
@@ -6948,12 +6960,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 928794176}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27c6b285e989f5c419a7b3049abd9d4b, type: 3}
+  m_Script: {fileID: 11500000, guid: 89189c28220bf5b409494a2e153bd976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Collisions: []
-  itemName: 
-  value: 0
+  itemName: Iron
+  value: 1
   SmithingHammer: 0
   CheckedGndTouch: 0
 --- !u!1 &929595145
@@ -8112,12 +8124,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1020803699}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27c6b285e989f5c419a7b3049abd9d4b, type: 3}
+  m_Script: {fileID: 11500000, guid: 89189c28220bf5b409494a2e153bd976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Collisions: []
-  itemName: SuperCube
-  value: 1
+  itemName: 
+  value: 0
   SmithingHammer: 0
   CheckedGndTouch: 0
 --- !u!1 &1022803334
@@ -8961,12 +8973,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1092805078}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27c6b285e989f5c419a7b3049abd9d4b, type: 3}
+  m_Script: {fileID: 11500000, guid: 89189c28220bf5b409494a2e153bd976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Collisions: []
-  itemName: SuperCube
-  value: 1
+  itemName: 
+  value: 0
   SmithingHammer: 0
   CheckedGndTouch: 0
 --- !u!1 &1101880772
@@ -12049,12 +12061,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1426271484}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27c6b285e989f5c419a7b3049abd9d4b, type: 3}
+  m_Script: {fileID: 11500000, guid: 89189c28220bf5b409494a2e153bd976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Collisions: []
-  itemName: 
-  value: 0
+  itemName: Iron
+  value: 1
   SmithingHammer: 0
   CheckedGndTouch: 0
 --- !u!1 &1426599486
@@ -15303,12 +15315,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1794010546}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27c6b285e989f5c419a7b3049abd9d4b, type: 3}
+  m_Script: {fileID: 11500000, guid: 89189c28220bf5b409494a2e153bd976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Collisions: []
-  itemName: SuperCube
-  value: 5
+  itemName: 
+  value: 0
   SmithingHammer: 0
   CheckedGndTouch: 0
 --- !u!4 &1811092151 stripped
@@ -15605,12 +15617,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1849276073}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27c6b285e989f5c419a7b3049abd9d4b, type: 3}
+  m_Script: {fileID: 11500000, guid: 89189c28220bf5b409494a2e153bd976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Collisions: []
-  itemName: 
-  value: 0
+  itemName: Iron
+  value: 1
   SmithingHammer: 0
   CheckedGndTouch: 0
 --- !u!1 &1851309378
@@ -16312,7 +16324,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1908560472}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57110d9b32e1f41488f9001f2282fd3f, type: 3}
+  m_Script: {fileID: 11500000, guid: 527b3d83f9dc5904d9baf8fcf1091b21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   TotalWeight: 0
@@ -17093,12 +17105,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1961937753}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27c6b285e989f5c419a7b3049abd9d4b, type: 3}
+  m_Script: {fileID: 11500000, guid: 89189c28220bf5b409494a2e153bd976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Collisions: []
-  itemName: SuperCube
-  value: 10
+  itemName: 
+  value: 0
   SmithingHammer: 0
   CheckedGndTouch: 0
 --- !u!1001 &1965739482
@@ -18531,11 +18543,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2145661953}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27c6b285e989f5c419a7b3049abd9d4b, type: 3}
+  m_Script: {fileID: 11500000, guid: 89189c28220bf5b409494a2e153bd976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Collisions: []
-  itemName: SuperCube
-  value: 50
+  itemName: 
+  value: 0
   SmithingHammer: 0
   CheckedGndTouch: 0
