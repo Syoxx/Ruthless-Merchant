@@ -31,6 +31,11 @@ namespace RuthlessMerchant
                 SetCurrentAction(new ActionFlee(), e.Sender.gameObject);
         }
 
+        /// <summary>
+        /// Civilian reacts to other characters
+        /// </summary>
+        /// <param name="character"></param>
+        /// <param name="isThreat"></param>
         public override void React(Character character, bool isThreat)
         {
             if(isThreat)

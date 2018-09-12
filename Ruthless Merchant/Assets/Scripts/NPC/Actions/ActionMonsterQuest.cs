@@ -20,6 +20,10 @@ namespace RuthlessMerchant
             questGoal = goal;
         }
 
+        /// <summary>
+        /// EndAction can be used to do some cleanup
+        /// </summary>
+        /// <param name="executeEnd">Indicates if abort code should be executed</param>
         public override void EndAction(bool executeEnd = true)
         {
             if (executeEnd)
@@ -29,6 +33,11 @@ namespace RuthlessMerchant
             base.EndAction(executeEnd);
         }
 
+        /// <summary>
+        /// Initialaztion of the action
+        /// </summary>
+        /// <param name="parent">Action owner</param>
+        /// <param name="other">Action target</param>
         public override void StartAction(NPC parent, GameObject other)
         {
             parent.Waypoints.Clear();
@@ -46,8 +55,11 @@ namespace RuthlessMerchant
 
         }
 
-        // Update is called once per frame
-        void Update(float deltaTime)
+        /// <summary>
+        /// Updates the action
+        /// </summary>
+        /// <param name="deltaTime">Elapsed time since last update</param>
+        public override void Update(float deltaTime)
         {
             //if (!agent.pathPending && agent.remainingDistance < agent.stoppingDistance)
             //{

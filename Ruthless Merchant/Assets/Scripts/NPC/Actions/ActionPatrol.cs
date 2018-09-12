@@ -11,16 +11,28 @@ namespace RuthlessMerchant
     {
         private Hero hero;
 
+        /// <summary>
+        /// Action patrol
+        /// </summary>
         public ActionPatrol() : base(ActionPriority.Low)
         {
 
         }
 
+        /// <summary>
+        /// Action patrol
+        /// </summary>
+        /// <param name="priority">Priority of the action</param>
         public ActionPatrol(ActionPriority priority) : base(priority)
         {
 
         }
 
+        /// <summary>
+        /// Initialaztion of the action
+        /// </summary>
+        /// <param name="parent">Action owner</param>
+        /// <param name="other">Action target</param>
         public override void StartAction(NPC parent, GameObject other)
         {
             if (parent is Hero)
@@ -55,6 +67,10 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// EndAction can be used to do some cleanup
+        /// </summary>
+        /// <param name="executeEnd">Indicates if abort code should be executed</param>
         public override void EndAction(bool executeEnd = true)
         {
             if (executeEnd)

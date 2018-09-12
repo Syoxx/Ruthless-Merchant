@@ -9,21 +9,28 @@ namespace RuthlessMerchant
 {
     public class ActionFlee : ActionMove
     {
-        /*TODO:
-         * save position on start
-         * return to start position (only if idle for 5 seconds)
-         */
 
+        /// <summary>
+        /// Action flee
+        /// </summary>
         public ActionFlee() : base(ActionPriority.High)
         {
 
         }
 
+        /// <summary>
+        /// Action flee
+        /// </summary>
+        /// <param name="priority">Action priority</param>
         public ActionFlee(ActionPriority priority) : base(priority)
         {
 
         }
 
+        /// <summary>
+        /// EndAction can be used to do some cleanup
+        /// </summary>
+        /// <param name="executeEnd">Indicates if abort code should be executed</param>
         public override void EndAction(bool executeEnd = true)
         {
             if (executeEnd)
@@ -33,6 +40,11 @@ namespace RuthlessMerchant
             base.EndAction();
         }
 
+        /// <summary>
+        /// Initialaztion of the action
+        /// </summary>
+        /// <param name="parent">Action owner</param>
+        /// <param name="other">Action target</param>
         public override void StartAction(NPC parent, GameObject other)
         {
             parent.Reacting = true;
@@ -44,6 +56,10 @@ namespace RuthlessMerchant
             base.StartAction(parent, other);
         }
 
+        /// <summary>
+        /// Updates the action
+        /// </summary>
+        /// <param name="deltaTime">Elapsed time since last update</param>
         public override void Update(float deltaTime)
         {
             base.Update(deltaTime);
