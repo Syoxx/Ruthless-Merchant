@@ -31,16 +31,20 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// Base constructor of Actions
+        /// </summary>
+        /// <param name="priority">Action priority</param>
         public ActionNPC(ActionPriority priority)
         {
             this.priority = priority;
         }
 
         /// <summary>
-        /// Sets the parent and a target gameobject
+        /// Initialaztion of the action
         /// </summary>
-        /// <param name="parent">Owner of the action</param>
-        /// <param name="other">Target of the action</param>
+        /// <param name="parent">Action owner</param>
+        /// <param name="other">Action target</param>
         public virtual void StartAction(NPC parent, GameObject other)
         {
             this.parent = parent;
@@ -56,6 +60,7 @@ namespace RuthlessMerchant
         /// <summary>
         /// EndAction can be used to do some cleanup
         /// </summary>
+        /// <param name="executeEnd">Indicates if abort code should be executed</param>
         public virtual void EndAction(bool executeEnd = true)
         {
         }

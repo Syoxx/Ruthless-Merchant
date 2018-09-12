@@ -10,13 +10,17 @@ namespace RuthlessMerchant
         [SerializeField, Tooltip("Indicates if the guard can die or not")]
         private bool hasGodMode = true;
 
-        // Use this for initialization
+        /// <summary>
+        /// Init Guard
+        /// </summary>
         public override void Start()
         {
             base.Start();
         }
 
-        // Update is called once per frame
+        /// <summary>
+        /// Init Update
+        /// </summary>
         public override void Update()
         {
             if (faction != Faction.TutorialGuard)

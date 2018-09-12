@@ -9,5 +9,6 @@ public class QuestDisplayedData : MonoBehaviour {
     public TextMeshProUGUI Name;
     public TextMeshProUGUI Description;
     public TextMeshProUGUI Reward;
+    public TextMeshProUGUI ReputationGain;
     public GameObject icon;
 }

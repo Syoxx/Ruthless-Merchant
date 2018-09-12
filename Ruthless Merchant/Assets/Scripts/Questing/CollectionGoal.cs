@@ -14,6 +14,7 @@ namespace RuthlessMerchant {
         [SerializeField]
         private bool inProgress;
         private int QuestZoneID;
+        private float repGain;
 
         private GameObject[] Materials;
         
@@ -89,15 +90,14 @@ namespace RuthlessMerchant {
 
         }
 
-        public void FillList(List<Collectables> Collectables, GameObject btn)
+        public void FillList(List<Collectables> Collectables, float reputationGain, GameObject btn)
         {
             Debug.Log("Fills list");
             collectables = Collectables;
+            repGain = reputationGain;
             Completed = false;
             //button = btn;
-            questButton = btn.GetComponentInChildren<QuestButton>();
-
-
+            questButton = btn.GetComponent<QuestButton>();
 
             Materials = GameObject.FindGameObjectsWithTag(collectables[0].item.ItemInfo.ItemName); 
            
@@ -131,12 +131,13 @@ namespace RuthlessMerchant {
                 }
             }
             Materials = new GameObject[Materials.Length];
+            Player.Singleton.GetComponent<Reputation>().ChangeStanding(hero.Faction, repGain);
             if (questButton)
             {
                 questButton.CompleteButton();
                 InProgress = false;
                 //button.GetComponent<Button>().onClick.AddListener(delegate {  });
-                questButton.DiscardQuestButton();
+                questButton.DiscardQuestButton(Reward);
             }
             return true;
         }
@@ -165,7 +166,16 @@ namespace RuthlessMerchant {
                     Hero.SetCurrentAction(new ActionCollect(this, ActionNPC.ActionPriority.Medium), gobj, true, true);
             }
         }
-
+        public void GreyOutButton()
+        {
+            if(questButton != null)
+                questButton.GreyOut();
+        }
+        public void DefaultColor()
+        {
+            if(questButton != null)
+                questButton.DefaultColor();
+        }
         //void RemoveButton()
         //{
         //    Debug.Log("Destroy" + button);

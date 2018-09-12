@@ -1380,7 +1380,6 @@ GameObject:
   - component: {fileID: 195856025711840140}
   - component: {fileID: 114860657565036504}
   - component: {fileID: 114134786773802046}
-  - component: {fileID: 114104905797648302}
   m_Layer: 15
   m_Name: NPC_Monster
   m_TagString: NPC
@@ -3599,17 +3598,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114104905797648302
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1722719057422642}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d08cbd94b6fadd499e42cf6c8c56d06, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114134786773802046
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3635,6 +3623,7 @@ MonoBehaviour:
     m_Bits: 0
   maxJumpHeight: 0
   maxSlopeAngle: 0
+  ActionName: 
   rotationSpeed: 8
   fov: 60
   viewDistance: 10
@@ -3821,7 +3810,7 @@ NavMeshAgent:
   m_Speed: 3.5
   m_Acceleration: 10000
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 10000
   m_StoppingDistance: 0.7
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0

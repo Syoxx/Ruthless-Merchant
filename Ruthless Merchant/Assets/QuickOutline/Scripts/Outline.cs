@@ -84,6 +84,7 @@ public class Outline : MonoBehaviour {
 
   void Awake() {
 
+        outlineMode = Mode.None;
     // Cache renderers
     renderers = GetComponents<Renderer>();
 
