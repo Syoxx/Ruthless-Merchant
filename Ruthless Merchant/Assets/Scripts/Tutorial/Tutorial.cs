@@ -175,7 +175,7 @@ namespace RuthlessMerchant
             {
                 if (!monsterTriggered)
                 {
-                    monster.SetCurrentAction(new ActionMove(ActionNPC.ActionPriority.Medium), trader.transform.gameObject, true, true);
+                    monster.SetCurrentAction(new ActionMove(ActionNPC.ActionPriority.Medium), monsterTarget, true, true);
                     guard1.SetCurrentAction(new ActionIdle(ActionNPC.ActionPriority.Low), null, true, true);
                     guard2.SetCurrentAction(new ActionIdle(ActionNPC.ActionPriority.Low), null, true, true);
                     Monolog(TradeFinished);
