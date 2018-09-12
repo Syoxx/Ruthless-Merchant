@@ -15,6 +15,10 @@ namespace RuthlessMerchant
         public bool isTutorial;
 
         private bool monsterTriggered = false;
+        private FMOD.Studio.EventInstance soundeventVoiceLine;
+        private FMOD.Studio.PLAYBACK_STATE playbackState;
+        private string soundPath;
+        private bool[] linePlayed = {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false};
 
         [SerializeField]
         private int minCollectedVains = 1;
@@ -145,6 +149,24 @@ namespace RuthlessMerchant
             Singleton = this;
         }
 
+        private void TriggerNextVoiceline(string path, int lineNumber)
+        {
+            if (playbackState.ToString() == "PLAYING")
+            {
+                soundeventVoiceLine.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            }
+
+            if (!linePlayed[lineNumber])
+            {
+                soundPath = path;
+                soundeventVoiceLine = FMODUnity.RuntimeManager.CreateInstance(soundPath);
+                FMODUnity.RuntimeManager.AttachInstanceToGameObject(soundeventVoiceLine, Player.Singleton.transform, Player.Singleton.GetComponent<Rigidbody>());
+                soundeventVoiceLine.start();
+
+                linePlayed[lineNumber] = true;
+            }
+        }
+
         void Start()
         {
             textMesh = textMesh.GetComponent<TextMeshProUGUI>();
@@ -154,15 +176,14 @@ namespace RuthlessMerchant
             // Dialogues
             dialogueZone11Collider = dialogueZone10.GetComponent<Collider>();
 
-
             Player.Singleton.Inventory.Add(defaultSword, 1, true);
+
+            //Sound - voiceline 1 on start
+            TriggerNextVoiceline("event:/Voicelines/Line 1", 0);
 
             myFade.FadingWithCallback(1, 0.001f, delegate
             {
                 Monolog(startMonolog); myFade.FadingWithCallback(0, 3, delegate { Debug.Log("Done fading"); });
-
-                //Sound - triger voiceline 1
-                //FMODUnity.RuntimeManager.PlayOneShot("event:/Voicelines/Line 1", Player.Singleton.transform.position);
             });
 
             monster.SetCurrentAction(new ActionIdle(ActionNPC.ActionPriority.High), null, true, true);
@@ -185,7 +206,7 @@ namespace RuthlessMerchant
                     monsterTriggered = true;
 
                     //Sound - trigger voiceline 15
-                    //FMODUnity.RuntimeManager.PlayOneShot("event:/Voicelines/Line 15", Player.Singleton.transform.position);
+                    TriggerNextVoiceline("event:/Voicelines/Line 15", 14);
                 }
                 else
                 {
@@ -291,7 +312,7 @@ namespace RuthlessMerchant
             Monolog(TradeGoodBet);
 
             //Sound - trigger voiceline 9
-            //FMODUnity.RuntimeManager.PlayOneShot("event:/Voicelines/Line 9", Player.Singleton.transform.position);
+            TriggerNextVoiceline("event:/Voicelines/Line 9", 8);
         }
 
         /// <summary>
@@ -302,7 +323,7 @@ namespace RuthlessMerchant
             Monolog(TradeBadBet);
 
             //Sound - trigger voiceline 10
-            //FMODUnity.RuntimeManager.PlayOneShot("event:/Voicelines/Line 10", Player.Singleton.transform.position);
+            TriggerNextVoiceline("event:/Voicelines/Line 10", 9);
         }
 
         /// <summary>
@@ -313,7 +334,7 @@ namespace RuthlessMerchant
             Monolog(TradeGoodResult);
 
             //Sound - trigger voiceline 11
-            //FMODUnity.RuntimeManager.PlayOneShot("event:/Voicelines/Line 11", Player.Singleton.transform.position);
+            TriggerNextVoiceline("event:/Voicelines/Line 11", 10);
         }
 
         /// <summary>
@@ -324,7 +345,7 @@ namespace RuthlessMerchant
             Monolog(TradeBadResult);
 
             //Sound - trigger voiceline 12
-            //FMODUnity.RuntimeManager.PlayOneShot("event:/Voicelines/Line 12", Player.Singleton.transform.position);
+            TriggerNextVoiceline("event:/Voicelines/Line 12", 11);
         }
 
         /// <summary>
@@ -335,7 +356,7 @@ namespace RuthlessMerchant
             Monolog(TradeIrritationResultGreedy);
 
             //Sound - trigger voiceline 13
-            //FMODUnity.RuntimeManager.PlayOneShot("event:/Voicelines/Line 13", Player.Singleton.transform.position);
+            TriggerNextVoiceline("event:/Voicelines/Line 13", 12);
         }
 
         /// <summary>
@@ -346,7 +367,7 @@ namespace RuthlessMerchant
             Monolog(TradeIrritationResultNaiv);
 
             //Sound - trigger voiceline 14
-            //FMODUnity.RuntimeManager.PlayOneShot("event:/Voicelines/Line 14", Player.Singleton.transform.position);
+            TriggerNextVoiceline("event:/Voicelines/Line 14", 13);
         }
         #endregion
 
@@ -378,7 +399,7 @@ namespace RuthlessMerchant
                 Monolog(playerCaveFinished);
 
                 //Sound - trigger voiceline 8
-                //FMODUnity.RuntimeManager.PlayOneShot("event:/Voicelines/Line 8", Player.Singleton.transform.position);
+                TriggerNextVoiceline("event:/Voicelines/Line 8", 7);
 
                 playerCaveDoor.SetActive(false);
             }
@@ -465,7 +486,7 @@ namespace RuthlessMerchant
                     Monolog(playerCaveEntered);
 
                     //Sound - trigger voiceline 4
-                    //FMODUnity.RuntimeManager.PlayOneShot("event:/Voicelines/Line 4", Player.Singleton.transform.position);
+                    TriggerNextVoiceline("event:/Voicelines/Line 4", 3);
                 });
 
                 tutorialCave.SetActive(false);
@@ -474,8 +495,8 @@ namespace RuthlessMerchant
             {
                 Monolog(tryExitWithoutMaterials);
 
-                //Sound - triger voiceline 3
-                //FMODUnity.RuntimeManager.PlayOneShot("event:/Voicelines/Line 3", Player.Singleton.transform.position);
+                //Sound - trigger voiceline 3
+                TriggerNextVoiceline("event:/Voicelines/Line 3", 2);
             }
         }
 
@@ -489,7 +510,7 @@ namespace RuthlessMerchant
                 Monolog(playerCaveCraftAlchemy);
 
                 //Sound - trigger voiceline 5
-                //FMODUnity.RuntimeManager.PlayOneShot("event:/Voicelines/Line 5", Player.Singleton.transform.position);
+                TriggerNextVoiceline("event:/Voicelines/Line 5", 4);
             }
         }
 
@@ -503,7 +524,7 @@ namespace RuthlessMerchant
                 Monolog(playerCaveCraftDismantel);
 
                 //Sound - trigger voiceline 7
-                //FMODUnity.RuntimeManager.PlayOneShot("event:/Voicelines/Line 7", Player.Singleton.transform.position);
+                TriggerNextVoiceline("event:/Voicelines/Line 7", 6);
             }
         }
 
@@ -517,7 +538,7 @@ namespace RuthlessMerchant
                 Monolog(playerCaveCraftSmith);
 
                 //Sound - trigger voiceline 6
-                //FMODUnity.RuntimeManager.PlayOneShot("event:/Voicelines/Line 6", Player.Singleton.transform.position);
+                TriggerNextVoiceline("event:/Voicelines/Line 6", 5);
             }
         }
         #endregion
