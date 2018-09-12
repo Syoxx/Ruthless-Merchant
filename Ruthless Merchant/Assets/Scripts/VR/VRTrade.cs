@@ -80,6 +80,7 @@ namespace RuthlessMerchant
         public override void ModifyOffer()
         {
             nextPlayerOffer = vrTradePlayer.TotalWeight;
+
             nextPlayerOfferText.fontStyle = FontStyle.Italic;
             nextPlayerOfferText.text = nextPlayerOffer.ToString();
 
@@ -112,6 +113,7 @@ namespace RuthlessMerchant
         protected override void Accept()
         {
             tradeDialogue.text = "You and Dormammu have a blood-sealing pact. He wishes you a good day and rides off into the sunset.";
+            ExitTrade();
         }
 
         /// <summary>
@@ -120,6 +122,7 @@ namespace RuthlessMerchant
         public override void Abort()
         {
             tradeDialogue.text = "Dormammu tells you to fuck off and rides off with his galaxy-eating unicorn.";
+            ExitTrade();
         }
 
         /// <summary>
@@ -128,6 +131,16 @@ namespace RuthlessMerchant
         public override void Quit()
         {
             tradeDialogue.text = "U quitted coz u a lil chicken.";
+            ExitTrade();
+        }
+
+        /// <summary>
+        /// Exits trading.
+        /// </summary>
+        void ExitTrade()
+        {
+            Exit = true;
+            VRSmithing.Singleton.FinalSword.SetActive(false);
         }
 
         /// <summary>

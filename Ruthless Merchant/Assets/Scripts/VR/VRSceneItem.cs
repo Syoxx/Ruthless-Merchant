@@ -13,13 +13,7 @@ namespace RuthlessMerchant
         public List<GameObject> Collisions;
 
         [SerializeField]
-        string itemName;
-
-        [SerializeField]
         int value;
-
-        [SerializeField]
-        bool SmithingHammer;
 
         /// <summary>
         /// True if the VRSceneItem has been checked for contact with the ground in the current frame. 
@@ -30,7 +24,6 @@ namespace RuthlessMerchant
         void Awake()
         {
             Collisions = new List<GameObject>();
-            Item.ItemName = itemName;
             Item.Value = value;
         }
 

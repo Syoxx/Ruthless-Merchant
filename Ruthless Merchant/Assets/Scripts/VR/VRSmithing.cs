@@ -45,12 +45,12 @@ namespace RuthlessMerchant
         public GameObject Meltbox;
         public GameObject MeltedMeltbox;
 
+        [SerializeField]
+        GameObject fireEffectsParent;
+
         public GameObject HotIron;
 
         public GameObject EmptyMeltbox;
-
-        [SerializeField]
-        GameObject fireEffects;
 
         [SerializeField]
         GameObject swordPlaceholder;
@@ -97,7 +97,7 @@ namespace RuthlessMerchant
                             if (x == IronFinalPositions.Length - 1)
                             {
                                 smithingSteps = SmithingSteps.MeltingIron;
-                                fireEffects.SetActive(true);
+                                fireEffectsParent.SetActive(true);
                                 Invoke("MakeMeltBoxInteractbale", 5);
                             }
 
@@ -131,7 +131,6 @@ namespace RuthlessMerchant
             MeltedMeltbox.transform.rotation = Meltbox.transform.rotation;
 
             Destroy(Meltbox);
-            fireEffects.SetActive(false);
             MeltedMeltbox.SetActive(true);
             meltedIronPlaceholder.SetActive(true);
 
