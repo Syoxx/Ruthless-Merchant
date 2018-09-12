@@ -1,28 +1,38 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Simple script implements developer tool to switch scenes with trackpad of right controller.
+/// Simple script implements developer tool "cheats" to switch scenes with trackpad of left controller.
 /// </summary>
 public class VR_Cheats : MonoBehaviour
 {
+    // Variables to get controller
     private SteamVR_TrackedObject trackedObj;
     private SteamVR_Controller.Device device;
-
     private SteamVR_TrackedController controller;
 
+    // Variable to see the vectors of trackpad axis
     private Vector2 padAxisVector;
-
-	// Use this for initialization
+    
+    /// <summary>
+    /// Initialize tracked objects and controller to put events on it
+    /// </summary>
 	void Start ()
 	{
 	    trackedObj = GetComponent<SteamVR_TrackedObject>();
 
 	    controller = GetComponent<SteamVR_TrackedController>();
         controller.PadClicked += Controller_PadClicked;
+        controller.TriggerClicked += Controller_PadClicked; ;
 	}
 
+    /// <summary>
+    /// Scene switcher which switches scene if hair trigger is pressed and pad is clicked in a direction, e.g. haitrigger + trackpad left.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void Controller_PadClicked(object sender, ClickedEventArgs e)
     {
         if (device.GetAxis().x != 0 || device.GetAxis().y != 0)
@@ -34,32 +44,37 @@ public class VR_Cheats : MonoBehaviour
         }
 
 
-        //Trackpad Down (0, -1)
-        if (device.GetAxis().x > -0.3 && device.GetAxis().x < 0.3 && device.GetAxis().y < -0.8)
+        // If hairtrigger and trackpad Down (0, -1) pressed switch scene
+        if (controller.triggerPressed == true && device.GetAxis().x > -0.3 && device.GetAxis().x < 0.3 && device.GetAxis().y < -0.8)
         {
             Debug.Log("Trackpad Down clicked.");
-            //Put scene switch here
+            // Switch to VR_NewMainMenu
+            SceneManager.LoadScene("VR_NewMainMenu");
         }
 
-        //Trackpad Up (0, +1)
-        if (device.GetAxis().x > -0.3 && device.GetAxis().x < 0.3 && device.GetAxis().y > +0.8)
+        // If hairtrigger and trackpad Up (0, +1) pressed switch scene
+        if (controller.triggerPressed == true && device.GetAxis().x > -0.3 && device.GetAxis().x < 0.3 && device.GetAxis().y > +0.8)
         {
             Debug.Log("Trackpad Up clicked.");
-            //Put scene switch here
+            // Switch to VR_TutorialScene
+            SceneManager.LoadScene("VR_TutorialScene");
         }
 
-        //Trackpad Left (-1, 0)
-        if (device.GetAxis().y > -0.3 && device.GetAxis().y < 0.3 && device.GetAxis().x < -0.8)
+        // If hairtrigger and trackpad Left (-1, 0) pressed switch scene
+        if (controller.triggerPressed == true && device.GetAxis().y > -0.3 && device.GetAxis().y < 0.3 && device.GetAxis().x < -0.8)
         {
             Debug.Log("Trackpad Left clicked.");
-            //Put scene switch here
+            // Switch to VR_SmithTradeScene
+            //NOTE: Put correct scene name in here
+            //SceneManager.LoadScene("VR_TradeScene");
         }
 
-        //Trackpad Right (+1, 0)
-        if (device.GetAxis().y > -0.3 && device.GetAxis().y < 0.3 && device.GetAxis().x > 0.8)
+        // If hairtrigger and trackpad right (+1, 0) pressed switch scene
+        if (controller.triggerPressed == true && device.GetAxis().y > -0.3 && device.GetAxis().y < 0.3 && device.GetAxis().x > 0.8)
         {
             Debug.Log("Trackpad Right clicked.");
-            //Put scene switch here
+            // Switch to VR_IslandScene
+            SceneManager.LoadScene("VR_IslandScene");
         }
     }
 
