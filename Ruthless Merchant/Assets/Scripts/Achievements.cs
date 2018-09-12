@@ -115,6 +115,9 @@ namespace RuthlessMerchant {
             }
         }
 
+        /// <summary>
+        ///Increments the goal-counter
+        ///</summary>
         public static void AddToCounter(Item item = null, bool firstCounter = true)
         {
             if (item)
@@ -153,6 +156,10 @@ namespace RuthlessMerchant {
             EvaluateGoal();
             UpdateCanvas(Singleton.switchIndex);
         }
+
+        /// <summary>
+        ///Displays the appropriate monolog text and goals depending on how far the player has progressed through the achievements
+        /// </summary>
         public static void UpdateCanvas(int index)
         {
             Singleton.switchIndex = index;
@@ -194,6 +201,9 @@ namespace RuthlessMerchant {
             }
         }
 
+        /// <summary>
+        ///Check if the appropriate goals are completed and if true, jump to the next Achievement
+        /// <summary>
         private static void EvaluateGoal()
         {
             Singleton.Completed = (Singleton.counter >= Singleton.RequiredAmount && Singleton.counter2 >= Singleton.RequiredAmount2);
@@ -204,6 +214,9 @@ namespace RuthlessMerchant {
             }
         }
 
+        /// <summary>
+        ///Checks certain achievements
+        /// </summary>
         private void OnTriggerEnter(Collider other)
         {
             switch (other.gameObject.name)
@@ -251,10 +264,7 @@ namespace RuthlessMerchant {
                     {
                         AddToCounter();
                     }
-                    break;
-
-
-                    
+                    break;                 
             }
         }
     }

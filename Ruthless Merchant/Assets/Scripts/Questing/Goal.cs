@@ -3,31 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Goal : MonoBehaviour {
-
+    /// <summary>
+    ///base class for quests taht every quest type inherits from
+    /// </summary>
 
     [SerializeField]
     public string QuestTitle;
     [SerializeField]
-    public string Description; //{ get; set; }
+    public string Description; 
     //[SerializeField]
-    public int RequiredAmount; //{ get; set; }
+    public int RequiredAmount; 
     [SerializeField]
-    public int Reward;              // reward for the hero
+    public int Reward;              
     [SerializeField]
-    public float ReputationGain;    // reward for the player
+    public float ReputationGain;    
 
-    //[SerializeField]
-    //protected List<Transform> Waypoints;
-
-    public bool Completed; //{ get; set; }
+    public bool Completed; 
     public bool InProgress;
-    public int CurrentAmount; //{ get; set; }
+    public int CurrentAmount; 
 
 
     public virtual void Initialize()
     {
 
     }
+
+    /// <summary>
+    ///Evaluates if the quest is completed
+    /// </summary>
     public void Evaluate()
     {
         if (CurrentAmount >= RequiredAmount)
