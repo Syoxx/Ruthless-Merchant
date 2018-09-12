@@ -97,7 +97,7 @@ namespace RuthlessMerchant {
             repGain = reputationGain;
             Completed = false;
             //button = btn;
-            questButton = btn.GetComponentInChildren<QuestButton>();
+            questButton = btn.GetComponent<QuestButton>();
 
             Materials = GameObject.FindGameObjectsWithTag(collectables[0].item.ItemInfo.ItemName); 
            
@@ -168,11 +168,13 @@ namespace RuthlessMerchant {
         }
         public void GreyOutButton()
         {
-            questButton.GreyOut();
+            if(questButton != null)
+                questButton.GreyOut();
         }
         public void DefaultColor()
         {
-            questButton.DefaultColor();
+            if(questButton != null)
+                questButton.DefaultColor();
         }
         //void RemoveButton()
         //{
