@@ -86,7 +86,7 @@ MonoBehaviour:
   - {fileID: 114997149134134874}
   MasterBankRef: {fileID: 114619718326599488}
   StringsBankRef: {fileID: 114222368669742390}
-  stringsBankWriteTime: 636723582797574454
+  stringsBankWriteTime: 636723692764459414
   cacheVersion: 2
 --- !u!114 &114001170859459416
 MonoBehaviour:
@@ -1129,7 +1129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Path: D:\Ruthless Merchant\Repository\Ruthless-Merchant\Ruthless Merchant\Assets\StreamingAssets\Desktop\Environment.bank
-  lastModified: 636723582799263479
+  lastModified: 636723692765988519
   LoadResult: 0
   FileSizes:
   - Name: 
@@ -1184,7 +1184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Path: D:\Ruthless Merchant\Repository\Ruthless-Merchant\Ruthless Merchant\Assets\StreamingAssets\Desktop\Music.bank
-  lastModified: 636723582810810336
+  lastModified: 636723692766488232
   LoadResult: 0
   FileSizes:
   - Name: 
@@ -1411,6 +1411,21 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 895
+--- !u!114 &114184138093873978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Gravel
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114186556878290116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1489,10 +1504,10 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 0
   Parameters:
-  - {fileID: 114317414182413224}
-  - {fileID: 114724285611786216}
-  - {fileID: 114520617925646006}
-  - {fileID: 114819459669473510}
+  - {fileID: 114328723701133254}
+  - {fileID: 114503676942455198}
+  - {fileID: 114975589456419158}
+  - {fileID: 114184138093873978}
   MinDistance: 1
   MaxDistance: 20
   Length: 501
@@ -1667,7 +1682,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Path: Assets\StreamingAssets\Desktop\Master Bank.strings.bank
-  lastModified: 636723582797574454
+  lastModified: 636723692764459414
   LoadResult: 0
   FileSizes:
   - Name: 
@@ -2385,6 +2400,21 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114328723701133254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Grass
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114333966579595562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2764,7 +2794,7 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 1
   Parameters:
-  - {fileID: 114334329839600300}
+  - {fileID: 114572876220542668}
   MinDistance: 1
   MaxDistance: 20
   Length: 0
@@ -2790,6 +2820,21 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 512
+--- !u!114 &114382764821068954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: FloorMaterial
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114382899480823586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2811,7 +2856,7 @@ MonoBehaviour:
   IsOneShot: 0
   Parameters: []
   MinDistance: 1
-  MaxDistance: 5
+  MaxDistance: 15
   Length: 60000
 --- !u!114 &114383814149300148
 MonoBehaviour:
@@ -2906,7 +2951,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Path: D:\Ruthless Merchant\Repository\Ruthless-Merchant\Ruthless Merchant\Assets\StreamingAssets\Desktop\Voicelines.bank
-  lastModified: 636723582814977151
+  lastModified: 636723692768567078
   LoadResult: 0
   FileSizes:
   - Name: 
@@ -3864,6 +3909,21 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 900
+--- !u!114 &114503676942455198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Wood
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114505131509325628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4324,6 +4384,21 @@ MonoBehaviour:
   - Name: 
     Value: 2876704
   Exists: 1
+--- !u!114 &114572876220542668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: FloorMaterial
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114576248620932174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4603,7 +4678,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: D:\Ruthless Merchant\Repository\Ruthless-Merchant\Ruthless Merchant\Assets\StreamingAssets\Desktop\Master
     Bank.bank
-  lastModified: 636723582797514494
+  lastModified: 636723692764429436
   LoadResult: 0
   FileSizes:
   - Name: 
@@ -4861,6 +4936,21 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 3200
+--- !u!114 &114664932237694982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Wood
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114671449923785088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5074,6 +5164,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Wood
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114690405403851092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Carpet
   Min: 0
   Max: 1
   Default: 0
@@ -5786,11 +5891,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Path: D:\Ruthless Merchant\Repository\Ruthless-Merchant\Ruthless Merchant\Assets\StreamingAssets\Desktop\SFX.bank
-  lastModified: 636723582814407586
+  lastModified: 636723692768047331
   LoadResult: 0
   FileSizes:
   - Name: 
-    Value: 4031744
+    Value: 4031488
   Exists: 1
 --- !u!114 &114764416387832010
 MonoBehaviour:
@@ -6460,6 +6565,21 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114855592860746698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Gravel
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114855845629725846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6837,6 +6957,21 @@ MonoBehaviour:
   - Name: 
     Value: 8828672
   Exists: 1
+--- !u!114 &114916013304286256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Grass
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114916236076105900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6975,11 +7110,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Path: D:\Ruthless Merchant\Repository\Ruthless-Merchant\Ruthless Merchant\Assets\StreamingAssets\Desktop\Ambience.bank
-  lastModified: 636723582798883712
+  lastModified: 636723692765558800
   LoadResult: 0
   FileSizes:
   - Name: 
-    Value: 10230080
+    Value: 10229824
   Exists: 1
 --- !u!114 &114935243732108636
 MonoBehaviour:
@@ -7273,6 +7408,21 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 26723
+--- !u!114 &114975589456419158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Carpet
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114981448093355562
 MonoBehaviour:
   m_ObjectHideFlags: 0
