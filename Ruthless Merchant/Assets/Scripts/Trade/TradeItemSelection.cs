@@ -56,14 +56,18 @@ namespace RuthlessMerchant
         public void OnItemMoved(InventoryItem item)
         {
             Debug.Log("Moving " + item.ItemName.text + " !");
-            AddItemToSellingList(item);
+            MoveItemToSellingList(item);
         }
 
-        public void AddItemToSellingList(InventoryItem inventoryItem)
+        /// <summary>
+        /// Moves an InventoryItem in the Inventory to the selling list.
+        /// </summary>
+        /// <param name="inventoryItem">The InventoryItem to be added</param>
+        public void MoveItemToSellingList(InventoryItem inventoryItem)
         {
             if (int.Parse(inventoryItem.ItemQuantity.text.Replace("x", "")) > 0)
             {
-                if (!addToPresent(inventoryItem))
+                if (!MoveToExisting(inventoryItem))
                 {
                     GameObject newObject = Instantiate(sellingItemPrefab, sellingItemParent);
                     newObject.name = "SellingItem";
@@ -85,11 +89,16 @@ namespace RuthlessMerchant
             }
         }
 
-        bool addToPresent(InventoryItem data)
+        /// <summary>
+        /// Adds the InventoryItem to its existing stack in the selling list.
+        /// </summary>
+        /// <param name="inventoryItem">The InventoryItem to be added</param>
+        /// <returns>False if no stack of the inventoryItem's type exists.</returns>
+        bool MoveToExisting(InventoryItem inventoryItem)
         {
             foreach (InventoryItem item in listedItems)
             {
-                if (item.ItemName.text == data.ItemName.text && item.ItemDescription.text == data.ItemDescription.text)
+                if (item.ItemName.text == inventoryItem.ItemName.text && item.ItemDescription.text == inventoryItem.ItemDescription.text)
                 {
                     item.ItemQuantity.text = (int.Parse(item.ItemQuantity.text.Replace("x", "")) + 1).ToString() + "x";
                     return true;
@@ -99,6 +108,10 @@ namespace RuthlessMerchant
             return false;
         }
 
+        /// <summary>
+        /// Moves an InventoryItem from the selling list to the Inventory.
+        /// </summary>
+        /// <param name="item"></param>
         public void RemoveItemFromSellingList(InventoryItem item)
         {
             Inventory.Singleton.Add(item.Slot.ItemInfo, 1, true);
@@ -115,6 +128,9 @@ namespace RuthlessMerchant
             UpdatePrice();
         }
 
+        /// <summary>
+        /// Updates the total price of all items to be sold.
+        /// </summary>
         void UpdatePrice()
         {
             float totalPrice = 0;
@@ -136,6 +152,9 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// Called when the Player confirms the selling list. Starts the actual trading.
+        /// </summary>
         public void ConfirmTradeItems()
         {
             int totalPrice = int.Parse(price.text.Replace("G", ""));
@@ -161,6 +180,9 @@ namespace RuthlessMerchant
             Tutorial.Singleton.TraderItemSelectionMonolog2();
         }
 
+        /// <summary>
+        /// Called when the Player aborts the trading clicking on the abort button in the selling list.
+        /// </summary>
         public void AbortTrade()
         {
             abort = true;

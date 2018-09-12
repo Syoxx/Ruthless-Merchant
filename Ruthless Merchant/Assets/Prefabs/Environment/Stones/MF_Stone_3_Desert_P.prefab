@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4638300166331692}
   - component: {fileID: 33573815492733638}
   - component: {fileID: 23131436565900364}
+  - component: {fileID: 65392293439394320}
   m_Layer: 0
   m_Name: MF_Stone_3_Desert_P
   m_TagString: Untagged
@@ -35,7 +36,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1529736960305744}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.522, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -83,3 +84,15 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1529736960305744}
   m_Mesh: {fileID: 4300000, guid: b404fcc94dfcfec419ad877d590fb7e2, type: 3}
+--- !u!65 &65392293439394320
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1529736960305744}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.36, y: 0.34, z: 0.2}
+  m_Center: {x: -0.020696484, y: -0.004359157, z: 0.07599288}
