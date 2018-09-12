@@ -44,6 +44,9 @@ namespace RuthlessMerchant
             transform.position = startPosition;
         }
 
+        /// <summary>
+        /// Moves the icon upwards and makes it fade out.
+        /// </summary>
         private void Update()
         {
             lerpT += Time.deltaTime / 3;
@@ -61,7 +64,11 @@ namespace RuthlessMerchant
             }
         }
 
-        public void UpdateMood(Trader trader)
+        /// <summary>
+        /// Sets the icon's mood and enables its movement. 
+        /// </summary>
+        /// <param name="trader"></param>
+        public void SetIconMood(Trader trader)
         {
             float bigger = 0;
 
