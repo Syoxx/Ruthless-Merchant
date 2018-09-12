@@ -1,4 +1,9 @@
-﻿using System;
+﻿//---------------------------------------------------------------
+// Author: Fabian Subat
+//
+//---------------------------------------------------------------
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,6 +32,10 @@ namespace RuthlessMerchant
         public GameObject movingCharacter;
         private Rigidbody characterRb;
 
+
+        /// <summary>
+        /// Checks if the player is currently not airborne
+        /// </summary>
         public bool IsGrounded
         {
             get { return isGrounded;  }
@@ -45,7 +54,9 @@ namespace RuthlessMerchant
             }
         }
 
-
+        /// <summary>
+        /// Called regularily to fire the event specified in the Editor
+        /// </summary>
         void CallFootsteps()
         {
             if (playerismoving == true && isGrounded)
@@ -64,6 +75,9 @@ namespace RuthlessMerchant
 
         }
 
+        /// <summary>
+        /// Checks if player is airbourne and if he's moving
+        /// </summary>
         void Update()
         {
             IsGrounded = !movingCharacter.GetComponent<Player>().JustJumped;

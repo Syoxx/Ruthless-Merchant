@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿//---------------------------------------------------------------
+// Author: Fabian Subat
+//
+//---------------------------------------------------------------
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,7 +25,7 @@ public class Triggerzone : MonoBehaviour
     private float currentVolume, finalVolume, initialVolume;
 
     /// <summary>
-    /// Plays event if Player enters triggerzone
+    /// Attaches Eventinstance and fires playmethod if Player enters given triggerzone
     /// </summary>
     /// <param name="other"></param>
     private void OnTriggerEnter(Collider other)
@@ -37,7 +42,7 @@ public class Triggerzone : MonoBehaviour
 
 
     /// <summary>
-    /// Stops sound if Player exits triggerzone
+    /// Stops sound if Player exits the same triggerzone
     /// </summary>
     /// <param name="other"></param>
     private void OnTriggerExit(Collider other)
@@ -48,6 +53,11 @@ public class Triggerzone : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// Coroutine for doing proper Fadeout - Variable fadeoutSpeed
+    /// </summary>
+    /// <returns></returns>
     IEnumerator doFadeout()
     {
         //Gets current volume levels
@@ -69,7 +79,10 @@ public class Triggerzone : MonoBehaviour
         soundevent.setVolume(initialVolume);
     }
 
-
+    /// <summary>
+    /// Fires Soundevent (specified in Editor)
+    /// </summary>
+    /// <param name="_other"></param>
     private void PlaySound(Collider _other)
     {
         if (_other.gameObject.tag == "Player" && playbackState.ToString() != "PLAYING")
@@ -116,6 +129,9 @@ public class Triggerzone : MonoBehaviour
         soundevent.getVolume(out initialVolume, out finalVolume);
     }
 
+    /// <summary>
+    /// Only used to prevent stateerrors while fading out
+    /// </summary>
     private void Update()
     {
         soundevent.getPlaybackState(out playbackState);
