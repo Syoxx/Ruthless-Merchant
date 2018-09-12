@@ -107,11 +107,6 @@ namespace RuthlessMerchant
         [SerializeField, Tooltip("The Booklogic attached to the Book-Object")]
         private PageLogic bookLogic;
         private KeyCode currentBookSection;
-
-        private Rigidbody rbplayer;
-        private Vector3 reachedVelocity;
-        [SerializeField, Range(-30.0f, 0.0f), Tooltip("The Velocity that is required to kill the player when falling")]
-        private float deathVelocity = 12f;
         #endregion
 
         #region Public Fields
@@ -324,9 +319,7 @@ namespace RuthlessMerchant
         }
 
         public override void Update()
-        {
-            CheckFallDamage();
-
+        {     
             LookRotation();
             ControleModeMove();
             if (controlMode == ControlMode.Move)
@@ -339,31 +332,6 @@ namespace RuthlessMerchant
 
             GlowObject();
             base.Update();
-        }
-
-        /// <summary>
-        /// Checks if the player should die due to a high falling velocity
-        /// </summary>
-        private void CheckFallDamage()
-        {
-            if (rbplayer != null)
-            {
-                if (reachedVelocity.y > rbplayer.velocity.y)
-                    reachedVelocity = rbplayer.velocity;
-
-                if (rbplayer.velocity.y > reachedVelocity.y)
-                {
-                    if (reachedVelocity.y < -12)
-                    {
-                        reachedVelocity = Vector3.zero;
-                        respawn.InitiateRespawn();
-                    }
-                }
-            }
-            else
-            {
-                rbplayer = GetComponent<Rigidbody>();
-            }
         }
 
         /// <summary>

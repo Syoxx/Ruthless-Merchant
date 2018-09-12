@@ -28,23 +28,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1460682509781708
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 224310713558824630}
-  - component: {fileID: 222681869672034466}
-  - component: {fileID: 114836500262248784}
-  m_Layer: 0
-  m_Name: TMP SubMeshUI [fourHand_TRIAL SDF Material + LiberationSans SDF Atlas]
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1525135848028520
 GameObject:
   m_ObjectHideFlags: 0
@@ -145,15 +128,15 @@ MonoBehaviour:
   m_text: "Producing\r\nBenedikt Biesinger (Executive)\r\nSebastian Bos\r\nBruno Pritzer\r\n\r\nGame
     Design\r\nFelix Richter (Lead)\r\nAlexander Becker\r\nMario Mueller\r\nGregor
     von Frankenberg\r\n\r\nCode\r\nNikolas Pietrek (Lead)\r\nRichard Broennimann\r\nPeter
-    Ehmler\r\nBenjamin Lehnert \r\nAlberto Llado\r\nDaniel Masly\r\nBenedikt Zoeller\r\nMarcel
+    Ehmler\r\nBenjamin Lehnert \r\nAlberto Llado\r\nDaniel Masly\r\nBenedikt Z\xF6ller\r\nMarcel
     Croonenbroeck\r\nFabian Subat\r\nLukas Bosniak\r\n\r\nArt\r\nKevin Allgeyer (Lead)\r\nJulia
     Schaefer\r\nNadja Hebele\r\nTimo Danter\r\nNicole Japs\r\nNikita Kuznetsov\r\nMax
     Freytag\r\nPauline Schamne\r\nErzen Luboja\r\nNikolas Wei\xDF\r\n\r\nQA\r\nKarin
     Hoffmann\r\nAndreas Ritter\r\nMarcel Vondrach\r\n\r\nSound\r\nFabian Subat (Lead)\r\nLukas
     Bosniak\r\nErzen Luboja"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1483ffccd65fd7f469150d42c6eb3df9, type: 2}
-  m_sharedMaterial: {fileID: 21482784232099692, guid: 1483ffccd65fd7f469150d42c6eb3df9,
+  m_fontAsset: {fileID: 11400000, guid: 93d349566b40c964ca5b22faf03f47a6, type: 2}
+  m_sharedMaterial: {fileID: 21182016003557446, guid: 93d349566b40c964ca5b22faf03f47a6,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -219,7 +202,7 @@ MonoBehaviour:
   m_margin: {x: -478.2574, y: 0, z: -478.115, w: 0}
   m_textInfo:
     textComponent: {fileID: 114194405322421172}
-    characterCount: 625
+    characterCount: 624
     spriteCount: 0
     spaceCount: 84
     wordCount: 79
@@ -236,8 +219,8 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_subTextObjects:
   - {fileID: 0}
-  - {fileID: 114836500262248784}
   - {fileID: 114103232327578502}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -274,34 +257,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainMenu: newMainMenu
   scrollSpeed: 10
---- !u!114 &114836500262248784
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1460682509781708}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1908110080, guid: 89f0137620f6af44b9ba852b4190e64e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_fontAsset: {fileID: 11400000, guid: 715b80e429c437e40867928a4e1fc975, type: 2}
-  m_spriteAsset: {fileID: 0}
-  m_material: {fileID: 0}
-  m_sharedMaterial: {fileID: 0}
-  m_isDefaultMaterial: 0
-  m_padding: 0.5
-  m_canvasRenderer: {fileID: 222681869672034466}
-  m_TextComponent: {fileID: 114194405322421172}
-  m_materialReferenceIndex: 1
 --- !u!222 &222213861060699222
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -314,12 +269,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1733327505917702}
---- !u!222 &222681869672034466
-CanvasRenderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1460682509781708}
 --- !u!223 &223431118669425270
 Canvas:
   m_ObjectHideFlags: 1
@@ -359,24 +308,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 117.69916}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!224 &224310713558824630
-RectTransform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1460682509781708}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 224874870347534932}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224874870347534932
 RectTransform:
   m_ObjectHideFlags: 1
@@ -387,7 +318,6 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 224310713558824630}
   - {fileID: 224876804680457560}
   m_Father: {fileID: 224267039387387512}
   m_RootOrder: 0
@@ -408,7 +338,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224874870347534932}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}

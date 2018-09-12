@@ -21,10 +21,10 @@ GameObject:
   - component: {fileID: 4659970397106680}
   - component: {fileID: 33214169094305796}
   - component: {fileID: 23305561903463500}
+  - component: {fileID: 64842857294842088}
   - component: {fileID: 114792276441560306}
   - component: {fileID: 114382469026404106}
   - component: {fileID: 114598871378517006}
-  - component: {fileID: 65370361802467516}
   m_Layer: 0
   m_Name: Item_Steel
   m_TagString: Steel
@@ -38,8 +38,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1076928460012452}
-  m_LocalRotation: {x: -0.70710677, y: 0, z: -0, w: 0.70710677}
-  m_LocalPosition: {x: 1.0806174, y: 0.060868442, z: 0.58948153}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 113.1339, y: 25.851727, z: 233.48698}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -86,9 +86,9 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1076928460012452}
-  m_Mesh: {fileID: 4300000, guid: de9960d13a1ada14abaf2047fc0280f2, type: 3}
---- !u!65 &65370361802467516
-BoxCollider:
+  m_Mesh: {fileID: 4300000, guid: 1463f7ccb0a881d498c99fa90bd6e6a7, type: 3}
+--- !u!64 &64842857294842088
+MeshCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -96,9 +96,11 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.26577777, y: 0.08549804, z: 0.058994222}
-  m_Center: {x: -0.000000014901161, y: 0.008522299, z: 0.034637913}
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300000, guid: 1463f7ccb0a881d498c99fa90bd6e6a7, type: 3}
 --- !u!114 &114382469026404106
 MonoBehaviour:
   m_ObjectHideFlags: 1
