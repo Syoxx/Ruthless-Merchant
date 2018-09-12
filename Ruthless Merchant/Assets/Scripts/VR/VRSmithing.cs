@@ -61,6 +61,15 @@ namespace RuthlessMerchant
         [SerializeField]
         GameObject hammerPlaceholder;
 
+        [SerializeField]
+        GameObject meltedIronLiquid;
+
+        float timer = 0;
+
+        Transform[] allIrons;
+
+        public GameObject FireworkEnd;
+
         private void Awake()
         {
             Singleton = this;
@@ -73,6 +82,10 @@ namespace RuthlessMerchant
             {
                 case SmithingSteps.CreatingSword:
                     CreatingSwordStep();
+                    break;
+
+                case SmithingSteps.MeltingIron:
+                    MeltingIronStep();
                     break;
             }
         }
@@ -96,9 +109,9 @@ namespace RuthlessMerchant
 
                             if (x == IronFinalPositions.Length - 1)
                             {
-                                smithingSteps = SmithingSteps.MeltingIron;
                                 fireEffectsParent.SetActive(true);
-                                Invoke("MakeMeltBoxInteractbale", 5);
+                                Invoke("SetStepToMelting", 1);
+                                Invoke("MakeMeltBoxInteractbale", 6);
                             }
 
                             break;
@@ -117,6 +130,33 @@ namespace RuthlessMerchant
 
                     break;
                 }
+            }
+        }
+
+        void SetStepToMelting()
+        {
+            smithingSteps = SmithingSteps.MeltingIron;
+        }
+
+        void MeltingIronStep()
+        {
+            timer += Time.deltaTime / 4;
+            meltedIronLiquid.transform.localPosition = Vector3.Lerp(new Vector3(0, 0, -0.0979f), new Vector3(0, 0, 0.0085f), timer);
+
+            if(allIrons == null)
+                allIrons = Meltbox.GetComponentsInChildren<Transform>();
+
+            foreach (Transform iron in allIrons)
+            {
+                if (iron.gameObject == Meltbox || iron.gameObject == meltedIronLiquid)
+                    continue;
+
+                if (iron.localScale.x <= 0)
+                    break;
+
+                float scaleDelta = Time.deltaTime / 4;
+
+                iron.localScale -= new Vector3(scaleDelta, scaleDelta, scaleDelta);
             }
         }
 
