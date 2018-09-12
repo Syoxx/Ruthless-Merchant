@@ -13,6 +13,7 @@ namespace RuthlessMerchant
         private Character character;
         private Fighter parentFighter;
         private Animator animator;
+        private float attackAnimationDuration = 0;
 
         /// <summary>
         /// Action which tries to attack an given enemy 
@@ -67,6 +68,11 @@ namespace RuthlessMerchant
             if (other != null)
                 character = other.GetComponent<Character>();
 
+            attackAnimationDuration = GetAnimationDuration("meeleAttack");
+            if (attackAnimationDuration <= 0)
+                attackAnimationDuration = GetAnimationDuration("monsterattack");
+
+            attackAnimationDuration *= 0.9f;
             animator.SetBool("IsWalking", false);
             animator.SetBool("IsInFight", true);
         }
@@ -142,6 +148,23 @@ namespace RuthlessMerchant
             yield return new WaitForSeconds(0);
             animator.SetBool("IsInFight", false);
             animator.SetBool("IsAttacking", false);
+        }
+
+        /// <summary>
+        /// Gets the animation duration from a given clip name
+        /// </summary>
+        /// <param name="clipName">Clip name</param>
+        /// <returns>Returns the clip duration</returns>
+        private float GetAnimationDuration(string clipName)
+        {
+            RuntimeAnimatorController controller = animator.runtimeAnimatorController;
+            for (int i = 0; i < controller.animationClips.Length; i++)
+            {
+                if (controller.animationClips[i].name == clipName)
+                    return controller.animationClips[i].length;
+            }
+
+            return 0.0f;
         }
     }
 }
