@@ -958,6 +958,9 @@ namespace RuthlessMerchant
             if (Physics.Raycast(cameraRay, out hit, maxInteractDistance, mask))
             {
                 Outline outline = hit.collider.gameObject.GetComponent<Outline>();
+                if (outline == null)
+                    outline = hit.collider.gameObject.GetComponentInChildren<Outline>();
+
                 if (outline != null)
                 {
                     ReplaceOutline(outline);
