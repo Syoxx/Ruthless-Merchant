@@ -88,15 +88,17 @@ namespace RuthlessMerchant {
 
         void Update()
         {
-            if (Singleton.switchIndex == 3 && !ironMaceCrafted)
+            if (Singleton != null)
             {
-                Singleton.counter = Player.Singleton.Inventory.GetNumberOfItems(IronMaceWeapon);
-                if (Singleton.counter == 3)
+                if (Singleton.switchIndex == 3 && !ironMaceCrafted)
                 {
-                    ironMaceCrafted = true;
+                    Singleton.counter = Player.Singleton.Inventory.GetNumberOfItems(IronMaceWeapon);
+                    if (Singleton.counter == 3)
+                    {
+                        ironMaceCrafted = true;
+                    }
                 }
-            }            
-        }
+            }
         /// <summary>
         /// Signal function to check if the Potion was brewed
         /// </summary>
@@ -168,7 +170,7 @@ namespace RuthlessMerchant {
         }
 
         /// <summary>
-        /// Updating an Achievment Canvas
+        ///Displays the appropriate monolog text and goals depending on how far the player has progressed through the achievements
         /// </summary>
         /// <param name="index">Index of a Canvas </param>
         public static void UpdateCanvas(int index)
@@ -213,8 +215,8 @@ namespace RuthlessMerchant {
         }
 
         /// <summary>
-        /// Checking if an Achivement is completed.
-        /// If so, an another Achievement will be launched
+        ///Check if the appropriate goals are completed and if true, jump to the next Achievement
+        /// <summary>
         /// </summary>
         private static void EvaluateGoal()
         {
@@ -278,10 +280,7 @@ namespace RuthlessMerchant {
                     {
                         AddToCounter();
                     }
-                    break;
-
-
-                    
+                    break;                 
             }
         }
     }

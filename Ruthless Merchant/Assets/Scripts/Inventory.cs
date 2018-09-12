@@ -136,6 +136,12 @@ namespace RuthlessMerchant
             return -1;
         }
 
+        /// <summary>
+        /// Identifies the inventory slot where player money is stored
+        /// </summary>
+        /// <returns>
+        /// Returns the slot # if found, otherwise returns -1
+        /// </returns>
         private int FindMoneySlot()
         {
             for (int i = 0; i < maxSlotCount; i++)
@@ -148,6 +154,10 @@ namespace RuthlessMerchant
             return -1;
         }
 
+        /// <summary>
+        /// re-arranges the display panel to it's designated place in the book
+        /// </summary>
+        /// <param name="inventorySlot"></param>
         private void SortDisplayPanel(int inventorySlot)
         {
             int pageForItem = inventorySlot / Player.Singleton.MaxItemsPerPage;
@@ -326,7 +336,6 @@ namespace RuthlessMerchant
         }
 
         #endregion
-
 
         #region Public Functions ##################################################################################
 

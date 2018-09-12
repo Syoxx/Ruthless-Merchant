@@ -79,6 +79,9 @@ namespace RuthlessMerchant
             initialized = false;
         }
 
+        /// <summary>
+        /// Handles Player Input and Unloads the TradeScene when the Trade is completed / aborted.
+        /// </summary>
         void Update()
         {
             if (Exit)
@@ -171,21 +174,33 @@ namespace RuthlessMerchant
             valueText.text = realValue.ToString();
         }
 
+        /// <summary>
+        /// Gets the last Item of PlayerOffers.
+        /// </summary>
         public override float GetCurrentPlayerOffer()
         {
             return lastItem(PlayerOffers);
         }
 
+        /// <summary>
+        /// Gets the amount of items present in PlayerOffers.
+        /// </summary>
         public override int GetPlayerOffersCount()
         {
             return PlayerOffers.Count;
         }
 
+        /// <summary>
+        /// Gets the last Item of TraderOffers.
+        /// </summary>
         public override float GetCurrentTraderOffer()
         {
             return lastItem(TraderOffers);
         }
 
+        /// <summary>
+        /// Adds a Trader offer to TraderOffers.
+        /// </summary>
         public override void UpdateCurrentTraderOffer(float offer)
         {
             TraderOffers.Add(offer);
@@ -233,7 +248,7 @@ namespace RuthlessMerchant
         }
 
         /// <summary>
-        /// Handles the player's offer.
+        /// Handles the player's offer getting the Trader's reaction and updating the weights.
         /// </summary>
         void HandlePlayerOffer()
         {
@@ -277,7 +292,7 @@ namespace RuthlessMerchant
         }
 
         /// <summary>
-        /// Updates the UI with numerous trading variables. This method will be deleted in the future.
+        /// Updates the UI with numerous trading variables. This method is only needed for debug purposes.
         /// </summary>
         void UpdateUI()
         {
@@ -312,8 +327,6 @@ namespace RuthlessMerchant
             Trader.CurrentTrader.IncreaseReputation();
             Exit = true;
 
-            TradeDialogue.text = "You and Dormammu have a blood-sealing pact. He wishes you a good day and rides off into the sunset.";
-
             if (GetCurrentTraderOffer() >= RealValue)
                 Tutorial.Singleton.TradeMonolog5();
             else
@@ -325,7 +338,6 @@ namespace RuthlessMerchant
         /// </summary>
         public override void Abort()
         {
-            TradeDialogue.text = "Dormammu tells you to fuck off and rides off with his galaxy-eating unicorn.";
             Exit = true;
 
             foreach (InventoryItem item in ItemsToSell)
@@ -339,7 +351,6 @@ namespace RuthlessMerchant
         /// </summary>
         public override void Quit()
         {
-            TradeDialogue.text = "U quitted coz u a lil chicken.";
             Player.RestrictCamera = false;
             Cursor.visible = false;
             Exit = true;
