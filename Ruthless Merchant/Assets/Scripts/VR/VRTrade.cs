@@ -141,6 +141,7 @@ namespace RuthlessMerchant
         {
             Exit = true;
             VRSmithing.Singleton.FinalSword.SetActive(false);
+            VRSmithing.Singleton.FireworkEnd.SetActive(true);
         }
 
         /// <summary>
