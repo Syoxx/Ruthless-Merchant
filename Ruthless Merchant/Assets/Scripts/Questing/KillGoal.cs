@@ -102,7 +102,7 @@ namespace RuthlessMerchant
                 if (questButton)
                 {
                     questButton.CompleteButton();
-                    questButton.DiscardQuestButton(Reward);
+                    //questButton.DiscardQuestButton(Reward);
                 }
                 
                 hero.SetCurrentAction(new ActionMove(ActionNPC.ActionPriority.Medium), hero.Outpost.gameObject, true, true);
