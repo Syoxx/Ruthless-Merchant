@@ -77,9 +77,9 @@ namespace RuthlessMerchant
             else
                 bigger = trader.SkepticismTotal;
 
-            if (bigger < 20)
+            if (bigger < 25)
                 image.sprite = moodVeryHappy;
-            else if (bigger < 45)
+            else if (bigger < 50)
                 image.sprite = moodHappy;
             else if (bigger < 75)
                 image.sprite = moodNeutral;

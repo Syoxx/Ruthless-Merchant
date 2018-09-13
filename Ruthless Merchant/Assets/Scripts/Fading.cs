@@ -18,22 +18,25 @@ namespace RuthlessMerchant
 
         public static IEnumerator FadingWithCallbackCOR(Image image, float alpha, float duration, System.Action action)
         {
-            Color currentColor = image.color;
-
-            Color visibleColor = image.color;
-            visibleColor.a = alpha;
-
-            float counter = 0;
-
-            while (counter < duration)
+            if (Trader.CurrentTrader == null)
             {
-                counter += Time.deltaTime;
-                image.color = Color.Lerp(currentColor, visibleColor, counter / duration);
-                yield return null;
-            }
+                Color currentColor = image.color;
 
-            //Done. Execute Callback
-            action.Invoke();
+                Color visibleColor = image.color;
+                visibleColor.a = alpha;
+
+                float counter = 0;
+
+                while (counter < duration)
+                {
+                    counter += Time.deltaTime;
+                    image.color = Color.Lerp(currentColor, visibleColor, counter / duration);
+                    yield return null;
+                }
+
+                //Done. Execute Callback
+                action.Invoke();
+            }
         }
     }
 }
