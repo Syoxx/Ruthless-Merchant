@@ -7,10 +7,13 @@ using TMPro;
 
 namespace RuthlessMerchant {
     public class QuestButton : MonoBehaviour {
+        //script to make visual adjustments and enabling/disabling the questButtons
+
 
         public bool inProgress;
         public bool isDisabled;
 
+        //Sets the button in a completed state with changed color
         public void CompleteButton()
         {
             Debug.Log("Color changed");
@@ -20,6 +23,7 @@ namespace RuthlessMerchant {
                     GetComponent<Button>().colors = colors;
         }
 
+        //Sets the button in a still-in-progress state with changed color
         public void InProgressButton()
         {
             Debug.Log("InProgress");
@@ -30,27 +34,14 @@ namespace RuthlessMerchant {
             inProgress = true;
         }
 
-        public void ButtonSettings(bool interactable)
-        {
-            GetComponent<Button>().interactable = interactable;
-        }
-
-        public void SetDisplayedData(string name)
-        {
-            QuestDisplayedData info = GetComponent<QuestDisplayedData>();
-            info.Name.text = name;
-        }
-
         public void DiscardQuestButton(int Reward, List<Collectables> itemlist)
         {
-            Debug.Log("Discard");
             Button btn = GetComponent<Button>();
             btn.onClick.RemoveAllListeners();
             btn.onClick.AddListener(delegate { DiscardQuest(Reward, itemlist); });
         }
         private void DiscardQuest(int Reward, List<Collectables> itemlist)
         {
-            Debug.Log("Destroy"+ this.gameObject);
             Destroy(gameObject);
 
             for (int i = 0; i < itemlist.Count; i++)
@@ -61,6 +52,7 @@ namespace RuthlessMerchant {
             Player.Singleton.Inventory.RemoveGold(Reward);
         }
 
+        //Greys out and disables button
         public void GreyOut()
         {
             Debug.Log("greying out");
@@ -71,6 +63,7 @@ namespace RuthlessMerchant {
             isDisabled = true;
         }
 
+        //Sets Default color and enables button
         public void DefaultColor()
         {
             var colors = GetComponent<Button>().colors;

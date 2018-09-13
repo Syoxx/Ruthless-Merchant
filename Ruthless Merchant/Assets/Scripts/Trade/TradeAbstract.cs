@@ -222,20 +222,6 @@ namespace RuthlessMerchant
                 PlayerZone.position = platePositionPlayer.position;
                 TraderZone.position = platePositionTrader.position;
             }
-
-            // VRTrade?
-            else
-            {
-                //ScaleMovement[] scaleMovements = FindObjectsOfType<ScaleMovement>();
-
-                //foreach (ScaleMovement scale in scaleMovements)
-                //{
-                //    scale.SpeedY = 0;
-                //    scale.TargetPositionPlayer = (PlayerZone.position + playerDelta).y;
-                //    scale.TargetPositionTrader = (TraderZone.position + traderDelta).y;
-                //    scale.enabled = true;
-                //}
-            }
         }
 
         /// <summary>

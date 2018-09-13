@@ -159,7 +159,7 @@ namespace RuthlessMerchant
 
             myFade.FadingWithCallback(1, 0.001f, delegate
             {
-                Monolog(startMonolog); myFade.FadingWithCallback(0, 3, delegate { Debug.Log("Done fading"); });
+                Monolog(startMonolog); myFade.FadingWithCallback(0, 3, delegate {  });
             });
 
             monster.SetCurrentAction(new ActionIdle(ActionNPC.ActionPriority.High), null, true, true);
@@ -175,7 +175,7 @@ namespace RuthlessMerchant
             {
                 if (!monsterTriggered)
                 {
-                    monster.SetCurrentAction(new ActionMove(ActionNPC.ActionPriority.Medium), trader.transform.gameObject, true, true);
+                    monster.SetCurrentAction(new ActionMove(ActionNPC.ActionPriority.Medium), monsterTarget, true, true);
                     guard1.SetCurrentAction(new ActionIdle(ActionNPC.ActionPriority.Low), null, true, true);
                     guard2.SetCurrentAction(new ActionIdle(ActionNPC.ActionPriority.Low), null, true, true);
                     Monolog(TradeFinished);

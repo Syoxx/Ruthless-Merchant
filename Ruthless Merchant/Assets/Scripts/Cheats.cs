@@ -78,7 +78,7 @@ namespace RuthlessMerchant
         /// </summary>
         private void TeleportToFreeminds()
         {
-            GameObject gobj = GameObject.Find("CityFreidenker");
+            GameObject gobj = GameObject.Find("Main City Freidenker");
             GameObject player = GameObject.Find("NewPlayerPrefab");
             if (gobj != null && player != null)
             {
@@ -92,7 +92,7 @@ namespace RuthlessMerchant
         /// </summary>
         private void TeleportToImperialists()
         {
-            GameObject gobj = GameObject.Find("Main City Imperalists 2");
+            GameObject gobj = GameObject.Find("Main City Imperalists");
             GameObject player = GameObject.Find("NewPlayerPrefab");
             if (gobj != null && player != null)
             {

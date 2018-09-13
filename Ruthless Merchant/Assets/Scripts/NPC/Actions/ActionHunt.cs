@@ -12,17 +12,27 @@ namespace RuthlessMerchant
 
         private Fighter fighter;
 
-
+        /// <summary>
+        /// Action Hunt
+        /// </summary>
         public ActionHunt() : base(ActionPriority.Medium)
         {
 
         }
 
+        /// <summary>
+        /// Action Hunt
+        /// </summary>
+        /// <param name="priority">Action priority</param>
         public ActionHunt(ActionPriority priority) : base(priority)
         {
 
         }
 
+        /// <summary>
+        /// EndAction can be used to do some cleanup
+        /// </summary>
+        /// <param name="executeEnd">Indicates if abort code should be executed</param>
         public override void EndAction(bool executeEnd = true)
         {
             if (executeEnd)
@@ -32,6 +42,11 @@ namespace RuthlessMerchant
             base.EndAction(executeEnd);
         }
 
+        /// <summary>
+        /// Initialaztion of the action
+        /// </summary>
+        /// <param name="parent">Action owner</param>
+        /// <param name="other">Action target</param>
         public override void StartAction(NPC parent, GameObject other)
         {
             parent.Waypoints.Clear();
@@ -40,6 +55,10 @@ namespace RuthlessMerchant
             base.StartAction(parent, other);
         }
 
+        /// <summary>
+        /// Updates the action
+        /// </summary>
+        /// <param name="deltaTime">Elapsed time since last update</param>
         public override void Update(float deltaTime)
         {
             if (parent.CurrentReactTarget == null || other != parent.CurrentReactTarget.gameObject)

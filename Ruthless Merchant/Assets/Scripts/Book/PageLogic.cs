@@ -5,7 +5,9 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
 
-
+/// <summary>
+/// Includes almost the whole selfmade logic for the book, that were not in the asset
+/// </summary>
 public class PageLogic : MonoBehaviour
 {
     #region Private Fields
@@ -18,22 +20,18 @@ public class PageLogic : MonoBehaviour
     private int numberPagesSkipped;
     private int maxWeaponsPerPage;
 
-    [SerializeField]
-    [Tooltip("Just put the canvas here itself")]
+    [SerializeField] [Tooltip("Just put the canvas here itself")]
     private GameObject bookItSelf;
 
     private int flippedPages = 0;
 
-    [Header("Bookmark book buttons")]
-    [SerializeField]
+    [Header("Bookmark book buttons")] [SerializeField]
     private Button btn_Notice;
-    [SerializeField]
-    private Button btn_Journal, btn_Inventory, btn_Recipes, btn_Menu;
+
+    [SerializeField] private Button btn_Journal, btn_Inventory, btn_Recipes, btn_Menu;
 
     private bool flipToTheLeft;
     private bool couritineIsFinished;
-
-
 
     #endregion
 
@@ -76,15 +74,19 @@ public class PageLogic : MonoBehaviour
         CurrentActivePage();
     }
 
+    /// <summary>
+    /// Generating an Array of all "Inventory" pages
+    /// </summary>
     public void GeneratePages()
     {
         InventoryPageList = GameObject.FindGameObjectsWithTag("Book_Inventory")
             .OrderBy(inventoryPage => inventoryPage.name).ToList();
-        //RecipePageList = GameObject.FindGameObjectsWithTag("Book_Recipe")
-        //    .OrderBy(inventoryPage => inventoryPage.name).ToList();
         PageList = PageList.OrderBy(child => child.name).ToList();
     }
 
+    /// <summary>
+    /// Checking if the next page of the book is empty
+    /// </summary>
     public void CheckIfNextPageEmpty()
     {
         int myCurrentPage = myBook.currentPaper * 2 + 1;
@@ -104,6 +106,9 @@ public class PageLogic : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Checking if the previous page of the book is empty
+    /// </summary>
     public void CheckIfPreviousPageEmpty()
     {
         int myCurrentPage = myBook.currentPaper * 2 + 1;
@@ -120,8 +125,12 @@ public class PageLogic : MonoBehaviour
                 break;
             }
         }
-}
+    }
 
+    /// <summary>
+    /// Counts how much Items you have in your inventory
+    /// </summary>
+    /// <returns>Returns an integer amount of the your items</returns>
     private int CountWeaponsInInventory()
     {
         int itemsAmount = 0;
@@ -136,6 +145,7 @@ public class PageLogic : MonoBehaviour
 
         return itemsAmount;
     }
+
     /// <summary>
     ///  Here we decide for the Page where should be the Item placed.
     /// </summary>
@@ -148,10 +158,14 @@ public class PageLogic : MonoBehaviour
         return (CountWeaponsInInventory() /
                 maxWeaponsPerPage);
     }
-
+    
+    /// <summary>
+    /// Jumps to the needed page of the book by clicking a Button
+    /// </summary>
+    /// <param name="key">Key is the pressed button</param>
     public void GoToPage(KeyCode key)
     {
-        switch(key)
+        switch (key)
         {
             case KeyCode.I:
                 myBook.CurrentPaper = 10;
@@ -185,42 +199,54 @@ public class PageLogic : MonoBehaviour
         {
             myBookSection = BookSection.FrontCover;
         }
+
         if (myBook.currentPaper == 1)
         {
             myBookSection = BookSection.TitlePage;
         }
+
         if (2 <= myBook.currentPaper && myBook.currentPaper <= 6)
         {
             myBookSection = BookSection.NoticePage;
         }
+
         if (7 <= myBook.currentPaper && myBook.currentPaper <= 9)
         {
             myBookSection = BookSection.JournalPage;
         }
+
         if (10 <= myBook.currentPaper && myBook.currentPaper <= 15)
         {
             myBookSection = BookSection.InventoryPage;
         }
+
         if (16 <= myBook.currentPaper && myBook.currentPaper <= 18)
         {
             myBookSection = BookSection.RecipePage;
         }
+
         if (19 <= myBook.currentPaper && myBook.currentPaper <= 20)
         {
             myBookSection = BookSection.MenuPage;
         }
+
         if (myBook.currentPaper == 21)
         {
             myBookSection = BookSection.BackCover;
         }
-
     }
 
+    
+    /// <summary>
+    /// Method to jump to a need page while book is open
+    /// </summary>
+    /// <param name="n">Is number of the page we are going to jump</param>
     public void SwitchToCertainPages(int n)
     {
         flipEffect.PageFlipTime = 0.1f;
         StartCoroutine(FlipPageDelayed(n));
     }
+
     /// <summary>
     /// Highlighting bookmarks of the Book if player is in the right section
     /// </summary>
@@ -243,10 +269,13 @@ public class PageLogic : MonoBehaviour
             case BookSection.RecipePage:
                 btn_Recipes.Select();
                 break;
-
         }
     }
-
+    /// <summary>
+    /// Don't touch it. A delay for a page. Needed for an animation while flipping pages
+    /// </summary>
+    /// <param name="n">Is a amount of how many pages are going to be skipped</param>
+    /// <returns>Checking if we've reached the target</returns>
     IEnumerator FlipPageDelayed(int n)
     {
         if (!flipToTheLeft)
@@ -258,7 +287,7 @@ public class PageLogic : MonoBehaviour
             {
                 yield return new WaitForSeconds(flipEffect.PageFlipTime);
                 couritineIsFinished = false;
-                StartCoroutine(FlipPageDelayed(n));               
+                StartCoroutine(FlipPageDelayed(n));
             }
             else
             {
@@ -277,7 +306,7 @@ public class PageLogic : MonoBehaviour
                 yield return new WaitForSeconds(flipEffect.PageFlipTime);
 
                 couritineIsFinished = false;
-                StartCoroutine(FlipPageDelayed(n));               
+                StartCoroutine(FlipPageDelayed(n));
             }
             else
             {
@@ -286,13 +315,12 @@ public class PageLogic : MonoBehaviour
                 couritineIsFinished = true;
             }
         }
-       
     }
-    /*
-     *
-     *Book - Control Functions for the Button and more
-     *
-     */
+
+    #region Book - Control Functions for the Buttons
+    /// <summary>
+    /// Opens Inventory
+    /// </summary>
     public void OpenInventory()
     {
         if (couritineIsFinished)
@@ -300,9 +328,10 @@ public class PageLogic : MonoBehaviour
             int neededPage = 10;
             CheckPageLocation(neededPage);
         }
-
     }
-
+    /// <summary>
+    /// Opens Journal
+    /// </summary>
     public void OpenJournal()
     {
         if (couritineIsFinished)
@@ -310,9 +339,10 @@ public class PageLogic : MonoBehaviour
             int neededPage = 7;
             CheckPageLocation(neededPage);
         }
-
     }
-
+    /// <summary>
+    /// Opens Recipes
+    /// </summary>
     public void OpenRecipes()
     {
         if (couritineIsFinished)
@@ -321,7 +351,9 @@ public class PageLogic : MonoBehaviour
             CheckPageLocation(neededPage);
         }
     }
-
+    /// <summary>
+    /// Opens Menu
+    /// </summary>
     public void OpenMenu()
     {
         if (couritineIsFinished)
@@ -330,7 +362,9 @@ public class PageLogic : MonoBehaviour
             CheckPageLocation(neededPage);
         }
     }
-
+    /// <summary>
+    /// Opens Notices
+    /// </summary>
     public void OpenNotices()
     {
         if (couritineIsFinished)
@@ -339,7 +373,9 @@ public class PageLogic : MonoBehaviour
             CheckPageLocation(neededPage);
         }
     }
-
+    /// <summary>
+    /// Opens Settings
+    /// </summary>
     public void OpenSettings()
     {
         if (couritineIsFinished)
@@ -348,7 +384,11 @@ public class PageLogic : MonoBehaviour
             CheckPageLocation(neededPage);
         }
     }
-
+    /// <summary>
+    /// Checking for the page location we are going to jump while book is open
+    /// Also there is a check if we are going to jump to the left/right direction
+    /// </summary>
+    /// <param name="neededPage">The page we are looking for</param>
     private void CheckPageLocation(int neededPage)
     {
         int timesToFlip = myBook.CurrentPaper - neededPage;
@@ -362,8 +402,8 @@ public class PageLogic : MonoBehaviour
         {
             flipToTheLeft = true;
             SwitchToCertainPages(timesToFlip);
-            
         }
     }
-}
+   #endregion
 
+}

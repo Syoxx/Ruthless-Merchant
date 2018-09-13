@@ -14,6 +14,9 @@ namespace RuthlessMerchant
             Debug.Log(caller.name + ": Interaction with Monster");
         }
 
+        /// <summary>
+        /// Updates Monster
+        /// </summary>
         public override void Update()
         {
             if (faction != Faction.TutorialMonster || Tutorial.Singleton.TradeIsDone)

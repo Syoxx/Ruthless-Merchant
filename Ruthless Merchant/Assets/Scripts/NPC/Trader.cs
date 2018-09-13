@@ -232,48 +232,14 @@ namespace RuthlessMerchant
         public override void Update()
         {
             UpdatePsychoCoolff();
-
-            if (fading != 0)
-            { 
-                if (TradeHasLoaded || fading == 1)
-                {
-                    fadeImage.color += new Color(0, 0, 0, Time.deltaTime * 2) * fading;
-
-                    if (fadeImage.color.a >= 1 && fading != -1)
-                    {
-                        fading = -1;
-
-                        Player player = Player.Singleton;
-                        player.EnterTrading();
-
-                        Vector3 direction = (directionPointer.position - transform.position).normalized * 0.52f;
-                        transform.localPosition += direction;
-                        player.transform.position = new Vector3(transform.position.x, player.transform.position.y, transform.position.z);
-                        transform.localPosition -= direction;
-
-                        player.transform.LookAt(transform);
-                        player.GetComponentInChildren<Camera>().transform.localEulerAngles = new Vector3(player.transform.eulerAngles.x, 0, 0);
-                        player.transform.eulerAngles = new Vector3(0, Player.Singleton.transform.eulerAngles.y, 0);
-                        player.PlayerLookAngle = Player.Singleton.transform.localRotation;
-                        Scale.SetActive(false);
-
-                        Main_SceneManager.LoadSceneAdditively("TradeScene");
-                    }
-
-                    if (fadeImage.color.a <= 0)
-                    {
-                        fading = 0;
-                        fadeImage.color = new Color(0, 0, 0, 0);
-                        fadeImage.raycastTarget = false;
-                        Cursor.visible = true;
-                        TradeHasLoaded = false;
-                    }
-                }
-            }
+            UpdateTradeStart();
         }
 
         #endregion
 
+        /// <summary>
+        /// Reduces SkepticismTotal and IrritationTotal when the Player is not trading with the Trader.
+        /// </summary>
         void UpdatePsychoCoolff()
         {
             if (CurrentTrader != this)
@@ -300,7 +266,51 @@ namespace RuthlessMerchant
         }
 
         /// <summary>
-        /// Sets the initial trading variables.
+        /// Fades the screen, relocates the Player and loads the TradeScene scene when the Trade is about to start.
+        /// </summary>
+        void UpdateTradeStart()
+        {
+            if (fading != 0)
+            {
+                if (TradeHasLoaded || fading == 1)
+                {
+                    fadeImage.color += new Color(0, 0, 0, Time.deltaTime * 2) * fading;
+
+                    if (fadeImage.color.a >= 1 && fading != -1)
+                    {
+                        fading = -1;
+
+                        Player player = Player.Singleton;
+                        player.EnterTrading();
+
+                        Vector3 direction = (directionPointer.position - transform.position).normalized * 0.52f;
+                        transform.position += direction;
+                        player.transform.position = new Vector3(transform.position.x, player.transform.position.y, transform.position.z);
+                        transform.position -= direction;
+
+                        player.transform.LookAt(transform);
+                        player.GetComponentInChildren<Camera>().transform.localEulerAngles = new Vector3(player.transform.eulerAngles.x, 0, 0);
+                        player.transform.eulerAngles = new Vector3(0, Player.Singleton.transform.eulerAngles.y, 0);
+                        player.PlayerLookAngle = Player.Singleton.transform.localRotation;
+                        Scale.SetActive(false);
+
+                        Main_SceneManager.LoadSceneAdditively("TradeScene");
+                    }
+
+                    if (fadeImage.color.a <= 0)
+                    {
+                        fading = 0;
+                        fadeImage.color = new Color(0, 0, 0, 0);
+                        fadeImage.raycastTarget = false;
+                        Cursor.visible = true;
+                        TradeHasLoaded = false;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Initializes some Trader variables.
         /// </summary>
         public void Initialize(TradeAbstract trade)
         {
@@ -338,9 +348,9 @@ namespace RuthlessMerchant
                 }
 
                 if (AsignedOutpost != null)
-                    influenceNeighbours = CorrectAndConvertToPercent(influenceNeighbours);
+                    influenceNeighbours = CorrectAndDivideFloat(influenceNeighbours);
 
-                influenceWar = CorrectAndConvertToPercent(influenceWar);
+                influenceWar = CorrectAndDivideFloat(influenceWar);
 
                 upperLimitPercentTotal = upperLimitPerCent + ((upperLimitPerCent * influenceFaction) + (upperLimitPerCent * influenceIndividual) + (upperLimitPerCent * influenceWar) + (upperLimitPerCent * influenceNeighbours)) / 4;
                 underLimitPercentTotal = underLimitPerCent + (-(underLimitPerCent * influenceFaction) - (underLimitPerCent * influenceIndividual) + (underLimitPerCent * influenceWar) + (underLimitPerCent * influenceNeighbours)) / 4;
@@ -359,17 +369,21 @@ namespace RuthlessMerchant
             }
         }
 
-        float CorrectAndConvertToPercent(float data)
+        float CorrectAndDivideFloat(float percent)
         {
-            if (data > 100)
-                data = 100;
+            if (percent > 100)
+                percent = 100;
 
-            else if (data < 0)
-                data = 0;
+            else if (percent < 0)
+                percent = 0;
 
-            return data / 100;
+            return percent / 100;
         } 
 
+        /// <summary>
+        /// Checks if the Trader wants to start trading.
+        /// </summary>
+        /// <returns>If the Trader wants to start trading.</returns>
         public bool WantsToStartTrading()
         {
             if (IrritationTotal >= irritationStartLimit || SkepticismTotal >= skepticismStartLimit)
@@ -379,7 +393,7 @@ namespace RuthlessMerchant
         }
 
         /// <summary>
-        /// Main method of the Trader. Called every time the player has made an offer.
+        /// Main method of the Trader. Called every time the Player has made an offer. Trader accepts the offer copying it, makes an counteroffer, refuses to make an offer at all or aborts Trade.
         /// </summary>
         public void ReactToPlayerOffer()
         {
@@ -531,7 +545,7 @@ namespace RuthlessMerchant
         }
 
         /// <summary>
-        /// Loads the Trading Scene.
+        /// Starts the fading process to allow the loading of the TradeScene scene afterwards.
         /// </summary>
         /// <param name="caller"></param>
         public override void Interact(GameObject caller)
@@ -570,12 +584,18 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// Spawns a TraderMoodIcon above the Trader's head.
+        /// </summary>
         public void SpawnMoodIcon()
         {
             TraderMoodIcon newTraderMoodIcon = Instantiate(moodIconPrefab, moodIconCanvas.transform).GetComponentInChildren<TraderMoodIcon>();
-            newTraderMoodIcon.UpdateMood(this);
+            newTraderMoodIcon.SetIconMood(this);
         }
 
+        /// <summary>
+        /// Increases the Player's and Trader's Reputation after a successfull Trade.
+        /// </summary>
         public void IncreaseReputation()
         {
             TradeAbstract trade = TradeAbstract.Singleton;

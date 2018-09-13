@@ -16,12 +16,18 @@ namespace RuthlessMerchant
         protected NavMeshAgent agent;
         protected Animator animator;
 
-
+        /// <summary>
+        /// Action move
+        /// </summary>
         public ActionMove() : base(ActionPriority.Low)
         {
 
         }
 
+        /// <summary>
+        /// Action move
+        /// </summary>
+        /// <param name="priority">Action priority</param>
         public ActionMove(ActionPriority priority) : base(priority)
         {
 
@@ -43,6 +49,12 @@ namespace RuthlessMerchant
                     throw new ArgumentOutOfRangeException();
             }
         }
+
+        /// <summary>
+        /// Initialaztion of the action
+        /// </summary>
+        /// <param name="parent">Action owner</param>
+        /// <param name="other">Action target</param>
         public override void StartAction(NPC parent, GameObject other)
         {
             base.StartAction(parent, other);
@@ -60,6 +72,10 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// Updates the action
+        /// </summary>
+        /// <param name="deltaTime">Elapsed time since last update</param>
         public override void Update(float deltaTime)
         {
             if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
@@ -89,6 +105,10 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// EndAction can be used to do some cleanup
+        /// </summary>
+        /// <param name="executeEnd">Indicates if abort code should be executed</param>
         public override void EndAction(bool executeEnd = true)
         {
             if (executeEnd)
@@ -99,6 +119,7 @@ namespace RuthlessMerchant
             animator.SetBool("IsWalking", false);
             base.EndAction(executeEnd);
         }
+
         /// <summary>
         /// Sets the next waypoint
         /// </summary>

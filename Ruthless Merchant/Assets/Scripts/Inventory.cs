@@ -154,6 +154,10 @@ namespace RuthlessMerchant
             return -1;
         }
 
+        /// <summary>
+        /// re-arranges the display panel to it's designated place in the book
+        /// </summary>
+        /// <param name="inventorySlot"></param>
         private void SortDisplayPanel(int inventorySlot)
         {
             int pageForItem = inventorySlot / Player.Singleton.MaxItemsPerPage;
@@ -213,7 +217,7 @@ namespace RuthlessMerchant
         /// <returns>returns the created display</returns>
         private InventoryItem UpdateDisplayData(InventorySlot inventorySlot)
         {
-            Debug.Log("UpdateDisplayData");
+           // Debug.Log("UpdateDisplayData");
 
             if (ItemUIPrefab == null)
                 throw new System.NullReferenceException("no ItemUIPrefab found");
@@ -332,7 +336,6 @@ namespace RuthlessMerchant
         }
 
         #endregion
-
 
         #region Public Functions ##################################################################################
 

@@ -7,6 +7,9 @@ namespace RuthlessMerchant
 {
     public class CollectionGoals : MonoBehaviour
     {
+        /// <summary>
+        /// This class handles the various collection quests that the player can choose from in the outposts and displaying the right button
+        /// </summary>
 
         [SerializeField]
         private List<CollectionGoal> collectionGoals;
@@ -44,6 +47,9 @@ namespace RuthlessMerchant
             collectionGoal = GetComponent<CollectionGoal>();           
         }
 
+        /// <summary>
+        ///get goal-script from hero and check if player has enough money for a the appropriate reward
+        /// </summary>
         private void OnTriggerStay(Collider other)
         {
             if (other.gameObject.CompareTag("NPC") && collectionGoal == null)
@@ -66,6 +72,10 @@ namespace RuthlessMerchant
                 }
             }
         }
+
+        /// <summary>
+        ///enable questing when player enters outpost and instantiate buttons
+        /// </summary>
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.CompareTag("Player"))
@@ -82,9 +92,6 @@ namespace RuthlessMerchant
                         {
                             if (collectionGoals[i].QuestTitle == buttons[k].GetComponent<QuestDisplayedData>().Name.text)
                             {
-                                Debug.Log("collectiongoal: " + i);
-                                Debug.Log("button:" + k);
-                                Debug.Log("dont instantiate");
                                 i++;
                                 break;
                             }
@@ -92,7 +99,6 @@ namespace RuthlessMerchant
                     }
                     if (i < collectionGoals.Count)
                     {
-                        Debug.Log("0 shouldnt inst: " + i);
                         GameObject questButton = Instantiate(buttonPrefab, buttonParent) as GameObject;
                         QuestDisplayedData questData = questButton.GetComponent<QuestDisplayedData>();
                         questData.Name.text = collectionGoals[i].QuestTitle;
@@ -124,6 +130,9 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        ///disable questing when player exits outpost and delete unassigned buttons
+        /// <summary>
         private void OnTriggerExit(Collider other)
         {
             if (other.gameObject.CompareTag("Player"))
@@ -141,10 +150,10 @@ namespace RuthlessMerchant
             questingEnabled = false;
 
         }
-        private void Update()
-        {
 
-        }
+        /// <summary>
+        ///Assign selected quest to hero and start calculating the waypoints
+        /// </summary>
         public void AssignQuest(int index, GameObject button)
         {
             if (Player.Singleton.Inventory.PlayerMoney >= collectionGoals[index].Reward)
