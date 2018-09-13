@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Valve.VR.InteractionSystem;
 
 namespace RuthlessMerchant
@@ -142,6 +143,12 @@ namespace RuthlessMerchant
             Exit = true;
             VRSmithing.Singleton.FinalSword.SetActive(false);
             VRSmithing.Singleton.FireworkEnd.SetActive(true);
+            Invoke("LoadIslandScene", 3);
+        }
+
+        void LoadIslandScene()
+        {
+            SceneManager.LoadScene("VR_IslandScene");
         }
 
         /// <summary>
