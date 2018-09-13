@@ -11,7 +11,7 @@ namespace RuthlessMerchant
         private bool abort = false;
 
         [SerializeField]
-        Transform sellingItemParent;
+        RectTransform sellingItemParent;
 
         [SerializeField]
         GameObject sellingItemPrefab;
@@ -69,8 +69,10 @@ namespace RuthlessMerchant
             {
                 if (!MoveToExisting(inventoryItem))
                 {
-                    GameObject newObject = Instantiate(sellingItemPrefab, sellingItemParent);
+                    GameObject newObject = Instantiate(sellingItemPrefab, sellingItemParent.transform);
                     newObject.name = "SellingItem";
+
+                    LayoutRebuilder.ForceRebuildLayoutImmediate(sellingItemParent);
 
                     InventoryItem newItem = newObject.GetComponent<InventoryItem>();
                     newItem.ItemQuantity.text = "1x";
@@ -125,7 +127,19 @@ namespace RuthlessMerchant
                 Destroy(item.gameObject);
             }
 
+            StartCoroutine(ForceRebuild());
             UpdatePrice();
+        }
+
+        IEnumerator ForceRebuild()
+        {
+            yield return new WaitForSeconds(0.4f);
+            Debug.Log("ForceRebuilded");
+            sellingItemInfoParent.GetComponent<VerticalLayoutGroup>().CalculateLayoutInputVertical();
+            LayoutRebuilder.ForceRebuildLayoutImmediate(sellingItemParent);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(sellingItemParent);
+            Canvas.ForceUpdateCanvases();
+            sellingItemInfoParent.GetComponent<VerticalLayoutGroup>().CalculateLayoutInputVertical();
         }
 
         /// <summary>
