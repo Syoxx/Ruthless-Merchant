@@ -99,6 +99,7 @@ namespace RuthlessMerchant {
                     }
                 }
             }
+        }
         /// <summary>
         /// Signal function to check if the Potion was brewed
         /// </summary>
