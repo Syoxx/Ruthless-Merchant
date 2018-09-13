@@ -6,21 +6,37 @@ using UnityEngine.UI;
 
 namespace RuthlessMerchant {
     public class CollectionGoal : Goal {
+        /// <summary>
+        /// This class sits on the hero and handles the execution of a collection quest by the hero
+        /// /// <summary>
 
+
+        /// <summary>
+        ///The hero to control the hero state once he receives a collectionGoal-quest
+        /// </summary>
         Hero hero;
-        //GameObject button;
+        /// <summary>
+        ///The button-script to make adjustments on buttons from each outpost (CollectionGoals)
+        /// </summary>
         QuestButton questButton;
-
-        [SerializeField]
+        /// <summary>
+        ///Quest-Goals are being executed
+        /// </summary>
         private bool inProgress;
-        private int QuestZoneID;
+        /// <summary>
+        ///The reputition gain the player gathers from handing out quests
+        /// </summary>
         private float repGain;
-
+        /// <summary>
+        ///A list of the collectables in the scene to calculate the nearest collectable rquired in the quest
+        /// </summary>
         private GameObject[] Materials;
-        
 
+        /// <summary>
+        ///A list of collectables that the hero will gather once the quest got received
+        /// </summary>
         public List<Collectables> collectables;
-        private List<Material> FoundMaterials;
+
         
         public CollectionGoal(string description, bool completed, string questTitle, bool inProgress)
         {
@@ -56,15 +72,9 @@ namespace RuthlessMerchant {
         {
                 
         }
-
-        public void CalcRequiredAmount()
-        {
-            for (int i = 0; i < collectables.Count; i++)
-            {
-                RequiredAmount += collectables[i].requiredAmount;
-            }
-        }
-
+        /// <summary>
+        ///This method gets called when a collectable is found to increment the counter(Current Amount) and to check if the quest is completed
+        /// </summary>
         public void CollectableFound(Item foundMaterial)
         {
             for (int i = 0; i < collectables.Count; i++)
@@ -87,41 +97,41 @@ namespace RuthlessMerchant {
                 }
             }
             Completed = EvaluateGoal();
-
         }
 
+        /// <summary>
+        ///Gets called by the CollectionGoals-Script attached to the various outposts and hands over the quest-goals[as soon as the player assignes a quest] with its collectables and required amounts
+        /// </summary>
         public void FillList(List<Collectables> Collectables, float reputationGain, GameObject btn)
         {
             Debug.Log("Fills list");
             collectables = Collectables;
             repGain = reputationGain;
             Completed = false;
-            //button = btn;
             questButton = btn.GetComponent<QuestButton>();
-
             Materials = GameObject.FindGameObjectsWithTag(collectables[0].item.ItemInfo.ItemName); 
            
-            
-            
-            // Materials = GameObject.FindGameObjectsWithTag(collectables[0].material.ItemInfo.ItemName);
             questButton.InProgressButton();
             InProgress = true;
-            //questButton.ButtonSettings(false);
-            Debug.Log(Materials.Length);
         }
 
-        void EvaluateCollectables(int index)
+        /// <summary>
+        ///Checks if the rquired amount of one collectable is met
+        /// </summary>
+        private void EvaluateCollectables(int index)
         {
             if (collectables[index].currentAmount >= collectables[index].requiredAmount)
             {
                 collectables[index].completed = true;
                 if(index+1 < collectables.Count)
                     Materials = GameObject.FindGameObjectsWithTag(collectables[index+1].item.ItemInfo.ItemName);
-            }
-            
+            }         
         }
 
-        bool EvaluateGoal()
+        /// <summary>
+        ///Checks if the required amount of all collectables is met
+        /// </summary>
+        private bool EvaluateGoal()
         {
             for (int i = 0; i < collectables.Count; i++)
             {
@@ -130,22 +140,27 @@ namespace RuthlessMerchant {
                     return false;
                 }
             }
+
             Materials = new GameObject[Materials.Length];
             Player.Singleton.GetComponent<Reputation>().ChangeStanding(hero.Faction, repGain);
+
             if (questButton)
             {
                 questButton.CompleteButton();
                 InProgress = false;
-                //button.GetComponent<Button>().onClick.AddListener(delegate {  });
                 questButton.DiscardQuestButton(Reward);
             }
             return true;
         }
 
+        /// <summary>
+        ///Calculates the next waypoint that the hero should walk to to collect the needed collectable [Sets the currentState of the hero]
+        /// </summary>
         public void CalcNextWaypoint()
         {
             GameObject gobj = null;
             float distance = float.MaxValue;
+
             for (int i = 0; i < Materials.Length; i++)
             {
                 if (Materials[i] != null)
@@ -166,21 +181,23 @@ namespace RuthlessMerchant {
                     Hero.SetCurrentAction(new ActionCollect(this, ActionNPC.ActionPriority.Medium), gobj, true, true);
             }
         }
+
+        /// <summary>
+        ///Greys out button when disabled
+        /// </summary>
         public void GreyOutButton()
         {
             if(questButton != null)
                 questButton.GreyOut();
         }
+
+        /// <summary>
+        ///Sets the buttons [that is linked to this quest] default color
+        /// </summary>
         public void DefaultColor()
         {
             if(questButton != null)
                 questButton.DefaultColor();
         }
-        //void RemoveButton()
-        //{
-        //    Debug.Log("Destroy" + button);
-        //    Destroy(button);
-        //}
-
     }
 }

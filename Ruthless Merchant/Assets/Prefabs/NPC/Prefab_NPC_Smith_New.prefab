@@ -399,7 +399,7 @@ GameObject:
   - component: {fileID: 136692050001360312}
   - component: {fileID: 195185606548762318}
   - component: {fileID: 54211011498592222}
-  - component: {fileID: 114324030980871900}
+  - component: {fileID: 208524283699455192}
   m_Layer: 15
   m_Name: Prefab_NPC_Smith_New
   m_TagString: NPC
@@ -885,6 +885,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4173373292020946}
   - component: {fileID: 137313192419790142}
+  - component: {fileID: 114296122636193426}
   m_Layer: 15
   m_Name: Character_Dwarf_01
   m_TagString: Untagged
@@ -2912,7 +2913,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1242957152982964}
   m_LocalRotation: {x: -0, y: 0.38828328, z: -0, w: 0.92154014}
-  m_LocalPosition: {x: 38.61341, y: 25.106762, z: 230.28893}
+  m_LocalPosition: {x: 300.0016, y: 24.81073, z: 170.91278}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4125300311564894}
@@ -3294,7 +3295,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!95 &95782487006279738
 Animator:
@@ -3350,6 +3351,7 @@ MonoBehaviour:
     m_Bits: 0
   maxJumpHeight: 0
   maxSlopeAngle: 0
+  ActionName: 
   rotationSpeed: 8
   fov: 45
   viewDistance: 10
@@ -3362,21 +3364,21 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114324030980871900
+--- !u!114 &114296122636193426
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1242957152982964}
+  m_GameObject: {fileID: 1544710910981254}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineMode: 1
+  outlineMode: 0
   outlineColor: {r: 1, g: 0.79607844, b: 0, a: 1}
   outlineWidth: 4
-  precomputeOutline: 1
+  precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
 --- !u!114 &114387799243649194
@@ -3520,7 +3522,7 @@ NavMeshAgent:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1242957152982964}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.27
   m_Speed: 3.5
@@ -3535,3 +3537,18 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!208 &208524283699455192
+NavMeshObstacle:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1242957152982964}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.5, y: 1, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5

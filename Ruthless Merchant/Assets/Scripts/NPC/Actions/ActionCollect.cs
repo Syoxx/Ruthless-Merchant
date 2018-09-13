@@ -17,7 +17,7 @@ namespace RuthlessMerchant
         /// <param name="other">Action target</param>
         public override void StartAction(NPC parent, GameObject other)
         {
-            parent.AddNewWaypoint(new Waypoint(other.transform.position, true, 3.0f), true);
+            parent.AddNewWaypoint(new Waypoint(other.transform.position, true, 1.0f), true);
             base.StartAction(parent, null);
             this.other = other;      
         }

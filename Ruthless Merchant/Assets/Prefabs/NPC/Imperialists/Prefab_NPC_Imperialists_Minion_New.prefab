@@ -1693,7 +1693,6 @@ GameObject:
   - component: {fileID: 114396617350757250}
   - component: {fileID: 195629065006459154}
   - component: {fileID: 54430386408056642}
-  - component: {fileID: 114775497424072938}
   m_Layer: 15
   m_Name: Prefab_NPC_Imperialists_Minion_New
   m_TagString: NPC
@@ -2527,7 +2526,7 @@ Transform:
   m_GameObject: {fileID: 1736766596807856}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 186.46283, y: 25.557552, z: 256.80966}
-  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
+  m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
   m_Children:
   - {fileID: 4198322027832640}
   - {fileID: 4436665276235512}
@@ -5676,6 +5675,7 @@ MonoBehaviour:
     m_Bits: 0
   maxJumpHeight: 0
   maxSlopeAngle: 0
+  ActionName: 
   rotationSpeed: 8
   fov: 90
   viewDistance: 10
@@ -5974,17 +5974,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1a2859bd3c9f7b41843846d87b72e3a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114775497424072938
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1736766596807856}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d08cbd94b6fadd499e42cf6c8c56d06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114778812931295382

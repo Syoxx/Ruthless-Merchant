@@ -5,6 +5,9 @@ using UnityEngine;
 using TMPro;
 
 namespace RuthlessMerchant {
+    /// <summary>
+    /// Includes the logic of the Achievement System
+    /// </summary>
     public class Achievements : MonoBehaviour {
 
         public TextMeshProUGUI textMesh;
@@ -98,6 +101,9 @@ namespace RuthlessMerchant {
             }
         }
 
+        /// <summary>
+        /// Signal function to check if the Potion was brewed
+        /// </summary>
         public void BrewingPotion()
         {
             if (Singleton.switchIndex == 7)
@@ -105,7 +111,9 @@ namespace RuthlessMerchant {
                 Singleton.counter++;
             }
         }
-
+        /// <summary>
+        /// Singal function to check if the Item was sold
+        /// </summary>
         void OnItemSold(object sender, EventArgs args)
         {
             if (Singleton.switchIndex == 8)
@@ -118,6 +126,12 @@ namespace RuthlessMerchant {
             }
         }
 
+        /// <summary>
+        /// This method is used to add counter (+1) to an completed part of an Achievement
+        /// Also be carefull while choosing what counter are you going to increment
+        /// </summary>
+        /// <param name="item">Some Achievements do require items to be collected.</param>
+        /// <param name="firstCounter">If there are no items required</param>
         public static void AddToCounter(Item item = null, bool firstCounter = true)
         {
             if (item)
@@ -156,6 +170,11 @@ namespace RuthlessMerchant {
             EvaluateGoal();
             UpdateCanvas(Singleton.switchIndex);
         }
+
+        /// <summary>
+        ///Displays the appropriate monolog text and goals depending on how far the player has progressed through the achievements
+        /// </summary>
+        /// <param name="index">Index of a Canvas </param>
         public static void UpdateCanvas(int index)
         {
             Singleton.switchIndex = index;
@@ -197,6 +216,10 @@ namespace RuthlessMerchant {
             }
         }
 
+        /// <summary>
+        ///Check if the appropriate goals are completed and if true, jump to the next Achievement
+        /// <summary>
+        /// </summary>
         private static void EvaluateGoal()
         {
             Singleton.Completed = (Singleton.counter >= Singleton.RequiredAmount && Singleton.counter2 >= Singleton.RequiredAmount2);
@@ -206,7 +229,12 @@ namespace RuthlessMerchant {
                 Singleton.counter = 0; Singleton.counter2 = 0;
             }
         }
-
+        /// <summary>
+        /// Some Achievements do require to reach some locations.
+        /// Use this to check if the target was reached.
+        /// You'll need a name of the object.
+        /// </summary>
+        /// <param name="other">Collider of a target</param>
         private void OnTriggerEnter(Collider other)
         {
             switch (other.gameObject.name)
@@ -254,10 +282,7 @@ namespace RuthlessMerchant {
                     {
                         AddToCounter();
                     }
-                    break;
-
-
-                    
+                    break;                 
             }
         }
     }

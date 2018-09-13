@@ -8,7 +8,14 @@ namespace RuthlessMerchant
 
         #region Fields ##################################################################
 
+        /// <summary>
+        /// The Ingredient stored for this Alchemyslot
+        /// </summary>
         Ingredient _ingredient;
+
+        /// <summary>
+        /// The particle emitter attached to the alchemyslot
+        /// </summary>
         ParticleSystem _particles;
 
         #endregion
@@ -31,6 +38,9 @@ namespace RuthlessMerchant
 
         #region Public Functions ########################################################
 
+        /// <summary>
+        /// Gets called when interacting with the Alchemyslot. triggers the EnterAlchemySlot function for the player or removes the stored item
+        /// </summary>
         public override void Interact(GameObject caller)
         {
             if(!_ingredient)

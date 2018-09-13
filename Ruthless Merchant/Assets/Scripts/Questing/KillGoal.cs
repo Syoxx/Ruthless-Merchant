@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace RuthlessMerchant {
+namespace RuthlessMerchant
+{
     public class KillGoal : Goal {
 
         Hero hero;
@@ -65,6 +64,9 @@ namespace RuthlessMerchant {
         }
     }
 
+        /// <summary>
+        /// Bring quest status up to date on elimination of a monster
+        /// </summary>
         public void EnemyKilled()
         {
             if (!wasKillCounted)
@@ -78,6 +80,12 @@ namespace RuthlessMerchant {
             Completed = EvaluateGoal();
         }
 
+        /// <summary>
+        /// Sets completion status of quest and raises player reputation if completed
+        /// </summary>
+        /// <returns>
+        /// Completion flag
+        /// </returns>
         private bool EvaluateGoal()
         {
             if (CurrentAmount < RequiredAmount)
@@ -103,6 +111,18 @@ namespace RuthlessMerchant {
             }
         }
 
+        /// <summary>
+        /// Sets the quest criteria
+        /// </summary>
+        /// <param name="button">
+        /// Button of the assigned quest
+        /// </param>
+        /// <param name="monsterAmount">
+        /// Amount of targets for hero
+        /// </param>
+        /// <param name="reputationGain">
+        /// Faction reputation gained by player
+        /// </param>
         public void SetTargetList(GameObject button, int monsterAmount, float reputationGain)
         {
             Completed = false;
@@ -122,6 +142,9 @@ namespace RuthlessMerchant {
             
         }
 
+        /// <summary>
+        /// Finds and defines a new monster as target of the quest
+        /// </summary>
         public void CalcNextWayPoint()
         {
             wasKillCounted = false;
@@ -160,11 +183,17 @@ namespace RuthlessMerchant {
 
         }
 
+        /// <summary>
+        /// Greys out the quest button if quest is unavailable
+        /// </summary>
         public void GreyOut()
         {
             questButton.GreyOut();
         }
 
+        /// <summary>
+        /// Returns button to normal appearance if quest is available
+        /// </summary>
         public void DefaultColor()
         {
             questButton.DefaultColor();

@@ -1650,7 +1650,6 @@ GameObject:
   - component: {fileID: 195036613347181462}
   - component: {fileID: 54805802136085974}
   - component: {fileID: 114643980251039170}
-  - component: {fileID: 114767338345684394}
   m_Layer: 15
   m_Name: Prefab_NPC_Imperialists_Hero_New
   m_TagString: NPC
@@ -3204,7 +3203,7 @@ Transform:
   m_GameObject: {fileID: 1707675217828928}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 381.7505, y: 27.550802, z: 66.992325}
-  m_LocalScale: {x: 1.7, y: 1.7, z: 1.7}
+  m_LocalScale: {x: 1.6, y: 1.6, z: 1.6}
   m_Children:
   - {fileID: 4767877230797648}
   - {fileID: 4908115573850712}
@@ -5727,9 +5726,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   QuestTitle: 
   Description: 
+  RequiredAmount: 0
   Reward: 0
+  ReputationGain: 0
   Completed: 0
   InProgress: 0
+  CurrentAmount: 0
   inProgress: 0
   collectables: []
 --- !u!114 &114671086745944594
@@ -5840,17 +5842,6 @@ MonoBehaviour:
   damage: 11
   defencePower: 0
   attackSpeed: 2.2
---- !u!114 &114767338345684394
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1707675217828928}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d08cbd94b6fadd499e42cf6c8c56d06, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114816601568886784
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5926,6 +5917,7 @@ MonoBehaviour:
     m_Bits: 0
   maxJumpHeight: 0
   maxSlopeAngle: 0
+  ActionName: 
   rotationSpeed: 8
   fov: 90
   viewDistance: 10

@@ -9,6 +9,8 @@ namespace RuthlessMerchant
     {
         #region Fields #############################################################################################
 
+
+        [SerializeField,Tooltip("The number of recipes depicted on one page")]
         public int maxRecipesPerPage;
 
         [SerializeField, Tooltip("The book-object with the BookPro Script")]
@@ -28,6 +30,9 @@ namespace RuthlessMerchant
 
         List<RecipePanel> recipePanels;
 
+        /// <summary>
+        /// The list of all the counters for the recipe-materials
+        /// </summary>
         List<ItemCount> counts;
 
         GameObject[] recipePages;

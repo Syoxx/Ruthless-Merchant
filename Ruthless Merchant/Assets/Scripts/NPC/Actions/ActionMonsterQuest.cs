@@ -20,10 +20,6 @@ namespace RuthlessMerchant
             questGoal = goal;
         }
 
-        /// <summary>
-        /// EndAction can be used to do some cleanup
-        /// </summary>
-        /// <param name="executeEnd">Indicates if abort code should be executed</param>
         public override void EndAction(bool executeEnd = true)
         {
             if (executeEnd)
@@ -34,10 +30,14 @@ namespace RuthlessMerchant
         }
 
         /// <summary>
-        /// Initialaztion of the action
+        /// Commences monster hunt quest and gives hero a waypoint
         /// </summary>
-        /// <param name="parent">Action owner</param>
-        /// <param name="other">Action target</param>
+        /// <param name="parent">
+        /// Hero that received the quest
+        /// </param>
+        /// <param name="other">
+        /// Targeted monster
+        /// </param>
         public override void StartAction(NPC parent, GameObject other)
         {
             parent.Waypoints.Clear();
@@ -55,11 +55,8 @@ namespace RuthlessMerchant
 
         }
 
-        /// <summary>
-        /// Updates the action
-        /// </summary>
-        /// <param name="deltaTime">Elapsed time since last update</param>
-        public override void Update(float deltaTime)
+        // Update is called once per frame
+        void Update(float deltaTime)
         {
             //if (!agent.pathPending && agent.remainingDistance < agent.stoppingDistance)
             //{
