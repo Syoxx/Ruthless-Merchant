@@ -33,5 +33,11 @@ namespace Assets.Scripts.Audio
             //event:/Characters/Minions/NPC swords
             //event:/Characters/Monster/MonsterHit
         }
+
+        void NPC_Death(string _path)
+        {
+            FMODUnity.RuntimeManager.PlayOneShot(_path, this.transform.position);
+            //event:/Characters/Deaths/NPC Death
+        }
     }
 }
