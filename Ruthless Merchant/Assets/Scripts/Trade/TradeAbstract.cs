@@ -34,6 +34,7 @@ namespace RuthlessMerchant
         #region GUI For debugging purposes
 
         [SerializeField]
+        protected Text tradeDialogue;
         public Text TradeDialogue;
 
         [SerializeField]
@@ -62,14 +63,13 @@ namespace RuthlessMerchant
 
         #endregion
 
-        [SerializeField]
-        protected Transform connector;
+        public Transform connector;
 
         [SerializeField]
-        protected Transform platePositionPlayer;
+        public Transform platePositionPlayer;
 
         [SerializeField]
-        protected Transform platePositionTrader;
+        public Transform platePositionTrader;
 
         protected Vector3 neutralConnectorRotation;
 
@@ -80,12 +80,9 @@ namespace RuthlessMerchant
         [SerializeField]
         protected GameObject TradeObjectsParent;
 
-        [SerializeField]
-        float connectorSensitivity = 400;
+        public float connectorSensitivity = 400;
 
-        // TODO: Delete this.
-        [SerializeField]
-        protected int defaultValue = 35;
+        protected const int defaultValue = 50;
 
         #endregion
 
@@ -98,7 +95,7 @@ namespace RuthlessMerchant
 
         protected float exitTimer = 0;
 
-        public abstract void Initialize(int realValue);
+        public abstract void Initialize(int realValue = defaultValue);
 
         public abstract float GetCurrentPlayerOffer();
         public abstract float GetCurrentTraderOffer();
@@ -170,6 +167,9 @@ namespace RuthlessMerchant
         /// <param name="offer">The offer to be represented.</param>
         protected void UpdateWeights(List<List<GameObject>> weights, int offer)
         {
+            if (offer == -1)
+                offer = RealValue;
+
             int[] targetWeights = GetTargetWeights(offer);
 
             UpdateWeight(weights, targetWeights, 0);
@@ -177,40 +177,40 @@ namespace RuthlessMerchant
             UpdateWeight(weights, targetWeights, 2);
             UpdateWeight(weights, targetWeights, 3);
 
-            float traderOffer;
-
-            if (GetCurrentTraderOffer() == -1)
-                traderOffer = RealValue;
-
-            else
-                traderOffer = GetCurrentTraderOffer();
-
-            float playerTraderOfferDelta = ((float)nextPlayerOffer - (int)traderOffer);
-            float ratioDelta = (float)nextPlayerOffer / (int)traderOffer - 1;
-
-            if (ratioDelta != Double.NaN)
-                playerTraderOfferDelta = (playerTraderOfferDelta + ratioDelta) / 2 / weightsDeltaModifier;
-
-            else
-                playerTraderOfferDelta /= weightsDeltaModifier;
-
-            if (playerTraderOfferDelta > 0.2f)
-                playerTraderOfferDelta = 0.2f;
-
-            else if (playerTraderOfferDelta < -0.2f)
-                playerTraderOfferDelta = -0.2f;
-
-            if(GetCurrentTraderOffer() == 0)
-                playerTraderOfferDelta = 0;
-
-            Vector3 playerDelta = new Vector3(0, -PlayerZone.position.y + NeutralPositionY - playerTraderOfferDelta, 0);
-            Vector3 traderDelta = new Vector3(0, -TraderZone.position.y + NeutralPositionY + playerTraderOfferDelta, 0);
-
-            Debug.Log(playerTraderOfferDelta);
-
             // Trade?
             if (gameObject.GetComponent<Trade>() != null)
             {
+                float traderOffer;
+
+                if (GetCurrentTraderOffer() == -1)
+                    traderOffer = RealValue;
+
+                else
+                    traderOffer = GetCurrentTraderOffer();
+
+                float playerTraderOfferDelta = ((float)nextPlayerOffer - (int)traderOffer);
+                float ratioDelta = (float)nextPlayerOffer / (int)traderOffer - 1;
+
+                if (ratioDelta != Double.NaN)
+                    playerTraderOfferDelta = (playerTraderOfferDelta + ratioDelta) / 2 / weightsDeltaModifier;
+
+                else
+                    playerTraderOfferDelta /= weightsDeltaModifier;
+
+                if (playerTraderOfferDelta > 0.2f)
+                    playerTraderOfferDelta = 0.2f;
+
+                else if (playerTraderOfferDelta < -0.2f)
+                    playerTraderOfferDelta = -0.2f;
+
+                if (GetCurrentTraderOffer() == 0)
+                    playerTraderOfferDelta = 0;
+
+                Vector3 playerDelta = new Vector3(0, -PlayerZone.position.y + NeutralPositionY - playerTraderOfferDelta, 0);
+                Vector3 traderDelta = new Vector3(0, -TraderZone.position.y + NeutralPositionY + playerTraderOfferDelta, 0);
+
+                Debug.Log(playerTraderOfferDelta);
+
                 float newX = -90 + playerTraderOfferDelta * connectorSensitivity;
 
                 if (newX > -70)
@@ -218,7 +218,7 @@ namespace RuthlessMerchant
                 else if (newX < -110)
                     newX = -110;
 
-                connector.localEulerAngles = new Vector3(newX, -90, 90); 
+                connector.localEulerAngles = new Vector3(newX, -90, 90);
                 PlayerZone.position = platePositionPlayer.position;
                 TraderZone.position = platePositionTrader.position;
             }
@@ -226,15 +226,28 @@ namespace RuthlessMerchant
             // VRTrade?
             else
             {
-                //ScaleMovement[] scaleMovements = FindObjectsOfType<ScaleMovement>();
+                ScaleMovement[] scaleMovements = FindObjectsOfType<ScaleMovement>();
 
-                //foreach (ScaleMovement scale in scaleMovements)
-                //{
-                //    scale.SpeedY = 0;
-                //    scale.TargetPositionPlayer = (PlayerZone.position + playerDelta).y;
-                //    scale.TargetPositionTrader = (TraderZone.position + traderDelta).y;
-                //    scale.enabled = true;
-                //}
+                foreach (ScaleMovement scale in scaleMovements)
+                {
+                    float delta;
+
+                    if (GetCurrentTraderOffer() != -1)
+                        delta = VRPlayerTradeZone.Singleton.TotalWeight - GetCurrentTraderOffer();
+                    else
+                        delta = VRPlayerTradeZone.Singleton.TotalWeight - RealValue;
+
+                    float targetRotationZ = delta / connectorSensitivity;
+
+                    if (targetRotationZ > 20)
+                        targetRotationZ = 20;
+                    else if (targetRotationZ < -20)
+                        targetRotationZ = -20;
+
+                    scale.SpeedZ = 0;
+                    scale.TargetConnectorRotationZ = targetRotationZ;
+                    scale.enabled = true;
+                }
             }
         }
 
@@ -248,6 +261,9 @@ namespace RuthlessMerchant
         {
             for (int x = weights[weightIndex].Count - 1; x >= targetWeights[weightIndex]; x--)
             {
+                if (x < 0)
+                    break;
+
                 weights[weightIndex][x].SetActive(false);
             }
 

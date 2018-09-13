@@ -22,6 +22,11 @@ namespace RuthlessMerchant
         #endif
         public List<float> TraderOffers;
 
+        #endregion
+
+        #region Private Fields
+
+        float exitTimer = 0;
         public static event EventHandler<TradeArgs> ItemsSold;
 
         public class TradeArgs : EventArgs
