@@ -26,6 +26,8 @@ namespace RuthlessMerchant
         private FMOD.Studio.EventInstance stepSound;
         private FMOD.Studio.ParameterInstance floorMaterial;
         private Character character;
+
+        private bool IsGrounded;
         
 
         [SerializeField, Tooltip("Enter the Gameobject of this character")]
@@ -36,30 +38,30 @@ namespace RuthlessMerchant
         /// <summary>
         /// Checks if the player is currently not airborne
         /// </summary>
-        public bool IsGrounded
-        {
-            get { return isGrounded;  }
-            set
-            {
-                isGrounded = value;
-                if(isGrounded && !justJumped)
-                {
-                    //FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Steps/GroundLanding", GetComponent<Transform>().position);
-                    justJumped = true;
-                }
-                if (!isGrounded)
-                {
-                    justJumped = false;
-                }
-            }
-        }
+        //public bool IsGrounded
+        //{
+        //    get { return isGrounded;  }
+        //    set
+        //    {
+        //        isGrounded = value;
+        //        if(isGrounded && !justJumped)
+        //        {
+        //            //FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Steps/GroundLanding", GetComponent<Transform>().position);
+        //            justJumped = true;
+        //        }
+        //        if (!isGrounded)
+        //        {
+        //            justJumped = false;
+        //        }
+        //    }
+        //}
 
         /// <summary>
         /// Called regularily to fire the event specified in the Editor
         /// </summary>
         void CallFootsteps()
         {
-            if (playerismoving == true && isGrounded)
+            if (playerismoving == true && IsGrounded)
             {
                 //Debug.Log("Stepsound playing");
                 FMODUnity.RuntimeManager.PlayOneShot(Steps, movingCharacter.GetComponent<Transform>().position);
@@ -80,15 +82,15 @@ namespace RuthlessMerchant
         /// </summary>
         void Update()
         {
-            IsGrounded = !movingCharacter.GetComponent<Player>().JustJumped;
+            IsGrounded = !movingCharacter.GetComponent<Player>().IsGrounded;
 
             if (gameObject.tag == "Player")
             {
-                if (characterRb.velocity.x > 0.05f || characterRb.velocity.y > 0.05f || characterRb.velocity.z > 0.05f)
+                if (characterRb.velocity.x > 0.02f || characterRb.velocity.y > 0.02f || characterRb.velocity.z > 0.02f)
                 {
                     playerismoving = true;
                 }
-                else if (characterRb.velocity.x <= 0.05f || characterRb.velocity.y <= 0.05f)
+                else if (characterRb.velocity.x <= 0.02f || characterRb.velocity.y <= 0.02f)
                 {
                     playerismoving = false;
                 }
