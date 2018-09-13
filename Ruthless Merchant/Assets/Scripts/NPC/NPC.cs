@@ -232,10 +232,10 @@ namespace RuthlessMerchant
                     ChangeSpeed(SpeedType.Walk);
                 }
 
-                if (agent.remainingDistance <= agent.stoppingDistance)
+                /*if (agent.remainingDistance <= agent.stoppingDistance)
                 {
                     agent.isStopped = true;
-                }
+                }*/
             }
             else
             {
