@@ -18,7 +18,8 @@ namespace RuthlessMerchant
         private FMOD.Studio.EventInstance soundeventVoiceLine;
         private FMOD.Studio.PLAYBACK_STATE playbackState;
         private string soundPath;
-        private bool[] linePlayed = {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false};
+        private int previousTriggeredNumber;
+        private bool[] lineAlreadyTriggered = {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false};
 
         [SerializeField]
         private int minCollectedVains = 1;
@@ -149,21 +150,27 @@ namespace RuthlessMerchant
             Singleton = this;
         }
 
+
         private void TriggerNextVoiceline(string path, int lineNumber)
         {
-            if (playbackState.ToString() == "PLAYING")
+            if (previousTriggeredNumber != lineNumber)
             {
-                soundeventVoiceLine.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-            }
+                if (playbackState.ToString() == "PLAYING")
+                {
+                    soundeventVoiceLine.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                }
 
-            if (!linePlayed[lineNumber])
-            {
-                soundPath = path;
-                soundeventVoiceLine = FMODUnity.RuntimeManager.CreateInstance(soundPath);
-                FMODUnity.RuntimeManager.AttachInstanceToGameObject(soundeventVoiceLine, Player.Singleton.transform, Player.Singleton.GetComponent<Rigidbody>());
-                soundeventVoiceLine.start();
+                if (!lineAlreadyTriggered[lineNumber])
+                {
+                    soundPath = path;
+                    soundeventVoiceLine = FMODUnity.RuntimeManager.CreateInstance(soundPath);
+                    FMODUnity.RuntimeManager.AttachInstanceToGameObject(soundeventVoiceLine, Player.Singleton.transform, Player.Singleton.GetComponent<Rigidbody>());
+                    soundeventVoiceLine.start();
 
-                linePlayed[lineNumber] = true;
+                    lineAlreadyTriggered[lineNumber] = true;
+                }
+
+                previousTriggeredNumber = lineNumber;
             }
         }
 
@@ -179,6 +186,7 @@ namespace RuthlessMerchant
             Player.Singleton.Inventory.Add(defaultSword, 1, true);
 
             //Sound - voiceline 1 on start
+            previousTriggeredNumber = 99;
             TriggerNextVoiceline("event:/Voicelines/Line 1", 0);
 
             myFade.FadingWithCallback(1, 0.001f, delegate
