@@ -660,8 +660,18 @@ namespace RuthlessMerchant
 
             base.Move(InputVector, moveSpeed);
 
-
-            SendInteraction();
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                if ((lastKeyPressed == KeyCode.R || lastKeyPressed == KeyCode.I) && bookCanvas.activeSelf)
+                {
+                    CloseBook();
+                }
+                else
+                {
+                    SendInteraction();
+                }
+            }
+            
             ShowMap();
 
             if (isOutpostDialogActive)
@@ -685,16 +695,6 @@ namespace RuthlessMerchant
             else
             {
                 BookControls();
-            }
-
-            if (Input.GetKey(KeyCode.F6))
-            {
-                Debug.Log("Gold: " + inventory.PlayerMoney);
-            }
-
-            if (Input.GetKeyDown(KeyCode.F7))
-            {
-                inventory.PlayerMoney = 1000;
             }
         }
 

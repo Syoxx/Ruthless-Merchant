@@ -15,6 +15,7 @@ namespace RuthlessMerchant {
         private bool inProgress;
         private int QuestZoneID;
         private float repGain;
+        private int heroReward;
 
         private GameObject[] Materials;
         
@@ -90,11 +91,12 @@ namespace RuthlessMerchant {
 
         }
 
-        public void FillList(List<Collectables> Collectables, float reputationGain, GameObject btn)
+        public void FillList(List<Collectables> Collectables, float reputationGain, int reward, GameObject btn)
         {
             Debug.Log("Fills list");
             collectables = Collectables;
             repGain = reputationGain;
+            heroReward = reward;
             Completed = false;
             //button = btn;
             questButton = btn.GetComponentInChildren<QuestButton>();
@@ -132,12 +134,14 @@ namespace RuthlessMerchant {
             }
             Materials = new GameObject[Materials.Length];
             Player.Singleton.GetComponent<Reputation>().ChangeStanding(hero.Faction, repGain);
+
+
             if (questButton)
             {
                 questButton.CompleteButton();
                 InProgress = false;
                 //button.GetComponent<Button>().onClick.AddListener(delegate {  });
-                questButton.DiscardQuestButton(Reward);
+                questButton.DiscardQuestButton(heroReward, collectables);
             }
             return true;
         }
@@ -168,11 +172,19 @@ namespace RuthlessMerchant {
         }
         public void GreyOutButton()
         {
-            questButton.GreyOut();
+            if (questButton)
+            {
+                questButton.GreyOut();
+            }
+            
         }
         public void DefaultColor()
         {
-            questButton.DefaultColor();
+            if (questButton)
+            {
+                questButton.DefaultColor();
+            }
+            
         }
         //void RemoveButton()
         //{
