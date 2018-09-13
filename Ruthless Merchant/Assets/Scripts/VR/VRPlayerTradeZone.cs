@@ -20,7 +20,7 @@ namespace RuthlessMerchant
 
         void LateUpdate()
         {
-            if(UpdateWeight)
+            if(UpdateWeight && !TradeAbstract.Singleton.Exit)
             {
                 UpdateTotalWeight();
                 TradeAbstract.Singleton.ModifyOffer();
