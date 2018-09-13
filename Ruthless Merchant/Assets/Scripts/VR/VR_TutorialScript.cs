@@ -8,53 +8,32 @@ namespace RuthlessMerchant
 {
     public class VR_TutorialScript : MonoBehaviour
     {
-        [SerializeField]
-        private string triggerTag = "RespawnTrigger";
+        public static VR_TutorialScript Singleton;
 
         [SerializeField]
-        private string triggerName = "ExitTrigger";
+        string triggerTag = "RespawnTrigger";
 
         [SerializeField]
-        private string featureShowcaseScene;
+        string triggerName = "ExitTrigger";
 
-        [SerializeField]
-        private Image fadeImage;
+        public Image FadeImage;
 
-        [SerializeField]
-        private float fadeTime;
+        public float FadeTime;
 
-        // Use this for initialization
+        void Awake()
+        {
+            Singleton = this;
+        }
+
         void Start()
         {
-            if (fadeImage == null)
-                fadeImage = GameObject.FindGameObjectWithTag("FadeImage").GetComponent<Image>();
+            if (FadeImage == null)
+                FadeImage = GameObject.FindGameObjectWithTag("FadeImage").GetComponent<Image>();
 
-            fadeImage.FadingWithCallback(0f, fadeTime, delegate
+            FadeImage.FadingWithCallback(0f, FadeTime, delegate
             {
                 Debug.Log("Tutorial started");
             });
-        }
-
-        public void OnCollisionEnter(Collision collision)
-        {
-            if (collision.gameObject.tag == triggerTag || collision.gameObject.name == triggerName)
-            {
-                fadeImage.FadingWithCallback(1f, fadeTime, delegate
-                {
-                    SceneManager.LoadScene(featureShowcaseScene);
-                });
-            }
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.gameObject.tag == triggerTag || other.gameObject.name == triggerName)
-            {
-                fadeImage.FadingWithCallback(1f, fadeTime, delegate
-                {
-                    SceneManager.LoadScene(featureShowcaseScene);
-                });
-            }
         }
     }
 }
