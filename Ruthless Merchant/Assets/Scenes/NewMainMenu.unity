@@ -628,6 +628,7 @@ GameObject:
   m_Component:
   - component: {fileID: 246494545}
   - component: {fileID: 246494544}
+  - component: {fileID: 246494546}
   m_Layer: 0
   m_Name: Credits
   m_TagString: MenuObject
@@ -663,6 +664,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: 39.694}
+--- !u!114 &246494546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 246494543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38c1acb9b4fe66643869165046cad3bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &254310015
 Prefab:
   m_ObjectHideFlags: 0
@@ -793,6 +805,22 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bb30f3c7060d1e8408ceaa69713be3f4, type: 3}
   m_IsPrefabParent: 0
+--- !u!1 &274169083 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1536842008140748, guid: 687c72d5177d10347b49e7338f20f7ae,
+    type: 2}
+  m_PrefabInternal: {fileID: 1889846094}
+--- !u!114 &274169085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 274169083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38c1acb9b4fe66643869165046cad3bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &294316521
 Prefab:
   m_ObjectHideFlags: 0
@@ -17243,6 +17271,22 @@ Transform:
   m_PrefabParentObject: {fileID: 4000011715870366, guid: c59ba53dbf1deca4a953eab5c0b82ce7,
     type: 2}
   m_PrefabInternal: {fileID: 189506533}
+--- !u!1 &1274325030 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1406832050019258, guid: 2d6f0dbd869a13a4199c6e3848157e73,
+    type: 2}
+  m_PrefabInternal: {fileID: 608222355}
+--- !u!114 &1274325032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1274325030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38c1acb9b4fe66643869165046cad3bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1275251853 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: 3b208cc283bf6e7488aa682ee0089686, type: 3}
@@ -42771,6 +42815,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2139100055}
   - component: {fileID: 2139100056}
+  - component: {fileID: 2139100057}
   m_Layer: 0
   m_Name: QuitGame
   m_TagString: MenuObject
@@ -42808,3 +42853,14 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 18.450047, y: 19.447033, z: 4.049515}
   m_Center: {x: -0.008251667, y: 0.7363224, z: -1.5247574}
+--- !u!114 &2139100057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2139100054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38c1acb9b4fe66643869165046cad3bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

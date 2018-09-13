@@ -16,6 +16,7 @@ namespace RuthlessMerchant
         [FMODUnity.EventRef]
         public string Steps;
         public float stepSpeed;
+        public float groundCheckDistance = 0.35f;
 
         private float initialStepSpeed;
         private string soundToPlay;
@@ -26,8 +27,6 @@ namespace RuthlessMerchant
         private FMOD.Studio.EventInstance stepSound;
         private FMOD.Studio.ParameterInstance floorMaterial;
         private Character character;
-
-        private bool IsGrounded;
         
 
         [SerializeField, Tooltip("Enter the Gameobject of this character")]
@@ -38,30 +37,30 @@ namespace RuthlessMerchant
         /// <summary>
         /// Checks if the player is currently not airborne
         /// </summary>
-        //public bool IsGrounded
-        //{
-        //    get { return isGrounded;  }
-        //    set
-        //    {
-        //        isGrounded = value;
-        //        if(isGrounded && !justJumped)
-        //        {
-        //            //FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Steps/GroundLanding", GetComponent<Transform>().position);
-        //            justJumped = true;
-        //        }
-        //        if (!isGrounded)
-        //        {
-        //            justJumped = false;
-        //        }
-        //    }
-        //}
+        public bool IsGrounded
+        {
+            get { return isGrounded; }
+            set
+            {
+                isGrounded = value;
+                if (isGrounded && !justJumped)
+                {
+                    //FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Steps/GroundLanding", GetComponent<Transform>().position);
+                    justJumped = true;
+                }
+                if (!isGrounded)
+                {
+                    justJumped = false;
+                }
+            }
+        }
 
         /// <summary>
         /// Called regularily to fire the event specified in the Editor
         /// </summary>
         void CallFootsteps()
         {
-            if (playerismoving == true && IsGrounded)
+            if (playerismoving == true && isGrounded)
             {
                 //Debug.Log("Stepsound playing");
                 FMODUnity.RuntimeManager.PlayOneShot(Steps, movingCharacter.GetComponent<Transform>().position);
@@ -82,8 +81,7 @@ namespace RuthlessMerchant
         /// </summary>
         void Update()
         {
-            IsGrounded = !movingCharacter.GetComponent<Player>().IsGrounded;
-            //Debug.Log(playerismoving);
+            isGrounded = Physics.Raycast(transform.position, Vector3.down, groundCheckDistance);
 
             if (gameObject.tag == "Player")
             {
