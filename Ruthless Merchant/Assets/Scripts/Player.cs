@@ -646,7 +646,6 @@ namespace RuthlessMerchant
             }
             else if (IsGrounded)
             {
-                gameObject.GetComponent<Rigidbody>().useGravity = false;
                 gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
                 gameObject.GetComponent<Rigidbody>().freezeRotation = true;
             }

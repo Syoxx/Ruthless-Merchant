@@ -25,7 +25,7 @@ public class MapSystem : MonoBehaviour {
 
             int numOfButtons = transform.childCount;
 
-            for (int i = 1; i < numOfButtons; i++)
+            for (int i = 2; i < numOfButtons; i++)
             {
                 Transform MapElement = transform.GetChild(i);
                 if (MapElement.GetChild(1).GetComponent<Button>() != null)
