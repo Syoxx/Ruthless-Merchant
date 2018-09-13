@@ -209,6 +209,7 @@ namespace RuthlessMerchant
         {
             get
             {
+                CheckCharGrounded(new RaycastHit());
                 return grounded;
             }
         }
