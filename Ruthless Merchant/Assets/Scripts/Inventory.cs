@@ -217,7 +217,7 @@ namespace RuthlessMerchant
         /// <returns>returns the created display</returns>
         private InventoryItem UpdateDisplayData(InventorySlot inventorySlot)
         {
-            Debug.Log("UpdateDisplayData");
+           // Debug.Log("UpdateDisplayData");
 
             if (ItemUIPrefab == null)
                 throw new System.NullReferenceException("no ItemUIPrefab found");
