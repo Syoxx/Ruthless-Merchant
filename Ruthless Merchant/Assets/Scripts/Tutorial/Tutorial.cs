@@ -267,7 +267,7 @@ namespace RuthlessMerchant
                     Monolog(Singleton.collectedMaterials);
 
                     //Sound - trigger voiceline 
-                    //FMODUnity.RuntimeManager.PlayOneShot("event:/Voicelines/Line ", Player.Singleton.transform.position);
+                    FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Voicelines/Line 3.5", PlayerObject);
                 }
             }
         }

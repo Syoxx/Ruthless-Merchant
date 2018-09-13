@@ -19,8 +19,8 @@ namespace Assets.Scripts.Audio
         [FMODUnity.EventRef]
         public string generalScore;
 
-        [Tooltip("Add Trade Trigger Gameobject from Scene Hierarchy")]
-        public GameObject tradeTrigger;
+        //[Tooltip("Add Trade Trigger Gameobject from Scene Hierarchy")]
+        //public GameObject tradeTrigger;
 
         private FMOD.Studio.EventInstance soundevent;
         private bool tutorialDone = false;

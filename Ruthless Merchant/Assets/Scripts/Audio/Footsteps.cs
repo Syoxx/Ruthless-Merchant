@@ -83,14 +83,16 @@ namespace RuthlessMerchant
         void Update()
         {
             IsGrounded = !movingCharacter.GetComponent<Player>().IsGrounded;
+            //Debug.Log(playerismoving);
 
             if (gameObject.tag == "Player")
             {
-                if (characterRb.velocity.x > 0.02f || characterRb.velocity.y > 0.02f || characterRb.velocity.z > 0.02f)
+                //if (characterRb.velocity.x > 0.001f || characterRb.velocity.y > 0.001f || characterRb.velocity.z > 0.001f)
+                if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
                 {
                     playerismoving = true;
                 }
-                else if (characterRb.velocity.x <= 0.02f || characterRb.velocity.y <= 0.02f)
+                else
                 {
                     playerismoving = false;
                 }

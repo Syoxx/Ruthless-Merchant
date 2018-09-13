@@ -14,6 +14,9 @@ namespace RuthlessMerchant
         #endif
         public List<float> PlayerOffers;
 
+        [SerializeField]
+        Item coinPrefab;
+
         #if UNITY_EDITOR
         [ReadOnly]
         #endif
@@ -63,6 +66,8 @@ namespace RuthlessMerchant
             TradeObjectsParent.transform.position = Trader.CurrentTrader.gameObject.transform.position;
             NeutralPositionY = PlayerZone.transform.position.y;
 
+            neutralConnectorRotation = new Vector3(-90, -90, 90);
+
             Vector3 prevRotation = TradeObjectsParent.transform.rotation.eulerAngles;
             TradeObjectsParent.transform.LookAt(Player.Singleton.transform);
 
@@ -74,6 +79,9 @@ namespace RuthlessMerchant
             initialized = false;
         }
 
+        /// <summary>
+        /// Handles Player Input and Unloads the TradeScene when the Trade is completed / aborted.
+        /// </summary>
         void Update()
         {
             if (Exit)
@@ -85,15 +93,16 @@ namespace RuthlessMerchant
                     Cursor.visible = false;
                     Singleton = null;
                     Player.Singleton.AllowTradingMovement();
-                    Trader.CurrentTrader.GoToPreviousPosition();
-                    Trader.CurrentTrader = null;
 
-                    MonsterLogic monsterLogic = FindObjectOfType<MonsterLogic>();
-
-                    if (monsterLogic != null)
-                        monsterLogic.TradeIsDone = true;
+                    if (Tutorial.Singleton != null)
+                    {
+                        Tutorial.Singleton.TradeIsDone = true;
+                        Debug.Log("Trade is done");
+                    }
 
                     Main_SceneManager.UnLoadScene("TradeScene");
+                    Trader.CurrentTrader.Scale.SetActive(true);
+                    Trader.CurrentTrader = null;
                 }
             }
             else
@@ -105,7 +114,7 @@ namespace RuthlessMerchant
                         ModifyOffer();
                     }
 
-                    else if (Input.GetMouseButtonDown(0))
+                    else if (!Player.Singleton.bookCanvas.activeInHierarchy && Input.GetMouseButtonDown(0))
                     {
                         HandlePlayerOffer();
                     }
@@ -128,12 +137,6 @@ namespace RuthlessMerchant
                 }
                 #endif
             }
-
-            // TODO: Delete this
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
-            }
         }
 
         #endregion
@@ -144,7 +147,6 @@ namespace RuthlessMerchant
         /// <param name="realValue">The RealValue of the trade.</param>
         public override void Initialize(int realValue)
         {
-            Cursor.visible = true;
             SetItemValue(realValue);
             Trader.CurrentTrader.Initialize(this);
 
@@ -153,6 +155,9 @@ namespace RuthlessMerchant
             nextPlayerOfferText.fontStyle = FontStyle.Italic;
 
             UpdateWeights(weightsPlayer, nextPlayerOffer);
+            UpdateWeights(weightsTrader, realValue);
+
+            Player.Singleton.RestrictBookUsage = false;
 
             initialized = true;
         }
@@ -169,21 +174,33 @@ namespace RuthlessMerchant
             valueText.text = realValue.ToString();
         }
 
+        /// <summary>
+        /// Gets the last Item of PlayerOffers.
+        /// </summary>
         public override float GetCurrentPlayerOffer()
         {
             return lastItem(PlayerOffers);
         }
 
+        /// <summary>
+        /// Gets the amount of items present in PlayerOffers.
+        /// </summary>
         public override int GetPlayerOffersCount()
         {
             return PlayerOffers.Count;
         }
 
+        /// <summary>
+        /// Gets the last Item of TraderOffers.
+        /// </summary>
         public override float GetCurrentTraderOffer()
         {
             return lastItem(TraderOffers);
         }
 
+        /// <summary>
+        /// Adds a Trader offer to TraderOffers.
+        /// </summary>
         public override void UpdateCurrentTraderOffer(float offer)
         {
             TraderOffers.Add(offer);
@@ -201,19 +218,28 @@ namespace RuthlessMerchant
             if (Input.GetKey(KeyCode.LeftShift))
                 multiplier = 100;
 
-            if (PlayerOffers.Count != 0 && nextPlayerOffer + (int)(wheelAxis * multiplier) >= PlayerOffers[PlayerOffers.Count - 1])
+            if (PlayerOffers.Count != 0 && nextPlayerOffer + (int)(wheelAxis * multiplier) >= GetCurrentPlayerOffer())
             {
-                nextPlayerOffer = (int)Math.Floor(PlayerOffers[PlayerOffers.Count - 1]) - 1;
+                if(GetCurrentPlayerOffer() > GetCurrentTraderOffer())
+                    nextPlayerOffer = (int)Math.Floor(GetCurrentPlayerOffer()) - 1;
+                else
+                    nextPlayerOffer = (int)Math.Floor(GetCurrentPlayerOffer());
             }
             else
             {
                 nextPlayerOffer += (int)(wheelAxis * multiplier);
 
-                if(nextPlayerOffer > 400)
-                    nextPlayerOffer = 400;
+                if (nextPlayerOffer > RealValue * 5)
+                    nextPlayerOffer = RealValue * 5;
 
                 else if (nextPlayerOffer < 1)
                     nextPlayerOffer = 1;
+
+                else if (nextPlayerOffer < (int)GetCurrentTraderOffer())
+                    nextPlayerOffer = (int)GetCurrentTraderOffer();
+
+                else if (nextPlayerOffer > 400)
+                    nextPlayerOffer = 400;
             }
 
             nextPlayerOfferText.fontStyle = FontStyle.Italic;
@@ -222,7 +248,7 @@ namespace RuthlessMerchant
         }
 
         /// <summary>
-        /// Handles the player's offer.
+        /// Handles the player's offer getting the Trader's reaction and updating the weights.
         /// </summary>
         void HandlePlayerOffer()
         {
@@ -257,14 +283,16 @@ namespace RuthlessMerchant
             if (TraderOffers.Count > 0)
                 UpdateWeights(weightsTrader, (int)TraderOffers[TraderOffers.Count -1]);
 
-            nextPlayerOffer -= 1;
+            if(nextPlayerOffer > GetCurrentTraderOffer())
+                nextPlayerOffer -= 1;
+
             nextPlayerOfferText.fontStyle = FontStyle.Normal;
             UpdateWeights(weightsPlayer, nextPlayerOffer);
             UpdateUI();
         }
 
         /// <summary>
-        /// Updates the UI with numerous trading variables. This method will be deleted in the future.
+        /// Updates the UI with numerous trading variables. This method is only needed for debug purposes.
         /// </summary>
         void UpdateUI()
         {
@@ -286,43 +314,32 @@ namespace RuthlessMerchant
         /// <summary>
         /// Called when the player accepts the trader's offer.
         /// </summary>
-<<<<<<< HEAD
-        void Accept()
-        {
-            tradeDialogue.text = "You and Dormammu have a blood-sealing pact. He wishes you a good day and rides off into the sunset.";
-            exit = true;
-
-            //Sound - coins
-            FMODUnity.RuntimeManager.PlayOneShot("event:/SFX/Coins", GameObject.FindGameObjectWithTag("Player").transform.position);
-        }
-
-        /// <summary>
-        /// Called when the trader doesn't want to trade anymore.
-        /// </summary>
-        public void Abort()
-        {
-            tradeDialogue.text = "Dormammu tells you to fuck off and rides off with his galaxy-eating unicorn.";
-            exit = true;
-        }
-
-        /// <summary>
-        /// Called when the player quits the trade.
-        /// </summary>
-        public void Quit()
-=======
         protected override void Accept()
->>>>>>> origin/(GameDesign)FinalMap
         {
-            TradeDialogue.text = "You and Dormammu have a blood-sealing pact. He wishes you a good day and rides off into the sunset.";
-            Exit = true;
+            Inventory.Singleton.Add(coinPrefab, (int)GetCurrentTraderOffer(), true);
 
-            if(GetCurrentTraderOffer() >= RealValue)
-                Tutorial.Monolog(5);
-            else
-                Tutorial.Monolog(6);
+            if (Achievements.Singleton.switchIndex == 3)
+                Achievements.AddToCounter(null, false);
 
             if (ItemsSold != null)
                 ItemsSold.Invoke(this, new TradeArgs(ItemsToSell, Trader.CurrentTrader));
+            
+            Trader.CurrentTrader.IncreaseReputation();
+            Exit = true;
+
+<<<<<<< HEAD
+            //Sound - coins
+            FMODUnity.RuntimeManager.PlayOneShot("event:/SFX/Coins", GameObject.FindGameObjectWithTag("Player").transform.position);
+            
+            TradeDialogue.text = "You and Dormammu have a blood-sealing pact. He wishes you a good day and rides off into the sunset.";
+
+
+=======
+>>>>>>> origin/(GameDesign)FinalMap
+            if (GetCurrentTraderOffer() >= RealValue)
+                Tutorial.Singleton.TradeMonolog5();
+            else
+                Tutorial.Singleton.TradeMonolog6();
         }
 
         /// <summary>
@@ -330,7 +347,6 @@ namespace RuthlessMerchant
         /// </summary>
         public override void Abort()
         {
-            TradeDialogue.text = "Dormammu tells you to fuck off and rides off with his galaxy-eating unicorn.";
             Exit = true;
 
             foreach (InventoryItem item in ItemsToSell)
@@ -344,7 +360,6 @@ namespace RuthlessMerchant
         /// </summary>
         public override void Quit()
         {
-            TradeDialogue.text = "U quitted coz u a lil chicken.";
             Player.RestrictCamera = false;
             Cursor.visible = false;
             Exit = true;

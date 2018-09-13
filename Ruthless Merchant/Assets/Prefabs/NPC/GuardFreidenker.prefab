@@ -61,6 +61,7 @@ GameObject:
   - component: {fileID: 54064898749944786}
   - component: {fileID: 114521015841864224}
   - component: {fileID: 114445322501463348}
+  - component: {fileID: 114416186208801528}
   m_Layer: 0
   m_Name: GuardFreidenker
   m_TagString: NPC
@@ -179,6 +180,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 10000
   maxHealth: 10000
+--- !u!114 &114416186208801528
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1898108068666172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d08cbd94b6fadd499e42cf6c8c56d06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114445322501463348
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -226,6 +238,7 @@ MonoBehaviour:
     m_Bits: 0
   maxJumpHeight: 0
   maxSlopeAngle: 0
+  ActionName: 
   rotationSpeed: 8
   fov: 90
   viewDistance: 10
