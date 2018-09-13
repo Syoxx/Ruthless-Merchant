@@ -257,7 +257,8 @@ namespace RuthlessMerchant
 
             Physics.IgnoreLayerCollision(9, 13);
 
-            OpenBook(KeyCode.N);
+            CloseBook();
+            //OpenBook(KeyCode.N);
             //inventory.InventoryChanged.AddListener(PopulateInventoryPanel);
         }
 
