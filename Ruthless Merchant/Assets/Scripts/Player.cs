@@ -483,7 +483,7 @@ namespace RuthlessMerchant
                 {
                     gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", true);
                     bookPrefab.SetActive(true);
-                    Debug.Log("Set treu");
+                    //Debug.Log("Set treu");
                 }
                 else
                     gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", false);
@@ -542,7 +542,7 @@ namespace RuthlessMerchant
             {
                 animDone = false;
                 gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", true);
-                //bookCanvas.SetActive(true);
+                bookPrefab.SetActive(true);
                 restrictMovement = /*bookCanvas.activeSelf*/true;
                 restrictCamera = /*bookCanvas.activeSelf*/true;
                 currentBookSection = key;
@@ -1147,6 +1147,7 @@ namespace RuthlessMerchant
         }
         private void CheckAnimationState()
         {
+            //Debug.Log("animDone =" + animDone);
             if (gameObject.GetComponentInChildren<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Take 003") && !animDone)
             {
                 animTime = gameObject.GetComponentInChildren<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime;
@@ -1172,11 +1173,21 @@ namespace RuthlessMerchant
                     }
                     else
                     {
-                        Debug.Log("set book active");
-                        bookCanvas.SetActive(true);
-                        
+                        bookCanvas.SetActive(true);                       
                         animDone = true;
                     }
+                }
+
+            }
+            
+            else if(gameObject.GetComponentInChildren<Animator>().GetCurrentAnimatorStateInfo(0).IsName("BuchZu"))
+            {
+                animTime = gameObject.GetComponentInChildren<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime;
+                if (animTime >= .9f)
+                {
+                        bookPrefab.SetActive(false);
+                        animDone = true;
+                        isMap = false;                    
                 }
             }
         }
