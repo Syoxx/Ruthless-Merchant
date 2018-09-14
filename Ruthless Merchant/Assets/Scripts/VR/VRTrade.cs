@@ -62,6 +62,7 @@ namespace RuthlessMerchant
         {
             if (VRSmithing.Singleton.smithingSteps == VRSmithing.SmithingSteps.Trading)
             {
+                VR_Contract.Singleton.WriteTraderAutograph();
                 HandlePlayerOfferPrivate();
             }
         }

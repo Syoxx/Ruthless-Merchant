@@ -44,7 +44,6 @@ namespace RuthlessMerchant
             {
                 if (!getpressdown)
                 {
-                    WriteTraderAutograph();
                     getpressdown = true;
                     FindObjectOfType<VRTrade>().HandlePlayerOffer();
                 }
