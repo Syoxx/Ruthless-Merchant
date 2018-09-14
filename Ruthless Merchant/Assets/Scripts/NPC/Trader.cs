@@ -323,7 +323,10 @@ namespace RuthlessMerchant
                 if (faction == Faction.Freidenker)
                 {
                     influenceFaction = Player.Singleton.Reputation.FreidenkerStanding;
-                    influenceWar = CaptureTrigger.OwnerStatistics[Faction.Freidenker] / 6;
+                    if (!CaptureTrigger.OwnerStatistics.ContainsKey(Faction.Freidenker))
+                        influenceWar = CaptureTrigger.OwnerStatistics[Faction.Freidenker] / 6;
+                    else
+                        influenceWar = 1.0f / 6.0f;
 
                     if(AsignedOutpost != null && AsignedOutpost.OutpostsToFreidenker.Length != 0)
                         influenceNeighbours = (AsignedOutpost.OutpostsToFreidenker.Length + AsignedOutpost.OutpostsToImperialist.Length - 1) / AsignedOutpost.OutpostsToFreidenker.Length;
@@ -332,7 +335,10 @@ namespace RuthlessMerchant
                 else if (faction == Faction.Imperialisten)
                 {
                     influenceFaction = Player.Singleton.Reputation.ImperalistenStanding;
-                    influenceWar = CaptureTrigger.OwnerStatistics[Faction.Imperialisten] / 6;
+                    if (!CaptureTrigger.OwnerStatistics.ContainsKey(Faction.Imperialisten))
+                        influenceWar = CaptureTrigger.OwnerStatistics[Faction.Imperialisten] / 6;
+                    else
+                        influenceWar = 1.0f / 6.0f;
 
                     if (AsignedOutpost != null && AsignedOutpost.OutpostsToImperialist.Length != 0)
                         influenceNeighbours = (AsignedOutpost.OutpostsToFreidenker.Length + AsignedOutpost.OutpostsToImperialist.Length - 1) / AsignedOutpost.OutpostsToImperialist.Length;
