@@ -146,10 +146,13 @@ namespace RuthlessMerchant
         {
             for (int i = 0; i < maxSlotCount; i++)
             {
-                if (InventorySlots[i].ItemInfo.ItemName == "Gold Coin")
+                if (InventorySlots[i].ItemInfo.ItemName != null)
                 {
-                    return i;
-                }
+                    if (InventorySlots[i].ItemInfo.ItemName == "Gold Coin")
+                    {
+                        return i;
+                    }
+                }               
             }
             return -1;
         }

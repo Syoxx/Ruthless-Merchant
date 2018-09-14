@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,18 +13,23 @@ namespace RuthlessMerchant
 
         [SerializeField]
         private List<CollectionGoal> collectionGoals;
-        private List<CollectionGoal> CollectionGoalClones = new List<CollectionGoal>();
-        private bool questingEnabled;
-
-        private CollectionGoal collectionGoal;
 
         [SerializeField]
         private GameObject buttonPrefab;
+
         [SerializeField]
-        private Transform buttonParent;
+        private Transform Page14_Panel;
+
+        [SerializeField]
+        private Transform Page15_Panel;
+
         [SerializeField]
         private GameObject iconPrefab;
 
+        private List<CollectionGoal> CollectionGoalClones = new List<CollectionGoal>();
+        private bool questingEnabled;
+        private CollectionGoal collectionGoal;
+        private Transform buttonParent;
 
         private List<GameObject> buttons = new List<GameObject>();
 
@@ -59,14 +64,19 @@ namespace RuthlessMerchant
             if (other.gameObject.CompareTag("Player"))
             {
                 for (int i = 0; i < buttons.Count; i++)
-                {if (buttons[i] != null)
+                {
+                    if (buttons[i] != null)
                     {
                         if (buttons[i].GetComponent<QuestButton>().isDisabled)
                         {
-                            if (Player.Singleton.Inventory.PlayerMoney >= collectionGoals[i].Reward)
+                            if (i < collectionGoals.Count)
                             {
-                                buttons[i].GetComponent<QuestButton>().DefaultColor();
+                                if (Player.Singleton.Inventory.PlayerMoney >= collectionGoals[i].Reward)
+                                {
+                                    buttons[i].GetComponent<QuestButton>().DefaultColor();
+                                }
                             }
+
                         }
                     }
                 }
@@ -99,6 +109,16 @@ namespace RuthlessMerchant
                     }
                     if (i < collectionGoals.Count)
                     {
+
+                        if (i > 2 || (buttons.Count > 3 && i > 1))
+                        {
+                            buttonParent = Page15_Panel;
+                        }
+                        else
+                        {
+                            buttonParent = Page14_Panel;
+                        }
+
                         GameObject questButton = Instantiate(buttonPrefab, buttonParent) as GameObject;
                         QuestDisplayedData questData = questButton.GetComponent<QuestDisplayedData>();
                         questData.Name.text = collectionGoals[i].QuestTitle;
@@ -119,7 +139,7 @@ namespace RuthlessMerchant
                         Button btn = questButton.GetComponent<Button>();
                         btn.onClick.AddListener(delegate { AssignQuest(localIndex, questButton); });
 
-                        if(Player.Singleton.Inventory.PlayerMoney < collectionGoals[i].Reward)
+                        if (Player.Singleton.Inventory.PlayerMoney < collectionGoals[i].Reward)
                         {
                             //collectionGoals[i].GreyOutButton();
                             questButton.GetComponent<QuestButton>().GreyOut();
