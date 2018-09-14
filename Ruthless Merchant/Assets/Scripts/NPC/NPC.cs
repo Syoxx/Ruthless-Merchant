@@ -155,6 +155,8 @@ namespace RuthlessMerchant
             }
         }
 
+        private float aniWalkSpeed;
+        private float aniRunSpeed;
         /// <summary>
         /// Init NPC
         /// </summary>
@@ -241,6 +243,20 @@ namespace RuthlessMerchant
             {
                 SetCurrentAction(null, null, true, true);
             }
+            UpdateAnimationSpeed();
+        }
+
+        private void UpdateAnimationSpeed()
+        {
+            if (animator.GetBool("IsWalking"))
+            {
+                if (currentSpeedType == SpeedType.Run)
+                    animator.speed = 1.5f * (runSpeed / walkSpeed);
+                else
+                    animator.speed = 1.5f;
+            }
+            else
+                animator.speed = 1.5f;
         }
 
         /// <summary>
