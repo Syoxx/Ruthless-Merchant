@@ -14,9 +14,16 @@ namespace RuthlessMerchant
         Ingredient _ingredient;
 
         /// <summary>
-        /// The particle emitter attached to the alchemyslot
+        /// The Brewing particle emitter attached to the alchemyslot
         /// </summary>
-        ParticleSystem _particles;
+        [SerializeField]
+        ParticleSystem _particlesPerma;
+
+        /// <summary>
+        /// The Explosion particle emitter attached to the alchemyslot
+        /// </summary>
+        [SerializeField]
+        ParticleSystem _particlesExp;
 
         #endregion
 
@@ -55,7 +62,6 @@ namespace RuthlessMerchant
 
         public override void Start()
         {
-            _particles = GetComponentInChildren<ParticleSystem>();
         }
 
         public override void Update()
@@ -70,8 +76,9 @@ namespace RuthlessMerchant
         public void AddItem(Ingredient ingredient)
         {
             _ingredient = ingredient;
-            _particles.Play();
-            
+            if(_particlesPerma)
+                _particlesPerma.Play();
+                
             //Sound - AlchemyItems
             FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Player/Alchemy Items", GameObject.FindGameObjectWithTag("Player").transform.position);
         }
@@ -85,8 +92,9 @@ namespace RuthlessMerchant
             Item item = _ingredient.DeepCopy();
             inventory.Add(item, 1, true);
             _ingredient = null;
-            _particles.Stop();
-            
+            if (_particlesPerma)
+                _particlesPerma.Stop();
+                
             //Sound - AlchemyItems
             FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Player/Alchemy Items", GameObject.FindGameObjectWithTag("Player").transform.position);
         }
@@ -94,7 +102,14 @@ namespace RuthlessMerchant
         public void ClearItem()
         {
             _ingredient = null;
-            _particles.Stop();
+            if (_particlesPerma)
+                _particlesPerma.Stop();
+        }
+
+        public void DoExplosive()
+        {
+            if (_particlesExp)
+                _particlesExp.Play();
         }
 
         #endregion

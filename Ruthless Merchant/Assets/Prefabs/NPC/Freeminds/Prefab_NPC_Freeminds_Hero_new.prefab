@@ -969,7 +969,6 @@ GameObject:
   - component: {fileID: 114071354520824414}
   - component: {fileID: 136913065771763924}
   - component: {fileID: 114929850781165696}
-  - component: {fileID: 114674180096640480}
   m_Layer: 15
   m_Name: Prefab_NPC_Freeminds_Hero_new
   m_TagString: NPC
@@ -4973,8 +4972,8 @@ MonoBehaviour:
   baseDefense: 10
   healthRegPerSec: 0
   sneakSpeed: 2
-  walkSpeed: 5
-  runSpeed: 8
+  walkSpeed: 3
+  runSpeed: 6
   groundCheckDistance: 0.25
   layerMask:
     serializedVersion: 2
@@ -5377,17 +5376,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1a2859bd3c9f7b41843846d87b72e3a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114674180096640480
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1483694749223856}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d08cbd94b6fadd499e42cf6c8c56d06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114715593183245068

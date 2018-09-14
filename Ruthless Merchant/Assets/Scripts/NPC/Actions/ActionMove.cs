@@ -68,7 +68,7 @@ namespace RuthlessMerchant
 
             if (parent.Waypoints.Count > 0)
             {
-                agent.SetDestination(parent.Waypoints[0].GetPosition());
+                SetDestination();
             }
         }
 
@@ -88,9 +88,38 @@ namespace RuthlessMerchant
             else
             {               
                 agent.isStopped = false;
-                parent.RotateToNextTarget(agent.steeringTarget + parent.transform.forward, true);
+                parent.RotateToNextTarget(agent.steeringTarget + parent.transform.forward, false);
             }
             MoveAnimation();
+            DeadlockFixer();
+        }
+
+        private float elapsedDeadlockTime = 0.0f;
+        private float maxDeadlockTime = 3.0f;
+        private bool checkDeadlock = false;
+        private void DeadlockFixer()
+        {
+            if (checkDeadlock)
+            {
+                if (agent.pathPending)
+                {
+                    elapsedDeadlockTime += Time.deltaTime;
+                    if (elapsedDeadlockTime > maxDeadlockTime)
+                    {
+                        NavMeshPath path = new NavMeshPath();
+                        if (agent.CalculatePath(parent.CurrentWaypoint.Value.GetPosition(), path))
+                        {
+                            agent.SetPath(path);
+                        }
+                        checkDeadlock = false;
+                    }
+                }
+                else
+                {
+                    checkDeadlock = false;
+                    elapsedDeadlockTime = 0.0f;
+                }
+            }
         }
 
         private void MoveAnimation()
@@ -123,7 +152,7 @@ namespace RuthlessMerchant
         /// <summary>
         /// Sets the next waypoint
         /// </summary>
-        private void SetDestination()
+        protected void SetDestination()
         {
             if (parent.Waypoints.Count <= 0 || waypointIndex < 0 || waypointIndex >= parent.Waypoints.Count)
             {
@@ -141,6 +170,9 @@ namespace RuthlessMerchant
             {
                 elapsedWaitTime = 0.0f;
                 agent.SetDestination(waypoint.GetPosition());
+                checkDeadlock = true;
+                elapsedDeadlockTime = 0.0f;
+
                 agent.isStopped = false;
                 agent.updateRotation = false;
                 parent.CurrentWaypoint = waypoint;

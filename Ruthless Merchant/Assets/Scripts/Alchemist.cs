@@ -58,6 +58,38 @@ namespace RuthlessMerchant
         }
 
         /// <summary>
+        /// Creates the Value for the Potion
+        /// </summary>
+        /// <param name="atk">ATK-Parameter of the potion</param>
+        /// <param name="def">DEF-Parameter of the potion</param>
+        /// <param name="speed">Speed-Parameter of the potion</param>
+        /// <param name="hp">Health Regeneration-Parameter of the potion</param>
+        /// <returns>final value as int</returns>
+        int PotionValue(int atk, int def, int speed, int hp)
+        {
+            int value = 3;
+
+            for(int i = Mathf.Abs(atk); i > 0; i--)
+            {
+                value += i;
+            }
+            for (int i = Mathf.Abs(def); i > 0; i--)
+            {
+                value += i;
+            }
+            for (int i = Mathf.Abs(speed); i > 0; i--)
+            {
+                value += i;
+            }
+            for (int i = Mathf.Abs(hp); i > 0; i--)
+            {
+                value += i;
+            }
+
+            return value;
+        }
+
+        /// <summary>
         /// Creates a Name for the Potion
         /// </summary>
         /// <param name="atk">ATK-Parameter of the potion</param>
@@ -216,6 +248,7 @@ namespace RuthlessMerchant
 
                     hasItem = true;
                     alchemySlots[i].ClearItem();
+                    alchemySlots[i].DoExplosive();
                 }
             }
             if(!hasItem)
@@ -234,7 +267,7 @@ namespace RuthlessMerchant
             potion.ItemInfo.ItemRarity = Rarity(atkCount, defCount, speedCount, hpCount);
             potion.ItemInfo.ItemSprite = RandomSprite();
             potion.ItemInfo.MaxStackCount = 1;
-            potion.ItemInfo.ItemValue = 1;
+            potion.ItemInfo.ItemValue = PotionValue(atkCount, defCount, speedCount, hpCount);
 
             //Adds potion to infentory
             Player p = caller.GetComponent<Player>();

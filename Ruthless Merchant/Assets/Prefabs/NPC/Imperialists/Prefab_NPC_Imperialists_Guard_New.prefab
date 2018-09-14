@@ -809,7 +809,6 @@ GameObject:
   - component: {fileID: 195429260383978880}
   - component: {fileID: 54213946702984684}
   - component: {fileID: 114018654884098882}
-  - component: {fileID: 114270840745044894}
   m_Layer: 15
   m_Name: Prefab_NPC_Imperialists_Guard_New
   m_TagString: NPC
@@ -3927,17 +3926,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 479cd6b17bf173d43b3c6db6d6c6ebac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114270840745044894
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1518369309256216}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d08cbd94b6fadd499e42cf6c8c56d06, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114416818174914540
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4002,8 +3990,8 @@ MonoBehaviour:
   baseDefense: 10
   healthRegPerSec: 0
   sneakSpeed: 2
-  walkSpeed: 3
-  runSpeed: 6
+  walkSpeed: 2
+  runSpeed: 5
   groundCheckDistance: 0.25
   layerMask:
     serializedVersion: 2

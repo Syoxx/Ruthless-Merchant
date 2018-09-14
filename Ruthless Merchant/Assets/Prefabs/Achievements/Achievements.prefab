@@ -53,6 +53,7 @@ GameObject:
   - component: {fileID: 23678118732382318}
   - component: {fileID: 114089339692589210}
   - component: {fileID: 114053289096866862}
+  - component: {fileID: 65750628034520278}
   m_Layer: 0
   m_Name: StealSpecialWeapon
   m_TagString: Untagged
@@ -895,6 +896,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &65750628034520278
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1163880854586002}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.1143874, y: 0.017040938, z: 0.21048181}
+  m_Center: {x: -0.000015253201, y: 0, z: -0.018094191}
 --- !u!65 &65965915658428088
 BoxCollider:
   m_ObjectHideFlags: 1

@@ -146,10 +146,13 @@ namespace RuthlessMerchant
         {
             for (int i = 0; i < maxSlotCount; i++)
             {
-                if (InventorySlots[i].ItemInfo.ItemName == "Gold Coin")
+                if (InventorySlots[i].ItemInfo.ItemName != null)
                 {
-                    return i;
-                }
+                    if (InventorySlots[i].ItemInfo.ItemName == "Gold Coin")
+                    {
+                        return i;
+                    }
+                }               
             }
             return -1;
         }
@@ -217,7 +220,7 @@ namespace RuthlessMerchant
         /// <returns>returns the created display</returns>
         private InventoryItem UpdateDisplayData(InventorySlot inventorySlot)
         {
-            Debug.Log("UpdateDisplayData");
+           // Debug.Log("UpdateDisplayData");
 
             if (ItemUIPrefab == null)
                 throw new System.NullReferenceException("no ItemUIPrefab found");
