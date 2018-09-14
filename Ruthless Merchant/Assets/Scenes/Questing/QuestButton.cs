@@ -34,24 +34,28 @@ namespace RuthlessMerchant {
             inProgress = true;
         }
 
-        //Removes previous button listener and adds a listener to discard button when completed
-        public void DiscardQuestButton(int Reward)
+        public void DiscardQuestButton(int Reward, List<Collectables> itemlist)
         {
             Button btn = GetComponent<Button>();
             btn.onClick.RemoveAllListeners();
-            btn.onClick.AddListener(delegate { DiscardQuest(Reward); });
+            btn.onClick.AddListener(delegate { DiscardQuest(Reward, itemlist); });
         }
-
-        //Discrads the button and gives out the reward money 
-        private void DiscardQuest(int Reward)
+        private void DiscardQuest(int Reward, List<Collectables> itemlist)
         {
             Destroy(gameObject);
+
+            for (int i = 0; i < itemlist.Count; i++)
+            {
+                Player.Singleton.Inventory.Add(itemlist[i].item, itemlist[i].requiredAmount, true);
+            }
+
             Player.Singleton.Inventory.RemoveGold(Reward);
         }
 
         //Greys out and disables button
         public void GreyOut()
         {
+            Debug.Log("greying out");
             var colors = GetComponent<Button>().colors;
             colors.normalColor = new Color32(102, 102, 102, 255);
             colors.highlightedColor = new Color32(102, 102, 102, 255);

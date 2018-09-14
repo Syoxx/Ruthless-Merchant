@@ -27,6 +27,8 @@ namespace RuthlessMerchant {
         ///The reputition gain the player gathers from handing out quests
         /// </summary>
         private float repGain;
+        private int heroReward;
+
         /// <summary>
         ///A list of the collectables in the scene to calculate the nearest collectable rquired in the quest
         /// </summary>
@@ -99,14 +101,12 @@ namespace RuthlessMerchant {
             Completed = EvaluateGoal();
         }
 
-        /// <summary>
-        ///Gets called by the CollectionGoals-Script attached to the various outposts and hands over the quest-goals[as soon as the player assignes a quest] with its collectables and required amounts
-        /// </summary>
-        public void FillList(List<Collectables> Collectables, float reputationGain, GameObject btn)
+        public void FillList(List<Collectables> Collectables, float reputationGain, int reward, GameObject btn)
         {
             Debug.Log("Fills list");
             collectables = Collectables;
             repGain = reputationGain;
+            heroReward = reward;
             Completed = false;
             questButton = btn.GetComponent<QuestButton>();
             Materials = GameObject.FindGameObjectsWithTag(collectables[0].item.ItemInfo.ItemName); 
@@ -148,7 +148,8 @@ namespace RuthlessMerchant {
             {
                 questButton.CompleteButton();
                 InProgress = false;
-                questButton.DiscardQuestButton(Reward);
+                //button.GetComponent<Button>().onClick.AddListener(delegate {  });
+                questButton.DiscardQuestButton(heroReward, collectables);
             }
             return true;
         }

@@ -112,6 +112,10 @@ namespace RuthlessMerchant
 
         [SerializeField, Range(-30.0f, 0.0f), Tooltip("The Velocity that is required to kill the player when falling")]
         private float deathVelocity = 12f;
+
+        private float animTime;
+        private bool animDone;
+        private bool isMap;
         #endregion
 
         #region Public Fields
@@ -257,7 +261,8 @@ namespace RuthlessMerchant
 
             Physics.IgnoreLayerCollision(9, 13);
 
-            OpenBook(KeyCode.N);
+            CloseBook();
+            //OpenBook(KeyCode.N);
             //inventory.InventoryChanged.AddListener(PopulateInventoryPanel);
         }
 
@@ -339,6 +344,8 @@ namespace RuthlessMerchant
 
         public override void Update()
         {
+            CheckAnimationState();
+
             CheckFallDamage();
 
             LookRotation();
@@ -460,27 +467,18 @@ namespace RuthlessMerchant
         /// Brings map data up to date and shows the player map
         /// </summary>
         public void ShowMap()
-        {
+        {//if(gameObject.GetComponentInChildren<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Take 003"))
+            //Debug.Log("Take003 finished?");
             if (Input.GetKeyDown(KeyCode.M) && !isOutpostDialogActive)
             {
+                animDone = false;
+                isMap = true;
                 bool isUI_Inactive = (mapObject.activeSelf == false);
 
-                if (isUI_Inactive)
+                if (isUI_Inactive /*&& gameObject.GetComponentInChildren<Animator>().GetCurrentAnimatorStateInfo(0)*/)
                     gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", true);
                 else
                     gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", false);
-                if (bookCanvas.activeSelf)
-                {
-                    CloseBook();
-                }
-
-                //TODO: check which posts player has unlocked / bought
-                // pass an array with ids of trading posts that should be displayed
-                mapLogic.RefreshMapCanvas(unlockedTravelPoints);
-
-                mapObject.SetActive(isUI_Inactive);
-                restrictMovement = isUI_Inactive || TradeAbstract.Singleton != null;
-                restrictCamera = isUI_Inactive;
             }
         }
 
@@ -534,10 +532,11 @@ namespace RuthlessMerchant
             }
             else if (!isOutpostDialogActive)
             {
+                animDone = false;
                 gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", true);
-                bookCanvas.SetActive(true);
-                restrictMovement = bookCanvas.activeSelf;
-                restrictCamera = bookCanvas.activeSelf;
+                //bookCanvas.SetActive(true);
+                restrictMovement = /*bookCanvas.activeSelf*/true;
+                restrictCamera = /*bookCanvas.activeSelf*/true;
                 currentBookSection = key;
                 bookLogic.GoToPage(key);
             }
@@ -548,6 +547,7 @@ namespace RuthlessMerchant
         /// </summary>
         private void CloseBook()
         {
+            Debug.Log("Close book");
             if (mapObject.activeSelf)
             {
                 mapObject.SetActive(false);
@@ -646,7 +646,6 @@ namespace RuthlessMerchant
             }
             else if (IsGrounded)
             {
-                gameObject.GetComponent<Rigidbody>().useGravity = false;
                 gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
                 gameObject.GetComponent<Rigidbody>().freezeRotation = true;
             }
@@ -661,8 +660,18 @@ namespace RuthlessMerchant
 
             base.Move(InputVector, moveSpeed);
 
-
-            SendInteraction();
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                if ((lastKeyPressed == KeyCode.R || lastKeyPressed == KeyCode.I) && bookCanvas.activeSelf)
+                {
+                    CloseBook();
+                }
+                else
+                {
+                    SendInteraction();
+                }
+            }
+            
             ShowMap();
 
             if (isOutpostDialogActive)
@@ -686,16 +695,6 @@ namespace RuthlessMerchant
             else
             {
                 BookControls();
-            }
-
-            if (Input.GetKey(KeyCode.F6))
-            {
-                Debug.Log("Gold: " + inventory.PlayerMoney);
-            }
-
-            if (Input.GetKeyDown(KeyCode.F7))
-            {
-                inventory.PlayerMoney = 1000;
             }
         }
 
@@ -1137,6 +1136,41 @@ namespace RuthlessMerchant
         public void Sneak()
         {
             //throw new System.NotImplementedException();
+        }
+        private void CheckAnimationState()
+        {
+            if (gameObject.GetComponentInChildren<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Take 003") && !animDone)
+            {
+                animTime = gameObject.GetComponentInChildren<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime;
+                if (animTime >= 1.0f)
+                {
+                    if (isMap)
+                    {
+                        bool isUI_Inactive = (mapObject.activeSelf == false);
+                        if (bookCanvas.activeSelf)
+                        {
+                            CloseBook();
+                        }
+
+                        //TODO: check which posts player has unlocked / bought
+                        // pass an array with ids of trading posts that should be displayed
+                        mapLogic.RefreshMapCanvas(unlockedTravelPoints);
+
+                        mapObject.SetActive(isUI_Inactive);
+                        restrictMovement = isUI_Inactive || TradeAbstract.Singleton != null;
+                        restrictCamera = isUI_Inactive;
+                        animDone = true;
+                        isMap = false;
+                    }
+                    else
+                    {
+                        Debug.Log("set book active");
+                        bookCanvas.SetActive(true);
+                        
+                        animDone = true;
+                    }
+                }
+            }
         }
     }
 }

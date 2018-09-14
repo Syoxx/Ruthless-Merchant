@@ -47,7 +47,7 @@ namespace RuthlessMerchant
         [SerializeField, Range(0, 1000), Tooltip("Base damage per attack")]
         protected int baseDamagePerAtk = 75;
 
-        [SerializeField, Range(0, 10), Tooltip("Base time between attacks")]
+        [SerializeField, Range(0.0f, 10.0f), Tooltip("Base time between attacks")]
         protected float baseAttackDelay = 2;
 
         [SerializeField, Range(0, 1000), Tooltip("Base defense value")]
@@ -209,6 +209,7 @@ namespace RuthlessMerchant
         {
             get
             {
+                CheckCharGrounded(new RaycastHit());
                 return grounded;
             }
         }
@@ -312,7 +313,10 @@ namespace RuthlessMerchant
         private IEnumerator DoDamage(Character character, int damage, float delay)
         {
             yield return new WaitForSeconds(delay);
-            character.HealthSystem.ChangeHealth(-damage, this);
+            if (!isDying && character != null && !character.isDying)
+            {
+                character.HealthSystem.ChangeHealth(-damage, this);
+            }
         }
 
         public void Move(Vector2 velocity, float speed)

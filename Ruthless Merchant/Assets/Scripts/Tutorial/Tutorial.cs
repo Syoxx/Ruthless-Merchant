@@ -159,7 +159,7 @@ namespace RuthlessMerchant
 
             myFade.FadingWithCallback(1, 0.001f, delegate
             {
-                Monolog(startMonolog); myFade.FadingWithCallback(0, 3, delegate { Debug.Log("Done fading"); });
+                Monolog(startMonolog); myFade.FadingWithCallback(0, 3, delegate {  });
             });
 
             monster.SetCurrentAction(new ActionIdle(ActionNPC.ActionPriority.High), null, true, true);
