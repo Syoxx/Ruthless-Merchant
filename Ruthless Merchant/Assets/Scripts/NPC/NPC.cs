@@ -155,8 +155,6 @@ namespace RuthlessMerchant
             }
         }
 
-        private float aniWalkSpeed;
-        private float aniRunSpeed;
         /// <summary>
         /// Init NPC
         /// </summary>
@@ -256,7 +254,7 @@ namespace RuthlessMerchant
                     animator.speed = 1.5f;
             }
             else
-                animator.speed = 1.5f;
+                animator.speed = 1.0f;
         }
 
         /// <summary>
