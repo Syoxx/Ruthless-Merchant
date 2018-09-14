@@ -69,19 +69,19 @@ namespace RuthlessMerchant
         {
             int value = 3;
 
-            for(int i = atk; i > 0; i--)
+            for(int i = Mathf.Abs(atk); i > 0; i--)
             {
                 value += i;
             }
-            for (int i = def; i > 0; i--)
+            for (int i = Mathf.Abs(def); i > 0; i--)
             {
                 value += i;
             }
-            for (int i = speed; i > 0; i--)
+            for (int i = Mathf.Abs(speed); i > 0; i--)
             {
                 value += i;
             }
-            for (int i = hp; i > 0; i--)
+            for (int i = Mathf.Abs(hp); i > 0; i--)
             {
                 value += i;
             }
