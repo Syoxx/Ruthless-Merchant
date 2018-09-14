@@ -202,6 +202,14 @@ namespace RuthlessMerchant
 
         private void Awake()
         {
+            if(maxRecipesPerPage <= 0)
+            {
+                maxRecipesPerPage = 1;
+            }
+            if(!book)
+            {
+                book = FindObjectOfType<BookPro>();
+            }
             if(SteelAndIron.Length > 1)
             {
                 List<Recipe.Materials> steelList = new List<Recipe.Materials> { new Recipe.Materials(SteelAndIron[1], 2) };
@@ -262,6 +270,11 @@ namespace RuthlessMerchant
         /// <param name="recipeIndex">the index of the recipe in the recipes-list. returns null if index is out of range</param>
         private GameObject AddRecipePanel(int recipeIndex)
         {
+            if(recipes[recipeIndex].Result == null)
+            {
+                throw new System.NullReferenceException("recipe doesn't have a Result");
+            }
+
             if(!recipePanelPrefab)
             {
                 throw new System.NullReferenceException("No recipePanelPrefab found");
