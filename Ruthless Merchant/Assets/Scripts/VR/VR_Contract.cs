@@ -28,6 +28,8 @@ namespace RuthlessMerchant
         GameObject hand2;
 
         Vector3 fixedPosition;
+        Quaternion fixedRotation;
+
 
         bool getpressdown;
 
@@ -36,6 +38,7 @@ namespace RuthlessMerchant
             Singleton = this;
             interactable = GetComponent<Interactable>();
             fixedPosition = transform.position;
+            fixedRotation = transform.rotation;
         }
 
         void LateUpdate()
@@ -54,6 +57,7 @@ namespace RuthlessMerchant
             }
 
             transform.position = fixedPosition;
+            transform.rotation = fixedRotation;
         }
 
         public void WriteTraderAutograph()

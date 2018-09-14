@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17276813, g: 0.21589187, b: 0.29782563, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1023,7 +1023,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 447954, guid: dc06161b6d97feb419f45f03b62e14b9, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0.4
+      value: -0.82
       objectReference: {fileID: 0}
     - target: {fileID: 447954, guid: dc06161b6d97feb419f45f03b62e14b9, type: 2}
       propertyPath: m_LocalPosition.y
@@ -1031,7 +1031,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 447954, guid: dc06161b6d97feb419f45f03b62e14b9, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 3.34
+      value: 2.85
       objectReference: {fileID: 0}
     - target: {fileID: 447954, guid: dc06161b6d97feb419f45f03b62e14b9, type: 2}
       propertyPath: m_LocalRotation.x
@@ -1059,15 +1059,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 447954, guid: dc06161b6d97feb419f45f03b62e14b9, type: 2}
       propertyPath: m_LocalScale.x
-      value: 1.4
+      value: 1.8
       objectReference: {fileID: 0}
     - target: {fileID: 447954, guid: dc06161b6d97feb419f45f03b62e14b9, type: 2}
       propertyPath: m_LocalScale.y
-      value: 1.4
+      value: 1.8
       objectReference: {fileID: 0}
     - target: {fileID: 447954, guid: dc06161b6d97feb419f45f03b62e14b9, type: 2}
       propertyPath: m_LocalScale.z
-      value: 1.4
+      value: 1.8
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114000011983135080, guid: dc06161b6d97feb419f45f03b62e14b9, type: 2}
@@ -6646,7 +6646,7 @@ Prefab:
     - target: {fileID: 198615260090971332, guid: ef371e53301288f4982ecf075e9da3c3,
         type: 2}
       propertyPath: lengthInSec
-      value: 0.25
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1855032958210084, guid: ef371e53301288f4982ecf075e9da3c3, type: 2}
       propertyPath: m_Name
@@ -6656,6 +6656,16 @@ Prefab:
         type: 2}
       propertyPath: InitialModule.startSpeed.scalar
       value: 1.41
+      objectReference: {fileID: 0}
+    - target: {fileID: 198900719823160164, guid: ef371e53301288f4982ecf075e9da3c3,
+        type: 2}
+      propertyPath: lengthInSec
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 198306316699735828, guid: ef371e53301288f4982ecf075e9da3c3,
+        type: 2}
+      propertyPath: lengthInSec
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ef371e53301288f4982ecf075e9da3c3, type: 2}
@@ -14507,7 +14517,7 @@ Prefab:
     - target: {fileID: 198615260090971332, guid: ef371e53301288f4982ecf075e9da3c3,
         type: 2}
       propertyPath: lengthInSec
-      value: 0.25
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1855032958210084, guid: ef371e53301288f4982ecf075e9da3c3, type: 2}
       propertyPath: m_Name
@@ -14517,6 +14527,16 @@ Prefab:
         type: 2}
       propertyPath: InitialModule.startSpeed.scalar
       value: 1.41
+      objectReference: {fileID: 0}
+    - target: {fileID: 198900719823160164, guid: ef371e53301288f4982ecf075e9da3c3,
+        type: 2}
+      propertyPath: lengthInSec
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 198306316699735828, guid: ef371e53301288f4982ecf075e9da3c3,
+        type: 2}
+      propertyPath: lengthInSec
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ef371e53301288f4982ecf075e9da3c3, type: 2}
@@ -14720,17 +14740,17 @@ Prefab:
     - target: {fileID: 198615260090971332, guid: ef371e53301288f4982ecf075e9da3c3,
         type: 2}
       propertyPath: lengthInSec
-      value: 0.25
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 198306316699735828, guid: ef371e53301288f4982ecf075e9da3c3,
         type: 2}
       propertyPath: lengthInSec
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 198900719823160164, guid: ef371e53301288f4982ecf075e9da3c3,
         type: 2}
       propertyPath: lengthInSec
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 198615260090971332, guid: ef371e53301288f4982ecf075e9da3c3,
         type: 2}
@@ -15818,11 +15838,11 @@ GameObject:
   - component: {fileID: 1591126121}
   - component: {fileID: 1591126120}
   - component: {fileID: 1591126119}
-  - component: {fileID: 1591126118}
   - component: {fileID: 1591126126}
   - component: {fileID: 1591126125}
   - component: {fileID: 1591126124}
   - component: {fileID: 1591126123}
+  - component: {fileID: 1591126118}
   m_Layer: 0
   m_Name: Paper
   m_TagString: Untagged
@@ -15857,12 +15877,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1591126116}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 1, y: -1}
-  m_UseGraphicAlpha: 1
+  outlineMode: 1
+  outlineColor: {r: 1, g: 0.79607844, b: 0, a: 1}
+  outlineWidth: 4
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!114 &1591126119
 MonoBehaviour:
   m_ObjectHideFlags: 0

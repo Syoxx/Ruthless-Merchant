@@ -57,6 +57,7 @@ namespace RuthlessMerchant
 
         IEnumerator LoadLevelCOR()
         {
+            Debug.LogWarning("Loading Scene");
             loadSceneOperator.allowSceneActivation = false;
 
             while (!loadSceneOperator.isDone)

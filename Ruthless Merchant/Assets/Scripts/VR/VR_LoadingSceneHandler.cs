@@ -13,7 +13,7 @@ public class VR_LoadingSceneHandler : MonoBehaviour
 	{
         nextScene = PlayerPrefs.GetString("sceneToLoad");
         PlayerPrefs.DeleteAll();
-	    SceneManager.LoadSceneAsync(nextScene);
+	    //SceneManager.LoadSceneAsync(nextScene);
 	}
 
 	// Update is called once per frame

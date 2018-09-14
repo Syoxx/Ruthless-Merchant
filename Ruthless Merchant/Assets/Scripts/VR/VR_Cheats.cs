@@ -25,7 +25,6 @@ public class VR_Cheats : MonoBehaviour
 
 	    controller = GetComponent<SteamVR_TrackedController>();
         controller.PadClicked += Controller_PadClicked;
-        controller.TriggerClicked += Controller_PadClicked; ;
 	}
 
     /// <summary>
@@ -45,7 +44,7 @@ public class VR_Cheats : MonoBehaviour
 
 
         // If hairtrigger and trackpad Down (0, -1) pressed switch scene
-        if (controller.triggerPressed == true && device.GetAxis().x > -0.3 && device.GetAxis().x < 0.3 && device.GetAxis().y < -0.8)
+        if (device.GetAxis().x > -0.3 && device.GetAxis().x < 0.3 && device.GetAxis().y < -0.8)
         {
             Debug.Log("Trackpad Down clicked.");
             // Switch to VR_NewMainMenu
@@ -53,7 +52,7 @@ public class VR_Cheats : MonoBehaviour
         }
 
         // If hairtrigger and trackpad Up (0, +1) pressed switch scene
-        if (controller.triggerPressed == true && device.GetAxis().x > -0.3 && device.GetAxis().x < 0.3 && device.GetAxis().y > +0.8)
+        if (device.GetAxis().x > -0.3 && device.GetAxis().x < 0.3 && device.GetAxis().y > +0.8)
         {
             Debug.Log("Trackpad Up clicked.");
             // Switch to VR_TutorialScene
@@ -61,7 +60,7 @@ public class VR_Cheats : MonoBehaviour
         }
 
         // If hairtrigger and trackpad Left (-1, 0) pressed switch scene
-        if (controller.triggerPressed == true && device.GetAxis().y > -0.3 && device.GetAxis().y < 0.3 && device.GetAxis().x < -0.8)
+        if (device.GetAxis().y > -0.3 && device.GetAxis().y < 0.3 && device.GetAxis().x < -0.8)
         {
             Debug.Log("Trackpad Left clicked.");
             // Switch to VR_SmithTradeScene
@@ -70,7 +69,7 @@ public class VR_Cheats : MonoBehaviour
         }
 
         // If hairtrigger and trackpad right (+1, 0) pressed switch scene
-        if (controller.triggerPressed == true && device.GetAxis().y > -0.3 && device.GetAxis().y < 0.3 && device.GetAxis().x > 0.8)
+        if (device.GetAxis().y > -0.3 && device.GetAxis().y < 0.3 && device.GetAxis().x > 0.8)
         {
             Debug.Log("Trackpad Right clicked.");
             // Switch to VR_IslandScene
@@ -78,12 +77,12 @@ public class VR_Cheats : MonoBehaviour
         }
     }
 
-    
 
-    //// Update is called once per frame
-    //void Update ()
-    //{
-    //    device = SteamVR_Controller.Input((int) trackedObj.index);
-        
-    //}
+
+    // Update is called once per frame
+    void Update()
+    {
+        device = SteamVR_Controller.Input((int)trackedObj.index);
+
+    }
 }

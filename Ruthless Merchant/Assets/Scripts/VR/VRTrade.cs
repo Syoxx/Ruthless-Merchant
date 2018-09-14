@@ -63,7 +63,7 @@ namespace RuthlessMerchant
             if (VRSmithing.Singleton.smithingSteps == VRSmithing.SmithingSteps.Trading)
             {
                 VR_Contract.Singleton.WriteTraderAutograph();
-                HandlePlayerOfferPrivate();
+                Invoke("HandlePlayerOfferPrivate", 1);
             }
         }
 
@@ -151,7 +151,7 @@ namespace RuthlessMerchant
 
         void LoadIslandScene()
         {
-            VR_SceneSwitcher.Singleton.LoadScene("VR_LoadingScene");
+            VR_SceneSwitcher.Singleton.LoadScene("VR_IslandScene");
             //SceneManager.LoadScene("VR_LoadingScene");
         }
 
