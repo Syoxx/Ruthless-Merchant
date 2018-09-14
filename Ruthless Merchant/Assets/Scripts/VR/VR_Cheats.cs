@@ -80,10 +80,10 @@ public class VR_Cheats : MonoBehaviour
 
     
 
-    // Update is called once per frame
-    void Update ()
-    {
-        device = SteamVR_Controller.Input((int) trackedObj.index);
+    //// Update is called once per frame
+    //void Update ()
+    //{
+    //    device = SteamVR_Controller.Input((int) trackedObj.index);
         
-    }
+    //}
 }
