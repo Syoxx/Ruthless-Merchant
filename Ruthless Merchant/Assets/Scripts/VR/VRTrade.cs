@@ -60,7 +60,7 @@ namespace RuthlessMerchant
 
         private void Update()
         {
-            if (VRSmithing.Singleton.smithingSteps == VRSmithing.SmithingSteps.Trading && (Input.GetKeyDown(KeyCode.E) || hand1 != null && hand1.controller.GetHairTriggerDown()))
+            if (VRSmithing.Singleton.smithingSteps == VRSmithing.SmithingSteps.Trading && (Input.GetKeyDown(KeyCode.E) || hand1 != null && hand1.controller.GetPressDown(Valve.VR.EVRButtonId.k_EButton_DPad_Up)))
             {
                 HandlePlayerOffer();
             }

@@ -21,7 +21,7 @@ namespace RuthlessMerchant
             {
                 VR_TutorialScript.Singleton.FadeImage.FadingWithCallback(1f, VR_TutorialScript.Singleton.FadeTime, delegate
                 {
-                    SceneManager.LoadScene(featureShowcaseScene);
+                    VR_SceneSwitcher.Singleton.LoadScene("VR_SmithScene");
                 });
             }
         }
