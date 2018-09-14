@@ -113,6 +113,9 @@ namespace RuthlessMerchant
         [SerializeField, Range(-30.0f, 0.0f), Tooltip("The Velocity that is required to kill the player when falling")]
         private float deathVelocity = 12f;
 
+        [SerializeField]
+        private GameObject bookPrefab;
+
         private float animTime;
         private bool animDone;
         private bool isMap;
@@ -237,6 +240,7 @@ namespace RuthlessMerchant
             }
             bookLogic.GeneratePages();
             inventory.BookLogic = bookLogic;
+            bookPrefab.SetActive(false);
 
             mapLogic = mapObject.GetComponent<MapSystem>();
             mapLogic.Start();
@@ -476,7 +480,10 @@ namespace RuthlessMerchant
                 bool isUI_Inactive = (mapObject.activeSelf == false);
 
                 if (isUI_Inactive /*&& gameObject.GetComponentInChildren<Animator>().GetCurrentAnimatorStateInfo(0)*/)
+                {
                     gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", true);
+                    bookPrefab.SetActive(true);
+                }
                 else
                     gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", false);
             }
