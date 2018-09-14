@@ -28,6 +28,7 @@ namespace RuthlessMerchant
 
         private List<CollectionGoal> CollectionGoalClones = new List<CollectionGoal>();
         private bool questingEnabled;
+        private bool isQuestBeingTracked = false;
         private CollectionGoal collectionGoal;
         private Transform buttonParent;
 
@@ -91,6 +92,16 @@ namespace RuthlessMerchant
             if (other.gameObject.CompareTag("Player"))
             {
                 questingEnabled = true;
+                isQuestBeingTracked = false;
+
+                for (int questindex = 0; questindex < collectionGoals.Count; questindex++)
+                {
+                    if (collectionGoals[questindex].Completed || collectionGoals[questindex].InProgress)
+                    {
+                        isQuestBeingTracked = true;
+                        break;
+                    }
+                }
 
                 for (int i = 0; i < collectionGoals.Count; i++)
                 {
@@ -110,13 +121,27 @@ namespace RuthlessMerchant
                     if (i < collectionGoals.Count)
                     {
 
-                        if (i > 2 || (buttons.Count > 3 && i > 1))
+                        if (isQuestBeingTracked)
                         {
-                            buttonParent = Page15_Panel;
+                            if (i > 1)
+                            {
+                                buttonParent = Page15_Panel;
+                            }
+                            else
+                            {
+                                buttonParent = Page14_Panel;
+                            }
                         }
-                        else
+                        else 
                         {
-                            buttonParent = Page14_Panel;
+                            if (i > 2)
+                            {
+                                buttonParent = Page15_Panel;
+                            }
+                            else
+                            {
+                                buttonParent = Page14_Panel;
+                            }
                         }
 
                         GameObject questButton = Instantiate(buttonPrefab, buttonParent) as GameObject;
