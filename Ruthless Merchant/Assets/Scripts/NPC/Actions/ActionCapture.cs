@@ -4,6 +4,7 @@
 //---------------------------------------------------------------
 
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace RuthlessMerchant
 {
@@ -11,6 +12,9 @@ namespace RuthlessMerchant
     {
         private CaptureTrigger trigger;
 
+        private NavMeshAgent agent;
+        private float elapsedTime = 0.0f;
+        private float maxMoveTime = 3.0f;
         /// <summary>
         /// Action capture is used to capture outpost
         /// </summary>
@@ -38,6 +42,8 @@ namespace RuthlessMerchant
             if(other != null)
                 trigger = other.GetComponent<CaptureTrigger>();
 
+            agent = parent.GetComponent<NavMeshAgent>();
+
             base.StartAction(parent, other);
         }
 
@@ -52,6 +58,17 @@ namespace RuthlessMerchant
                 if (trigger.Owner == parent.Faction)
                 {
                     parent.SetCurrentAction(new ActionIdle(), null, true, true);
+                }
+                else
+                {
+                    if (agent != null && !agent.isStopped)
+                    {
+                        elapsedTime += deltaTime;
+                        if (elapsedTime >= maxMoveTime)
+                        {
+                            agent.isStopped = true;
+                        }
+                    }
                 }
             }
             base.Update(deltaTime);
