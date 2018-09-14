@@ -19,11 +19,19 @@ namespace RuthlessMerchant
 
             if (other.gameObject == triggerObject)
             {
-                VR_TutorialScript.Singleton.FadeImage.FadingWithCallback(1f, VR_TutorialScript.Singleton.FadeTime, delegate
-                {
-                    SceneManager.LoadScene(featureShowcaseScene);
-                });
+                PlayerPrefs.SetString("sceneToLoad", "VR_SmithScene");
+                PlayerPrefs.Save();
+
+                SceneManager.LoadScene("VR_LoadingScene", LoadSceneMode.Additive);
             }
+
+            //if (other.gameObject == triggerObject)
+            //{
+            //    VR_TutorialScript.Singleton.FadeImage.FadingWithCallback(1f, VR_TutorialScript.Singleton.FadeTime, delegate
+            //    {
+            //        SceneManager.LoadScene(featureShowcaseScene);
+            //    });
+            //}
         }
     }
 }

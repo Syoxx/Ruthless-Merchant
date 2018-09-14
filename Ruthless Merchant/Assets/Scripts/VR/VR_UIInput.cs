@@ -14,15 +14,15 @@ namespace RuthlessMerchant
     {
         [SerializeField]
         private Light continueLight, exitLight, startLight, creditsLight;
-
-        [SerializeField]
-        private Image fadeImage, loadingImage;
+        
+        //[SerializeField]
+        //private Image fadeImage, loadingImage;
 
         [SerializeField]
         private GameObject loadingCoin;
 
         [SerializeField]
-        private string gamePlayScene, creditScene;
+        private string gamePlayScene, creditScene, loadingScene;
 
         private SteamVR_LaserPointer laserPointer;
         private SteamVR_TrackedController trackedController;
@@ -129,14 +129,18 @@ namespace RuthlessMerchant
             if (activated)
             {
                 exitLight.enabled = true;
-                if (hairTriggerTriggered && !levelLoadingInitiated)
+                if (hairTriggerTriggered)
                 {
-                    levelLoadingInitiated = true;
-                    fadeImage.FadingWithCallback(1f, 2f, delegate
-                    {
-                        Application.Quit();
-                    });
+                    Application.Quit();
                 }
+                //if (hairTriggerTriggered && !levelLoadingInitiated)
+                //{
+                //    levelLoadingInitiated = true;
+                //    fadeImage.FadingWithCallback(1f, 2f, delegate
+                //    {
+                //        Application.Quit();
+                //    });
+                //}
             }
 
             else
@@ -150,14 +154,19 @@ namespace RuthlessMerchant
             if (activated)
             {
                 creditsLight.enabled = true;
-                if (hairTriggerTriggered && !levelLoadingInitiated)
+                if (hairTriggerTriggered)
                 {
-                    levelLoadingInitiated = true;
-                    fadeImage.FadingWithCallback(1f, 2f, delegate
-                    {
-                        SceneManager.LoadScene(creditScene);
-                    });
+                    SceneManager.LoadScene(creditScene);
                 }
+
+                //if (hairTriggerTriggered && !levelLoadingInitiated)
+                //{
+                //    levelLoadingInitiated = true;
+                //    fadeImage.FadingWithCallback(1f, 2f, delegate
+                //    {
+                //        SceneManager.LoadScene(creditScene);
+                //    });
+                //}
             }
 
             else
@@ -171,14 +180,22 @@ namespace RuthlessMerchant
             if (activated)
             {
                 startLight.enabled = true;
-                if (hairTriggerTriggered && !levelLoadingInitiated)
+                if (hairTriggerTriggered)
                 {
-                    levelLoadingInitiated = true;
-                    fadeImage.FadingWithCallback(1f, 2f, delegate
-                    {
-                        LoadLevelAsync();
-                    });
+                    PlayerPrefs.SetString("sceneToLoad", "VR_TutorialScene");
+                    PlayerPrefs.Save();
+
+                    SceneManager.LoadScene(loadingScene);
                 }
+
+                //if (hairTriggerTriggered && !levelLoadingInitiated)
+                //{
+                //    levelLoadingInitiated = true;
+                //    fadeImage.FadingWithCallback(1f, 2f, delegate
+                //    {
+                //        LoadLevelAsync();
+                //    });
+                //}
             }
 
             else
@@ -200,31 +217,31 @@ namespace RuthlessMerchant
             }
         }
 
-        public void LoadLevelAsync()
-        {
-            loadingImage.FadingWithCallback(1f, 2f, delegate
-            {
-                loadingCoin.SetActive(true);
-            });
-            StartCoroutine(LoadLevelCOR());
-        }
+        //public void LoadLevelAsync()
+        //{
+        //    loadingImage.FadingWithCallback(1f, 2f, delegate
+        //    {
+        //        loadingCoin.SetActive(true);
+        //    });
+        //    StartCoroutine(LoadLevelCOR());
+        //}
 
-        IEnumerator LoadLevelCOR()
-        {
-            yield return new WaitForSeconds(1.5f);
-            loadSceneOperator = SceneManager.LoadSceneAsync(gamePlayScene);
-            loadSceneOperator.allowSceneActivation = false;
-            while (!loadSceneOperator.isDone)
-            {
-                yield return 0;
-                if (loadSceneOperator.progress >= 0.9f)
-                {
-                    loadingImage.FadingWithCallback(0f, 2f, delegate
-                    {
-                        loadSceneOperator.allowSceneActivation = true;
-                    });
-                }
-            }
-        }
+        //IEnumerator LoadLevelCOR()
+        //{
+        //    yield return new WaitForSeconds(1.5f);
+        //    loadSceneOperator = SceneManager.LoadSceneAsync(gamePlayScene);
+        //    loadSceneOperator.allowSceneActivation = false;
+        //    while (!loadSceneOperator.isDone)
+        //    {
+        //        yield return 0;
+        //        if (loadSceneOperator.progress >= 0.9f)
+        //        {
+        //            loadingImage.FadingWithCallback(0f, 2f, delegate
+        //            {
+        //                loadSceneOperator.allowSceneActivation = true;
+        //            });
+        //        }
+        //    }
+        //}
     }
 }
