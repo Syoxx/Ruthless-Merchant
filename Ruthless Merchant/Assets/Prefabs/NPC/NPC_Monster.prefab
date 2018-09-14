@@ -1381,7 +1381,6 @@ GameObject:
   - component: {fileID: 114860657565036504}
   - component: {fileID: 114134786773802046}
   - component: {fileID: 114590034254254596}
-  - component: {fileID: 114005466114324346}
   m_Layer: 15
   m_Name: NPC_Monster
   m_TagString: NPC
@@ -3600,17 +3599,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114005466114324346
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1722719057422642}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d08cbd94b6fadd499e42cf6c8c56d06, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114134786773802046
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3628,8 +3616,8 @@ MonoBehaviour:
   baseDefense: 15
   healthRegPerSec: 0
   sneakSpeed: 2
-  walkSpeed: 4
-  runSpeed: 7
+  walkSpeed: 2.5
+  runSpeed: 5
   groundCheckDistance: 0.25
   layerMask:
     serializedVersion: 2

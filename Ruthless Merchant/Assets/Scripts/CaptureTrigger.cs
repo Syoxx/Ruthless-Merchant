@@ -274,13 +274,13 @@ namespace RuthlessMerchant
 
             //Spawn Hero
             SpawnHero();
-
             if (!isCity)
             {
                 if (OwnerStatistics.ContainsKey(Owner))
                     OwnerStatistics[Owner]++;
                 else
                     OwnerStatistics.Add(Owner, 1);
+                Debug.Log("Test: " + owner.ToString());
             }
         }
 

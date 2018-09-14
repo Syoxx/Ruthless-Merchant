@@ -34,7 +34,7 @@ namespace RuthlessMerchant {
 
         public string[] Monolog =
         {
-        "Enough fooling around, time to make some money. It looks like there is nothing in my storage, so I should go out there and find materials near the “Ancient Trade Route”. \n" ,
+       "Enough fooling around, time to make some money. It looks like there is nothing in my storage, so I should go out there and find materials near the “Ancient Trade Route”. \n" ,
         "This seems to be a very ressource-rich area. I should build a outpost so I can quick travel to this destination via my map\n" ,
         "Now that I gathered everything I need to make new friends and money, I should travel to the capital of the Open-Minded.\n" ,
         "They say the Open-Minded are a strange culture. They live in little wooden houses and I don’t think they take hygiene that serious. But they are great in doing ambushes. I should strengthen this culture and sell them weapons in order to weaken the other clan and raise the need of better weapons.\n" ,
@@ -161,10 +161,14 @@ namespace RuthlessMerchant {
             }
             else
             {
-                if (firstCounter)
+                if (firstCounter && Singleton.RequiredAmount > Singleton.counter)
+                {
                     Singleton.counter++;
-                else
+                }
+                else if (Singleton.RequiredAmount2 > Singleton.counter2)
+                {
                     Singleton.counter2++;
+                }
             }
 
             EvaluateGoal();
@@ -181,7 +185,7 @@ namespace RuthlessMerchant {
             switch (Singleton.switchIndex)
             {
                 case 0:
-                    Singleton.RequiredAmount = 1; Singleton.RequiredAmount2 = 1;
+                    Singleton.RequiredAmount = 6; Singleton.RequiredAmount2 = 6;
                     Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex] + Singleton.Goal[0] + "( " + Singleton.counter + " / " + Singleton.RequiredAmount + " )" + Singleton.Goal[1] + "( " + Singleton.counter2 + " / " + Singleton.RequiredAmount2 + " )"; break;
                 case 1:
                     Singleton.RequiredAmount = 1; Singleton.RequiredAmount2 = 1;
