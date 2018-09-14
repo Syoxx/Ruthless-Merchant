@@ -70,9 +70,9 @@ namespace RuthlessMerchant
 
             attackAnimationDuration = GetAnimationDuration("meeleAttack");
             if (attackAnimationDuration <= 0)
-                attackAnimationDuration = GetAnimationDuration("monsterattack") * Random.Range(0.85f, 0.95f);
+                attackAnimationDuration = GetAnimationDuration("monsterattack") * Random.Range(0.80f, 0.90f);
             else
-                attackAnimationDuration *= Random.Range(1.0f, 1.05f);
+                attackAnimationDuration *= Random.Range(0.95f, 1.0f);
 
             animator.SetBool("IsWalking", false);
             animator.SetBool("IsInFight", true);

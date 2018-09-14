@@ -199,29 +199,32 @@ namespace RuthlessMerchant
         /// </summary>
         public void AbortTrade()
         {
-            abort = true;
-
-            for (int x = listedItems.Count - 1; x >= 0; x--)
+            if (Tutorial.Singleton == null || Tutorial.Singleton.TradeIsDone)
             {
-                Inventory.Singleton.Add(listedItems[x].Slot.ItemInfo, int.Parse(listedItems[x].ItemQuantity.text.Replace("x","")), true);
-                InventoryItem temp = listedItems[x];
-                listedItems.Remove(listedItems[x]);
-                Destroy(temp.gameObject);
+                abort = true;
+
+                for (int x = listedItems.Count - 1; x >= 0; x--)
+                {
+                    Inventory.Singleton.Add(listedItems[x].Slot.ItemInfo, int.Parse(listedItems[x].ItemQuantity.text.Replace("x", "")), true);
+                    InventoryItem temp = listedItems[x];
+                    listedItems.Remove(listedItems[x]);
+                    Destroy(temp.gameObject);
+                }
+
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+                InventoryItem.MoveItem -= OnItemMoved;
+
+                Player player = Player.Singleton;
+                player.RestrictBookUsage = false;
+                player.AllowTradingMovement();
+                player.NavMeshObstacle.enabled = false;
+
+                if (Trader.CurrentTrader.Scale)
+                    Trader.CurrentTrader.Scale.SetActive(true);
+
+                Main_SceneManager.UnLoadScene("TradeScene");
             }
-
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-            InventoryItem.MoveItem -= OnItemMoved;
-
-            Player player = Player.Singleton;
-            player.RestrictBookUsage = false;
-            player.AllowTradingMovement();
-            player.NavMeshObstacle.enabled = false;
-
-            if(Trader.CurrentTrader.Scale)
-                Trader.CurrentTrader.Scale.SetActive(true);
-
-            Main_SceneManager.UnLoadScene("TradeScene");
         }
     }
 }
