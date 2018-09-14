@@ -148,10 +148,7 @@ namespace RuthlessMerchant
 
         void LoadIslandScene()
         {
-            PlayerPrefs.SetString("sceneToLoad", "VR_IslandScene");
-            PlayerPrefs.Save();
-
-            SceneManager.LoadScene("VR_LoadingScene", LoadSceneMode.Additive);
+            VR_SceneSwitcher.Singleton.LoadScene("VR_LoadingScene");
             //SceneManager.LoadScene("VR_LoadingScene");
         }
 

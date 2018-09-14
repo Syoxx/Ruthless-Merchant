@@ -27,6 +27,8 @@ namespace RuthlessMerchant
 
         bool loadSceneAugmented;
 
+        private bool isloading;
+
         void Awake()
         {
             Singleton = this;
@@ -34,6 +36,7 @@ namespace RuthlessMerchant
             switch (loadingState)
             {
                 case LoadingState.loadingSceneLoaded:
+                    Debug.Log(SceneToLoadName);
                     loadSceneOperator = SceneManager.LoadSceneAsync(SceneToLoadName);
                     StartCoroutine(LoadLevelCOR());
                     break;
@@ -42,10 +45,14 @@ namespace RuthlessMerchant
 
         public void LoadScene(string sceneName)
         {
-            loadingState = LoadingState.notLoaded;
-            SceneToLoadName = sceneName;
-            loadSceneOperator = SceneManager.LoadSceneAsync(LoadingSceneName);
-            StartCoroutine(LoadLevelCOR());
+            if (!isloading)
+            {
+                loadingState = LoadingState.notLoaded;
+                SceneToLoadName = sceneName;
+                loadSceneOperator = SceneManager.LoadSceneAsync(LoadingSceneName);
+                StartCoroutine(LoadLevelCOR());
+                isloading = true;
+            }
         }
 
         IEnumerator LoadLevelCOR()

@@ -22,13 +22,17 @@ namespace RuthlessMerchant
         private GameObject loadingCoin;
 
         [SerializeField]
-        private string gamePlayScene, creditScene, loadingScene;
+        private string gamePlayScene, creditScene;
 
         private SteamVR_LaserPointer laserPointer;
         private SteamVR_TrackedController trackedController;
+
+        private bool hairTriggerTriggered;
+
+
         private AsyncOperation loadSceneOperator;
         private bool levelLoadingInitiated;
-        private bool hairTriggerTriggered;
+        
 
         private void Start()
         {
@@ -36,9 +40,12 @@ namespace RuthlessMerchant
             exitLight.enabled = false;
             startLight.enabled = false;
             creditsLight.enabled = false;
+
+            hairTriggerTriggered = false;
+
             loadingCoin.SetActive(false);
             levelLoadingInitiated = false;
-            hairTriggerTriggered = false;
+            
         }
 
         private void OnEnable()
@@ -63,12 +70,6 @@ namespace RuthlessMerchant
         private void HandleTriggerClicked(object sender, ClickedEventArgs e)
         {
             hairTriggerTriggered = true;
-
-            //if (EventSystem.current.currentSelectedGameObject != null)
-            //{
-            //    hairTriggerTriggered = true;
-            //    ExecuteEvents.Execute(EventSystem.current.currentSelectedGameObject, new PointerEventData(EventSystem.current), ExecuteEvents.submitHandler);
-            //}
         }
 
         private void HandleTriggerUnclicked(object sender, ClickedEventArgs e)
@@ -182,10 +183,7 @@ namespace RuthlessMerchant
                 startLight.enabled = true;
                 if (hairTriggerTriggered)
                 {
-                    PlayerPrefs.SetString("sceneToLoad", "VR_TutorialScene");
-                    PlayerPrefs.Save();
-
-                    SceneManager.LoadScene(loadingScene);
+                    VR_SceneSwitcher.Singleton.LoadScene("VR_TutorialScene");
                 }
 
                 //if (hairTriggerTriggered && !levelLoadingInitiated)
