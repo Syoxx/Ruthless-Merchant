@@ -70,9 +70,9 @@ namespace RuthlessMerchant
 
             attackAnimationDuration = GetAnimationDuration("meeleAttack");
             if (attackAnimationDuration <= 0)
-                attackAnimationDuration = GetAnimationDuration("monsterattack") * 0.7f;
+                attackAnimationDuration = GetAnimationDuration("monsterattack") * Random.Range(0.80f, 0.90f);
             else
-                attackAnimationDuration *= 0.9f;
+                attackAnimationDuration *= Random.Range(0.95f, 1.0f);
 
             animator.SetBool("IsWalking", false);
             animator.SetBool("IsInFight", true);
@@ -101,7 +101,7 @@ namespace RuthlessMerchant
                     if (distance <= parentFighter.AttackDistance)
                     { 
                         parent.Reacting = true;
-                        if (parent.Attack(character))
+                        if (parent.Attack(character, attackAnimationDuration))
                         {
                             if (character.HealthSystem.Health <= 0)
                             {

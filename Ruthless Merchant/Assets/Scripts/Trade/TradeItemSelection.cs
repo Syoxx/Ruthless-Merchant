@@ -11,7 +11,7 @@ namespace RuthlessMerchant
         private bool abort = false;
 
         [SerializeField]
-        Transform sellingItemParent;
+        RectTransform sellingItemParent;
 
         [SerializeField]
         GameObject sellingItemPrefab;
@@ -69,8 +69,10 @@ namespace RuthlessMerchant
             {
                 if (!MoveToExisting(inventoryItem))
                 {
-                    GameObject newObject = Instantiate(sellingItemPrefab, sellingItemParent);
+                    GameObject newObject = Instantiate(sellingItemPrefab, sellingItemParent.transform);
                     newObject.name = "SellingItem";
+
+                    LayoutRebuilder.ForceRebuildLayoutImmediate(sellingItemParent);
 
                     InventoryItem newItem = newObject.GetComponent<InventoryItem>();
                     newItem.ItemQuantity.text = "1x";
@@ -125,7 +127,19 @@ namespace RuthlessMerchant
                 Destroy(item.gameObject);
             }
 
+            StartCoroutine(ForceRebuild());
             UpdatePrice();
+        }
+
+        IEnumerator ForceRebuild()
+        {
+            yield return new WaitForSeconds(0.4f);
+            Debug.Log("ForceRebuilded");
+            sellingItemInfoParent.GetComponent<VerticalLayoutGroup>().CalculateLayoutInputVertical();
+            LayoutRebuilder.ForceRebuildLayoutImmediate(sellingItemParent);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(sellingItemParent);
+            Canvas.ForceUpdateCanvases();
+            sellingItemInfoParent.GetComponent<VerticalLayoutGroup>().CalculateLayoutInputVertical();
         }
 
         /// <summary>
@@ -185,29 +199,32 @@ namespace RuthlessMerchant
         /// </summary>
         public void AbortTrade()
         {
-            abort = true;
-
-            for (int x = listedItems.Count - 1; x >= 0; x--)
+            if (Tutorial.Singleton == null || Tutorial.Singleton.TradeIsDone)
             {
-                Inventory.Singleton.Add(listedItems[x].Slot.ItemInfo, int.Parse(listedItems[x].ItemQuantity.text.Replace("x","")), true);
-                InventoryItem temp = listedItems[x];
-                listedItems.Remove(listedItems[x]);
-                Destroy(temp.gameObject);
+                abort = true;
+
+                for (int x = listedItems.Count - 1; x >= 0; x--)
+                {
+                    Inventory.Singleton.Add(listedItems[x].Slot.ItemInfo, int.Parse(listedItems[x].ItemQuantity.text.Replace("x", "")), true);
+                    InventoryItem temp = listedItems[x];
+                    listedItems.Remove(listedItems[x]);
+                    Destroy(temp.gameObject);
+                }
+
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+                InventoryItem.MoveItem -= OnItemMoved;
+
+                Player player = Player.Singleton;
+                player.RestrictBookUsage = false;
+                player.AllowTradingMovement();
+                player.NavMeshObstacle.enabled = false;
+
+                if (Trader.CurrentTrader.Scale)
+                    Trader.CurrentTrader.Scale.SetActive(true);
+
+                Main_SceneManager.UnLoadScene("TradeScene");
             }
-
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-            InventoryItem.MoveItem -= OnItemMoved;
-
-            Player player = Player.Singleton;
-            player.RestrictBookUsage = false;
-            player.AllowTradingMovement();
-            player.NavMeshObstacle.enabled = false;
-
-            if(Trader.CurrentTrader.Scale)
-                Trader.CurrentTrader.Scale.SetActive(true);
-
-            Main_SceneManager.UnLoadScene("TradeScene");
         }
     }
 }

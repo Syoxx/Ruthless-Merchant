@@ -232,15 +232,29 @@ namespace RuthlessMerchant
                     ChangeSpeed(SpeedType.Walk);
                 }
 
-                if (agent.remainingDistance <= agent.stoppingDistance)
+                /*if (agent.remainingDistance <= agent.stoppingDistance)
                 {
                     agent.isStopped = true;
-                }
+                }*/
             }
             else
             {
                 SetCurrentAction(null, null, true, true);
             }
+            UpdateAnimationSpeed();
+        }
+
+        private void UpdateAnimationSpeed()
+        {
+            if (animator.GetBool("IsWalking"))
+            {
+                if (currentSpeedType == SpeedType.Run)
+                    animator.speed = 1.5f * (runSpeed / walkSpeed);
+                else
+                    animator.speed = 1.5f;
+            }
+            else
+                animator.speed = 1.0f;
         }
 
         /// <summary>

@@ -40,6 +40,10 @@ public class VRMenuScript : MonoBehaviour
             fadeImage = GameObject.FindGameObjectWithTag("FadeImage").GetComponent<Image>();
         if (loadingImage == null)
             loadingImage = GameObject.FindGameObjectWithTag("LoadingImage").GetComponent<Image>();
+        fadeImage.FadingWithCallback(0f, 2f, delegate
+          {
+              Debug.Log("Main Menu");
+          });
     }
 
     // Update is called once per frame

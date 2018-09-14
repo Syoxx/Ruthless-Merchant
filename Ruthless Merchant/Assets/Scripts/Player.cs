@@ -113,6 +113,9 @@ namespace RuthlessMerchant
         [SerializeField, Range(-30.0f, 0.0f), Tooltip("The Velocity that is required to kill the player when falling")]
         private float deathVelocity = 12f;
 
+        [SerializeField]
+        private GameObject bookPrefab;
+
         private float animTime;
         private bool animDone;
         private bool isMap;
@@ -237,6 +240,7 @@ namespace RuthlessMerchant
             }
             bookLogic.GeneratePages();
             inventory.BookLogic = bookLogic;
+            bookPrefab.SetActive(false);
 
             mapLogic = mapObject.GetComponent<MapSystem>();
             mapLogic.Start();
@@ -261,7 +265,8 @@ namespace RuthlessMerchant
 
             Physics.IgnoreLayerCollision(9, 13);
 
-            OpenBook(KeyCode.N);
+            CloseBook();
+            //OpenBook(KeyCode.N);
             //inventory.InventoryChanged.AddListener(PopulateInventoryPanel);
         }
 
@@ -475,7 +480,11 @@ namespace RuthlessMerchant
                 bool isUI_Inactive = (mapObject.activeSelf == false);
 
                 if (isUI_Inactive /*&& gameObject.GetComponentInChildren<Animator>().GetCurrentAnimatorStateInfo(0)*/)
+                {
                     gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", true);
+                    bookPrefab.SetActive(true);
+                    //Debug.Log("Set treu");
+                }
                 else
                     gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", false);
             }
@@ -533,7 +542,7 @@ namespace RuthlessMerchant
             {
                 animDone = false;
                 gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", true);
-                //bookCanvas.SetActive(true);
+                bookPrefab.SetActive(true);
                 restrictMovement = /*bookCanvas.activeSelf*/true;
                 restrictCamera = /*bookCanvas.activeSelf*/true;
                 currentBookSection = key;
@@ -1138,6 +1147,7 @@ namespace RuthlessMerchant
         }
         private void CheckAnimationState()
         {
+            //Debug.Log("animDone =" + animDone);
             if (gameObject.GetComponentInChildren<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Take 003") && !animDone)
             {
                 animTime = gameObject.GetComponentInChildren<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime;
@@ -1163,11 +1173,21 @@ namespace RuthlessMerchant
                     }
                     else
                     {
-                        Debug.Log("set book active");
-                        bookCanvas.SetActive(true);
-                        
+                        bookCanvas.SetActive(true);                       
                         animDone = true;
                     }
+                }
+
+            }
+            
+            else if(gameObject.GetComponentInChildren<Animator>().GetCurrentAnimatorStateInfo(0).IsName("BuchZu"))
+            {
+                animTime = gameObject.GetComponentInChildren<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime;
+                if (animTime >= .9f)
+                {
+                        bookPrefab.SetActive(false);
+                        animDone = true;
+                        isMap = false;                    
                 }
             }
         }

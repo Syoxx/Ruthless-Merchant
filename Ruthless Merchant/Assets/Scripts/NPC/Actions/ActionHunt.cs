@@ -4,6 +4,7 @@
 //---------------------------------------------------------------
 
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace RuthlessMerchant
 {
@@ -76,9 +77,18 @@ namespace RuthlessMerchant
             }
             else if (fighter.HuntDistance >= distance)
             {
-                parent.Reacting = true;
-                parent.AddNewWaypoint(new Waypoint(other.transform.position, true, 0), true);
-                parent.ChangeSpeed(NPC.SpeedType.Run);
+                if (parent.Waypoints.Count == 0 || !parent.Reacting || Vector3.Distance(other.transform.position, parent.Waypoints[0].GetPosition()) > 1.0f)
+                {
+                    parent.Reacting = true;
+                    parent.AddNewWaypoint(new Waypoint(other.transform.position, true, 0), true);
+                    parent.ChangeSpeed(NPC.SpeedType.Run);
+                    waypointIndex = 0;
+                    NavMeshPath path = new NavMeshPath();
+                    if(agent.CalculatePath(other.transform.position, path))
+                    {
+                        agent.SetPath(path);
+                    }
+                }
             }
             parent.RotateToNextTarget(other.transform.position, false);
             

@@ -67,10 +67,6 @@ namespace RuthlessMerchant
         [Tooltip("Drag FadeImage there")]
         private Image myFade;
 
-        //Dialogue Trigger Zones
-        [SerializeField]
-        [Tooltip("Drag 10_TriggerZone from Tutorial there")]
-        private GameObject dialogueZone10;
         [SerializeField]
         [Tooltip("Drag Tutorial there")]
         private GameObject TutorialObject;
@@ -100,10 +96,7 @@ namespace RuthlessMerchant
         [SerializeField]
         private Guard guard2;
 
-        //Dialogue colliders
-        private Collider dialogueZone11Collider;
-
-        private bool SmithDone, WorkbenchDone, AlchemyDone, CollectingDone, SkipCollection;
+        private bool SmithDone, WorkbenchDone, AlchemyDone, CollectingDone, SkipCollection, disabling;
 
         [SerializeField]
         private string startMonolog = " Some call it a shattered world … and I call it home. Not because of my origin. But because I strive to own this place. I can move around with [W][A][S][D], jump with [SPACE], run with [SHIFT], look around by moving the mouse and collect items or interact by pressing [E]. Now I should collect some materials.";
@@ -151,10 +144,6 @@ namespace RuthlessMerchant
             playerCollider = PlayerObject.GetComponent<Collider>();
             exitOutOfCaveCollider = exitOutOfCaveObject.GetComponent<Collider>();
 
-            // Dialogues
-            dialogueZone11Collider = dialogueZone10.GetComponent<Collider>();
-
-
             Player.Singleton.Inventory.Add(defaultSword, 1, true);
 
             myFade.FadingWithCallback(1, 0.001f, delegate
@@ -196,12 +185,16 @@ namespace RuthlessMerchant
         /// </summary>
         private void TutorialFinished()
         {
-            //TODO Fade to black
-            myFade.FadingWithCallback(1, 3.5f, delegate
+            if (!disabling)
             {
-                DisableTutorial();
-                myFade.FadingWithCallback(0, 3, delegate { Debug.Log("Tutorial disabled"); });
-            });
+                disabling = true;
+                //TODO Fade to black
+                myFade.FadingWithCallback(1, 3.5f, delegate
+                {
+                    DisableTutorial();
+                    myFade.FadingWithCallback(0, 3, delegate { Debug.Log("Tutorial disabled"); });
+                });
+            }
         }
 
         /// <summary>
@@ -411,6 +404,9 @@ namespace RuthlessMerchant
                     break;
                 case "WorkbenchTextTrigger (1)":
                     WorkbenchTrigger();
+                    break;
+                case "SmithTrigger":
+                    SmithTrigger();
                     break;
                 case "ExitOutOfCave":
                     OnExitCave();
