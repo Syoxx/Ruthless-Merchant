@@ -15,10 +15,12 @@ namespace RuthlessMerchant {
         public override void Interact(GameObject caller)
         {
             Player player = caller.GetComponent<Player>();
-            player.EnterWorkbench(this);
-            
+            player.EnterWorkbench(this);           
         }
 
+        /// <summary>
+        ///Removes item from inventory and adds materials that they get broaken down into
+        /// </summary>
         public void BreakdownItem(Item BreakableItem, Inventory inventory, Recipes recipes)
         {
             for (int i = 0; i < recipes.GetRecipes().Count; i++)

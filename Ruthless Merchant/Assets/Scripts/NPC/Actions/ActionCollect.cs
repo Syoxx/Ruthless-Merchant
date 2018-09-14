@@ -10,6 +10,11 @@ namespace RuthlessMerchant
             this.goal = goal;
         }
 
+        /// <summary>
+        /// Initialaztion of the action
+        /// </summary>
+        /// <param name="parent">Action owner</param>
+        /// <param name="other">Action target</param>
         public override void StartAction(NPC parent, GameObject other)
         {
             parent.AddNewWaypoint(new Waypoint(other.transform.position, true, 3.0f), true);
@@ -17,14 +22,27 @@ namespace RuthlessMerchant
             this.other = other;      
         }
 
+        /// <summary>
+        /// Updates the action
+        /// </summary>
+        /// <param name="deltaTime">Elapsed time since last update</param>
         public override void Update(float deltaTime)
         {
             if (!agent.pathPending && agent.remainingDistance < agent.stoppingDistance)
             {
                 if (other != null)
                 {
-                    goal.CollectableFound(other.GetComponent<Material>());
-                    UnityEngine.GameObject.DestroyImmediate(other);
+                    if (other.GetComponent<Item>() != null)
+                    {
+                        goal.CollectableFound(other.GetComponent<Item>());
+                        UnityEngine.GameObject.DestroyImmediate(other);
+                    }
+                    else
+                    {
+                        Debug.Log("seems like he found ironVein");
+                        goal.CollectableFound(null);
+                        UnityEngine.GameObject.DestroyImmediate(other);
+                    }
 
                     parent.SetCurrentAction(new ActionIdle(), null, true);
 
@@ -35,6 +53,10 @@ namespace RuthlessMerchant
             base.Update(deltaTime);
         }
 
+        /// <summary>
+        /// EndAction can be used to do some cleanup
+        /// </summary>
+        /// <param name="executeEnd">Indicates if abort code should be executed</param>
         public override void EndAction(bool executeEnd = true)
         {
             base.EndAction(executeEnd);

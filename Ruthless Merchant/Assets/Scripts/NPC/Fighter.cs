@@ -35,6 +35,9 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// Init fighter
+        /// </summary>
         public override void Start()
         {
             base.Start();
@@ -53,12 +56,20 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// Update fighter
+        /// </summary>
         public override void Update()
         {
             SetCurrentAction(new ActionIdle(ActionNPC.ActionPriority.None), null);
             base.Update();
         }
 
+        /// <summary>
+        /// Handles damage on fighter
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void HealthSystem_OnHealthChanged(object sender, DamageAbleObject.HealthArgs e)
         {
             if (e.ChangedValue < 0 && e.Sender != null && HealthSystem.Health > 0)
@@ -74,6 +85,11 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// Racts to other character
+        /// </summary>
+        /// <param name="character"></param>
+        /// <param name="isThreat"></param>
         public override void React(Character character, bool isThreat)
         {
             if (isThreat)
@@ -92,6 +108,10 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// Tries to pickup equipment at outposts
+        /// </summary>
+        /// <param name="outpost"></param>
         protected void TryPickupEquipment(CaptureTrigger outpost)
         {
             foreach (KeyValuePair<string, ItemContainer> itemPair in outpost.AvailableItems)

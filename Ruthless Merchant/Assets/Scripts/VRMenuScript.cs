@@ -11,7 +11,7 @@ public class VRMenuScript : MonoBehaviour
     private string gamePlayScene = "Islandtesting";
 
     [SerializeField]
-    private Light lightContinue, lightStartGame, lightOptions;
+    private Light lightContinue, lightStartGame, lightCredits, lightExit;
 
     [SerializeField]
     private float rayDistance = 3;
@@ -25,8 +25,12 @@ public class VRMenuScript : MonoBehaviour
     [SerializeField, Tooltip("Image shown while loading main Scene")]
     Image loadingImage;
 
+    [SerializeField, Tooltip("Coin Object on the LoadingScreen")]
+    GameObject loadingCoin;
+
     private Camera playerAttachedCamera;
     private AsyncOperation loadSceneOperator;
+    private bool levelLoadingInitiated = false;
 
     // Use this for initialization
     void Start()
@@ -45,7 +49,8 @@ public class VRMenuScript : MonoBehaviour
         RaycastHit hit;
         lightStartGame.enabled = false;
         lightContinue.enabled = false;
-        lightOptions.enabled = false;
+        lightCredits.enabled = false;
+        lightExit.enabled = false;
 
         if (Physics.Raycast(ray, out hit, rayDistance))
         {
@@ -57,14 +62,14 @@ public class VRMenuScript : MonoBehaviour
                         case "StartGame":
                             startGame();
                             break;
-                        case "Options":
-                            Options();
-                            break;
                         case "QuitGame":
                             QuitGame();
                             break;
                         case "Continue":
                             Continue();
+                            break;
+                        case "Credits":
+                            Credits();
                             break;
                     }
             }
@@ -79,8 +84,9 @@ public class VRMenuScript : MonoBehaviour
     private void startGame()
     {
         lightStartGame.enabled = true;
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !levelLoadingInitiated)
         {
+            levelLoadingInitiated = true;
             fadeImage.FadingWithCallback(1f, fadeTime, delegate
             {
                 LoadLevelAsync();
@@ -90,8 +96,10 @@ public class VRMenuScript : MonoBehaviour
 
     private void QuitGame()
     {
-        if (Input.GetMouseButtonDown(0))
+        lightExit.enabled = true;
+        if (Input.GetMouseButtonDown(0) && !levelLoadingInitiated)
         {
+            levelLoadingInitiated = true;
             fadeImage.FadingWithCallback(1f, fadeTime, delegate
             {
                 Application.Quit();
@@ -99,14 +107,24 @@ public class VRMenuScript : MonoBehaviour
         }
     }
 
-    private void Options()
+    private void Credits()
     {
-        lightOptions.enabled = true;
+        lightCredits.enabled = true;
+        if (Input.GetMouseButtonDown(0) && !levelLoadingInitiated)
+        {
+            levelLoadingInitiated = true;
+            fadeImage.FadingWithCallback(1f, 2f, delegate
+             {
+                 SceneManager.LoadScene("NewCredits");
+             });
+        }
     }
 
     public void LoadLevelAsync()
     {
-        loadingImage.FadingWithCallback(1f, 2f, delegate
+        loadingCoin.SetActive(true);
+        loadingImage.color = Color.white;
+        fadeImage.FadingWithCallback(0f, 2f, delegate
         {
             Debug.Log("displaying Load Image");
         });
@@ -123,11 +141,12 @@ public class VRMenuScript : MonoBehaviour
             yield return 0;
             if (loadSceneOperator.progress >= 0.9f)
             {
-                loadingImage.FadingWithCallback(0f, 2f, delegate
+                fadeImage.FadingWithCallback(1f, 2f, delegate
                 {
                     loadSceneOperator.allowSceneActivation = true;
                 });
             }
         }
     }
+
 }

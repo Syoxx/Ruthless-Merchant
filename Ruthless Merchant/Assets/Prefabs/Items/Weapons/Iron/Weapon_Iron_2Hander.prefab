@@ -21,8 +21,8 @@ GameObject:
   - component: {fileID: 4634655508403902}
   - component: {fileID: 33652220521938760}
   - component: {fileID: 23115473570367068}
-  - component: {fileID: 114899140859142784}
-  - component: {fileID: 114185774356998762}
+  - component: {fileID: 114675116615827318}
+  - component: {fileID: 114476484010870988}
   m_Layer: 0
   m_Name: Weapon_Iron_2Hander
   m_TagString: Untagged
@@ -37,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1273693476261552}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 320.3154, y: 25.160051, z: 151.2545}
+  m_LocalPosition: {x: 1.1633, y: 0.060868442, z: 1.548}
   m_LocalScale: {x: 1.7, y: 1.7, z: 1.7}
   m_Children: []
   m_Father: {fileID: 0}
@@ -85,7 +85,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1273693476261552}
   m_Mesh: {fileID: 4300000, guid: 69f87399916332f4ea32a53589b1c89d, type: 3}
---- !u!114 &114185774356998762
+--- !u!114 &114476484010870988
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -98,19 +98,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   faction: 4
   ItemInfo:
-    ItemName: Iron Zweihander
-    ItemValue: 48
-    ItemWeight: 3
+    ItemName: "Zweih\xE4nder"
+    ItemValue: 40
+    ItemWeight: 2
     ItemLore: 
     ItemSprite: {fileID: 21300000, guid: 3e12adfab30737242914428844780f00, type: 3}
     ItemType: 1
     ItemRarity: 0
     maxStackCount: 10
   weaponType: 0
-  damage: 35
+  damage: 20
   defencePower: 0
-  attackSpeed: 1.9
---- !u!114 &114899140859142784
+  attackSpeed: 1.7
+--- !u!114 &114675116615827318
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}

@@ -40,7 +40,7 @@ namespace RuthlessMerchant
             monster = e.SpawnedObject.GetComponent<Monster>();
             monster.SetCurrentAction(new ActionIdle(), null, false, true);
             intervall = Random.Range(minIntervall, maxIntervall);
-            elapsedTime = spawnOnGameStart ? intervall : 0;
+            elapsedTime = 0;
         }
     }
 }

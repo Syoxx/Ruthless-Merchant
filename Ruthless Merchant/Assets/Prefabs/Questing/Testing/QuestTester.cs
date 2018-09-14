@@ -37,14 +37,6 @@ namespace RuthlessMerchant
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.W))
-            {
-                collectionGoal.CollectableFound(wood);
-            }
-            if (Input.GetKeyDown(KeyCode.I))
-            {
-                collectionGoal.CollectableFound(iron);
-            }
             if (Input.GetKey(KeyCode.LeftArrow))
             {
                 transform.position += Vector3.left * speed * Time.deltaTime;

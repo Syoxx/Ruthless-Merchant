@@ -60,6 +60,9 @@ namespace RuthlessMerchant
         /// <param name="count">Spawn count</param>
         public void Spawn(Transform spawnObject, int count)
         {
+            if (spawnQueue == null)
+                spawnQueue = new Queue<SpawnInfo?>();
+
             spawnQueue.Enqueue(new SpawnInfo(spawnObject, count));
         }
 
@@ -70,7 +73,7 @@ namespace RuthlessMerchant
         /// <returns>Returns the spawned object</returns>
         public virtual Transform ForceSpawn(Transform spawnObject)
         {
-            return Instantiate(spawnObject, transform.position, transform.rotation, transform);
+            return Instantiate(spawnObject, transform.position, transform.rotation, null);
         }
 
         /// <summary>

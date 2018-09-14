@@ -16,18 +16,28 @@ public class TradepointUnlocker : InteractiveObject
 
     #region methods
 
+    /// <summary>
+    /// Initiates upgrade interaction
+    /// </summary>
+    /// <param name="caller">
+    /// Player object
+    /// </param>
     public override void Interact(GameObject caller)
     {
         Player player = caller.GetComponent<Player>();
         player.OutpostInteraction(OutpostIndex);
     }
 
+    /// <summary>
+    /// Makes upgraded scene object visible
+    /// </summary>
     public void SetActiveTradepoint()
     {
         // make tradingpoint visible
         Debug.Log("trading point purchased");
         //gameObject.GetComponentInChildren<Renderer>().enabled = false;    // this makes the unlocker invisible, can still receive player interaction tho
         TradingPointTent.SetActive(true);
+        Achievements.AddToCounter(null, false);
     }
 
     public override void Start() { }

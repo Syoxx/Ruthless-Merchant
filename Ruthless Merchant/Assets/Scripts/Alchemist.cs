@@ -9,6 +9,9 @@ namespace RuthlessMerchant
     {
         #region Fields ##################################################################
 
+        [SerializeField, TextArea, Tooltip("The Description, that will be added to a potion")]
+        string potionDescription;
+
         [SerializeField]
         Sprite[] potionSprites;
 
@@ -18,6 +21,9 @@ namespace RuthlessMerchant
         private AlchemySlot[] alchemySlots;
 
         [SerializeField] private UnityEvent onSuccesfullAlchemy;
+
+        [SerializeField] private UnityEvent onSuccesfullAlchemyAchievment;
+
         #endregion
 
 
@@ -145,6 +151,10 @@ namespace RuthlessMerchant
             return "";
         }
 
+        /// <summary>
+        /// Chooses a random sprite for the potion
+        /// </summary>
+        /// <returns>returns a sprite for the potion</returns>
         private Sprite RandomSprite()
         {
             if(potionSprites.Length > 0)
@@ -159,6 +169,10 @@ namespace RuthlessMerchant
 
         #region Public Functions ########################################################
 
+        /// <summary>
+        /// used when interacting with the Alchemystation. adds a potion to the inventory if at least one ingredient was found in the alchemyslots
+        /// </summary>
+        /// <param name="caller"></param>
         public override void Interact(GameObject caller)
         {
             float atk = 0;
@@ -211,18 +225,22 @@ namespace RuthlessMerchant
 
             string itemName = PotionName(atkCount, defCount, speedCount, hpCount);
 
+            //Sets the potion-parameters
             Potion potion = new GameObject(itemName).AddComponent<Potion>();
             potion.CreatePotion(atk, def, speed, hp, reg);
             potion.ItemInfo.ItemName = itemName;
+            potion.ItemInfo.ItemLore = potionDescription;
             potion.ItemInfo.ItemType = ItemType.ConsumAble;
             potion.ItemInfo.ItemRarity = Rarity(atkCount, defCount, speedCount, hpCount);
             potion.ItemInfo.ItemSprite = RandomSprite();
             potion.ItemInfo.MaxStackCount = 1;
             potion.ItemInfo.ItemValue = 1;
 
+            //Adds potion to infentory
             Player p = caller.GetComponent<Player>();
             p.Inventory.Add(potion.DeepCopy(), 1, true);
             onSuccesfullAlchemy.Invoke();
+            onSuccesfullAlchemyAchievment.Invoke();
             Destroy(potion.gameObject);
             effect.Play();
         }

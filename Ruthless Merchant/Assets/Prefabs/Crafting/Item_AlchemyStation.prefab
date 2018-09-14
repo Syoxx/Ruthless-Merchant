@@ -406,8 +406,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1521410502376498}
-  m_LocalRotation: {x: -0.5584736, y: -0.4337134, z: -0.43371326, w: 0.55847365}
-  m_LocalPosition: {x: 48.032772, y: 25.288408, z: 222.20718}
+  m_LocalRotation: {x: -0.7024157, y: -0.08131602, z: -0.081315875, w: 0.7024156}
+  m_LocalPosition: {x: -2.6019897, y: -0.386, z: -1.473999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4091750625382154}
@@ -416,7 +416,7 @@ Transform:
   - {fileID: 4238302059885862}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: -13.207001}
 --- !u!4 &4772210900501538
 Transform:
   m_ObjectHideFlags: 1
@@ -691,7 +691,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineMode: 1
+  outlineMode: 0
   outlineColor: {r: 1, g: 0.79607844, b: 0, a: 1}
   outlineWidth: 4
   precomputeOutline: 1
@@ -904,7 +904,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineMode: 1
+  outlineMode: 0
   outlineColor: {r: 1, g: 0.79607844, b: 0, a: 1}
   outlineWidth: 4
   precomputeOutline: 1
@@ -1101,6 +1101,11 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onSuccesfullAlchemyAchievment:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114495692134150022
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1112,7 +1117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineMode: 1
+  outlineMode: 0
   outlineColor: {r: 1, g: 0.79607844, b: 0, a: 1}
   outlineWidth: 4
   precomputeOutline: 1
@@ -4812,7 +4817,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineMode: 1
+  outlineMode: 0
   outlineColor: {r: 1, g: 0.79607844, b: 0, a: 1}
   outlineWidth: 4
   precomputeOutline: 1

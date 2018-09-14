@@ -26,6 +26,9 @@ namespace RuthlessMerchant
             get { return patrolActive; }
         }
 
+        /// <summary>
+        /// Init Hero
+        /// </summary>
         public override void Start()
         {
             if (patrolActive)
@@ -39,6 +42,9 @@ namespace RuthlessMerchant
             base.Start();
         }
 
+        /// <summary>
+        /// Update hero
+        /// </summary>
         public override void Update()
         {
             if (Outpost != null)

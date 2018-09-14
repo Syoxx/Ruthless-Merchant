@@ -10,6 +10,9 @@ namespace RuthlessMerchant
     {
         #region Fields #############################################################################################
 
+        /// <summary>
+        /// Invoked once the player has successfully crafted something
+        /// </summary>
         [SerializeField] private UnityEvent onSuccesfullSmithing;
 
         #endregion
@@ -46,6 +49,10 @@ namespace RuthlessMerchant
         {
         }
 
+        /// <summary>
+        /// Triggered on interacting with the smith. calls the entersmith-funcion in the player
+        /// </summary>
+        /// <param name="caller"></param>
         public override void Interact(GameObject caller)
         {
             Player player = caller.GetComponent<Player>();
@@ -69,6 +76,8 @@ namespace RuthlessMerchant
                 }
                 inventory.Add(recipes.GetRecipes()[index].Result, 1, true);
                 onSuccesfullSmithing.Invoke();
+                if (Achievements.Singleton.switchIndex == 3)
+                    Achievements.AddToCounter();
                 return true;
             }
             return false;

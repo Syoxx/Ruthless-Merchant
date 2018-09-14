@@ -40,7 +40,7 @@ namespace RuthlessMerchant
             Search,
             IsThreat
         }
-
+        public string ActionName;
         private DialogSystem dialogSystem;
 
         protected List<Waypoint> waypoints;
@@ -155,6 +155,9 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// Init NPC
+        /// </summary>
         public override void Start()
         {
             possibleSeenObjects = new List<GameObject>();
@@ -183,11 +186,15 @@ namespace RuthlessMerchant
                 agent.stoppingDistance = 1;
 
             ChangeSpeed(SpeedType.Walk);
+            if(NPCCount.ContainsKey(faction))
+                NPCCount[faction]++;
 
-            NPCCount[faction]++;
             base.Start();
         }
 
+        /// <summary>
+        /// Updates npc
+        /// </summary>
         public override void Update()
         {
             base.Update();
@@ -236,12 +243,20 @@ namespace RuthlessMerchant
             }
         }
 
+        /// <summary>
+        /// Destroys an interactive Object
+        /// </summary>
+        /// <param name="delay">Delay</param>
         public override void DestroyInteractiveObject(float delay = 0)
         {
-            NPCCount[faction]--;
+            if(NPCCount.ContainsKey(faction))
+                NPCCount[faction]--;
             base.DestroyInteractiveObject(delay);
         }
 
+        /// <summary>
+        /// Checks the current reaction state if its still a valid target
+        /// </summary>
         private void CheckReactionState()
         {
             if (currentReactTarget != null && !currentReactTarget.IsDying)
@@ -303,7 +318,7 @@ namespace RuthlessMerchant
         /// Check all gameobjects in viewrange to see if they are in sight
         /// </summary>
         private void Recognize()
-        {
+        { 
             for (int i = 0; i < possibleSeenObjects.Count; i++)
             {
                 if (possibleSeenObjects[i] == null)
@@ -488,6 +503,8 @@ namespace RuthlessMerchant
                 currentAction = action;
                 if(currentAction != null)
                     currentAction.StartAction(this, other);
+
+                ActionName = action == null ? "null" : action.ToString();
             }
         }
 
