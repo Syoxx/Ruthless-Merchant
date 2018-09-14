@@ -18,11 +18,11 @@ namespace RuthlessMerchant
         //[SerializeField]
         //private Image fadeImage, loadingImage;
 
-        [SerializeField]
-        private GameObject loadingCoin;
+        //[SerializeField]
+        //private GameObject loadingCoin;
 
         [SerializeField]
-        private string gamePlayScene, creditScene;
+        private string creditScene;
 
         private SteamVR_LaserPointer laserPointer;
         private SteamVR_TrackedController trackedController;
@@ -30,8 +30,8 @@ namespace RuthlessMerchant
         private bool hairTriggerTriggered;
 
 
-        private AsyncOperation loadSceneOperator;
-        private bool levelLoadingInitiated;
+        //private AsyncOperation loadSceneOperator;
+        //private bool levelLoadingInitiated;
         
 
         private void Start()
@@ -43,8 +43,8 @@ namespace RuthlessMerchant
 
             hairTriggerTriggered = false;
 
-            loadingCoin.SetActive(false);
-            levelLoadingInitiated = false;
+            //loadingCoin.SetActive(false);
+            //levelLoadingInitiated = false;
             
         }
 
@@ -134,6 +134,7 @@ namespace RuthlessMerchant
                 {
                     Application.Quit();
                 }
+
                 //if (hairTriggerTriggered && !levelLoadingInitiated)
                 //{
                 //    levelLoadingInitiated = true;
