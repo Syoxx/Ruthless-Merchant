@@ -108,7 +108,7 @@ namespace RuthlessMerchant
         [SerializeField]
         private string tryExitWithoutMaterials = "I think I should collect some materials before I leave";
         [SerializeField]
-        private string collectedMaterials = "That should be enough material for now. I should find an exit out of this cave.";
+        private string collectedMaterials = "That should be enough material for now. I should find an exit out of this cave. I can check my book with a list of all items by pressing [I]. I can close the book with [ESC].";
         [SerializeField]
         private string playerCaveEntered = "Now that I have arrived at my cave, I should get to work.";
         [SerializeField]
@@ -137,6 +137,8 @@ namespace RuthlessMerchant
         private string TradeIrritationResultNaiv = "'I was still naive and dropped the price way to easy. No wonder he couldn’t take me serious anymore. I should quickly move to the nearby cave.'";
         [SerializeField]
         private string TradeFinished = "Holy Eviternity, a monster is approaching. I hope the guards take care of him.";
+        [SerializeField]
+        private string TutorialDone = "In my notes Ive written down some reminders. I should try to achieve them. I can check the status at all time by pressing [N].";
 
         private void Awake()
         {
@@ -224,6 +226,7 @@ namespace RuthlessMerchant
             if (!disabling)
             {
                 disabling = true;
+                Monolog(TutorialDone);
                 //TODO Fade to black
                 myFade.FadingWithCallback(1, 3.5f, delegate
                 {
