@@ -483,6 +483,7 @@ namespace RuthlessMerchant
                 {
                     gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", true);
                     bookPrefab.SetActive(true);
+                    Debug.Log("Set treu");
                 }
                 else
                     gameObject.GetComponentInChildren<Animator>().SetBool("IsReading", false);
