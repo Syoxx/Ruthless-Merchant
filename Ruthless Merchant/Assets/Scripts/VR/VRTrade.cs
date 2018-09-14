@@ -58,11 +58,11 @@ namespace RuthlessMerchant
             UpdateWeights(weightsTrader, realValue);
         }
 
-        private void Update()
+        public void HandlePlayerOffer()
         {
-            if (VRSmithing.Singleton.smithingSteps == VRSmithing.SmithingSteps.Trading && (Input.GetKeyDown(KeyCode.E) || hand1 != null && hand1.controller.GetPressDown(Valve.VR.EVRButtonId.k_EButton_DPad_Up)))
+            if (VRSmithing.Singleton.smithingSteps == VRSmithing.SmithingSteps.Trading)
             {
-                HandlePlayerOffer();
+                HandlePlayerOfferPrivate();
             }
         }
 
@@ -113,7 +113,10 @@ namespace RuthlessMerchant
         /// </summary>
         protected override void Accept()
         {
+            VR_Contract.Singleton.WriteBuyerAutograph();
             tradeDialogue.text = "You and Dormammu have a blood-sealing pact. He wishes you a good day and rides off into the sunset.";
+            VRSmithing.Singleton.FinalSword.SetActive(false);
+            VRSmithing.Singleton.FireworkEnd.SetActive(true);
             ExitTrade();
         }
 
@@ -124,6 +127,7 @@ namespace RuthlessMerchant
         {
             tradeDialogue.text = "Dormammu tells you to fuck off and rides off with his galaxy-eating unicorn.";
             ExitTrade();
+            VR_Contract.Singleton.EraseAutographs();
         }
 
         /// <summary>
@@ -141,8 +145,6 @@ namespace RuthlessMerchant
         void ExitTrade()
         {
             Exit = true;
-            VRSmithing.Singleton.FinalSword.SetActive(false);
-            VRSmithing.Singleton.FireworkEnd.SetActive(true);
             Invoke("LoadIslandScene", 3);
         }
 
@@ -158,7 +160,7 @@ namespace RuthlessMerchant
         /// <summary>
         /// Handles the player's offer.
         /// </summary>
-        void HandlePlayerOffer()
+        void HandlePlayerOfferPrivate()
         {
             if (GetCurrentTraderOffer() != -1 && nextPlayerOffer == GetCurrentTraderOffer())
             {
@@ -184,6 +186,15 @@ namespace RuthlessMerchant
             Trader.CurrentTrader.ReactToPlayerOffer();
 
             VRPlayerTradeZone.Singleton.UpdateWeight = true;
+
+            if (GetCurrentTraderOffer() == GetCurrentPlayerOffer())
+            {
+                Accept();
+                return;
+            }
+
+            else
+                VR_Contract.Singleton.EraseAutographs();
 
             nextPlayerOffer -= 1;
             nextPlayerOfferText.fontStyle = FontStyle.Normal;
