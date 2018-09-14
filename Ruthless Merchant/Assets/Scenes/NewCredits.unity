@@ -16836,6 +16836,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction: 0
+  _particlesPerma: {fileID: 0}
+  _particlesExp: {fileID: 0}
 --- !u!64 &966180086
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -46073,6 +46075,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction: 0
+  _particlesPerma: {fileID: 0}
+  _particlesExp: {fileID: 0}
 --- !u!64 &1723782364
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -51074,6 +51078,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction: 0
+  _particlesPerma: {fileID: 0}
+  _particlesExp: {fileID: 0}
 --- !u!64 &1772135330
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -57514,8 +57520,48 @@ Prefab:
     m_RemovedComponents:
     - {fileID: 54512829118395394, guid: ac517e0e43aefb340815233b988e3710, type: 2}
     - {fileID: 114928432184483950, guid: ac517e0e43aefb340815233b988e3710, type: 2}
+    - {fileID: 81876746086278908, guid: ac517e0e43aefb340815233b988e3710, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: ac517e0e43aefb340815233b988e3710, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &2089667090 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1626474581151162, guid: ac517e0e43aefb340815233b988e3710,
+    type: 2}
+  m_PrefabInternal: {fileID: 2089667089}
+--- !u!114 &2089667091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2089667090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: event:/Music/MenuThemeWIP
+  PlayEvent: 1
+  StopEvent: 2
+  CollisionTag: 
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 0
+  OverrideMaxDistance: 0
+--- !u!114 &2089667092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2089667090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ListenerNumber: 0
 --- !u!1001 &2102354849
 Prefab:
   m_ObjectHideFlags: 0

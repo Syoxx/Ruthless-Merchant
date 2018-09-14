@@ -5249,6 +5249,7 @@ GameObject:
   m_Component:
   - component: {fileID: 246494545}
   - component: {fileID: 246494544}
+  - component: {fileID: 246494546}
   m_Layer: 0
   m_Name: Credits
   m_TagString: MenuObject
@@ -5284,6 +5285,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: 39.694}
+--- !u!114 &246494546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 246494543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38c1acb9b4fe66643869165046cad3bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &254310015
 Prefab:
   m_ObjectHideFlags: 0
@@ -25713,6 +25725,45 @@ Transform:
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: 0a48157521f496a42b10ac00e7210123, type: 3}
   m_PrefabInternal: {fileID: 1673415010}
+--- !u!1 &947513160 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1626474581151162, guid: ac517e0e43aefb340815233b988e3710,
+    type: 2}
+  m_PrefabInternal: {fileID: 2089667089}
+--- !u!114 &947513161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 947513160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: event:/Music/MenuThemeWIP
+  PlayEvent: 1
+  StopEvent: 2
+  CollisionTag: 
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!114 &947513162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 947513160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ListenerNumber: 0
 --- !u!1 &948723976
 GameObject:
   m_ObjectHideFlags: 0
@@ -31918,6 +31969,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction: 0
+  _particlesPerma: {fileID: 0}
+  _particlesExp: {fileID: 0}
 --- !u!64 &1117197026
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -32681,6 +32734,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction: 0
+  _particlesPerma: {fileID: 0}
+  _particlesExp: {fileID: 0}
 --- !u!64 &1310467479
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -46278,6 +46333,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1581218881 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1536842008140748, guid: 687c72d5177d10347b49e7338f20f7ae,
+    type: 2}
+  m_PrefabInternal: {fileID: 1889846094}
+--- !u!114 &1581218882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1581218881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38c1acb9b4fe66643869165046cad3bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1591990772
 GameObject:
   m_ObjectHideFlags: 0
@@ -52753,6 +52824,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction: 0
+  _particlesPerma: {fileID: 0}
+  _particlesExp: {fileID: 0}
 --- !u!64 &1923652538
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -57752,6 +57825,22 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3b208cc283bf6e7488aa682ee0089686, type: 3}
   m_IsPrefabParent: 0
+--- !u!1 &2043599418 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1406832050019258, guid: 2d6f0dbd869a13a4199c6e3848157e73,
+    type: 2}
+  m_PrefabInternal: {fileID: 608222355}
+--- !u!114 &2043599419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2043599418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38c1acb9b4fe66643869165046cad3bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2089667089
 Prefab:
   m_ObjectHideFlags: 0
@@ -57814,6 +57903,7 @@ Prefab:
     m_RemovedComponents:
     - {fileID: 54512829118395394, guid: ac517e0e43aefb340815233b988e3710, type: 2}
     - {fileID: 114928432184483950, guid: ac517e0e43aefb340815233b988e3710, type: 2}
+    - {fileID: 81876746086278908, guid: ac517e0e43aefb340815233b988e3710, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: ac517e0e43aefb340815233b988e3710, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &2102354849
@@ -67170,6 +67260,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2139100055}
   - component: {fileID: 2139100056}
+  - component: {fileID: 2139100057}
   m_Layer: 0
   m_Name: QuitGame
   m_TagString: MenuObject
@@ -67207,3 +67298,14 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 18.450047, y: 19.447033, z: 4.049515}
   m_Center: {x: -0.008251667, y: 0.7363224, z: -1.5247574}
+--- !u!114 &2139100057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2139100054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38c1acb9b4fe66643869165046cad3bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

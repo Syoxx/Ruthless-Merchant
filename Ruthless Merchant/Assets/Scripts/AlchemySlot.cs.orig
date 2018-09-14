@@ -8,8 +8,22 @@ namespace RuthlessMerchant
 
         #region Fields ##################################################################
 
+        /// <summary>
+        /// The Ingredient stored for this Alchemyslot
+        /// </summary>
         Ingredient _ingredient;
-        ParticleSystem _particles;
+
+        /// <summary>
+        /// The Brewing particle emitter attached to the alchemyslot
+        /// </summary>
+        [SerializeField]
+        ParticleSystem _particlesPerma;
+
+        /// <summary>
+        /// The Explosion particle emitter attached to the alchemyslot
+        /// </summary>
+        [SerializeField]
+        ParticleSystem _particlesExp;
 
         #endregion
 
@@ -31,6 +45,9 @@ namespace RuthlessMerchant
 
         #region Public Functions ########################################################
 
+        /// <summary>
+        /// Gets called when interacting with the Alchemyslot. triggers the EnterAlchemySlot function for the player or removes the stored item
+        /// </summary>
         public override void Interact(GameObject caller)
         {
             if(!_ingredient)
@@ -45,7 +62,6 @@ namespace RuthlessMerchant
 
         public override void Start()
         {
-            _particles = GetComponentInChildren<ParticleSystem>();
         }
 
         public override void Update()
@@ -61,11 +77,13 @@ namespace RuthlessMerchant
         {
             _ingredient = ingredient;
 <<<<<<< HEAD
-
+            _particles.Play();
+            
             //Sound - AlchemyItems
             FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Player/Alchemy Items", GameObject.FindGameObjectWithTag("Player").transform.position);
 =======
-            _particles.Play();
+            if(_particlesPerma)
+                _particlesPerma.Play();
 >>>>>>> origin/(GameDesign)FinalMap
         }
 
@@ -79,18 +97,27 @@ namespace RuthlessMerchant
             inventory.Add(item, 1, true);
             _ingredient = null;
 <<<<<<< HEAD
-
+            _particles.Stop();
+            
             //Sound - AlchemyItems
             FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Player/Alchemy Items", GameObject.FindGameObjectWithTag("Player").transform.position);
 =======
-            _particles.Stop();
+            if (_particlesPerma)
+                _particlesPerma.Stop();
 >>>>>>> origin/(GameDesign)FinalMap
         }
 
         public void ClearItem()
         {
             _ingredient = null;
-            _particles.Stop();
+            if (_particlesPerma)
+                _particlesPerma.Stop();
+        }
+
+        public void DoExplosive()
+        {
+            if (_particlesExp)
+                _particlesExp.Play();
         }
 
         #endregion
