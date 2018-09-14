@@ -216,6 +216,7 @@ namespace RuthlessMerchant
 
                     hasItem = true;
                     alchemySlots[i].ClearItem();
+                    alchemySlots[i].DoExplosive();
                 }
             }
             if(!hasItem)
