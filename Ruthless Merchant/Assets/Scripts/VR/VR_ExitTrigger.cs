@@ -19,10 +19,7 @@ namespace RuthlessMerchant
 
             if (other.gameObject == triggerObject)
             {
-                PlayerPrefs.SetString("sceneToLoad", "VR_SmithScene");
-                PlayerPrefs.Save();
-
-                SceneManager.LoadScene("VR_LoadingScene", LoadSceneMode.Additive);
+                VR_SceneSwitcher.Singleton.LoadScene("VR_SmithScene");
             }
 
             //if (other.gameObject == triggerObject)
