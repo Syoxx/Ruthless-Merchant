@@ -15,10 +15,6 @@ namespace RuthlessMerchant
         private int stamina;
         private int maxStamina;
         private int staminaRegeneration;
-        private GearSystem gearSystem;
-
-        private StatValue[] characterStats;
-        private StaminaController staminaController;
 
         private static float globalGravityScale = -9.81f;
         private float groundedSkin = 0.05f;
@@ -174,42 +170,6 @@ namespace RuthlessMerchant
             get { return justJumped; }
         }
 
-        public StaminaController StaminaController
-        {
-            get
-            {
-                return staminaController;
-            }
-            set
-            {
-                staminaController = value;
-            }
-        }
-
-        public GearSystem GearSystem
-        {
-            get
-            {
-                return gearSystem;
-            }
-            set
-            {
-                gearSystem = value;
-            }
-        }
-
-        public StatValue[] CharacterStats
-        {
-            get
-            {
-                return characterStats;
-            }
-            set
-            {
-                characterStats = value;
-            }
-        }
-
         public bool IsGrounded
         {
             get
@@ -273,8 +233,6 @@ namespace RuthlessMerchant
 
             healthSystem = GetComponent<DamageAbleObject>();
             healthSystem.OnDeath += HealthSystem_OnDeath;
-
-            gearSystem = new GearSystem(isPlayer);
             animator = gameObject.GetComponent<Animator>();
         }
 
