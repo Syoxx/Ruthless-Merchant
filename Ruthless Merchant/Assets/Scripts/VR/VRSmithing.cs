@@ -64,6 +64,8 @@ namespace RuthlessMerchant
         [SerializeField]
         GameObject meltedIronLiquid;
 
+        public GameObject SellingContract;
+
         float timer = 0;
 
         Transform[] allIrons;
@@ -259,6 +261,7 @@ namespace RuthlessMerchant
                 Destroy(FinalSword.GetComponent<Collider>());
 
                 smithingSteps = SmithingSteps.Trading;
+                SellingContract.SetActive(true);
                 TradeAbstract.Singleton.Initialize();
             }
         }

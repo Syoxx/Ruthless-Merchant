@@ -581,6 +581,12 @@ namespace RuthlessMerchant
         {
             TraderMoodIcon newTraderMoodIcon = Instantiate(moodIconPrefab, moodIconCanvas.transform).GetComponentInChildren<TraderMoodIcon>();
             newTraderMoodIcon.UpdateMood(this);
+
+            if(FindObjectOfType<VRSmithing>() != null)
+            {
+                newTraderMoodIcon = Instantiate(moodIconPrefab, FindObjectOfType<VRSmithing>().SellingContract.GetComponentInChildren<Canvas>().transform).GetComponentInChildren<TraderMoodIcon>();
+                newTraderMoodIcon.UpdateMood(this);
+            }
         }
 
         public void IncreaseReputation()
