@@ -96,7 +96,7 @@ namespace RuthlessMerchant
                 questingEnabled = true;
                 isQuestBeingTracked = false;
 
-                // if  Page14_Panel.transform.GetChild(0) != trackedQuestButton
+                // check for a quest (button) that is tracking an ongoing quest
                 if (Page14_Panel.transform.childCount > 0)
                 {
                     isQuestBeingTracked = true;
@@ -119,10 +119,10 @@ namespace RuthlessMerchant
                     }
                     if (i < collectionGoals.Count)
                     {
-                        //buttonParent = SetPageForQuest(i, isQuestBeingTracked);
+                        // Set the right page as button parent
                         if (isQuestBeingTracked)
                         {
-                            if (i >= 5)
+                            if (i >= 5 && Page15_Panel.transform.childCount >= 3)
                             {
                                 break;
                             }
