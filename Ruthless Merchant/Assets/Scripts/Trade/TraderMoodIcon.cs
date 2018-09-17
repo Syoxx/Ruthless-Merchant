@@ -28,8 +28,6 @@ namespace RuthlessMerchant
         [SerializeField]
         Text skepticismText;
 
-        static Valve.VR.InteractionSystem.Player steamVrPlayer;
-
         Image image;
 
         float lerpT = 0;
@@ -44,9 +42,6 @@ namespace RuthlessMerchant
         private void Start()
         {
             transform.position = startPosition;
-
-            if (Player.Singleton == null && steamVrPlayer == null)
-                steamVrPlayer = FindObjectOfType<Valve.VR.InteractionSystem.Player>();
         }
 
         private void Update()
@@ -63,7 +58,7 @@ namespace RuthlessMerchant
                 GameObject vrCamera = GameObject.Find("VRCamera");
 
                 if(vrCamera != null)
-                    transform.LookAt(steamVrPlayer.transform);
+                    transform.LookAt(vrCamera.transform);
                 else
                     transform.LookAt(GameObject.Find("FallbackObjects").transform);
             }
