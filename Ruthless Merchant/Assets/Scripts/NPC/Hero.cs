@@ -10,7 +10,6 @@ namespace RuthlessMerchant
 {
     public class Hero : Warrior
     {
-        private QuestItem quest;
         public int Level = 1;
 
         public CaptureTrigger Outpost;
@@ -43,8 +42,7 @@ namespace RuthlessMerchant
         {
             if (Outpost != null)
             {
-                if (quest.Equals(default(QuestItem)) &&
-                    (Outpost.IsHeroAway || Outpost.Owner != faction) &&
+                if ((Outpost.IsHeroAway || Outpost.Owner != faction) &&
                     (Waypoints.Count == 0 || waypoints[0].Transform != Outpost.Target))
                 {
                     AddNewWaypoint(new Waypoint(Outpost.Target, true, 0), true);

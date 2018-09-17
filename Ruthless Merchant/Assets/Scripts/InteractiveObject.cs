@@ -10,7 +10,7 @@ namespace RuthlessMerchant
 
         protected int id;
         protected bool freeze;
-        protected FactionStandings factionStandings;
+
         protected DamageAbleObject damageAbleObject;
         protected Inventory inventory;
 
@@ -52,18 +52,6 @@ namespace RuthlessMerchant
             set
             {
                 inventory = value;
-            }
-        }
-
-        public FactionStandings FactionStandings
-        {
-            get
-            {
-                return factionStandings;
-            }
-            set
-            {
-                factionStandings = value;
             }
         }
 
