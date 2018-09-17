@@ -73,7 +73,6 @@ namespace RuthlessMerchant {
         "Sell potions ",
 
         "Reach “Imperial Capital” ",
-        "Sell special weapon ",
 
         "Reach “Imperial Broadway” (0/1)",
         "Order an assassination mission from a hero (0/1)"
@@ -84,6 +83,7 @@ namespace RuthlessMerchant {
             Singleton = this;
             UpdateCanvas(0);
             Trade.ItemsSold += OnItemSold;
+            
         }
 
         void Update()
@@ -99,6 +99,14 @@ namespace RuthlessMerchant {
                     }
                 }
             }
+
+            if (Input.GetKeyDown(KeyCode.H))
+            {
+                Debug.Log("there");
+                Singleton.switchIndex++;
+                Singleton.counter = 0; Singleton.counter2 = 0;
+                UpdateCanvas(Singleton.switchIndex);
+            }
         }
 
         /// <summary>
@@ -109,6 +117,9 @@ namespace RuthlessMerchant {
             if (Singleton.switchIndex == 7)
             {
                 Singleton.counter++;
+                EvaluateGoal();
+                UpdateCanvas(Singleton.switchIndex);
+                Debug.Log("was there");
             }
         }
         /// <summary>
@@ -116,13 +127,24 @@ namespace RuthlessMerchant {
         /// </summary>
         void OnItemSold(object sender, EventArgs args)
         {
+            if (Singleton.switchIndex == 7)
+            {
+                Singleton.counter2++;
+                EvaluateGoal();
+                UpdateCanvas(Singleton.switchIndex);
+            }
+
             if (Singleton.switchIndex == 8)
             {
                 Singleton.counter2++;
+                EvaluateGoal();
+                UpdateCanvas(Singleton.switchIndex);
             }
             if (Singleton.switchIndex == 3 && ironMaceCrafted)
             {
                 Singleton.counter2++;
+                EvaluateGoal();
+                UpdateCanvas(Singleton.switchIndex);
             }
         }
 
@@ -209,7 +231,7 @@ namespace RuthlessMerchant {
                     Singleton.RequiredAmount = 3; Singleton.RequiredAmount2 = 1;
                     Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex] + Singleton.Goal[13] + "( " + Singleton.counter + " / " + Singleton.RequiredAmount + " )" + Singleton.Goal[14] + "( " + Singleton.counter2 + " / " + Singleton.RequiredAmount2 + " )"; break;
                 case 8:
-                    Singleton.RequiredAmount = 1; Singleton.RequiredAmount2 = 1;
+                    Singleton.RequiredAmount = 1; Singleton.RequiredAmount2 = 0;
                     Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex] + Singleton.Goal[15] + "( " + Singleton.counter + " / " + Singleton.RequiredAmount + " )" + Singleton.Goal[16] + "( " + Singleton.counter2 + " / " + Singleton.RequiredAmount2 + " )"; break;
                 case 9:
                     Singleton.RequiredAmount = 1; Singleton.RequiredAmount2 = 1;
