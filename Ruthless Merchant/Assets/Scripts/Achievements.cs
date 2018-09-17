@@ -76,7 +76,7 @@ namespace RuthlessMerchant {
         "Sell special weapon ",
 
         "Reach “Imperial Broadway” (0/1)",
-        "Order an assassination mission from a hero (0/1)"
+        "Order a collection mission from a hero (0/1)"
     };
 
         private void Awake()
