@@ -100,13 +100,6 @@ namespace RuthlessMerchant {
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.H))
-            {
-                Debug.Log("there");
-                Singleton.switchIndex++;
-                Singleton.counter = 0; Singleton.counter2 = 0;
-                UpdateCanvas(Singleton.switchIndex);
-            }
         }
 
         /// <summary>
@@ -119,7 +112,6 @@ namespace RuthlessMerchant {
                 Singleton.counter++;
                 EvaluateGoal();
                 UpdateCanvas(Singleton.switchIndex);
-                Debug.Log("was there");
             }
         }
         /// <summary>
