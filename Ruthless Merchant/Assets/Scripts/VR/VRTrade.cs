@@ -22,6 +22,8 @@ namespace RuthlessMerchant
         float currentPlayerOffer = -1;
         float currentTraderOffer = -1;
 
+        bool trading = true;
+
         protected override void Awake()
         {
             base.Awake();
@@ -60,8 +62,9 @@ namespace RuthlessMerchant
 
         public void HandlePlayerOffer()
         {
-            if (VRSmithing.Singleton.smithingSteps == VRSmithing.SmithingSteps.Trading)
+            if (VRSmithing.Singleton.smithingSteps == VRSmithing.SmithingSteps.Trading && trading)
             {
+                trading = false;
                 VR_Contract.Singleton.WriteTraderAutograph();
                 Invoke("HandlePlayerOfferPrivate", 1);
             }
@@ -191,12 +194,20 @@ namespace RuthlessMerchant
                 return;
             }
 
-            else
-                VR_Contract.Singleton.EraseAutographs();
+            VRSmithing.Singleton.rejectedContract.SetActive(true);
+
+            Invoke("ContinueHandling", 1);
+        }
+
+        void ContinueHandling()
+        {
+            VR_Contract.Singleton.EraseAutographs();
+            VRSmithing.Singleton.rejectedContract.SetActive(false);
 
             nextPlayerOffer -= 1;
             nextPlayerOfferText.fontStyle = FontStyle.Normal;
             UpdateUI();
+            trading = true;
         }
 
         /// <summary>

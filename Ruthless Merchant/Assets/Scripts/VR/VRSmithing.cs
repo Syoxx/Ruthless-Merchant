@@ -66,6 +66,8 @@ namespace RuthlessMerchant
 
         public GameObject SellingContract;
 
+        public GameObject rejectedContract;
+
         float timer = 0;
 
         Transform[] allIrons;
