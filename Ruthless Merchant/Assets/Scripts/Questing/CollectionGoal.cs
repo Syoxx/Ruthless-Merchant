@@ -151,6 +151,8 @@ namespace RuthlessMerchant {
                 //button.GetComponent<Button>().onClick.AddListener(delegate {  });
                 questButton.DiscardQuestButton(heroReward, collectables);
             }
+
+            hero.SetCurrentAction(new ActionMove(ActionNPC.ActionPriority.Medium), hero.Outpost.gameObject, true, true);
             return true;
         }
 
