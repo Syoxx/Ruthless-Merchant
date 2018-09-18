@@ -74,7 +74,7 @@ namespace RuthlessMerchant {
 
         "Reach “Imperial Capital” ",
 
-        "Reach “Imperial Broadway” (0/1)",
+        "Reach “Imperial Roadway” (0/1)",
         "Order a collection mission from a hero (0/1)"
     };
 
