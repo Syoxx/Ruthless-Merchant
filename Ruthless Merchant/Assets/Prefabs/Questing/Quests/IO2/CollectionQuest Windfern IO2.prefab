@@ -54,10 +54,12 @@ MonoBehaviour:
   QuestTitle: Collect 7 Windfern!
   Description: I need some herbs from the river basin, but be careful. It is not allowed
     to pick too many of these herbs.
+  RequiredAmount: 0
   Reward: 20
+  ReputationGain: 0.6
   Completed: 0
   InProgress: 0
-  inProgress: 0
+  CurrentAmount: 0
   collectables:
   - requiredAmount: 7
     currentAmount: 0

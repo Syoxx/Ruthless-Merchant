@@ -53,10 +53,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   QuestTitle: Collect 7 Gravemoss!
   Description: I need new herbs, now. Can you do something about that?
+  RequiredAmount: 0
   Reward: 20
+  ReputationGain: 0.6
   Completed: 0
   InProgress: 0
-  inProgress: 0
+  CurrentAmount: 0
   collectables:
   - requiredAmount: 7
     currentAmount: 0

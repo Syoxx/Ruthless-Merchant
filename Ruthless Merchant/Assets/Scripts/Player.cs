@@ -25,8 +25,6 @@ namespace RuthlessMerchant
         private bool[] unlockedTravelPoints;
         private static bool restrictCamera = false;
         private Outline lastOutline;
-        private UISystem uiSystem;
-        private QuestManager questManager;
         private bool restrictMovement = false;
         private bool isOutpostDialogActive;
         private bool hasJumped;
@@ -158,30 +156,6 @@ namespace RuthlessMerchant
         {
             get { return restrictCamera; }
             set { restrictCamera = value; }
-        }
-
-        public UISystem UISystem
-        {
-            get
-            {
-                return uiSystem;
-            }
-            set
-            {
-                uiSystem = value;
-            }
-        }
-
-        public RuthlessMerchant.QuestManager QuestManager
-        {
-            get
-            {
-                return questManager;
-            }
-            set
-            {
-                questManager = value;
-            }
         }
 
         public Reputation Reputation

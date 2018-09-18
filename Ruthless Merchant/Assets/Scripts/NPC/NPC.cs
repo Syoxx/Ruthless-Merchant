@@ -41,7 +41,6 @@ namespace RuthlessMerchant
             IsThreat
         }
         public string ActionName;
-        private DialogSystem dialogSystem;
 
         protected List<Waypoint> waypoints;
 
@@ -98,18 +97,6 @@ namespace RuthlessMerchant
         private SpeedType currentSpeedType = SpeedType.None;
         private float elapsedLostTime = 0.0f;
         private float lostDuration = 3.0f;
-
-        public DialogSystem DialogSystem
-        {
-            get
-            {
-                return dialogSystem;
-            }
-            set
-            {
-                dialogSystem = value;
-            }
-        }
 
         /// <summary>
         /// Rotation speed
