@@ -224,10 +224,11 @@ namespace RuthlessMerchant {
                     Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex] + Singleton.Goal[13] + "( " + Singleton.counter + " / " + Singleton.RequiredAmount + " )" + Singleton.Goal[14] + "( " + Singleton.counter2 + " / " + Singleton.RequiredAmount2 + " )"; break;
                 case 8:
                     Singleton.RequiredAmount = 1; Singleton.RequiredAmount2 = 0;
-                    Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex] + Singleton.Goal[15] + "( " + Singleton.counter + " / " + Singleton.RequiredAmount + " )" + Singleton.Goal[16] + "( " + Singleton.counter2 + " / " + Singleton.RequiredAmount2 + " )"; break;
+                    Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex] + Singleton.Goal[15] + "( " + Singleton.counter + " / " + Singleton.RequiredAmount + " )"  ;
+                    break;
                 case 9:
                     Singleton.RequiredAmount = 1; Singleton.RequiredAmount2 = 1;
-                    Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex] + Singleton.Goal[17] + "( " + Singleton.counter + " / " + Singleton.RequiredAmount + " )" + Singleton.Goal[18] + "( " + Singleton.counter2 + " / " + Singleton.RequiredAmount2 + " )"; break;
+                    Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex] + Singleton.Goal[16] + "( " + Singleton.counter + " / " + Singleton.RequiredAmount + " )" + Singleton.Goal[17] + "( " + Singleton.counter2 + " / " + Singleton.RequiredAmount2 + " )"; break;
                 case 10:
                     Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex]; break;
 
