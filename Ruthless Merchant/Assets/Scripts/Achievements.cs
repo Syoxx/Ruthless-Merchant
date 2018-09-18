@@ -53,12 +53,12 @@ namespace RuthlessMerchant {
         "\nCollect Iron  ",
 
         "\nReach “Ancient Trade Route” ",
-        "\nClick E on the lot next to the tent ",
+        "\nClick E on the sign next to the tent ",
 
         "\nReach “Open-Minded Capital” ",
 
         "\nCraft Weapons (Iron Mace) at smith ",
-        "\nsSell Weapons at trader ",
+        "\nSell Weapons at trader ",
 
         "Reach “Eastern Mountain Trail” ",
         "Steal weapon ",
@@ -93,7 +93,7 @@ namespace RuthlessMerchant {
                 if (Singleton.switchIndex == 3 && !ironMaceCrafted)
                 {
                     Singleton.counter = Player.Singleton.Inventory.GetNumberOfItems(IronMaceWeapon);
-                    if (Singleton.counter == 3)
+                    if (Singleton.counter == 1)
                     {
                         ironMaceCrafted = true;
                     }
@@ -208,7 +208,7 @@ namespace RuthlessMerchant {
                     Singleton.RequiredAmount = 1; Singleton.RequiredAmount2 = 0;
                     Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex] + Singleton.Goal[4] + "( " + Singleton.counter + " / " + Singleton.RequiredAmount + " )"; break;
                 case 3:
-                    Singleton.RequiredAmount = 3; Singleton.RequiredAmount2 = 1;
+                    Singleton.RequiredAmount = 1; Singleton.RequiredAmount2 = 1;
                     Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex] + Singleton.Goal[5] + "( " + Singleton.counter + " / " + Singleton.RequiredAmount + " )" + Singleton.Goal[6] + "( " + Singleton.counter2 + " / " + Singleton.RequiredAmount2 + " )"; break;
                 case 4:
                     Singleton.RequiredAmount = 1; Singleton.RequiredAmount2 = 1;
