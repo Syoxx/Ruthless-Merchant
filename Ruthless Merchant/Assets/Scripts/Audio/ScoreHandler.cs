@@ -53,5 +53,10 @@ namespace Assets.Scripts.Audio
                 soundevent.start();
             }
         }
+
+        private void OnDestroy()
+        {
+            soundevent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        }
     }
 }
