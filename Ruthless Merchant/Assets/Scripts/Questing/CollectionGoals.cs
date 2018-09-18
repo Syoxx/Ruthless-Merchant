@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,8 +29,10 @@ namespace RuthlessMerchant
 
         private List<CollectionGoal> CollectionGoalClones = new List<CollectionGoal>();
         private bool questingEnabled;
+        private bool isQuestBeingTracked;
         private CollectionGoal collectionGoal;
         private Transform buttonParent;
+        private GameObject trackedQuestButton;
 
         private List<GameObject> buttons = new List<GameObject>();
 
@@ -91,6 +94,13 @@ namespace RuthlessMerchant
             if (other.gameObject.CompareTag("Player"))
             {
                 questingEnabled = true;
+                isQuestBeingTracked = false;
+
+                // check for a quest (button) that is tracking an ongoing quest
+                if (Page14_Panel.transform.childCount > 0)
+                {
+                    isQuestBeingTracked = true;
+                }
 
                 for (int i = 0; i < collectionGoals.Count; i++)
                 {
@@ -109,14 +119,33 @@ namespace RuthlessMerchant
                     }
                     if (i < collectionGoals.Count)
                     {
-
-                        if (i > 2 || (buttons.Count > 3 && i > 1))
+                        // Set the right page as button parent
+                        if (isQuestBeingTracked)
                         {
-                            buttonParent = Page15_Panel;
+                            if (i >= 5 && Page15_Panel.transform.childCount >= 3)
+                            {
+                                break;
+                            }
+
+                            if (i > 1 && Page14_Panel.transform.childCount >= 3)
+                            {
+                                buttonParent = Page15_Panel;
+                            }
+                            else
+                            {
+                                buttonParent = Page14_Panel;
+                            }
                         }
                         else
                         {
-                            buttonParent = Page14_Panel;
+                            if (i > 2)
+                            {
+                                buttonParent = Page15_Panel;
+                            }
+                            else
+                            {
+                                buttonParent = Page14_Panel;
+                            }
                         }
 
                         GameObject questButton = Instantiate(buttonPrefab, buttonParent) as GameObject;
@@ -156,20 +185,33 @@ namespace RuthlessMerchant
         private void OnTriggerExit(Collider other)
         {
             if (other.gameObject.CompareTag("Player"))
-            {   
-                
+            {
                 for (int i = 0; i < buttons.Count; i++)
                 {
                     if (buttons[i])
                     {
                         if (!buttons[i].GetComponent<QuestButton>().inProgress)
                             Destroy(buttons[i]);
+                        else 
+                        {
+                            trackedQuestButton = buttons[i].gameObject;
+                            if (buttons[i].transform.parent != Page14_Panel)
+                            {
+                                buttons[i].gameObject.transform.SetParent(Page14_Panel, false);
+                                GameObject tempButton = buttons[0];
+                                buttons[0] = null;
+                                buttons[0] = buttons[i];
+                                buttons[i] = tempButton;
+                            }
+                        }
                     }
                 }
+
             }
             questingEnabled = false;
 
         }
+
 
         /// <summary>
         ///Assign selected quest to hero and start calculating the waypoints

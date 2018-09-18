@@ -18,7 +18,7 @@ namespace RuthlessMerchant
         public override void StartAction(NPC parent, GameObject other)
         {
             parent.AddNewWaypoint(new Waypoint(other.transform.position, true, 1.0f), true);
-            base.StartAction(parent, null);
+            base.StartAction(parent, other);
             this.other = other;      
         }
 
@@ -28,26 +28,31 @@ namespace RuthlessMerchant
         /// <param name="deltaTime">Elapsed time since last update</param>
         public override void Update(float deltaTime)
         {
-            if (!agent.pathPending && agent.remainingDistance < agent.stoppingDistance)
+            if (!agent.pathPending)
             {
                 if (other != null)
                 {
-                    if (other.GetComponent<Item>() != null)
+                    float distanceToObj = Vector3.Distance(agent.transform.position, other.transform.position);
+                    if (distanceToObj <= agent.stoppingDistance)
                     {
-                        goal.CollectableFound(other.GetComponent<Item>());
-                        UnityEngine.GameObject.DestroyImmediate(other);
-                    }
-                    else
-                    {
-                        Debug.Log("seems like he found ironVein");
-                        goal.CollectableFound(null);
-                        UnityEngine.GameObject.DestroyImmediate(other);
-                    }
+                        if (other.GetComponent<Item>() != null)
+                        {
+                            goal.CollectableFound(other.GetComponent<Item>());
+                            UnityEngine.GameObject.DestroyImmediate(other);
+                        }
+                        else
+                        {
+                            Debug.Log("seems like he found ironVein");
+                            goal.CollectableFound(null);
+                            UnityEngine.GameObject.DestroyImmediate(other);
+                        }
 
-                    parent.SetCurrentAction(new ActionIdle(), null, true);
+                        //parent.SetCurrentAction(new ActionIdle(), null, true);
 
-                    if(!goal.Completed)
-                        goal.CalcNextWaypoint();
+                        if (!goal.Completed)
+                            goal.CalcNextWaypoint();
+                    }
+                    
                 }
             }
             base.Update(deltaTime);
