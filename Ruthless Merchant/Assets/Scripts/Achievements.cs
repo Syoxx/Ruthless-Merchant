@@ -32,19 +32,19 @@ namespace RuthlessMerchant {
         [HideInInspector]
         public bool Completed;
 
-        public string[] Monolog =
+        private string[] Monolog =
         {
-       "Enough fooling around, time to make some money. It looks like there is nothing in my storage, so I should go out there and find materials near the “Ancient Trade Route”. \n" ,
-        "This seems to be a very ressource-rich area. I should build a outpost so I can quick travel to this destination via my map\n" ,
-        "Now that I gathered everything I need to make new friends and money, I should travel to the capital of the Open-Minded.\n" ,
-        "They say the Open-Minded are a strange culture. They live in little wooden houses and I don’t think they take hygiene that serious. But they are great in doing ambushes. I should strengthen this culture and sell them weapons in order to weaken the other clan and raise the need of better weapons.\n" ,
-        "I just received an order from a hero of the Imperialists. They want me to steal a special weapon at “Eastern Mountain Trail” and deliver it to their capital. It is probably stored in their military tent…\n",
-        "Since the way to the Imperialists capital is quite long. I can make some money on my way with selling potions I can craft. Someone once told me many Vipershrooms can be found near “Uphill Path”.\n",
-        "Across the bridge near “Green Leaf Path” is a known place for many other ingredients like Creaky Tuber that I could use.\n",
-        "Now I can brew some potion and sell these for a good price.\n",
-        "I should arrive at the “Imperialist capital” soon and finally sell this special weapon. These Imperialists are a strong faction. But they are hiding behind great stone walls. They love all the stuff of the ancient civilization. I should keep this in mind.\n",
-        "Before I arrive at the “Imperialist capital” I should stop by at “Imperial Roadway” and talk to a hero about a mission.",
-        "A rather large disbalance has arisen between both fractions. I should sell lots of good weapons to the Imperalists now, so they can fight back. However, I should always try to keep a balance…\n"
+        "Enough fooling around, it is time to make some money. From the looks of it, my storage seems to be empty once again. Maybe I’ll be able to find something of value near the Ancient Trade Route.\n" ,
+        "Well, this place seems to meet my needs. Maybe I should build an outpost here, that I can use for fast travelling by opening the map.\n" ,
+        "Now I have gathered everything I need to make some new friends. I should travel to the Open-Minded’s capital to finally make some money.\n" ,
+        "They say the Open-Minded are a very strange culture. They are living in the woods, ignoring their origins. I should help these poor people by selling them some weapons. This has the side benefit of weakening those Imperialists and raising their need for better weapons.\n" ,
+        "A hero of the Imperialists wants me to steal a special weapon at “Eastern Mountain Trail” and deliver it to the capital. The weapon is probably stored in a military tent…\n",
+        "Because of the rather long way to the Imperialist’s capital, I guess there is time to make some money on the way by brewing and selling some shady potions. Someone once told me that many poisonous Vipershrooms can be found near “Uphill Path”.\n",
+        "The place across the bridge near “Green Leaf Path” is well-known for other ingredients like the Creaky Tuber. I certainly could make use of those.\n",
+        "Now I can brew some potions and sell them for profit.\n",
+        "I should arrive at the “Imperialist capital” any second to finally be able to sell this special weapon. The Imperialists think that they are the superior culture and that they are blessed by the Ancestors. Let’s see if they can handle a weapon like this.\n",
+        "Before I arrive at the “Imperialist capital” I should talk a break at “Imperial Roadway” and talk to a so-called hero about a mission.\n",
+        "A rather large imbalance has arisen between both factions. Everything is working in my favor! I should sell lots of good weapons to the Imperalists now, so they can stand a chance. I should try to keep both armies from gaining too much control…\n"
     };
 
         private string[] Goal =
@@ -53,7 +53,7 @@ namespace RuthlessMerchant {
         "\nCollect Iron  ",
 
         "\nReach “Ancient Trade Route” ",
-        "\nClick E on the sign next to the tent ",
+        "\nClick E on the lot next to the tent ",
 
         "\nReach “Open-Minded Capital” ",
 
@@ -72,10 +72,11 @@ namespace RuthlessMerchant {
         "Brew potions ",
         "Sell potions ",
 
-        "Reach “Imperial Capital” ",
+        "Reach “Imperial Roadway”",
+        "Order a collection mission from a hero",
 
-        "Reach “Imperial Roadway” (0/1)",
-        "Order a collection mission from a hero (0/1)"
+        "Reach “Imperial Capital” ",
+        "Sell special Weapon",
     };
 
         private void Awake()
@@ -223,13 +224,16 @@ namespace RuthlessMerchant {
                     Singleton.RequiredAmount = 3; Singleton.RequiredAmount2 = 1;
                     Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex] + Singleton.Goal[13] + "( " + Singleton.counter + " / " + Singleton.RequiredAmount + " )" + Singleton.Goal[14] + "( " + Singleton.counter2 + " / " + Singleton.RequiredAmount2 + " )"; break;
                 case 8:
-                    Singleton.RequiredAmount = 1; Singleton.RequiredAmount2 = 0;
-                    Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex] + Singleton.Goal[15] + "( " + Singleton.counter + " / " + Singleton.RequiredAmount + " )"  ;
-                    break;
-                case 9:
                     Singleton.RequiredAmount = 1; Singleton.RequiredAmount2 = 1;
                     Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex] + Singleton.Goal[16] + "( " + Singleton.counter + " / " + Singleton.RequiredAmount + " )" + Singleton.Goal[17] + "( " + Singleton.counter2 + " / " + Singleton.RequiredAmount2 + " )"; break;
+                case 9:
+                    Singleton.RequiredAmount = 1; Singleton.RequiredAmount2 = 0;
+                    Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex] + Singleton.Goal[15] + "( " + Singleton.counter + " / " + Singleton.RequiredAmount + " )";
+                    break;
+                //case 10:
+                //    Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex]; break;
                 case 10:
+                    Singleton.RequiredAmount = 0; Singleton.RequiredAmount2 = 0;
                     Singleton.textMesh.text = Singleton.Monolog[Singleton.switchIndex]; break;
 
             }

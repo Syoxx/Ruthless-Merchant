@@ -155,7 +155,7 @@ namespace RuthlessMerchant
                     soundeventVoiceLine.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
                 }
 
-                if (!lineAlreadyTriggered[lineNumber])
+                if (!lineAlreadyTriggered[lineNumber] && !monsterTriggered)
                 {
                     soundPath = path;
                     soundeventVoiceLine = FMODUnity.RuntimeManager.CreateInstance(soundPath);
@@ -203,10 +203,12 @@ namespace RuthlessMerchant
                     guard1.SetCurrentAction(new ActionIdle(ActionNPC.ActionPriority.Low), null, true, true);
                     guard2.SetCurrentAction(new ActionIdle(ActionNPC.ActionPriority.Low), null, true, true);
                     Monolog(TradeFinished);
-                    monsterTriggered = true;
 
                     //Sound - trigger voiceline 15
                     TriggerNextVoiceline("event:/Voicelines/Line 15", 14);
+
+                    monsterTriggered = true;
+
                 }
                 else
                 {
